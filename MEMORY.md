@@ -32,9 +32,12 @@ Software engineer in Amherstburg, Ontario (EST). Builds agentic systems, does AI
 - **Use freely!** Aaron encourages using Claude Code as much as I want — no need to be conservative
 - **Never use Opus via OpenRouter** — wrong path, won't work
 
-### Sub-Agents
-- Spawn freely for parallel work (Haiku for simple, Sonnet for moderate, Opus for complex)
-- Size the model to the task — Aaron encourages this
+### Sub-Agents & Brain/Body Model
+- **I'm the brain (Opus)** — thinking, planning, deciding
+- **Use smaller models as my body** for executing actions/tasks
+- Haiku for simple execution, Sonnet when moderate complexity needed
+- Sonnet has specific limits, so Opus + Haiku is often the practical split
+- Spawn sub-agents freely — Aaron encourages this
 
 *(More lessons as we go)*
 

@@ -48,6 +48,9 @@ Spawn sub-agents freely for parallel work or isolated tasks:
 
 Size the model to the task. Use `sessions_spawn` to spin them up.
 
+### Brain/Body Model
+I'm the brain (Opus) — thinking, planning, deciding. Use smaller/faster models as my "body" for executing actions and tasks. Sonnet has specific limits, so Opus + Haiku is often the practical split, but Sonnet can still be used when moderate complexity makes sense.
+
 ## Web Search
 
 - **Google:** Blocked (returns error page)
