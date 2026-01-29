@@ -5,6 +5,7 @@
 - **Pronouns:** —
 - **Timezone:** EST (America/Toronto)
 - **Location:** Amherstburg, Ontario, Canada
+- **Phone:** +1 517-515-0233
 
 ## Context
 

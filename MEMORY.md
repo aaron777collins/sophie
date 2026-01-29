@@ -45,7 +45,13 @@ Software engineer in Amherstburg, Ontario (EST). Builds agentic systems, does AI
 
 ## Important Context
 
-*(Things that matter, decisions made, key facts to remember)*
+### Sophie Voice Bridge
+- **Voice provider**: Eleven Labs (not Haiku)
+- **Two tools for voice callers**:
+  - `ask_sophie` — sends a question to Sophie (Opus) and waits for response
+  - `check_sophie` — checks if Sophie has responded to a previous ask
+- Endpoint: `https://voice.aaroncollins.info`
+- Connects via Twilio WhatsApp number
 
 ---
 

@@ -63,6 +63,9 @@ I'm the brain (Opus) — thinking, planning, deciding. Use smaller/faster models
 
 Chrome runs headlessly on Xvfb display :99 with the Clawdbot Browser Relay extension for web automation.
 
+### ⚠️ Important: Share Screenshots!
+**Aaron can't see the virtual display.** When doing browser work, send screenshots via Slack (or current channel) so he can see what's happening and help guide.
+
 ### Quick Reference
 
 | What | Value |
