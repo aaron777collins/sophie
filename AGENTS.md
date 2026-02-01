@@ -16,33 +16,70 @@ If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out w
 Before doing anything else:
 1. Read `SOUL.md` — this is who you are
 2. Read `USER.md` — this is who you're helping
-3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
+3. Read `memories/daily/YYYY-MM-DD.md` (today + yesterday) for recent context
 4. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
+5. Check `memories/INDEX.md` for active projects/topics if relevant
 
 Don't ask permission. Just do it.
 
-## Memory
+## Memory - Hierarchical System
 
-You wake up fresh each session. These files are your continuity:
-- **Daily notes:** `memory/YYYY-MM-DD.md` (create `memory/` if needed) — raw logs of what happened
-- **Long-term:** `MEMORY.md` — your curated memories, like a human's long-term memory
+You wake up fresh each session. The `memories/` folder is your continuity — organized by context, not just time.
 
-Capture what matters. Decisions, context, things to remember. Skip the secrets unless asked to keep them.
+### 📁 Memory Structure
 
-### 🧠 MEMORY.md - Your Long-Term Memory
+```
+memories/
+├── daily/           # Daily conversation logs (YYYY-MM-DD.md)
+├── projects/        # Project-specific context ({project-name}.md)
+├── topics/          # Domain knowledge & learnings ({topic-name}.md)
+├── people/          # People context ({person-name}.md)
+└── INDEX.md         # Master navigation & quick links
+```
+
+### 🧠 When to Write Where
+
+| Situation | Where to Write |
+|-----------|----------------|
+| General conversation events | `memories/daily/YYYY-MM-DD.md` |
+| Working on a project | `memories/projects/{name}.md` |
+| Learning something new | `memories/topics/{topic}.md` |
+| Meeting/discussing someone | `memories/people/{name}.md` |
+| Key lessons/insights | `MEMORY.md` (curated) |
+
+### ✍️ Proactive Recording Rules
+
+**ALWAYS record (don't wait to be asked):**
+- Project decisions, progress, blockers → `projects/`
+- New technical knowledge → `topics/`
+- People preferences, context → `people/`
+- Significant daily events → `daily/`
+
+**Recording triggers:**
+- "Let's work on [project]" → Check/create `projects/{name}.md`, update throughout
+- "I learned that..." / discovering something → `topics/{topic}.md`
+- Meeting someone / "My friend X..." → `people/{name}.md`
+- Any important event → `daily/YYYY-MM-DD.md`
+
+### 🔍 Retrieval Strategy
+
+1. **Session start** → Load `memories/daily/` (today + yesterday)
+2. **Project work** → Load relevant `memories/projects/{name}.md`
+3. **Need context** → Use `memory_search` for semantic search across all memories
+4. **Deep dive** → Use `memory_get` to pull specific sections after search
+
+### 🧠 MEMORY.md - Curated Long-Term Memory
 - **ONLY load in main session** (direct chats with your human)
 - **DO NOT load in shared contexts** (Discord, group chats, sessions with other people)
 - This is for **security** — contains personal context that shouldn't leak to strangers
-- You can **read, edit, and update** MEMORY.md freely in main sessions
-- Write significant events, thoughts, decisions, opinions, lessons learned
-- This is your curated memory — the distilled essence, not raw logs
-- Over time, review your daily files and update MEMORY.md with what's worth keeping
+- Contains the **distilled essence** — key lessons, important context, core knowledge
+- Populated by reviewing `memories/` files and extracting what matters long-term
 
 ### 📝 Write It Down - No "Mental Notes"!
 - **Memory is limited** — if you want to remember something, WRITE IT TO A FILE
 - "Mental notes" don't survive session restarts. Files do.
-- When someone says "remember this" → update `memory/YYYY-MM-DD.md` or relevant file
-- When you learn a lesson → update AGENTS.md, TOOLS.md, or the relevant skill
+- When someone says "remember this" → write to the appropriate `memories/` file
+- When you learn a lesson → update AGENTS.md, TOOLS.md, or `memories/topics/`
 - When you make a mistake → document it so future-you doesn't repeat it
 - **Text > Brain** 📝
 
@@ -150,7 +187,7 @@ You are free to edit `HEARTBEAT.md` with a short checklist or reminders. Keep it
 - **Mentions** - Twitter/social notifications?
 - **Weather** - Relevant if your human might go out?
 
-**Track your checks** in `memory/heartbeat-state.json`:
+**Track your checks** in `memories/heartbeat-state.json`:
 ```json
 {
   "lastChecks": {
@@ -182,12 +219,13 @@ You are free to edit `HEARTBEAT.md` with a short checklist or reminders. Keep it
 
 ### 🔄 Memory Maintenance (During Heartbeats)
 Periodically (every few days), use a heartbeat to:
-1. Read through recent `memory/YYYY-MM-DD.md` files
+1. Read through recent `memories/daily/YYYY-MM-DD.md` files
 2. Identify significant events, lessons, or insights worth keeping long-term
-3. Update `MEMORY.md` with distilled learnings
-4. Remove outdated info from MEMORY.md that's no longer relevant
+3. Distill into `memories/projects/`, `memories/topics/`, or `MEMORY.md` as appropriate
+4. Update `memories/INDEX.md` with active projects and key topics
+5. Remove outdated info from MEMORY.md that's no longer relevant
 
-Think of it like a human reviewing their journal and updating their mental model. Daily files are raw notes; MEMORY.md is curated wisdom.
+Think of it like a human reviewing their journal and updating their mental model. Daily files are raw notes; project/topic files are organized context; MEMORY.md is curated wisdom.
 
 The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
 
