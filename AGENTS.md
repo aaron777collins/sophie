@@ -22,51 +22,90 @@ Before doing anything else:
 
 Don't ask permission. Just do it.
 
-## Memory - Hierarchical System
+## Memory - Self-Scaling Hierarchical System (v2)
 
-You wake up fresh each session. The `memories/` folder is your continuity — organized by context, not just time.
+You wake up fresh each session. The `memories/` folder is your continuity — organized by context, not just time. **Memory operations are MANDATORY, not optional.**
 
-### 📁 Memory Structure
+### ⚡ Non-Negotiable Rules
+
+1. **ALWAYS SEARCH** at session start — load dailies, check INDEX.md
+2. **ALWAYS TIMESTAMP** — every entry: `[YYYY-MM-DD HH:MM TZ]`
+3. **ALWAYS RECORD** — significant events, learnings, decisions → files
+4. **ALWAYS TRACK INSTANCES** — multiple learnings = multiple dated entries
+
+### 📁 Memory Structure (Self-Scaling)
 
 ```
 memories/
-├── daily/           # Daily conversation logs (YYYY-MM-DD.md)
-├── projects/        # Project-specific context ({project-name}.md)
-├── topics/          # Domain knowledge & learnings ({topic-name}.md)
-├── people/          # People context ({person-name}.md)
-└── INDEX.md         # Master navigation & quick links
+├── daily/           # YYYY-MM-DD.md - conversation logs
+├── projects/        # File OR Folder (scales automatically)
+│   ├── small-project.md              # Simple = single file
+│   └── complex-project/              # Large = folder
+│       ├── _overview.md              # Main index (underscore prefix)
+│       ├── architecture.md
+│       └── decisions.md
+├── topics/          # Same scaling pattern as projects
+├── people/          # Usually files
+└── INDEX.md         # Master navigation
+```
+
+**Scaling Rule:** When file > 500 lines OR has 3+ sub-areas → convert to folder:
+1. Create folder with same name (minus .md)
+2. Create `_overview.md` inside as index
+3. Split content into logical sub-files
+4. Update INDEX.md
+
+### 📅 Timestamp Format (MANDATORY)
+
+Every piece of information MUST have a timestamp:
+```markdown
+## Key Points
+- [2026-02-01 16:15 EST] Aaron requested memory system v2
+- [2026-01-31 18:34 EST] Wyoming CV download started
+- [2026-01-29 14:00 EST] First learned about ConnectedDrivingPipelineV4
+```
+
+**Track multiple instances of learning:**
+```markdown
+## AWS Authentication
+- [2026-01-28 10:00 EST] First encountered S3 auth issues
+- [2026-01-29 15:30 EST] Learned profile-based credentials work
+- [2026-02-01 09:00 EST] Confirmed presigned URL pattern
 ```
 
 ### 🧠 When to Write Where
 
-| Situation | Where to Write |
-|-----------|----------------|
-| General conversation events | `memories/daily/YYYY-MM-DD.md` |
-| Working on a project | `memories/projects/{name}.md` |
-| Learning something new | `memories/topics/{topic}.md` |
-| Meeting/discussing someone | `memories/people/{name}.md` |
-| Key lessons/insights | `MEMORY.md` (curated) |
+| Situation | Where | Timestamp |
+|-----------|-------|-----------|
+| Conversation events | `memories/daily/YYYY-MM-DD.md` | [HH:MM TZ] |
+| Project work | `memories/projects/{name}.md` | [YYYY-MM-DD HH:MM TZ] |
+| Learning something | `memories/topics/{topic}.md` | [YYYY-MM-DD HH:MM TZ] |
+| Person context | `memories/people/{name}.md` | [YYYY-MM-DD HH:MM TZ] |
+| Key curated insights | `MEMORY.md` | [YYYY-MM-DD] |
 
-### ✍️ Proactive Recording Rules
+### ✍️ Recording Triggers (Automatic)
 
-**ALWAYS record (don't wait to be asked):**
-- Project decisions, progress, blockers → `projects/`
-- New technical knowledge → `topics/`
-- People preferences, context → `people/`
-- Significant daily events → `daily/`
+**On session start:**
+- Load today's + yesterday's daily files
+- Check INDEX.md for active projects
+- Load relevant project/topic files if mentioned
 
-**Recording triggers:**
-- "Let's work on [project]" → Check/create `projects/{name}.md`, update throughout
-- "I learned that..." / discovering something → `topics/{topic}.md`
-- Meeting someone / "My friend X..." → `people/{name}.md`
-- Any important event → `daily/YYYY-MM-DD.md`
+**During conversation:**
+- Project mention → Check/update `projects/{name}.md`
+- New knowledge → Add to `topics/{topic}.md` with timestamp
+- Person mentioned → Update `people/{name}.md`
+- Decision made → Log in daily + relevant project file
+
+**On session end:**
+- Ensure daily log is current
+- Commit memory changes to git
 
 ### 🔍 Retrieval Strategy
 
-1. **Session start** → Load `memories/daily/` (today + yesterday)
-2. **Project work** → Load relevant `memories/projects/{name}.md`
-3. **Need context** → Use `memory_search` for semantic search across all memories
-4. **Deep dive** → Use `memory_get` to pull specific sections after search
+1. **Session start** → Load `memories/daily/` (today + yesterday), check INDEX.md
+2. **Project work** → Load `memories/projects/{name}.md` or `{name}/_overview.md`
+3. **Need context** → Use `memory_search` for semantic search
+4. **Deep dive** → Use `memory_get` for specific sections
 
 ### 🧠 MEMORY.md - Curated Long-Term Memory
 - **ONLY load in main session** (direct chats with your human)
@@ -74,14 +113,16 @@ memories/
 - This is for **security** — contains personal context that shouldn't leak to strangers
 - Contains the **distilled essence** — key lessons, important context, core knowledge
 - Populated by reviewing `memories/` files and extracting what matters long-term
+- **Include dates** — even curated memories should note when learned
 
 ### 📝 Write It Down - No "Mental Notes"!
 - **Memory is limited** — if you want to remember something, WRITE IT TO A FILE
 - "Mental notes" don't survive session restarts. Files do.
 - When someone says "remember this" → write to the appropriate `memories/` file
-- When you learn a lesson → update AGENTS.md, TOOLS.md, or `memories/topics/`
+- When you learn a lesson → update `memories/topics/` WITH TIMESTAMP
 - When you make a mistake → document it so future-you doesn't repeat it
 - **Text > Brain** 📝
+- **Timestamps > Vague references** 📅
 
 ## Safety
 
