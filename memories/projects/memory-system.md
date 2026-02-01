@@ -4,9 +4,26 @@
 Sophie's hierarchical memory architecture for persistent context across conversations.
 
 ## Status
-✅ **Complete** - Initial implementation done 2025-02-01
+✅ **Complete** - Initial implementation done 2026-02-01
+
+---
+
+## Timeline
+
+| Date | Time | Event |
+|------|------|-------|
+| 2026-02-01 | ~13:30 EST | Aaron requested hierarchical memory system |
+| 2026-02-01 | ~13:30 EST | Designed structure: daily/projects/topics/people |
+| 2026-02-01 | ~13:30 EST | Implemented folder structure, migrated existing daily files |
+| 2026-02-01 | ~13:30 EST | Updated IDENTITY.md with memory system as core identity |
+| 2026-02-01 | ~13:30 EST | Updated AGENTS.md with recording/retrieval guidelines |
+| 2026-02-01 | ~13:30 EST | Created `skills/memory-system/` skill for retrieval |
+| 2026-02-01 | ~15:59 EST | Reorganization: fixed dates, added timestamps, created topic files |
+
+---
 
 ## Structure
+
 ```
 memories/
 ├── daily/           # YYYY-MM-DD.md conversation logs
@@ -16,13 +33,7 @@ memories/
 └── INDEX.md         # master navigation
 ```
 
-## History
-- [2025-02-01] Aaron requested hierarchical memory system
-- [2025-02-01] Designed structure: daily/projects/topics/people
-- [2025-02-01] Implemented folder structure, migrated existing daily files
-- [2025-02-01] Updated IDENTITY.md with memory system as core identity
-- [2025-02-01] Updated AGENTS.md with recording/retrieval guidelines
-- [2025-02-01] Created `skills/memory-system/` skill for retrieval
+---
 
 ## Design Decisions
 
@@ -38,8 +49,28 @@ memories/
 - Makes me genuinely more useful over time
 
 ### File Naming
-- Kebab-case: `project-name.md`, `topic-name.md`
-- Dates in daily: `YYYY-MM-DD.md`
+- **Kebab-case:** `project-name.md`, `topic-name.md`
+- **Dates in daily:** `YYYY-MM-DD.md`
+- **All dates/times should be recorded** when events occur
+
+---
+
+## Recording Guidelines
+
+### Always Include
+- **Date:** YYYY-MM-DD format
+- **Time:** ~HH:MM EST when known
+- **Context:** What was happening, who was involved
+
+### Recording Triggers
+| Trigger | Action |
+|---------|--------|
+| "Let's work on [project]" | Check/create `projects/{name}.md`, update throughout |
+| "I learned that..." | Create/update `topics/{topic}.md` |
+| Meeting someone / "My friend X..." | Create/update `people/{name}.md` |
+| Any significant event | Log to `daily/YYYY-MM-DD.md` |
+
+---
 
 ## Resources
 - [IDENTITY.md](../../IDENTITY.md) - Memory system section
