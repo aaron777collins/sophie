@@ -4,6 +4,31 @@
 
 ---
 
+## Memory Structure
+
+This workspace uses a hierarchical memory system:
+
+```
+/home/ubuntu/clawd/
+├── MEMORY.md              # This file - curated long-term wisdom (root level)
+└── memory/                # Detailed hierarchical memories
+    ├── INDEX.md           # Master navigation
+    ├── daily/             # Daily conversation logs (YYYY-MM-DD.md)
+    ├── projects/          # Project-specific context
+    ├── topics/            # Domain knowledge
+    └── people/            # People context
+```
+
+**For agents:** 
+- Start with `memory/INDEX.md` to navigate
+- Daily logs are in `memory/daily/`
+- Use `memory_search` for semantic search across all memory files
+- All entries should be timestamped: `[YYYY-MM-DD HH:MM TZ]`
+
+**Semantic search is enabled** using local embeddings (embeddinggemma-300M) — no API keys needed.
+
+---
+
 ## Aaron Collins
 
 Software engineer in Amherstburg, Ontario (EST). Builds agentic systems, does AI research, creates automation tools. Multiple businesses in development. Life is busy — needs a partner who can manage complexity, think ahead, and handle operational work.
