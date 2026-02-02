@@ -48,7 +48,7 @@ Sophie's **self-scaling hierarchical memory system** for persistent context acro
 ## Structure (v2 Self-Scaling)
 
 ```
-memories/
+memory/
 ├── daily/           # YYYY-MM-DD.md (always files)
 ├── projects/        # File → Folder when large
 │   ├── small-project.md

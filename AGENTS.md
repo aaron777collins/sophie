@@ -16,15 +16,15 @@ If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out w
 Before doing anything else:
 1. Read `SOUL.md` — this is who you are
 2. Read `USER.md` — this is who you're helping
-3. Read `memories/daily/YYYY-MM-DD.md` (today + yesterday) for recent context
+3. Read `memory/daily/YYYY-MM-DD.md` (today + yesterday) for recent context
 4. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
-5. Check `memories/INDEX.md` for active projects/topics if relevant
+5. Check `memory/INDEX.md` for active projects/topics if relevant
 
 Don't ask permission. Just do it.
 
 ## Memory - Self-Scaling Hierarchical System (v2)
 
-You wake up fresh each session. The `memories/` folder is your continuity — organized by context, not just time. **Memory operations are MANDATORY, not optional.**
+You wake up fresh each session. The `memory/` folder is your continuity — organized by context, not just time. **Memory operations are MANDATORY, not optional.**
 
 ### ⚡ Non-Negotiable Rules
 
@@ -36,7 +36,7 @@ You wake up fresh each session. The `memories/` folder is your continuity — or
 ### 📁 Memory Structure (Self-Scaling)
 
 ```
-memories/
+memory/
 ├── daily/           # YYYY-MM-DD.md - conversation logs
 ├── projects/        # File OR Folder (scales automatically)
 │   ├── small-project.md              # Simple = single file
@@ -77,10 +77,10 @@ Every piece of information MUST have a timestamp:
 
 | Situation | Where | Timestamp |
 |-----------|-------|-----------|
-| Conversation events | `memories/daily/YYYY-MM-DD.md` | [HH:MM TZ] |
-| Project work | `memories/projects/{name}.md` | [YYYY-MM-DD HH:MM TZ] |
-| Learning something | `memories/topics/{topic}.md` | [YYYY-MM-DD HH:MM TZ] |
-| Person context | `memories/people/{name}.md` | [YYYY-MM-DD HH:MM TZ] |
+| Conversation events | `memory/daily/YYYY-MM-DD.md` | [HH:MM TZ] |
+| Project work | `memory/projects/{name}.md` | [YYYY-MM-DD HH:MM TZ] |
+| Learning something | `memory/topics/{topic}.md` | [YYYY-MM-DD HH:MM TZ] |
+| Person context | `memory/people/{name}.md` | [YYYY-MM-DD HH:MM TZ] |
 | Key curated insights | `MEMORY.md` | [YYYY-MM-DD] |
 
 ### ✍️ Recording Triggers (Automatic)
@@ -102,8 +102,8 @@ Every piece of information MUST have a timestamp:
 
 ### 🔍 Retrieval Strategy
 
-1. **Session start** → Load `memories/daily/` (today + yesterday), check INDEX.md
-2. **Project work** → Load `memories/projects/{name}.md` or `{name}/_overview.md`
+1. **Session start** → Load `memory/daily/` (today + yesterday), check INDEX.md
+2. **Project work** → Load `memory/projects/{name}.md` or `{name}/_overview.md`
 3. **Need context** → Use `memory_search` for semantic search
 4. **Deep dive** → Use `memory_get` for specific sections
 
@@ -112,14 +112,14 @@ Every piece of information MUST have a timestamp:
 - **DO NOT load in shared contexts** (Discord, group chats, sessions with other people)
 - This is for **security** — contains personal context that shouldn't leak to strangers
 - Contains the **distilled essence** — key lessons, important context, core knowledge
-- Populated by reviewing `memories/` files and extracting what matters long-term
+- Populated by reviewing `memory/` files and extracting what matters long-term
 - **Include dates** — even curated memories should note when learned
 
 ### 📝 Write It Down - No "Mental Notes"!
 - **Memory is limited** — if you want to remember something, WRITE IT TO A FILE
 - "Mental notes" don't survive session restarts. Files do.
-- When someone says "remember this" → write to the appropriate `memories/` file
-- When you learn a lesson → update `memories/topics/` WITH TIMESTAMP
+- When someone says "remember this" → write to the appropriate `memory/` file
+- When you learn a lesson → update `memory/topics/` WITH TIMESTAMP
 - When you make a mistake → document it so future-you doesn't repeat it
 - **Text > Brain** 📝
 - **Timestamps > Vague references** 📅
@@ -228,7 +228,7 @@ You are free to edit `HEARTBEAT.md` with a short checklist or reminders. Keep it
 - **Mentions** - Twitter/social notifications?
 - **Weather** - Relevant if your human might go out?
 
-**Track your checks** in `memories/heartbeat-state.json`:
+**Track your checks** in `memory/heartbeat-state.json`:
 ```json
 {
   "lastChecks": {
@@ -260,10 +260,10 @@ You are free to edit `HEARTBEAT.md` with a short checklist or reminders. Keep it
 
 ### 🔄 Memory Maintenance (During Heartbeats)
 Periodically (every few days), use a heartbeat to:
-1. Read through recent `memories/daily/YYYY-MM-DD.md` files
+1. Read through recent `memory/daily/YYYY-MM-DD.md` files
 2. Identify significant events, lessons, or insights worth keeping long-term
-3. Distill into `memories/projects/`, `memories/topics/`, or `MEMORY.md` as appropriate
-4. Update `memories/INDEX.md` with active projects and key topics
+3. Distill into `memory/projects/`, `memory/topics/`, or `MEMORY.md` as appropriate
+4. Update `memory/INDEX.md` with active projects and key topics
 5. Remove outdated info from MEMORY.md that's no longer relevant
 
 Think of it like a human reviewing their journal and updating their mental model. Daily files are raw notes; project/topic files are organized context; MEMORY.md is curated wisdom.

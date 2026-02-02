@@ -5,7 +5,7 @@ description: "Sophie's hierarchical memory system for recording and retrieving c
 
 # Memory System Skill v2
 
-Sophie's workspace uses a **self-scaling hierarchical memory system** in `memories/` for persistent context.
+Sophie's workspace uses a **self-scaling hierarchical memory system** in `memory/` for persistent context.
 
 ## 🔑 Core Principles
 
@@ -19,7 +19,7 @@ Sophie's workspace uses a **self-scaling hierarchical memory system** in `memori
 ## Structure (Self-Scaling)
 
 ```
-memories/
+memory/
 ├── daily/           # YYYY-MM-DD.md - conversation logs
 ├── projects/        # Can be files OR folders
 │   ├── small-project.md           # Simple project = single file
@@ -76,8 +76,8 @@ Every piece of information must have a timestamp:
 ## Recording (MANDATORY - Not Optional)
 
 ### At Session Start
-1. Load `memories/daily/YYYY-MM-DD.md` (today)
-2. Load `memories/daily/YYYY-MM-DD.md` (yesterday)
+1. Load `memory/daily/YYYY-MM-DD.md` (today)
+2. Load `memory/daily/YYYY-MM-DD.md` (yesterday)
 3. Check INDEX.md for active projects
 4. Load relevant project files if mentioned
 
@@ -97,7 +97,7 @@ Every piece of information must have a timestamp:
 
 ## File Templates (with timestamps)
 
-### Daily Log (`memories/daily/YYYY-MM-DD.md`)
+### Daily Log (`memory/daily/YYYY-MM-DD.md`)
 ```markdown
 # YYYY-MM-DD
 
@@ -115,7 +115,7 @@ Every piece of information must have a timestamp:
 - [ ] Task to do later
 ```
 
-### Project File (`memories/projects/{name}.md`)
+### Project File (`memory/projects/{name}.md`)
 ```markdown
 # Project Name
 
@@ -140,7 +140,7 @@ What's happening now
 - Links, references
 ```
 
-### Scaled Project Folder (`memories/projects/{name}/_overview.md`)
+### Scaled Project Folder (`memory/projects/{name}/_overview.md`)
 ```markdown
 # Project Name - Overview
 
@@ -161,7 +161,7 @@ Brief description
 What's active right now
 ```
 
-### Topic File (`memories/topics/{topic}.md`)
+### Topic File (`memory/topics/{topic}.md`)
 ```markdown
 # Topic Name
 
@@ -182,7 +182,7 @@ What this is about
 - Sources, links
 ```
 
-### People File (`memories/people/{name}.md`)
+### People File (`memory/people/{name}.md`)
 ```markdown
 # Person Name
 
@@ -210,24 +210,24 @@ Who they are, relationship
 ### Session Start (MANDATORY)
 ```bash
 # Today + yesterday dailies
-cat memories/daily/$(date +%Y-%m-%d).md 2>/dev/null
-cat memories/daily/$(date -d yesterday +%Y-%m-%d).md 2>/dev/null
+cat memory/daily/$(date +%Y-%m-%d).md 2>/dev/null
+cat memory/daily/$(date -d yesterday +%Y-%m-%d).md 2>/dev/null
 
 # Check INDEX for active items
-cat memories/INDEX.md
+cat memory/INDEX.md
 ```
 
 ### Semantic Search
 Use `memory_search` tool first, then `memory_get` for specific sections:
 ```
 memory_search(query="voice bridge twilio setup")
-memory_get(path="memories/topics/voice-systems.md", from=10, lines=30)
+memory_get(path="memory/topics/voice-systems.md", from=10, lines=30)
 ```
 
 ### Project Context
 ```bash
 # Check if file or folder
-ls memories/projects/{name}.md 2>/dev/null || ls memories/projects/{name}/_overview.md 2>/dev/null
+ls memory/projects/{name}.md 2>/dev/null || ls memory/projects/{name}/_overview.md 2>/dev/null
 ```
 
 ---
@@ -248,6 +248,6 @@ ls memories/projects/{name}.md 2>/dev/null || ls memories/projects/{name}/_overv
 After memory updates:
 ```bash
 cd ~/clawd
-git add memories/
+git add memory/
 git commit -m "memory: [brief description]"
 ```
