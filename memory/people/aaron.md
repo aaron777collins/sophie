@@ -30,6 +30,7 @@ Primary user. Software engineer based in Amherstburg, Ontario, Canada (EST timez
 - [2026-02-01 16:16 EST] Values thorough documentation with timestamps
 - [2026-02-01 16:16 EST] Wants self-scaling systems that grow automatically
 - [2026-02-01 18:34 EST] Expects sub-agents to be used for parallel work
+- [2026-02-02 16:45 EST] **Default to Aaron's own projects** when a project name is mentioned (check GitHub first)
 
 ---
 
