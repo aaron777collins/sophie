@@ -97,6 +97,28 @@ Full docs at `~/ConnectedDrivingPipelineV4/JAEKEL-SERVER.md`:
 
 ---
 
+## Critical Technical Details
+
+### Data Characteristics
+- Wyoming CV dataset: **45.5M rows**, ~40GB
+- Stored as Parquet: 91 partitions × 500K rows each
+- **Time span:** July 2019 → late 2021 (chronological by partition)
+- First partition = July 2019; April 2021 data in later partitions
+- Spatial-temporal filter (April 2021 + 2000m radius) yields only **~4,642 rows** (0.01%)
+- **Must use full dataset** — `numSubsectionRows = -1` — subsections lose the target data
+
+### Known Gotchas
+- [2026-02-05] **Always use `DaskCleanWithTimestamps`** not `CleanWithTimestamps` in Dask pipelines
+- [2026-02-05] **Never use `npartitions=1` with `head()`** — gets wrong time period
+- [2026-02-05] **`numSubsectionRows` must be -1** — 100K is way too small for the filtering
+
+### Pipeline Queue System
+- Daemon: `/home/ubuntu/.pipeline-queue/daemon.py` on Jaekel
+- Queue file: `/home/ubuntu/.pipeline-queue/queue.json`
+- State file: `/home/ubuntu/.pipeline-queue/state.json`
+- Results: `/var/www/static/pipeline-results/{batch_id}/{pipeline_name}/`
+- Dashboard: `http://65.108.237.46:5000/`
+
 ## History
 
 - [2026-01-27] Initial DataSources module work (Ralph integration plan)
@@ -107,3 +129,7 @@ Full docs at `~/ConnectedDrivingPipelineV4/JAEKEL-SERVER.md`:
 - [2026-02-04 20:02 EST] Jaekel venv + dependencies configured
 - [2026-02-04 20:42 EST] Runner script + docs pushed to GitHub
 - [2026-02-04 20:46 EST] **dev3 local copies removed** — all work now on Jaekel
+- [2026-02-05 00:00 EST] Fixed DaskCleanWithTimestamps import in all 11 pipeline files
+- [2026-02-05 00:30 EST] Fixed sample() approach for data subsectioning
+- [2026-02-05 00:40 EST] Set numSubsectionRows=-1 (full dataset required)
+- [2026-02-05 00:45 EST] Test pipeline running with full 45.5M rows — awaiting results
