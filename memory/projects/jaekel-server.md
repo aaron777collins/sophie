@@ -53,8 +53,8 @@ sshpass -p 'JaekelResearch135$' ssh ubuntu@65.108.237.46 "command"
 
 ⚠️ **This is THE server for all pipeline work.** dev3 copies have been removed.
 
-**Location:** `~/ConnectedDrivingPipelineV4`  
-**Docs:** `~/ConnectedDrivingPipelineV4/JAEKEL-SERVER.md`  
+**Location:** `~/repos/ConnectedDrivingPipelineV4`  
+**Docs:** `~/repos/ConnectedDrivingPipelineV4/JAEKEL-SERVER.md`  
 **Python:** 3.12 (venv)  
 **Size:** ~24GB (including cache + classifier data)
 
@@ -90,6 +90,19 @@ After pipeline completion, results auto-copy to dev3:
 
 ---
 
+## GitHub Access (Deploy Key)
+
+- **Key:** `~/.ssh/github_deploy` (ED25519)
+- **SSH config:** `~/.ssh/config` routes `github.com` through deploy key
+- **Scope:** `aaron777collins/ConnectedDrivingPipelineV4` (read+write)
+- **GitHub key ID:** 142148791
+- **Set up:** [2026-02-04 22:55 EST]
+
+```bash
+cd ~/repos/ConnectedDrivingPipelineV4
+git push   # just works now
+```
+
 ## Setup Log
 
 - [2026-02-04] Fresh Ubuntu 24.04 install via installimage
@@ -100,3 +113,4 @@ After pipeline completion, results auto-copy to dev3:
 - [2026-02-04 20:02 EST] Created 64GB Dask config and run script
 - [2026-02-04 20:42 EST] Added run-pipeline-64gb.sh and JAEKEL-SERVER.md to repo
 - [2026-02-04 20:46 EST] dev3 local copies removed — Jaekel is now the only location
+- [2026-02-04 22:55 EST] Set up GitHub deploy key for push access
