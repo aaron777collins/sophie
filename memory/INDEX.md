@@ -2,7 +2,7 @@
 
 *Master navigation for Sophie's self-scaling hierarchical memory system (v2).*
 
-**Last Updated:** [2026-02-01 18:40 EST]
+**Last Updated:** [2026-02-04 20:48 EST]
 
 ---
 
@@ -27,6 +27,8 @@
 ### Active Projects
 | Project | Status | Last Updated | Description |
 |---------|--------|--------------|-------------|
+| [ConnectedDrivingPipelineV4](projects/connected-driving-pipeline.md) | 🟢 Active | 2026-02-04 | ML pipeline for CV data (**Jaekel server only**) |
+| [Jaekel Server](projects/jaekel-server.md) | 🟢 Active | 2026-02-04 | Dedicated 64GB research server |
 | [WYDOT Connected Driving](projects/wydot-connected-driving.md) | 🟡 In Progress | 2026-01-31 | ML pipeline for Wyoming DOT vehicle data |
 | [Memory System](projects/memory-system.md) | ✅ v2 Complete | 2026-02-01 | Self-scaling memory architecture |
 
@@ -52,6 +54,7 @@
 
 | Date | Key Events |
 |------|------------|
+| [2026-02-04](daily/2026-02-04.md) | Jaekel server setup, pipeline migration, dev3 cleanup |
 | [2026-02-01](daily/2026-02-01.md) | Memory system v1 → v2 upgrade, sub-agent memory fill |
 | [2026-01-31](daily/2026-01-31.md) | Wyoming CV dataset download (40GB) |
 | [2026-01-29](daily/2026-01-29.md) | S3 auth fix, synthetic data, ML pipeline |
@@ -80,10 +83,10 @@
 
 | Folder | Files | Folders |
 |--------|-------|---------|
-| daily/ | 5 | 0 |
-| projects/ | 2 | 0 |
+| daily/ | 6 | 0 |
+| projects/ | 4 | 0 |
 | topics/ | 7 | 0 |
 | people/ | 1 | 0 |
-| **Total** | **15** | **0** |
+| **Total** | **18** | **0** |
 
 *No files at scaling threshold yet (all < 200 lines)*

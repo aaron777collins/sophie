@@ -49,15 +49,19 @@ ssh ubuntu@65.108.237.46
 sshpass -p 'JaekelResearch135$' ssh ubuntu@65.108.237.46 "command"
 ```
 
-## ConnectedDrivingPipelineV4
+## ConnectedDrivingPipelineV4 (Primary Workload)
+
+⚠️ **This is THE server for all pipeline work.** dev3 copies have been removed.
 
 **Location:** `~/ConnectedDrivingPipelineV4`  
+**Docs:** `~/ConnectedDrivingPipelineV4/JAEKEL-SERVER.md`  
 **Python:** 3.12 (venv)  
 **Size:** ~24GB (including cache + classifier data)
 
 ### Key Files
 
-- `run-pipeline-64gb.sh` — Run script with 64GB Dask config
+- `run-pipeline-64gb.sh` — Run script with 64GB Dask config + auto-copy results
+- `JAEKEL-SERVER.md` — Full documentation
 - `configs/dask/64gb-production.yml` — Dask settings for 64GB RAM
 - `venv/` — Python virtual environment
 
@@ -69,14 +73,22 @@ sshpass -p 'JaekelResearch135$' ssh ubuntu@65.108.237.46 "command"
 - PySpark 4.1.1
 - NumPy, Pandas, PyArrow, etc.
 
-### Usage
+### Quick Usage
 
 ```bash
 cd ~/ConnectedDrivingPipelineV4
-./run-pipeline-64gb.sh
-# or specify a pipeline:
-./run-pipeline-64gb.sh MClassifierLargePipelineUser...py
+./run-pipeline-64gb.sh                        # default pipeline
+./run-pipeline-64gb.sh MClassifier...py       # specific pipeline
+nohup ./run-pipeline-64gb.sh > out.log 2>&1 & # background
 ```
+
+### Results Auto-Copy
+
+After pipeline completion, results auto-copy to dev3:
+- **Location:** `/var/www/html/clawd-static/results/`
+- **View:** https://clawd.dev/results/
+
+---
 
 ## Setup Log
 
@@ -86,3 +98,5 @@ cd ~/ConnectedDrivingPipelineV4
 - [2026-02-04 20:02 EST] Transferred ConnectedDrivingPipelineV4 (~24GB) from dev3
 - [2026-02-04 20:02 EST] Created Python 3.12 venv with all dependencies
 - [2026-02-04 20:02 EST] Created 64GB Dask config and run script
+- [2026-02-04 20:42 EST] Added run-pipeline-64gb.sh and JAEKEL-SERVER.md to repo
+- [2026-02-04 20:46 EST] dev3 local copies removed — Jaekel is now the only location
