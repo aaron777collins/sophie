@@ -102,11 +102,45 @@ Self-hosted Matrix ecosystem with Synapse, Element Web, PostgreSQL, and Coturn f
 
 ---
 
+## Invite System (Registration Tokens)
+
+**Registration is invite-only** — enabled [2026-02-09 17:22 EST]
+
+### Generate Invite Links
+```bash
+ssh dev2
+~/matrix/invite              # 1 use, 7 days
+~/matrix/invite 5            # 5 uses, 7 days
+~/matrix/invite 20 30        # 20 uses, 30 days
+```
+
+Output example:
+```
+✅ Invite created!  Uses: 20  Expires: 30 days
+🔗 https://dev2.aaroncollins.info/#/register?token=abc123xyz
+```
+
+### Active Tokens
+| Token | Uses | Expires | Created |
+|-------|------|---------|---------|
+| `nmuCskdy5S3dIcaG` | 20 | 2026-03-11 | [2026-02-09 17:26 EST] |
+
+### How It Works
+- `registration_requires_token: true` in homeserver.yaml
+- Tokens created via Synapse Admin API
+- Script at `~/matrix/gen_invite.py` (copied into container at `/data/`)
+- Wrapper at `~/matrix/invite`
+
+---
+
 ## Management Commands
 
 ```bash
 # SSH to server
 ssh dev2
+
+# Generate invite link
+~/matrix/invite [uses] [days]
 
 # View logs
 docker logs matrix-synapse
@@ -116,10 +150,10 @@ docker logs matrix-coturn
 # Restart services
 cd ~/matrix && docker compose restart
 
-# Create new user (admin)
+# Create new user directly (admin)
 docker exec matrix-synapse register_new_matrix_user http://localhost:8008 -c /data/homeserver.yaml -u USERNAME -p PASSWORD -a
 
-# Create new user (regular)
+# Create new user directly (regular)
 docker exec matrix-synapse register_new_matrix_user http://localhost:8008 -c /data/homeserver.yaml -u USERNAME -p PASSWORD --no-admin
 ```
 
@@ -130,3 +164,6 @@ docker exec matrix-synapse register_new_matrix_user http://localhost:8008 -c /da
 - [2026-02-09 14:05 EST] All services deployed and running
 - [2026-02-09 14:05 EST] Admin user 'aaron' created
 - [2026-02-09 15:14 EST] Password updated per Aaron's request
+- [2026-02-09 17:22 EST] Enabled invite-only registration (registration tokens)
+- [2026-02-09 17:26 EST] Created invite script (`~/matrix/invite`)
+- [2026-02-09 17:26 EST] Generated 20-use token expiring 2026-03-11
