@@ -15,12 +15,14 @@ Self-hosted Matrix ecosystem with Synapse, Element Web, PostgreSQL, and Coturn f
 - **Server:** dev2.aaroncollins.info (auto-detected)
 
 ### Aaron's Account
-- **Username:** `aaron`
-- **Password:** `InTheMatrix2026!Admin`
-- **Matrix ID:** `@aaron:dev2.aaroncollins.info`
+- **Username:** `demonslayer77`
+- **Password:** `KingOfKings12345!`
+- **Matrix ID:** `@demonslayer77:dev2.aaroncollins.info`
 - **Admin:** Yes
-- [2026-02-09 14:05 EST] Account created
-- [2026-02-09 15:14 EST] Password changed from Matrix2026!Admin to InTheMatrix2026!Admin
+- [2026-02-09 18:43 EST] Account created (via Element registration)
+- [2026-02-09 18:47 EST] Promoted to admin, invite script updated
+
+*(Previous `aaron` account retired)*
 
 ---
 
@@ -167,3 +169,4 @@ docker exec matrix-synapse register_new_matrix_user http://localhost:8008 -c /da
 - [2026-02-09 17:22 EST] Enabled invite-only registration (registration tokens)
 - [2026-02-09 17:26 EST] Created invite script (`~/matrix/invite`)
 - [2026-02-09 17:26 EST] Generated 20-use token expiring 2026-03-11
+- [2026-02-09 18:47 EST] Switched admin to `demonslayer77`, updated invite script
