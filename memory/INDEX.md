@@ -2,7 +2,7 @@
 
 *Master navigation for Sophie's self-scaling hierarchical memory system (v2).*
 
-**Last Updated:** [2026-02-04 20:48 EST]
+**Last Updated:** [2026-02-09 15:15 EST]
 
 ---
 
@@ -27,6 +27,7 @@
 ### Active Projects
 | Project | Status | Last Updated | Description |
 |---------|--------|--------------|-------------|
+| [Matrix on dev2](projects/matrix-dev2.md) | ✅ Live | 2026-02-09 | Self-hosted Matrix/Element/Synapse |
 | [ConnectedDrivingPipelineV4](projects/connected-driving-pipeline.md) | 🟢 Active | 2026-02-04 | ML pipeline for CV data (**Jaekel server only**) |
 | [Jaekel Server](projects/jaekel-server.md) | 🟢 Active | 2026-02-04 | Dedicated 64GB research server |
 | [WYDOT Connected Driving](projects/wydot-connected-driving.md) | 🟡 In Progress | 2026-01-31 | ML pipeline for Wyoming DOT vehicle data |
@@ -54,6 +55,7 @@
 
 | Date | Key Events |
 |------|------------|
+| [2026-02-09](daily/2026-02-09.md) | Matrix server deployed on dev2 |
 | [2026-02-04](daily/2026-02-04.md) | Jaekel server setup, pipeline migration, dev3 cleanup |
 | [2026-02-01](daily/2026-02-01.md) | Memory system v1 → v2 upgrade, sub-agent memory fill |
 | [2026-01-31](daily/2026-01-31.md) | Wyoming CV dataset download (40GB) |
@@ -83,10 +85,10 @@
 
 | Folder | Files | Folders |
 |--------|-------|---------|
-| daily/ | 6 | 0 |
-| projects/ | 4 | 0 |
+| daily/ | 7 | 0 |
+| projects/ | 5 | 0 |
 | topics/ | 7 | 0 |
 | people/ | 1 | 0 |
-| **Total** | **18** | **0** |
+| **Total** | **20** | **0** |
 
 *No files at scaling threshold yet (all < 200 lines)*

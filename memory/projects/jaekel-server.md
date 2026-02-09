@@ -86,7 +86,7 @@ nohup ./run-pipeline-64gb.sh > out.log 2>&1 & # background
 
 After pipeline completion, results auto-copy to dev3:
 - **Location:** `/var/www/html/clawd-static/results/`
-- **View:** https://clawd.dev/results/
+- **Note:** No domain configured yet — access via IP or local for now
 
 ---
 

@@ -133,3 +133,25 @@ Full docs at `~/ConnectedDrivingPipelineV4/JAEKEL-SERVER.md`:
 - [2026-02-05 00:30 EST] Fixed sample() approach for data subsectioning
 - [2026-02-05 00:40 EST] Set numSubsectionRows=-1 (full dataset required)
 - [2026-02-05 00:45 EST] Test pipeline running with full 45.5M rows — awaiting results
+
+---
+
+## [2026-02-05] Full Batch Run
+
+### Status: RUNNING
+- 10 Dask pipelines queued for thesis results
+- First pipeline (RandOffset10To20) completed in 4m 39s
+- Dashboard with confusion matrix modals: jaekel.mcmastergdsc.ca/dashboard/
+
+### Pipelines in Queue
+1. ConstOffsetPerID (50-100m, 100-200m)
+2. ConstOffsetPerIDWithRandDir (50-100m)
+3. ConstPosPerCar (10-20m, 50-100m, 100-200m)
+4. PositionSwap
+5. RandOffset (50-100m, 100-200m)
+6. RandomPos (0-2000m)
+
+### Results Location
+- Dashboard: https://jaekel.mcmastergdsc.ca/dashboard/
+- Raw files: /var/www/static/pipeline-results/{batch_id}/{pipeline}/
+- CSV with confusion matrices (base64): {pipeline}.csv
