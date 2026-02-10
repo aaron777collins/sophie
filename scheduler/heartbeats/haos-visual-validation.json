@@ -1,9 +1,0 @@
-{
-  "taskId": "haos-visual-validation",
-  "sessionKey": "agent:main:subagent:d3bace43-9379-4f2d-8d62-1e176c665f6e",
-  "startedAt": "2026-02-10T04:30:00Z",
-  "lastHeartbeat": "2026-02-10T16:45:00Z",
-  "status": "running",
-  "currentPhase": "Resuming: visual validation, fixing CPD colors and translations",
-  "model": "opus"
-}

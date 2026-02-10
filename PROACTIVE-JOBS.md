@@ -23,25 +23,7 @@
 
 ## Active Tasks
 
-### haos-visual-validation
-- **Type:** continuous
-- **Min Model:** sonnet
-- **Priority:** critical
-- **Project:** haos
-- **Description:** Validate HAOS UI matches Discord perfectly. Deploy and fix all visual issues.
-- **Created:** 2026-02-10
-- **Status:** pending
-- **Escalation:** none
-- **Notes:** Deploy to dev2, view in browser, screenshot, compare to Discord, fix until perfect
-- **Instructions:**
-  1. Build production: `cd /home/ubuntu/repos/haos/apps/web && yarn build`
-  2. Deploy to dev2.aaroncollins.info (replace Element)
-  3. View in browser, take screenshots of: login, server list, channels, messages, member list, voice panel
-  4. Compare each to Discord screenshots (open Discord in another tab)
-  5. Identify visual issues (spacing, colors, fonts, icons, alignment)
-  6. Fix issues in CSS/TSX, rebuild, redeploy
-  7. Repeat until GORGEOUS and professional
-  8. Post comparison screenshots to Slack #aibot-chat
+(No active tasks)
 
 ---
 
@@ -107,7 +89,7 @@
 - **Project:** haos
 - **Description:** Complete Phase 2 composer features (P2-058 to P2-064)
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** completed
 - **Escalation:** none
 - **Notes:** Draft persistence, edit mode, reply preview
 - **Instructions:**
@@ -214,7 +196,7 @@
 - **Project:** haos
 - **Description:** Complete Phase 3 server settings modal (P3-019 to P3-050)
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** completed
 - **Escalation:** none
 - **Notes:** Full server settings UI matching Discord
 - **Instructions:**
@@ -872,6 +854,16 @@
 ---
 
 ## Archived Tasks
+
+### haos-phase2-composer
+- **Completed:** 2026-02-11 00:45 EST
+- **Model Used:** opus (59effa68-2172-40cf-9fa6-8905cf527477)
+- **Notes:** P2-058 to P2-064 complete. Draft persistence already existed in SendMessageComposer. Permissions disable already existed. Reply preview/cancel already existed. Implemented: Discord-style edit bar with CloseIcon and escape hint for EditMessageComposer, slowmode indicator CSS (ready for future Matrix support), Discord-style format toolbar CSS overrides. Git commits 92849e9, cef3d37.
+
+### haos-visual-validation
+- **Completed:** 2026-02-10 02:45 EST
+- **Model Used:** opus (6c22be92-2392-41c7-aede-d6bb3944d0b3)
+- **Notes:** Visual validation PASSED. All UI elements match Discord style - Blurple buttons (#5865f2), server creation wizard with templates/initials, DM dialog, theme selector with "HAOS Dark (Discord-style)". Functional bugs found (server creation isGuest null error) are NOT visual issues.
 
 ### haos-phase3-server-wizard
 - **Completed:** 2026-02-10 15:35 EST
