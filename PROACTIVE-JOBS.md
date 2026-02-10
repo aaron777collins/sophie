@@ -97,9 +97,10 @@
 - **Project:** haos
 - **Description:** Fix critical mobile layout - safe areas, viewport, and basic navigation
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** completed
+- **Completed:** 2026-02-10
 - **Escalation:** none
-- **Notes:** Mobile is completely broken - this is the foundation fix
+- **Notes:** Complete. Viewport meta tag, _mobile.pcss (600+ lines), useMobile() hook, mobile navigation components. Git commits e176e98, 4016411, 01c2750.
 - **Instructions:**
   1. Read /home/ubuntu/repos/haos/HAOS-MOBILE-TASKS.md for full context
   2. Fix viewport meta tag in index.html:
@@ -160,9 +161,10 @@
 - **Project:** haos
 - **Description:** Fix touch targets - all interactive elements must be 44px minimum
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** completed
+- **Completed:** 2025-06-14
 - **Escalation:** none
-- **Notes:** Buttons are unusable on touch devices
+- **Notes:** Touch target CSS complete. M2-002 to M2-010 all done. Build verified. Git commit 7107b45.
 - **Instructions:**
   1. Read /home/ubuntu/repos/haos/HAOS-MOBILE-TASKS.md for full context
   2. Create touch target utility class in _mobile.pcss:
@@ -785,9 +787,10 @@
 - **Project:** haos
 - **Description:** Complete remaining role features (P3-085 to P3-095)
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** completed
+- **Completed:** 2026-06-14
 - **Escalation:** none
-- **Notes:** Role assignment UI, bulk operations, integration roles
+- **Notes:** All 9 role tasks (P3-085 to P3-093) verified complete. 13 role components: HaosRoleAssignmentModal, HaosBulkRoleAssignment, HaosRoleMemberList, HaosChannelPermissionOverrides, HaosPermissionCalculator, HaosRoleTemplates, HaosRoleImportExport, HaosIntegrationRoles. HAOS-COMPREHENSIVE-TASKS.md already marked complete.
 - **Instructions:**
   1. Implement P3-085: Role assignment modal
   2. Implement P3-086: Bulk role assignment
@@ -1393,6 +1396,96 @@
   10. Build and verify
   11. Update HAOS-COMPREHENSIVE-TASKS.md
 
+### haos-phase6-automod
+- **Type:** continuous
+- **Min Model:** opus
+- **Priority:** high
+- **Project:** haos
+- **Description:** Complete Phase 6 AutoMod system (P6-036 to P6-060)
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Full AutoMod with keyword/spam/link filters
+- **Instructions:**
+  1. Create AutoModSettings.tsx panel
+  2. Create io.haos.automod state event type
+  3. Implement keyword filter rule (blocklist editor)
+  4. Implement spam filter rule
+  5. Implement mention spam filter
+  6. Implement link filter with allowlist
+  7. Implement invite link filter
+  8. Implement NSFW/profanity presets
+  9. Create AutoMod actions (block, timeout, alert)
+  10. Create exempt roles/channels config
+  11. Create AutoMod log channel
+  12. Build and verify
+  13. Update HAOS-COMPREHENSIVE-TASKS.md
+
+### haos-phase5-status
+- **Type:** continuous
+- **Min Model:** opus
+- **Priority:** medium
+- **Project:** haos
+- **Description:** Complete Phase 5 status system (P5-061 to P5-070)
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Custom status, activity sync
+- **Instructions:**
+  1. Create CustomStatusModal.tsx
+  2. Implement status emoji picker
+  3. Implement status text input
+  4. Implement clear after selector
+  5. Implement activity sync structure (for Spotify, games)
+  6. Create rich presence display
+  7. Implement Playing/Listening/Streaming status types
+  8. Build and verify
+  9. Update HAOS-COMPREHENSIVE-TASKS.md
+
+### haos-phase5-user-actions
+- **Type:** continuous
+- **Min Model:** opus
+- **Priority:** high
+- **Project:** haos
+- **Description:** Complete Phase 5 user action menus (P5-119 to P5-138)
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Context menus, moderation actions
+- **Instructions:**
+  1. Create user context menu
+  2. Create member context menu (in server)
+  3. Implement nickname change (for members)
+  4. Implement role management from context menu
+  5. Implement mute/deafen/move/kick/ban/timeout
+  6. Create timeout duration picker
+  7. Implement report user/message flow
+  8. Build and verify
+  9. Update HAOS-COMPREHENSIVE-TASKS.md
+
+### haos-phase8-animations
+- **Type:** continuous
+- **Min Model:** sonnet
+- **Priority:** medium
+- **Project:** haos
+- **Description:** Complete Phase 8 animations & micro-interactions (P8-004 to P8-020)
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Polish animations throughout
+- **Instructions:**
+  1. Implement loading spinners
+  2. Implement skeleton loaders
+  3. Implement page/modal transitions
+  4. Implement dropdown/tooltip animations
+  5. Create toast notification system with animations
+  6. Implement avatar hover effects
+  7. Implement button ripple effect
+  8. Implement typing indicator animation polish
+  9. Implement reaction add animation
+  10. Build and verify
+  11. Update HAOS-COMPREHENSIVE-TASKS.md
+
 ### haos-phase8-polish
 - **Type:** continuous
 - **Min Model:** sonnet
@@ -1400,7 +1493,7 @@
 - **Project:** haos
 - **Description:** Complete Phase 8 final polish (P8-071 to P8-085)
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** in-progress
 - **Escalation:** none
 - **Notes:** Error handling, onboarding, final touches
 - **Instructions:**
