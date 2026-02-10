@@ -18,6 +18,10 @@ Deploy HAOS to dev2, take screenshots, compare to Discord, fix any CSS/component
 - [04:38] Logged in with testuser, UI shows Element colors not Discord
 - [04:40] IDENTIFIED ROOT CAUSE: Element uses CPD (Compound) vars, HAOS defines Discord vars
 - [04:42] Added CPD variable mapping to _design-tokens.pcss - maps --cpd-color-* to Discord colors
+- [04:50] Found haos-dark theme exists but NOT in webpack entry points!
+- [04:51] Added "theme-haos-dark" to cssThemes in webpack.config.cjs
+- [04:52] Added "haos-dark" to BUILTIN_THEMES in theme.ts
+- [04:53] Added "haos_dark" translation string in en_EN.json
 
 ## Plan
 
