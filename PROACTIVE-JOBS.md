@@ -38,18 +38,6 @@
   5. Test Space creation end-to-end
   6. Update MASTER-TODO.md when done!
 
-### haos-phase3-roles
-- **Type:** continuous
-- **Min Model:** opus
-- **Priority:** critical
-- **Project:** haos
-- **Description:** Implement Discord-style role system with 50+ permissions, role hierarchy, and Matrix power level mapping. Tasks P3-060 to P3-104. COMPLEX - needs Opus.
-- **Created:** 2026-02-10
-- **Status:** pending
-- **Escalation:** none
-- **Notes:** This is the most complex subsystem. Needs careful architecture for io.haos.roles state event and bidirectional sync with Matrix power levels.
-- **Instructions:** Design role data structures first. Create custom Matrix state events. Build role editor UI. Implement permission calculator and hierarchy enforcement.
-
 ### haos-visual-validation
 - **Type:** continuous
 - **Min Model:** sonnet
@@ -70,6 +58,11 @@
   7. Post comparison screenshots to Slack showing before/after and Discord reference
 
 ## Archived Tasks
+
+### haos-phase3-roles
+- **Completed:** 2026-02-10 01:00 EST
+- **Model Used:** opus
+- **Notes:** Complete Discord-style role system with 57 permissions (exceeds 50+ requirement). Implemented types, constants, permissions calculator, HaosRoleStore, useRoles hooks, and full UI (RoleList, RoleEditor, PermissionEditor, ColorPicker). Custom Matrix state events (io.haos.roles, io.haos.member_roles, io.haos.channel_overrides). Bidirectional Matrix power level sync. Build passes.
 
 ### haos-phase1-themes
 - **Completed:** 2026-02-10 01:20 EST
