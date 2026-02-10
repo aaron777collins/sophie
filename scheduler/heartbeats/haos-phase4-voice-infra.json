@@ -1,8 +1,0 @@
-{
-  "taskId": "haos-phase4-voice-infra",
-  "agentSession": "agent:main:subagent:0e08fb18-ba9c-4649-8655-0fb62e7d0faa",
-  "startedAt": "2025-02-02T15:45:00Z",
-  "lastHeartbeat": "2025-02-02T16:25:00Z",
-  "status": "validating",
-  "currentWork": "Testing TypeScript compilation"
-}

@@ -22,6 +22,17 @@ Deploy HAOS to dev2, take screenshots, compare to Discord, fix any CSS/component
 - [04:51] Added "theme-haos-dark" to cssThemes in webpack.config.cjs
 - [04:52] Added "haos-dark" to BUILTIN_THEMES in theme.ts
 - [04:53] Added "haos_dark" translation string in en_EN.json
+- [04:55] Fixed SCSS interpolation syntax in _haos-dark.pcss (converted to actual values)
+- [04:58] Build succeeded with theme-haos-dark included
+- [05:00] Deployed to dev2, restarted container
+- [06:05] HAOS Dark theme IS available in dropdown (shows as translation key)
+- [06:05] Theme selectable but CPD variables not overriding button colors
+- [06:05] Multiple missing translation keys: haos|no_channels, haos|server_menu, etc.
+
+## Current Issues
+
+1. **CPD button colors** - Buttons still teal, not Discord blurple #5865f2
+2. **Translation keys missing** - haos| prefixed keys not in i18n
 
 ## Plan
 
