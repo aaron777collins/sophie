@@ -23,11 +23,307 @@
 
 ## Active Tasks
 
-(No active tasks)
+### haos-validate-visual-themes
+- **Type:** continuous
+- **Min Model:** opus
+- **Priority:** high
+- **Project:** haos
+- **Description:** Visual validation of HAOS themes - compare to Discord, screenshot and identify issues
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Take screenshots, compare to Discord, list all visual discrepancies
+- **Instructions:**
+  1. Open HAOS at https://haos.dev2.aaroncollins.info in browser
+  2. Login or create account if needed
+  3. Take screenshot of main interface with dark theme
+  4. Compare to Discord dark theme:
+     - Background colors (main: #36393f, sidebar: #2f3136, channels: #202225)
+     - Text colors (primary: #dcddde, muted: #72767d)
+     - Blurple accent (#5865f2)
+  5. Check server icons (48px round, squircle on hover, selection pill)
+  6. Check channel sidebar (240px, category headers, channel items)
+  7. Check message area (cozy mode, avatars, timestamps)
+  8. Check composer (buttons, textarea, placeholder)
+  9. Switch to light theme, verify proper colors
+  10. Switch to AMOLED theme, verify pure black
+  11. Test accent color picker (9 presets + custom)
+  12. Document all issues in scheduler/progress/haos-validate-visual-themes.md
+  13. Create fix tasks for each issue found
+
+### haos-validate-visual-components
+- **Type:** continuous
+- **Min Model:** opus
+- **Priority:** high
+- **Project:** haos
+- **Description:** Visual validation of all UI components - modals, menus, buttons, inputs
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Check every component matches Discord styling
+- **Instructions:**
+  1. Test server create wizard (click + button)
+     - Template selection screen
+     - Name input with avatar upload
+     - Step navigation
+  2. Test server settings modal
+     - Navigation sidebar
+     - All tabs present
+  3. Test user settings modal
+     - Navigation sidebar
+     - All tabs present
+  4. Test emoji picker
+     - Categories, search, emoji grid
+     - Skin tone selector
+  5. Test GIF picker (Tenor integration)
+  6. Test context menus (right-click message, user)
+  7. Test tooltips (hover over buttons)
+  8. Test modals (proper overlay, border-radius, shadows)
+  9. Test buttons (blurple primary, gray secondary, red danger)
+  10. Test inputs (dark background, focus outline)
+  11. Document all issues in scheduler/progress/haos-validate-visual-components.md
+  12. Create fix tasks for each issue found
 
 ---
 
 ## Pending Tasks (Queued in Order)
+
+### haos-validate-core-messaging
+- **Type:** continuous
+- **Min Model:** opus
+- **Priority:** high
+- **Project:** haos
+- **Description:** Validate all core messaging features work correctly
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Test every messaging feature end-to-end
+- **Instructions:**
+  1. Send a text message - verify it appears
+  2. Edit a message - verify "(edited)" shows
+  3. Delete a message - verify it disappears
+  4. Reply to a message - verify reply preview shows
+  5. Add reaction - verify it shows
+  6. Remove reaction - verify it removes
+  7. Upload image attachment - verify preview
+  8. Upload file attachment - verify card
+  9. Paste image - verify upload
+  10. Send emoji - verify it renders
+  11. Send GIF - verify it plays
+  12. Test markdown: bold, italic, code, quote, list
+  13. Test @mentions autocomplete
+  14. Test #channel autocomplete
+  15. Test /commands autocomplete
+  16. Verify typing indicator shows
+  17. Verify message grouping (same author within 7min)
+  18. Verify date separators
+  19. Document issues in scheduler/progress/haos-validate-core-messaging.md
+
+### haos-validate-voice-video
+- **Type:** continuous
+- **Min Model:** opus
+- **Priority:** high
+- **Project:** haos
+- **Description:** Validate voice and video features work with LiveKit
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Test voice channels and video calls
+- **Instructions:**
+  1. Create a voice channel if none exists
+  2. Click to join voice channel
+  3. Verify audio works (may need 2 users/tabs)
+  4. Test self mute - verify icon and audio stops
+  5. Test self deafen - verify icon
+  6. Test disconnect button
+  7. Verify speaking indicator (green ring)
+  8. Test voice panel UI (user tiles, controls)
+  9. Test video toggle (if camera available)
+  10. Test screen share button
+  11. Verify voice status bar at bottom
+  12. Test voice settings (input/output device selectors)
+  13. Document issues in scheduler/progress/haos-validate-voice-video.md
+
+### haos-validate-server-management
+- **Type:** continuous
+- **Min Model:** opus
+- **Priority:** high
+- **Project:** haos
+- **Description:** Validate server and channel management features
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Test server/channel CRUD and settings
+- **Instructions:**
+  1. Create new server via wizard
+     - Test each template
+     - Test icon upload
+     - Verify channels created
+  2. Open server settings
+     - Test overview tab (name, icon change)
+     - Test roles tab
+     - Test emoji tab
+     - Test moderation tab
+  3. Create role
+     - Set color, name
+     - Set permissions
+     - Assign to member
+  4. Create channel
+     - Text channel
+     - Voice channel
+     - Category
+  5. Edit channel settings
+     - Name, topic
+     - Permissions
+     - Slowmode
+  6. Delete channel (test)
+  7. Drag reorder channels
+  8. Drag reorder servers
+  9. Create server folder
+  10. Document issues in scheduler/progress/haos-validate-server-management.md
+
+### haos-validate-user-features
+- **Type:** continuous
+- **Min Model:** opus
+- **Priority:** high
+- **Project:** haos
+- **Description:** Validate user profile, settings, friends, and DMs
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Test user-centric features
+- **Instructions:**
+  1. View own profile
+     - Avatar, banner display
+     - About me section
+     - Edit profile modal
+  2. Upload avatar
+  3. Upload banner
+  4. Edit bio
+  5. Set custom status
+  6. Change online status (online/idle/dnd/invisible)
+  7. Open user settings
+     - My Account tab
+     - Appearance tab (themes)
+     - Voice & Video tab
+     - Notifications tab
+     - Keybinds tab
+  8. Test friends list
+     - Add friend
+     - Accept/reject request
+     - Remove friend
+     - Block user
+  9. Start DM with user
+  10. Create group DM
+  11. Document issues in scheduler/progress/haos-validate-user-features.md
+
+### haos-validate-search-navigation
+- **Type:** continuous
+- **Min Model:** opus
+- **Priority:** medium
+- **Project:** haos
+- **Description:** Validate search and navigation features
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Test search, quick switcher, navigation
+- **Instructions:**
+  1. Test Ctrl+K quick switcher
+     - Opens modal
+     - Search channels/servers/DMs
+     - Keyboard navigation
+  2. Test message search (in channel header)
+     - Search by keyword
+     - Filter by user
+     - Filter by date
+     - Jump to result
+  3. Test pin messages
+     - Pin a message
+     - View pins panel
+     - Unpin
+  4. Test threads
+     - Create thread
+     - View thread panel
+     - Reply in thread
+     - Thread list
+  5. Test member list toggle
+  6. Test channel navigation
+  7. Test back/forward browser buttons
+  8. Document issues in scheduler/progress/haos-validate-search-navigation.md
+
+### haos-validate-notifications
+- **Type:** continuous
+- **Min Model:** sonnet
+- **Priority:** medium
+- **Project:** haos
+- **Description:** Validate notification indicators and unread state
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Test unread/mention indicators
+- **Instructions:**
+  1. Create unread messages in a channel
+  2. Verify channel unread indicator (white dot)
+  3. Create @mention in channel
+  4. Verify channel mention badge (red with count)
+  5. Verify server mention badge
+  6. Mark channel as read
+  7. Mark server as read
+  8. Test notification settings per channel
+  9. Test notification settings per server
+  10. Document issues in scheduler/progress/haos-validate-notifications.md
+
+### haos-validate-embeds-attachments
+- **Type:** continuous
+- **Min Model:** sonnet
+- **Priority:** medium
+- **Project:** haos
+- **Description:** Validate embed previews and attachment handling
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Test URL previews and file handling
+- **Instructions:**
+  1. Send YouTube link - verify embed with player
+  2. Send Spotify link - verify embed
+  3. Send Twitter/X link - verify embed
+  4. Send GitHub link - verify embed
+  5. Send generic URL - verify link preview
+  6. Test embed suppression (eye icon)
+  7. Upload image - verify gallery view
+  8. Upload multiple images - verify grid
+  9. Upload video - verify player
+  10. Upload audio - verify waveform player
+  11. Upload PDF - verify preview
+  12. Upload text file - verify preview
+  13. Test download button
+  14. Test spoiler attachment
+  15. Document issues in scheduler/progress/haos-validate-embeds-attachments.md
+
+### haos-validate-accessibility-polish
+- **Type:** continuous
+- **Min Model:** sonnet
+- **Priority:** medium
+- **Project:** haos
+- **Description:** Validate accessibility and final polish items
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** A11y and polish checks
+- **Instructions:**
+  1. Test keyboard navigation throughout
+  2. Test focus states visible
+  3. Test tab order logical
+  4. Test modal focus trap
+  5. Test Escape closes modals
+  6. Check color contrast (WCAG AA)
+  7. Check font sizes readable
+  8. Test reduced motion if available
+  9. Check loading states (spinners, skeletons)
+  10. Check error states display properly
+  11. Check empty states (no messages, no members)
+  12. Test responsive on smaller viewport
+  13. Document issues in scheduler/progress/haos-validate-accessibility-polish.md
 
 ### haos-phase1-remaining
 - **Type:** continuous
@@ -83,9 +379,10 @@
 - **Project:** haos
 - **Description:** Complete Phase 2 reaction features (P2-075 to P2-079)
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** completed
+- **Completed:** 2025-06-05
 - **Escalation:** none
-- **Notes:** Reaction tooltips, user list, custom emoji
+- **Notes:** All 5 reaction tasks complete. HaosReactionUserTooltip, HaosReactorsModal, HaosCustomEmojiReaction, HaosAnimatedEmoji, HaosSuperReaction created. Git commit 132332d.
 - **Instructions:**
   1. Implement P2-075: Reaction user tooltip (show first 3 names)
   2. Implement P2-076: Reaction user list modal (all reactors)
@@ -121,9 +418,10 @@
 - **Project:** haos
 - **Description:** Complete Phase 2 attachment features (P2-132 to P2-141)
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** completed
+- **Completed:** 2025-01-21
 - **Escalation:** none
-- **Notes:** Voice messages, file previews
+- **Notes:** All 8 tasks complete. Voice message enhancements (waveform, speed control), PDF preview, text/code preview, download all, size warning, compression options. Git commit 36c65da.
 - **Instructions:**
   1. Implement P2-132: Voice message recording
   2. Implement P2-133: Voice message waveform display
@@ -143,9 +441,10 @@
 - **Project:** haos
 - **Description:** Complete Phase 2 emoji/GIF/sticker system (P2-149 to P2-161)
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** completed
+- **Completed:** 2025-06-05
 - **Escalation:** none
-- **Notes:** Custom emoji upload, GIF picker, stickers, soundboard
+- **Notes:** All 13 tasks complete. HaosEmojiStore, GifService (Tenor), HaosStickerStore, HaosSoundboardStore, GifPicker, StickerPicker, Soundboard, CustomEmojiUpload. 5357 lines added. Git commit 7c2e085.
 - **Instructions:**
   1. Implement P2-149: Custom emoji upload
   2. Implement P2-150: Emoji slots display (free vs Nitro)
@@ -296,9 +595,10 @@
 - **Project:** haos
 - **Description:** Complete Phase 4 voice UI features (P4-050 to P4-065)
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** completed
+- **Completed:** 2025-02-10
 - **Escalation:** none
-- **Notes:** Voice status bar, popout, controls
+- **Notes:** All 16 tasks complete. VoicePopout, VoiceChannelInfoOverlay, VoiceSettingsQuickAccess, VoiceInviteButton created. HaosVoiceControls updated with fullscreen/PiP/soundboard/activities. Video components also added (VideoGrid, VideoTile, CameraControls, etc). Git commits 2dbb5c7, b04953d.
 - **Instructions:**
   1. Implement P4-050: Voice popout window
   2. Implement P4-051: Voice status bar channel name
@@ -321,9 +621,10 @@
 - **Project:** haos
 - **Description:** Complete Phase 4 video features (P4-066 to P4-085)
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** completed
+- **Completed:** 2025-01-21
 - **Escalation:** none
-- **Notes:** Video grid, camera controls, virtual background
+- **Notes:** All 20 video tasks complete. Fixed TypeScript errors. VideoGrid, VideoTile, CameraControls, VirtualBackground, VideoReactions, HandRaise, VideoCallRing, VideoQualitySettings. Git commit 466a1f6.
 - **Instructions:**
   1. Create VideoGrid.tsx component (1-25 participants)
   2. Create VideoTile.tsx component
@@ -390,9 +691,10 @@
 - **Project:** haos
 - **Description:** Complete Phase 5 user profile features (P5-007 to P5-025)
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** completed
+- **Completed:** 2026-02-11
 - **Escalation:** none
-- **Notes:** Profile modal with full Discord features
+- **Notes:** All 19 profile tasks complete. UserProfileModal.tsx + ProfileEditModal.tsx + CSS. Git commit b0d86bc.
 - **Instructions:**
   1. Implement P5-007: About me section
   2. Implement P5-008: Member since date
@@ -419,9 +721,10 @@
 - **Project:** haos
 - **Description:** Complete Phase 5 user settings tabs (P5-028 to P5-055)
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** completed
+- **Completed:** 2026-06-05
 - **Escalation:** none
-- **Notes:** Full user settings modal
+- **Notes:** All 13 tabs implemented. Git commit 6762f4e. MatrixChat integration complete with isHaosThemeActive() check.
 - **Instructions:**
   1. Implement My Account tab (password, email, phone, 2FA)
   2. Implement Profile tab
@@ -468,9 +771,10 @@
 - **Project:** haos
 - **Description:** Complete Phase 5 friends & DMs (P5-071 to P5-098)
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** completed
+- **Completed:** 2026-02-10
 - **Escalation:** none
-- **Notes:** Friends list, DMs, group DMs, calls
+- **Notes:** All 28 tasks complete. Created FriendsTab, FriendsList, AddFriendModal, DMList, DMItem, CreateGroupDMModal, DMCallUI. 3133 lines of code. Git commit b0d86bc.
 - **Instructions:**
   1. Create FriendsTab.tsx (Home view)
   2. Implement Online/All/Pending/Blocked sections
@@ -735,9 +1039,10 @@
 - **Project:** haos
 - **Description:** Complete Phase 8 performance optimizations (P8-021 to P8-035)
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** completed
+- **Completed:** 2026-02-10
 - **Escalation:** none
-- **Notes:** Code splitting, lazy loading, optimization
+- **Notes:** All 15 performance tasks complete. LazyLoader, LazyImage, MemoHelper, PerformanceMonitor, ServiceWorkerCache, FontOptimization, BundleOptimization. Git commits 1d1c6d0, 8840fe7.
 - **Instructions:**
   1. Implement code splitting for routes
   2. Implement lazy loading for heavy components
@@ -829,6 +1134,16 @@
 ---
 
 ## Archived Tasks
+
+### haos-phase2-reactions
+- **Completed:** 2025-06-05 07:27 EST
+- **Model Used:** opus (77509767-015e-42a0-9585-a1dfad94a0db)
+- **Notes:** P2-075 to P2-079 complete. All 5 reaction components: HaosReactionUserTooltip (avatar previews), HaosReactorsModal (full list with tabs), HaosCustomEmojiReaction (server emoji support), HaosAnimatedEmoji (animation support), HaosSuperReaction (particle burst effects). Git commit 132332d.
+
+### haos-phase5-settings
+- **Completed:** 2026-06-05 06:15 EST
+- **Model Used:** opus (3aef4997-7f0d-4f39-93ba-4a9018c3bd56)
+- **Notes:** P5-028 to P5-055 complete. All 13 user settings tabs implemented: MyAccount, Profile, PrivacySafety, AuthorizedApps, Connections, Appearance, Accessibility, VoiceVideo, Keybinds, Language, Notifications, ActivityStatus, Devices. MatrixChat.tsx integration with isHaosThemeActive() check. Fixed AuthorizedAppsTab unused variable. Git commit 6762f4e.
 
 ### haos-phase2-messages
 - **Completed:** 2026-02-10 03:15 EST
