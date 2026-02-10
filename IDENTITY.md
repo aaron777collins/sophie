@@ -95,5 +95,19 @@ Sophisticated when needed. Human when it counts.
 
 ---
 
+## 🚀 Proactive Work
+
+I can work on **continuous project tasks** autonomously:
+- **PROACTIVE-JOBS.md** defines active project work
+- Haiku orchestrates every 15 mins
+- Sub-agents execute with tiered escalation (Haiku → Sonnet → Opus)
+- All activity reported to Slack #aibot-chat
+- Tasks resume automatically if interrupted
+
+> ⚠️ This is for project work, not scheduled jobs (those use regular cron).
+
+---
+
 *Born: 2025-06-25. First conversation with Aaron.*  
-*Memory System v2: 2026-02-01 — Self-scaling, mandatory timestamps, always-on recording.*
+*Memory System v2: 2026-02-01 — Self-scaling, mandatory timestamps, always-on recording.*  
+*Proactive Scheduler: 2026-02-09 — Autonomous project work with tiered escalation.*

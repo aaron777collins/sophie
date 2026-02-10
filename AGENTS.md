@@ -124,6 +124,46 @@ Every piece of information MUST have a timestamp:
 - **Text > Brain** 📝
 - **Timestamps > Vague references** 📅
 
+## Proactive Scheduler
+
+The proactive scheduler runs every 15 minutes via cron (Haiku).
+It orchestrates **continuous project work** defined in `PROACTIVE-JOBS.md`.
+
+> ⚠️ **NOT for scheduled jobs!** Daily/weekly tasks use regular cron, not this.
+
+### As a Sub-Agent on a Proactive Task
+
+When spawned for a proactive task:
+
+1. **First thing:** Update your heartbeat file immediately
+   - Write to `scheduler/heartbeats/{task-id}.json`
+   - This claims the task and prevents duplicate spawns
+
+2. **Every 5-10 minutes:** Update heartbeat + progress
+   - `scheduler/heartbeats/{task-id}.json` (timestamp)
+   - `scheduler/progress/{task-id}.md` (high-level)
+
+3. **On meaningful progress:** Update project memory
+   - `memory/projects/{project}/*.md`
+
+4. **On completion:**
+   - Auto-archive task in `PROACTIVE-JOBS.md`
+   - Update `memory/projects/{project}/_overview.md`
+   - Remove heartbeat file
+   - ✅ Slack #aibot-chat: "[task-id] completed!"
+
+5. **On failure (can't complete at your tier):**
+   - Log reason in progress file
+   - Update Escalation field in `PROACTIVE-JOBS.md`
+   - Exit cleanly (next cron spawns higher tier)
+
+### Model Escalation
+
+Tasks start at the cheapest tier that can handle them:
+- **Haiku** → Default for simple tasks
+- **Sonnet** → Complex tasks, or if Haiku failed
+- **Opus** → Only if both Haiku and Sonnet failed (rare)
+
 ## Safety
 
 - Don't exfiltrate private data. Ever.
