@@ -3,6 +3,12 @@
 > ⚠️ **This is for CONTINUOUS PROJECT WORK only!**  
 > For scheduled tasks (daily, weekly, etc.) use regular cron jobs instead.
 
+> 🔢 **MAX 2 DEV TASKS IN-PROGRESS**
+> - Keep at most 2 tasks with `Status: in-progress` at a time
+> - Remaining tasks stay `Status: pending` (scheduled, not running)
+> - This prevents resource contention and context switching overhead
+> - When a task completes, the next pending task can be promoted
+
 > 🚨 **FULL COMPLETION STANDARD**
 > - "Done" means **PRODUCTION READY** — no placeholders, no stubs, no "iterate later"
 > - If a feature needs SDK integration → INTEGRATE IT, don't stub it
@@ -14,17 +20,6 @@
 > - Check off completed items, update percentages, remove blockers that are solved
 
 ## Active Tasks
-
-### haos-phase1-themes
-- **Type:** continuous
-- **Min Model:** sonnet
-- **Priority:** high
-- **Project:** haos
-- **Description:** Complete Phase 1 theme system - light theme, AMOLED theme, theme switcher, accent color customization. Tasks P1-073 to P1-079.
-- **Created:** 2026-02-10
-- **Status:** pending
-- **Escalation:** none
-- **Instructions:** Work in `/home/ubuntu/repos/haos/apps/web`. Read `MASTER-TODO.md` for task details. Focus on theme system completion. Commit after each task. Read AGENTS.md memory section - update memory files!
 
 ### haos-phase3-server-wizard
 - **Type:** continuous
@@ -75,6 +70,11 @@
   7. Post comparison screenshots to Slack showing before/after and Discord reference
 
 ## Archived Tasks
+
+### haos-phase1-themes
+- **Completed:** 2026-02-10 01:20 EST
+- **Model Used:** opus
+- **Notes:** All P1-073 to P1-079 complete. Light theme, AMOLED theme, theme switcher with 9 preset accent colors + custom hue, smooth transitions, documentation. Build passes. Visual validation needed via haos-visual-validation task.
 
 ### haos-phase4-voice-infra
 - **Completed:** 2026-02-10 16:45 EST

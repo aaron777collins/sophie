@@ -113,6 +113,8 @@ I can work on **continuous project tasks** autonomously:
 
 **Key Rule:** Haiku executes, it doesn't plan. Before giving Haiku a task, a smarter model must define the steps. If you can't write explicit instructions, it's not a Haiku task.
 
+**Concurrency Rule:** Max 2 dev tasks in-progress at a time. Remaining tasks stay `pending` (scheduled but not running). This prevents resource contention and context switching overhead.
+
 ### Key Requirements for Sub-Agents
 1. **Track everything** — Detailed work logs, files changed, decisions, blockers
 2. **Update memories** — Project files + daily logs with timestamps

@@ -138,6 +138,12 @@ _Next check: 15 min_
 - Heartbeat file check + sessions_list
 - Agent can crash without updating heartbeat
 
+🔢 **Max 2 Dev Tasks In-Progress** (added 2026-02-10)
+- Keep at most 2 tasks with `Status: in-progress` at a time
+- Remaining tasks stay `Status: pending` (scheduled but not running)
+- Prevents resource contention and context switching overhead
+- When one completes, promote the next pending task
+
 ---
 
 ## History
@@ -148,3 +154,4 @@ _Next check: 15 min_
 - [2026-02-09 23:16 EST] Added early-exit optimization for empty queue
 - [2026-02-09 23:19 EST] Added status summary output to Slack each run
 - [2026-02-09 23:32 EST] Added nested sub-agent support with shared heartbeat
+- [2026-02-10 00:52 EST] Added "max 2 dev tasks in-progress" rule per Aaron's recommendation

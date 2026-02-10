@@ -131,6 +131,8 @@ It orchestrates **continuous project work** defined in `PROACTIVE-JOBS.md`.
 
 > ⚠️ **NOT for scheduled jobs!** Daily/weekly tasks use regular cron, not this.
 
+> 🔢 **Max 2 Dev Tasks In-Progress:** Keep at most 2 tasks with `Status: in-progress` at a time. Remaining tasks stay `pending` (scheduled but not running). This prevents resource contention and context switching overhead.
+
 ### As a Sub-Agent on a Proactive Task
 
 When spawned for a proactive task:
