@@ -5,19 +5,16 @@
 
 ## Active Tasks
 
-<!-- Add continuous project work here. Format:
-
-### task-id
-- **Type:** continuous | one-off
-- **Min Model:** haiku | sonnet | opus
-- **Priority:** high | medium | low
-- **Project:** project-name
-- **Description:** What needs to be done
-- **Created:** YYYY-MM-DD
-- **Status:** pending | in-progress
-- **Escalation:** none | sonnet | opus | blocked
-
--->
+### haos-implementation
+- **Type:** continuous
+- **Min Model:** sonnet
+- **Priority:** high
+- **Project:** haos
+- **Description:** Complete Discord-clone UI implementation for HAOS (Element-web fork). Transform Matrix client to Discord-style interface with CSS design system and TSX component transformations.
+- **Created:** 2026-02-09
+- **Status:** in-progress
+- **Escalation:** none
+- **Notes:** Multi-file TSX transforms, complex architecture - starts at Sonnet
 
 ## Archived Tasks
 
