@@ -33,6 +33,11 @@ As of [2026-02-10 08:00 EST], multiple project phases are in active development:
 - ✅ Profile management
 - ✅ Application settings
 
+### Phase 6: Moderation & AutoMod
+- ✅ Moderation actions (Kick, Ban, Timeout, Warn, etc.) [2026-02-10]
+- ✅ Audit log system (viewer, entry, event mapper) [2026-02-10]
+- ✅ AutoMod system (25 rule types, actions, exemptions) [2026-02-10]
+
 ### Performance
 - ✅ Performance optimization (Phase 8)
 - ✅ Visual validation completed
