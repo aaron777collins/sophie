@@ -80,7 +80,20 @@ Self-hosted Matrix ecosystem with Synapse, Element Web, PostgreSQL, and Coturn f
 - **Password:** SynapseDB_2026!SecurePass
 - **Database:** synapse
 
-### TURN Server (Video Calls)
+### Video Calling (Self-Hosted)
+**Fully self-hosted** — no external dependencies!
+
+| Component | URL |
+|-----------|-----|
+| Element Call | https://call.dev2.aaroncollins.info |
+| LiveKit Server | https://livekit.dev2.aaroncollins.info |
+
+**LiveKit Config:**
+- API Key: `devkey`
+- API Secret: `LiveKit2026SecretKeyForMatrix`
+- Ports: 7880 (HTTP), 7881 (TCP), 7882 (UDP), 50000-50100 (RTC)
+
+### TURN Server (NAT Traversal)
 - **URIs:**
   - turn:dev2.aaroncollins.info:3478?transport=udp
   - turn:dev2.aaroncollins.info:3478?transport=tcp
@@ -170,3 +183,4 @@ docker exec matrix-synapse register_new_matrix_user http://localhost:8008 -c /da
 - [2026-02-09 17:26 EST] Created invite script (`~/matrix/invite`)
 - [2026-02-09 17:26 EST] Generated 20-use token expiring 2026-03-11
 - [2026-02-09 18:47 EST] Switched admin to `demonslayer77`, updated invite script
+- [2026-02-09 19:17 EST] Added self-hosted video calling (LiveKit + Element Call)
