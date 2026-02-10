@@ -1,9 +1,0 @@
-{
-  "taskId": "haos-phase2-threads",
-  "sessionId": "agent:main:subagent:ebdbcddb-7efb-47e2-b29d-3b8e79c92467",
-  "status": "active",
-  "lastHeartbeat": "2026-02-10T00:58:00-05:00",
-  "model": "opus",
-  "startedAt": "2026-02-10T00:32:00-05:00",
-  "message": "Fixed ESLint errors, running final validation"
-}

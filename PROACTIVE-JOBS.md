@@ -22,17 +22,6 @@
 - **Escalation:** none
 - **Instructions:** Work in `/home/ubuntu/repos/haos/apps/web`. Read `MASTER-TODO.md` for task details. Focus on theme system completion. Commit after each task. Read AGENTS.md memory section - update memory files!
 
-### haos-phase2-threads
-- **Type:** continuous
-- **Min Model:** sonnet
-- **Priority:** medium
-- **Project:** haos
-- **Description:** Complete thread system - thread preview in main chat, archive/unarchive, member count, notifications, threads list panel. Tasks P2-102 to P2-107.
-- **Created:** 2026-02-10
-- **Status:** pending
-- **Escalation:** none
-- **Instructions:** Enhance existing thread panel with full Discord-like functionality.
-
 ### haos-phase3-server-wizard
 - **Type:** continuous
 - **Min Model:** sonnet
@@ -88,6 +77,11 @@
   7. Post comparison screenshots to Slack showing before/after and Discord reference
 
 ## Archived Tasks
+
+### haos-phase2-threads
+- **Completed:** 2026-02-10 01:15 EST
+- **Model Used:** opus
+- **Notes:** Complete thread system (P2-102 to P2-107). Implemented thread preview in main chat, archive/unarchive via room account data, member count from timeline events, per-thread notifications, auto-archive, and full threads list panel with filtering/sorting. All Matrix SDK integrated. Git commit 61a9baa.
 
 ### haos-phase2-embeds
 - **Completed:** 2026-02-10 00:46 EST
