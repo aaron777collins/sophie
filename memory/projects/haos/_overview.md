@@ -1,91 +1,103 @@
 # HAOS Project
 
-**Status:** ✅ Core Implementation Complete  
+**Status:** Active - Full Feature Parity Mode  
 **Started:** 2026-02-09  
-**Type:** Discord-clone UI implementation
+**Target:** Complete Discord Clone on Matrix  
+**Estimated Timeline:** 6-18 months
 
 ## Goal
 
-Transform the Matrix-based HAOS frontend into a Discord-like interface with:
-- Discord-style CSS design system
-- TSX component transformations
-- Voice integration
-- Modern chat UX
+Transform Element-web (Matrix client) into a pixel-perfect Discord clone with:
+- Full Discord-style UI/UX
+- LiveKit voice integration for persistent voice channels
+- Custom role system with 50+ permissions
+- Stage channels, screen sharing, video
+- Server discovery, AutoMod, premium features
+
+## Master Plan
+
+**847 tasks across 8 phases** (see `docs/IMPLEMENTATION-MASTER.md`):
+
+| Phase | Name | Tasks | Status |
+|-------|------|-------|--------|
+| 1 | Foundation & Core UI | 68 | 70% ✅ |
+| 2 | Messaging & Channels | 160 | 60% ✅ |
+| 3 | Servers & Roles | 138 | 20% 🟡 |
+| 4 | Voice & Video | 105 | 10% (CSS done) |
+| 5 | User System & Social | 138 | 10% (CSS done) |
+| 6 | Moderation & AutoMod | 85 | 0% |
+| 7 | Search & Discovery | 68 | 5% |
+| 8 | Polish & Premium | 85 | 0% |
 
 ## Current State
 
-- [2026-02-09 ~21:00 EST] CSS design system complete (25 files, 560KB)
-- [2026-02-09 ~21:30 EST] Phase 1: SpacePanel.tsx transformation done
-- [2026-02-09 ~22:00 EST] Phase 2: RoomSublist.tsx transformation done
-- [2026-02-09 ~23:00 EST] Phase 3: Voice.tsx implementation complete ✅
-- [2026-02-10 00:00 EST] **BUILD PASSED** - All TSX transformations compile ✅
+### [2026-02-10 00:15 EST] Full Parity Mode Activated
+- Aaron committed to full Discord feature parity
+- Set up 7 parallel proactive tasks for continuous work
+- Created MASTER-TODO.md for detailed task tracking
+- Build is passing (`yarn build` successful)
 
-## Completed Phases
+### [2026-02-09] Phase 2/3 CSS+TSX Complete
+- 26 CSS component files created (~550KB total)
+- 9 new Haos TSX components
+- Multiple Element components modified
+- Sub-agents completed all CSS and core TSX work
 
-### CSS Design System (100%) ✅
-All 25 component CSS files complete in `/apps/web/res/css/haos/`:
+## Completed Work
+
+### CSS Design System ✅
 - Design tokens, typography, spacing, animations, layout
-- Buttons, attachments, messages, settings, modals
-- Channel sidebar, server list, member list, composer
-- Voice, threads, embeds, reactions, emoji picker
-- Context menus, tooltips, notifications, search
+- 26 component CSS files (buttons, messages, channels, voice, etc.)
 
-### TSX Components (100%) ✅
-All core Haos components in `/apps/web/src/components/haos/`:
+### React Components ✅
 - HaosChannelSidebar, HaosChannelItem, HaosChannelCategory
 - HaosServerHeader, HaosUserPanel, HaosVoicePanel
-- HaosVoiceUser, HaosVoiceControls
+- Modified: LoggedInView, SpacePanel, LeftPanel, MessagePanel, EventTile, MemberList, etc.
 
-### Modified Element Components ✅
-- LoggedInView.tsx - Layout restructured with haos classes
-- SpacePanel.tsx - Server list styling
-- LeftPanel.tsx - Channel sidebar
-- MessagePanel.tsx - Message grouping
-- EventTile.tsx - Message rendering
-- MemberList.tsx - Member list + roles
-- ThreadPanel.tsx, ThreadSummary.tsx - Thread styling
-- LinkPreviewWidget.tsx, LinkPreviewGroup.tsx - Embed previews
-- ReactionPicker.tsx, ReactionsRow.tsx - Reactions
+## Active Proactive Tasks
 
-## Build Status
-- ✅ `yarn build` passes (webpack 5.104.1, ~148s)
-- ⚠️ 10 warnings (entrypoint size limits only - not errors)
-
-## Remaining Work
-
-### Phase 4: Testing (Required)
-- [ ] Run full test suite
-- [ ] Visual regression testing
-- [ ] E2E tests with Playwright
-
-### Phase 5: Advanced Features (Required)
-- [ ] Server creation wizard
-- [ ] Role system deep integration
-- [ ] Stage channels
-
-### Phase 6: Deployment (Required)
-- [ ] Build production bundle
-- [ ] Deploy to dev2.aaroncollins.info (replace Element)
-- [ ] Update Caddy config if needed
-- [ ] Verify Matrix integration works
-- [ ] Test voice/video with LiveKit
+1. **haos-phase1-themes** - Light/AMOLED themes, switcher
+2. **haos-phase2-autocomplete** - @mention, #channel, :emoji: completion
+3. **haos-phase2-embeds** - URL previews, platform embeds
+4. **haos-phase2-threads** - Full thread functionality
+5. **haos-phase3-server-wizard** - Server creation with templates
+6. **haos-phase3-roles** - Role system (CRITICAL, Opus)
+7. **haos-phase4-voice-infra** - LiveKit integration (Opus)
 
 ## Key Files
 
-- `/home/ubuntu/repos/haos/` - Main repository
-- `apps/web/res/css/haos/` - Discord-style CSS
-- `apps/web/src/components/haos/` - New Haos components
+- **Repo:** `/home/ubuntu/repos/haos`
+- **Web App:** `/home/ubuntu/repos/haos/apps/web`
+- **Master Plan:** `docs/IMPLEMENTATION-MASTER.md`
+- **Progress:** `PROGRESS.md`
+- **Master TODO:** `MASTER-TODO.md`
+- **CSS:** `apps/web/res/css/haos/`
+- **Components:** `apps/web/src/components/haos/`
 
-## Git Workflow
+## Commands
 
 ```bash
-cd /home/ubuntu/repos/haos
-git add -A
-git commit -m "descriptive message"
-git push
+# Build
+cd /home/ubuntu/repos/haos/apps/web && yarn build
+
+# Dev server
+cd /home/ubuntu/repos/haos/apps/web && yarn start
+
+# Git
+cd /home/ubuntu/repos/haos && git status
+cd /home/ubuntu/repos/haos && git add -A && git commit -m "msg" && git push
 ```
+
+## Blocking Issues
+
+1. **LiveKit Server** - Need instance for voice testing
+2. **Custom State Events** - io.haos.* events need definition
+3. **Role System Complexity** - Needs careful Matrix power level mapping
 
 ## Notes
 
-This project has achieved its core goal of creating a Discord-like UI for Matrix.
-The implementation is feature-complete for the Discord-style visual transformation.
+This is a marathon, not a sprint. Sub-agents work continuously via proactive scheduler. Each phase builds on previous phases. Voice (Phase 4) is a major milestone - once that works, it's a usable product.
+
+---
+
+*Updated: 2026-02-10 00:15 EST*
