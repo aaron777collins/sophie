@@ -142,23 +142,84 @@ When spawned for a proactive task:
    - Write to `scheduler/heartbeats/{task-id}.json`
    - This claims the task and prevents duplicate spawns
 
-2. **Every 5-10 minutes:** Update heartbeat + progress
-   - `scheduler/heartbeats/{task-id}.json` (timestamp)
-   - `scheduler/progress/{task-id}.md` (high-level)
+2. **During work:** Track EVERYTHING in progress file
+   - `scheduler/progress/{task-id}.md` — maintain a detailed work log:
+     ```markdown
+     ## Work Log
+     - [HH:MM] Started: what you're doing
+     - [HH:MM] Completed: specific file/component
+     - [HH:MM] Issue found: description
+     - [HH:MM] Decision: why you chose X over Y
+     
+     ## Files Changed
+     - path/to/file.tsx — what was done
+     
+     ## Dependencies Discovered
+     - Component X relies on Y
+     - Need to update Z when changing W
+     
+     ## Open Questions / Blockers
+     - [ ] Unresolved: description
+     - [x] Resolved: how it was fixed
+     
+     ## Tests / Verification Done
+     - [ ] Built successfully
+     - [ ] Tested manually
+     - [ ] Checked related components
+     ```
 
-3. **On meaningful progress:** Update project memory (MANDATORY!)
+3. **Every 5-10 minutes:** Update heartbeat + progress
+   - `scheduler/heartbeats/{task-id}.json` (timestamp)
+   - Add new entries to progress file work log
+
+4. **On meaningful progress:** Update project memory (MANDATORY!)
    - `memory/projects/{project}/_overview.md` — update status, what's done, what's next
    - `memory/daily/YYYY-MM-DD.md` — add timestamped entry: `[HH:MM TZ] task-id: what you did`
 
-4. **On completion:** (ALL steps required!)
+5. **Before marking complete: VALIDATION PHASE** ⚠️
+   
+   > **DO NOT SKIP THIS.** False "done" status wastes everyone's time.
+   
+   Run through this checklist and document results in progress file:
+   
+   **Build & Syntax:**
+   - [ ] Code compiles/builds without errors
+   - [ ] No TypeScript/linting errors introduced
+   - [ ] Imports resolve correctly
+   
+   **Functionality:**
+   - [ ] New code actually works (test it!)
+   - [ ] Edge cases considered and handled
+   - [ ] Error states handled gracefully
+   
+   **Dependencies:**
+   - [ ] All files that depend on changed code still work
+   - [ ] No broken imports elsewhere
+   - [ ] Styles/themes applied correctly if UI work
+   
+   **Integration:**
+   - [ ] Changes integrate with existing codebase
+   - [ ] No conflicts with other recent changes
+   - [ ] Git status clean (all changes committed)
+   
+   **Documentation:**
+   - [ ] Progress file has complete work log
+   - [ ] Decisions and rationale documented
+   - [ ] Any gotchas noted for future reference
+   
+   **If ANY validation fails:** Do NOT mark complete. Fix it first or escalate.
+
+6. **On completion:** (ALL steps required, ONLY after validation passes!)
    - ✅ Update `memory/projects/{project}/_overview.md` with final status
    - ✅ Add completion entry to `memory/daily/YYYY-MM-DD.md` with timestamp
+   - ✅ Include validation summary: "Validated: build ✓, tests ✓, deps ✓"
    - ✅ Auto-archive task in `PROACTIVE-JOBS.md`
    - ✅ Remove heartbeat file
-   - ✅ Slack #aibot-chat: "[task-id] completed!"
+   - ✅ Slack #aibot-chat: "[task-id] completed! Validation: ✓ build, ✓ tests, ✓ integration"
 
-5. **On failure (can't complete at your tier):**
-   - Log reason in progress file
+7. **On failure (can't complete at your tier):**
+   - Log reason in progress file with full context
+   - Document what was tried and why it didn't work
    - Update Escalation field in `PROACTIVE-JOBS.md`
    - Add failure entry to daily log with timestamp
    - Exit cleanly (next cron spawns higher tier)
