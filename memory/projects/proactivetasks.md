@@ -47,6 +47,8 @@ Self-managing task execution system for **continuous project work** (NOT schedul
 
 **The rule:** If you can't write explicit instructions, it's not a Haiku task. Set `Min Model` appropriately when defining tasks.
 
+**Escalation:** If the assigned model fails, next run uses the next tier up (Haiku → Sonnet → Opus). But proper upfront planning reduces failures.
+
 ### 3. Sub-Agent Behavior
 1. Update heartbeat immediately (claim task)
 2. Read progress file for resume point
