@@ -150,6 +150,19 @@ When spawned for a proactive task:
 1. **First thing:** Update your heartbeat file immediately
    - Write to `scheduler/heartbeats/{task-id}.json`
    - This claims the task and prevents duplicate spawns
+   - **USE THIS EXACT FORMAT:**
+     ```json
+     {
+       "taskId": "your-task-id",
+       "sessionKey": "agent:main:subagent:your-uuid",
+       "startedAt": "2026-02-10T00:30:00Z",
+       "lastHeartbeat": "2026-02-10T00:30:00Z",
+       "status": "running",
+       "currentPhase": "Brief description of current work",
+       "model": "opus"
+     }
+     ```
+   - **Update `lastHeartbeat` timestamp every 5-10 minutes!**
 
 2. **During work:** Track EVERYTHING in progress file
    - `scheduler/progress/{task-id}.md` — maintain a detailed work log:
