@@ -27,6 +27,7 @@
 ### Active Projects
 | Project | Status | Last Updated | Description |
 |---------|--------|--------------|-------------|
+| [Proactive Tasks](projects/proactivetasks.md) | ✅ Live | 2026-02-09 | Autonomous continuous work system |
 | [HAOS](projects/haos/_overview.md) | 🟢 Active | 2026-02-09 | Discord-clone UI for Element-web (proactive task) |
 | [Matrix on dev2](projects/matrix-dev2.md) | ✅ Live | 2026-02-09 | Self-hosted Matrix/Element/Synapse |
 | [ConnectedDrivingPipelineV4](projects/connected-driving-pipeline.md) | 🟢 Active | 2026-02-04 | ML pipeline for CV data (**Jaekel server only**) |
