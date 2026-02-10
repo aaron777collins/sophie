@@ -15,6 +15,7 @@
 - **Status:** in-progress
 - **Escalation:** none
 - **Notes:** Multi-file TSX transforms, complex architecture - starts at Sonnet
+- **Instructions:** Work in `/home/ubuntu/repos/haos`. Commit changes frequently with descriptive messages. Push to remote after each meaningful chunk of work. Read `memory/projects/haos/_overview.md` for current state.
 
 ## Archived Tasks
 

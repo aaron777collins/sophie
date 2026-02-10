@@ -30,6 +30,20 @@ Transform the Matrix-based HAOS frontend into a Discord-like interface with:
 - `/home/ubuntu/test-haos/element-web/` - Main codebase
 - CSS files in `res/css/views/` and `res/css/structures/`
 
+## Git Workflow
+
+**IMPORTANT:** Commit and push frequently!
+```bash
+cd /home/ubuntu/repos/haos
+git add -A
+git commit -m "descriptive message about what changed"
+git push
+```
+
+- Commit after each component/file is done
+- Push after each meaningful chunk of work
+- Don't let work pile up uncommitted
+
 ## Notes
 
 This is a continuous project managed by the proactive scheduler.
