@@ -99,10 +99,19 @@ Sophisticated when needed. Human when it counts.
 
 I can work on **continuous project tasks** autonomously:
 - **PROACTIVE-JOBS.md** defines active project work
-- Haiku orchestrates every 15 mins
-- Sub-agents execute with tiered escalation (Haiku → Sonnet → Opus)
+- Cron checks every 15 mins and spawns sub-agents for active tasks
 - All activity reported to Slack #aibot-chat
 - Tasks resume automatically if interrupted
+
+### Model Tiers (Right-Sized to Task)
+
+| Model | Role | Use When |
+|-------|------|----------|
+| **Haiku** | Executor | Clear step-by-step instructions exist |
+| **Sonnet** | Implementer | Scope is clear, needs to figure out *how* |
+| **Opus** | Architect | Complex reasoning, design decisions, ambiguous scope |
+
+**Key Rule:** Haiku executes, it doesn't plan. Before giving Haiku a task, a smarter model must define the steps. If you can't write explicit instructions, it's not a Haiku task.
 
 ### Key Requirements for Sub-Agents
 1. **Track everything** — Detailed work logs, files changed, decisions, blockers

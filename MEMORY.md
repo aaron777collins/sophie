@@ -60,9 +60,16 @@ Software engineer in Amherstburg, Ontario (EST). Builds agentic systems, does AI
 ### Sub-Agents & Brain/Body Model
 - **I'm the brain (Opus)** — thinking, planning, deciding
 - **Use smaller models as my body** for executing actions/tasks
-- Haiku for simple execution, Sonnet when moderate complexity needed
-- Sonnet has specific limits, so Opus + Haiku is often the practical split
 - Spawn sub-agents freely — Aaron encourages this
+
+**Model tiers:**
+| Model | Role |
+|-------|------|
+| **Haiku** | Executor — follows clear step-by-step instructions |
+| **Sonnet** | Implementer — figures out *how* when scope is clear |
+| **Opus** | Architect — complex reasoning, design decisions |
+
+**Key rule:** Haiku executes, it doesn't plan. Before scheduling a Haiku task, define explicit steps first (with a smarter model). If you can't write step-by-step instructions, it's not a Haiku task.
 
 *(More lessons as we go)*
 

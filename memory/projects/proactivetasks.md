@@ -10,8 +10,7 @@
 
 Self-managing task execution system for **continuous project work** (NOT scheduled jobs).
 
-- Haiku cron orchestrates every 15 mins
-- Sub-agents execute with tiered escalation (Haiku → Sonnet → Opus)
+- Cron checks every 15 mins and spawns sub-agents for active tasks
 - All activity reported to Slack #aibot-chat
 - Tasks auto-resume if agents die
 
@@ -36,12 +35,17 @@ Self-managing task execution system for **continuous project work** (NOT schedul
 - Checks heartbeat files + sessions_list for agent health
 - Spawns sub-agents for stale/dead tasks
 
-### 2. Model Escalation
-| Tier | When Used |
-|------|-----------|
-| Haiku | Simple tasks (default) |
-| Sonnet | Complex tasks, or Haiku failed |
-| Opus | Extreme complexity (both failed) |
+### 2. Model Tiers (Right-Sized to Task)
+
+> ⚠️ **Haiku executes, it doesn't plan.** Before scheduling ANY task, define explicit steps with a smarter model.
+
+| Model | Role | Use When |
+|-------|------|----------|
+| **Haiku** | Executor | Clear step-by-step instructions exist |
+| **Sonnet** | Implementer | Scope is clear, needs to figure out *how* |
+| **Opus** | Architect | Complex reasoning, design decisions |
+
+**The rule:** If you can't write explicit instructions, it's not a Haiku task. Set `Min Model` appropriately when defining tasks.
 
 ### 3. Sub-Agent Behavior
 1. Update heartbeat immediately (claim task)
