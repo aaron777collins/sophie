@@ -9,6 +9,10 @@
 > - If you can't fully complete something → be honest, don't claim it's done
 > - Every completion must pass validation: builds, works end-to-end, no TODOs left
 
+> 📝 **KEEP DOCS IN SYNC**
+> - After completing tasks: update `MASTER-TODO.md` in the project repo!
+> - Check off completed items, update percentages, remove blockers that are solved
+
 ## Active Tasks
 
 ### haos-phase1-themes
@@ -27,11 +31,17 @@
 - **Min Model:** sonnet
 - **Priority:** high
 - **Project:** haos
-- **Description:** Create server creation wizard with templates (gaming, friends, community, creators). Tasks P3-001 to P3-018.
+- **Description:** Complete server wizard Matrix integration. UI done (HaosServerWizard.tsx), needs Space creation. Tasks P3-008 to P3-018.
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** in-progress
 - **Escalation:** none
-- **Instructions:** Build multi-step modal wizard. Create Matrix Space on submit with default categories, channels, and roles.
+- **Instructions:** 
+  1. ✅ Wizard UI complete with templates (Gaming, Friends, Community, Creators)
+  2. [ ] P3-008-P3-011: Server icon handling (upload, crop, save)
+  3. [ ] P3-012-P3-018: Create Matrix Space on submit with default categories/channels/roles
+  4. Read existing HaosServerWizard.tsx, add Matrix SDK integration
+  5. Test Space creation end-to-end
+  6. Update MASTER-TODO.md when done!
 
 ### haos-phase3-roles
 - **Type:** continuous
@@ -54,8 +64,15 @@
 - **Created:** 2026-02-10
 - **Status:** pending
 - **Escalation:** none
-- **Notes:** Requires LiveKit server setup. Complex real-time infrastructure.
-- **Instructions:** Design voice channel state events (io.haos.voice.*). Create JWT token generation for LiveKit. Build connection manager with reconnection logic.
+- **Notes:** ✅ LiveKit server ALREADY RUNNING on dev2 (via Element-Call). Just need to wire up HAOS to it.
+- **Instructions:** 
+  1. Study existing Element-Call LiveKit integration on dev2
+  2. Design io.haos.voice.* state events for Discord-style voice channels
+  3. Reuse or adapt token service from Element-Call
+  4. Create VoiceConnectionManager with reconnection logic
+  5. Hook into existing LiveKit server
+  6. UI components already exist (HaosVoicePanel, HaosVoiceUser, HaosVoiceControls)
+  7. Update MASTER-TODO.md when done!
 
 ### haos-visual-validation
 - **Type:** continuous

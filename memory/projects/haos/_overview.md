@@ -121,12 +121,35 @@ https://github.com/aaron777collins/haos.git
 
 **All commits are on:** `feature/url-preview-and-embeds` branch (commit 84896b6)
 
+## Infrastructure (dev2.aaroncollins.info)
+
+- ✅ **Matrix/Synapse** — Running
+- ✅ **LiveKit** — Running (via Element-Call integration)
+- ✅ **Element Web** — Currently deployed (HAOS will replace)
+
 ## Next Steps
 
 1. **Deploy to dev2** — Replace Element with HAOS webapp
-2. **Visual testing** — Verify Discord-style appearance
+2. **Visual testing** — Verify Discord-style appearance  
 3. **Matrix integration** — Test messaging, rooms, spaces
-4. **Voice/video** — Test LiveKit integration
+4. **Voice/video** — Hook into existing LiveKit (already running!)
+
+## Remaining Work (per MASTER-TODO.md)
+
+### Phase 1 — Theme System
+- [ ] Light theme, AMOLED theme, theme switcher, accent colors
+
+### Phase 2 — Minor items
+- [ ] Virtual scrolling, jump to bottom, draft persistence
+- [ ] Custom server emoji, GIF picker, stickers, soundboard
+
+### Phase 3 — Server & Roles
+- [x] Server wizard ✅
+- [ ] Server settings modal, role system (complex)
+
+### Phase 4 — Voice (LiveKit already available!)
+- [x] Voice UI components ✅
+- [ ] Wire up to LiveKit (token service, connection manager)
 
 ## Notes
 
