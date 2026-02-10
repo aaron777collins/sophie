@@ -14,7 +14,7 @@
 - **Created:** 2026-02-10
 - **Status:** pending
 - **Escalation:** none
-- **Instructions:** Work in `/home/ubuntu/repos/haos/apps/web`. Read `MASTER-TODO.md` for task details. Focus on theme system completion. Commit after each task.
+- **Instructions:** Work in `/home/ubuntu/repos/haos/apps/web`. Read `MASTER-TODO.md` for task details. Focus on theme system completion. Commit after each task. Read AGENTS.md memory section - update memory files!
 
 ### haos-phase2-autocomplete
 - **Type:** continuous
