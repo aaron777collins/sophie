@@ -30,7 +30,7 @@
 - **Project:** haos
 - **Description:** Visual validation of HAOS themes - compare to Discord, screenshot and identify issues
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** in-progress
 - **Escalation:** none
 - **Notes:** Take screenshots, compare to Discord, list all visual discrepancies
 - **Instructions:**
@@ -58,7 +58,7 @@
 - **Project:** haos
 - **Description:** Visual validation of all UI components - modals, menus, buttons, inputs
 - **Created:** 2026-02-10
-- **Status:** pending
+- **Status:** in-progress
 - **Escalation:** none
 - **Notes:** Check every component matches Discord styling
 - **Instructions:**
@@ -87,6 +87,292 @@
 ---
 
 ## Pending Tasks (Queued in Order)
+
+### haos-mobile-critical-foundation
+- **Type:** continuous
+- **Min Model:** opus
+- **Priority:** critical
+- **Project:** haos
+- **Description:** Fix critical mobile layout - safe areas, viewport, and basic navigation
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Mobile is completely broken - this is the foundation fix
+- **Instructions:**
+  1. Read /home/ubuntu/repos/haos/HAOS-MOBILE-TASKS.md for full context
+  2. Fix viewport meta tag in index.html:
+     - `<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">`
+  3. Create /home/ubuntu/repos/haos/apps/web/res/css/haos/_mobile.pcss with:
+     - Safe area CSS custom properties
+     - env(safe-area-inset-*) application to headers/footers
+     - Basic mobile breakpoint overrides
+  4. Add import to /home/ubuntu/repos/haos/apps/web/res/css/haos/index.pcss
+  5. Create useMobile() React hook in /home/ubuntu/repos/haos/apps/web/src/haos/hooks/
+  6. Add -webkit-overflow-scrolling: touch to scroll containers
+  7. Set font-size: 16px on inputs to prevent iOS zoom
+  8. Add touch-action: manipulation to prevent double-tap zoom
+  9. Test that layout no longer breaks completely on mobile viewport
+  10. Build and verify no errors
+  11. Update HAOS-MOBILE-TASKS.md with completed items
+  12. Git commit with "feat(mobile): critical foundation fixes"
+
+### haos-mobile-navigation
+- **Type:** continuous
+- **Min Model:** opus
+- **Priority:** critical
+- **Project:** haos
+- **Description:** Create mobile navigation system - bottom nav bar and drawer
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Users cannot navigate at all on mobile without this
+- **Instructions:**
+  1. Read /home/ubuntu/repos/haos/HAOS-MOBILE-TASKS.md for full context
+  2. Create MobileNavBar.tsx component:
+     - Fixed to bottom with safe-area padding
+     - 5 tabs: Home, Servers, Search, Notifications, You
+     - Unread badges and mention counts
+     - Tab indicator animation
+  3. Create MobileDrawer.tsx component:
+     - Slides in from left (server/channel list)
+     - Backdrop overlay
+     - Touch gesture to open/close
+     - 280px width
+  4. Create MobileHeader.tsx:
+     - Hamburger menu button
+     - Back navigation support
+     - 56px height with safe-area
+  5. Add CSS to _mobile.pcss for all components
+  6. Integrate into main layout (show only on mobile)
+  7. Hide desktop sidebars on mobile (< 768px)
+  8. Test navigation flow works on mobile
+  9. Build and verify no errors
+  10. Update HAOS-MOBILE-TASKS.md with completed items
+  11. Git commit with "feat(mobile): navigation system"
+
+### haos-mobile-touch-targets
+- **Type:** continuous
+- **Min Model:** sonnet
+- **Priority:** high
+- **Project:** haos
+- **Description:** Fix touch targets - all interactive elements must be 44px minimum
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Buttons are unusable on touch devices
+- **Instructions:**
+  1. Read /home/ubuntu/repos/haos/HAOS-MOBILE-TASKS.md for full context
+  2. Create touch target utility class in _mobile.pcss:
+     ```css
+     .haos-touch-target {
+       min-height: 44px;
+       min-width: 44px;
+     }
+     ```
+  3. Add @media (hover: none) rules to increase sizes for:
+     - Channel items (48px height)
+     - Member items (48px height)
+     - Message action buttons
+     - Emoji picker emojis
+     - Reaction buttons
+     - Input fields (48px height)
+  4. Remove hover-only states for touch devices
+  5. Add active states for touch feedback
+  6. Test tap targets with browser dev tools (mobile mode)
+  7. Build and verify no errors
+  8. Update HAOS-MOBILE-TASKS.md with completed items
+  9. Git commit with "feat(mobile): touch-friendly tap targets"
+
+### haos-mobile-modals-sheets
+- **Type:** continuous
+- **Min Model:** opus
+- **Priority:** high
+- **Project:** haos
+- **Description:** Convert modals to mobile-friendly bottom sheets
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Modals overflow and break on mobile
+- **Instructions:**
+  1. Read /home/ubuntu/repos/haos/HAOS-MOBILE-TASKS.md for full context
+  2. Create MobileSheet.tsx component:
+     - Bottom sheet that slides up from bottom
+     - Drag handle at top
+     - Drag-to-dismiss gesture
+     - Snap points (partial height, full height)
+     - Backdrop with touch-to-dismiss
+  3. Create useMobileSheet() hook for sheet management
+  4. Add mobile overrides to _modals.pcss:
+     - Full-screen modals on mobile
+     - Bottom sheet styling
+     - Safe-area bottom padding
+  5. Apply to settings modal (full-screen on mobile)
+  6. Apply to server wizard (full-screen on mobile)
+  7. Apply to emoji picker (bottom sheet on mobile)
+  8. Apply to context menus (bottom sheet on mobile)
+  9. Test all modal interactions on mobile
+  10. Build and verify no errors
+  11. Update HAOS-MOBILE-TASKS.md with completed items
+  12. Git commit with "feat(mobile): bottom sheet modals"
+
+### haos-mobile-composer
+- **Type:** continuous
+- **Min Model:** opus
+- **Priority:** high
+- **Project:** haos
+- **Description:** Fix message composer for mobile keyboards and touch
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Composer unusable with virtual keyboard
+- **Instructions:**
+  1. Read /home/ubuntu/repos/haos/HAOS-MOBILE-TASKS.md for full context
+  2. Implement keyboard viewport handling:
+     - Use visualViewport API to detect keyboard
+     - Adjust composer position when keyboard opens
+     - Keep input visible above keyboard
+  3. Create mobile attachment button:
+     - Camera option
+     - Photo library option
+     - File option
+  4. Create quick emoji bar:
+     - Recent/favorite emojis
+     - Full picker accessible
+  5. Style send button for touch (larger, visible)
+  6. Handle auto-resize textarea on mobile
+  7. Test typing with iOS and Android keyboards
+  8. Build and verify no errors
+  9. Update HAOS-MOBILE-TASKS.md with completed items
+  10. Git commit with "feat(mobile): composer improvements"
+
+### haos-mobile-messages
+- **Type:** continuous
+- **Min Model:** sonnet
+- **Priority:** high
+- **Project:** haos
+- **Description:** Optimize message display for mobile screens
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Messages hard to read and interact with on mobile
+- **Instructions:**
+  1. Read /home/ubuntu/repos/haos/HAOS-MOBILE-TASKS.md for full context
+  2. Add mobile message layout overrides:
+     - Compact mode for narrow screens
+     - Smaller avatars (32px)
+     - Truncate long usernames
+     - Stack reactions instead of inline
+  3. Implement long-press for message context menu
+  4. Create swipe-to-reply gesture (optional, if time)
+  5. Optimize embed widths for mobile
+  6. Create full-screen image viewer
+  7. Add "show more" for very long messages
+  8. Test message readability on various screen sizes
+  9. Build and verify no errors
+  10. Update HAOS-MOBILE-TASKS.md with completed items
+  11. Git commit with "feat(mobile): message display optimization"
+
+### haos-mobile-gestures
+- **Type:** continuous
+- **Min Model:** sonnet
+- **Priority:** medium
+- **Project:** haos
+- **Description:** Implement touch gestures for native mobile feel
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Touch interactions feel non-native
+- **Instructions:**
+  1. Read /home/ubuntu/repos/haos/HAOS-MOBILE-TASKS.md for full context
+  2. Implement pull-to-refresh for messages
+  3. Implement swipe-from-left to open drawer
+  4. Implement swipe-from-right for member list
+  5. Add momentum scrolling to all scroll containers
+  6. Implement pinch-to-zoom on images
+  7. Add haptic feedback (navigator.vibrate) for gestures
+  8. Ensure gestures don't conflict with scrolling
+  9. Test gesture interactions feel natural
+  10. Build and verify no errors
+  11. Update HAOS-MOBILE-TASKS.md with completed items
+  12. Git commit with "feat(mobile): gesture support"
+
+### haos-mobile-pickers
+- **Type:** continuous
+- **Min Model:** sonnet
+- **Priority:** medium
+- **Project:** haos
+- **Description:** Optimize pickers (emoji, GIF, etc.) for mobile
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Pickers overflow and are hard to use on mobile
+- **Instructions:**
+  1. Read /home/ubuntu/repos/haos/HAOS-MOBILE-TASKS.md for full context
+  2. Create full-screen emoji picker for mobile:
+     - Larger emojis (36px vs 24px)
+     - Full-screen sheet
+     - Category tabs at top
+     - Search at top
+  3. Create full-screen GIF picker for mobile
+  4. Create mobile user picker (for DMs, mentions)
+  5. Create mobile color picker (for roles, themes)
+  6. Ensure all pickers dismissible with back gesture
+  7. Test all pickers on mobile
+  8. Build and verify no errors
+  9. Update HAOS-MOBILE-TASKS.md with completed items
+  10. Git commit with "feat(mobile): optimized pickers"
+
+### haos-mobile-performance
+- **Type:** continuous
+- **Min Model:** sonnet
+- **Priority:** medium
+- **Project:** haos
+- **Description:** Optimize performance for mobile devices
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** App feels sluggish on mobile
+- **Instructions:**
+  1. Read /home/ubuntu/repos/haos/HAOS-MOBILE-TASKS.md for full context
+  2. Lazy load emoji picker, GIF picker, sticker picker
+  3. Reduce animation complexity on mobile
+  4. Add `will-change` hints for animated elements
+  5. Optimize virtual scrolling for touch
+  6. Add skeleton loading screens for slow loads
+  7. Reduce number of cached messages on mobile
+  8. Test performance on low-end device (throttled CPU)
+  9. Aim for 60fps scrolling
+  10. Build and verify no errors
+  11. Update HAOS-MOBILE-TASKS.md with completed items
+  12. Git commit with "perf(mobile): performance optimizations"
+
+### haos-mobile-validation
+- **Type:** continuous
+- **Min Model:** opus
+- **Priority:** high
+- **Project:** haos
+- **Description:** Full mobile validation - screenshot and compare to Discord mobile
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Final validation that mobile experience is polished
+- **Instructions:**
+  1. Read /home/ubuntu/repos/haos/HAOS-MOBILE-TASKS.md for full context
+  2. Open HAOS on mobile device or emulator (375px width)
+  3. Test complete user flow:
+     - Login/register
+     - View servers
+     - Navigate channels
+     - Read messages
+     - Send message
+     - Add reaction
+     - Open settings
+     - Switch themes
+  4. Take screenshots at each step
+  5. Compare to Discord mobile app screenshots
+  6. Document all remaining issues
+  7. Create fix tasks for any issues found
+  8. Post screenshots to Slack #aibot-chat for Aaron's review
 
 ### haos-validate-core-messaging
 - **Type:** continuous
