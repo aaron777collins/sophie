@@ -50,6 +50,30 @@ Self-managing task execution system for **continuous project work** (NOT schedul
 4. On completion: archive task, remove heartbeat, Slack ✅
 5. On failure: update Escalation field, exit cleanly
 
+### 3b. Nested Sub-Agents (Children of Children)
+
+Sub-agents CAN spawn their own children for parallel work:
+
+**Shared Heartbeat Rule:**
+- ALL agents in the task tree update the SAME heartbeat file
+- `scheduler/heartbeats/{task-id}.json` is shared
+- As long as ANY agent is alive, heartbeat stays fresh
+
+**Parent Responsibilities:**
+- Stay alive while children work
+- Monitor children via `sessions_list`
+- Keep updating heartbeat
+- Aggregate results when done
+
+**Orphan Recovery:**
+- If parent dies, orchestrator spawns new parent
+- New parent checks `sessions_list` for existing children
+- Waits for orphans instead of duplicating work
+
+**Child Labels:**
+- Use descriptive labels: `{task-id}-{subtask}`
+- Example: `haos-implementation-voice-tsx`
+
 ### 4. Slack Notifications
 
 **Status Summary (every 15 min when tasks exist):**
@@ -117,3 +141,4 @@ _Next check: 15 min_
 - [2026-02-09 23:12 EST] System live, HAOS queued as first task
 - [2026-02-09 23:16 EST] Added early-exit optimization for empty queue
 - [2026-02-09 23:19 EST] Added status summary output to Slack each run
+- [2026-02-09 23:32 EST] Added nested sub-agent support with shared heartbeat

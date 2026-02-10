@@ -157,6 +157,27 @@ When spawned for a proactive task:
    - Update Escalation field in `PROACTIVE-JOBS.md`
    - Exit cleanly (next cron spawns higher tier)
 
+### Spawning Child Sub-Agents
+
+You CAN spawn child sub-agents for parallel work. Rules:
+
+1. **Shared heartbeat:** ALL agents (you + children + grandchildren) update the SAME heartbeat file: `scheduler/heartbeats/{task-id}.json`
+
+2. **Before spawning:** You're responsible for the task until children complete
+   - Stay alive and monitor children via `sessions_list`
+   - Keep updating heartbeat while children work
+   - Aggregate results when children finish
+
+3. **If you're a NEW parent and children already exist:**
+   - Check `sessions_list` for agents with labels containing your task-id
+   - If orphaned children are running, wait for them instead of duplicating work
+   - Read progress file to understand current state
+
+4. **Child agent responsibilities:**
+   - Update the shared heartbeat file (keeps it fresh)
+   - Report results back to parent (or write to progress file)
+   - Use descriptive labels: `{task-id}-{subtask}` (e.g., `haos-implementation-voice-tsx`)
+
 ### Model Escalation
 
 Tasks start at the cheapest tier that can handle them:

@@ -368,6 +368,60 @@ Do NOT execute tasks yourself - only orchestrate and report.`,
    - Do NOT keep trying at current tier
 ```
 
+### 2b. Nested Sub-Agents (Spawning Children)
+
+Sub-agents CAN spawn their own children for parallel work (e.g., multiple TSX transforms at once).
+
+**Shared Heartbeat Architecture:**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    TASK: haos-implementation                    │
+│                                                                 │
+│  scheduler/heartbeats/haos-implementation.json  ← SHARED FILE  │
+│                           ▲                                     │
+│           ┌───────────────┼───────────────┐                     │
+│           │               │               │                     │
+│      Parent Agent    Child Agent 1   Child Agent 2              │
+│      (haos-impl)     (haos-voice)    (haos-react)              │
+│           │               │               │                     │
+│           └───────────────┴───────────────┘                     │
+│                    ALL update same heartbeat                    │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Rules:**
+
+1. **Shared heartbeat file:** All agents in the task tree update `scheduler/heartbeats/{task-id}.json`
+   - As long as ANY agent is alive → heartbeat stays fresh
+   - Only when ALL agents die → heartbeat goes stale
+
+2. **Parent responsibilities:**
+   - Stay alive while children work
+   - Monitor children via `sessions_list`
+   - Keep updating heartbeat while waiting
+   - Aggregate results when children complete
+
+3. **Child labels:** Use descriptive labels for easy identification
+   - Pattern: `{task-id}-{subtask}`
+   - Example: `haos-implementation-voice-tsx`
+
+4. **Orphan recovery:** If parent dies while children work:
+   - Orchestrator sees stale heartbeat, spawns new parent
+   - New parent checks `sessions_list` for agents matching task-id
+   - If orphaned children exist: wait for them, don't duplicate work
+   - Read progress file to understand current state
+
+**Child Agent Workflow:**
+```
+1. Receive task from parent (via sessions_spawn)
+2. Update shared heartbeat immediately
+3. Do the work
+4. Keep updating heartbeat every 5-10 mins
+5. Report results to parent OR write to progress file
+6. Exit when done (parent or orchestrator handles cleanup)
+```
+
 ### 3. Agent Verification (Dual Check)
 
 Heartbeat files alone aren't enough — an agent can crash without updating the file.
