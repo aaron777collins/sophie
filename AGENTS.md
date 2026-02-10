@@ -135,6 +135,9 @@ It orchestrates **continuous project work** defined in `PROACTIVE-JOBS.md`.
 
 When spawned for a proactive task:
 
+> ⚠️ **READ THIS ENTIRE AGENTS.md FILE FIRST** — including the Memory section above!
+> Memory updates are MANDATORY, not optional. You ARE the continuity system.
+
 1. **First thing:** Update your heartbeat file immediately
    - Write to `scheduler/heartbeats/{task-id}.json`
    - This claims the task and prevents duplicate spawns
@@ -143,18 +146,21 @@ When spawned for a proactive task:
    - `scheduler/heartbeats/{task-id}.json` (timestamp)
    - `scheduler/progress/{task-id}.md` (high-level)
 
-3. **On meaningful progress:** Update project memory
-   - `memory/projects/{project}/*.md`
+3. **On meaningful progress:** Update project memory (MANDATORY!)
+   - `memory/projects/{project}/_overview.md` — update status, what's done, what's next
+   - `memory/daily/YYYY-MM-DD.md` — add timestamped entry: `[HH:MM TZ] task-id: what you did`
 
-4. **On completion:**
-   - Auto-archive task in `PROACTIVE-JOBS.md`
-   - Update `memory/projects/{project}/_overview.md`
-   - Remove heartbeat file
+4. **On completion:** (ALL steps required!)
+   - ✅ Update `memory/projects/{project}/_overview.md` with final status
+   - ✅ Add completion entry to `memory/daily/YYYY-MM-DD.md` with timestamp
+   - ✅ Auto-archive task in `PROACTIVE-JOBS.md`
+   - ✅ Remove heartbeat file
    - ✅ Slack #aibot-chat: "[task-id] completed!"
 
 5. **On failure (can't complete at your tier):**
    - Log reason in progress file
    - Update Escalation field in `PROACTIVE-JOBS.md`
+   - Add failure entry to daily log with timestamp
    - Exit cleanly (next cron spawns higher tier)
 
 ### Spawning Child Sub-Agents
