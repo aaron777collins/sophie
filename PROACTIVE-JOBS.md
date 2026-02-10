@@ -55,33 +55,6 @@
   13. Update HAOS-COMPREHENSIVE-TASKS.md with completions
   14. Git commit with descriptive message
 
-### haos-phase2-messages
-- **Type:** continuous
-- **Min Model:** sonnet
-- **Priority:** high
-- **Project:** haos
-- **Description:** Complete Phase 2 message display features (P2-015 to P2-035)
-- **Created:** 2026-02-10
-- **Status:** pending
-- **Escalation:** none
-- **Notes:** Virtual scrolling, jump button, markdown parsing
-- **Instructions:**
-  1. Implement P2-015: Virtual scrolling using react-window
-  2. Implement P2-016: Jump to bottom FAB button
-  3. Implement P2-025: Spoiler text (click to reveal)
-  4. Implement P2-026: Code block syntax highlighting (highlight.js or prism)
-  5. Implement P2-027: Inline code styling
-  6. Implement P2-028: Quote block styling
-  7. Implement P2-029: Header markdown (# ## ###)
-  8. Implement P2-030: Bold/italic/underline/strikethrough
-  9. Implement P2-031: List markdown (bullets/numbers)
-  10. Implement P2-032: Link auto-detection
-  11. Implement P2-033: Masked links [text](url)
-  12. Implement P2-034: Timestamp formatting (<t:epoch:format>)
-  13. Implement P2-035: Message search highlight
-  14. Build and verify
-  15. Update HAOS-COMPREHENSIVE-TASKS.md
-
 ### haos-phase2-composer
 - **Type:** continuous
 - **Min Model:** sonnet
@@ -854,6 +827,11 @@
 ---
 
 ## Archived Tasks
+
+### haos-phase2-messages
+- **Completed:** 2026-02-10 03:15 EST
+- **Model Used:** opus (45942523-478b-4523-8693-c92827a22a82)
+- **Notes:** P2-016 to P2-035 complete. Created HaosJumpToBottom, HaosSpoiler, HaosCodeBlock, HaosMarkdownRenderer (full Discord markdown with timestamps, quotes, headers, lists, links), HaosSearchHighlight. Added ~400 lines CSS. P2-015 virtual scrolling DEFERRED (Element has sophisticated ScrollPanel system). Git commit ce82756.
 
 ### haos-phase2-composer
 - **Completed:** 2026-02-11 00:45 EST
