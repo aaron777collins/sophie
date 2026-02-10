@@ -267,12 +267,39 @@ You CAN spawn child sub-agents for parallel work. Rules:
    - Report results back to parent (or write to progress file)
    - Use descriptive labels: `{task-id}-{subtask}` (e.g., `haos-implementation-voice-tsx`)
 
-### Model Escalation
+### Task Planning (BEFORE Scheduling)
 
-Tasks start at the cheapest tier that can handle them:
-- **Haiku** → Default for simple tasks
-- **Sonnet** → Complex tasks, or if Haiku failed
-- **Opus** → Only if both Haiku and Sonnet failed (rare)
+> ⚠️ **NEVER give Haiku a vague task.** Haiku executes — it doesn't plan.
+
+Before scheduling ANY task:
+1. **Smarter model defines the steps** — Sonnet or Opus breaks down the work into clear, concrete steps
+2. **Steps go in the Instructions field** — Explicit enough that Haiku just follows them
+3. **Min Model reflects complexity** — If steps are inherently complex, set `Min Model: sonnet` or `opus`
+
+**Good Instructions (for Haiku):**
+```
+1. Open /home/ubuntu/repos/haos/apps/web/src/components/Button.tsx
+2. Change background-color from #7289da to #5865F2
+3. Run `pnpm build` to verify no errors
+4. Commit with message "fix: update button color to Discord brand blue"
+```
+
+**Bad Instructions (Haiku will fail):**
+```
+Implement the theme system for the app. Make it look good.
+```
+
+The rule: **If you can't write step-by-step instructions, it's not a Haiku task.**
+
+### Model Tiers
+
+| Model | Role | Use When |
+|-------|------|----------|
+| **Haiku** | Executor | Clear steps exist, just needs to follow them |
+| **Sonnet** | Implementer | Needs to figure out *how* but scope is clear |
+| **Opus** | Architect | Complex reasoning, ambiguous scope, design decisions |
+
+**Escalation:** If a model fails, next run uses the next tier up. But proper planning reduces failures.
 
 ## Safety
 
