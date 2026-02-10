@@ -84,6 +84,43 @@ Transform the Matrix-based HAOS frontend into a Discord-like interface with:
 
 https://github.com/aaron777collins/haos.git
 
+## Recent Updates
+
+### [2026-02-10 01:15 EST] Thread System Complete ✅
+
+**Implemented (P2-102 to P2-107):**
+- P2-102: Thread preview in main chat with participant avatars, reply count, timestamps
+- P2-103: Thread archive/unarchive using Matrix room account data
+- P2-104: Thread member count derived from timeline events
+- P2-105: Per-thread notification settings (all/mentions/none)
+- P2-106: Auto-archive based on configurable inactivity (1h/24h/3d/7d/never)
+- P2-107: Discord-style threads list panel with filter and sort
+
+**Components Updated/Created:**
+- `useThreadOperations.ts` - Full Matrix SDK integration for thread operations
+- `ThreadsListPanel.tsx` - Discord-style threads panel with filtering
+- `ThreadPreview.tsx` - Inline thread preview with live updates
+- `ThreadNotificationSettings.tsx` - Per-thread notification dialog
+- `ThreadSummary.tsx` - Enhanced with member count display
+- `_threads.pcss` - Extended styling for new features
+
+**Storage:** Room account data events (io.haos.archived_threads, io.haos.thread_notifications, io.haos.thread_auto_archive)
+
+**Commit:** `61a9baa` on `feature/url-preview-and-embeds`
+
+### [2026-02-10 00:46 EST] URL Preview & Embeds Complete ✅
+
+**Implemented:**
+- SpotifyEmbed.tsx - Full implementation with URL parsing (track/album/playlist/artist/episode/show)
+- TwitchEmbed.tsx - Full implementation with URL parsing (channel/video/clip/collection)
+- EmbedDetector.ts - Unified URL pattern detection for all platforms
+- HaosEmbed.tsx - Complete rewrite removing TODO placeholders, unified embed dispatcher
+- YouTubeEmbed.tsx - Enhanced with startTime support, better thumbnails, accessibility
+- url-preview-service.ts - Integrated with Matrix SDK, added caching
+- _embeds.pcss - Added Twitch styling to match existing patterns
+
+**All commits are on:** `feature/url-preview-and-embeds` branch (commit 84896b6)
+
 ## Next Steps
 
 1. **Deploy to dev2** — Replace Element with HAOS webapp

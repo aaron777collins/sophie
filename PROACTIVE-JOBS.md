@@ -22,17 +22,6 @@
 - **Escalation:** none
 - **Instructions:** Work in `/home/ubuntu/repos/haos/apps/web`. Read `MASTER-TODO.md` for task details. Focus on theme system completion. Commit after each task. Read AGENTS.md memory section - update memory files!
 
-### haos-phase2-embeds
-- **Type:** continuous
-- **Min Model:** sonnet
-- **Priority:** medium
-- **Project:** haos
-- **Description:** Implement URL preview fetcher and platform-specific embeds (YouTube, Twitter, Spotify, Twitch). Tasks P2-119 to P2-125.
-- **Created:** 2026-02-10
-- **Status:** pending
-- **Escalation:** none
-- **Instructions:** Create Open Graph metadata fetcher. Implement rich embeds for major platforms. Handle embed suppression toggle.
-
 ### haos-phase2-threads
 - **Type:** continuous
 - **Min Model:** sonnet
@@ -99,6 +88,11 @@
   7. Post comparison screenshots to Slack showing before/after and Discord reference
 
 ## Archived Tasks
+
+### haos-phase2-embeds
+- **Completed:** 2026-02-10 00:46 EST
+- **Model Used:** opus
+- **Notes:** Full implementation of URL preview service and platform-specific embeds. Created SpotifyEmbed, TwitchEmbed, EmbedDetector. Enhanced HaosEmbed (removed TODOs), YouTubeEmbed (startTime), url-preview-service (Matrix SDK integration). Added Twitch CSS. All in commit 84896b6.
 
 ### haos-phase2-autocomplete
 - **Completed:** 2026-02-10 01:00 EST
