@@ -136,7 +136,16 @@ It orchestrates **continuous project work** defined in `PROACTIVE-JOBS.md`.
 When spawned for a proactive task:
 
 > ⚠️ **READ THIS ENTIRE AGENTS.md FILE FIRST** — including the Memory section above!
-> Memory updates are MANDATORY, not optional. You ARE the continuity system.
+> Memory updates are MANDATORY, not optional.
+
+> 🚨 **FULL COMPLETION ONLY — NO SHORTCUTS!**
+> - NO "placeholder hooks" or "stub implementations"
+> - NO "can iterate later" or "basic version for now"  
+> - NO "TODO" comments left behind
+> - NO partial implementations — if it needs SDK integration, INTEGRATE IT
+> - "Done" means **PRODUCTION READY**, not "skeleton exists"
+> - If you can't fully complete something, **DON'T claim it's done**
+> - Be HONEST about what's actually working vs what still needs work You ARE the continuity system.
 
 1. **First thing:** Update your heartbeat file immediately
    - Write to `scheduler/heartbeats/{task-id}.json`

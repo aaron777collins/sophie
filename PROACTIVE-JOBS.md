@@ -3,6 +3,12 @@
 > ⚠️ **This is for CONTINUOUS PROJECT WORK only!**  
 > For scheduled tasks (daily, weekly, etc.) use regular cron jobs instead.
 
+> 🚨 **FULL COMPLETION STANDARD**
+> - "Done" means **PRODUCTION READY** — no placeholders, no stubs, no "iterate later"
+> - If a feature needs SDK integration → INTEGRATE IT, don't stub it
+> - If you can't fully complete something → be honest, don't claim it's done
+> - Every completion must pass validation: builds, works end-to-end, no TODOs left
+
 ## Active Tasks
 
 ### haos-phase1-themes
