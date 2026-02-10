@@ -51,13 +51,25 @@ Self-managing task execution system for **continuous project work** (NOT schedul
 5. On failure: update Escalation field, exit cleanly
 
 ### 4. Slack Notifications
-| Event | Emoji |
-|-------|-------|
-| Spawning | 🚀 |
-| Resuming | 🔄 |
-| Escalating | 📈 |
-| Completed | ✅ |
-| Blocked | 🔴 |
+
+**Status Summary (every 15 min when tasks exist):**
+```
+📋 *Proactive Tasks Status*
+
+• *haos-implementation* — 🟢 Running (sonnet) — TSX transforms 65%
+• *fix-api-bug* — 🚀 Just spawned (haiku)
+
+_Next check: 15 min_
+```
+
+**Action Notifications:**
+| Event | Format |
+|-------|--------|
+| Spawning | 🚀 'task-id - spawning model agent' |
+| Resuming | 🔄 'task-id - resuming from checkpoint' |
+| Escalating | 📈 'task-id - escalating from X to Y' |
+| Completed | ✅ 'task-id - completed!' |
+| Blocked | 🔴 'task-id - blocked, needs human' |
 
 ---
 
@@ -104,3 +116,4 @@ Self-managing task execution system for **continuous project work** (NOT schedul
 - [2026-02-09 23:09 EST] Design approved, implementation started
 - [2026-02-09 23:12 EST] System live, HAOS queued as first task
 - [2026-02-09 23:16 EST] Added early-exit optimization for empty queue
+- [2026-02-09 23:19 EST] Added status summary output to Slack each run
