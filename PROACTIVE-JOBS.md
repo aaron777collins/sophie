@@ -22,17 +22,6 @@
 - **Escalation:** none
 - **Instructions:** Work in `/home/ubuntu/repos/haos/apps/web`. Read `MASTER-TODO.md` for task details. Focus on theme system completion. Commit after each task. Read AGENTS.md memory section - update memory files!
 
-### haos-phase2-autocomplete
-- **Type:** continuous
-- **Min Model:** sonnet
-- **Priority:** high
-- **Project:** haos
-- **Description:** Implement Discord-style autocomplete for @mentions, #channels, :emoji:, and /commands. Tasks P2-051 to P2-055.
-- **Created:** 2026-02-10
-- **Status:** pending
-- **Escalation:** none
-- **Instructions:** Work in `/home/ubuntu/repos/haos/apps/web`. Create autocomplete popup component that works for all completion types. Match Discord behavior exactly.
-
 ### haos-phase2-embeds
 - **Type:** continuous
 - **Min Model:** sonnet
@@ -90,7 +79,31 @@
 - **Notes:** Requires LiveKit server setup. Complex real-time infrastructure.
 - **Instructions:** Design voice channel state events (io.haos.voice.*). Create JWT token generation for LiveKit. Build connection manager with reconnection logic.
 
+### haos-visual-validation
+- **Type:** continuous
+- **Min Model:** sonnet
+- **Priority:** critical
+- **Project:** haos
+- **Description:** Validate HAOS UI matches Discord perfectly. Fix any issues until GORGEOUS and professional.
+- **Created:** 2026-02-10
+- **Status:** pending
+- **Escalation:** none
+- **Notes:** Deploy to dev2, view in browser, screenshot, compare to Discord, fix CSS/components until perfect
+- **Instructions:**
+  1. Deploy HAOS production build to dev2.aaroncollins.info (replace Element)
+  2. View in browser, take screenshots of: login, main chat, sidebar, voice panel, settings
+  3. Compare each to Discord screenshots
+  4. Identify visual issues (spacing, colors, fonts, icons, layout)
+  5. Fix issues in code, rebuild, redeploy
+  6. Repeat until UI is PERFECT and professional
+  7. Post comparison screenshots to Slack showing before/after and Discord reference
+
 ## Archived Tasks
+
+### haos-phase2-autocomplete
+- **Completed:** 2026-02-10 01:00 EST
+- **Model Used:** opus
+- **Notes:** Created CommandAutocomplete.tsx. Fixed TypeScript warnings. CSS overrides apply Discord styling to existing Element autocomplete. All 4 types complete: @mentions, #channels, :emoji:, /commands. Git commit ddb9fca.
 
 ### haos-implementation
 - **Completed:** 2026-02-09 23:30 EST

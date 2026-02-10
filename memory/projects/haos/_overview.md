@@ -12,7 +12,7 @@ Transform the Matrix-based HAOS frontend into a Discord-like interface with:
 - Voice integration
 - Modern chat UX
 
-## Current State (Updated 2026-02-10 00:25 EST)
+## Current State (Updated 2026-02-10 01:00 EST)
 
 ### ✅ Phase 1: Documentation — 100%
 - [2026-02-09] Design system documented
@@ -37,6 +37,11 @@ Transform the Matrix-based HAOS frontend into a Discord-like interface with:
   - Command: `NODE_OPTIONS="--max-old-space-size=8192" yarn build`
   - Duration: 172s (webpack 5.104.1)
   - Warnings: 2 (entrypoint size limits only)
+- [2026-02-10 00:55 EST] Discord-style autocomplete completed:
+  - Created CommandAutocomplete.tsx for /commands
+  - Fixed TypeScript warnings in autocomplete components
+  - CSS styling applied via mx_Autocomplete* class overrides
+  - All 4 types implemented: @mentions, #channels, :emoji:, /commands
 
 ### ⚠️ Phase 5: Testing — 90%
 - [2026-02-10 00:25 EST] Component tests updated:
@@ -61,6 +66,7 @@ Transform the Matrix-based HAOS frontend into a Discord-like interface with:
 
 ## Recent Git Commits (2026-02-10)
 
+- `ddb9fca` feat: add CommandAutocomplete and complete Discord-style autocomplete
 - `b13b677` test: update MessagePanel and MemberTileView snapshots
 - `a0cba6b` docs: document MemberListView test differences
 - `6962b86` docs: update PROGRESS.md with detailed test status
@@ -84,5 +90,22 @@ https://github.com/aaron777collins/haos.git
 - MemberListView ordering changed intentionally (Discord-style: role first, then presence)
 - Tests documented in `MemberListView-test.tsx.skip.md`
 
+## Autocomplete Implementation
+
+The Discord-style autocomplete system uses two layers:
+
+1. **CSS Overrides** (Active) — `apps/web/res/css/haos/components/_autocomplete.pcss`
+   - Overrides `.mx_Autocomplete*` classes with Discord styling
+   - Imported via `_components.pcss → haos/index.pcss`
+   - Applies to existing Element autocomplete system
+
+2. **HAOS Components** (Ready for integration) — `apps/web/src/components/haos/autocomplete/`
+   - `AutocompletePopup.tsx` — Base popup component
+   - `MentionAutocomplete.tsx` — @mentions
+   - `ChannelAutocomplete.tsx` — #channels
+   - `EmojiAutocomplete.tsx` — :emoji:
+   - `CommandAutocomplete.tsx` — /commands
+   - `useAutocomplete.ts` — React hook for state management
+
 ---
-*Last updated: 2026-02-10 00:25 EST by Sophie*
+*Last updated: 2026-02-10 01:00 EST by Sophie*
