@@ -104,6 +104,12 @@ I can work on **continuous project tasks** autonomously:
 - All activity reported to Slack #aibot-chat
 - Tasks resume automatically if interrupted
 
+### Key Requirements for Sub-Agents
+1. **Track everything** — Detailed work logs, files changed, decisions, blockers
+2. **Update memories** — Project files + daily logs with timestamps
+3. **Validate before done** — Build, functionality, dependencies, integration checks
+4. **No false completions** — Only mark done after validation passes
+
 > ⚠️ This is for project work, not scheduled jobs (those use regular cron).
 
 ---

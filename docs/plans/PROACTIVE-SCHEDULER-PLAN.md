@@ -2,7 +2,8 @@
 
 **Author:** Sophie  
 **Date:** 2026-02-09  
-**Status:** Draft - Pending Review
+**Status:** Live - Updated 2026-02-09 23:48 EST
+**Last Update:** Added validation phase, work tracking, memory sync cron
 
 ---
 
@@ -249,19 +250,36 @@ In `PROACTIVE-JOBS.md`, track preferred starting model based on history:
 **Last Updated:** 2026-02-09 22:45 EST
 **Status:** In Progress (45%)
 
-## Current Phase
-TSX transformations - MessageList component
+## Work Log
+- [22:30] Started: MessageList.tsx transformation
+- [22:35] Completed: SpacePanel.tsx styles applied
+- [22:40] Issue found: Import path conflict in RoomSublist
+- [22:42] Decision: Using relative imports for consistency
 
-## Completed
+## Files Changed
+- src/components/views/rooms/MessageList.tsx — Discord-style layout
+- res/css/views/rooms/_MessageList.pcss — Dark theme + spacing
+
+## Dependencies Discovered
+- MessageList relies on RoomContext for theme
+- Need to update ScrollPanel when MessageList changes
+
+## Open Questions / Blockers
+- [ ] Unresolved: Should voice indicators be in MessageList or separate?
+- [x] Resolved: Import paths — using relative
+
+## Tests / Verification Done
+- [x] Built successfully
+- [ ] Tested manually
+- [ ] Checked related components
+
+## Completed Phases
 - [x] CSS design system (25 files, 560KB)
 - [x] SpacePanel.tsx transformation
 - [x] RoomSublist.tsx transformation
 - [ ] MessageList transformation (in progress)
 - [ ] Settings modal
 - [ ] Voice integration
-
-## Blockers
-None
 
 ## Next Steps
 1. Complete MessageList.tsx
@@ -271,9 +289,82 @@ None
 
 ---
 
+## Validation Phase (Before Completion)
+
+> **Critical addition (2026-02-09 23:47 EST):** Sub-agents MUST validate before marking tasks complete.
+
+### Why This Exists
+
+Sub-agents were marking tasks "done" without verification, leading to:
+- Broken builds discovered later
+- Missing dependencies
+- Incomplete implementations flagged as complete
+
+### Validation Checklist
+
+Before any agent marks a task complete, they MUST run through:
+
+| Category | Checks | Required |
+|----------|--------|----------|
+| **Build & Syntax** | Code compiles, no TS/lint errors, imports resolve | ✅ |
+| **Functionality** | Code works, edge cases handled, error states | ✅ |
+| **Dependencies** | Dependent files work, no broken imports | ✅ |
+| **Integration** | Fits codebase, no conflicts, git clean | ✅ |
+| **Documentation** | Progress file complete, decisions documented | ✅ |
+
+### Validation Workflow
+
+```
+1. Agent thinks task is done
+2. Run through checklist (document in progress file)
+3. ALL checks pass?
+   ├─ YES → Mark complete, include validation summary in Slack
+   └─ NO → Fix issues or escalate, do NOT mark complete
+```
+
+### Slack Completion Format
+
+```
+✅ [task-id] completed!
+Validation: ✓ build, ✓ functionality, ✓ dependencies, ✓ integration
+```
+
+---
+
 ## Cron Configuration
 
-### New Cron Job: `proactive-scheduler`
+### Cron Job 1: `proactive-scheduler` (Every 15 mins)
+
+Orchestrates task spawning and monitoring.
+
+### Cron Job 2: `memory-sync` (Hourly)
+
+Consolidates progress files into long-term memory.
+
+```javascript
+{
+  "id": "memory-sync",
+  "schedule": "0 * * * *",  // Every hour
+  "model": "anthropic/claude-3-5-haiku-latest",
+  "text": `You are the Memory Sync agent.
+  
+  1. Read ~/clawd/AGENTS.md (memory system section)
+  2. List files in ~/clawd/scheduler/progress/
+  3. For each progress file:
+     - Read the progress file
+     - Update memory/projects/{project}/_overview.md with latest status
+     - Add significant events to memory/daily/YYYY-MM-DD.md
+  4. Commit any memory changes to git
+  
+  Post summary to Slack #aibot-chat or reply HEARTBEAT_OK if nothing to sync.`
+}
+```
+
+**Why this exists:** Sub-agents may miss memory updates. This ensures progress → memory sync happens at least hourly.
+
+---
+
+### Cron Job Details: `proactive-scheduler`
 
 ```javascript
 // Added via cron tool
@@ -336,36 +427,53 @@ Do NOT execute tasks yourself - only orchestrate and report.`,
 
 ```
 1. On spawn:
+   - READ ENTIRE AGENTS.md FIRST (memory + proactive sections)
    - Read PROACTIVE-JOBS.md (task definition)
    - Read scheduler/progress/{task-id}.md (resume point)
    - Read memory/projects/{project}/_overview.md
    - Update heartbeat immediately (claim the task)
    
-2. Every 5-10 minutes:
-   - Update scheduler/heartbeats/{task-id}.json
-   - Update scheduler/progress/{task-id}.md
+2. During work (TRACK EVERYTHING):
+   - Maintain detailed work log in progress file:
+     - [HH:MM] entries for each action
+     - Files changed list
+     - Dependencies discovered
+     - Open questions / blockers
+     - Tests / verification done
    
-3. On meaningful progress:
-   - Update memory/projects/{project}/*.md
+3. Every 5-10 minutes:
+   - Update scheduler/heartbeats/{task-id}.json
+   - Add new entries to progress file work log
+   
+4. On meaningful progress:
+   - Update memory/projects/{project}/_overview.md
+   - Add entry to memory/daily/YYYY-MM-DD.md with timestamp
    - Commit code changes
    
-4. On completion:
-   - Update memory/projects/{project}/_overview.md (final status)
-   - AUTO-ARCHIVE in PROACTIVE-JOBS.md:
-     - Move task from "Active Tasks" to "Archived Tasks"
-     - Add "Completed: [timestamp]" and "Model Used: [model]"
-   - Remove heartbeat file
-   - Remove progress file (or keep for reference)
-   - ✅ Slack: "[task-id] completed!"
+5. BEFORE completion - VALIDATION PHASE:
+   ⚠️ DO NOT SKIP THIS
+   - Build & Syntax: compiles, no errors, imports work
+   - Functionality: code works, edge cases, error states
+   - Dependencies: dependent files still work
+   - Integration: fits codebase, git clean
+   - Documentation: progress file complete
+   - Document results in progress file
+   - If ANY check fails: fix or escalate, do NOT mark complete
+   
+6. On completion (ONLY after validation passes):
+   - ✅ Update memory/projects/{project}/_overview.md (final status)
+   - ✅ Add entry to memory/daily/YYYY-MM-DD.md with timestamp
+   - ✅ AUTO-ARCHIVE in PROACTIVE-JOBS.md
+   - ✅ Remove heartbeat file
+   - ✅ Slack: "[task-id] completed! Validation: ✓ build, ✓ tests, ✓ integration"
 
-5. On failure (can't complete):
-   - Log reason in scheduler/progress/{task-id}.md
-   - Update PROACTIVE-JOBS.md Escalation field:
-     - none → sonnet (Haiku failed)
-     - sonnet → opus (Sonnet failed)  
-     - opus → blocked (needs human)
-   - Remove heartbeat file (allows next cron to spawn higher tier)
-   - Do NOT keep trying at current tier
+7. On failure (can't complete):
+   - Log reason in progress file with full context
+   - Document what was tried and why it didn't work
+   - Update PROACTIVE-JOBS.md Escalation field
+   - Add failure entry to daily log with timestamp
+   - Remove heartbeat file
+   - Exit cleanly
 ```
 
 ### 2b. Nested Sub-Agents (Spawning Children)
