@@ -55,25 +55,6 @@
 - **Notes:** This is the most complex subsystem. Needs careful architecture for io.haos.roles state event and bidirectional sync with Matrix power levels.
 - **Instructions:** Design role data structures first. Create custom Matrix state events. Build role editor UI. Implement permission calculator and hierarchy enforcement.
 
-### haos-phase4-voice-infra
-- **Type:** continuous
-- **Min Model:** opus
-- **Priority:** high
-- **Project:** haos
-- **Description:** Create LiveKit voice integration - token service, VoiceConnectionManager, state events. Tasks P4-001 to P4-015.
-- **Created:** 2026-02-10
-- **Status:** pending
-- **Escalation:** none
-- **Notes:** ✅ LiveKit server ALREADY RUNNING on dev2 (via Element-Call). Just need to wire up HAOS to it.
-- **Instructions:** 
-  1. Study existing Element-Call LiveKit integration on dev2
-  2. Design io.haos.voice.* state events for Discord-style voice channels
-  3. Reuse or adapt token service from Element-Call
-  4. Create VoiceConnectionManager with reconnection logic
-  5. Hook into existing LiveKit server
-  6. UI components already exist (HaosVoicePanel, HaosVoiceUser, HaosVoiceControls)
-  7. Update MASTER-TODO.md when done!
-
 ### haos-visual-validation
 - **Type:** continuous
 - **Min Model:** sonnet
@@ -94,6 +75,11 @@
   7. Post comparison screenshots to Slack showing before/after and Discord reference
 
 ## Archived Tasks
+
+### haos-phase4-voice-infra
+- **Completed:** 2026-02-10 16:45 EST
+- **Model Used:** opus
+- **Notes:** Voice infrastructure was already fully implemented. Validated: types.ts (io.haos.voice.* state events), VoiceConnectionManager.ts (auto-reconnect), HaosVoiceStore.ts, hooks/useHaosVoice.ts. Components updated. TypeScript compiles, build passes.
 
 ### haos-phase2-threads
 - **Completed:** 2026-02-10 01:15 EST

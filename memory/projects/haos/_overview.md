@@ -136,8 +136,14 @@ https://github.com/aaron777collins/haos.git
 
 ## Remaining Work (per MASTER-TODO.md)
 
-### Phase 1 — Theme System
-- [ ] Light theme, AMOLED theme, theme switcher, accent colors
+### Phase 1 — Theme System ✅ COMPLETE
+- [x] P1-073: Light theme — complete CSS variable overrides
+- [x] P1-074: AMOLED theme — true black for OLED displays
+- [x] P1-075: Theme switcher — HaosThemeSettings component
+- [x] P1-076: Replaced Element themes — CPD variable mapping
+- [x] P1-077: Accent color customization — 9 presets + custom hue
+- [x] P1-078: Theme transition animations — smooth 200ms
+- [x] P1-079: Documentation — THEME-SYSTEM.md
 
 ### Phase 2 — Minor items
 - [ ] Virtual scrolling, jump to bottom, draft persistence
@@ -147,9 +153,15 @@ https://github.com/aaron777collins/haos.git
 - [x] Server wizard ✅
 - [ ] Server settings modal, role system (complex)
 
-### Phase 4 — Voice (LiveKit already available!)
+### Phase 4 — Voice (LiveKit already available!) ✅
 - [x] Voice UI components ✅
-- [ ] Wire up to LiveKit (token service, connection manager)
+- [x] Wire up to LiveKit (token service via Element Call, VoiceConnectionManager)
+- [x] Voice infrastructure complete:
+  - `io.haos.voice.channel` and `io.haos.voice.member` state events
+  - VoiceConnectionManager with auto-reconnect and exponential backoff
+  - HaosVoiceStore for application state
+  - React hooks (useHaosVoicePanel, useVoiceControls, etc.)
+  - Updated components with real integration
 
 ## Notes
 
