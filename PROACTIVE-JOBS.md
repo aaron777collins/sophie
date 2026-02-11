@@ -2,8 +2,8 @@
 
 > **Project:** HAOS (Discord UI + Matrix Backend)
 > **Goal:** Production-ready, self-hostable, PIXEL-PERFECT Discord clone
-> **Reference:** Discord screenshots saved in `haos/docs/reference/`
-> **Last Updated:** 2026-02-11 00:15 EST
+> **Reference:** Discord screenshots in `haos/docs/reference/`
+> **Last Updated:** 2026-02-11 00:25 EST
 
 ---
 
@@ -11,249 +11,218 @@
 
 > 🔢 **MAX 2 DEV TASKS IN-PROGRESS** at any time
 > 🚨 **FULL COMPLETION STANDARD** — no stubs, no placeholders, production-ready only
-> 📝 **UPDATE DOCS** — check off items in HAOS-COMPREHENSIVE-TASKS.md after each task
-> 🔀 **COMMIT & PUSH** — merge to main branch after each completed task
-> 🚀 **DEPLOY TO DEV2** — after each feature task:
-> ```bash
-> cd /home/ubuntu/repos/haos/apps/web && yarn build
-> rsync -avz --delete webapp/ dev2:/home/ubuntu/haos/dist/
-> ssh dev2 "docker restart haos-web 2>/dev/null || true"
-> ```
-> 📸 **VISUAL COMPARE** — after each UI task, screenshot dev2 and compare to Discord:
-> ```bash
-> node /home/ubuntu/repos/haos/scripts/screenshot-compare.js
-> # Compare output with docs/reference/discord-reference-1.png
-> ```
+> 🔀 **COMMIT & PUSH** — merge after each completed task
+> 📸 **BROWSER LOCK** — only 1 agent uses browser at a time (check `scheduler/browser.lock`)
+
+### Browser Usage
+```bash
+# Acquire browser lock
+echo "$TASK_ID $(date +%s)" > ~/clawd/scheduler/browser.lock
+
+# Take screenshot
+DISPLAY=:99 xdotool mousemove 960 540 click 1  # Focus Chrome
+sleep 1
+DISPLAY=:99 scrot -o /tmp/screenshot.png
+
+# Release lock
+rm ~/clawd/scheduler/browser.lock
+```
+
+### Deploy to Dev2
+```bash
+cd /home/ubuntu/repos/haos/apps/web
+yarn build
+rsync -avz --delete webapp/ dev2:/home/ubuntu/haos/dist/
+ssh dev2 "docker restart haos-web"
+```
 
 ---
 
-## ⚠️ CRITICAL: Visual Overhaul Required
+## ⚠️ BLOCKING ISSUE: HAOS Crashes on Load
 
-The current HAOS UI does NOT look like Discord. This is the #1 priority.
-
-**Reference screenshots:** `/home/ubuntu/repos/haos/docs/reference/`
-- `discord-reference-1.png` — Full Discord UI (server list, channels, messages, members)
-- `discord-reference-2.png` — Same screenshot for comparison
-
-**Goal:** HAOS must be indistinguishable from Discord when logged in.
-
----
-
-## Currently Running
-
-### haos-visual-overhaul ⏳ PRIORITY 1
-- **Status:** in-progress
-- **Agent:** Doing comprehensive visual comparison and fixes
-- **Goal:** Make HAOS look EXACTLY like Discord
+**Status:** HAOS JavaScript hangs, causing "Page Unresponsive"  
+**Current:** Element Web restored on dev2 while debugging  
+**Priority:** MUST FIX BEFORE visual work can proceed
 
 ---
 
 ## ═══════════════════════════════════════════════════════════
-## WAVE 0: VISUAL OVERHAUL (CRITICAL - DO THIS FIRST)
+## WAVE -1: FIX HAOS CRASH (BLOCKING)
 ## ═══════════════════════════════════════════════════════════
 
-### haos-visual-overhaul
+### haos-debug-crash
+- **Priority:** CRITICAL BLOCKING
+- **Min Model:** opus
+- **Status:** pending
+- **Description:** Debug and fix HAOS JavaScript crash on load
+- **Instructions:**
+  1. Check browser console for errors:
+     - Open dev tools on dev2.aaroncollins.info
+     - Look for JavaScript errors
+  2. Check if it's Matrix SDK related:
+     - Homeserver connection
+     - Config.json issues
+     - IndexedDB problems
+  3. Compare HAOS build vs Element Web build:
+     - Are there missing chunks?
+     - CSS loading issues?
+  4. Test locally:
+     ```bash
+     cd /home/ubuntu/repos/haos/apps/web
+     yarn start
+     ```
+  5. Fix identified issues
+  6. Rebuild and deploy
+  7. Verify site loads without crashing
+
+### haos-restore-deploy
+- **Priority:** HIGH
+- **Min Model:** sonnet
+- **Status:** pending (after haos-debug-crash)
+- **Description:** Deploy fixed HAOS build to dev2
+- **Instructions:**
+  1. Ensure HAOS build works locally
+  2. Stop Element Web: `ssh dev2 "docker stop matrix-element"`
+  3. Deploy HAOS:
+     ```bash
+     rsync -avz --delete webapp/ dev2:/home/ubuntu/haos/dist/
+     ssh dev2 "docker run -d --name haos-web --network matrix_matrix -v /home/ubuntu/haos/dist:/usr/share/nginx/html:ro -p 8080:80 nginx:alpine"
+     ```
+  4. Verify site loads
+  5. Take screenshot and compare
+
+---
+
+## ═══════════════════════════════════════════════════════════
+## WAVE 0: VISUAL OVERHAUL (After crash is fixed)
+## ═══════════════════════════════════════════════════════════
+
+### haos-visual-audit-real
 - **Priority:** CRITICAL
 - **Min Model:** opus
-- **Description:** Make HAOS look exactly like Discord
 - **Status:** pending
+- **Description:** REAL visual audit comparing HAOS to Discord
 - **Instructions:**
-  1. Open Discord reference: `/home/ubuntu/repos/haos/docs/reference/discord-reference-1.png`
-  2. Take screenshot of HAOS: `node scripts/screenshot-compare.js`
-  3. Compare EVERY element side-by-side:
-  
-  **Server List (Left Bar):**
-  - Width: 72px
-  - Icons: 48px round, squircle on hover
-  - Spacing: 8px between icons
-  - Selection pill: 4px wide white bar
-  - Unread dot: white circle
-  - Folder expand animation
-  
-  **Channel Sidebar:**
-  - Width: 240px  
-  - Background: #2f3136
-  - Server name header with dropdown
-  - Categories: collapsible, uppercase text
-  - Channel items: # icon, hover background
-  - User panel at bottom: avatar, name, status, buttons
-  
-  **Message Area:**
-  - Background: #36393f
-  - Header: channel name, topic, icons
-  - Messages: 40px avatars, name in color, timestamp
-  - Message grouping (same author within 7min)
-  - Hover: background highlight, action buttons
-  - Composer: rounded, attachment button, emoji
-  
-  **Member List (Right):**
-  - Width: 240px
-  - Background: #2f3136
-  - Role headers (collapsible)
-  - Member items: avatar, name in role color, status dot
-  - Activity display
-  
-  4. Document EVERY difference in `/home/ubuntu/repos/haos/docs/VISUAL-DIFFERENCES.md`
-  5. Fix EVERY difference
-  6. Rebuild and deploy to dev2
-  7. Screenshot again and verify
-  8. Repeat until pixel-perfect
+  1. Open Discord reference: `haos/docs/reference/discord-reference-1.png`
+  2. Screenshot HAOS (acquire browser lock first):
+     ```bash
+     echo "haos-visual-audit $(date +%s)" > ~/clawd/scheduler/browser.lock
+     DISPLAY=:99 google-chrome https://dev2.aaroncollins.info &
+     sleep 15
+     DISPLAY=:99 xdotool mousemove 960 540 click 1
+     sleep 2
+     DISPLAY=:99 scrot -o ~/repos/haos/docs/reference/haos-current.png
+     rm ~/clawd/scheduler/browser.lock
+     ```
+  3. Compare screenshots side-by-side
+  4. Create `docs/VISUAL-DIFFERENCES.md` with EVERY difference
+  5. Prioritize fixes
 
-### haos-visual-colors
-- **Priority:** CRITICAL
+### haos-visual-colors-fix
+- **Priority:** HIGH
 - **Min Model:** sonnet
-- **Description:** Fix all colors to match Discord exactly
 - **Status:** pending
+- **Description:** Fix colors to match Discord exactly
 - **Instructions:**
-  Discord color palette:
-  - Background dark: #202225
-  - Background medium: #2f3136
-  - Background light: #36393f
-  - Background lighter: #40444b
-  - Text normal: #dcddde
-  - Text muted: #72767d
-  - Text link: #00aff4
-  - Blurple: #5865F2
-  - Green: #3ba55d
-  - Red: #ed4245
-  - Yellow: #faa81a
+  Discord colors to use:
+  - --discord-bg-tertiary: #202225
+  - --discord-bg-secondary: #2f3136
+  - --discord-bg-primary: #36393f
+  - --discord-bg-modifier-hover: #40444b
+  - --discord-text-normal: #dcddde
+  - --discord-text-muted: #72767d
+  - --discord-blurple: #5865F2
   
-  1. Audit all CSS for color values
-  2. Replace any non-matching colors
-  3. Ensure dark theme matches Discord dark theme
-  4. Deploy and verify
+  1. Update CSS variables in `src/haos/_variables.pcss`
+  2. Audit all HAOS CSS files for hardcoded colors
+  3. Replace with correct Discord colors
+  4. Build, deploy, screenshot, verify
 
-### haos-visual-layout
-- **Priority:** CRITICAL
+### haos-visual-layout-fix
+- **Priority:** HIGH
 - **Min Model:** sonnet
-- **Description:** Fix layout structure to match Discord
 - **Status:** pending
+- **Description:** Fix layout structure
 - **Instructions:**
-  1. Server list: fixed 72px width
-  2. Channel sidebar: fixed 240px width
-  3. Member list: fixed 240px width, hideable
-  4. Message area: flex-grow to fill remaining space
-  5. Ensure no Element-specific layout leaking through
-  6. Deploy and verify
-
-### haos-visual-fonts
-- **Priority:** high
-- **Min Model:** sonnet
-- **Description:** Fix fonts to match Discord
-- **Status:** pending
-- **Instructions:**
-  Discord uses: gg sans, Noto Sans, Whitney (fallbacks)
-  Font sizes:
-  - Channel names: 16px
-  - Message text: 16px (1rem)
-  - Timestamps: 12px
-  - Category headers: 12px uppercase
+  - Server list: 72px width
+  - Channel sidebar: 240px width
+  - Member list: 240px width
+  - Message area: flex-grow
   
-  1. Import/configure correct fonts
-  2. Set correct sizes throughout
-  3. Deploy and verify
+  1. Update layout CSS
+  2. Build, deploy, screenshot, verify
 
-### haos-visual-components
-- **Priority:** high
+### haos-visual-components-fix
+- **Priority:** HIGH
 - **Min Model:** opus
-- **Description:** Fix individual components to match Discord
 - **Status:** pending
+- **Description:** Fix individual components
 - **Instructions:**
-  Components to fix:
-  - Server icons (hover animation to squircle)
-  - Channel items (icon, name, hover state)
-  - Message bubbles (avatar position, timestamp)
-  - User avatars (sizes, status indicator position)
-  - Buttons (Discord button styles)
-  - Inputs (Discord input styles)
-  - Modals (Discord modal styles)
-  - Tooltips (Discord tooltip styles)
-  - Context menus (Discord context menu styles)
+  Fix each component to match Discord:
+  - Server icons (48px, squircle hover)
+  - Channel items (# icon, hover state)
+  - Messages (40px avatars, timestamps)
+  - User panel (avatar, status, buttons)
   
-  1. Fix each component one by one
-  2. Deploy and verify after each
+  1. Fix each component
+  2. Build, deploy, screenshot, verify after each
 
 ---
 
 ## ═══════════════════════════════════════════════════════════
-## WAVE 1: INFRASTRUCTURE (After Visual Overhaul)
+## WAVE 1: INFRASTRUCTURE
 ## ═══════════════════════════════════════════════════════════
 
 ### haos-self-hosting-private-mode
-- **Priority:** high
+- **Priority:** HIGH
+- **Status:** pending
 - **Description:** Private deployment mode
-- **Status:** pending
-
-### haos-self-hosting-setup-wizard
-- **Priority:** high
-- **Description:** First-run setup wizard
-- **Status:** pending
 
 ### haos-self-hosting-docker-stack
-- **Priority:** high
+- **Priority:** HIGH
+- **Status:** pending
 - **Description:** Complete Docker stack
-- **Status:** pending
-
-### haos-self-hosting-docs
-- **Priority:** high
-- **Description:** Self-hosting documentation
-- **Status:** pending
 
 ### haos-admin-dashboard
-- **Priority:** medium
-- **Description:** Admin dashboard
+- **Priority:** MEDIUM
 - **Status:** pending
+- **Description:** Admin dashboard
 
 ### haos-unit-testing
-- **Priority:** high
-- **Description:** Unit tests for HAOS modules
+- **Priority:** HIGH
 - **Status:** pending
-
-### haos-mobile-testing
-- **Priority:** medium
-- **Description:** Mobile responsiveness
-- **Status:** pending
+- **Description:** Unit tests
 
 ---
 
 ## ═══════════════════════════════════════════════════════════
-## WAVE 2-5: FEATURE COMPLETION
+## WAVE 2-5: FEATURES
 ## ═══════════════════════════════════════════════════════════
 
 ### haos-phase2-remaining
-- **Priority:** medium
-- **Description:** Messaging features (52 tasks)
+- **Priority:** MEDIUM
 - **Status:** pending
+- **Description:** Messaging (52 tasks)
 
 ### haos-phase3-server-settings
-- **Priority:** medium
-- **Description:** Server Settings Modal
+- **Priority:** MEDIUM
 - **Status:** pending
+- **Description:** Server Settings
 
 ### haos-phase4-stage-channels
-- **Priority:** medium
-- **Description:** Stage Channels
+- **Priority:** MEDIUM
 - **Status:** pending
+- **Description:** Stage Channels
 
 ### haos-phase5-user-settings
-- **Priority:** medium
-- **Description:** User Settings
+- **Priority:** MEDIUM
 - **Status:** pending
+- **Description:** User Settings
 
 ### haos-phase6-mod-tools
-- **Priority:** medium
+- **Priority:** MEDIUM
+- **Status:** pending
 - **Description:** Mod Tools
-- **Status:** pending
-
-### haos-phase7-navigation
-- **Priority:** medium
-- **Description:** Navigation & Discovery
-- **Status:** pending
-
-### haos-phase8-animations
-- **Priority:** low
-- **Description:** Animations & Polish
-- **Status:** pending
 
 ---
 
@@ -262,23 +231,15 @@ The current HAOS UI does NOT look like Discord. This is the #1 priority.
 ## ═══════════════════════════════════════════════════════════
 
 ### haos-qa-matrix-integration
-- **Priority:** high
-- **Description:** Matrix SDK validation
+- **Priority:** HIGH
 - **Status:** pending
 
 ### haos-qa-accessibility
-- **Priority:** medium
-- **Description:** WCAG 2.1 AA audit
-- **Status:** pending
-
-### haos-qa-e2e-testing
-- **Priority:** high
-- **Description:** E2E test suite
+- **Priority:** MEDIUM
 - **Status:** pending
 
 ### haos-qa-security
-- **Priority:** high
-- **Description:** Security audit
+- **Priority:** HIGH
 - **Status:** pending
 
 ---
@@ -293,13 +254,22 @@ The current HAOS UI does NOT look like Discord. This is the #1 priority.
 
 ---
 
-## Summary
+## Task Flow
 
-| Wave | Priority | Status |
-|------|----------|--------|
-| Wave 0: Visual Overhaul | CRITICAL | Starting now |
-| Wave 1: Infrastructure | High | Pending |
-| Wave 2-5: Features | Medium | Pending |
-| Wave 6: QA | High | Pending |
-
-**MOST IMPORTANT:** Visual overhaul must be done FIRST. HAOS must look like Discord.
+```
+1. haos-debug-crash (BLOCKING)
+       ↓
+2. haos-restore-deploy
+       ↓
+3. haos-visual-audit-real
+       ↓
+4. haos-visual-colors-fix
+5. haos-visual-layout-fix
+6. haos-visual-components-fix
+       ↓
+7. Wave 1: Infrastructure
+       ↓
+8. Wave 2-5: Features
+       ↓
+9. Wave 6: QA
+```
