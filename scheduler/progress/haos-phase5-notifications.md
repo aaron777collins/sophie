@@ -1,120 +1,97 @@
-# HAOS Phase 5 Notifications - Progress Report
+# haos-phase5-notifications Progress
 
-## Task: haos-phase5-notifications
-**Status:** ✅ COMPLETE
-**Started:** 2026-02-10 17:15 UTC
-**Completed:** 2026-02-10 17:30 UTC
+## Task
+Complete Phase 5-E notification features (P5-099 to P5-118)
 
-## Summary
+## Status: ALREADY COMPLETE ✅
 
-Phase 5 notifications (P5-101 to P5-118) were **already fully implemented** by a previous agent session. This task verified and validated the existing implementation.
+## Work Log
+- [22:30 UTC] Started task, wrote heartbeat
+- [22:31 UTC] Read PROACTIVE-JOBS.md and project overview
+- [22:32 UTC] Checked HAOS-COMPREHENSIVE-TASKS.md - ALL P5-099 to P5-118 already marked complete
+- [22:33 UTC] Verified implementation files exist and are properly implemented
 
-## Implementation Status
+## Verification Results
 
-All 18 notification tasks are complete:
+### Files Verified
+All notification files exist in `/home/ubuntu/repos/haos/apps/web/src/haos/notifications/`:
 
-### Core Infrastructure
-| Task | Feature | File | Status |
-|------|---------|------|--------|
-| P5-101 | Desktop notification (OS native) | HaosDesktopNotifications.ts | ✅ |
-| P5-102 | Notification sound | HaosNotificationSounds.ts | ✅ |
+| File | Purpose | Status |
+|------|---------|--------|
+| `HaosNotificationStore.ts` | Core store for settings, mentions, unreads | ✅ ~500 lines |
+| `HaosDesktopNotifications.ts` | Web Notification API | ✅ ~200 lines |
+| `HaosNotificationSounds.ts` | Audio notifications | ✅ ~250 lines |
+| `useHaosNotifications.ts` | React hooks | ✅ ~250 lines |
+| `index.ts` | Exports | ✅ Complete |
+| `components/ChannelNotificationSettings.tsx` | Per-channel UI | ✅ ~300 lines |
+| `components/ServerNotificationSettings.tsx` | Per-server UI | ✅ ~375 lines |
+| `components/MarkAsRead.tsx` | Mark as read components | ✅ ~225 lines |
+| `components/Inbox.tsx` | Mentions/unreads inbox | ✅ ~350 lines |
+| `components/MentionHighlight.tsx` | Mention highlighting | ✅ ~90 lines |
+| `components/UnreadChannelIndicator.tsx` | Unread badges | ✅ ~130 lines |
+| CSS files | Styling | ✅ 5 .pcss files |
 
-### Per-Channel/Server Settings (P5-103 to P5-108)
-| Task | Feature | File | Status |
-|------|---------|------|--------|
-| P5-103 | Per-channel notification settings UI | ChannelNotificationSettings.tsx | ✅ |
-| P5-104 | Per-server notification settings UI | ServerNotificationSettings.tsx | ✅ |
-| P5-105 | Notification mute timing | HaosMuteDuration enum | ✅ |
-| P5-106 | Suppress @everyone | HaosSuppressSettings | ✅ |
-| P5-107 | Suppress @here | HaosSuppressSettings | ✅ |
-| P5-108 | Suppress all roles | HaosSuppressSettings | ✅ |
+### Feature Coverage
 
-### Unread Indicators & Mark as Read (P5-109 to P5-114)
-| Task | Feature | File | Status |
-|------|---------|------|--------|
-| P5-109 | Notification highlight (mention bar) | MentionHighlight.tsx | ✅ |
-| P5-110 | Unread channel indicator | UnreadChannelIndicator.tsx | ✅ |
-| P5-111 | Unread message jump | JumpToUnread component | ✅ |
-| P5-112 | Mark as read (channel) | MarkChannelAsRead.tsx | ✅ |
-| P5-113 | Mark as read (server) | MarkServerAsRead.tsx | ✅ |
-| P5-114 | Mark as read (all) | MarkAllAsRead.tsx | ✅ |
+| Task ID | Feature | Implementation |
+|---------|---------|----------------|
+| P5-099 | Notification badge (number) | ✅ UnreadBadge component, CSS |
+| P5-100 | Notification indicator (dot) | ✅ UnreadChannelIndicator (compact dot mode) |
+| P5-101 | Desktop notification | ✅ HaosDesktopNotifications.ts (Web Notification API) |
+| P5-102 | Notification sound | ✅ HaosNotificationSounds.ts (Audio API + fallback beep) |
+| P5-103 | Per-channel settings | ✅ ChannelNotificationSettings.tsx |
+| P5-104 | Per-server settings | ✅ ServerNotificationSettings.tsx |
+| P5-105 | Mute timing | ✅ HaosMuteDuration enum (15m/1h/8h/24h/forever) |
+| P5-106 | Suppress @everyone | ✅ HaosSuppressSettings interface |
+| P5-107 | Suppress @here | ✅ HaosSuppressSettings interface |
+| P5-108 | Suppress all roles | ✅ HaosSuppressSettings interface |
+| P5-109 | Mention highlight bar | ✅ MentionHighlight.tsx |
+| P5-110 | Unread channel indicator | ✅ UnreadChannelIndicator.tsx |
+| P5-111 | Unread message jump | ✅ JumpToUnread component |
+| P5-112 | Mark channel as read | ✅ MarkChannelAsRead component |
+| P5-113 | Mark server as read | ✅ MarkServerAsRead component |
+| P5-114 | Mark all as read | ✅ MarkAllAsRead component |
+| P5-115 | Inbox mentions tab | ✅ Inbox.tsx (MentionsList) |
+| P5-116 | Inbox unreads tab | ✅ Inbox.tsx (UnreadsList) |
+| P5-117 | Inbox filters | ✅ all/dms/servers filter |
+| P5-118 | Inbox mark all read | ✅ MarkAllAsRead in Inbox |
 
-### Inbox Component (P5-115 to P5-118)
-| Task | Feature | File | Status |
-|------|---------|------|--------|
-| P5-115 | Inbox (mentions tab) | Inbox.tsx (MentionsList) | ✅ |
-| P5-116 | Inbox (unreads tab) | Inbox.tsx (UnreadsList) | ✅ |
-| P5-117 | Inbox filters | Inbox.tsx (all/dms/servers) | ✅ |
-| P5-118 | Inbox mark all read | Inbox.tsx + MarkAllAsRead | ✅ |
+## Implementation Quality
 
-## Files Verified
+### Core Store Features:
+- Server and channel notification settings with localStorage persistence
+- Mute durations with auto-expiry
+- Suppress settings (@everyone, @here, roles)
+- Mentions tracking with 500-item limit
+- Unread channel aggregation from Matrix SDK
+- Mark as read integration with Matrix read receipts
 
-### Core Module (`apps/web/src/haos/notifications/`)
-- `HaosNotificationStore.ts` (16KB) - Central state management
-- `HaosDesktopNotifications.ts` (8KB) - Web Notification API
-- `HaosNotificationSounds.ts` (9KB) - Audio playback system
-- `useHaosNotifications.ts` (10KB) - React hooks
-- `index.ts` (1.5KB) - Module exports
-
-### Components (`apps/web/src/haos/notifications/components/`)
-- `ChannelNotificationSettings.tsx` (12KB)
-- `ServerNotificationSettings.tsx` (15KB)
-- `Inbox.tsx` (14KB) + `Inbox.pcss` (7KB)
-- `MarkAsRead.tsx` (8KB) + `MarkAsRead.pcss` (2KB)
-- `UnreadChannelIndicator.tsx` (5KB) + `UnreadIndicator.pcss` (4KB)
-- `MentionHighlight.tsx` (3KB) + `MentionHighlight.pcss` (3KB)
-- `NotificationSettings.pcss` (9KB)
-
-### Main CSS (`apps/web/res/css/haos/`)
-- `_notifications.pcss` (25KB) - Comprehensive notification styling
-- `index.pcss` imports `_notifications.pcss` ✅
-
-## Implementation Highlights
-
-### HaosDesktopNotifications
-- Web Notification API integration
-- Permission request/management
+### Desktop Notifications:
+- Permission checking and requesting
+- Native Web Notification API
 - Click-to-navigate to room/event
-- Auto-dismiss after 5s
-- Tag-based notification management
-- Integration with HaosNotificationStore for muting
+- Room/mention-based notification suppression
 
-### HaosNotificationSounds
-- 12 sound types (default, message variants, mention, call, voice actions)
-- AudioContext/Web Audio API fallback
-- Fallback beep generator for missing files
-- Per-room mute respect
+### Notification Sounds:
+- Multiple sound types (message, mention, call, voice events)
+- Fallback beep using Web Audio API
 - Volume control
+- Play suppression based on notification settings
 
-### HaosNotificationStore (EventEmitter)
-- Server & channel notification settings
-- Mute durations (15m, 1h, 8h, 24h, indefinite)
-- Suppress @everyone/@here/@roles
-- Mention tracking with persistence
-- Unread channel tracking
-- Mark as read (channel/server/all)
+### React Hooks:
+- useChannelNotifications
+- useServerNotifications
+- useInbox
+- useDesktopNotifications
+- useNotificationSounds
 
-### Inbox Component
-- Dual tabs: "For You" (mentions) + "Unreads"
-- Filters: all/DMs/servers
-- Grouped by date (mentions) / server (unreads)
-- Time-relative formatting
-- Mark all read button
+## Conclusion
+This task was previously completed. All 20 features (P5-099 to P5-118) are implemented with:
+- Proper TypeScript types
+- Matrix SDK integration
+- Persistent settings (localStorage)
+- Comprehensive React components
+- Complete CSS styling
 
-## Validation
-
-- ✅ TypeScript compiles without errors
-- ✅ All files exist and are properly structured
-- ✅ CSS properly imported in main stylesheet
-- ✅ Exports defined in index.ts
-- ✅ Git status clean (already committed)
-- ✅ HAOS-COMPREHENSIVE-TASKS.md shows P5-E as COMPLETE
-
-## Notes
-
-This task was already completed - the comprehensive implementation exists with:
-- ~140KB total code across all notification files
-- Full Discord-style notification UI
-- Matrix SDK integration for read receipts
-- localStorage persistence for settings/mentions
-- React hooks for component integration
+## Git Status
+Clean - no uncommitted changes

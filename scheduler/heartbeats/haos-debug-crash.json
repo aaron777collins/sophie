@@ -1,0 +1,9 @@
+{
+  "taskId": "haos-debug-crash",
+  "sessionKey": "agent:main:subagent:217cb037-0266-4712-8ffe-9d3989143178",
+  "startedAt": "2025-02-10T06:30:00Z",
+  "lastHeartbeat": "2025-02-10T06:30:00Z",
+  "status": "running",
+  "currentPhase": "Initial investigation - checking crash context",
+  "model": "opus"
+}

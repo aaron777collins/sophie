@@ -1,275 +1,235 @@
-# HAOS Proactive Jobs - Master Queue
+# Proactive Jobs - HAOS v2 (Matrix-Powered Discord Clone)
 
-> **Project:** HAOS (Discord UI + Matrix Backend)
-> **Goal:** Production-ready, self-hostable, PIXEL-PERFECT Discord clone
-> **Reference:** Discord screenshots in `haos/docs/reference/`
-> **Last Updated:** 2026-02-11 00:25 EST
+> 🚨 **STRATEGIC PIVOT [2026-02-11]**
+> Abandoned: Reskinning Element Web (too complex, fighting architecture)
+> New Approach: Discord clone frontend + Matrix backend
+> Source: https://github.com/nayak-nirmalya/discord-clone
 
----
+> 🔢 **RUN 1 TASK AT A TIME**
+> - Only 1 task `in-progress` at a time (avoid browser/resource conflicts)
+> - Each task completes fully before next starts
+> - Use browser tools properly: zoomclick, browser action
 
-## Rules
-
-> 🔢 **MAX 2 DEV TASKS IN-PROGRESS** at any time
-> 🚨 **FULL COMPLETION STANDARD** — no stubs, no placeholders, production-ready only
-> 🔀 **COMMIT & PUSH** — merge after each completed task
-> 📸 **BROWSER LOCK** — only 1 agent uses browser at a time (check `scheduler/browser.lock`)
-
-### Browser Usage
-```bash
-# Acquire browser lock
-echo "$TASK_ID $(date +%s)" > ~/clawd/scheduler/browser.lock
-
-# Take screenshot
-DISPLAY=:99 xdotool mousemove 960 540 click 1  # Focus Chrome
-sleep 1
-DISPLAY=:99 scrot -o /tmp/screenshot.png
-
-# Release lock
-rm ~/clawd/scheduler/browser.lock
-```
-
-### Deploy to Dev2
-```bash
-cd /home/ubuntu/repos/haos/apps/web
-yarn build
-rsync -avz --delete webapp/ dev2:/home/ubuntu/haos/dist/
-ssh dev2 "docker restart haos-web"
-```
+> 📝 **FULL COMPLETION STANDARD**
+> - "Done" means **PRODUCTION READY**
+> - If you struggle with browser, use Opus and read TOOLS.md for zoomclick instructions
 
 ---
 
-## ⚠️ BLOCKING ISSUE: HAOS Crashes on Load
+## Current Task (In-Progress)
 
-**Status:** HAOS JavaScript hangs, causing "Page Unresponsive"  
-**Current:** Element Web restored on dev2 while debugging  
-**Priority:** MUST FIX BEFORE visual work can proceed
+(None - starting fresh)
 
 ---
 
-## ═══════════════════════════════════════════════════════════
-## WAVE -1: FIX HAOS CRASH (BLOCKING)
-## ═══════════════════════════════════════════════════════════
+## Phase 1: Comprehensive Audit (Sequential)
 
-### haos-debug-crash
-- **Priority:** CRITICAL BLOCKING
+### audit-01-frontend-analysis
+- **Type:** audit
 - **Min Model:** opus
-- **Status:** pending
-- **Description:** Debug and fix HAOS JavaScript crash on load
+- **Priority:** critical
+- **Status:** in-progress
+- **Started:** 2026-02-11 00:30 EST
+- **Description:** Analyze Discord clone frontend structure
 - **Instructions:**
-  1. Check browser console for errors:
-     - Open dev tools on dev2.aaroncollins.info
-     - Look for JavaScript errors
-  2. Check if it's Matrix SDK related:
-     - Homeserver connection
-     - Config.json issues
-     - IndexedDB problems
-  3. Compare HAOS build vs Element Web build:
-     - Are there missing chunks?
-     - CSS loading issues?
-  4. Test locally:
-     ```bash
-     cd /home/ubuntu/repos/haos/apps/web
-     yarn start
-     ```
-  5. Fix identified issues
-  6. Rebuild and deploy
-  7. Verify site loads without crashing
+  1. Read all files in /home/ubuntu/repos/discord-clone-reference/
+  2. Document every component in components/
+  3. Document all routes in app/
+  4. Document all API routes
+  5. List all third-party dependencies
+  6. Create /home/ubuntu/clawd/docs/haos-v2/FRONTEND-AUDIT.md with findings
+  7. Send Slack summary when complete
 
-### haos-restore-deploy
-- **Priority:** HIGH
-- **Min Model:** sonnet
-- **Status:** pending (after haos-debug-crash)
-- **Description:** Deploy fixed HAOS build to dev2
-- **Instructions:**
-  1. Ensure HAOS build works locally
-  2. Stop Element Web: `ssh dev2 "docker stop matrix-element"`
-  3. Deploy HAOS:
-     ```bash
-     rsync -avz --delete webapp/ dev2:/home/ubuntu/haos/dist/
-     ssh dev2 "docker run -d --name haos-web --network matrix_matrix -v /home/ubuntu/haos/dist:/usr/share/nginx/html:ro -p 8080:80 nginx:alpine"
-     ```
-  4. Verify site loads
-  5. Take screenshot and compare
-
----
-
-## ═══════════════════════════════════════════════════════════
-## WAVE 0: VISUAL OVERHAUL (After crash is fixed)
-## ═══════════════════════════════════════════════════════════
-
-### haos-visual-audit-real
-- **Priority:** CRITICAL
+### audit-02-backend-mapping
+- **Type:** audit
 - **Min Model:** opus
+- **Priority:** critical
 - **Status:** pending
-- **Description:** REAL visual audit comparing HAOS to Discord
+- **Description:** Map Discord clone backend → Matrix equivalents
 - **Instructions:**
-  1. Open Discord reference: `haos/docs/reference/discord-reference-1.png`
-  2. Screenshot HAOS (acquire browser lock first):
-     ```bash
-     echo "haos-visual-audit $(date +%s)" > ~/clawd/scheduler/browser.lock
-     DISPLAY=:99 google-chrome https://dev2.aaroncollins.info &
-     sleep 15
-     DISPLAY=:99 xdotool mousemove 960 540 click 1
-     sleep 2
-     DISPLAY=:99 scrot -o ~/repos/haos/docs/reference/haos-current.png
-     rm ~/clawd/scheduler/browser.lock
-     ```
-  3. Compare screenshots side-by-side
-  4. Create `docs/VISUAL-DIFFERENCES.md` with EVERY difference
-  5. Prioritize fixes
+  1. Read prisma/schema.prisma - document all models
+  2. For EACH model, identify Matrix equivalent:
+     - Server → Matrix Space
+     - Channel → Matrix Room
+     - Member → Room membership
+     - Message → Matrix event
+     - etc.
+  3. Read all API routes in app/api/ and pages/api/
+  4. Map each API to Matrix SDK calls
+  5. Create /home/ubuntu/clawd/docs/haos-v2/BACKEND-MAPPING.md
+  6. Send Slack summary when complete
 
-### haos-visual-colors-fix
-- **Priority:** HIGH
-- **Min Model:** sonnet
-- **Status:** pending
-- **Description:** Fix colors to match Discord exactly
-- **Instructions:**
-  Discord colors to use:
-  - --discord-bg-tertiary: #202225
-  - --discord-bg-secondary: #2f3136
-  - --discord-bg-primary: #36393f
-  - --discord-bg-modifier-hover: #40444b
-  - --discord-text-normal: #dcddde
-  - --discord-text-muted: #72767d
-  - --discord-blurple: #5865F2
-  
-  1. Update CSS variables in `src/haos/_variables.pcss`
-  2. Audit all HAOS CSS files for hardcoded colors
-  3. Replace with correct Discord colors
-  4. Build, deploy, screenshot, verify
-
-### haos-visual-layout-fix
-- **Priority:** HIGH
-- **Min Model:** sonnet
-- **Status:** pending
-- **Description:** Fix layout structure
-- **Instructions:**
-  - Server list: 72px width
-  - Channel sidebar: 240px width
-  - Member list: 240px width
-  - Message area: flex-grow
-  
-  1. Update layout CSS
-  2. Build, deploy, screenshot, verify
-
-### haos-visual-components-fix
-- **Priority:** HIGH
+### audit-03-auth-strategy
+- **Type:** audit
 - **Min Model:** opus
+- **Priority:** critical
 - **Status:** pending
-- **Description:** Fix individual components
+- **Description:** Plan auth migration from Clerk → Matrix
 - **Instructions:**
-  Fix each component to match Discord:
-  - Server icons (48px, squircle hover)
-  - Channel items (# icon, hover state)
-  - Messages (40px avatars, timestamps)
-  - User panel (avatar, status, buttons)
-  
-  1. Fix each component
-  2. Build, deploy, screenshot, verify after each
+  1. Document all Clerk usage in the codebase (grep for @clerk)
+  2. Document Matrix login/auth flow
+  3. Plan migration:
+     - Matrix login page
+     - Session management
+     - User profile from Matrix
+  4. Create /home/ubuntu/clawd/docs/haos-v2/AUTH-STRATEGY.md
+  5. Send Slack summary when complete
+
+### audit-04-realtime-strategy
+- **Type:** audit
+- **Min Model:** opus
+- **Priority:** critical
+- **Status:** pending
+- **Description:** Plan Socket.io → Matrix sync migration
+- **Instructions:**
+  1. Document all Socket.io usage (grep for socket)
+  2. Document Matrix sync API and event streaming
+  3. Plan migration:
+     - Real-time messages via Matrix sync
+     - Typing indicators
+     - Presence (online/offline)
+     - Room state changes
+  4. Create /home/ubuntu/clawd/docs/haos-v2/REALTIME-STRATEGY.md
+  5. Send Slack summary when complete
+
+### audit-05-media-strategy
+- **Type:** audit
+- **Min Model:** opus
+- **Priority:** critical
+- **Status:** pending
+- **Description:** Plan file uploads migration
+- **Instructions:**
+  1. Document UploadThing usage
+  2. Document Matrix content API (mxc:// URLs)
+  3. Plan migration:
+     - File upload to Matrix homeserver
+     - Image/video attachments
+     - Avatar uploads
+  4. Create /home/ubuntu/clawd/docs/haos-v2/MEDIA-STRATEGY.md
+  5. Send Slack summary when complete
+
+### audit-06-livekit-integration
+- **Type:** audit
+- **Min Model:** opus
+- **Priority:** critical
+- **Status:** pending
+- **Description:** Verify LiveKit compatibility (already have it!)
+- **Instructions:**
+  1. Document how Discord clone uses LiveKit
+  2. Document our existing LiveKit setup (dev2)
+  3. Verify they're compatible
+  4. Plan any adjustments needed
+  5. Create /home/ubuntu/clawd/docs/haos-v2/LIVEKIT-INTEGRATION.md
+  6. Send Slack summary when complete
+
+### audit-07-feature-gap-analysis
+- **Type:** audit
+- **Min Model:** opus
+- **Priority:** critical
+- **Status:** pending
+- **Description:** Identify features in Discord clone vs what we need
+- **Instructions:**
+  1. List ALL features in the Discord clone
+  2. List features we want that are missing:
+     - E2E encryption (Matrix has this)
+     - Federation (Matrix has this)
+     - Private mode
+     - Roles/permissions (more granular)
+  3. Prioritize missing features
+  4. Create /home/ubuntu/clawd/docs/haos-v2/FEATURE-GAPS.md
+  5. Send Slack summary when complete
+
+### audit-08-self-hosting-plan
+- **Type:** audit
+- **Min Model:** opus
+- **Priority:** critical
+- **Status:** pending
+- **Description:** Plan self-hosting infrastructure
+- **Instructions:**
+  1. Document required services:
+     - Synapse (Matrix homeserver)
+     - PostgreSQL
+     - LiveKit
+     - HAOS frontend (Next.js)
+  2. Create Docker Compose stack plan
+  3. Plan private federation mode
+  4. Create /home/ubuntu/clawd/docs/haos-v2/SELF-HOSTING-PLAN.md
+  5. Send Slack summary when complete
+
+### audit-09-migration-existing-code
+- **Type:** audit
+- **Min Model:** opus
+- **Priority:** high
+- **Status:** pending
+- **Description:** Determine what to keep from current HAOS work
+- **Instructions:**
+  1. Review /home/ubuntu/repos/haos/apps/web/src/haos/
+  2. Identify reusable code:
+     - Matrix SDK integration patterns
+     - Voice/video components
+     - Any useful utilities
+  3. List code to port to new HAOS v2
+  4. Create /home/ubuntu/clawd/docs/haos-v2/MIGRATION-FROM-V1.md
+  5. Send Slack summary when complete
+
+### audit-10-final-implementation-plan
+- **Type:** planning
+- **Min Model:** opus
+- **Priority:** critical
+- **Status:** pending
+- **Description:** Create comprehensive implementation plan
+- **Instructions:**
+  1. Read ALL audit documents created (audit-01 through audit-09)
+  2. Create implementation phases:
+     - Phase 1: Project setup + Matrix SDK integration
+     - Phase 2: Auth system (Matrix login)
+     - Phase 3: Core messaging (Matrix rooms/events)
+     - Phase 4: Real-time sync
+     - Phase 5: Voice/video (LiveKit)
+     - Phase 6: File uploads
+     - Phase 7: Advanced features
+     - Phase 8: Self-hosting
+  3. Break each phase into atomic tasks
+  4. Estimate time for each task
+  5. Create /home/ubuntu/clawd/docs/haos-v2/IMPLEMENTATION-PLAN.md
+  6. Create new PROACTIVE-JOBS.md with all implementation tasks
+  7. Send Slack summary: "Audit complete! Implementation plan ready."
 
 ---
 
-## ═══════════════════════════════════════════════════════════
-## WAVE 1: INFRASTRUCTURE
-## ═══════════════════════════════════════════════════════════
+## Archived Tasks (Old HAOS v1 - Deprioritized)
 
-### haos-self-hosting-private-mode
-- **Priority:** HIGH
-- **Status:** pending
-- **Description:** Private deployment mode
+All previous haos-* tasks are archived. The Element Web approach was too complex.
+We're pivoting to the Discord clone + Matrix backend approach.
 
-### haos-self-hosting-docker-stack
-- **Priority:** HIGH
-- **Status:** pending
-- **Description:** Complete Docker stack
+### haos-phase5-notifications (ARCHIVED)
+- **Status:** archived
+- **Reason:** Pivoting to HAOS v2 approach
 
-### haos-admin-dashboard
-- **Priority:** MEDIUM
-- **Status:** pending
-- **Description:** Admin dashboard
+### haos-phase7-ux-refinements (ARCHIVED)
+- **Status:** archived
+- **Reason:** Pivoting to HAOS v2 approach
 
-### haos-unit-testing
-- **Priority:** HIGH
-- **Status:** pending
-- **Description:** Unit tests
+(All other haos-* tasks archived - see git history for details)
 
 ---
 
-## ═══════════════════════════════════════════════════════════
-## WAVE 2-5: FEATURES
-## ═══════════════════════════════════════════════════════════
+## Notes
 
-### haos-phase2-remaining
-- **Priority:** MEDIUM
-- **Status:** pending
-- **Description:** Messaging (52 tasks)
+**Why the pivot?**
+- Element Web's architecture is deeply entangled
+- Discord clone is clean Next.js 13 with shadcn/ui
+- Easier to swap backend than reskin complex frontend
+- We keep Matrix's killer features: E2EE, federation, self-hosting
 
-### haos-phase3-server-settings
-- **Priority:** MEDIUM
-- **Status:** pending
-- **Description:** Server Settings
+**What we're keeping:**
+- Matrix/Synapse homeserver
+- LiveKit for voice/video
+- E2E encryption capabilities
+- Federation support
+- Private mode concept
 
-### haos-phase4-stage-channels
-- **Priority:** MEDIUM
-- **Status:** pending
-- **Description:** Stage Channels
-
-### haos-phase5-user-settings
-- **Priority:** MEDIUM
-- **Status:** pending
-- **Description:** User Settings
-
-### haos-phase6-mod-tools
-- **Priority:** MEDIUM
-- **Status:** pending
-- **Description:** Mod Tools
-
----
-
-## ═══════════════════════════════════════════════════════════
-## WAVE 6: QA
-## ═══════════════════════════════════════════════════════════
-
-### haos-qa-matrix-integration
-- **Priority:** HIGH
-- **Status:** pending
-
-### haos-qa-accessibility
-- **Priority:** MEDIUM
-- **Status:** pending
-
-### haos-qa-security
-- **Priority:** HIGH
-- **Status:** pending
-
----
-
-## Completed Tasks
-
-### haos-phase6-moderation ✅
-- **Completed:** 2026-02-10 22:15 EST
-
-### haos-phase5-notifications ✅
-- **Completed:** 2026-02-10
-
----
-
-## Task Flow
-
-```
-1. haos-debug-crash (BLOCKING)
-       ↓
-2. haos-restore-deploy
-       ↓
-3. haos-visual-audit-real
-       ↓
-4. haos-visual-colors-fix
-5. haos-visual-layout-fix
-6. haos-visual-components-fix
-       ↓
-7. Wave 1: Infrastructure
-       ↓
-8. Wave 2-5: Features
-       ↓
-9. Wave 6: QA
-```
+**What we're replacing:**
+- Element Web frontend → Discord clone frontend
+- Element's React components → shadcn/ui components
+- Element's complex state → Zustand + React Query
