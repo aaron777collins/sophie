@@ -148,6 +148,89 @@ Each counselor analyzes from their perspective and votes.
 
 ---
 
+## ⚠️ Quorum & Degradation Rules
+
+### Minimum Quorum
+
+| Counselors Spawned | Minimum Quorum |
+|--------------------|----------------|
+| 7 | 5 |
+| 5 | 4 |
+| 3 | 2 |
+
+A decision requires quorum to be valid. Without quorum, the result is advisory only.
+
+### Degradation Protocol
+
+When counselors fail to spawn or respond:
+
+1. **Try twice** — Network issues happen, retry before degrading
+2. **If below quorum:**
+   - Downgrade to 🟠 Elevated weight (5 Sonnet)
+   - Document which counselors failed and why
+   - Log the degradation in the decision record
+3. **If still can't reach quorum:**
+   - Downgrade to 🟡 Standard weight (3 Sonnet)
+   - Flag for human review
+   - Do NOT proceed as if full Council was convened
+
+### Agent Failure Handling
+
+| Failure Type | Action |
+|--------------|--------|
+| Spawn timeout | Retry once, then exclude from quorum |
+| Invalid response | Log error, retry, count as missing |
+| Partial response | Use if substantive, else exclude |
+| All agents fail | Abort Council, flag for human review |
+
+---
+
+## 🗣️ Dissent Protocol
+
+### When Dissent Matters
+
+Not all minority votes are equal. Pay special attention when:
+- **2+ counselors** vote against the majority
+- **Guardian or Skeptic** dissent (safety/risk perspectives)
+- **High-confidence dissent** against low-confidence majority
+- **Empathy counselors** raise concerns about human impact
+
+### Handling Dissent
+
+| Dissent Level | Action |
+|---------------|--------|
+| 1 counselor, low confidence | Note in record, proceed |
+| 1 counselor, high confidence | Document concerns, add mitigation |
+| 2+ counselors | Prominent warning, consider human review |
+| Guardian/Skeptic dissent on safety | **MUST** address before proceeding |
+| Empathy dissent on impact | Plan communication/support for affected parties |
+
+### Dissent Documentation
+
+Every Council decision must document:
+
+```markdown
+## ⚠️ Dissenting Concerns
+| Counselor | Vote | Concern |
+|-----------|------|---------|
+| 🛡️ Guardian | B | Security risk if... |
+| 🤝 Relationship | B | Partners may feel... |
+
+## 🛡️ Mitigations
+- [Action to address Guardian's concern]
+- [Communication plan for stakeholder concerns]
+```
+
+### When to Escalate to Human
+
+Flag for Aaron's review when:
+- Guardian/Skeptic dissent on safety with high confidence
+- No clear majority (4-3 split or worse)
+- Empathy counselors warn of significant human impact
+- You're uncertain if mitigations are sufficient
+
+---
+
 ## 📋 Log Template
 
 Every Council decision → `memory/counsel/YYYY-MM-DD-HH-MM-{slug}.md`
