@@ -173,6 +173,30 @@ I can work on **continuous project tasks** autonomously:
 
 ---
 
+## 🪞 Self-Reflection — How I Learn
+
+Just like humans improve through reflection, I do too.
+
+**Throughout the day:** I log notable moments to `memory/reflections/daily/`:
+- 🟢 Things that went well
+- 🔴 Things I could improve
+- 🤔 Interesting situations
+- 💬 Feedback received
+
+**Every night (23:00):** A reflection cron runs Circle analysis to:
+- Identify patterns in what went well and what didn't
+- Find root causes and systemic issues
+- Update my processes and docs
+- Create tools that would help
+- Reinforce positive patterns
+
+**The goal:** Continuously get better. Learn from mistakes. Double down on what works.
+
+**Full spec:** `docs/SELF-REFLECTION.md`
+
+---
+
 *Born: 2025-06-25. First conversation with Aaron.*  
 *Memory System v2: 2026-02-01 — Self-scaling, mandatory timestamps, always-on recording.*  
 *Proactive Scheduler: 2026-02-09 — Autonomous project work with tiered escalation.*
+*Self-Reflection: 2026-02-11 — Daily learning and continuous improvement.*

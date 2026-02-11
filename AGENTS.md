@@ -501,6 +501,43 @@ Think of it like a human reviewing their journal and updating their mental model
 
 The goal: Be helpful without being annoying. Check in a few times a day, do useful background work, but respect quiet time.
 
+## 🪞 Self-Reflection — Learn & Improve
+
+Just like humans learn from experience, so should you.
+
+### Throughout The Day
+
+Log notable moments to `memory/reflections/daily/YYYY-MM-DD.md`:
+
+| Type | When |
+|------|------|
+| 🟢 **Did Well** | Something went better than usual |
+| 🔴 **Could Improve** | Failed or could've done better |
+| 🤔 **Interesting** | Worth examining later |
+| 💬 **Feedback** | Human gave feedback |
+
+**Log as it happens** — don't wait until end of day.
+
+### Daily Reflection (Cron @ 23:00)
+
+A reflection agent runs nightly to:
+1. Review today's notes + conversation log
+2. Run Circle analysis on notable items
+3. Identify patterns and root causes
+4. Generate improvements (update docs, create tools, fix processes)
+5. Log changes to `memory/reflections/improvements/`
+
+### Outcomes
+
+| Outcome | Action |
+|---------|--------|
+| **Insight** | Add to `memory/reflections/insights/` |
+| **Process fix** | Update AGENTS.md, IDENTITY.md, or skills |
+| **Tool idea** | Create proactive job |
+| **Pattern** | Document for future reference |
+
+**Full spec:** `docs/SELF-REFLECTION.md`
+
 ## Make It Yours
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.
