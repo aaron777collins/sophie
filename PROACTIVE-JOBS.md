@@ -1,9 +1,9 @@
 # HAOS Proactive Jobs - Master Queue
 
 > **Project:** HAOS (Discord UI + Matrix Backend)
-> **Goal:** Production-ready, self-hostable, pixel-perfect Discord clone
-> **Total Tasks:** ~575 (405 remaining features + 170 new infrastructure/testing)
-> **Last Updated:** 2026-02-11 00:05 EST
+> **Goal:** Production-ready, self-hostable, PIXEL-PERFECT Discord clone
+> **Reference:** Discord screenshots saved in `haos/docs/reference/`
+> **Last Updated:** 2026-02-11 00:15 EST
 
 ---
 
@@ -16,195 +16,269 @@
 > 🚀 **DEPLOY TO DEV2** — after each feature task:
 > ```bash
 > cd /home/ubuntu/repos/haos/apps/web && yarn build
-> rsync -avz --delete dist/ dev2:/home/ubuntu/haos/dist/
+> rsync -avz --delete webapp/ dev2:/home/ubuntu/haos/dist/
 > ssh dev2 "docker restart haos-web 2>/dev/null || true"
 > ```
+> 📸 **VISUAL COMPARE** — after each UI task, screenshot dev2 and compare to Discord:
+> ```bash
+> node /home/ubuntu/repos/haos/scripts/screenshot-compare.js
+> # Compare output with docs/reference/discord-reference-1.png
+> ```
+
+---
+
+## ⚠️ CRITICAL: Visual Overhaul Required
+
+The current HAOS UI does NOT look like Discord. This is the #1 priority.
+
+**Reference screenshots:** `/home/ubuntu/repos/haos/docs/reference/`
+- `discord-reference-1.png` — Full Discord UI (server list, channels, messages, members)
+- `discord-reference-2.png` — Same screenshot for comparison
+
+**Goal:** HAOS must be indistinguishable from Discord when logged in.
 
 ---
 
 ## Currently Running
 
-### haos-self-hosting-private-mode ⏳
+### haos-visual-overhaul ⏳ PRIORITY 1
 - **Status:** in-progress
-- **Agent:** Building HAOS and implementing private mode config
-
-### haos-deploy-dev2 ⏳  
-- **Status:** in-progress
-- **Agent:** Setting up initial dev2 deployment
+- **Agent:** Doing comprehensive visual comparison and fixes
+- **Goal:** Make HAOS look EXACTLY like Discord
 
 ---
 
 ## ═══════════════════════════════════════════════════════════
-## WAVE 0: CRITICAL INFRASTRUCTURE
+## WAVE 0: VISUAL OVERHAUL (CRITICAL - DO THIS FIRST)
+## ═══════════════════════════════════════════════════════════
+
+### haos-visual-overhaul
+- **Priority:** CRITICAL
+- **Min Model:** opus
+- **Description:** Make HAOS look exactly like Discord
+- **Status:** pending
+- **Instructions:**
+  1. Open Discord reference: `/home/ubuntu/repos/haos/docs/reference/discord-reference-1.png`
+  2. Take screenshot of HAOS: `node scripts/screenshot-compare.js`
+  3. Compare EVERY element side-by-side:
+  
+  **Server List (Left Bar):**
+  - Width: 72px
+  - Icons: 48px round, squircle on hover
+  - Spacing: 8px between icons
+  - Selection pill: 4px wide white bar
+  - Unread dot: white circle
+  - Folder expand animation
+  
+  **Channel Sidebar:**
+  - Width: 240px  
+  - Background: #2f3136
+  - Server name header with dropdown
+  - Categories: collapsible, uppercase text
+  - Channel items: # icon, hover background
+  - User panel at bottom: avatar, name, status, buttons
+  
+  **Message Area:**
+  - Background: #36393f
+  - Header: channel name, topic, icons
+  - Messages: 40px avatars, name in color, timestamp
+  - Message grouping (same author within 7min)
+  - Hover: background highlight, action buttons
+  - Composer: rounded, attachment button, emoji
+  
+  **Member List (Right):**
+  - Width: 240px
+  - Background: #2f3136
+  - Role headers (collapsible)
+  - Member items: avatar, name in role color, status dot
+  - Activity display
+  
+  4. Document EVERY difference in `/home/ubuntu/repos/haos/docs/VISUAL-DIFFERENCES.md`
+  5. Fix EVERY difference
+  6. Rebuild and deploy to dev2
+  7. Screenshot again and verify
+  8. Repeat until pixel-perfect
+
+### haos-visual-colors
+- **Priority:** CRITICAL
+- **Min Model:** sonnet
+- **Description:** Fix all colors to match Discord exactly
+- **Status:** pending
+- **Instructions:**
+  Discord color palette:
+  - Background dark: #202225
+  - Background medium: #2f3136
+  - Background light: #36393f
+  - Background lighter: #40444b
+  - Text normal: #dcddde
+  - Text muted: #72767d
+  - Text link: #00aff4
+  - Blurple: #5865F2
+  - Green: #3ba55d
+  - Red: #ed4245
+  - Yellow: #faa81a
+  
+  1. Audit all CSS for color values
+  2. Replace any non-matching colors
+  3. Ensure dark theme matches Discord dark theme
+  4. Deploy and verify
+
+### haos-visual-layout
+- **Priority:** CRITICAL
+- **Min Model:** sonnet
+- **Description:** Fix layout structure to match Discord
+- **Status:** pending
+- **Instructions:**
+  1. Server list: fixed 72px width
+  2. Channel sidebar: fixed 240px width
+  3. Member list: fixed 240px width, hideable
+  4. Message area: flex-grow to fill remaining space
+  5. Ensure no Element-specific layout leaking through
+  6. Deploy and verify
+
+### haos-visual-fonts
+- **Priority:** high
+- **Min Model:** sonnet
+- **Description:** Fix fonts to match Discord
+- **Status:** pending
+- **Instructions:**
+  Discord uses: gg sans, Noto Sans, Whitney (fallbacks)
+  Font sizes:
+  - Channel names: 16px
+  - Message text: 16px (1rem)
+  - Timestamps: 12px
+  - Category headers: 12px uppercase
+  
+  1. Import/configure correct fonts
+  2. Set correct sizes throughout
+  3. Deploy and verify
+
+### haos-visual-components
+- **Priority:** high
+- **Min Model:** opus
+- **Description:** Fix individual components to match Discord
+- **Status:** pending
+- **Instructions:**
+  Components to fix:
+  - Server icons (hover animation to squircle)
+  - Channel items (icon, name, hover state)
+  - Message bubbles (avatar position, timestamp)
+  - User avatars (sizes, status indicator position)
+  - Buttons (Discord button styles)
+  - Inputs (Discord input styles)
+  - Modals (Discord modal styles)
+  - Tooltips (Discord tooltip styles)
+  - Context menus (Discord context menu styles)
+  
+  1. Fix each component one by one
+  2. Deploy and verify after each
+
+---
+
+## ═══════════════════════════════════════════════════════════
+## WAVE 1: INFRASTRUCTURE (After Visual Overhaul)
 ## ═══════════════════════════════════════════════════════════
 
 ### haos-self-hosting-private-mode
-- **Priority:** CRITICAL
-- **Description:** Private deployment mode - HAOS's core value proposition
-- **Status:** in-progress
+- **Priority:** high
+- **Description:** Private deployment mode
+- **Status:** pending
 
 ### haos-self-hosting-setup-wizard
-- **Priority:** CRITICAL
-- **Description:** First-run setup wizard for self-hosted instances
+- **Priority:** high
+- **Description:** First-run setup wizard
 - **Status:** pending
 
 ### haos-self-hosting-docker-stack
-- **Priority:** CRITICAL
-- **Description:** Complete Docker deployment stack (Synapse + HAOS + LiveKit)
+- **Priority:** high
+- **Description:** Complete Docker stack
 - **Status:** pending
 
 ### haos-self-hosting-docs
-- **Priority:** CRITICAL
+- **Priority:** high
 - **Description:** Self-hosting documentation
 - **Status:** pending
 
 ### haos-admin-dashboard
-- **Priority:** high
-- **Description:** Admin dashboard for instance management
+- **Priority:** medium
+- **Description:** Admin dashboard
 - **Status:** pending
 
 ### haos-unit-testing
-- **Priority:** CRITICAL
-- **Description:** Unit tests for all HAOS modules
+- **Priority:** high
+- **Description:** Unit tests for HAOS modules
 - **Status:** pending
 
 ### haos-mobile-testing
-- **Priority:** high
-- **Description:** Mobile responsiveness audit and fixes
+- **Priority:** medium
+- **Description:** Mobile responsiveness
 - **Status:** pending
 
 ---
 
 ## ═══════════════════════════════════════════════════════════
-## WAVE 1-5: FEATURE COMPLETION
+## WAVE 2-5: FEATURE COMPLETION
 ## ═══════════════════════════════════════════════════════════
 
 ### haos-phase2-remaining
-- **Priority:** high
-- **Description:** Complete Phase 2 messaging features (52 remaining)
+- **Priority:** medium
+- **Description:** Messaging features (52 tasks)
 - **Status:** pending
 
 ### haos-phase3-server-settings
-- **Priority:** high
-- **Description:** Server Settings Modal (P3-019 to P3-050)
-- **Status:** pending
-
-### haos-phase4-voice-remaining
-- **Priority:** high
-- **Description:** Remaining voice features (P4-021, P4-091)
+- **Priority:** medium
+- **Description:** Server Settings Modal
 - **Status:** pending
 
 ### haos-phase4-stage-channels
-- **Priority:** high
-- **Description:** Stage Channel implementation (P4-096 to P4-105)
+- **Priority:** medium
+- **Description:** Stage Channels
 - **Status:** pending
 
 ### haos-phase5-user-settings
-- **Priority:** high
-- **Description:** User Settings (P5-028 to P5-055)
-- **Status:** pending
-
-### haos-phase5-status-system
 - **Priority:** medium
-- **Description:** Status System (P5-061 to P5-070)
-- **Status:** pending
-
-### haos-phase5-user-actions
-- **Priority:** medium
-- **Description:** User Actions (P5-119 to P5-138)
-- **Status:** pending
-
-### haos-phase6-reports-safety
-- **Priority:** medium
-- **Description:** Reports & Safety (P6-061 to P6-075)
+- **Description:** User Settings
 - **Status:** pending
 
 ### haos-phase6-mod-tools
 - **Priority:** medium
-- **Description:** Moderation Tools (P6-076 to P6-085)
-- **Status:** pending
-
-### haos-phase7-user-discovery
-- **Priority:** medium
-- **Description:** User Discovery (P7-051 to P7-060)
+- **Description:** Mod Tools
 - **Status:** pending
 
 ### haos-phase7-navigation
 - **Priority:** medium
-- **Description:** Navigation (P7-061 to P7-068)
+- **Description:** Navigation & Discovery
 - **Status:** pending
 
 ### haos-phase8-animations
-- **Priority:** medium
-- **Description:** Animations & Micro-interactions (P8-004 to P8-020)
-- **Status:** pending
-
-### haos-phase8-premium
 - **Priority:** low
-- **Description:** Premium Features UI (P8-051 to P8-070)
-- **Status:** pending
-
-### haos-phase8-final-polish
-- **Priority:** medium
-- **Description:** Final Polish (remaining items)
+- **Description:** Animations & Polish
 - **Status:** pending
 
 ---
 
 ## ═══════════════════════════════════════════════════════════
-## WAVE 6: QUALITY ASSURANCE
+## WAVE 6: QA
 ## ═══════════════════════════════════════════════════════════
-
-### haos-qa-visual-audit ✅ COMPLETE
-- **Priority:** high
-- **Description:** Pixel-perfect Discord comparison
-- **Status:** complete
-- **Result:** 85-90% pixel-perfect, minor fixes documented in docs/VISUAL-AUDIT.md
 
 ### haos-qa-matrix-integration
 - **Priority:** high
-- **Description:** Validate all features work with Matrix SDK
+- **Description:** Matrix SDK validation
 - **Status:** pending
 
 ### haos-qa-accessibility
-- **Priority:** high
-- **Description:** WCAG 2.1 AA accessibility audit
+- **Priority:** medium
+- **Description:** WCAG 2.1 AA audit
 - **Status:** pending
 
 ### haos-qa-e2e-testing
 - **Priority:** high
-- **Description:** End-to-end test suite (Playwright)
+- **Description:** E2E test suite
 - **Status:** pending
 
 ### haos-qa-security
-- **Priority:** CRITICAL
-- **Description:** Security audit and hardening
-- **Status:** pending
-
----
-
-## ═══════════════════════════════════════════════════════════
-## WAVE 7-8: DOCUMENTATION & DEPLOYMENT
-## ═══════════════════════════════════════════════════════════
-
-### haos-documentation-user
-- **Priority:** medium
-- **Description:** User documentation
-- **Status:** pending
-
-### haos-documentation-developer
-- **Priority:** medium
-- **Description:** Developer documentation
-- **Status:** pending
-
-### haos-i18n
-- **Priority:** medium
-- **Description:** Internationalize HAOS strings
-- **Status:** pending
-
-### haos-deployment-production
 - **Priority:** high
-- **Description:** Production deployment preparation
+- **Description:** Security audit
 - **Status:** pending
 
 ---
@@ -213,26 +287,19 @@
 
 ### haos-phase6-moderation ✅
 - **Completed:** 2026-02-10 22:15 EST
-- **Result:** 60 moderation tasks, ~7470 lines of code
 
 ### haos-phase5-notifications ✅
 - **Completed:** 2026-02-10
-- **Result:** Desktop notifications, sounds, Inbox component
-
-### haos-qa-visual-audit ✅
-- **Completed:** 2026-02-11 00:02 EST
-- **Result:** 85-90% pixel-perfect, audit in docs/VISUAL-AUDIT.md
 
 ---
 
 ## Summary
 
-| Wave | Tasks | Status |
-|------|-------|--------|
-| Wave 0: Infrastructure | 7 | 1 running, 6 pending |
-| Wave 1-5: Features | 14 | All pending |
-| Wave 6: QA | 5 | 1 complete, 4 pending |
-| Wave 7-8: Docs/Deploy | 4 | All pending |
-| **Total** | **30** | 2 running, 1 complete |
+| Wave | Priority | Status |
+|------|----------|--------|
+| Wave 0: Visual Overhaul | CRITICAL | Starting now |
+| Wave 1: Infrastructure | High | Pending |
+| Wave 2-5: Features | Medium | Pending |
+| Wave 6: QA | High | Pending |
 
-**Next up after current tasks:** haos-self-hosting-setup-wizard
+**MOST IMPORTANT:** Visual overhaul must be done FIRST. HAOS must look like Discord.
