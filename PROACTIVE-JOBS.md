@@ -670,23 +670,60 @@ Task dependency graph:
 - Phase 5 is parallel to Phase 3-4
 - etc.
 
-**Step 6: Create new PROACTIVE-JOBS.md**
+**Step 6: CRITICAL — Rewrite PROACTIVE-JOBS.md with ALL implementation tasks**
 
-Replace THIS file's audit section with implementation tasks:
+⚠️ **THIS IS THE MOST IMPORTANT STEP** ⚠️
+
+You MUST rewrite PROACTIVE-JOBS.md to contain:
+
+1. **Keep the header rules** (1 task at a time, full completion standard, agents may die)
+2. **Archive all audit-* tasks** to "Completed Tasks" section  
+3. **Add EVERY implementation task** with FULL definitions
+
+**Required format for EACH task:**
 ```markdown
-## Phase 1: Project Setup
+### impl-phase1-01-scaffold-nextjs
+- **Type:** implementation
+- **Min Model:** sonnet
+- **Priority:** critical
+- **Status:** pending
+- **Description:** Set up clean Next.js project with Matrix SDK
+- **Dependencies:** none (first task)
+- **Output:** Working app at /home/ubuntu/repos/haos-v2/
 
-### impl-01-scaffold-nextjs
-- Type: implementation
-- Min Model: sonnet
-- Instructions:
-  1. Clone Discord clone repo
-  2. Remove Clerk dependencies
-  3. Remove UploadThing dependencies
-  4. Remove Prisma (we use Matrix)
-  5. Add matrix-js-sdk
-  6. Verify build works
+#### Detailed Instructions
+
+**Step 1:** Clone the Discord clone
+```bash
+git clone https://github.com/nayak-nirmalya/discord-clone /home/ubuntu/repos/haos-v2
+cd /home/ubuntu/repos/haos-v2
 ```
+
+**Step 2:** Remove Clerk dependencies
+```bash
+npm uninstall @clerk/nextjs
+# Then manually remove all @clerk imports from every file
+grep -r "@clerk" --include="*.ts" --include="*.tsx" -l | xargs -I {} echo "Edit: {}"
+```
+
+**Step 3:** (continue with explicit commands...)
+
+**Final Step:** Send Slack summary
+```
+
+4. **Tasks ordered for sequential execution** (one at a time)
+5. **Each task completable by fresh agent** with NO prior context
+6. **~275 total tasks** across 9 implementation phases
+
+**THE ENTIRE PLAN LIVES IN PROACTIVE-JOBS.md**
+**CRON READS THIS FILE → SPAWNS AGENTS → AGENTS EXECUTE SEQUENTIALLY**
+
+After rewriting, verify:
+- [ ] Header rules preserved
+- [ ] All audit tasks archived as complete
+- [ ] All impl tasks have detailed instructions
+- [ ] Dependencies specified (what must complete first)
+- [ ] First impl task is Status: pending, rest are pending
 
 **Step 7: Write the plan document**
 
