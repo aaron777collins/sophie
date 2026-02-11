@@ -43,9 +43,8 @@ A voting system for critical decisions that spawns multiple Claude instances to 
 
 ## Key Design Decisions
 - [2026-02-11 01:05 EST] Odd numbers only (3, 5, 7) to avoid ties
-- [2026-02-11 01:05 EST] Opus for critical+, Sonnet for standard/elevated
-- [2026-02-11 01:05 EST] Rate limits: 3 Opus/day, 10 Sonnet/day
-- [2026-02-11 01:05 EST] 5-minute cooldown between councils
+- [2026-02-11 01:05 EST] Start with Sonnet (standard/elevated) — only escalate to Opus if Sonnet isn't sufficient or stakes are truly critical
+- [2026-02-11 01:12 EST] No rate limits — deep thinking encouraged, just use judgment on model selection
 
 ## Integration Points
 - Can be invoked by any agent via skill

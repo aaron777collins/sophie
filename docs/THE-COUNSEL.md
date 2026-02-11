@@ -157,10 +157,15 @@ counsel ask \
 - API breaking changes
 - Security-related decisions
 
-### Rate Limiting
-- Max 3 Opus councils per day per agent
-- Max 10 Sonnet councils per day per agent
-- Cooldown: 5 minutes between councils
+### Model Selection Guidance
+Deep thinking is encouraged! But be smart about model selection:
+- **Start with Sonnet** (standard/elevated) for most decisions
+- **Escalate to Opus** only when:
+  - Sonnet-level deliberation wasn't sufficient
+  - Stakes are truly critical (security, architecture, irreversible)
+  - You'd genuinely pay $3+ to get this decision right
+
+No rate limits — use your judgment.
 
 ### Audit Trail
 Every council decision is logged to:

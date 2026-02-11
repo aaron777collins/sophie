@@ -158,7 +158,7 @@ Ask: "How does this position us for the future?"
 Focus: Precedent, patterns, industry standards, lessons learned
 Ask: "What have others done? What patterns apply here?"
 
-## Abuse Prevention
+## Usage Guidance
 
 **DO NOT convene Counsel for:**
 - Code style decisions
@@ -167,12 +167,17 @@ Ask: "What have others done? What patterns apply here?"
 - UI color choices
 - Anything easily reversible
 
-**Rate Limits:**
-- Max 3 Opus councils per day
-- Max 10 Sonnet councils per day  
-- 5-minute cooldown between councils
+**Model Selection:**
+Deep thinking is encouraged! But be smart:
+- **Start with Sonnet** (standard/elevated) — this handles most decisions well
+- **Escalate to Opus** only when:
+  - Sonnet wasn't sufficient for the complexity
+  - Stakes are truly critical (security, architecture, irreversible)
+  - You'd genuinely pay $3+ to get this decision right
 
-**If someone convenes Counsel inappropriately:**
+No rate limits — use your judgment.
+
+**If convened for trivial decisions:**
 The Counsel should vote "DISMISS - not worthy of deliberation" and log the misuse.
 
 ## Example: Quick 3-Counselor Standard Decision
