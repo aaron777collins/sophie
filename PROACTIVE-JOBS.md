@@ -48,6 +48,30 @@
 
 We're auditing the Discord clone + planning Matrix integration before writing code.
 
+---
+
+## Core Infrastructure Tasks (Can run in parallel with audit)
+
+### counsel-implementation-refinement
+- **Type:** implementation
+- **Min Model:** opus
+- **Priority:** high
+- **Status:** pending
+- **Description:** Refine The Counsel multi-agent voting system
+- **Instructions:**
+  1. Read /home/ubuntu/clawd/docs/THE-COUNSEL.md (full spec)
+  2. Read /home/ubuntu/clawd/skills/counsel/SKILL.md (usage guide)
+  3. Create working integration that:
+     - Accepts: question, context, options, complexity
+     - Spawns N sub-agents (3/5/7) with perspective prompts
+     - Collects their vote responses
+     - Parses votes and tallies them
+     - Determines winner (majority)
+     - Logs full decision to memory/counsel/YYYY-MM-DD-HH-MM-slug.md
+  4. Test with a real decision (e.g., "Should we use PostgreSQL or SQLite?")
+  5. Document any issues or refinements
+  6. Make it callable from other agents
+
 **Output Location:** `/home/ubuntu/clawd/docs/haos-v2/`
 
 ### Master Checklist
