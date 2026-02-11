@@ -1,0 +1,34 @@
+{
+  "version": "1.0",
+  "created": "2025-02-10T18:30:00Z",
+  "lastUpdated": "2025-02-10T18:30:00Z",
+  "description": "Index of recurring patterns discovered through self-reflection",
+  "patterns": [],
+  "patternSchema": {
+    "id": "unique-pattern-id",
+    "name": "Pattern name",
+    "category": "communication|technical|process|behavior|other",
+    "description": "What the pattern is",
+    "frequency": "Number of times observed",
+    "firstSeen": "ISO date of first observation",
+    "lastSeen": "ISO date of most recent observation",
+    "instances": ["Array of daily reflection file references"],
+    "status": "active|resolved|monitoring",
+    "improvements": ["Actions taken to address this pattern"],
+    "impact": "low|medium|high",
+    "tags": ["relevant", "tags"]
+  },
+  "categories": {
+    "communication": "Patterns in how I communicate with Aaron",
+    "technical": "Technical mistakes or skills gaps",
+    "process": "Workflow and process inefficiencies",
+    "behavior": "Behavioral patterns (over-explaining, etc)",
+    "other": "Miscellaneous patterns"
+  },
+  "stats": {
+    "totalPatterns": 0,
+    "activePatterns": 0,
+    "resolvedPatterns": 0,
+    "lastAnalysis": null
+  }
+}
