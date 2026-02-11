@@ -1,34 +1,53 @@
-# ⚖️ Counsel Decision Index
+# Council Decisions Index
 
-Track decisions for precedent lookup and pattern recognition.
+## Overview
+This document tracks key strategic decisions made by the Council, providing a comprehensive, searchable record of our most important choices.
 
-## 📊 Decision Log
+## Decision Categories
+- 🏛️ Architecture
+- 🛡️ Security
+- 💻 Technology
+- 🚀 Strategic
+- 🌐 Product
+- 🤝 Collaboration
+- 📊 Business
 
-| Date | Question | Options | Result | Confidence | File |
-|------|----------|---------|--------|------------|------|
-| 2026-02-11 | Database for Clawdbot memory system | PostgreSQL, SQLite | SQLite ✅ | Unanimous | [View](2026-02-11-06-38-should-we-use-postgresql-or-sqlite-for-t.md) |
-| 2026-02-11 | Logging format for Clawdbot | JSON, Text, Hybrid | Hybrid ✅ | 80% (4/5) | [View](2026-02-11-06-40-should-clawdbot-use-structured-logging-j.md) |
+## Decision Log
 
-## 🏷️ By Category
+### Template
+Each decision follows this structure:
 
-### Architecture
-- [2026-02-11: PostgreSQL vs SQLite](2026-02-11-06-38-should-we-use-postgresql-or-sqlite-for-t.md) — SQLite chosen for simplicity
+#### [DECISION TITLE]
+- **Date:** YYYY-MM-DD
+- **Category:** 
+- **Decision ID:** YYYY-MM-DD-unique-identifier
+- **Participants:** 
+- **Context:** 
+- **Decision Summary:** 
+- **Rationale:** 
+- **Implications:** 
+  - Short-term:
+  - Long-term:
+- **Alternatives Considered:** 
+- **Follow-up Actions:** 
+  - [ ] Action item 1
+  - [ ] Action item 2
+- **Status:** Proposed / Approved / Implemented / Archived
+- **Related Decisions:** [Links to related decision IDs]
 
-### Security  
-*Links to security decisions*
+## Recent Decisions
+<!-- Newest decisions go at the top -->
 
-### Strategy
-*Links to strategic decisions*
+## Search Tips
+- Use CMD+F (macOS) or CTRL+F (Windows/Linux) to search
+- Filter by date, category, or keywords
+- Refer to Decision ID for precise tracking
 
-## 🔍 Quick Search
+## Version Control
+- Last Updated: [Timestamp]
+- Total Decisions Logged: 0
 
-When facing a new decision, check:
-1. Have we decided something similar before?
-2. What was the reasoning?
-3. Did it work out?
-
-## 📈 Patterns
-
-*Emerging patterns from decisions:*
-
-- **Simplicity wins for single-user systems** — When there's only one user, operational simplicity (SQLite) beats feature richness (PostgreSQL)
+## Revision History
+| Version | Date | Changes | Author |
+|---------|------|---------|--------|
+| 1.0 | [CURRENT_DATE] | Initial creation | Sophie |
