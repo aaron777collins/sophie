@@ -1,142 +1,91 @@
 # ⚖️ The Counsel
 
-> *"In the multitude of counselors there is safety."* — Proverbs 11:14
+> *The Circle at maximum weight*
 
 ```
     ╔══════════════════════════════════════════════════════════════╗
     ║                                                              ║
-    ║     🏛️  T H E   C O U N S E L  🏛️                           ║
+    ║     ⚖️  T H E   C O U N S E L  ⚖️                            ║
     ║                                                              ║
-    ║         Multi-Agent Deliberation System                      ║
-    ║         For Decisions That Matter                            ║
+    ║         The Circle • Maximum Weight                          ║
+    ║         For Decisions That Can't Be Wrong                    ║
     ║                                                              ║
     ╚══════════════════════════════════════════════════════════════╝
 ```
 
 ## 🎯 What Is The Counsel?
 
-The Counsel is a **high-stakes decision-making framework** that spawns multiple Claude instances to deliberate from different perspectives, vote, and reach consensus.
+**The Counsel is The Circle at full power.**
 
-Think of it as your personal board of advisors — each with a unique lens, all focused on getting the decision *right*.
+Same framework — critical thinking perspectives + empathy considerations — but with:
+- 5-7 counselors (instead of 1-3)
+- Opus model (instead of Sonnet/Haiku)
+- Formal voting and documentation
+- Full deliberation ceremony
 
----
+**Use for:** Mission-critical decisions where being wrong is costly.
 
-## 🚦 When to Convene
-
-### ✅ Perfect For:
-| Decision Type | Example |
-|--------------|---------|
-| 🏗️ Architecture | "Microservices or monolith?" |
-| 🔐 Security | "How should we handle auth tokens?" |
-| 💾 Data Models | "Schema design that's hard to change" |
-| 🎯 Strategy | "Which direction for the product?" |
-| 🚀 Deployment | "Production rollout approach" |
-| 💔 Breaking Changes | "API versioning strategy" |
-
-### ❌ Not For:
-- 🎨 Styling choices
-- 📝 Documentation tweaks
-- 🐛 Simple bug fixes
-- ↩️ Easily reversible decisions
-- 🤷 Low-stakes choices
-
-**Quick test:** *Would you pay $2+ to get this decision right?* If yes, convene.
+**For everyday thinking:** Use lighter Circle weights. See `docs/THE-CIRCLE.md`.
 
 ---
 
-## 🎚️ Complexity Levels
+## 🔴 When to Convene
 
-Choose your council size based on stakes:
+### ✅ Council-Worthy:
 
-```
-┌─────────────┬─────────────┬─────────┬───────────┬─────────────────────────────┐
-│   Level     │ Counselors  │  Model  │ Est. Cost │        Best For             │
-├─────────────┼─────────────┼─────────┼───────────┼─────────────────────────────┤
-│ 🟢 standard │     3       │ Sonnet  │  ~$0.20   │ Important but recoverable   │
-│ 🟡 elevated │     5       │ Sonnet  │  ~$0.35   │ Complex, multi-stakeholder  │
-│ 🟠 critical │     5       │  Opus   │  ~$2.00   │ Mission-critical decisions  │
-│ 🔴 maximum  │     7       │  Opus   │  ~$3.00   │ Existential, highest stakes │
-└─────────────┴─────────────┴─────────┴───────────┴─────────────────────────────┘
-```
+| Situation | Why |
+|-----------|-----|
+| 🏗️ Architecture decisions | Affects entire system |
+| 🔐 Security choices | Hard to fix if wrong |
+| 💾 Data model changes | Difficult to reverse |
+| 🎯 Strategic pivots | Long-term consequences |
+| 💔 Breaking changes | Impacts users/partners |
+| 💰 Major investments | Significant resources |
 
-### 🧠 Model Selection Guidance
+### ❌ Use Lighter Circle Instead:
 
-Deep thinking is encouraged! But be smart:
+- Styling decisions → 💭 Internal
+- Minor features → 🟢 Light  
+- Standard implementation → 🟡 Standard
+- Complex but recoverable → 🟠 Elevated
 
-- **Start with Sonnet** (🟢 standard / 🟡 elevated) — handles most decisions beautifully
-- **Escalate to Opus** (🟠 critical / 🔴 maximum) only when:
-  - Sonnet-level deliberation wasn't sufficient
-  - Stakes are truly critical (security, architecture, irreversible)
-  - You'd genuinely pay $3+ to get this decision right
-
-No rate limits — use your judgment.
+**Quick test:** *Would you pay $3+ to get this decision right?*
 
 ---
 
-## 👥 The Seven Perspectives
+## 👥 The Council
 
-Each counselor embodies a distinct viewpoint:
+### 🧠 Critical Thinking Counselors (5)
 
-| # | Counselor | Focus | Core Question |
-|---|-----------|-------|---------------|
-| 1 | 🏛️ **The Architect** | System design, scalability, technical debt | *"How does this affect our structure?"* |
-| 2 | 🛡️ **The Guardian** | Security, privacy, risk mitigation | *"What could go wrong?"* |
-| 3 | 🔧 **The Pragmatist** | Implementation, timeline, resources | *"Can we actually build this?"* |
-| 4 | 💚 **The Advocate** | User experience, accessibility | *"How will users feel about this?"* |
-| 5 | 🔍 **The Skeptic** | Edge cases, failure modes | *"What are we missing?"* |
-| 6 | 🔮 **The Visionary** | Long-term implications, flexibility | *"How does this position us for the future?"* |
-| 7 | 📚 **The Historian** | Precedent, patterns, lessons learned | *"What have others done?"* |
+| Counselor | Focus |
+|-----------|-------|
+| 🏛️ **The Architect** | System design, scalability, structure |
+| 🛡️ **The Guardian** | Security, privacy, risk mitigation |
+| 🔧 **The Pragmatist** | Implementation, timeline, resources |
+| 🔍 **The Skeptic** | Edge cases, assumptions, blind spots |
+| 🔮 **The Visionary** | Long-term, flexibility, future impact |
 
-*Standard (3) uses: Architect, Guardian, Pragmatist*
-*Elevated (5) adds: Advocate, Skeptic*
-*Maximum (7) adds: Visionary, Historian*
+### 💜 Empathy Counselors (2)
 
----
+| Counselor | Focus |
+|-----------|-------|
+| 💜 **The Empath** | How affected parties feel, emotional impact |
+| 🤝 **The Relationship Guardian** | Trust, communication, stakeholder dynamics |
 
-## 🎨 Custom Perspectives
+### 🎨 Custom Counselors
 
-The 7 defaults cover most decisions, but you can **add or substitute custom perspectives** for domain-specific expertise:
-
-### Example Custom Perspectives
-
-| Counselor | Focus | Core Question |
-|-----------|-------|---------------|
-| 🔬 **The Data Scientist** | ML tradeoffs, model accuracy, data quality | *"What does the data tell us?"* |
-| 💰 **The Economist** | Cost, ROI, resource allocation | *"What's the financial impact?"* |
-| 🎨 **The Designer** | Visual consistency, brand, aesthetics | *"How does this look and feel?"* |
-| ⚡ **The Performance Engineer** | Speed, latency, optimization | *"How fast will this be?"* |
-| 🌍 **The Internationalist** | i18n, localization, cultural fit | *"Will this work globally?"* |
-| ♿ **The Accessibility Champion** | WCAG, assistive tech, inclusion | *"Can everyone use this?"* |
-| 📊 **The Product Manager** | User value, market fit, priorities | *"Does this solve a real problem?"* |
-| 🧪 **The QA Engineer** | Testability, edge cases, regression | *"How do we verify this works?"* |
-
-### Using Custom Perspectives
-
-**Option 1: Add to defaults**
-- Use standard 3-5-7 + add 1-2 custom for domain expertise
-- Example: 5 defaults + The Data Scientist for ML decisions
-
-**Option 2: Replace defaults**
-- Swap out perspectives that aren't relevant
-- Example: Replace The Historian with The Designer for UI decisions
-
-**Option 3: All custom**
-- For specialized domains, create a fully custom panel
-- Example: ML pipeline decision → Data Scientist, Performance Engineer, Economist, Pragmatist, Skeptic
-
-### Custom Perspective Template
-
-```
-| {emoji} **The {Name}** | {focus areas} | *"{core question}"* |
-```
-
-When spawning, use the same prompt structure but with your custom perspective's focus.
+Add domain experts as needed:
+- 🔬 The Data Scientist
+- 💰 The Economist  
+- 🎨 The Designer
+- ⚡ The Performance Engineer
+- 📚 The Historian
 
 ---
 
 ## 📜 The Protocol
 
-### Phase 1: 🔔 Convening
+### Phase 1: Convening
 
 ```
 ╔════════════════════════════════════════════════════════════════════╗
@@ -147,34 +96,31 @@ When spawning, use the same prompt structure but with your custom perspective's 
 ║  📄 Context:     [Relevant background]                             ║
 ║  🎯 Options:     [A] ... [B] ... [C] ...                           ║
 ║  ⚠️  Stakes:      [Why this matters]                               ║
-║  🎚️  Complexity:  [standard|elevated|critical|maximum]             ║
+║  👥 Counselors:  7                                                 ║
+║  🤖 Model:       Opus                                              ║
 ║                                                                    ║
 ╚════════════════════════════════════════════════════════════════════╝
 ```
 
-### Phase 2: 🗣️ Deliberation
+### Phase 2: Deliberation
 
-Each counselor receives:
-- The question and full context
-- Their assigned perspective
-- Instructions to analyze, consider contingencies, and vote
+Each counselor analyzes from their perspective and votes.
 
-### Phase 3: 🗳️ Voting
-
-Each counselor outputs:
-
+**Counselor Output Format:**
 ```
 ┌────────────────────────────────────────────────────────────┐
 │  🗳️  COUNSELOR VOTE                                       │
 ├────────────────────────────────────────────────────────────┤
-│  VOTE:       [A / B / C]                                   │
-│  CONFIDENCE: [🟢 high / 🟡 medium / 🔴 low]                │
-│  REASONING:  [2-3 sentences from their perspective]        │
-│  KEY RISK:   [Main concern if their vote loses]            │
+│  PERSPECTIVE: [Name]                                       │
+│  VOTE:        [A / B / C]                                  │
+│  CONFIDENCE:  [🟢 high / 🟡 medium / 🔴 low]               │
+│  REASONING:   [2-3 sentences from their perspective]       │
+│  KEY RISK:    [Main concern if their vote loses]           │
+│  EMPATHY:     [How this affects the humans involved]       │
 └────────────────────────────────────────────────────────────┘
 ```
 
-### Phase 4: 📊 Decision
+### Phase 3: Decision
 
 ```
 ╔════════════════════════════════════════════════════════════════════╗
@@ -182,46 +128,44 @@ Each counselor outputs:
 ╠════════════════════════════════════════════════════════════════════╣
 ║                                                                    ║
 ║  📊 TALLY                                                          ║
-║  ────────────────────────────────────────                          ║
-║  Option A: ████████████░░░░░░░░  3 votes (60%)                     ║
-║  Option B: ████████░░░░░░░░░░░░  2 votes (40%)                     ║
-║  Option C: ░░░░░░░░░░░░░░░░░░░░  0 votes (0%)                      ║
+║  Option A: ████████████░░░░░░░░  4 votes (57%)                     ║
+║  Option B: ██████░░░░░░░░░░░░░░  2 votes (29%)                     ║
+║  Option C: ████░░░░░░░░░░░░░░░░  1 vote  (14%)                     ║
 ║                                                                    ║
 ║  ✅ DECISION: Option A                                             ║
 ║                                                                    ║
-║  💬 Summary:                                                       ║
-║  [Aggregated reasoning from majority]                              ║
+║  💜 EMPATHY SUMMARY:                                               ║
+║  [How this affects the people involved]                            ║
 ║                                                                    ║
-║  ⚠️  Dissenting Concerns:                                          ║
+║  ⚠️  DISSENTING CONCERNS:                                          ║
 ║  [Key points from minority votes]                                  ║
 ║                                                                    ║
-║  🛡️ Recommended Mitigations:                                       ║
-║  [Actions to address minority concerns]                            ║
+║  🛡️ MITIGATIONS:                                                   ║
+║  [Actions to address concerns]                                     ║
 ║                                                                    ║
 ╚════════════════════════════════════════════════════════════════════╝
 ```
 
 ---
 
-## 📁 Log Entry Template
+## 📋 Log Template
 
-Every decision is logged to `memory/counsel/YYYY-MM-DD-HH-MM-{slug}.md`:
+Every Council decision → `memory/counsel/YYYY-MM-DD-HH-MM-{slug}.md`
 
 ```markdown
-# ⚖️ Counsel Decision: {Question Summary}
+# ⚖️ Council Decision: {Question}
 
 **🕐 Convened:** {timestamp}
-**🎚️ Complexity:** {level}
-**👥 Counselors:** {N}
-**🤖 Model:** {sonnet|opus}
+**👥 Counselors:** 7 (5 critical + 2 empathy)
+**🤖 Model:** Opus
 
 ---
 
 ## 📋 The Question
 {Full question}
 
-## 📄 Context
-{Context provided}
+## 📄 Context  
+{Background}
 
 ## 🎯 Options
 - **A)** {Option A}
@@ -232,74 +176,64 @@ Every decision is logged to `memory/counsel/YYYY-MM-DD-HH-MM-{slug}.md`:
 
 ## 🗳️ Votes
 
+### 🧠 Critical Counselors
+
 | Counselor | Vote | Confidence | Reasoning |
 |-----------|------|------------|-----------|
-| 🏛️ Architect | B | 🟢 high | ... |
-| 🛡️ Guardian | B | 🟡 medium | ... |
-| 🔧 Pragmatist | A | 🟢 high | ... |
-| 💚 Advocate | B | 🟢 high | ... |
-| 🔍 Skeptic | A | 🔴 low | ... |
+| 🏛️ Architect | A | 🟢 | ... |
+| 🛡️ Guardian | B | 🟡 | ... |
+| 🔧 Pragmatist | A | 🟢 | ... |
+| 🔍 Skeptic | A | 🟡 | ... |
+| 🔮 Visionary | A | 🟢 | ... |
+
+### 💜 Empathy Counselors
+
+| Counselor | Vote | Confidence | Reasoning |
+|-----------|------|------------|-----------|
+| 💜 Empath | A | 🟢 | Users will appreciate... |
+| 🤝 Relationship | B | 🟡 | Partners may feel... |
 
 ---
 
 ## 📊 Tally
-- Option A: 2 votes (40%)
-- Option B: 3 votes (60%) ✅
-- Option C: 0 votes (0%)
+- Option A: 5 votes (71%) ✅
+- Option B: 2 votes (29%)
 
-## ✅ Decision: Option B
+## ✅ Decision: Option A
 
 ---
+
+## 💜 Empathy Summary
+[How this decision affects the humans involved, their feelings, needs]
 
 ## ⚠️ Dissenting Concerns
-- 🔧 Pragmatist: {concern}
-- 🔍 Skeptic: {concern}
+- 🛡️ Guardian: {concern}
+- 🤝 Relationship: {concern}
 
-## 🛡️ Mitigations Applied
-- {mitigation 1}
-- {mitigation 2}
-
----
-
-*Logged by The Counsel • {timestamp}*
-```
+## 🛡️ Mitigations
+- {Action to address Guardian's concern}
+- {Communication plan for partners}
 
 ---
 
-## 🔌 Integration
-
-### From Agent Code
-
-```javascript
-const decision = await counsel({
-  question: "Should we use PostgreSQL or SQLite?",
-  context: "Building a self-hosted app for offline use...",
-  options: ["PostgreSQL", "SQLite", "Both with sync"],
-  stakes: "Affects deployment complexity and offline capability",
-  complexity: "elevated"
-});
-
-// Returns: { decision: "SQLite", votes: {...}, reasoning: "...", concerns: [...] }
+*The Counsel has spoken.*
 ```
 
-### Via CLI
+---
 
-```bash
-node ~/clawd/tools/counsel/counsel.js \
-  --question "Should we migrate to microservices?" \
-  --context "Current monolith is getting hard to maintain..." \
-  --options "microservices,modular-monolith,keep-current" \
-  --complexity critical
-```
+## 🔗 Relationship to The Circle
 
-### With Proactive Jobs
+| Weight | Name | Agents | Model | Formality |
+|--------|------|--------|-------|-----------|
+| 💭 | Internal | 0 | You | None |
+| 🟢 | Light | 1-2 | Haiku | Minimal |
+| 🟡 | Standard | 3 | Sonnet | Light |
+| 🟠 | Elevated | 5 | Sonnet | Moderate |
+| 🔴 | **Council** | 5-7 | **Opus** | **Full** |
 
-When a proactive task hits a critical decision:
-1. 🛑 Task pauses, documents the decision needed
-2. ⚖️ Task spawns The Counsel
-3. 🗳️ Counsel deliberates and returns decision
-4. ▶️ Task resumes with the decided path
-5. 📝 Decision logged to memory
+**The Counsel = The Circle at 🔴 Council weight**
+
+For the full Circle framework (all weights): `docs/THE-CIRCLE.md`
 
 ---
 
@@ -307,19 +241,10 @@ When a proactive task hits a critical decision:
 
 | File | Purpose |
 |------|---------|
-| 📄 `/home/ubuntu/clawd/docs/THE-COUNSEL.md` | This spec |
-| 📄 `/home/ubuntu/clawd/skills/counsel/SKILL.md` | Agent skill guide |
-| 📄 `/home/ubuntu/clawd/tools/counsel/counsel.js` | CLI tool |
-| 📁 `/home/ubuntu/clawd/memory/counsel/` | Decision logs |
-
----
-
-## 📜 Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| v1.0 | 2026-02-11 | Initial design and implementation |
-| v1.1 | 2026-02-11 | Removed rate limits, beautified docs |
+| 📄 `docs/THE-CIRCLE.md` | Full Circle framework (all weights) |
+| 📄 `docs/THE-COUNSEL.md` | This file (Council weight reference) |
+| 📄 `skills/circle/SKILL.md` | Agent skill guide |
+| 📁 `memory/counsel/` | Council decision logs |
 
 ---
 

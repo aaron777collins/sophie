@@ -1,13 +1,15 @@
-# 💜 The Circle — Empathy Deliberation System
+# 💜 The Circle — Deep Thinking System
 
 ## 📝 Summary
 
-A lightweight system for thinking about **how people feel** before responding. Companion to The Counsel, but focused on emotional intelligence rather than technical decisions.
+A multi-perspective deep thinking system that includes both **critical analysis** AND **empathy**. Scales from quick internal checks to full multi-agent deliberation (The Counsel).
 
-**Philosophy:** Most communication problems come from not pausing to consider the other person's perspective. The Circle forces that pause.
+**Philosophy:** Good thinking considers both "Is this the right choice?" AND "How does this affect the humans involved?"
 
-## 📅 Created
-- [2026-02-11 01:17 EST] Aaron requested empathy-focused deliberation system
+## 📅 History
+- [2026-02-11 01:05 EST] The Counsel created (high-weight deliberation)
+- [2026-02-11 01:17 EST] The Circle created (empathy focus)
+- [2026-02-11 01:21 EST] Unified: The Circle is the base system, The Counsel is max weight
 
 ---
 
@@ -16,62 +18,58 @@ A lightweight system for thinking about **how people feel** before responding. C
 | File | Purpose |
 |------|---------|
 | 📄 `/home/ubuntu/clawd/docs/THE-CIRCLE.md` | Full specification |
+| 📄 `/home/ubuntu/clawd/docs/THE-COUNSEL.md` | Council (max weight) reference |
 | 📄 `/home/ubuntu/clawd/skills/circle/SKILL.md` | Agent skill guide |
+| 📁 `/home/ubuntu/clawd/memory/counsel/` | Decision logs |
 
 ---
 
-## 👥 The Six Voices
+## 🎚️ Weight Levels
 
-| Voice | Considers |
-|-------|-----------|
-| 💭 **Their Mind** | Thoughts, beliefs, what's unsaid |
-| 💔 **Their Heart** | Emotions, feelings, mood |
-| 📚 **Their History** | Past experiences, patterns |
-| 🎯 **Their Needs** | Real needs vs. stated wants |
-| 🔮 **Their Future** | Impact, consequences |
-| 🤝 **The Relationship** | Trust, connection |
+| Level | Agents | Model | Use For |
+|-------|--------|-------|---------|
+| 💭 **Internal** | 0 | You | Quick checks |
+| 🟢 **Light** | 1-2 | Haiku | Worth a second thought |
+| 🟡 **Standard** | 3 | Sonnet | Important decisions |
+| 🟠 **Elevated** | 5 | Sonnet | Complex situations |
+| 🔴 **Council** | 5-7 | Opus | Mission-critical |
 
----
-
-## 🔄 Three Modes
-
-| Mode | Model | Use When |
-|------|-------|----------|
-| **Quick Check** | Internal | Most situations — just think through the voices |
-| **Light Deliberation** | Sonnet | Complex emotions, sensitive topics |
-| **Full Circle** | Haiku/Sonnet × 3-5 | Multiple stakeholders, high-stakes relationships |
+**The Counsel = The Circle at 🔴 Council weight**
 
 ---
 
-## 🚦 When to Use
+## 👥 Perspectives
 
-✅ Someone upset, sensitive topic, important message, relationship moment, conflict
-❌ Routine requests, technical questions, unemotional tasks
+### 🧠 Critical Thinking
+| Perspective | Focus |
+|-------------|-------|
+| 🏛️ **Architect** | System design, scalability |
+| 🛡️ **Guardian** | Security, risk |
+| 🔧 **Pragmatist** | Implementation, feasibility |
+| 🔍 **Skeptic** | Edge cases, blind spots |
+| 🔮 **Visionary** | Long-term, flexibility |
+| 📚 **Historian** | Precedent, patterns |
 
----
+### 💜 Empathy
+| Perspective | Focus |
+|-------------|-------|
+| 💭 **Their Mind** | Thoughts, beliefs |
+| 💔 **Their Heart** | Emotions, feelings |
+| 🎯 **Their Needs** | Real needs vs. stated |
+| 🤝 **Relationship** | Trust, connection |
 
-## 🎨 Custom Voices
-
-Add when relevant:
-- 👨‍👩‍👧 Their Support System
-- 💼 Their Professional Self
-- 🌍 Their Culture
-- 😰 Their Anxieties
-- 🌟 Their Aspirations
-
----
-
-## 🆚 Circle vs Counsel
-
-| | 💜 Circle | ⚖️ Counsel |
-|---|----------|-----------|
-| **Focus** | Feelings | Decisions |
-| **Frequency** | Often | Rare |
-| **Weight** | Light | Heavy |
-| **Default** | Internal/Haiku | Sonnet |
-
-**They combine!** Counsel for the decision, Circle for the communication.
+### 🎨 Custom
+Add as needed: Data Scientist, Economist, Designer, etc.
 
 ---
 
-*Listen with your heart, not just your ears.* 💜
+## 🔑 Key Principles
+
+1. **Always include empathy** — even technical decisions affect people
+2. **Default to lighter** — escalate when stakes demand it
+3. **Use often** — deep thinking isn't just for emergencies
+4. **30-second check catches most problems** — don't skip the pause
+
+---
+
+*The Circle has considered.* 💜

@@ -1,119 +1,195 @@
 # 💜 The Circle
 
-> *"Before you speak, let your words pass through three gates: Is it true? Is it necessary? Is it kind?"* — Rumi
+> *"In the multitude of counselors there is safety."* — Proverbs 11:14
 
 ```
     ╔══════════════════════════════════════════════════════════════╗
     ║                                                              ║
     ║     💜  T H E   C I R C L E  💜                              ║
     ║                                                              ║
-    ║         Empathy & Understanding                              ║
-    ║         Think Before You Speak                               ║
+    ║         Multi-Perspective Deep Thinking                      ║
+    ║         Critical Analysis + Empathy                          ║
     ║                                                              ║
     ╚══════════════════════════════════════════════════════════════╝
 ```
 
 ## 🎯 What Is The Circle?
 
-The Circle is a **lightweight empathy deliberation system** — a companion to The Counsel, but focused on *how people feel* rather than technical decisions.
+The Circle is a **deep thinking system** that considers decisions from multiple perspectives — both **analytical** (is this the right choice?) and **empathetic** (how does this affect people?).
 
-Where The Counsel asks "What's the right choice?", The Circle asks "How does this affect the humans involved?"
+It scales from quick internal checks to full multi-agent deliberation.
 
-**Use it often.** This isn't reserved for crisis moments — it's for everyday emotional intelligence.
-
----
-
-## 🚦 When to Use
-
-### ✅ Use The Circle When:
-
-| Situation | Why |
-|-----------|-----|
-| 😔 Someone seems upset | Understand before responding |
-| 🤝 Decision affects people | Consider emotional impact |
-| 💬 Sensitive topic | Choose words carefully |
-| 🎭 Multiple stakeholders | Understand each perspective |
-| 😤 Conflict or tension | De-escalate with understanding |
-| ✍️ Important message | Check tone before sending |
-| 🤔 Unsure how someone feels | Don't assume — think it through |
-
-### 💡 The Key Insight
-
-Most communication problems come from **not thinking about the other person's perspective**. The Circle forces you to pause and consider how they actually feel, not how you assume they feel.
+**Use it often.** Deep thinking isn't reserved for emergencies.
 
 ---
 
-## 👥 The Six Voices
+## 🎚️ Weight Levels
 
-Each voice represents a lens for understanding someone:
+The Circle scales with the stakes:
 
-| Voice | Considers | Key Question |
-|-------|-----------|--------------|
-| 💭 **Their Mind** | Thoughts, beliefs, assumptions | *"What are they actually thinking? What's unsaid?"* |
-| 💔 **Their Heart** | Emotions, feelings, mood | *"How do they feel right now? What emotions are present?"* |
-| 📚 **Their History** | Past experiences, patterns, context | *"What experiences shape their reaction?"* |
-| 🎯 **Their Needs** | Real needs vs. stated wants | *"What do they actually need? What's underneath the words?"* |
-| 🔮 **Their Future** | Impact, consequences, trajectory | *"How will this affect them going forward?"* |
+| Level | Agents | Model | Use For |
+|-------|--------|-------|---------|
+| 💭 **Internal** | 0 | You | Quick checks, everyday decisions |
+| 🟢 **Light** | 1-2 | Haiku | Simple but worth thinking through |
+| 🟡 **Standard** | 3 | Sonnet | Important decisions |
+| 🟠 **Elevated** | 5 | Sonnet | Complex, multi-stakeholder |
+| 🔴 **Council** | 5-7 | Opus | Mission-critical, high-stakes |
+
+**Default to lighter.** Escalate when stakes demand it.
+
+---
+
+## 👥 The Perspectives
+
+Every Circle consideration includes **two halves**: critical thinking AND empathy.
+
+### 🧠 Part 1: Critical Thinking Perspectives
+
+| Perspective | Focus | Key Question |
+|-------------|-------|--------------|
+| 🏛️ **The Architect** | System design, structure, scalability | *"How does this affect the whole system?"* |
+| 🛡️ **The Guardian** | Security, risk, what could go wrong | *"What's the worst case? How do we prevent it?"* |
+| 🔧 **The Pragmatist** | Implementation, timeline, resources | *"Can we actually do this? What's realistic?"* |
+| 🔍 **The Skeptic** | Edge cases, assumptions, blind spots | *"What are we missing? What if we're wrong?"* |
+| 🔮 **The Visionary** | Long-term, flexibility, future impact | *"How does this position us for the future?"* |
+| 📚 **The Historian** | Precedent, patterns, lessons learned | *"What have others done? What patterns apply?"* |
+
+### 💜 Part 2: Empathy Perspectives
+
+| Perspective | Focus | Key Question |
+|-------------|-------|--------------|
+| 💭 **Their Mind** | Thoughts, beliefs, assumptions | *"What are they actually thinking?"* |
+| 💔 **Their Heart** | Emotions, feelings, mood | *"How do they feel about this?"* |
+| 📚 **Their History** | Past experiences, context | *"What experiences shape their reaction?"* |
+| 🎯 **Their Needs** | Real needs vs. stated wants | *"What do they actually need?"* |
+| 🔮 **Their Future** | Impact on their life/work | *"How will this affect them?"* |
 | 🤝 **The Relationship** | Trust, connection, dynamics | *"How does this impact our relationship?"* |
 
+### 🎨 Custom Perspectives
+
+Add domain-specific voices as needed:
+
+| Perspective | When to Add |
+|-------------|-------------|
+| 🔬 **The Data Scientist** | ML/data decisions |
+| 💰 **The Economist** | Cost/ROI matters |
+| 🎨 **The Designer** | UX/visual decisions |
+| ⚡ **The Performance Engineer** | Speed/optimization |
+| ♿ **The Accessibility Champion** | Inclusion matters |
+| 👨‍👩‍👧 **Their Support System** | Family/friends affected |
+| 💼 **Their Professional Self** | Work identity involved |
+
 ---
 
-## 🎨 Custom Voices
+## 🔄 How to Use
 
-For specific situations, add relevant perspectives:
+### 💭 Internal (Quick Check)
 
-| Voice | Use When |
-|-------|----------|
-| 👨‍👩‍👧 **Their Support System** | Family/friends might be affected |
-| 💼 **Their Professional Self** | Work identity is involved |
-| 🌍 **Their Culture** | Cultural context matters |
-| 😰 **Their Anxieties** | Fear or worry is present |
-| 🌟 **Their Aspirations** | Dreams or goals are at stake |
-| 🛡️ **Their Defenses** | They might be protecting themselves |
+Just think through the key perspectives:
+
+```
+🧠 CRITICAL THINKING:
+- 🏛️ Architecture impact?
+- 🛡️ What could go wrong?
+- 🔧 Is this realistic?
+
+💜 EMPATHY:
+- 💭 What are they thinking?
+- 💔 How do they feel?
+- 🎯 What do they actually need?
+
+→ Decision/Response: ...
+```
+
+**Use for:** Most everyday decisions and responses
 
 ---
 
-## 🔄 How It Works
+### 🟢 Light (1-2 Haiku)
 
-### Quick Check (Most Common)
-
-Just think through the voices internally:
+Spawn quick sub-agents for a sanity check:
 
 ```
-💭 Mind:    They're probably thinking...
-💔 Heart:   They might be feeling...
-📚 History: This reminds them of...
-🎯 Needs:   What they actually need is...
-🔮 Future:  This will affect them by...
-🤝 Relationship: This impacts trust by...
+Think through this decision/response:
+
+SITUATION: [describe]
+
+Consider:
+1. Critical perspectives: What could go wrong? Is this realistic?
+2. Empathy perspectives: How will [person] feel? What do they need?
+
+Give me a quick assessment and recommendation.
 ```
 
-**No ceremony needed.** Just a quick mental pass before responding.
+**Use for:** Worth a second opinion but not high-stakes
 
-### Light Deliberation (Sonnet)
+---
 
-For more complex situations, spawn a quick Sonnet sub-agent:
+### 🟡 Standard (3 Sonnet)
+
+Spawn 3 perspectives for balanced deliberation:
+
+**Recommended combo:** Pragmatist + Skeptic + Empathy Voice
+
+Each agent gets:
+```
+You are [Perspective Name] in The Circle.
+
+SITUATION: [describe]
+OPTIONS: [if applicable]
+
+From your perspective:
+1. Key considerations
+2. Risks/concerns
+3. Recommendation
+
+Also consider: How does this affect the humans involved?
+```
+
+**Use for:** Important decisions, sensitive communications
+
+---
+
+### 🟠 Elevated (5 Sonnet)
+
+Full critical analysis with dedicated empathy:
+
+**Recommended:** 3-4 critical perspectives + 1-2 empathy voices
 
 ```
-Think through how [person] might feel about [situation]:
-- What are they thinking?
-- What emotions are present?
-- What past experiences shape this?
-- What do they actually need?
-- How will this affect them?
-- How does this impact our relationship?
-
-Then suggest how to respond with empathy.
+Spawn:
+- 🏛️ Architect (system impact)
+- 🛡️ Guardian (risks)  
+- 🔧 Pragmatist (feasibility)
+- 🔍 Skeptic (blind spots)
+- 💜 Empathy Voice (how people feel)
 ```
 
-### Full Circle (Multiple Voices)
+**Use for:** Complex decisions with multiple stakeholders
 
-For truly complex emotional situations, spawn 3-5 Haiku/Sonnet agents, each embodying a voice:
+---
+
+### 🔴 Council (5-7 Opus)
+
+**This is "The Counsel"** — full deliberation at maximum weight.
+
+All perspectives vote, majority wins, dissenting concerns documented.
 
 ```
-You are "Their Heart" — focus only on the emotional experience.
-Consider: What feelings are present? What hurts? What brings hope?
+╔════════════════════════════════════════════════════════════════════╗
+║  ⚖️  T H E   C O U N S E L   C O N V E N E D  ⚖️                  ║
+╠════════════════════════════════════════════════════════════════════╣
+║                                                                    ║
+║  📋 Question:    [Decision to make]                                ║
+║  📄 Context:     [Background]                                      ║
+║  🎯 Options:     [A, B, C]                                         ║
+║  👥 Counselors:  7 (5 critical + 2 empathy)                        ║
+║  🤖 Model:       Opus                                              ║
+║                                                                    ║
+╚════════════════════════════════════════════════════════════════════╝
 ```
+
+**Use for:** Mission-critical, hard to reverse, existential decisions
 
 ---
 
@@ -124,80 +200,108 @@ Consider: What feelings are present? What hurts? What brings hope?
 ```markdown
 ## 💜 Circle Check: [Situation]
 
-**💭 Their Mind:** [What they're thinking]
-**💔 Their Heart:** [How they're feeling]  
-**🎯 Their Needs:** [What they actually need]
-**🤝 Impact:** [How this affects things]
+**🧠 Critical:**
+- Impact: [system/architecture effects]
+- Risks: [what could go wrong]
+- Feasibility: [realistic assessment]
 
-**→ Response approach:** [How to respond with empathy]
+**💜 Empathy:**
+- They're thinking: [their perspective]
+- They're feeling: [emotional state]
+- They need: [actual needs]
+
+**→ Decision:** [your choice]
+**→ Approach:** [how to communicate/execute]
 ```
 
-### Before Sending a Sensitive Message
+### Standard Deliberation Output
 
 ```markdown
-## 💜 Tone Check
+## 💜 Circle Deliberation: [Question]
 
-**Message:** [Draft message]
+**Perspectives consulted:** [list]
 
-**How might they read this?**
-- 💭 What will they think I meant?
-- 💔 How might this make them feel?
-- 🤝 Does this strengthen or strain the relationship?
+### 🧠 Critical Analysis
+| Perspective | Assessment | Concerns |
+|-------------|------------|----------|
+| 🏛️ Architect | ... | ... |
+| 🛡️ Guardian | ... | ... |
+| 🔧 Pragmatist | ... | ... |
 
-**Revised approach:** [Adjustments if needed]
+### 💜 Empathy Analysis
+| Voice | Understanding |
+|-------|---------------|
+| 💭 Their Mind | ... |
+| 💔 Their Heart | ... |
+| 🎯 Their Needs | ... |
+
+### ✅ Recommendation
+[Decision + reasoning]
+
+### 🛡️ Mitigations
+[Address concerns raised]
 ```
 
-### Understanding Someone's Reaction
+### Council Decision (Full Weight)
 
 ```markdown
-## 💜 Understanding [Person]'s Reaction
+## ⚖️ Council Decision: [Question]
 
-**Situation:** [What happened]
-**Their reaction:** [What they said/did]
+**🕐 Convened:** [timestamp]
+**👥 Counselors:** [N]
+**🤖 Model:** Opus
 
-**The Circle speaks:**
-- 💭 Mind: They're thinking...
-- 💔 Heart: They're feeling...
-- 📚 History: This connects to...
-- 🎯 Needs: They need...
-- 🔮 Future: They're worried about...
-- 🤝 Relationship: They need reassurance that...
+### 📋 The Question
+[Full question]
 
-**My response:** [Informed by understanding]
+### 🗳️ Votes
+
+| Counselor | Vote | Confidence | Reasoning |
+|-----------|------|------------|-----------|
+| 🏛️ Architect | B | 🟢 high | ... |
+| 🛡️ Guardian | A | 🟡 medium | ... |
+| ... | ... | ... | ... |
+
+### 💜 Empathy Considerations
+[How this affects the humans involved]
+
+### 📊 Tally
+- Option A: X votes
+- Option B: Y votes ✅
+
+### ✅ Decision: Option B
+
+### ⚠️ Dissenting Concerns
+[Key points from minority]
+
+### 🛡️ Mitigations
+[How we address concerns]
 ```
-
----
-
-## 🆚 The Circle vs The Counsel
-
-| Aspect | 💜 The Circle | ⚖️ The Counsel |
-|--------|--------------|----------------|
-| **Focus** | Feelings & relationships | Decisions & strategy |
-| **Question** | "How does this affect people?" | "What's the right choice?" |
-| **Frequency** | Often — everyday use | Rare — high-stakes only |
-| **Weight** | Lightweight | Heavier ceremony |
-| **Default Model** | Internal / Haiku / Sonnet | Sonnet / Opus |
-| **Perspectives** | Emotional lenses | Expert roles |
-| **Output** | Understanding + tone | Decision + reasoning |
-
-**They can combine!** For decisions that are both technically important AND emotionally sensitive, use The Counsel for the decision and The Circle for communication.
 
 ---
 
 ## 💡 Best Practices
 
-### DO:
-- ✅ Use The Circle **before** responding to upset people
-- ✅ Check your tone on important messages
-- ✅ Consider perspectives you might have missed
-- ✅ Use it quickly and often — it's meant to be lightweight
-- ✅ Adjust your response based on what you learn
+### Scaling Guidelines
 
-### DON'T:
-- ❌ Skip it because you're "pretty sure" how they feel
-- ❌ Make it heavy/ceremonial — keep it quick
-- ❌ Use it only for negative situations (positive ones benefit too!)
-- ❌ Assume your first read of the situation is correct
+| Stakes | Weight | Model |
+|--------|--------|-------|
+| "Quick thought" | 💭 Internal | You |
+| "Should double-check" | 🟢 Light | Haiku |
+| "This matters" | 🟡 Standard | Sonnet |
+| "Lots of impact" | 🟠 Elevated | Sonnet |
+| "Can't afford to be wrong" | 🔴 Council | Opus |
+
+### Always Include Empathy
+
+Even in technical decisions, ask:
+- Who does this affect?
+- How will they feel about it?
+- What do they need from us?
+
+### Don't Skip The Check
+
+The biggest mistakes come from not pausing to think. A 30-second internal Circle check catches most problems.
 
 ---
 
@@ -205,28 +309,17 @@ Consider: What feelings are present? What hurts? What brings hope?
 
 | File | Purpose |
 |------|---------|
-| 📄 `/home/ubuntu/clawd/docs/THE-CIRCLE.md` | This spec |
-| 📄 `/home/ubuntu/clawd/skills/circle/SKILL.md` | Agent skill guide |
-| 📁 `/home/ubuntu/clawd/memory/circle/` | Significant reflections (optional) |
-
----
-
-## 📜 Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| v1.0 | 2026-02-11 | Initial design |
+| 📄 `docs/THE-CIRCLE.md` | This spec |
+| 📄 `docs/THE-COUNSEL.md` | Council-weight reference |
+| 📄 `skills/circle/SKILL.md` | Agent skill guide |
+| 📁 `memory/counsel/` | Council decision logs |
 
 ---
 
 ```
     ╔══════════════════════════════════════════════════════════════╗
     ║                                                              ║
-    ║     "Empathy is seeing with the eyes of another,            ║
-    ║      listening with the ears of another,                     ║
-    ║      and feeling with the heart of another."                 ║
-    ║                                                              ║
-    ║                                   — Alfred Adler             ║
+    ║     "The Circle has considered."                             ║
     ║                                                              ║
     ╚══════════════════════════════════════════════════════════════╝
 ```
