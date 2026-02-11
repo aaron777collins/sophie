@@ -59,8 +59,8 @@ We're auditing the Discord clone + planning Matrix integration before writing co
 | Task ID | Description | Status | Priority |
 |---------|-------------|--------|----------|
 | cog-01-circle-skill | Build skills/circle/SKILL.md | ✅ completed | 🔴 High |
-| cog-02-reflect-cli | Build reflect CLI tool | ⏳ pending | 🔴 High |
-| cog-03-docs-update | Update THE-CIRCLE.md + THE-COUNSEL.md with escalation/quorum rules | ⏳ pending | 🔴 High |
+| cog-02-reflect-cli | Build reflect CLI tool | ⏳ in-progress | 🔴 High |
+| cog-03-docs-update | Update THE-CIRCLE.md + THE-COUNSEL.md with escalation/quorum rules | ✅ completed | 🔴 High |
 | cog-04-circle-cli | Build circle CLI for quick invocation | ⏳ pending | 🟡 Medium |
 | cog-05-counsel-index | Create memory/counsel/INDEX.md decision tracker | ⏳ pending | 🟡 Medium |
 | cog-06-validation-tracking | Add improvement validation system | ⏳ pending | 🟡 Medium |
@@ -324,10 +324,11 @@ Improvements that fail twice need deeper analysis — the root cause may be misi
 - **Type:** implementation
 - **Min Model:** opus
 - **Priority:** medium
-- **Status:** pending
+- **Status:** in-progress
 - **Description:** Build a CLI wrapper for invoking Circle thinking at any weight level
 - **Output:** `/home/ubuntu/clawd/tools/circle/circle.py`
 - **Dependencies:** cog-01-circle-skill (need the skill spec first)
+- **Started:** 2026-02-11 04:30 EST
 
 #### Detailed Instructions
 
@@ -645,7 +646,7 @@ Every Sunday, generate a brief summary:
 |---------|-------------|--------|-------------|
 | audit-01-frontend-analysis | Analyze Discord clone frontend | ✅ completed | FRONTEND-AUDIT.md |
 | audit-02-backend-mapping | Map Prisma → Matrix | ✅ completed | BACKEND-MAPPING.md |
-| audit-03-auth-strategy | Clerk → Matrix auth | ⏳ pending | AUTH-STRATEGY.md |
+| audit-03-auth-strategy | Clerk → Matrix auth | ✅ completed | AUTH-STRATEGY.md |
 | audit-04-realtime-strategy | Socket.io → Matrix sync | ⏳ pending | REALTIME-STRATEGY.md |
 | audit-05-media-strategy | UploadThing → Matrix media | ⏳ pending | MEDIA-STRATEGY.md |
 | audit-06-livekit-integration | Verify LiveKit compatibility | ⏳ pending | LIVEKIT-INTEGRATION.md |
@@ -744,11 +745,13 @@ Full audit: ~/clawd/docs/haos-v2/BACKEND-MAPPING.md
 - **Type:** audit
 - **Min Model:** opus
 - **Priority:** critical
-- **Status:** in-progress
-- **Started:** 2026-02-11 01:45 EST
+- **Status:** ✅ completed
+- **Started:** 2025-06-29 12:30 EST
+- **Completed:** 2025-06-29 12:40 EST
 - **Description:** Plan auth migration from Clerk to Matrix
 - **Output:** `/home/ubuntu/clawd/docs/haos-v2/AUTH-STRATEGY.md`
 - **Dependencies:** audit-01
+- **Summary:** 14 Clerk files mapped, 6 Matrix components designed (MatrixAuthProvider, LoginPage, RegisterPage, UserButton, middleware, server helpers), complete migration strategy with security considerations
 
 #### Detailed Instructions
 
