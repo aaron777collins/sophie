@@ -58,7 +58,7 @@ We're auditing the Discord clone + planning Matrix integration before writing co
 
 | Task ID | Description | Status | Priority |
 |---------|-------------|--------|----------|
-| cog-01-circle-skill | Build skills/circle/SKILL.md | ⏳ pending | 🔴 High |
+| cog-01-circle-skill | Build skills/circle/SKILL.md | ✅ completed | 🔴 High |
 | cog-02-reflect-cli | Build reflect CLI tool | ⏳ pending | 🔴 High |
 | cog-03-docs-update | Update THE-CIRCLE.md + THE-COUNSEL.md with escalation/quorum rules | ⏳ pending | 🔴 High |
 | cog-04-circle-cli | Build circle CLI for quick invocation | ⏳ pending | 🟡 Medium |
@@ -74,7 +74,8 @@ We're auditing the Discord clone + planning Matrix integration before writing co
 - **Type:** implementation
 - **Min Model:** opus
 - **Priority:** high
-- **Status:** pending
+- **Status:** ✅ completed
+- **Completed:** 2026-02-11 07:15 EST
 - **Description:** Build the Circle skill file that agents can use to invoke Circle thinking at any weight level
 - **Output:** `/home/ubuntu/clawd/skills/circle/SKILL.md`
 
