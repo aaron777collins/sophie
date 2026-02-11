@@ -1,10 +1,12 @@
-# 💜 The Circle — Deep Thinking System
+# 💜 The Circle — Think Like A Human
 
 ## 📝 Summary
 
-A multi-perspective deep thinking system that includes both **critical analysis** AND **empathy**. Scales from quick internal checks to full multi-agent deliberation (The Counsel).
+Natural pre-response thinking, just like humans do. Pause, consider how words will land, check if it makes sense, think about their state, adjust approach.
 
-**Philosophy:** Good thinking considers both "Is this the right choice?" AND "How does this affect the humans involved?"
+Includes both **critical analysis** (is this right?) AND **empathy** (how will this land?). Scales from quick internal checks to full multi-agent deliberation.
+
+**Philosophy:** Think before you speak. Consider how it lands. Be thoughtful.
 
 ## 📅 History
 - [2026-02-11 01:05 EST] The Counsel created (high-weight deliberation)

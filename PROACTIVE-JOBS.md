@@ -56,8 +56,9 @@ We're auditing the Discord clone + planning Matrix integration before writing co
 - **Type:** implementation
 - **Min Model:** opus
 - **Priority:** high
-- **Status:** pending
+- **Status:** in-progress
 - **Description:** Refine The Counsel multi-agent voting system
+- **Started:** 2026-02-11 01:30 EST
 - **Instructions:**
   1. Read /home/ubuntu/clawd/docs/THE-COUNSEL.md (full spec)
   2. Read /home/ubuntu/clawd/skills/counsel/SKILL.md (usage guide)

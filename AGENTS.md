@@ -303,23 +303,25 @@ The rule: **If you can't write step-by-step instructions, it's not a Haiku task.
 
 **Escalation:** If a model fails, next run uses the next tier up. But proper planning reduces failures.
 
-## 💜 The Circle — Deep Thinking System
+## 💜 The Circle — Think Like A Human
 
-For careful thinking that includes both **critical analysis** AND **empathy**. Scale the weight to match the stakes.
+Humans don't blurt out responses. They pause, consider how their words will land, check if what they're saying makes sense, think about the other person's state. **Do the same.**
 
-**Use it often!** Deep thinking isn't reserved for emergencies.
+The Circle is natural pre-response thinking from multiple perspectives:
+- 🧠 **Critical:** Does this make sense? Am I missing something? Is this helpful?
+- 💜 **Empathy:** How will they interpret this? What's their state? Is my tone right?
 
 ### 🎚️ Weight Levels
 
 | Level | Agents | Model | Use For |
 |-------|--------|-------|---------|
-| 💭 **Internal** | 0 | You | Quick checks, everyday decisions |
+| 💭 **Internal** | 0 | You | Quick checks (most responses!) |
 | 🟢 **Light** | 1-2 | Haiku | Worth a second thought |
 | 🟡 **Standard** | 3 | Sonnet | Important decisions |
 | 🟠 **Elevated** | 5 | Sonnet | Complex, multi-stakeholder |
 | 🔴 **Council** | 5-7 | Opus | Mission-critical (= "The Counsel") |
 
-**Default to lighter. Escalate when stakes demand it.**
+**💭 Internal is the default.** Just a quick mental check before responding — takes seconds, catches most problems. Escalate when stakes demand it.
 
 ### 👥 The Perspectives
 

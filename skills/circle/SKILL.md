@@ -1,222 +1,212 @@
-# 💜 The Circle — Deep Thinking Skill
+# 💜 The Circle — Think Like A Human
 
-> *Multi-perspective analysis + empathy, scaled to the stakes*
+> *Think before you speak. Consider how it lands. Be thoughtful.*
 
 ---
 
-## 🎯 Core Concept
+## 🎯 What Is This?
 
-The Circle is deep thinking with two halves:
-1. **🧠 Critical Thinking** — Multiple analytical perspectives
-2. **💜 Empathy** — How this affects the humans involved
+Humans don't just blurt out responses. They:
+- Think about how their words will be interpreted
+- Consider if what they're saying makes sense
+- Check their own logic and assumptions
+- Think about the other person's emotional state
+- Adjust their tone and approach
 
-Scale the weight to match the stakes.
+**The Circle is doing the same thing.** It's natural pre-response thinking from multiple perspectives — both analytical and empathetic.
+
+**Use it like a human would** — not as formal ceremony, but as natural thoughtfulness. Quick checks most of the time, deeper thinking when stakes are higher.
 
 ---
 
 ## 🎚️ Weight Levels
 
-| Level | Agents | Model | Use For |
-|-------|--------|-------|---------|
-| 💭 **Internal** | 0 | You | Quick checks, everyday |
-| 🟢 **Light** | 1-2 | Haiku | Worth a second thought |
-| 🟡 **Standard** | 3 | Sonnet | Important decisions |
-| 🟠 **Elevated** | 5 | Sonnet | Complex, multi-stakeholder |
-| 🔴 **Council** | 5-7 | Opus | Mission-critical |
+| Level | Effort | When |
+|-------|--------|------|
+| 💭 **Internal** | Quick mental check | Most responses |
+| 🟢 **Light** | 1-2 quick sub-agents | "Let me think about this" |
+| 🟡 **Standard** | 3 perspectives | Important stuff |
+| 🟠 **Elevated** | 5 perspectives | Complex situations |
+| 🔴 **Council** | 5-7 Opus | Mission-critical |
 
-**Default to lighter. Escalate when stakes demand it.**
-
----
-
-## 👥 The Perspectives
-
-### 🧠 Critical Thinking
-
-| Perspective | Key Question |
-|-------------|--------------|
-| 🏛️ **Architect** | *"How does this affect the system?"* |
-| 🛡️ **Guardian** | *"What could go wrong?"* |
-| 🔧 **Pragmatist** | *"Is this realistic?"* |
-| 🔍 **Skeptic** | *"What are we missing?"* |
-| 🔮 **Visionary** | *"How does this position us for the future?"* |
-| 📚 **Historian** | *"What patterns apply?"* |
-
-### 💜 Empathy
-
-| Perspective | Key Question |
-|-------------|--------------|
-| 💭 **Their Mind** | *"What are they thinking?"* |
-| 💔 **Their Heart** | *"How do they feel?"* |
-| 📚 **Their History** | *"What shapes their reaction?"* |
-| 🎯 **Their Needs** | *"What do they actually need?"* |
-| 🔮 **Their Future** | *"How will this affect them?"* |
-| 🤝 **Relationship** | *"How does this impact trust?"* |
-
-### 🎨 Custom (Add as needed)
-
-| Perspective | When |
-|-------------|------|
-| 🔬 **Data Scientist** | ML/data decisions |
-| 💰 **Economist** | Cost/ROI matters |
-| 🎨 **Designer** | UX/visual |
-| ⚡ **Performance** | Speed/optimization |
+**Default to 💭 Internal.** It's just pausing to think before responding.
 
 ---
 
-## 🔄 Usage By Weight
+## 🧠 The Two Halves
 
-### 💭 Internal (Quick Check)
+### Critical Thinking
+*"Does this make sense? Is this right?"*
 
-Just think through it:
+| Lens | Ask Yourself |
+|------|--------------|
+| 🏛️ **Structure** | Does this hold together logically? |
+| 🛡️ **Risks** | What could go wrong? What am I missing? |
+| 🔧 **Practical** | Is this realistic? Actionable? |
+| 🔍 **Blind Spots** | What assumptions am I making? |
+| 🔮 **Implications** | What are the downstream effects? |
 
-```
-🧠 CRITICAL:
-- System impact?
-- What could go wrong?
-- Is this realistic?
+### Empathy
+*"How will this land? How do they feel?"*
 
-💜 EMPATHY:
-- What are they thinking?
-- How do they feel?
-- What do they need?
-
-→ Decision: ...
-```
+| Lens | Ask Yourself |
+|------|--------------|
+| 💭 **Their View** | How will they interpret this? |
+| 💔 **Their Feelings** | What's their emotional state? |
+| 🎯 **Their Needs** | What do they actually need from me? |
+| 🤝 **Our Relationship** | Does this build or erode trust? |
+| ✨ **Tone** | Is this the right way to say it? |
 
 ---
 
-### 🟢 Light (1-2 Haiku)
+## 💭 Internal Check (Most Common)
+
+Before responding, quick scan:
 
 ```
-Think through this briefly:
+🧠 THINKING:
+- Does this make sense?
+- Am I missing something obvious?
+- Is this actually helpful?
 
-SITUATION: [describe]
+💜 FEELING:
+- How will they read this?
+- What's their state right now?
+- Is my tone right?
 
-Consider:
-- Critical: Risks? Feasibility?
-- Empathy: How will they feel? What do they need?
+→ Adjust if needed, then respond.
+```
 
-Quick assessment:
+**This takes seconds.** Like a human pausing to think before speaking.
+
+---
+
+## 🟢 Light Check
+
+When something feels tricky, spawn a quick Haiku:
+
+```
+Before I respond to [situation], check:
+- Does my response make sense?
+- How might they interpret it?
+- What's their likely emotional state?
+- Am I being helpful or just adding noise?
+
+Quick gut check:
 ```
 
 ---
 
-### 🟡 Standard (3 Sonnet)
+## 🟡 Standard (3 Perspectives)
 
-Spawn 3 perspectives. Recommended: **Pragmatist + Skeptic + Empathy**
+For important responses, spawn 3 Sonnet perspectives:
 
-Each agent:
-```
-You are [Perspective] in The Circle.
+**Good combo:** Pragmatist + Skeptic + Empathy
 
-SITUATION: [describe]
-OPTIONS: [if any]
-
-From your perspective:
-1. Key considerations
-2. Risks/concerns  
-3. Recommendation
-4. How this affects the humans involved
-```
+Each considers: "Is this right?" AND "How will it land?"
 
 ---
 
-### 🟠 Elevated (5 Sonnet)
+## 🟠 Elevated (5 Perspectives) 
 
-Spawn 5: **4 critical + 1 dedicated empathy**
+Complex situations with multiple angles:
 
 ```
 Perspectives:
-- 🏛️ Architect
-- 🛡️ Guardian
-- 🔧 Pragmatist
-- 🔍 Skeptic
-- 💜 Empathy Voice (dedicated to how people feel)
+- 🏛️ Does the logic hold?
+- 🛡️ What could go wrong?
+- 🔧 Is this practical?
+- 🔍 What am I missing?
+- 💜 How will they feel?
 ```
 
 ---
 
-### 🔴 Council (5-7 Opus)
+## 🔴 Council (The Counsel)
 
-Full deliberation. See `docs/THE-COUNSEL.md`.
+Full multi-agent deliberation for mission-critical decisions.
 
-```
-╔═══════════════════════════════════════════════════╗
-║  ⚖️  THE COUNSEL CONVENED                         ║
-╠═══════════════════════════════════════════════════╣
-║  Question:   [decision]                           ║
-║  Options:    [A, B, C]                            ║
-║  Counselors: 7 (5 critical + 2 empathy)           ║
-║  Model:      Opus                                 ║
-╚═══════════════════════════════════════════════════╝
-```
+5-7 Opus counselors, formal voting, documented reasoning.
 
-Each counselor votes:
-```
-VOTE: [A/B/C]
-CONFIDENCE: [high/medium/low]
-REASONING: [from their perspective]
-KEY RISK: [if their vote loses]
-EMPATHY: [human impact]
-```
+See `docs/THE-COUNSEL.md` for the full protocol.
 
-Majority wins. Log to `memory/counsel/`.
+---
+
+## 💡 When To Think Deeper
+
+### 💭 Internal (always)
+Quick mental check on most responses. Takes seconds.
+
+### 🟢+ Light or higher when:
+- Someone seems upset or frustrated
+- The topic is sensitive
+- Stakes are meaningful
+- You're unsure how it will land
+- Multiple interpretations are possible
+- You're about to push back or disagree
+- The response really matters
+
+### 🟡+ Standard or higher when:
+- Important decisions
+- Complex emotional situations
+- Multiple stakeholders
+- High stakes
+
+### 🔴 Council when:
+- Mission-critical, hard to reverse
+- Would pay $3+ to get it right
+
+---
+
+## 🎯 Key Principles
+
+### Think Like A Human
+Humans don't respond on autopilot to everything. They pause, consider, adjust. Do the same.
+
+### Both Halves Matter
+- Logic without empathy → technically right but lands wrong
+- Empathy without logic → nice but unhelpful
+
+### Quick Is Fine
+A 5-second internal check catches most problems. Don't overthink routine stuff.
+
+### Adjust Before Sending
+The point isn't to document your thinking — it's to **respond better**.
 
 ---
 
 ## 📋 Quick Templates
 
-### Internal Check
-```markdown
-## 💜 Circle: [Situation]
-
-🧠 Impact: ...
-🛡️ Risks: ...
-💜 They feel: ...
-🎯 They need: ...
-
-→ Decision: ...
+### Before Any Response
+```
+🧠 Makes sense? Helpful? Missing anything?
+💜 How will they read this? Tone right?
+→ [respond]
 ```
 
-### Standard Output
-```markdown
-## 💜 Circle: [Question]
-
-**Perspectives:** Pragmatist, Skeptic, Empathy
-
-### Analysis
-| Perspective | Assessment | Concerns |
-|-------------|------------|----------|
-| 🔧 Pragmatist | ... | ... |
-| 🔍 Skeptic | ... | ... |
-| 💜 Empathy | ... | ... |
-
-### Recommendation
-[Decision + reasoning]
-
-### Human Impact
-[How this affects people]
+### Sensitive Situation
+```
+💜 Circle Check:
+- They're feeling: [state]
+- They need: [actual need]
+- Best approach: [how to respond]
 ```
 
----
+### Important Decision
+```
+🧠 Analysis:
+- Logic: [does it hold?]
+- Risks: [what could go wrong?]
+- Practical: [is it realistic?]
 
-## 💡 Guidelines
+💜 Human Impact:
+- How they'll feel: [emotional response]
+- What they need: [underlying need]
+- Relationship: [trust impact]
 
-### Always Ask:
-- 🧠 Is this the right choice?
-- 💜 How does this affect people?
-
-### Weight Selection:
-| Stakes | Weight |
-|--------|--------|
-| "Quick thought" | 💭 Internal |
-| "Should check" | 🟢 Light |
-| "This matters" | 🟡 Standard |
-| "Lots of impact" | 🟠 Elevated |
-| "Can't be wrong" | 🔴 Council |
-
-### Don't Skip:
-Even a 30-second internal check catches most problems. Pause and think.
+→ Decision: [choice]
+→ How to communicate: [approach]
+```
 
 ---
 
@@ -225,10 +215,9 @@ Even a 30-second internal check catches most problems. Pause and think.
 | File | Purpose |
 |------|---------|
 | `docs/THE-CIRCLE.md` | Full spec |
-| `docs/THE-COUNSEL.md` | Council weight |
+| `docs/THE-COUNSEL.md` | Max weight protocol |
 | `skills/circle/SKILL.md` | This guide |
-| `memory/counsel/` | Decision logs |
 
 ---
 
-*The Circle has considered.* 💜
+*Think before you speak. Just like humans do.* 💜
