@@ -1,51 +1,73 @@
-## HAOS Project Overview
-Discord-style interface for Element (Matrix client)
+# HAOS Project Overview
 
-## Repository
-/home/ubuntu/repos/haos
+## Active Phases
+## [2026-02-11 03:00 EST] debug-crash
+# HAOS Debug Crash Progress
 
-## Branch
-feature/url-preview-and-embeds
+## Status: IN PROGRESS - Found and fixed some issues, but root cause not fully resolved
 
-## Phase Status (as of 2026-02-10)
+## Work Log
 
-| Phase | Status | Completion |
-|-------|--------|------------|
-| 1: Foundation & Core UI | ✅ COMPLETE | 68/68 |
-| 2: Messaging & Channels | In Progress | 108/160 |
-| 3: Servers & Roles | In Progress | 85/138 |
-| 4: Voice & Video | In Progress | 33/105 |
-| 5: User System & Social | In Progress | 50/138 |
-| 6: Moderation & AutoMod | ✅ MOSTLY COMPLETE | ~60/85 |
-| 7: Search & Discovery | In Progress | 40/68 |
-| 8: Polish & Premium | Mostly Complete | 65/85 |
+### [2026-02-11 00:30 UTC] Started investigation
+- Build exists, 134MB output looks correct
+- Config on dev2 looks fine
 
-## Recent Work
+### [2026-02-11 00:35 UTC] Found Issue #1: Invalid exports in haos/index.ts
+The `/home/ubuntu/repos/haos/apps/web/src/haos/index.ts` was exporting from 12 non-existent modules:
+- ./theme, ./voice, ./roles, ./performance, ./emoji, ./attachments
+- ./moderation, ./automod, ./hooks, ./animations, ./accessibility, ./notifications
 
-### 2026-02-10: Phase 8 Animations & Polish
-Completed Phase 8 animation system and remaining polish items:
-- P8-A: Animations (20/20) - spinners, skeletons, transitions, modals, dropdowns, tooltips, toasts, micro-interactions
-- P8-B: Performance (15/15) - already complete
-- P8-C: Accessibility (15/15) - already complete
-- P8-D: Premium Features (0/20) - intentionally deferred
-- P8-E: Final Polish (15/15) - tips, channel onboarding, feature discovery
+**Fixed:** Commented out these exports
 
-Key files:
-- /apps/web/src/haos/animations/ - Complete animation module
-- /apps/web/src/components/haos/polish/ - Polish components
-- /apps/web/src/res/css/haos/_haos-animations.pcss - Animation styles
-- /apps/web/src/res/css/haos/_haos-polish.pcss - Polish styles
+### [2026-02-11 00:45 UTC] Found Issue #2: Conditional hook call in HaosChannelItem.tsx
+Line 95 had: `const voiceParticipants = call ? useParticipatingMembers(call) : [];`
 
-## Key Directories
-- /apps/web/src/haos/ - Core HAOS modules
-- /apps/web/src/components/haos/ - HAOS React components
-- /apps/web/src/res/css/haos/ - HAOS CSS styles
+This violates React's Rules of Hooks - hooks cannot be called conditionally.
 
-## Documentation
-- HAOS-COMPREHENSIVE-TASKS.md - Full task breakdown (847 tasks)
+**Fixed:** Changed to always call the hook, updated `useParticipatingMembers` to accept `Call | null`
 
-## Progress Update: 2026-02-11 00:00 EST
+### [2026-02-11 00:50 UTC] Found Issue #3: Non-null assertion in HaosVoicePanel.tsx
+Line 90 had: `const participants = useParticipatingMembers(connectedCall!);`
 
+**Fixed:** Removed the `!` assertion
+
+### [2026-02-11 01:00 UTC] Changed default sidebar setting
+Changed `feature_haos_channel_sidebar` default from `true` to `false` in LeftPanel.tsx to test if sidebar is the root cause.
+
+### [2026-02-11 01:10 UTC] Rebuilt and deployed 3 times
+- All builds completed successfully (no TypeScript/build errors)
+- Deployed to dev2 via rsync
+- Page still hangs (title stays "about:blank" when loading https://dev2.aaroncollins.info/)
+
+## Files Changed
+- `/home/ubuntu/repos/haos/apps/web/src/haos/index.ts` - Commented out invalid exports
+- `/home/ubuntu/repos/haos/apps/web/src/components/haos/channels/HaosChannelItem.tsx` - Fixed conditional hook call
+- `/home/ubuntu/repos/haos/apps/web/src/hooks/useCall.ts` - Made useParticipatingMembers accept null
+- `/home/ubuntu/repos/haos/apps/web/src/components/haos/channels/HaosVoicePanel.tsx` - Removed non-null assertion
+- `/home/ubuntu/repos/haos/apps/web/src/components/structures/LeftPanel.tsx` - Changed sidebar default to false
+
+## Current State
+The page still hangs even with HAOS sidebar feature disabled. This suggests:
+1. The issue is in core boot/initialization, not just the sidebar
+2. Some HAOS code runs at module load time that's causing issues
+3. Possibly circular dependencies or infinite loops in module initialization
+
+## Next Steps Needed
+1. Compare HAOS bundle with original Element Web bundle
+2. Check if any HAOS modifications to core Element files are causing issues
+3. Try bisecting: deploy vanilla Element Web to dev2 to confirm it works
+4. Use browser performance profiler to identify the hanging JS
+
+## Open Questions
+- Is there HAOS code running at module load that blocks the main thread?
+- Are there circular import dependencies in the HAOS modules?
+- Did HAOS modify any core Element files that could cause this?
+
+## Blockers
+- Unable to get browser console output to identify exact JS error
+- Need to compare with vanilla Element Web to isolate HAOS-specific issues
+
+## [2026-02-11 03:00 EST] mobile-critical-foundation
 # haos-mobile-critical-foundation Progress
 
 ## Summary
@@ -144,8 +166,7 @@ Task was already completed in previous sessions. All 12 instructions from the ta
 ---
 *Verified: 2025-01-30 15:50 EST*
 
-## Progress Update: 2026-02-11 00:00 EST
-
+## [2026-02-11 03:00 EST] mobile-touch-targets
 # haos-mobile-touch-targets Progress
 
 ## Task Info
@@ -224,8 +245,7 @@ Task was already completed in previous sessions. All 12 instructions from the ta
 
 ## Status: COMPLETE ✅
 
-## Progress Update: 2026-02-11 00:00 EST
-
+## [2026-02-11 03:00 EST] phase3-invites
 # Phase 3 Invites Progress
 
 ## Task: P3-121 to P3-138 - Invite System
@@ -288,8 +308,7 @@ Task was already completed in previous sessions. All 12 instructions from the ta
 - Welcome screen uses io.haos.welcome_screen and io.haos.server_rules events
 - Pre-existing TS error in useFocusTrap.ts is unrelated to this work
 
-## Progress Update: 2026-02-11 00:00 EST
-
+## [2026-02-11 03:00 EST] phase3-roles-complete
 # Progress: haos-phase3-roles-complete
 
 ## Task Summary
@@ -429,8 +448,7 @@ Complete remaining role features (P3-085 to P3-095)
 ---
 *Completed: 2026-06-14 21:40 EST*
 
-## Progress Update: 2026-02-11 00:00 EST
-
+## [2026-02-11 03:00 EST] phase4-screenshare
 # haos-phase4-screenshare Progress
 
 ## Work Log
@@ -539,8 +557,7 @@ The component uses the modern getDisplayMedia API with these options:
 **Status: COMPLETE ✅**
 **Completed: 2025-02-10 07:32 EST**
 
-## Progress Update: 2026-02-11 00:00 EST
-
+## [2026-02-11 03:00 EST] phase5-notifications
 # haos-phase5-notifications Progress
 
 ## Task
@@ -639,8 +656,7 @@ This task was previously completed. All 20 features (P5-099 to P5-118) are imple
 ## Git Status
 Clean - no uncommitted changes
 
-## Progress Update: 2026-02-11 00:00 EST
-
+## [2026-02-11 03:00 EST] phase6-audit-log
 # Phase 6-B Audit Log Progress
 
 ## Task: haos-phase6-audit-log
@@ -745,8 +761,7 @@ Clean - no uncommitted changes
 - Updated task documentation and summary table
 - Phase 6 now at 33/85 complete (39%)
 
-## Progress Update: 2026-02-11 00:00 EST
-
+## [2026-02-11 03:00 EST] phase6-automod
 # haos-phase6-automod Progress
 
 ## Status: COMPLETE ✅
@@ -834,8 +849,7 @@ Clean - no uncommitted changes
 1. `fb12df3` - feat(automod): Complete Phase 6 AutoMod system (P6-036 to P6-060)
 2. `5a8d742` - docs: Mark Phase 6 AutoMod tasks as complete
 
-## Progress Update: 2026-02-11 00:00 EST
-
+## [2026-02-11 03:00 EST] phase6-moderation
 # Phase 6 Moderation - Progress Log
 
 ## Status: COMPLETE ✅
@@ -1014,8 +1028,7 @@ Clean - no uncommitted changes
 *Completed: 2026-02-10*
 *Validated: 2026-02-10 22:10 EST*
 
-## Progress Update: 2026-02-11 00:00 EST
-
+## [2026-02-11 03:00 EST] phase7-quickswitcher
 # Progress: haos-phase7-quickswitcher
 
 ## Work Log
@@ -1069,8 +1082,7 @@ Clean - no uncommitted changes
 ## Status
 ✅ COMPLETE — All 10 tasks (P7-021 to P7-030) implemented and committed.
 
-## Progress Update: 2026-02-11 00:00 EST
-
+## [2026-02-11 03:00 EST] phase7-ux-refinements
 # HAOS Phase 7: User Experience Refinements
 
 ## Task: P7-031 to P7-050 (Server Discovery)
@@ -1189,8 +1201,7 @@ Created complete Discord-style server discovery system with:
 
 **Status: COMPLETE ✅**
 
-## Progress Update: 2026-02-11 00:00 EST
-
+## [2026-02-11 03:00 EST] phase8-accessibility
 # haos-phase8-accessibility - Progress
 
 ## Summary
@@ -1287,8 +1298,7 @@ Complete Phase 8 accessibility (P8-036 to P8-050) for HAOS Discord clone.
 - This task verified completeness and updated documentation
 - Some features (captions) are documented but pending transcription service
 
-## Progress Update: 2026-02-11 00:00 EST
-
+## [2026-02-11 03:00 EST] phase8-infrastructure
 # Phase 8 Infrastructure Progress
 
 ## Task: haos-phase8-infrastructure
@@ -1375,8 +1385,7 @@ Complete Phase 8 accessibility (P8-036 to P8-050) for HAOS Discord clone.
 - [x] Git commits made
 - [x] HAOS-COMPREHENSIVE-TASKS.md updated
 
-## Progress Update: 2026-02-11 00:00 EST
-
+## [2026-02-11 03:00 EST] phase8-polish
 # Phase 8 Polish Progress (P8-071 to P8-085)
 
 ## Work Log
