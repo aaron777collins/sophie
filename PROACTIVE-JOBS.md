@@ -50,15 +50,578 @@ We're auditing the Discord clone + planning Matrix integration before writing co
 
 ---
 
+# 🧠 Cognitive Framework Tasks (The Circle / Counsel / Reflection)
+
+> **Source:** Counsel session 2026-02-11 — Architect, Skeptic, and Builder perspectives identified gaps in operationalizing the thinking/learning systems.
+
+### Checklist
+
+| Task ID | Description | Status | Priority |
+|---------|-------------|--------|----------|
+| cog-01-circle-skill | Build skills/circle/SKILL.md | ⏳ pending | 🔴 High |
+| cog-02-reflect-cli | Build reflect CLI tool | ⏳ pending | 🔴 High |
+| cog-03-docs-update | Update THE-CIRCLE.md + THE-COUNSEL.md with escalation/quorum rules | ⏳ pending | 🔴 High |
+| cog-04-circle-cli | Build circle CLI for quick invocation | ⏳ pending | 🟡 Medium |
+| cog-05-counsel-index | Create memory/counsel/INDEX.md decision tracker | ⏳ pending | 🟡 Medium |
+| cog-06-validation-tracking | Add improvement validation system | ⏳ pending | 🟡 Medium |
+| cog-07-insights-index | Structured pattern tracking (JSON index) | ⏳ pending | 🟢 Lower |
+| cog-08-counsel-search | Semantic search over past decisions | ⏳ pending | 🟢 Lower |
+| cog-09-reflection-metrics | Basic metrics/stats for reflection system | ⏳ pending | 🟢 Lower |
+
+---
+
+### cog-01-circle-skill
+- **Type:** implementation
+- **Min Model:** opus
+- **Priority:** high
+- **Status:** pending
+- **Description:** Build the Circle skill file that agents can use to invoke Circle thinking at any weight level
+- **Output:** `/home/ubuntu/clawd/skills/circle/SKILL.md`
+
+#### Detailed Instructions
+
+**Context:** The Circle is our multi-perspective thinking framework. Weight levels scale from Internal (0 agents, self-check) to Council (5-7 Opus). Currently documented in `docs/THE-CIRCLE.md` and `docs/THE-COUNSEL.md` but no skill file exists for programmatic invocation.
+
+**Step 1: Read existing documentation**
+```bash
+cat /home/ubuntu/clawd/docs/THE-CIRCLE.md
+cat /home/ubuntu/clawd/docs/THE-COUNSEL.md
+```
+
+**Step 2: Create skills/circle/ directory**
+```bash
+mkdir -p /home/ubuntu/clawd/skills/circle
+```
+
+**Step 3: Write SKILL.md with:**
+- Overview of The Circle concept
+- Weight level definitions (Internal → Light → Standard → Elevated → Council)
+- When to use each level
+- Perspective definitions (Architect, Guardian, Pragmatist, Skeptic, Visionary, Historian + Empathy perspectives)
+- **Spawning templates** for each weight level:
+  - Light (1-2 Haiku): prompt templates
+  - Standard (3 Sonnet): prompt templates
+  - Elevated (5 Sonnet): prompt templates
+  - Council (5-7 Opus): full Counsel protocol
+- **JSON schema for counselor responses:**
+  ```json
+  {
+    "perspective": "string",
+    "assessment": "string",
+    "concerns": ["string"],
+    "suggestions": ["string"],
+    "vote": "A|B|C|abstain",
+    "confidence": 0-100
+  }
+  ```
+- **Aggregation logic:** How to tally votes, handle ties, weight by confidence
+- **Escalation triggers** (concrete, not vibes):
+  - Stakes > $1000 → Standard minimum
+  - Irreversible action → Elevated minimum
+  - Security implication → Council
+  - Uncertainty > 50% → +1 weight level
+- **Quorum rules:**
+  - Minimum: 4 of 7 counselors for Council
+  - If <4 respond: Downgrade to Elevated
+  - If <3 respond: Abort, flag for human review
+- **Dissent protocol:** Always log minority opinions, flag if 2+ disagree with majority
+- **Example invocations** showing full workflow
+
+**Step 4: Include helper scripts or code snippets**
+If useful, add `scripts/` directory with:
+- `invoke-circle.sh` — wrapper for spawning at a weight level
+- Templates for structured prompts
+
+**Step 5: Test by running a real Circle invocation**
+Pick a simple question, invoke at Light weight, verify the workflow works.
+
+**Step 6: Update memory**
+- Add entry to `memory/daily/2026-02-11.md`
+- Update `memory/projects/cognitive-framework/_overview.md` (create if needed)
+
+**Step 7: Commit and announce**
+```bash
+cd /home/ubuntu/clawd && git add -A && git commit -m "feat: add Circle skill with escalation triggers and quorum rules"
+```
+Send Slack summary to #aibot-chat.
+
+---
+
+### cog-02-reflect-cli
+- **Type:** implementation
+- **Min Model:** opus
+- **Priority:** high
+- **Status:** pending
+- **Description:** Build a reflect CLI tool for zero-friction reflection logging
+- **Output:** `/home/ubuntu/clawd/tools/reflect/reflect.py` (or shell script)
+
+#### Detailed Instructions
+
+**Context:** The reflection system requires logging to `memory/reflections/daily/YYYY-MM-DD.md` throughout the day. Currently this is manual file editing — too much friction. The Builder identified this as a critical gap.
+
+**Step 1: Design the CLI interface**
+```bash
+# Usage:
+reflect well "Caught potential misunderstanding before responding"
+reflect improve "Response was too verbose"
+reflect interesting "Novel situation requiring improvisation"
+reflect feedback "Aaron: 'Good catch on that edge case'"
+
+# Options:
+reflect --list          # Show today's entries
+reflect --date 2026-02-10 well "Late entry for yesterday"
+```
+
+**Step 2: Create tools/reflect directory**
+```bash
+mkdir -p /home/ubuntu/clawd/tools/reflect
+```
+
+**Step 3: Implement the tool**
+- Parse command line arguments (type + message)
+- Validate log type: well, improve, interesting, feedback
+- Get current date (or --date override)
+- Create file `memory/reflections/daily/YYYY-MM-DD.md` if doesn't exist
+- Append timestamped entry in format:
+  ```markdown
+  ## [HH:MM TZ] 🟢 Did Well
+  Caught potential misunderstanding before responding
+  ```
+- Use emoji: 🟢 well, 🔴 improve, 🤔 interesting, 💬 feedback
+- Output confirmation
+
+**Step 4: Make it executable and add to PATH**
+```bash
+chmod +x /home/ubuntu/clawd/tools/reflect/reflect.py
+ln -sf /home/ubuntu/clawd/tools/reflect/reflect.py /usr/local/bin/reflect
+```
+
+**Step 5: Test thoroughly**
+- Add each type of entry
+- Verify file format
+- Test --list flag
+- Test --date flag
+
+**Step 6: Document in TOOLS.md**
+Add a section explaining usage.
+
+**Step 7: Commit and announce**
+
+---
+
+### cog-03-docs-update
+- **Type:** documentation
+- **Min Model:** opus
+- **Priority:** high
+- **Status:** pending
+- **Description:** Update THE-CIRCLE.md and THE-COUNSEL.md with concrete escalation triggers, quorum rules, dissent protocol, and feedback hierarchy
+- **Output:** Updated docs files
+
+#### Detailed Instructions
+
+**Step 1: Read current docs**
+```bash
+cat /home/ubuntu/clawd/docs/THE-CIRCLE.md
+cat /home/ubuntu/clawd/docs/THE-COUNSEL.md
+cat /home/ubuntu/clawd/docs/SELF-REFLECTION.md
+```
+
+**Step 2: Add to THE-CIRCLE.md:**
+
+**Automatic Escalation Triggers section:**
+```markdown
+## 🚨 Automatic Escalation Triggers
+
+| Condition | Minimum Weight |
+|-----------|----------------|
+| Stakes > $1000 | 🟡 Standard |
+| Affects >3 systems | 🟡 Standard |
+| Irreversible action | 🟠 Elevated |
+| Security implication | 🔴 Council |
+| Public communication | 🟡 Standard |
+| Aaron explicitly requested | As specified |
+| Uncertainty > 50% | +1 weight level |
+```
+
+**Anti-over-escalation guidance:**
+- Most responses need only 💭 Internal
+- Default to lower weight, escalate only when triggers hit
+- Time pressure doesn't justify skipping thinking entirely
+
+**Step 3: Add to THE-COUNSEL.md:**
+
+**Quorum & Degradation Rules section:**
+```markdown
+## ⚠️ Quorum & Degradation Protocol
+
+### Minimum Quorum
+- **Council (7):** Minimum 5 must respond
+- **Council (5):** Minimum 4 must respond
+- **Elevated (5):** Minimum 3 must respond
+
+### Degradation Path
+1. If quorum not met → Wait 30 seconds, retry once
+2. If still not met → Downgrade one weight level
+3. If <3 respond at any level → Abort, flag for human review
+
+### Partial Failure Handling
+- Always document why agents failed to respond
+- Log which perspectives are missing
+- Note if degraded decision should be revisited
+```
+
+**Dissent Protocol section:**
+```markdown
+## 📢 Dissent Protocol
+
+Minority opinions are valuable. They often catch what the majority misses.
+
+1. **Always log minority opinions** in decision record
+2. **Flag for attention** if 2+ counselors disagree with majority
+3. **Never suppress dissent** — document reasoning even if overruled
+4. **Review later** — if minority was right, update processes
+```
+
+**Step 4: Add to SELF-REFLECTION.md:**
+
+**Feedback Hierarchy section:**
+```markdown
+## ⚖️ Feedback Hierarchy
+
+When self-assessment conflicts with human feedback:
+
+1. **Human feedback wins** — Aaron's correction overrides my self-analysis
+2. **Log the conflict** — Note what I thought vs what was correct
+3. **Examine why** — Was my self-assessment flawed? How?
+4. **Update calibration** — Adjust future self-assessment accordingly
+
+The human is right until proven otherwise. If I consistently disagree, that's a conversation to have — not an assumption to act on.
+```
+
+**Improvement Validation section:**
+```markdown
+## ✅ Improvement Validation
+
+Changes aren't improvements until proven:
+
+1. **Track before/after** — What was the problem? What did we change?
+2. **Set validation criteria** — "This type of mistake won't recur within 7 days"
+3. **Check back** — Did the improvement stick?
+4. **Document outcomes:**
+   - ✅ Validated: Improvement worked
+   - ⚠️ Partial: Some improvement, needs refinement
+   - ❌ Failed: Problem recurred, try different approach
+
+Improvements that fail twice need deeper analysis — the root cause may be misidentified.
+```
+
+**Step 5: Update memory and commit**
+
+---
+
+### cog-04-circle-cli
+- **Type:** implementation
+- **Min Model:** opus
+- **Priority:** medium
+- **Status:** pending
+- **Description:** Build a CLI wrapper for invoking Circle thinking at any weight level
+- **Output:** `/home/ubuntu/clawd/tools/circle/circle.py`
+- **Dependencies:** cog-01-circle-skill (need the skill spec first)
+
+#### Detailed Instructions
+
+**Step 1: Read the Circle skill spec**
+```bash
+cat /home/ubuntu/clawd/skills/circle/SKILL.md
+```
+
+**Step 2: Design CLI interface**
+```bash
+# Usage:
+circle "Should I refactor the auth module?" --weight standard
+circle "How to phrase this feedback?" --weight light --focus empathy
+circle --convene "Architecture: monorepo vs polyrepo"  # Full Council
+
+# Options:
+--weight [internal|light|standard|elevated|council]
+--focus [critical|empathy|both]  # Which perspective group
+--perspectives "architect,skeptic,pragmatist"  # Specific ones
+--output json  # Machine-readable output
+--log  # Save to memory/counsel/
+```
+
+**Step 3: Implement the tool**
+- Parse arguments
+- Based on weight, determine number of agents and model
+- Spawn sub-agents with perspective prompts (use sessions_spawn)
+- Collect responses
+- Aggregate votes if applicable
+- Format and output result
+- If --log, save to `memory/counsel/YYYY-MM-DD-HH-MM-slug.md`
+
+**Step 4: Handle async execution**
+- For Council weight, agents take time
+- Show progress: "Spawning 7 counselors..."
+- Collect results as they complete
+- Handle timeouts gracefully
+
+**Step 5: Test at each weight level**
+- Light: Should complete quickly
+- Standard: ~30 seconds
+- Council: 1-2 minutes
+
+**Step 6: Install and document**
+```bash
+ln -sf /home/ubuntu/clawd/tools/circle/circle.py /usr/local/bin/circle
+```
+
+**Step 7: Commit and announce**
+
+---
+
+### cog-05-counsel-index
+- **Type:** implementation
+- **Min Model:** sonnet
+- **Priority:** medium
+- **Status:** pending
+- **Description:** Create memory/counsel/INDEX.md to track all Council decisions for easy search and pattern recognition
+- **Output:** `/home/ubuntu/clawd/memory/counsel/INDEX.md` + process for keeping it updated
+
+#### Detailed Instructions
+
+**Step 1: Create directory structure**
+```bash
+mkdir -p /home/ubuntu/clawd/memory/counsel
+```
+
+**Step 2: Create INDEX.md template**
+```markdown
+# Counsel Decision Index
+
+Quick reference for all Council decisions. Update when new decisions are made.
+
+## Decision Log
+
+| Date | Slug | Topic | Options | Result | Revisited? | Tags |
+|------|------|-------|---------|--------|------------|------|
+| 2026-02-11 | cognitive-framework-v2 | Circle/Counsel architecture | Refine/Redesign/Keep | Refine | — | architecture, cognitive |
+
+## By Tag
+
+### architecture
+- [2026-02-11 cognitive-framework-v2](./2026-02-11-01-30-cognitive-framework-v2.md)
+
+### security
+(none yet)
+
+## Patterns Observed
+
+(Document recurring themes, lessons from revisited decisions)
+```
+
+**Step 3: Document the process**
+Add to THE-COUNSEL.md:
+```markdown
+## 📋 Decision Index
+
+Every Council decision MUST be indexed in `memory/counsel/INDEX.md`:
+
+1. Add row to Decision Log table
+2. Add to relevant tag sections
+3. If revisiting a prior decision, link them
+```
+
+**Step 4: Backfill existing decisions**
+Check if any Council decision files exist and index them.
+
+**Step 5: Commit and announce**
+
+---
+
+### cog-06-validation-tracking
+- **Type:** implementation
+- **Min Model:** sonnet
+- **Priority:** medium
+- **Status:** pending
+- **Description:** Add system for tracking whether improvements actually worked
+- **Output:** Tracking file + process documentation
+
+#### Detailed Instructions
+
+**Step 1: Create tracking structure**
+```bash
+mkdir -p /home/ubuntu/clawd/memory/reflections/validation
+```
+
+**Step 2: Create validation tracker**
+`memory/reflections/validation/INDEX.md`:
+```markdown
+# Improvement Validation Tracker
+
+## Active Validations
+
+| ID | Improvement | Made | Check By | Status |
+|----|-------------|------|----------|--------|
+| v001 | Reduced verbosity in Slack | 2026-02-11 | 2026-02-18 | ⏳ pending |
+
+## Completed Validations
+
+| ID | Improvement | Result | Notes |
+|----|-------------|--------|-------|
+```
+
+**Step 3: Add to nightly reflection process**
+Update the reflection cron instructions to:
+1. Check for validations due today
+2. Assess if improvement stuck
+3. Update tracker with result
+
+**Step 4: Document in SELF-REFLECTION.md**
+Add validation tracking section with examples.
+
+**Step 5: Commit and announce**
+
+---
+
+### cog-07-insights-index
+- **Type:** implementation
+- **Min Model:** sonnet
+- **Priority:** lower
+- **Status:** pending
+- **Description:** Create structured JSON index for pattern tracking across reflections
+- **Output:** `memory/reflections/insights/index.json` + tooling
+
+#### Detailed Instructions
+
+**Step 1: Design the schema**
+```json
+{
+  "patterns": [
+    {
+      "id": "verbose-responses",
+      "category": "communication",
+      "description": "Responses sometimes too long/detailed",
+      "instances": [
+        {"date": "2026-02-10", "file": "daily/2026-02-10.md", "line": 45},
+        {"date": "2026-02-11", "file": "daily/2026-02-11.md", "line": 23}
+      ],
+      "first_seen": "2026-02-10",
+      "last_seen": "2026-02-11",
+      "status": "active",
+      "improvements_tried": ["v001"],
+      "insight_file": "communication-length.md"
+    }
+  ],
+  "updated": "2026-02-11T01:45:00Z"
+}
+```
+
+**Step 2: Create the file**
+```bash
+mkdir -p /home/ubuntu/clawd/memory/reflections/insights
+# Create index.json with empty patterns array
+```
+
+**Step 3: Build query helpers**
+Simple script to query patterns:
+```bash
+# Usage:
+insights list                    # All patterns
+insights frequent                # Patterns with 3+ instances
+insights category communication  # Filter by category
+insights add "pattern-name" "description"
+```
+
+**Step 4: Update nightly reflection to maintain index**
+When processing daily logs, update the JSON index with new instances.
+
+**Step 5: Commit and announce**
+
+---
+
+### cog-08-counsel-search
+- **Type:** implementation
+- **Min Model:** sonnet
+- **Priority:** lower
+- **Status:** pending
+- **Description:** Enable semantic search over past Council decisions
+- **Output:** Search capability (using memory_search or custom tool)
+
+#### Detailed Instructions
+
+**Step 1: Verify memory_search covers counsel directory**
+Test: `memory_search` on a counsel decision file.
+
+**Step 2: If needed, extend memory search**
+Ensure `memory/counsel/*.md` files are indexed.
+
+**Step 3: Create counsel-search wrapper**
+```bash
+# Usage:
+counsel-search "authentication architecture"
+# Returns: Relevant past decisions with summaries
+```
+
+**Step 4: Add to TOOLS.md**
+Document how to search past decisions.
+
+**Step 5: Commit and announce**
+
+---
+
+### cog-09-reflection-metrics
+- **Type:** implementation
+- **Min Model:** sonnet
+- **Priority:** lower
+- **Status:** pending
+- **Description:** Basic metrics dashboard for reflection system health
+- **Output:** Weekly digest + tracking
+
+#### Detailed Instructions
+
+**Step 1: Define metrics to track**
+- Reflection entries per day (consistency)
+- Types breakdown (well/improve/interesting/feedback)
+- Improvements made per week
+- Improvement validation rate (% that stuck)
+- Circle invocations by weight
+- Council decisions per month
+
+**Step 2: Create metrics file**
+`memory/reflections/metrics/YYYY-MM.json`:
+```json
+{
+  "month": "2026-02",
+  "reflection_entries": {"2026-02-10": 4, "2026-02-11": 6},
+  "by_type": {"well": 5, "improve": 3, "interesting": 1, "feedback": 1},
+  "improvements_made": 2,
+  "improvements_validated": 1,
+  "circle_invocations": {"internal": 50, "light": 5, "standard": 2, "council": 1}
+}
+```
+
+**Step 3: Add weekly digest to nightly reflection**
+Every Sunday, generate a brief summary:
+- This week's reflection consistency
+- Notable patterns
+- Improvement validation status
+
+**Step 4: Document in SELF-REFLECTION.md**
+
+**Step 5: Commit and announce**
+
+---
+
 ## Core Infrastructure Tasks (Can run in parallel with audit)
 
 ### counsel-implementation-refinement
 - **Type:** implementation
 - **Min Model:** opus
 - **Priority:** high
-- **Status:** in-progress
+- **Status:** completed
 - **Description:** Refine The Counsel multi-agent voting system
 - **Started:** 2026-02-11 01:30 EST
+- **Completed:** 2026-02-11 01:42 EST
 - **Instructions:**
   1. Read /home/ubuntu/clawd/docs/THE-COUNSEL.md (full spec)
   2. Read /home/ubuntu/clawd/skills/counsel/SKILL.md (usage guide)
@@ -180,7 +743,8 @@ Full audit: ~/clawd/docs/haos-v2/BACKEND-MAPPING.md
 - **Type:** audit
 - **Min Model:** opus
 - **Priority:** critical
-- **Status:** pending
+- **Status:** in-progress
+- **Started:** 2026-02-11 01:45 EST
 - **Description:** Plan auth migration from Clerk to Matrix
 - **Output:** `/home/ubuntu/clawd/docs/haos-v2/AUTH-STRATEGY.md`
 - **Dependencies:** audit-01

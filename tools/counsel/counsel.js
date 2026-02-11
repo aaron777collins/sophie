@@ -3,19 +3,30 @@
 /**
  * ⚖️ The Counsel - Multi-Agent Deliberation System
  * 
+ * The Circle at maximum weight — for decisions that can't be wrong.
+ * 
+ * Spawns N counselors (3/5/7) who each analyze from their perspective,
+ * vote, and provide reasoning. Votes are tallied and the winner declared.
+ * Full decision logged to memory/counsel/ for future reference.
+ * 
  * Usage:
  *   node counsel.js --question "..." --options "A,B,C" --context "..." --complexity standard
  * 
  * Complexity levels:
- *   light     = 3 counselors, haiku
- *   standard  = 3 counselors, sonnet
- *   elevated  = 5 counselors, sonnet
- *   critical  = 5 counselors, opus
- *   maximum   = 7 counselors, opus
+ *   light     = 3 counselors, sonnet  (~$0.15)
+ *   standard  = 3 counselors, sonnet  (~$0.20)
+ *   elevated  = 5 counselors, sonnet  (~$0.35)
+ *   critical  = 5 counselors, opus    (~$2.00)
+ *   maximum   = 7 counselors, opus    (~$3.00)
  * 
  * Callable from other agents:
  *   const { convene } = require('./counsel.js');
  *   const result = await convene(question, context, options, complexity);
+ * 
+ * Docs:
+ *   - Full spec: docs/THE-COUNSEL.md
+ *   - Skill guide: skills/counsel/SKILL.md
+ *   - Framework: docs/THE-CIRCLE.md
  */
 
 const { execSync, spawn } = require('child_process');
