@@ -320,6 +320,36 @@ For the full Circle framework (all weights): `docs/THE-CIRCLE.md`
 
 ---
 
+## 📚 Index Maintenance
+
+After every Council decision, update `memory/counsel/INDEX.md`:
+
+### Required Steps
+
+1. **Add to Decision Log table**
+   ```markdown
+   | YYYY-MM-DD | [slug](filename.md) | Topic | Options | Result | Votes | No | `#tag1` |
+   ```
+
+2. **Update By Tag sections** — Link under each relevant tag
+
+3. **Update Statistics** — Increment counts, note if unanimous
+
+4. **Pattern check** (every 5 decisions) — Review voting patterns, themes
+
+### Tag Taxonomy
+
+Use consistent tags: `#architecture`, `#security`, `#storage`, `#data`, `#integration`, `#api`, `#strategy`, `#breaking-change`, `#process`, `#core`, `#ux`, `#performance`
+
+### Revisiting Decisions
+
+When reconsidering a past decision:
+1. Update "Revisited?" column → "Yes → YYYY-MM-DD"
+2. Add to Revisited Decisions section
+3. Create new decision file linking to original
+
+---
+
 ## 📂 Files
 
 | File | Purpose |
@@ -328,6 +358,7 @@ For the full Circle framework (all weights): `docs/THE-CIRCLE.md`
 | 📄 `docs/THE-COUNSEL.md` | This file (Council weight reference) |
 | 📄 `skills/circle/SKILL.md` | Agent skill guide |
 | 📁 `memory/counsel/` | Council decision logs |
+| 📄 `memory/counsel/INDEX.md` | **Decision index for search & patterns** |
 
 ---
 

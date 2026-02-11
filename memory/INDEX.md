@@ -51,6 +51,15 @@
 |--------|--------------|-------|
 | [Aaron](people/aaron.md) | 2026-02-01 | Primary user, software engineer |
 
+### ⚖️ Counsel Decisions
+| Index | Total | Last Decision |
+|-------|-------|---------------|
+| [counsel/INDEX.md](counsel/INDEX.md) | 2 decisions | 2026-02-11 |
+
+Recent decisions:
+- [PostgreSQL vs SQLite](counsel/2026-02-11-06-38-should-we-use-postgresql-or-sqlite-for-t.md) — **SQLite** (unanimous)
+- [Structured vs Readable Logs](counsel/2026-02-11-06-40-should-clawdbot-use-structured-logging-j.md) — **Hybrid** (4-1)
+
 ---
 
 ## Recent Daily Logs
