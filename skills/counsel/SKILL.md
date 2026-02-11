@@ -167,6 +167,51 @@ Wait for all counselors, then:
 
 ---
 
+## 🎨 Custom Perspectives
+
+The defaults are great, but you can **add or substitute custom perspectives** for domain-specific decisions!
+
+### Ready-to-Use Custom Perspectives
+
+| Counselor | Focus | Core Question |
+|-----------|-------|---------------|
+| 🔬 **The Data Scientist** | ML tradeoffs, accuracy, data quality | *"What does the data tell us?"* |
+| 💰 **The Economist** | Cost, ROI, resource allocation | *"What's the financial impact?"* |
+| 🎨 **The Designer** | Visual consistency, brand, aesthetics | *"How does this look and feel?"* |
+| ⚡ **The Performance Engineer** | Speed, latency, optimization | *"How fast will this be?"* |
+| 🌍 **The Internationalist** | i18n, localization, cultural fit | *"Will this work globally?"* |
+| ♿ **The Accessibility Champion** | WCAG, assistive tech, inclusion | *"Can everyone use this?"* |
+| 📊 **The Product Manager** | User value, market fit, priorities | *"Does this solve a real problem?"* |
+| 🧪 **The QA Engineer** | Testability, edge cases, regression | *"How do we verify this works?"* |
+
+### How to Use Custom Perspectives
+
+**Add to defaults:** Use 3-5 defaults + 1-2 custom
+```
+Standard (3) + Data Scientist = 4 counselors for ML decision
+```
+
+**Replace a default:** Swap one that's less relevant
+```
+Replace Historian with Designer for UI decision
+```
+
+**All custom:** Build a specialized panel
+```
+ML Pipeline → Data Scientist, Performance Engineer, Economist, Pragmatist, Skeptic
+```
+
+### Creating Your Own
+
+Template:
+```
+| {emoji} **The {Name}** | {focus areas} | *"{core question}"* |
+```
+
+Then use the standard counselor prompt structure with your custom focus.
+
+---
+
 ## ⚠️ Usage Guidance
 
 ### ❌ Don't Convene For:

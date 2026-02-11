@@ -93,6 +93,47 @@ Each counselor embodies a distinct viewpoint:
 
 ---
 
+## 🎨 Custom Perspectives
+
+The 7 defaults cover most decisions, but you can **add or substitute custom perspectives** for domain-specific expertise:
+
+### Example Custom Perspectives
+
+| Counselor | Focus | Core Question |
+|-----------|-------|---------------|
+| 🔬 **The Data Scientist** | ML tradeoffs, model accuracy, data quality | *"What does the data tell us?"* |
+| 💰 **The Economist** | Cost, ROI, resource allocation | *"What's the financial impact?"* |
+| 🎨 **The Designer** | Visual consistency, brand, aesthetics | *"How does this look and feel?"* |
+| ⚡ **The Performance Engineer** | Speed, latency, optimization | *"How fast will this be?"* |
+| 🌍 **The Internationalist** | i18n, localization, cultural fit | *"Will this work globally?"* |
+| ♿ **The Accessibility Champion** | WCAG, assistive tech, inclusion | *"Can everyone use this?"* |
+| 📊 **The Product Manager** | User value, market fit, priorities | *"Does this solve a real problem?"* |
+| 🧪 **The QA Engineer** | Testability, edge cases, regression | *"How do we verify this works?"* |
+
+### Using Custom Perspectives
+
+**Option 1: Add to defaults**
+- Use standard 3-5-7 + add 1-2 custom for domain expertise
+- Example: 5 defaults + The Data Scientist for ML decisions
+
+**Option 2: Replace defaults**
+- Swap out perspectives that aren't relevant
+- Example: Replace The Historian with The Designer for UI decisions
+
+**Option 3: All custom**
+- For specialized domains, create a fully custom panel
+- Example: ML pipeline decision → Data Scientist, Performance Engineer, Economist, Pragmatist, Skeptic
+
+### Custom Perspective Template
+
+```
+| {emoji} **The {Name}** | {focus areas} | *"{core question}"* |
+```
+
+When spawning, use the same prompt structure but with your custom perspective's focus.
+
+---
+
 ## 📜 The Protocol
 
 ### Phase 1: 🔔 Convening

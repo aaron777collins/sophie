@@ -34,7 +34,7 @@ A voting system for critical decisions that spawns multiple Claude instances to 
 
 ---
 
-## 👥 The 7 Perspectives
+## 👥 The 7 Default Perspectives
 
 | # | Counselor | Focus | Core Question |
 |---|-----------|-------|---------------|
@@ -45,6 +45,18 @@ A voting system for critical decisions that spawns multiple Claude instances to 
 | 5 | 🔍 **The Skeptic** | Edge cases, failures | *"What are we missing?"* |
 | 6 | 🔮 **The Visionary** | Long-term, flexibility | *"How does this position us?"* |
 | 7 | 📚 **The Historian** | Precedent, patterns | *"What have others done?"* |
+
+### 🎨 Custom Perspectives
+
+Add domain-specific experts as needed:
+- 🔬 **The Data Scientist** — ML, accuracy, data quality
+- 💰 **The Economist** — Cost, ROI, resources
+- 🎨 **The Designer** — Visual, brand, aesthetics
+- ⚡ **The Performance Engineer** — Speed, latency
+- 📊 **The Product Manager** — User value, market fit
+- 🧪 **The QA Engineer** — Testability, edge cases
+
+Mix with defaults or build fully custom panels.
 
 ---
 

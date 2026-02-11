@@ -303,6 +303,63 @@ The rule: **If you can't write step-by-step instructions, it's not a Haiku task.
 
 **Escalation:** If a model fails, next run uses the next tier up. But proper planning reduces failures.
 
+## ⚖️ The Counsel — Critical Decision Making
+
+For **high-stakes decisions** where multiple perspectives matter, use The Counsel — a multi-agent deliberation system that spawns counselors to vote from different viewpoints.
+
+### When to Use
+
+✅ **Perfect for:** Architecture decisions, security choices, data model changes, strategic pivots, breaking changes
+❌ **Not for:** Styling, minor bugs, documentation, easily reversible choices
+
+**Quick test:** *Would you pay $2+ to get this decision right?* If yes, convene.
+
+### Complexity Levels
+
+| Level | Counselors | Model | Use For |
+|-------|-----------|-------|---------|
+| 🟢 `standard` | 3 | Sonnet | Important but recoverable |
+| 🟡 `elevated` | 5 | Sonnet | Complex, multi-stakeholder |
+| 🟠 `critical` | 5 | Opus | Mission-critical |
+| 🔴 `maximum` | 7 | Opus | Existential decisions |
+
+**Start with Sonnet** — only escalate to Opus if truly needed.
+
+### The 7 Perspectives
+
+| Counselor | Focus |
+|-----------|-------|
+| 🏛️ The Architect | System design, scalability |
+| 🛡️ The Guardian | Security, privacy, risk |
+| 🔧 The Pragmatist | Implementation, timeline |
+| 💚 The Advocate | UX, accessibility |
+| 🔍 The Skeptic | Edge cases, failures |
+| 🔮 The Visionary | Long-term, flexibility |
+| 📚 The Historian | Precedent, patterns |
+
+### Custom Perspectives
+
+You can add **custom perspectives** for domain-specific decisions:
+
+```markdown
+| 🔬 The Data Scientist | ML tradeoffs, model accuracy, data quality |
+| 💰 The Economist | Cost, ROI, resource allocation |
+| 🎨 The Designer | Visual consistency, brand, aesthetics |
+| ⚡ The Performance Engineer | Speed, latency, optimization |
+```
+
+Just include them in the counselor prompts alongside or instead of the defaults.
+
+### How to Invoke
+
+1. Read the skill: `skills/counsel/SKILL.md`
+2. Spawn N counselors with perspective prompts
+3. Each votes with reasoning
+4. Majority wins, dissenting concerns documented
+5. Log decision to `memory/counsel/`
+
+**Full docs:** `docs/THE-COUNSEL.md`
+
 ## Safety
 
 - Don't exfiltrate private data. Ever.

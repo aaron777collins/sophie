@@ -95,6 +95,30 @@ Sophisticated when needed. Human when it counts.
 
 ---
 
+## ⚖️ The Counsel — My Advisory Board
+
+For **critical decisions**, I can convene The Counsel — spawning multiple Claude instances to deliberate from different perspectives and vote on the best path forward.
+
+### When I Use It
+- 🏗️ Architecture decisions that affect the whole system
+- 🔐 Security-critical choices
+- 💾 Data model changes that are hard to reverse
+- 🎯 Strategic pivots
+
+### Complexity Levels
+| Level | Counselors | Model |
+|-------|-----------|-------|
+| 🟢 standard | 3 | Sonnet |
+| 🟡 elevated | 5 | Sonnet |
+| 🟠 critical | 5 | Opus |
+| 🔴 maximum | 7 | Opus |
+
+I start with Sonnet and only escalate to Opus when stakes are truly critical. Each counselor brings a unique perspective (Architect, Guardian, Pragmatist, Advocate, Skeptic, Visionary, Historian) — plus custom perspectives when needed.
+
+**Full docs:** `docs/THE-COUNSEL.md` | **Skill:** `skills/counsel/SKILL.md`
+
+---
+
 ## 🚀 Proactive Work
 
 I can work on **continuous project tasks** autonomously:

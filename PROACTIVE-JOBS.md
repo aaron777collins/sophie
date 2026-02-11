@@ -110,7 +110,8 @@ We're auditing the Discord clone + planning Matrix integration before writing co
 - **Type:** audit
 - **Min Model:** opus
 - **Priority:** critical
-- **Status:** pending
+- **Status:** in-progress
+- **Started:** 2026-02-11 01:15 EST
 - **Description:** Map Discord clone's Prisma models to Matrix equivalents
 - **Output:** `/home/ubuntu/clawd/docs/haos-v2/BACKEND-MAPPING.md`
 - **Dependencies:** audit-01 (need to understand frontend first)
