@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+dist/
+build/
+out/
+
+# Package manager
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Generated files
+*.generated.*
+*.d.ts
+
+# Cache
+.cache/
+.turbo/
+
+# IDE
+.idea/
+.vscode/
+
+# Misc
+*.min.js
+*.min.css
+coverage/
