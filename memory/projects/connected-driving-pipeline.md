@@ -10,6 +10,8 @@
 
 As of 2026-02-04, **all pipeline work happens on the Jaekel server**. The local dev3 copies have been removed.
 
+> **⚠️ NO PUBLIC DASHBOARD:** Results are accessed via SSH to Jaekel only. There is no public URL like `jaekel.mcmastergdsc.ca/dashboard/` — that does not exist. [Corrected 2026-02-11]
+
 ### Why Jaekel?
 - 64GB RAM (vs dev3's limited memory)
 - Dedicated for ML/pipeline work
@@ -141,7 +143,7 @@ Full docs at `~/ConnectedDrivingPipelineV4/JAEKEL-SERVER.md`:
 ### Status: RUNNING
 - 10 Dask pipelines queued for thesis results
 - First pipeline (RandOffset10To20) completed in 4m 39s
-- Dashboard with confusion matrix modals: jaekel.mcmastergdsc.ca/dashboard/
+- Results accessible via SSH to Jaekel server (no public dashboard URL)
 
 ### Pipelines in Queue
 1. ConstOffsetPerID (50-100m, 100-200m)
@@ -152,6 +154,6 @@ Full docs at `~/ConnectedDrivingPipelineV4/JAEKEL-SERVER.md`:
 6. RandomPos (0-2000m)
 
 ### Results Location
-- Dashboard: https://jaekel.mcmastergdsc.ca/dashboard/
+- Access: SSH to Jaekel server (no public dashboard — results are local only)
 - Raw files: /var/www/static/pipeline-results/{batch_id}/{pipeline}/
 - CSV with confusion matrices (base64): {pipeline}.csv
