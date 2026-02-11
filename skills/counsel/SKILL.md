@@ -1,199 +1,235 @@
-# The Counsel - Multi-Agent Deliberation Skill
+# ⚖️ The Counsel — Agent Skill
 
-> Use when facing mission-critical decisions that need diverse perspectives.
+> *Multi-agent deliberation for decisions that matter*
 
-## Quick Reference
+---
 
-| Complexity | Counselors | Model | Cost | Use For |
-|------------|-----------|-------|------|---------|
-| standard | 3 | sonnet | ~$0.20 | Important, recoverable |
-| elevated | 5 | sonnet | ~$0.35 | Complex, multi-stakeholder |
-| critical | 5 | opus | ~$2.00 | Mission-critical |
-| maximum | 7 | opus | ~$3.00 | Existential decisions |
+## 🚀 Quick Start
 
-## How to Convene The Counsel
-
-### Step 1: Determine if Counsel is Needed
+### When to Use
 
 Ask yourself:
-- Is this decision hard to reverse? 
-- Could being wrong cost significant time/money/security?
-- Are there multiple valid approaches with tradeoffs?
-- Would I pay $2+ to get this right?
+- 🤔 Is this decision hard to reverse?
+- 💸 Could being wrong cost significant time/money/security?
+- ⚖️ Are there multiple valid approaches with real tradeoffs?
 
-If YES to 2+, convene The Counsel.
+**If YES to 2+** → Convene The Counsel.
 
-### Step 2: Choose Complexity
+### Complexity at a Glance
 
-- **standard (3 sonnet)**: "This matters but we can adjust later"
-- **elevated (5 sonnet)**: "This is important and affects multiple areas"
-- **critical (5 opus)**: "Getting this wrong would be very costly"
-- **maximum (7 opus)**: "This could make or break the project"
+| Level | Counselors | Model | Cost | Use For |
+|-------|-----------|-------|------|---------|
+| 🟢 `standard` | 3 | Sonnet | ~$0.20 | Important, recoverable |
+| 🟡 `elevated` | 5 | Sonnet | ~$0.35 | Complex, multi-stakeholder |
+| 🟠 `critical` | 5 | Opus | ~$2.00 | Mission-critical |
+| 🔴 `maximum` | 7 | Opus | ~$3.00 | Existential decisions |
 
-### Step 3: Spawn Counselors
+**Start with Sonnet** → Escalate to Opus only if truly needed.
 
-Use `sessions_spawn` for each counselor with their perspective:
+---
 
+## 📋 Step-by-Step
+
+### Step 1: Define the Decision
+
+```markdown
+📋 Question:  [Clear, specific decision to make]
+📄 Context:   [All relevant background]
+🎯 Options:   [A, B, C — concrete choices]
+⚠️ Stakes:    [Why this matters]
+🎚️ Complexity: [standard|elevated|critical|maximum]
 ```
-Counselor 1 - The Architect (system design, scalability)
-Counselor 2 - The Guardian (security, privacy, risk)
-Counselor 3 - The Pragmatist (complexity, timeline, resources)
-Counselor 4 - The Advocate (UX, accessibility, adoption)
-Counselor 5 - The Skeptic (edge cases, failure modes)
-Counselor 6 - The Visionary (long-term, flexibility) [if 7]
-Counselor 7 - The Historian (precedent, patterns) [if 7]
-```
 
-### Step 4: Counselor Prompt Template
+### Step 2: Spawn Counselors
+
+Use `sessions_spawn` for each perspective:
+
+| # | Counselor | Focus |
+|---|-----------|-------|
+| 1 | 🏛️ **The Architect** | System design, scalability, tech debt |
+| 2 | 🛡️ **The Guardian** | Security, privacy, risk |
+| 3 | 🔧 **The Pragmatist** | Implementation, timeline, resources |
+| 4 | 💚 **The Advocate** | UX, accessibility, adoption |
+| 5 | 🔍 **The Skeptic** | Edge cases, failure modes |
+| 6 | 🔮 **The Visionary** | Long-term, flexibility *(5+ only)* |
+| 7 | 📚 **The Historian** | Precedent, patterns *(7 only)* |
+
+### Step 3: Counselor Prompt Template
 
 ```
 You are a Counselor in The Counsel, a multi-agent deliberation system.
 
-YOUR PERSPECTIVE: [The Architect/Guardian/Pragmatist/etc.]
-- Focus on: [perspective-specific concerns]
+═══════════════════════════════════════════════════════════════
+YOUR PERSPECTIVE: {emoji} {Name}
+Focus: {perspective-specific concerns}
+Core Question: "{the question they always ask}"
+═══════════════════════════════════════════════════════════════
 
-THE QUESTION:
-[Question to decide]
+📋 THE QUESTION:
+{Question to decide}
 
-CONTEXT:
-[Relevant background]
+📄 CONTEXT:
+{Relevant background}
 
-OPTIONS:
-A) [Option A]
-B) [Option B]
-C) [Option C]
+🎯 OPTIONS:
+A) {Option A}
+B) {Option B}  
+C) {Option C}
 
+═══════════════════════════════════════════════════════════════
 YOUR TASK:
-1. Analyze this decision from your perspective
+1. Analyze this decision ONLY from your perspective
 2. Consider contingencies and dependencies
-3. Identify risks for each option
+3. Identify key risks for each option
 4. Cast your vote
+═══════════════════════════════════════════════════════════════
 
-OUTPUT FORMAT (exactly):
-VOTE: [A/B/C]
-CONFIDENCE: [high/medium/low]
-REASONING: [2-3 sentences from your perspective]
-KEY CONCERN: [Main risk if your non-preferred option is chosen]
+OUTPUT FORMAT (use exactly):
+┌────────────────────────────────────────────────────────────┐
+│  🗳️  COUNSELOR VOTE                                       │
+├────────────────────────────────────────────────────────────┤
+│  VOTE:       [A / B / C]                                   │
+│  CONFIDENCE: [high / medium / low]                         │
+│  REASONING:  [2-3 sentences from your perspective]         │
+│  KEY RISK:   [Main concern if your vote loses]             │
+└────────────────────────────────────────────────────────────┘
 ```
 
-### Step 5: Collect and Tally Votes
+### Step 4: Collect & Tally
 
-Wait for all counselors to respond, then:
+Wait for all counselors, then:
+1. 📊 Count votes for each option
+2. ✅ Majority wins (odd numbers prevent ties)
+3. ⚠️ Document dissenting concerns
+4. 🛡️ Propose mitigations
 
-1. Count votes for each option
-2. Majority wins (that's why odd numbers)
-3. Document dissenting concerns
-4. Propose mitigations for minority concerns
+### Step 5: Announce & Log
 
-### Step 6: Log the Decision
+**Announce the decision:**
 
-Create: `memory/counsel/YYYY-MM-DD-HH-MM-{slug}.md`
-
-```markdown
-# Counsel Decision: {Question Summary}
-
-**Convened:** {timestamp}
-**Complexity:** {level}
-**Counselors:** {N}
-
-## Question
-{Full question}
-
-## Context
-{Context provided}
-
-## Options
-{List options}
-
-## Votes
-| Counselor | Vote | Confidence | Reasoning |
-|-----------|------|------------|-----------|
-| Architect | B | high | ... |
-| Guardian | B | medium | ... |
-| ... | ... | ... | ... |
-
-## Tally
-- Option A: X votes
-- Option B: Y votes
-- Option C: Z votes
-
-## Decision: {Winner}
-
-## Key Concerns from Dissenters
-- {concern 1}
-- {concern 2}
-
-## Mitigations Applied
-- {mitigation 1}
-- {mitigation 2}
+```
+╔════════════════════════════════════════════════════════════════════╗
+║  ⚖️  T H E   C O U N S E L   H A S   D E C I D E D  ⚖️            ║
+╠════════════════════════════════════════════════════════════════════╣
+║                                                                    ║
+║  📊 TALLY                                                          ║
+║  Option A: ████████████░░░░░░░░  3 votes (60%)                     ║
+║  Option B: ████████░░░░░░░░░░░░  2 votes (40%)                     ║
+║                                                                    ║
+║  ✅ DECISION: Option A                                             ║
+║                                                                    ║
+║  ⚠️ Key Dissent: [concern from minority]                           ║
+║  🛡️ Mitigation:  [how we'll address it]                           ║
+║                                                                    ║
+╚════════════════════════════════════════════════════════════════════╝
 ```
 
-## Perspective Definitions
+**Log to:** `memory/counsel/YYYY-MM-DD-HH-MM-{slug}.md`
 
-### The Architect
-Focus: System design, scalability, technical debt, architecture patterns
-Ask: "How does this affect our system's structure and maintainability?"
+---
 
-### The Guardian  
-Focus: Security, privacy, compliance, risk mitigation, access control
-Ask: "What could go wrong? How could this be exploited?"
+## 👥 Perspective Details
 
-### The Pragmatist
-Focus: Implementation complexity, timeline, resources, team capabilities
-Ask: "Can we actually build this? What's the realistic effort?"
+### 🏛️ The Architect
+- **Focus:** System design, scalability, technical debt, architecture patterns
+- **Ask:** *"How does this affect our system's structure and maintainability?"*
+- **Watches for:** Coupling, complexity, future flexibility
 
-### The Advocate
-Focus: User experience, accessibility, adoption, stakeholder needs
-Ask: "How will users experience this? Will they adopt it?"
+### 🛡️ The Guardian
+- **Focus:** Security, privacy, compliance, risk mitigation, access control
+- **Ask:** *"What could go wrong? How could this be exploited?"*
+- **Watches for:** Vulnerabilities, data exposure, attack vectors
 
-### The Skeptic
-Focus: Edge cases, failure modes, what-ifs, stress testing assumptions
-Ask: "What are we missing? What happens when X fails?"
+### 🔧 The Pragmatist
+- **Focus:** Implementation complexity, timeline, resources, team capabilities
+- **Ask:** *"Can we actually build this? What's the realistic effort?"*
+- **Watches for:** Scope creep, hidden complexity, resource constraints
 
-### The Visionary (5+ counselors)
-Focus: Long-term implications, future flexibility, strategic alignment
-Ask: "How does this position us for the future?"
+### 💚 The Advocate
+- **Focus:** User experience, accessibility, adoption, stakeholder needs
+- **Ask:** *"How will users experience this? Will they adopt it?"*
+- **Watches for:** Friction, confusion, accessibility gaps
 
-### The Historian (7 counselors)
-Focus: Precedent, patterns, industry standards, lessons learned
-Ask: "What have others done? What patterns apply here?"
+### 🔍 The Skeptic
+- **Focus:** Edge cases, failure modes, what-ifs, stress testing assumptions
+- **Ask:** *"What are we missing? What happens when X fails?"*
+- **Watches for:** Blind spots, optimistic assumptions, untested paths
 
-## Usage Guidance
+### 🔮 The Visionary *(5+ counselors)*
+- **Focus:** Long-term implications, future flexibility, strategic alignment
+- **Ask:** *"How does this position us for the future?"*
+- **Watches for:** Short-term thinking, strategic misalignment
 
-**DO NOT convene Counsel for:**
-- Code style decisions
-- Minor refactoring
-- Documentation updates
-- UI color choices
-- Anything easily reversible
+### 📚 The Historian *(7 counselors)*
+- **Focus:** Precedent, patterns, industry standards, lessons learned
+- **Ask:** *"What have others done? What patterns apply here?"*
+- **Watches for:** Reinventing wheels, ignoring proven solutions
 
-**Model Selection:**
-Deep thinking is encouraged! But be smart:
-- **Start with Sonnet** (standard/elevated) — this handles most decisions well
-- **Escalate to Opus** only when:
+---
+
+## ⚠️ Usage Guidance
+
+### ❌ Don't Convene For:
+- 🎨 Code style / formatting
+- 📝 Documentation updates  
+- 🐛 Simple bug fixes
+- ↩️ Easily reversible choices
+- 🤷 Low-stakes decisions
+
+### 🧠 Model Selection:
+
+**Deep thinking is encouraged!** But be smart:
+
+- **🟢🟡 Start with Sonnet** — handles most decisions beautifully
+- **🟠🔴 Escalate to Opus** only when:
   - Sonnet wasn't sufficient for the complexity
-  - Stakes are truly critical (security, architecture, irreversible)
-  - You'd genuinely pay $3+ to get this decision right
+  - Stakes are truly critical
+  - You'd genuinely pay $3+ to get it right
 
 No rate limits — use your judgment.
 
-**If convened for trivial decisions:**
-The Counsel should vote "DISMISS - not worthy of deliberation" and log the misuse.
+### 🚫 Trivial Invocation:
 
-## Example: Quick 3-Counselor Standard Decision
-
-```javascript
-// You're deciding whether to use REST or GraphQL for an API
-
-// Spawn 3 counselors
-spawn("counsel-architect", perspectivePrompt("Architect", question, options));
-spawn("counsel-guardian", perspectivePrompt("Guardian", question, options));  
-spawn("counsel-pragmatist", perspectivePrompt("Pragmatist", question, options));
-
-// Wait for responses, tally, decide
-// Log to memory/counsel/
+If The Counsel is convened for something trivial, counselors should vote:
+```
+VOTE: DISMISS
+REASONING: This decision does not warrant deliberation.
 ```
 
-## Full Spec
+---
 
-See: `/home/ubuntu/clawd/docs/THE-COUNSEL.md`
+## 📂 Files
+
+| File | Purpose |
+|------|---------|
+| 📄 `docs/THE-COUNSEL.md` | Full specification |
+| 📄 `skills/counsel/SKILL.md` | This skill guide |
+| 📄 `tools/counsel/counsel.js` | CLI helper |
+| 📁 `memory/counsel/` | Decision log archive |
+
+---
+
+## 💡 Example: Quick 3-Counselor Decision
+
+```javascript
+// Question: REST vs GraphQL for new API
+
+// 1. Spawn 3 counselors
+spawn("counsel-architect", buildPrompt("Architect", question, options));
+spawn("counsel-guardian", buildPrompt("Guardian", question, options));
+spawn("counsel-pragmatist", buildPrompt("Pragmatist", question, options));
+
+// 2. Collect votes
+// Architect: B (GraphQL) - high confidence
+// Guardian: A (REST) - medium confidence  
+// Pragmatist: A (REST) - high confidence
+
+// 3. Tally: REST wins 2-1
+
+// 4. Log decision with Guardian's concern about complexity
+// 5. Mitigation: Start with REST, design for future GraphQL layer
+```
+
+---
+
+*The Counsel has spoken.* ⚖️
