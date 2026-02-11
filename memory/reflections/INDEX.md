@@ -7,6 +7,7 @@
 | `daily/` | Raw notes captured throughout each day |
 | `insights/` | Distilled learnings and patterns |
 | `improvements/` | Log of changes made to systems |
+| `validation/` | Track if improvements actually worked |
 
 ## 📝 How To Use
 

@@ -248,17 +248,24 @@ Prompt: |
   
   1. Read today's reflection notes: memory/reflections/daily/YYYY-MM-DD.md
   2. Read today's conversation log: memory/daily/YYYY-MM-DD.md
-  3. Run Circle analysis (🟡 Standard) on notable items
-  4. Generate insights and improvements
-  5. Update systems/docs as needed
-  6. Create proactive jobs for tools/action items
-  7. Log everything to memory/reflections/improvements/
+  3. Check validation tracker: memory/reflections/validation/INDEX.md
+     - Any validations with Check By ≤ today?
+     - For each due: assess if improvement worked (review logs, feedback)
+     - Update tracker: move to Completed with result + notes
+     - Failed improvements → root cause analysis → stronger fix
+  4. Run Circle analysis (🟡 Standard) on notable items
+  5. Generate insights and improvements
+  6. For NEW improvements: add validation entry (+7 days check-by)
+  7. Update systems/docs as needed
+  8. Create proactive jobs for tools/action items
+  9. Log everything to memory/reflections/improvements/
   
   Focus on:
   - What went well (reinforce)
   - What could improve (fix)
   - Patterns (systemic issues)
   - Tools that would help (build)
+  - Validations: did past fixes work?
 ```
 
 ---
@@ -267,23 +274,57 @@ Prompt: |
 
 **How do we know a fix actually worked?**
 
-### Track Outcomes
-When logging an improvement, note:
-- What behavior we're trying to change
-- How we'll know if it worked
-- Check-in date (7 days later)
+Improvements mean nothing if they don't stick. This system tracks outcomes.
 
-### Validation Check
-During reflection, ask:
-- Did the improvements from last week stick?
-- Did the same mistakes recur?
-- Flag improvements that didn't work — they need stronger fixes
+### Validation Tracker
+
+Location: `memory/reflections/validation/INDEX.md`
+
+**When making an improvement:**
+1. Add entry to Active Validations table
+2. Set check-by date (typically +7 days)
+3. Note what behavior should change
+
+**Example entry:**
+```markdown
+| v001 | Reduced verbosity in Slack | 2025-02-11 | 2025-02-18 | ⏳ pending |
+```
+
+### During Nightly Reflection
+
+The reflection cron checks for due validations:
+
+1. **Check due validations:** Any with Check By ≤ today?
+2. **Assess each:** Did the improvement work?
+   - Review recent conversation logs
+   - Look for recurrence of original issue
+   - Check for relevant feedback
+3. **Update tracker:** Move to Completed with result
+4. **Handle failures:** Failed improvements need escalation, not repetition
+
+### Validation Results
+
+| Result | Meaning | Action |
+|--------|---------|--------|
+| ✅ Success | Behavior changed, issue resolved | Document what worked |
+| ❌ Failed | Same issue recurred | Root cause analysis + stronger fix |
+| 🔄 Partial | Some improvement, not complete | Identify gaps, iterate |
+
+### When Improvements Fail
+
+Failed improvements need escalation, not repetition:
+
+1. **Identify why:** Was root cause wrong? Fix too weak?
+2. **Escalate:** Note → Guideline → Checklist → Tool → Automation
+3. **Document pattern:** Add to `memory/reflections/insights/` if recurring
+4. **Re-validate:** New fix gets its own validation entry
 
 ### Regression Detection
-If the same issue appears in insights multiple times:
-- It's a pattern, not an incident
-- Needs systemic fix, not just a note
-- Consider: Is there a tool that would help?
+
+If the same issue appears in insights 3+ times:
+- It's a **systemic pattern**, not an incident
+- Needs **structural fix**, not behavioral change
+- Consider: **Is there a tool that would prevent this?**
 
 ---
 
@@ -329,6 +370,7 @@ Track whether improvements stick. If not, try harder.
 | `memory/reflections/daily/` | Raw daily notes |
 | `memory/reflections/insights/` | Distilled learnings |
 | `memory/reflections/improvements/` | Change log |
+| `memory/reflections/validation/` | Track if improvements worked |
 | `memory/reflections/INDEX.md` | Navigation |
 
 ---
