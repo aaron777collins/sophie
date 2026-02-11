@@ -303,18 +303,23 @@ The rule: **If you can't write step-by-step instructions, it's not a Haiku task.
 
 **Escalation:** If a model fails, next run uses the next tier up. But proper planning reduces failures.
 
-## ⚖️ The Counsel — Critical Decision Making
+## 🧠 Deep Thinking — Deliberation Systems
 
-For **high-stakes decisions** where multiple perspectives matter, use The Counsel — a multi-agent deliberation system that spawns counselors to vote from different viewpoints.
+Two systems for when careful thinking matters. **Use them freely** — just match the model to the need.
 
-### When to Use
+---
 
-✅ **Perfect for:** Architecture decisions, security choices, data model changes, strategic pivots, breaking changes
-❌ **Not for:** Styling, minor bugs, documentation, easily reversible choices
+### ⚖️ The Counsel — Critical Decisions
+
+For **high-stakes technical/strategic decisions** — spawns counselors to vote from different expert perspectives.
+
+**When to Use:**
+✅ Architecture, security, data models, strategic pivots, breaking changes
+❌ Styling, minor bugs, documentation, easily reversible choices
 
 **Quick test:** *Would you pay $2+ to get this decision right?* If yes, convene.
 
-### Complexity Levels
+**Complexity Levels:**
 
 | Level | Counselors | Model | Use For |
 |-------|-----------|-------|---------|
@@ -323,9 +328,7 @@ For **high-stakes decisions** where multiple perspectives matter, use The Counse
 | 🟠 `critical` | 5 | Opus | Mission-critical |
 | 🔴 `maximum` | 7 | Opus | Existential decisions |
 
-**Start with Sonnet** — only escalate to Opus if truly needed.
-
-### The 7 Perspectives
+**The 7 Perspectives:**
 
 | Counselor | Focus |
 |-----------|-------|
@@ -337,28 +340,52 @@ For **high-stakes decisions** where multiple perspectives matter, use The Counse
 | 🔮 The Visionary | Long-term, flexibility |
 | 📚 The Historian | Precedent, patterns |
 
-### Custom Perspectives
+**Custom Perspectives:** Add domain experts (Data Scientist, Economist, Designer, etc.) as needed.
 
-You can add **custom perspectives** for domain-specific decisions:
+**Full docs:** `docs/THE-COUNSEL.md` | **Skill:** `skills/counsel/SKILL.md`
 
-```markdown
-| 🔬 The Data Scientist | ML tradeoffs, model accuracy, data quality |
-| 💰 The Economist | Cost, ROI, resource allocation |
-| 🎨 The Designer | Visual consistency, brand, aesthetics |
-| ⚡ The Performance Engineer | Speed, latency, optimization |
-```
+---
 
-Just include them in the counselor prompts alongside or instead of the defaults.
+### 💜 The Circle — Empathy & Understanding
 
-### How to Invoke
+For **thinking about how people feel** before responding. Lightweight, frequent use.
 
-1. Read the skill: `skills/counsel/SKILL.md`
-2. Spawn N counselors with perspective prompts
-3. Each votes with reasoning
-4. Majority wins, dissenting concerns documented
-5. Log decision to `memory/counsel/`
+**When to Use:**
+✅ Someone upset, sensitive topic, important message, relationship moment, checking tone
+❌ Routine requests, technical questions, unemotional tasks
 
-**Full docs:** `docs/THE-COUNSEL.md`
+**The Six Voices:**
+
+| Voice | Key Question |
+|-------|--------------|
+| 💭 **Their Mind** | *What are they thinking? What's unsaid?* |
+| 💔 **Their Heart** | *How do they feel right now?* |
+| 📚 **Their History** | *What experiences shape this?* |
+| 🎯 **Their Needs** | *What do they actually need?* |
+| 🔮 **Their Future** | *How will this affect them?* |
+| 🤝 **The Relationship** | *How does this impact trust?* |
+
+**Three Modes:**
+1. **Quick Check** — Internal, just think through the voices
+2. **Light Deliberation** — Single Sonnet for complex situations  
+3. **Full Circle** — 3-5 Haiku/Sonnet agents as different voices
+
+**Use often!** This is everyday emotional intelligence, not just for crises.
+
+**Full docs:** `docs/THE-CIRCLE.md` | **Skill:** `skills/circle/SKILL.md`
+
+---
+
+### 🎯 Model Selection
+
+| Situation | Model | System |
+|-----------|-------|--------|
+| Quick empathy check | Internal / Haiku | The Circle |
+| Complex emotional situation | Sonnet | The Circle |
+| Important technical decision | Sonnet | The Counsel |
+| Mission-critical decision | Opus | The Counsel |
+
+**They combine!** Use Counsel for the decision, Circle for the communication.
 
 ## Safety
 
