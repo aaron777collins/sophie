@@ -15,6 +15,13 @@
 > - NO placeholders, stubs, or "TODO" comments
 > - Validate before marking complete
 
+> 🧠 **MODEL SELECTION**
+> - **Opus** — All planning, audits, architecture decisions, complex implementation
+> - **Sonnet** — Standard implementation where Opus already defined the steps
+> - **Haiku** — ONLY for trivial tasks where Opus wrote explicit step-by-step commands
+> 
+> Default to Opus if uncertain. Haiku should almost never be used for HAOS work.
+
 > ⚠️ **AGENTS MAY DIE**
 > - All state lives in files, NOT session memory
 > - Progress tracked in `scheduler/progress/{task-id}.md`
@@ -714,6 +721,10 @@ grep -r "@clerk" --include="*.ts" --include="*.tsx" -l | xargs -I {} echo "Edit:
 4. **Tasks ordered for sequential execution** (one at a time)
 5. **Each task completable by fresh agent** with NO prior context
 6. **~275 total tasks** across 9 implementation phases
+7. **Model selection for impl tasks:**
+   - **Opus** — Architecture, complex components, state management, anything ambiguous
+   - **Sonnet** — Standard implementation with clear instructions
+   - **Haiku** — Almost never. Only if you wrote explicit bash commands that just need execution
 
 **THE ENTIRE PLAN LIVES IN PROACTIVE-JOBS.md**
 **CRON READS THIS FILE → SPAWNS AGENTS → AGENTS EXECUTE SEQUENTIALLY**
