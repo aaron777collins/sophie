@@ -285,6 +285,62 @@ All perspectives vote, majority wins, dissenting concerns documented.
 
 ---
 
+## 🚨 Escalation Triggers
+
+### Automatic Escalation
+
+| Condition | Minimum Weight |
+|-----------|----------------|
+| Security implication | 🟠 Elevated |
+| Irreversible action | 🟠 Elevated |
+| Affects multiple systems | 🟡 Standard |
+| High uncertainty (>50%) | +1 weight level |
+| Human explicitly requests | As requested |
+| Financial impact >$500 | 🟡 Standard |
+| Financial impact >$2000 | 🟠 Elevated |
+
+### Don't Over-Escalate
+
+The goal is **appropriate** thinking, not **maximum** thinking. If you're convening Council for everything, you're doing it wrong.
+
+---
+
+## ⚠️ Counsel Failure Handling
+
+### Quorum Rules
+
+| Counselors Spawned | Minimum Quorum |
+|--------------------|----------------|
+| 7 | 5 |
+| 5 | 4 |
+| 3 | 2 |
+
+### If Below Quorum
+1. Downgrade to next lower weight (e.g., Council → Elevated)
+2. Document why agents failed
+3. If still can't get quorum, flag for human review
+
+### Dissent Protocol
+
+When 2+ counselors disagree with the majority:
+- Log minority opinions prominently
+- Consider flagging for human review
+- Don't treat consensus as certainty
+
+---
+
+## 👤 Human Feedback Hierarchy
+
+**Human feedback overrides self-assessment.**
+
+When Aaron gives feedback:
+1. Log it immediately (💬 in reflections)
+2. Treat it as ground truth unless clearly mistaken
+3. If it conflicts with self-analysis, the human is right
+4. Update processes based on feedback, not just self-reflection
+
+---
+
 ## 💡 Best Practices
 
 ### Scaling Guidelines

@@ -263,6 +263,42 @@ Prompt: |
 
 ---
 
+## ✅ Improvement Validation
+
+**How do we know a fix actually worked?**
+
+### Track Outcomes
+When logging an improvement, note:
+- What behavior we're trying to change
+- How we'll know if it worked
+- Check-in date (7 days later)
+
+### Validation Check
+During reflection, ask:
+- Did the improvements from last week stick?
+- Did the same mistakes recur?
+- Flag improvements that didn't work — they need stronger fixes
+
+### Regression Detection
+If the same issue appears in insights multiple times:
+- It's a pattern, not an incident
+- Needs systemic fix, not just a note
+- Consider: Is there a tool that would help?
+
+---
+
+## 👤 Human Feedback Priority
+
+**Human feedback overrides self-assessment.**
+
+When Aaron gives feedback:
+1. Log immediately with 💬
+2. Treat as ground truth
+3. If conflicts with self-analysis, human is right
+4. Update processes based on feedback
+
+---
+
 ## 🎯 Key Principles
 
 ### Log As It Happens
@@ -279,6 +315,9 @@ Reflection without action is just journaling. Make changes.
 
 ### Celebrate Wins
 Not just failures. Reinforce what works.
+
+### Validate Results
+Track whether improvements stick. If not, try harder.
 
 ---
 

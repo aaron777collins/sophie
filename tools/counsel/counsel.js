@@ -23,8 +23,9 @@ const fs = require('fs');
 const path = require('path');
 
 // Configuration
+// Note: Claude Code credential only allows sonnet/opus, not haiku
 const COMPLEXITY_CONFIG = {
-  light:    { counselors: 3, model: 'haiku' },
+  light:    { counselors: 3, model: 'sonnet' },   // Was haiku, but credential doesn't allow it
   standard: { counselors: 3, model: 'sonnet' },
   elevated: { counselors: 5, model: 'sonnet' },
   critical: { counselors: 5, model: 'opus' },
@@ -33,7 +34,6 @@ const COMPLEXITY_CONFIG = {
 
 // Use model aliases accepted by claude CLI
 const MODEL_MAP = {
-  haiku: 'haiku',
   sonnet: 'sonnet',
   opus: 'opus'
 };
@@ -41,58 +41,66 @@ const MODEL_MAP = {
 const PERSPECTIVES = [
   {
     id: 'architect',
-    name: '🏛️ The Architect',
+    name: 'The Architect',
+    emoji: '🏛️',
     focus: 'system design, scalability, technical debt, architecture patterns, data flow',
     ask: 'How does this affect our system\'s structure, maintainability, and growth?'
   },
   {
     id: 'guardian',
-    name: '🛡️ The Guardian',
+    name: 'The Guardian',
+    emoji: '🛡️',
     focus: 'security, privacy, compliance, risk mitigation, failure modes, data safety',
     ask: 'What could go wrong? How could this be exploited or fail catastrophically?'
   },
   {
     id: 'pragmatist',
-    name: '🔧 The Pragmatist',
+    name: 'The Pragmatist',
+    emoji: '🔧',
     focus: 'implementation complexity, timeline, resources, team capabilities, dependencies',
     ask: 'Can we actually build this well? What\'s the realistic effort and maintenance burden?'
   },
   {
     id: 'skeptic',
-    name: '🔍 The Skeptic',
+    name: 'The Skeptic',
+    emoji: '🔍',
     focus: 'edge cases, hidden assumptions, what-ifs, stress testing, devil\'s advocate',
     ask: 'What assumptions are we making? What happens under unusual conditions?'
   },
   {
     id: 'visionary',
-    name: '🔮 The Visionary',
+    name: 'The Visionary',
+    emoji: '🔮',
     focus: 'long-term implications, future flexibility, strategic alignment, evolution path',
     ask: 'How does this position us for the future? Will we regret this in 2 years?'
   },
   {
     id: 'empath',
-    name: '💜 The Empath',
+    name: 'The Empath',
+    emoji: '💜',
     focus: 'user experience, developer experience, adoption friction, emotional impact',
     ask: 'How will users and developers feel about this? What friction will they encounter?'
   },
   {
     id: 'historian',
-    name: '📚 The Historian',
+    name: 'The Historian',
+    emoji: '📚',
     focus: 'precedent, patterns, industry standards, lessons from similar decisions',
     ask: 'What have others done? What patterns and anti-patterns apply here?'
   }
 ];
 
 function generateCounselorPrompt(perspective, question, context, options) {
-  return `You are ${perspective.name}, a Counselor in The Counsel — a multi-agent deliberation system for critical decisions.
+  // Note: Avoid Unicode emoji in prompts - causes credential validation issues with Claude CLI
+  return `You are ${perspective.name}, a Counselor in The Counsel - a multi-agent deliberation system for critical decisions.
 
 YOUR IDENTITY: ${perspective.name}
 YOUR FOCUS: ${perspective.focus}
 YOUR KEY QUESTION: "${perspective.ask}"
 
-═══════════════════════════════════════════════════════════════
+---
 THE DECISION
-═══════════════════════════════════════════════════════════════
+---
 
 QUESTION:
 ${question}
@@ -103,9 +111,9 @@ ${context}
 OPTIONS:
 ${options.map((opt, i) => `  ${String.fromCharCode(65 + i)}) ${opt}`).join('\n')}
 
-═══════════════════════════════════════════════════════════════
+---
 YOUR TASK
-═══════════════════════════════════════════════════════════════
+---
 
 Analyze this decision STRICTLY from your perspective as ${perspective.name}.
 
@@ -114,7 +122,7 @@ Analyze this decision STRICTLY from your perspective as ${perspective.name}.
 3. Identify key risks/benefits from YOUR viewpoint
 4. Cast your vote
 
-OUTPUT FORMAT (use EXACTLY this format — parseable):
+OUTPUT FORMAT (use EXACTLY this format - parseable):
 
 VOTE: [A/B/C/etc - single letter only]
 CONFIDENCE: [high/medium/low]
@@ -122,10 +130,10 @@ REASONING: [2-3 sentences explaining your vote from your perspective]
 KEY_CONCERN: [The main risk if your non-preferred option is chosen]
 MITIGATION: [One action to address concerns if your vote loses]
 
-IMPORTANT: Stay in character as ${perspective.name}. Do not consider factors outside your focus area — other counselors handle those perspectives.`;
+IMPORTANT: Stay in character as ${perspective.name}. Do not consider factors outside your focus area - other counselors handle those perspectives.`;
 }
 
-function parseVote(response, perspectiveName) {
+function parseVote(response, perspectiveName, emoji) {
   // More robust parsing with fallbacks
   const voteMatch = response.match(/VOTE:\s*([A-Z])/i);
   const confidenceMatch = response.match(/CONFIDENCE:\s*(high|medium|low)/i);
@@ -134,7 +142,9 @@ function parseVote(response, perspectiveName) {
   const mitigationMatch = response.match(/MITIGATION:\s*(.+)/is);
 
   return {
-    perspective: perspectiveName,
+    perspective: `${emoji} ${perspectiveName}`,  // Add emoji for display
+    perspectivePlain: perspectiveName,
+    emoji: emoji,
     vote: voteMatch ? voteMatch[1].toUpperCase() : null,
     confidence: confidenceMatch ? confidenceMatch[1].toLowerCase() : 'medium',
     reasoning: reasoningMatch ? reasoningMatch[1].trim().replace(/\n/g, ' ') : '',
@@ -285,7 +295,7 @@ async function queryCounselor(perspective, prompt, model, verbose = false) {
   const modelId = MODEL_MAP[model] || MODEL_MAP.sonnet;
   
   if (verbose) {
-    console.log(`  📤 Querying ${perspective.name}...`);
+    console.log(`  📤 Querying ${perspective.emoji} ${perspective.name}...`);
   }
 
   // Write prompt to temp file to avoid shell escaping issues
@@ -311,18 +321,20 @@ async function queryCounselor(perspective, prompt, model, verbose = false) {
     const response = json.result || result;
     
     if (verbose) {
-      console.log(`  ✅ ${perspective.name} responded`);
+      console.log(`  ✅ ${perspective.emoji} ${perspective.name} responded`);
     }
 
-    return parseVote(response, perspective.name);
+    return parseVote(response, perspective.name, perspective.emoji);
     
   } catch (err) {
     // Clean up temp file on error
     try { fs.unlinkSync(tempFile); } catch (e) {}
     
-    console.error(`  ❌ ${perspective.name} failed: ${err.message}`);
+    console.error(`  ❌ ${perspective.emoji} ${perspective.name} failed: ${err.message}`);
     return {
-      perspective: perspective.name,
+      perspective: `${perspective.emoji} ${perspective.name}`,
+      perspectivePlain: perspective.name,
+      emoji: perspective.emoji,
       vote: null,
       confidence: 'low',
       reasoning: `[Error: ${err.message}]`,
@@ -453,7 +465,7 @@ Optional Arguments:
   --quiet       Minimal output
 
 Complexity Levels:
-  light     = 3 counselors, haiku   (~$0.05)
+  light     = 3 counselors, sonnet  (~$0.15)
   standard  = 3 counselors, sonnet  (~$0.20)
   elevated  = 5 counselors, sonnet  (~$0.35)
   critical  = 5 counselors, opus    (~$2.00)
