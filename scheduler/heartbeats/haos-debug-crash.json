@@ -1,9 +1,9 @@
 {
   "taskId": "haos-debug-crash",
-  "sessionKey": "agent:main:subagent:217cb037-0266-4712-8ffe-9d3989143178",
-  "startedAt": "2025-02-10T06:30:00Z",
-  "lastHeartbeat": "2025-02-10T06:30:00Z",
+  "sessionKey": "agent:main:subagent:dc8745a6-98ea-4052-aa05-210233cf14eb",
+  "startedAt": "2025-07-01T21:30:00Z",
+  "lastHeartbeat": "2025-07-01T21:40:00Z",
   "status": "running",
-  "currentPhase": "Initial investigation - checking crash context",
+  "currentPhase": "Fixed index.ts exports, rebuilding HAOS",
   "model": "opus"
 }

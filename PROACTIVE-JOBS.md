@@ -1,4 +1,4 @@
-# Proactive Jobs - HAOS v2 (Matrix-Powered Discord Clone)
+# Proactive Jobs - HAOS v2 (Discord Clone + Matrix Backend)
 
 > 🚨 **STRATEGIC PIVOT [2026-02-11]**
 > Abandoned: Reskinning Element Web (too complex, fighting architecture)
@@ -6,74 +6,207 @@
 > Source: https://github.com/nayak-nirmalya/discord-clone
 
 > 🔢 **RUN 1 TASK AT A TIME**
-> - Only 1 task `in-progress` at a time (avoid browser/resource conflicts)
+> - Only 1 task `in-progress` at a time (avoid resource conflicts)
 > - Each task completes fully before next starts
-> - Use browser tools properly: zoomclick, browser action
+> - Agents must write heartbeats to `scheduler/heartbeats/{task-id}.json`
 
 > 📝 **FULL COMPLETION STANDARD**
 > - "Done" means **PRODUCTION READY**
-> - If you struggle with browser, use Opus and read TOOLS.md for zoomclick instructions
+> - NO placeholders, stubs, or "TODO" comments
+> - Validate before marking complete
+
+> ⚠️ **AGENTS MAY DIE**
+> - All state lives in files, NOT session memory
+> - Progress tracked in `scheduler/progress/{task-id}.md`
+> - Any agent can resume from file state
+> - READ the progress file before starting work
 
 ---
 
-## Current Task (In-Progress)
+## How This Works
 
-(None - starting fresh)
+1. **Cron scheduler** runs every 15 minutes
+2. Picks the next `pending` task and spawns a sub-agent
+3. Sub-agent:
+   - Writes heartbeat immediately
+   - Reads any existing progress file
+   - Does the work
+   - Updates progress file continuously
+   - Marks task complete when done
+4. If agent dies, next cron run resumes from progress file
 
 ---
 
-## Phase 1: Comprehensive Audit (Sequential)
+## Current Phase: Comprehensive Audit
+
+We're auditing the Discord clone + planning Matrix integration before writing code.
+
+**Output Location:** `/home/ubuntu/clawd/docs/haos-v2/`
+
+### Master Checklist
+
+| Task ID | Description | Status | Output File |
+|---------|-------------|--------|-------------|
+| audit-01-frontend-analysis | Analyze Discord clone frontend | ✅ completed | FRONTEND-AUDIT.md |
+| audit-02-backend-mapping | Map Prisma → Matrix | ⏳ pending | BACKEND-MAPPING.md |
+| audit-03-auth-strategy | Clerk → Matrix auth | ⏳ pending | AUTH-STRATEGY.md |
+| audit-04-realtime-strategy | Socket.io → Matrix sync | ⏳ pending | REALTIME-STRATEGY.md |
+| audit-05-media-strategy | UploadThing → Matrix media | ⏳ pending | MEDIA-STRATEGY.md |
+| audit-06-livekit-integration | Verify LiveKit compatibility | ⏳ pending | LIVEKIT-INTEGRATION.md |
+| audit-07-feature-gap-analysis | Discord clone vs what we need | ⏳ pending | FEATURE-GAPS.md |
+| audit-08-self-hosting-plan | Docker + infrastructure | ⏳ pending | SELF-HOSTING-PLAN.md |
+| audit-09-migration-existing | What to keep from HAOS v1 | ⏳ pending | MIGRATION-FROM-V1.md |
+| audit-10-implementation-plan | Final comprehensive plan | ⏳ pending | IMPLEMENTATION-PLAN.md |
+
+---
+
+## Task Definitions
 
 ### audit-01-frontend-analysis
 - **Type:** audit
 - **Min Model:** opus
 - **Priority:** critical
-- **Status:** in-progress
+- **Status:** completed
 - **Started:** 2026-02-11 00:30 EST
+- **Completed:** 2026-02-11 00:36 EST
 - **Description:** Analyze Discord clone frontend structure
-- **Instructions:**
-  1. Read all files in /home/ubuntu/repos/discord-clone-reference/
-  2. Document every component in components/
-  3. Document all routes in app/
-  4. Document all API routes
-  5. List all third-party dependencies
-  6. Create /home/ubuntu/clawd/docs/haos-v2/FRONTEND-AUDIT.md with findings
-  7. Send Slack summary when complete
+- **Output:** `/home/ubuntu/clawd/docs/haos-v2/FRONTEND-AUDIT.md`
+- **Summary:** 53 components (14 UI + 39 feature), 24 routes (8 page + 16 API), 45 dependencies. Built on Next.js 13, Radix UI, Tailwind, Zustand, React Query, Socket.io, LiveKit.
+
+---
 
 ### audit-02-backend-mapping
 - **Type:** audit
 - **Min Model:** opus
 - **Priority:** critical
 - **Status:** pending
-- **Description:** Map Discord clone backend → Matrix equivalents
-- **Instructions:**
-  1. Read prisma/schema.prisma - document all models
-  2. For EACH model, identify Matrix equivalent:
-     - Server → Matrix Space
-     - Channel → Matrix Room
-     - Member → Room membership
-     - Message → Matrix event
-     - etc.
-  3. Read all API routes in app/api/ and pages/api/
-  4. Map each API to Matrix SDK calls
-  5. Create /home/ubuntu/clawd/docs/haos-v2/BACKEND-MAPPING.md
-  6. Send Slack summary when complete
+- **Description:** Map Discord clone's Prisma models to Matrix equivalents
+- **Output:** `/home/ubuntu/clawd/docs/haos-v2/BACKEND-MAPPING.md`
+- **Dependencies:** audit-01 (need to understand frontend first)
+
+#### Detailed Instructions
+
+**Step 1: Read the Prisma schema**
+```bash
+cat /home/ubuntu/repos/discord-clone-reference/prisma/schema.prisma
+```
+Document every model: Server, Channel, Member, Message, Profile, etc.
+
+**Step 2: For EACH model, identify Matrix equivalent**
+
+| Prisma Model | Matrix Equivalent | Notes |
+|--------------|-------------------|-------|
+| Server | Matrix Space | Spaces can contain rooms |
+| Channel | Matrix Room | Room within a space |
+| Member | Room membership | m.room.member state event |
+| Message | Matrix event | m.room.message |
+| Profile | Matrix user | @user:homeserver |
+| Role | Power levels + custom state | io.haos.roles state event |
+| Conversation (DM) | Direct room | is_direct flag |
+
+**Step 3: Read ALL API routes**
+```bash
+# App Router APIs
+find /home/ubuntu/repos/discord-clone-reference/app/api -name "route.ts" | head -20
+# Pages Router APIs (for Socket.io)
+ls /home/ubuntu/repos/discord-clone-reference/pages/api/socket/
+```
+
+**Step 4: Map each API endpoint to Matrix SDK calls**
+
+| API Route | Purpose | Matrix SDK Method |
+|-----------|---------|-------------------|
+| POST /api/servers | Create server | client.createRoom() with space type |
+| GET /api/servers/[id] | Get server | client.getRoom() + state events |
+| POST /api/channels | Create channel | client.createRoom() + add to space |
+| POST /api/messages | Send message | room.sendMessage() |
+| etc. | ... | ... |
+
+**Step 5: Document complex mappings**
+- Invites: Matrix room aliases vs invite codes
+- Permissions: Power levels vs Discord's permission bitflags
+- Reactions: m.reaction events
+- Threads: m.thread relation
+
+**Step 6: Create the output file**
+Write comprehensive markdown to `/home/ubuntu/clawd/docs/haos-v2/BACKEND-MAPPING.md`
+
+**Step 7: Send Slack summary**
+```
+✅ [audit-02-backend-mapping] COMPLETED
+- X Prisma models mapped to Matrix
+- Y API routes documented
+- Key complexity: [what's hard]
+Full audit: ~/clawd/docs/haos-v2/BACKEND-MAPPING.md
+```
+
+---
 
 ### audit-03-auth-strategy
 - **Type:** audit
 - **Min Model:** opus
 - **Priority:** critical
 - **Status:** pending
-- **Description:** Plan auth migration from Clerk → Matrix
-- **Instructions:**
-  1. Document all Clerk usage in the codebase (grep for @clerk)
-  2. Document Matrix login/auth flow
-  3. Plan migration:
-     - Matrix login page
-     - Session management
-     - User profile from Matrix
-  4. Create /home/ubuntu/clawd/docs/haos-v2/AUTH-STRATEGY.md
-  5. Send Slack summary when complete
+- **Description:** Plan auth migration from Clerk to Matrix
+- **Output:** `/home/ubuntu/clawd/docs/haos-v2/AUTH-STRATEGY.md`
+- **Dependencies:** audit-01
+
+#### Detailed Instructions
+
+**Step 1: Find all Clerk usage**
+```bash
+cd /home/ubuntu/repos/discord-clone-reference
+grep -r "@clerk" --include="*.ts" --include="*.tsx" | head -30
+grep -r "useUser\|useAuth\|currentUser\|auth()" --include="*.ts" --include="*.tsx" | head -30
+```
+
+Document:
+- Which components use Clerk hooks
+- How user data is accessed
+- Where auth checks happen
+
+**Step 2: Understand Matrix authentication**
+
+Matrix auth flow:
+1. User enters username + password (or SSO)
+2. Client calls `/login` on homeserver
+3. Receives access_token + device_id
+4. Token stored in localStorage
+5. All subsequent requests use token
+
+Document the Matrix login API endpoints and response format.
+
+**Step 3: Plan the migration**
+
+| Clerk Feature | Matrix Replacement |
+|---------------|-------------------|
+| `useUser()` | Custom hook using matrix-js-sdk client.getUser() |
+| `useAuth()` | Custom MatrixAuthProvider context |
+| `<SignIn />` | Custom login page with Matrix login |
+| `<UserButton />` | Custom component with Matrix user data |
+| currentUser in API routes | Validate Matrix access token |
+
+**Step 4: Design the auth components**
+- `MatrixAuthProvider` - Context providing client + user
+- `MatrixLoginPage` - SSO support optional
+- `useMatrixUser()` - Hook for user data
+- `MatrixGuard` - Route protection component
+
+**Step 5: Handle session persistence**
+- Store access_token in localStorage (or secure cookie)
+- Handle token refresh/expiry
+- Sync across tabs
+
+**Step 6: Write the strategy document**
+Create `/home/ubuntu/clawd/docs/haos-v2/AUTH-STRATEGY.md` with:
+- Current Clerk usage inventory
+- Matrix auth flow explanation
+- Component-by-component migration plan
+- Code examples for key patterns
+
+**Step 7: Send Slack summary**
+
+---
 
 ### audit-04-realtime-strategy
 - **Type:** audit
@@ -81,63 +214,262 @@
 - **Priority:** critical
 - **Status:** pending
 - **Description:** Plan Socket.io → Matrix sync migration
-- **Instructions:**
-  1. Document all Socket.io usage (grep for socket)
-  2. Document Matrix sync API and event streaming
-  3. Plan migration:
-     - Real-time messages via Matrix sync
-     - Typing indicators
-     - Presence (online/offline)
-     - Room state changes
-  4. Create /home/ubuntu/clawd/docs/haos-v2/REALTIME-STRATEGY.md
-  5. Send Slack summary when complete
+- **Output:** `/home/ubuntu/clawd/docs/haos-v2/REALTIME-STRATEGY.md`
+- **Dependencies:** audit-01, audit-02
+
+#### Detailed Instructions
+
+**Step 1: Document all Socket.io usage**
+```bash
+cd /home/ubuntu/repos/discord-clone-reference
+grep -r "socket" --include="*.ts" --include="*.tsx" | grep -v node_modules | head -50
+cat pages/api/socket/io.ts
+cat pages/api/socket/messages.ts
+cat pages/api/socket/direct-messages.ts
+```
+
+Document:
+- Socket events emitted (e.g., `chat:message:${channelId}`)
+- Socket events listened to
+- How real-time updates propagate
+
+**Step 2: Understand Matrix sync**
+
+Matrix sync loop:
+1. Client calls `/sync` with timeout
+2. Server holds connection until new events OR timeout
+3. Returns: rooms changed, new messages, presence, etc.
+4. Client processes events, updates local state
+5. Repeat with `since` token
+
+The matrix-js-sdk handles this automatically via:
+- `client.startClient()` - starts sync loop
+- `client.on('Room.timeline', callback)` - new messages
+- `client.on('RoomMember.typing', callback)` - typing
+- `client.on('RoomMember.membership', callback)` - joins/leaves
+
+**Step 3: Map Socket events to Matrix events**
+
+| Socket.io Event | Matrix Equivalent |
+|-----------------|-------------------|
+| `chat:message:${channelId}` | Room.timeline event |
+| `typing:${channelId}` | RoomMember.typing |
+| `member:update` | RoomMember.membership |
+| `channel:update` | Room state events |
+| `server:update` | Space state events |
+
+**Step 4: Plan the SocketProvider replacement**
+
+Create `MatrixSyncProvider` that:
+- Initializes matrix-js-sdk client
+- Starts sync loop
+- Provides hooks for subscribing to events:
+  - `useRoomMessages(roomId)` - live message list
+  - `useTypingMembers(roomId)` - who's typing
+  - `useRoomMembers(roomId)` - live member list
+  - `usePresence(userId)` - online/offline
+
+**Step 5: Handle optimistic updates**
+
+Socket.io sends messages instantly; Matrix has network latency.
+Plan for:
+- Local echo (show message immediately)
+- Confirmation (update when server confirms)
+- Failure handling (retry or show error)
+
+**Step 6: Write the strategy document**
+
+**Step 7: Send Slack summary**
+
+---
 
 ### audit-05-media-strategy
 - **Type:** audit
 - **Min Model:** opus
 - **Priority:** critical
 - **Status:** pending
-- **Description:** Plan file uploads migration
-- **Instructions:**
-  1. Document UploadThing usage
-  2. Document Matrix content API (mxc:// URLs)
-  3. Plan migration:
-     - File upload to Matrix homeserver
-     - Image/video attachments
-     - Avatar uploads
-  4. Create /home/ubuntu/clawd/docs/haos-v2/MEDIA-STRATEGY.md
-  5. Send Slack summary when complete
+- **Description:** Plan file uploads migration (UploadThing → Matrix)
+- **Output:** `/home/ubuntu/clawd/docs/haos-v2/MEDIA-STRATEGY.md`
+- **Dependencies:** audit-01
+
+#### Detailed Instructions
+
+**Step 1: Document UploadThing usage**
+```bash
+cd /home/ubuntu/repos/discord-clone-reference
+grep -r "uploadthing\|UploadButton\|useUploadThing" --include="*.ts" --include="*.tsx"
+cat app/api/uploadthing/core.ts
+```
+
+Document:
+- File types supported (images, PDFs, etc.)
+- Size limits
+- Where uploads are triggered (message composer, avatar, server icon)
+
+**Step 2: Understand Matrix content API**
+
+Matrix file upload:
+1. POST file to `/_matrix/media/v3/upload`
+2. Receive `mxc://` URI (e.g., `mxc://matrix.org/abc123`)
+3. Include mxc:// URI in message event
+4. Clients fetch via `/_matrix/media/v3/download/matrix.org/abc123`
+
+matrix-js-sdk:
+```javascript
+const response = await client.uploadContent(file, { name: file.name });
+// response.content_uri = "mxc://..."
+```
+
+**Step 3: Map upload scenarios**
+
+| Upload Type | Current | Matrix Approach |
+|-------------|---------|-----------------|
+| Message attachment | UploadThing | client.uploadContent() + m.file/m.image event |
+| User avatar | UploadThing | client.setAvatarUrl(mxc://) |
+| Server icon | UploadThing | Space state event with mxc:// |
+| Channel icon | UploadThing | Room avatar state event |
+
+**Step 4: Plan the upload components**
+- `MatrixFileUpload` - Generic upload component
+- `MatrixImagePreview` - Render mxc:// images
+- `MatrixVideoPlayer` - Render mxc:// videos
+- Thumbnail generation (Matrix can auto-generate)
+
+**Step 5: Handle large files**
+- Matrix homeservers have size limits (configurable)
+- May need chunked upload for very large files
+- Consider client-side compression for images
+
+**Step 6: Write the strategy document**
+
+**Step 7: Send Slack summary**
+
+---
 
 ### audit-06-livekit-integration
 - **Type:** audit
 - **Min Model:** opus
 - **Priority:** critical
 - **Status:** pending
-- **Description:** Verify LiveKit compatibility (already have it!)
-- **Instructions:**
-  1. Document how Discord clone uses LiveKit
-  2. Document our existing LiveKit setup (dev2)
-  3. Verify they're compatible
-  4. Plan any adjustments needed
-  5. Create /home/ubuntu/clawd/docs/haos-v2/LIVEKIT-INTEGRATION.md
-  6. Send Slack summary when complete
+- **Description:** Verify LiveKit voice/video compatibility
+- **Output:** `/home/ubuntu/clawd/docs/haos-v2/LIVEKIT-INTEGRATION.md`
+- **Dependencies:** audit-01
+
+#### Detailed Instructions
+
+**Step 1: Document Discord clone's LiveKit usage**
+```bash
+cd /home/ubuntu/repos/discord-clone-reference
+grep -r "livekit\|@livekit" --include="*.ts" --include="*.tsx"
+cat components/media-room.tsx
+```
+
+Document:
+- How rooms are created
+- How tokens are generated
+- Video/audio UI components
+
+**Step 2: Check our existing LiveKit setup**
+
+We have LiveKit running on dev2. Verify:
+- Server URL
+- API key/secret location
+- Current configuration
+
+```bash
+ssh dev2 "docker ps | grep livekit"
+```
+
+**Step 3: Verify compatibility**
+
+The Discord clone likely uses:
+- `@livekit/components-react` for UI
+- Server-side token generation
+
+Check if versions match what we have.
+
+**Step 4: Plan integration points**
+
+| Feature | Discord Clone | Our Setup |
+|---------|---------------|-----------|
+| Voice channels | LiveKit room | Same |
+| Video calls | LiveKit room | Same |
+| Screen share | LiveKit track | Same |
+| Server-side tokens | /api/livekit | Need to add |
+
+**Step 5: Document any adjustments needed**
+- Token generation endpoint
+- Room naming convention
+- Permission model (who can join voice)
+
+**Step 6: Write the integration document**
+
+**Step 7: Send Slack summary**
+
+---
 
 ### audit-07-feature-gap-analysis
 - **Type:** audit
 - **Min Model:** opus
 - **Priority:** critical
 - **Status:** pending
-- **Description:** Identify features in Discord clone vs what we need
-- **Instructions:**
-  1. List ALL features in the Discord clone
-  2. List features we want that are missing:
-     - E2E encryption (Matrix has this)
-     - Federation (Matrix has this)
-     - Private mode
-     - Roles/permissions (more granular)
-  3. Prioritize missing features
-  4. Create /home/ubuntu/clawd/docs/haos-v2/FEATURE-GAPS.md
-  5. Send Slack summary when complete
+- **Description:** Compare Discord clone features vs HAOS requirements
+- **Output:** `/home/ubuntu/clawd/docs/haos-v2/FEATURE-GAPS.md`
+- **Dependencies:** audit-01
+
+#### Detailed Instructions
+
+**Step 1: List ALL features in Discord clone**
+
+From the frontend audit, enumerate:
+- Server management (create, edit, delete, invite)
+- Channel types (text, voice, video)
+- Messaging (send, edit, delete, reactions, threads)
+- User features (profile, settings, status)
+- Moderation (kick, ban, roles)
+- Real-time (typing, presence, notifications)
+
+**Step 2: List HAOS-specific requirements**
+
+Features we NEED that Discord clone may not have:
+- **E2E encryption** (Matrix has this built-in)
+- **Federation** (talk to other Matrix servers)
+- **Private mode** (single homeserver, no federation)
+- **Self-hosting** (Docker Compose one-click deploy)
+- **Custom branding** (white-label support)
+- **Advanced roles** (more granular than Discord)
+- **Audit logging** (compliance features)
+
+**Step 3: Create gap analysis table**
+
+| Feature | Discord Clone | HAOS Needed | Gap |
+|---------|---------------|-------------|-----|
+| E2E encryption | ❌ | ✅ | Add Megolm encryption |
+| Federation | ❌ | ✅ | Matrix handles this |
+| Private mode | ❌ | ✅ | Need toggle |
+| Self-hosting | ❌ | ✅ | Docker stack |
+| ... | ... | ... | ... |
+
+**Step 4: Prioritize gaps**
+
+1. **Critical** (blocks launch): Self-hosting, auth
+2. **High** (core value): E2E encryption, private mode
+3. **Medium** (nice to have): Advanced roles, audit log
+4. **Low** (future): Federation UI, custom branding
+
+**Step 5: Estimate effort for each gap**
+
+| Gap | Complexity | Estimated Tasks |
+|-----|------------|-----------------|
+| E2E encryption | High | 20-30 tasks |
+| Self-hosting | Medium | 15-20 tasks |
+| Private mode | Low | 5-10 tasks |
+
+**Step 6: Write the analysis document**
+
+**Step 7: Send Slack summary**
+
+---
 
 ### audit-08-self-hosting-plan
 - **Type:** audit
@@ -145,80 +477,256 @@
 - **Priority:** critical
 - **Status:** pending
 - **Description:** Plan self-hosting infrastructure
-- **Instructions:**
-  1. Document required services:
-     - Synapse (Matrix homeserver)
-     - PostgreSQL
-     - LiveKit
-     - HAOS frontend (Next.js)
-  2. Create Docker Compose stack plan
-  3. Plan private federation mode
-  4. Create /home/ubuntu/clawd/docs/haos-v2/SELF-HOSTING-PLAN.md
-  5. Send Slack summary when complete
+- **Output:** `/home/ubuntu/clawd/docs/haos-v2/SELF-HOSTING-PLAN.md`
+- **Dependencies:** audit-02, audit-06
 
-### audit-09-migration-existing-code
+#### Detailed Instructions
+
+**Step 1: List required services**
+
+For a complete HAOS deployment:
+- **Synapse** - Matrix homeserver
+- **PostgreSQL** - Database for Synapse
+- **HAOS Web** - Next.js frontend
+- **LiveKit** - Voice/video server
+- **Redis** - (maybe, for caching)
+- **Caddy/Traefik** - Reverse proxy + SSL
+
+**Step 2: Design Docker Compose stack**
+
+Create a mental model of:
+```yaml
+services:
+  synapse:
+    image: matrixdotorg/synapse
+    depends_on: [postgres]
+  postgres:
+    image: postgres:15
+  haos-web:
+    build: ./haos
+    depends_on: [synapse]
+  livekit:
+    image: livekit/livekit-server
+  caddy:
+    image: caddy
+    ports: [80, 443]
+```
+
+**Step 3: Plan configuration**
+
+Environment variables needed:
+- `SYNAPSE_SERVER_NAME` - e.g., chat.example.com
+- `HAOS_HOMESERVER_URL` - URL to Synapse
+- `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`
+- Database credentials
+- SSL certificate source (Let's Encrypt)
+
+**Step 4: Plan private federation mode**
+
+For fully private deployments:
+- Synapse config: `allow_public_rooms_without_auth: false`
+- Synapse config: `enable_registration: false` (invite only)
+- No federation: `federation_domain_whitelist: []`
+
+**Step 5: Plan admin dashboard**
+
+First-time setup wizard:
+1. Create admin account
+2. Set server name
+3. Configure federation (on/off)
+4. Generate invite links
+
+**Step 6: Write the plan document**
+
+Include:
+- Architecture diagram (text-based)
+- Docker Compose file draft
+- Environment variable reference
+- First-time setup flow
+- Backup/restore procedure
+
+**Step 7: Send Slack summary**
+
+---
+
+### audit-09-migration-existing
 - **Type:** audit
 - **Min Model:** opus
 - **Priority:** high
 - **Status:** pending
-- **Description:** Determine what to keep from current HAOS work
-- **Instructions:**
-  1. Review /home/ubuntu/repos/haos/apps/web/src/haos/
-  2. Identify reusable code:
-     - Matrix SDK integration patterns
-     - Voice/video components
-     - Any useful utilities
-  3. List code to port to new HAOS v2
-  4. Create /home/ubuntu/clawd/docs/haos-v2/MIGRATION-FROM-V1.md
-  5. Send Slack summary when complete
+- **Description:** Determine what to salvage from HAOS v1
+- **Output:** `/home/ubuntu/clawd/docs/haos-v2/MIGRATION-FROM-V1.md`
+- **Dependencies:** audit-01, audit-02
+
+#### Detailed Instructions
+
+**Step 1: Explore HAOS v1 codebase**
+```bash
+ls -la /home/ubuntu/repos/haos/apps/web/src/haos/
+ls -la /home/ubuntu/repos/haos/apps/web/src/components/haos/
+```
+
+**Step 2: Identify reusable code**
+
+Categories:
+- **Matrix SDK patterns** - How we integrated matrix-js-sdk
+- **Voice/video components** - LiveKit integration
+- **Utility functions** - Helpers that aren't Element-specific
+- **Type definitions** - If still applicable
+- **CSS patterns** - Discord-style variables (maybe)
+
+**Step 3: List code to port**
+
+| File/Module | Reusable? | Notes |
+|-------------|-----------|-------|
+| haos/voice/* | ✅ Yes | LiveKit integration |
+| haos/moderation/* | Maybe | Logic yes, UI rebuild |
+| haos/notifications/* | Maybe | Matrix events yes |
+| components/haos/settings/* | ❌ No | Element-specific |
+
+**Step 4: Document lessons learned**
+
+What went wrong with v1:
+- Element's architecture too complex
+- Fighting the framework instead of building on it
+- CSS overrides were fragile
+
+What to carry forward:
+- Matrix SDK integration patterns
+- State event schemas (io.haos.*)
+- Permission model design
+
+**Step 5: Write the migration document**
+
+**Step 6: Send Slack summary**
+
+---
 
 ### audit-10-final-implementation-plan
 - **Type:** planning
 - **Min Model:** opus
 - **Priority:** critical
 - **Status:** pending
-- **Description:** Create comprehensive implementation plan
-- **Instructions:**
-  1. Read ALL audit documents created (audit-01 through audit-09)
-  2. Create implementation phases:
-     - Phase 1: Project setup + Matrix SDK integration
-     - Phase 2: Auth system (Matrix login)
-     - Phase 3: Core messaging (Matrix rooms/events)
-     - Phase 4: Real-time sync
-     - Phase 5: Voice/video (LiveKit)
-     - Phase 6: File uploads
-     - Phase 7: Advanced features
-     - Phase 8: Self-hosting
-  3. Break each phase into atomic tasks
-  4. Estimate time for each task
-  5. Create /home/ubuntu/clawd/docs/haos-v2/IMPLEMENTATION-PLAN.md
-  6. Create new PROACTIVE-JOBS.md with all implementation tasks
-  7. Send Slack summary: "Audit complete! Implementation plan ready."
+- **Description:** Create the master implementation plan
+- **Output:** `/home/ubuntu/clawd/docs/haos-v2/IMPLEMENTATION-PLAN.md`
+- **Dependencies:** ALL previous audits (01-09)
+
+#### Detailed Instructions
+
+**Step 1: Read ALL audit documents**
+```bash
+ls /home/ubuntu/clawd/docs/haos-v2/
+cat /home/ubuntu/clawd/docs/haos-v2/FRONTEND-AUDIT.md
+cat /home/ubuntu/clawd/docs/haos-v2/BACKEND-MAPPING.md
+# ... etc for all 9 audit docs
+```
+
+**Step 2: Define implementation phases**
+
+| Phase | Focus | Estimated Tasks |
+|-------|-------|-----------------|
+| 1 | Project setup + Matrix SDK | 20 |
+| 2 | Auth system (Matrix login) | 25 |
+| 3 | Core messaging (rooms/events) | 40 |
+| 4 | Real-time sync | 30 |
+| 5 | Voice/video (LiveKit) | 25 |
+| 6 | File uploads | 15 |
+| 7 | Advanced features | 50 |
+| 8 | Self-hosting | 30 |
+| 9 | Testing + polish | 40 |
+
+**Step 3: Break each phase into atomic tasks**
+
+Example for Phase 2 (Auth):
+```
+auth-01: Create MatrixAuthProvider context
+auth-02: Build login page UI
+auth-03: Implement login API call
+auth-04: Handle login errors
+auth-05: Store access token securely
+auth-06: Create useMatrixUser hook
+auth-07: Build logout functionality
+auth-08: Handle session expiry
+auth-09: Add SSO support (optional)
+auth-10: Create registration page
+...
+```
+
+**Step 4: Estimate time for each task**
+
+| Task Size | Time Estimate |
+|-----------|---------------|
+| Small | 1-2 hours |
+| Medium | 2-4 hours |
+| Large | 4-8 hours |
+| XL | 8-16 hours |
+
+**Step 5: Identify dependencies**
+
+Task dependency graph:
+- Phase 2 depends on Phase 1
+- Phase 3 depends on Phase 2
+- Phase 4 depends on Phase 3
+- Phase 5 is parallel to Phase 3-4
+- etc.
+
+**Step 6: Create new PROACTIVE-JOBS.md**
+
+Replace THIS file's audit section with implementation tasks:
+```markdown
+## Phase 1: Project Setup
+
+### impl-01-scaffold-nextjs
+- Type: implementation
+- Min Model: sonnet
+- Instructions:
+  1. Clone Discord clone repo
+  2. Remove Clerk dependencies
+  3. Remove UploadThing dependencies
+  4. Remove Prisma (we use Matrix)
+  5. Add matrix-js-sdk
+  6. Verify build works
+```
+
+**Step 7: Write the plan document**
+
+**Step 8: Send Slack summary**
+```
+✅ [audit-10-final-implementation-plan] COMPLETED
+
+Audit phase complete! Created implementation roadmap:
+- 9 phases, ~275 total tasks
+- Estimated: X weeks of sub-agent work
+- First implementation task ready to spawn
+
+Full plan: ~/clawd/docs/haos-v2/IMPLEMENTATION-PLAN.md
+```
 
 ---
 
-## Archived Tasks (Old HAOS v1 - Deprioritized)
+## Completed Tasks
 
-All previous haos-* tasks are archived. The Element Web approach was too complex.
-We're pivoting to the Discord clone + Matrix backend approach.
+### audit-01-frontend-analysis ✅
+- Completed: 2026-02-11 00:36 EST
+- Output: `/home/ubuntu/clawd/docs/haos-v2/FRONTEND-AUDIT.md`
+- Summary: 53 components, 24 routes, 45 dependencies analyzed
 
-### haos-phase5-notifications (ARCHIVED)
-- **Status:** archived
-- **Reason:** Pivoting to HAOS v2 approach
+---
 
-### haos-phase7-ux-refinements (ARCHIVED)
-- **Status:** archived
-- **Reason:** Pivoting to HAOS v2 approach
+## Archived (HAOS v1 - Abandoned)
 
-(All other haos-* tasks archived - see git history for details)
+All previous haos-* tasks from the Element Web reskinning approach are archived.
+The pivot to Discord clone + Matrix backend makes them obsolete.
+
+See git history for details on v1 work.
 
 ---
 
 ## Notes
 
-**Why the pivot?**
-- Element Web's architecture is deeply entangled
-- Discord clone is clean Next.js 13 with shadcn/ui
+**Why this pivot?**
+- Element Web's architecture is deeply entangled with its own patterns
+- Discord clone is clean Next.js 13 with modern patterns
 - Easier to swap backend than reskin complex frontend
 - We keep Matrix's killer features: E2EE, federation, self-hosting
 
@@ -226,10 +734,13 @@ We're pivoting to the Discord clone + Matrix backend approach.
 - Matrix/Synapse homeserver
 - LiveKit for voice/video
 - E2E encryption capabilities
-- Federation support
+- Federation support (toggleable)
 - Private mode concept
 
 **What we're replacing:**
 - Element Web frontend → Discord clone frontend
-- Element's React components → shadcn/ui components
 - Element's complex state → Zustand + React Query
+- Clerk auth → Matrix auth
+- UploadThing → Matrix content API
+- Socket.io → Matrix sync
+- Prisma → Matrix state events
