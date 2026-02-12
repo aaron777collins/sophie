@@ -1,6 +1,6 @@
 # Coordinator Notes: HAOS v2
 
-**Last Updated:** 2026-02-12 08:15 EST
+**Last Updated:** 2026-02-12 08:02 EST
 
 ## Project Overview
 
@@ -40,6 +40,7 @@ HAOS v2 is a Discord-styled Matrix client. Self-hosted, federation enabled (invi
 - **Project Memory:** `~/clawd/memory/projects/haos-v2/_overview.md`
 
 ### Recent Activity
+- [2026-02-12 08:02 EST] **Cleaned up crashed task p2-1-b** — Session unresponsive (timeout), removed stale heartbeat, reset status to 'pending'
 - [2026-02-12 08:15 EST] **Coordinator initialized** — corrected Phase 1 status, refreshed p1-2 tasks
 - [2026-02-12 01:01 EST] p1-2 tasks populated (5 initial tasks)
 - [2026-02-12 00:32 EST] Auth manager (p1-1) completed — all 5 sub-tasks done

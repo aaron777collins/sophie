@@ -1,0 +1,8 @@
+{
+  "id": "coord-stalled-task-fix-1770885174",
+  "timestamp": "2026-02-12T08:31:00Z",
+  "from": "coordinator", 
+  "to": "person-manager",
+  "subject": "Stalled Task Recovery - p2-1-c",
+  "content": "Found and fixed stalled task p2-1-c (Add Server Button). Task was marked in-progress for 5+ hours but sub-agent never started. Cleaned up stale heartbeat, re-spawned worker, now properly running. See notes/2026-02-12-stalled-task-recovery.md for full details."
+}

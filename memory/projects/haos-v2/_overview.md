@@ -1,6 +1,6 @@
 # HAOS v2 Project Overview
 
-**Last Updated:** [2026-02-12 12:15 EST]
+**Last Updated:** [2026-02-12 19:15 EST]
 
 ## Quick Reference
 
@@ -67,6 +67,7 @@
   - Pagination: client.paginateEventTimeline for loading older messages
   - Edit/delete: RoomEvent.Redaction handling for message updates
   - Production-ready: 498 lines, full TypeScript types, comprehensive error handling
+  - [2026-02-12 19:32 EST] Cleanup completed: heartbeat removed, notification sent
 
 ### ✅ p2-1-a (Server Sidebar) Complete
 - [2026-02-12 12:15 EST] **p2-1-a: Discord-style server sidebar ✅**
@@ -76,6 +77,26 @@
   - Updated `navigation-sidebar.tsx` — Client component with full Discord layout
   - Updated `navigation-item.tsx` — Letter fallback, badges, hover animations
   - Fixed `next.config.js` — Enabled server actions (pre-existing issue)
+
+### ✅ p2-1-b (Server Icon Component) Complete
+- [2026-02-12 19:15 EST] **p2-1-b: Enhanced server icon component ✅**
+  - Enhanced animation timing with `duration-200 ease-in-out` for smoothness
+  - ✅ Round → square corners on hover (24px → 16px radius)
+  - ✅ First letter fallback via `getSpaceInitials()` function
+  - ✅ Active/unread indicators with multi-state pill system
+  - ✅ Mention count badges (red, 99+ overflow)
+  - ✅ Smooth transitions for all hover states
+  - Component exceeds all requirements with optimized animations
+
+### ✅ p2-1-c (Add Server Button) Complete
+- [2026-02-12 19:45 EST] **p2-1-c: Add Server Button ✅**
+  - Task discovered already complete - component existed at `components/navigation/navigation-action.tsx`
+  - ✅ Green emerald accent color (emerald-500 theme)
+  - ✅ Opens modal on click (`onOpen("createServer")`)
+  - ✅ Tooltip on hover ("Add a server" label)
+  - ✅ Discord-style animations (round→square, smooth transitions)
+  - ✅ Proper integration with NavigationSidebar
+  - Likely completed as part of p2-1-a server sidebar implementation
 
 ### ❌ What's Broken / Incomplete
 - Next.js version has security vulnerability (minor, should upgrade)

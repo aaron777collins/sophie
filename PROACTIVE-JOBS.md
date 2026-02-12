@@ -32,7 +32,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 | Section | Status | Tasks Done |
 |---------|--------|------------|
 | p1-1: Auth | ✅ Complete | 5/5 |
-| p1-2: Sync | 🚀 In Progress | 3/10 |
+| p1-2: Sync | 🚀 In Progress | 5/10 |
 | p1-3: Media | ⏳ Pending | 0/8 |
 | p1-4: Services | ⏳ Pending | 0/6 |
 
@@ -121,7 +121,8 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - Handles room not found
 
 ### haos-v2-messages-hook-p1-2-e: Create useRoomMessages Hook
-- **Status:** pending
+- **Status:** in-progress
+- **Started:** 2026-02-12 19:16 EST
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-room-hook-p1-2-d
 - **Description:** Hook for room message timeline with pagination
@@ -133,10 +134,13 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - `isLoading: boolean`
   - `loadMore(): Promise<void>`
   - `hasMore: boolean`
+  - `error: Error | null`
+  - `isLoadingMore: boolean`
 - **Success Criteria:**
-  - Messages appear in real-time
-  - Can paginate backwards
-  - Handles edit/delete updates
+  - Messages appear in real-time (RoomEvent.Timeline)
+  - Can paginate backwards (client.paginateEventTimeline)
+  - Handles edit/delete updates (RoomEvent.Redaction)
+- **Parent:** haos-v2-sync-manager-p1-2
 
 ### haos-v2-matrix-auth-types-p1-1-a: Create Matrix Auth Types ✅
 - **Status:** completed
@@ -254,37 +258,42 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 
 ## Phase 2 Tasks (UI Reskin)
 
-### p2-1-b: Implement Server Icon Component
-- **Status:** pending
+### p2-1-b: Implement Server Icon Component ✅
+- **Status:** completed
+- **Completed:** 2026-02-12 19:15 EST
 - **Min Model:** sonnet
 - **Depends On:** p2-1-a (completed)
 - **Description:** Server icon with avatar/fallback, hover animations, and status indicators
-- **Files to Create/Modify:**
-  - `apps/web/components/navigation/navigation-item.tsx`
+- **Files Modified:**
+  - `components/navigation/navigation-item.tsx` — Enhanced animations
 - **Features:**
-  - Round → square on hover animation
-  - First letter fallback for missing avatars
-  - Active/unread indicators
-- **Success Criteria:**
-  - Icons animate smoothly on hover
-  - Fallback renders for missing avatars
-  - Visual indicators work correctly
+  - ✅ Round → square on hover animation (smooth transitions)
+  - ✅ First letter fallback for missing avatars (via getSpaceInitials)
+  - ✅ Active/unread indicators (multi-state pill + badges)
+- **Success Criteria:** ✅ ALL MET
+  - ✅ Icons animate smoothly on hover (duration-200 ease-in-out)
+  - ✅ Fallback renders for missing avatars (handles edge cases)
+  - ✅ Visual indicators work correctly (4 distinct states)
 
-### p2-1-c: Implement Add Server Button
-- **Status:** pending
+### p2-1-c: Implement Add Server Button ✅
+- **Status:** completed
+- **Started:** 2026-02-12 03:31 EST
+- **Completed:** 2026-02-12 19:45 EST
 - **Min Model:** sonnet
 - **Depends On:** p2-1-a (completed)
 - **Description:** Plus button to create/join server with modal integration
-- **Files to Create/Modify:**
-  - `apps/web/components/navigation/navigation-action.tsx`
+- **Files Created:**
+  - `components/navigation/navigation-action.tsx` (already existed)
 - **Features:**
-  - Opens modal on click
-  - Green accent color matching Discord
-  - Tooltip on hover
-- **Success Criteria:**
-  - Opens create server modal correctly
-  - Styling matches Discord design
-  - Tooltip displays properly
+  - ✅ Opens modal on click (onOpen("createServer"))
+  - ✅ Green accent color matching Discord (emerald-500)
+  - ✅ Tooltip on hover ("Add a server")
+  - ✅ Discord-style hover animations (round→square)
+- **Success Criteria:** ✅ ALL MET
+  - ✅ Opens create server modal correctly
+  - ✅ Styling matches Discord design
+  - ✅ Tooltip displays properly
+- **Summary:** Component already existed and met all requirements. Likely completed as part of p2-1-a.
 
 ### p2-1-d: Implement User Panel
 - **Status:** pending
