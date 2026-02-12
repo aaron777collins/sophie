@@ -154,11 +154,19 @@ Every piece of information MUST have a timestamp:
 We use a layered management system. Each level has decreasing cron frequency going up.
 
 ```
-👔 Person Manager (2x/day) ─ Meta-management, cleanup, oversight
-   └── 🎯 Coordinator (30 min) ─ Strategic project/topic management
-       └── 📋 Task Managers (15 min) ─ Tactical task coordination
-           └── ⚙️ Workers (spawned) ─ Execution
+👑 Aaron + Sophie ─ Top level ("the big dawgs"), give orders
+   └── 👔 Person Manager (2x/day) ─ Meta-management, cleanup, oversight
+       └── 🎯 Coordinator (30 min) ─ Strategic project/topic management
+           └── 📋 Task Managers (15 min) ─ Tactical task coordination
+               └── ⚙️ Workers (spawned) ─ Execution
 ```
+
+### How Work Flows from the Top
+- **Aaron** gives orders to **Sophie** (direct chat)
+- **Sophie** evaluates: simple task? Handle directly. Larger project? Delegate.
+- For larger work: Sophie spawns **Person Manager** and gives orders
+- Person Manager breaks it down, assigns to Coordinator, and so on down the chain
+- Each level can hire/create sub-levels as complexity demands
 
 | Level | Agent | Cron | Model | Jobs File |
 |-------|-------|------|-------|-----------|
