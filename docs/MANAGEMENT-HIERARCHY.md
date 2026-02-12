@@ -83,7 +83,7 @@ Workers
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  👔 PERSON MANAGER (2x/day - 08:00, 20:00)                     │
+│  👔 PERSON MANAGER (4x/day - 06:00, 12:00, 18:00, 23:00)                     │
 │     └─ Meta-management: cleans up, "has the talk", oversight    │
 ├─────────────────────────────────────────────────────────────────┤
 │  🎯 COORDINATOR (every 30 min)                                  │
@@ -101,7 +101,7 @@ Workers
 
 | Level | Agent | Cron Schedule | Always Runs? | Purpose |
 |-------|-------|---------------|--------------|---------|
-| 1 (Top) | Person Manager | 2x/day (08:00, 20:00) | **YES** (CEO) | Meta-management, cleanup, oversight |
+| 1 (Top) | Person Manager | 4x/day (06:00, 12:00, 18:00, 23:00) | **YES** (CEO) | Meta-management, cleanup, oversight |
 | 2 | Coordinator | Every 30 min | Only if JOBS.md has work | Strategic project/topic management |
 | 3 | Task Managers | Every 15 min | Only if PROACTIVE-JOBS.md has work | Tactical task coordination |
 | 4 (Bottom) | Workers | Never (spawned) | N/A | Execution |
@@ -177,7 +177,7 @@ When the file looks like this → **cron returns HEARTBEAT_OK immediately, no ag
 
 ## 👔 Person Manager
 
-**Schedule:** 2x/day (08:00 EST, 20:00 EST)
+**Schedule:** 4x/day (06:00, 12:00, 18:00, 23:00 EST)
 **Model:** Sonnet
 **Purpose:** Meta-management of the entire system
 
@@ -355,7 +355,7 @@ Workers don't have jobs files — they're spawned with explicit task instruction
                            ▼
 ┌──────────────────────────────────────────────────────────────────┐
 │                    👔 Person Manager                              │
-│  • Checks system health 2x/day                                   │
+│  • Checks system health 4x/day                                   │
 │  • Cleans up completed work                                      │
 │  • Reports issues to human                                       │
 └─────────────────────────────┬────────────────────────────────────┘
@@ -438,7 +438,7 @@ ELSE:
 
 | Agent | Frequency | Est. Input | Est. Output | Daily Cost |
 |-------|-----------|------------|-------------|------------|
-| Person Manager | 2x/day | ~5K | ~2K | ~$0.10 |
+| Person Manager | 4x/day | ~5K | ~2K | ~$0.10 |
 | Coordinator | 48x/day (30min) | ~8K | ~3K | ~$2.00 |
 | Task Manager | 96x/day (15min) | ~10K | ~5K | ~$5.00 |
 | Workers | Variable | Variable | Variable | Variable |
@@ -456,7 +456,7 @@ ELSE:
 - [ ] Create `scheduler/person-manager/` directory structure
 - [ ] Create `scheduler/person-manager/JOBS.md`
 - [ ] Add Coordinator cron (30 min)
-- [ ] Add Person Manager cron (2x/day)
+- [ ] Add Person Manager cron (4x/day)
 - [ ] Update existing proactive scheduler to match pattern
 - [ ] Document in AGENTS.md
 - [ ] Test with HAOS v2 project

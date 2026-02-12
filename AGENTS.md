@@ -155,7 +155,7 @@ We use a layered management system. Each level has decreasing cron frequency goi
 
 ```
 👑 Aaron + Sophie ─ Top level ("the big dawgs"), give orders
-   └── 👔 Person Manager (2x/day) ─ Meta-management, cleanup, oversight
+   └── 👔 Person Manager (4x/day) ─ Meta-management, cleanup, oversight
        └── 🎯 Coordinator (30 min) ─ Strategic project/topic management
            └── 📋 Task Managers (15 min) ─ Tactical task coordination
                └── ⚙️ Workers (spawned) ─ Execution
@@ -192,7 +192,7 @@ Person Manager notices HAOS stalled
 
 | Level | Agent | Cron | Model | Jobs File |
 |-------|-------|------|-------|-----------|
-| 1 | Person Manager | 2x/day | Sonnet | `scheduler/person-manager/JOBS.md` |
+| 1 | Person Manager | 4x/day | Sonnet | `scheduler/person-manager/JOBS.md` |
 | 2 | Coordinator | 30 min | Sonnet | `scheduler/coordinator/JOBS.md` |
 | 3 | Task Managers | 15 min | Varies | `PROACTIVE-JOBS.md` |
 | 4 | Workers | Never | Varies | N/A (spawned) |

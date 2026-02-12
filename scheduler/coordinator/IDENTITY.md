@@ -55,8 +55,28 @@ cat > ~/clawd/scheduler/inboxes/task-managers/$(date +%s)-coord-{subject}.json <
 EOF
 ```
 
-### Delete Processed Messages
+### Reply to a Message
 ```bash
+# Read incoming message
+cat ~/clawd/scheduler/inboxes/coordinator/{filename}
+
+# Reply to sender (check "from" field to know where to reply)
+# If from person-manager → reply to person-manager inbox
+# If from worker → reply to workers inbox with their task-id
+
+cat > ~/clawd/scheduler/inboxes/{sender-inbox}/$(date +%s)-coord-reply.json << 'EOF'
+{
+  "id": "coord-reply-TIMESTAMP",
+  "timestamp": "ISO",
+  "from": "coordinator",
+  "to": "[original sender]",
+  "subject": "Re: [original subject]",
+  "content": "Your reply",
+  "replyTo": "[original message id]"
+}
+EOF
+
+# Delete processed message
 rm ~/clawd/scheduler/inboxes/coordinator/{filename}
 ```
 

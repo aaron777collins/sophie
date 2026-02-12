@@ -254,6 +254,155 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 
 ## Phase 2 Tasks (UI Reskin)
 
+### p2-1-b: Implement Server Icon Component
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** p2-1-a (completed)
+- **Description:** Server icon with avatar/fallback, hover animations, and status indicators
+- **Files to Create/Modify:**
+  - `apps/web/components/navigation/navigation-item.tsx`
+- **Features:**
+  - Round → square on hover animation
+  - First letter fallback for missing avatars
+  - Active/unread indicators
+- **Success Criteria:**
+  - Icons animate smoothly on hover
+  - Fallback renders for missing avatars
+  - Visual indicators work correctly
+
+### p2-1-c: Implement Add Server Button
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** p2-1-a (completed)
+- **Description:** Plus button to create/join server with modal integration
+- **Files to Create/Modify:**
+  - `apps/web/components/navigation/navigation-action.tsx`
+- **Features:**
+  - Opens modal on click
+  - Green accent color matching Discord
+  - Tooltip on hover
+- **Success Criteria:**
+  - Opens create server modal correctly
+  - Styling matches Discord design
+  - Tooltip displays properly
+
+### p2-1-d: Implement User Panel
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** p2-1-a (completed)
+- **Description:** User info panel at bottom of sidebar with controls
+- **Files to Create:**
+  - `apps/web/components/navigation/user-panel.tsx`
+- **Features:**
+  - User avatar and display name
+  - Online status indicator
+  - Settings, mute, deafen buttons
+- **Success Criteria:**
+  - Shows current user information
+  - Settings button opens user settings
+  - Audio controls integrate with voice features
+
+### p2-2-a: Implement Channel Sidebar
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** p1-4-a (Space Service - pending)
+- **Description:** Discord-style channel list with categories and member toggle
+- **Files to Create/Modify:**
+  - `apps/web/components/server/server-sidebar.tsx`
+- **Features:**
+  - Server name header with dropdown
+  - Channel categories (collapsible)
+  - Channel list with type icons
+  - Member list toggle
+- **Success Criteria:**
+  - Shows all channels in current space
+  - Categories collapse/expand properly
+  - Layout matches Discord design
+
+### p2-2-b: Implement Server Header
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** p1-4-a (Space Service - pending)
+- **Description:** Server name dropdown header with action menu
+- **Files to Create/Modify:**
+  - `apps/web/components/server/server-header.tsx`
+- **Features:**
+  - Server name with dropdown arrow
+  - Dropdown menu (invite, settings, etc.)
+  - Server boost indicator (optional)
+- **Success Criteria:**
+  - Dropdown opens on click
+  - Menu actions trigger correctly
+  - Server name displays properly
+
+### p2-2-c: Implement Channel Category
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** p2-2-a
+- **Description:** Collapsible channel category sections
+- **Files to Create:**
+  - `apps/web/components/server/server-section.tsx`
+- **Features:**
+  - Category name with collapse arrow
+  - Create channel button (admin only)
+  - Smooth collapse/expand animation
+- **Success Criteria:**
+  - Categories toggle state correctly
+  - State persists per server
+  - Add button shows for admins only
+
+### p2-2-d: Implement Channel Item
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** p2-2-c
+- **Description:** Individual channel row with type icons and status
+- **Files to Create/Modify:**
+  - `apps/web/components/server/server-channel.tsx`
+- **Features:**
+  - Icons by type (text #, voice 🔊, video 📹)
+  - Channel name with active state
+  - Unread/mention indicators
+  - Hover actions (edit, invite, delete)
+- **Success Criteria:**
+  - Correct icons display per channel type
+  - Active state clearly visible
+  - Action buttons work properly
+
+### p2-3-a: Implement Message List Container
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** p1-2-e (completed)
+- **Description:** Scrollable message timeline with infinite scroll
+- **Files to Create/Modify:**
+  - `apps/web/components/chat/chat-messages.tsx`
+- **Features:**
+  - Infinite scroll (load older messages)
+  - Auto-scroll to bottom for new messages
+  - Date separators between days
+  - "New messages" indicator
+- **Success Criteria:**
+  - Smooth scrolling performance
+  - Loads message history on scroll up
+  - Sticks to bottom for new messages
+
+### p2-3-b: Implement Message Item
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** p2-3-a
+- **Description:** Individual message display with rich content support
+- **Files to Create/Modify:**
+  - `apps/web/components/chat/chat-item.tsx`
+- **Features:**
+  - Avatar, username, timestamp layout
+  - Message content with markdown rendering
+  - Inline attachment display
+  - Reaction buttons below message
+  - Edited indicator
+- **Success Criteria:**
+  - Layout matches Discord message design
+  - Markdown renders correctly
+  - Timestamps format appropriately
+
 ### p2-1-a: Implement Server Sidebar ✅
 - **Status:** completed
 - **Started:** 2026-02-12 11:45 EST

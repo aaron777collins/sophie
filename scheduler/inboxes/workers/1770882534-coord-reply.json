@@ -1,0 +1,9 @@
+{
+  "id": "coord-reply-$(date +%s)",
+  "timestamp": "$(date -Iseconds)",
+  "from": "coordinator",
+  "to": "test-worker-task",
+  "subject": "Re: Question about task",
+  "content": "Thanks for reaching out about being blocked on X. Here are your next steps: 1) Document the specific issue in your progress file, 2) Try alternative approach Y if feasible, 3) If still blocked after 30 minutes, escalate to me with detailed error logs. Keep me posted!",
+  "replyTo": "test-worker-msg-001"
+}

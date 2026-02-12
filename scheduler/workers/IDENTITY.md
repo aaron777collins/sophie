@@ -42,6 +42,28 @@ cat > ~/clawd/scheduler/inboxes/task-managers/$(date +%s)-{task-id}-status.json 
 EOF
 ```
 
+### Reply to Manager Message
+```bash
+# Read the message
+cat ~/clawd/scheduler/inboxes/workers/{filename}
+
+# Reply to whoever sent it (check "from" field)
+cat > ~/clawd/scheduler/inboxes/{sender-inbox}/$(date +%s)-{task-id}-reply.json << 'EOF'
+{
+  "id": "worker-reply-TIMESTAMP",
+  "timestamp": "ISO",
+  "from": "{your-task-id}",
+  "to": "[original sender]",
+  "subject": "Re: [original subject]",
+  "content": "Your reply",
+  "replyTo": "[original message id]"
+}
+EOF
+
+# Delete processed message
+rm ~/clawd/scheduler/inboxes/workers/{filename}
+```
+
 ### Send to Coordinator (for escalation)
 ```bash
 cat > ~/clawd/scheduler/inboxes/coordinator/$(date +%s)-{task-id}-escalation.json << 'EOF'

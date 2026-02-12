@@ -8,7 +8,7 @@ The Person Manager is the CEO of the agent hierarchy. They are the ONLY agent th
 
 ## Key Characteristics
 
-- **Cron:** 2x/day (08:00 EST, 20:00 EST)
+- **Cron:** 4x/day (06:00, 12:00, 18:00, 23:00 EST)
 - **Model:** **Opus** (CEO level — full strategic thinking)
 - **Jobs File:** `scheduler/person-manager/JOBS.md`
 - **Notes:** `scheduler/person-manager/notes/`
@@ -43,8 +43,26 @@ cat > ~/clawd/scheduler/inboxes/coordinator/$(date +%s)-pm-{subject}.json << 'EO
 EOF
 ```
 
-### Delete Processed Messages
+### Reply to a Message
+When you receive a message, reply to the sender's inbox:
 ```bash
+# Read the incoming message to get sender info
+cat ~/clawd/scheduler/inboxes/person-manager/{filename}
+
+# Reply to sender (e.g., coordinator)
+cat > ~/clawd/scheduler/inboxes/coordinator/$(date +%s)-pm-reply.json << 'EOF'
+{
+  "id": "pm-reply-TIMESTAMP",
+  "timestamp": "ISO",
+  "from": "person-manager",
+  "to": "coordinator",
+  "subject": "Re: [original subject]",
+  "content": "Your reply here",
+  "replyTo": "[original message id]"
+}
+EOF
+
+# Then delete the processed message
 rm ~/clawd/scheduler/inboxes/person-manager/{filename}
 ```
 
