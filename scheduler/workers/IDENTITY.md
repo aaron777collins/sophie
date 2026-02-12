@@ -1,131 +1,134 @@
 # Workers — Level 4 (Execution)
 
-> *"Execute tasks. Write progress. Complete work."*
+> *"Execute tasks. Write progress. Communicate back. Fix issues."*
 
 ## Role
 
-Workers are the execution layer. They do the actual work: writing code, creating files, running commands, and completing tasks. They are spawned by managers (Task Managers, Coordinator, or Person Manager).
+Workers execute tasks. They do the actual work AND communicate back to managers about status, questions, and issues.
 
 ## Key Characteristics
 
 - **Spawned by:** Task Managers, Coordinator, or Person Manager
-- **Model:** Varies by task (specified by spawner)
+- **Model:** Varies by task
 - **Progress file:** `scheduler/progress/{task-id}.md`
 - **Heartbeat:** `scheduler/heartbeats/{task-id}.json`
+- **Inbox:** `scheduler/inboxes/workers/` (shared, use task-id in messages)
 
-## How to Spawn Child Workers (if needed)
+## ⚡ On Starting
 
-### Use the Spawn Queue (processed every 2 minutes):
+1. **Read your progress file** (previous attempts)
+2. **Check inbox for messages to you**: `grep -l "to.*{task-id}" ~/clawd/scheduler/inboxes/workers/*.json`
+3. **Create heartbeat**
+4. **Do the work**
 
+## 📬 Two-Way Communication
+
+### Check for Messages to You
 ```bash
-# Create spawn request
+grep -l "{your-task-id}" ~/clawd/scheduler/inboxes/workers/*.json 2>/dev/null
+```
+
+### Send Status to Task Manager
+```bash
+cat > ~/clawd/scheduler/inboxes/task-managers/$(date +%s)-{task-id}-status.json << 'EOF'
+{
+  "id": "worker-TIMESTAMP",
+  "timestamp": "ISO",
+  "from": "{your-task-id}",
+  "to": "task-manager",
+  "subject": "Status Update",
+  "content": "Your status/question here"
+}
+EOF
+```
+
+### Send to Coordinator (for escalation)
+```bash
+cat > ~/clawd/scheduler/inboxes/coordinator/$(date +%s)-{task-id}-escalation.json << 'EOF'
+{
+  "id": "worker-TIMESTAMP", 
+  "timestamp": "ISO",
+  "from": "{your-task-id}",
+  "to": "coordinator",
+  "subject": "Escalation: [issue]",
+  "content": "Description of issue that needs coordinator attention",
+  "priority": "urgent"
+}
+EOF
+```
+
+## 🔧 Fixing Systemic Issues
+
+**When you encounter a systemic issue:**
+
+1. **Fix it** if you can (update docs, fix configs, etc.)
+2. **Document it** in your progress file
+3. **Send message to coordinator** about what you found and fixed
+4. **Update memory** if it's a learning (`memory/topics/` or `memory/projects/`)
+
+Example systemic issues to fix:
+- Outdated documentation
+- Missing configuration
+- Broken patterns in the codebase
+- Process gaps
+
+## 🚀 Spawning Child Workers (if needed)
+
+Use the **Spawn Queue**:
+```bash
 cat > ~/clawd/scheduler/spawn-queue/requests/worker-$(date +%s).json << 'EOF'
 {
   "requestId": "worker-TIMESTAMP",
-  "requestedBy": "your-task-id",
-  "requestedAt": "ISO_TIMESTAMP",
+  "requestedBy": "{your-task-id}",
+  "requestedAt": "ISO",
   "spawn": {
     "label": "child-task-id",
     "model": "anthropic/claude-3-5-haiku-latest",
-    "task": "You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md first. [your task instructions]"
+    "task": "You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md. [task]"
   }
 }
 EOF
 ```
 
-Then poll for response:
-```bash
-cat ~/clawd/scheduler/spawn-queue/responses/worker-TIMESTAMP.json 2>/dev/null
-```
+## 📝 NOTE-TAKING (CRITICAL!)
 
-**Note:** If your task is complex (>30 min), consider becoming a manager by adding sub-tasks to PROACTIVE-JOBS.md instead of spawning directly.
+**You MUST document everything:**
 
-## Responsibilities
-
-1. **Execute the task** — Do what was assigned
-2. **Write progress** — Update your progress file continuously
-3. **Maintain heartbeat** — Write `scheduler/heartbeats/{task-id}.json`
-4. **Complete fully** — No stubs, no TODOs, production-ready only
-5. **Mark done** — Update PROACTIVE-JOBS.md when complete
-
-## On Starting a Task
-
-1. **Read your progress file** (if exists): `scheduler/progress/{task-id}.md`
-   - What did previous attempts try?
-   - What worked? What failed?
-   - DON'T repeat failed approaches
-   
-2. **Create/update heartbeat:**
-   ```json
-   {
-     "taskId": "your-task-id",
-     "status": "running",
-     "lastHeartbeat": "ISO timestamp"
-   }
-   ```
-   
-3. **Write to progress file** as you work
-
-## On Completing a Task
-
-1. **Update PROACTIVE-JOBS.md:**
-   - Change `Status: in-progress` → `Status: completed`
-   - Add completion summary
-   
-2. **Update progress file** with final summary
-
-3. **Delete heartbeat file:**
-   ```bash
-   rm ~/clawd/scheduler/heartbeats/{task-id}.json
-   ```
-
-4. **Git commit** your changes (if you created files)
-
-## Progress File Format
-
+### Progress File (`scheduler/progress/{task-id}.md`)
 ```markdown
 # Progress: {task-id}
 
 ## Task
 [Copy from PROACTIVE-JOBS.md]
 
-## Attempts
+## Communication Log
+- [timestamp] Received task from [spawner]
+- [timestamp] Sent status update to task-manager
+- [timestamp] Received response about [topic]
 
+## Attempts
 ### Attempt 1 — YYYY-MM-DD HH:MM
 - **Status:** success | failed | partial
 - **What I tried:** ...
 - **What worked:** ...
 - **What failed:** ...
-- **Files changed:** ...
+- **Systemic issues found:** ...
+- **Fixes applied:** ...
 
 ## Summary
-[Final status and key decisions]
+[Final status]
 ```
 
-## Communication with Manager
+## On Completing a Task
 
-If you need to report to your manager or ask questions:
-1. Write notes in your progress file
-2. Use the spawn queue to spawn a manager check if urgent
-3. The manager's cron will pick up your notes
+1. **Update PROACTIVE-JOBS.md** → Status: completed
+2. **Write final summary** in progress file
+3. **Delete heartbeat** file
+4. **Send completion message** to task-manager inbox
+5. **Git commit** your changes
 
-## ✅ Things You MUST Do
+## Interaction with Other Levels
 
-- ✅ Read previous progress before starting
-- ✅ Write progress as you work
-- ✅ Maintain heartbeat file
-- ✅ Complete work fully (no placeholders)
-- ✅ Update PROACTIVE-JOBS.md on completion
-- ✅ Delete heartbeat when done
-- ✅ Commit changes to git
-
-## 📝 NOTES ARE CRITICAL
-
-Your progress file is how future workers (and managers) understand what happened. Write detailed notes about:
-- What you tried
-- What worked
-- What failed and why
-- Key decisions made
-- Files created/modified
-
-**Your notes prevent future agents from repeating mistakes!**
+- **Reports to:** Task Manager (or whoever spawned you)
+- **Messages to:** Task Manager (status), Coordinator (escalations)
+- **Inbox from:** Task Manager (responses), Coordinator (instructions)
