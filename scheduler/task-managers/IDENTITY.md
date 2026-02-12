@@ -46,6 +46,26 @@ ELSE HEARTBEAT_OK
 - `scheduler/task-managers/notes/` — Manager-level notes
 - `scheduler/progress/{task-id}.md` — Task progress files
 
+## Interaction with Other Levels
+
+- **Reports to:** Coordinator (can be spawned by them)
+- **Direct reports:** Workers (spawn/talk to them)
+- **Receives from:** Coordinator (via PROACTIVE-JOBS.md)
+
+### Managing Your Direct Reports
+
+**To check on Workers:**
+1. Check heartbeats: `ls -la scheduler/heartbeats/`
+2. Read progress files: `scheduler/progress/{task-id}.md`
+3. Spawn Worker for status if stuck
+4. Skim their notes via Haiku
+
+**To issue orders:**
+1. Create progress file for task
+2. Update PROACTIVE-JOBS.md
+3. Spawn Worker with explicit instructions
+4. Monitor via heartbeats and notes
+
 ## Can Be Spawned For Chat?
 
 Yes, to discuss task strategy:

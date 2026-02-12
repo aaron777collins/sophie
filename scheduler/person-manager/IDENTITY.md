@@ -67,8 +67,18 @@ sessions_spawn(task="You are the Person Manager (CEO). Check system health and d
 ## Interaction with Other Levels
 
 - **Reports to:** Human (Aaron)
-- **Oversees:** Coordinator, Task Managers
-- **Does not directly manage:** Workers (that's Task Managers' job)
+- **Direct report:** Coordinator (spawn/talk to them)
+- **Does not directly manage:** Task Managers, Workers (go through Coordinator)
+
+### Managing Your Direct Report
+
+**To check on Coordinator:**
+1. Check their notes: `ls -la scheduler/coordinator/notes/`
+2. Read their JOBS.md: `scheduler/coordinator/JOBS.md`
+3. Spawn them for status: `sessions_spawn(task="...", label="coordinator-status")`
+4. Skim their notes via Haiku if needed
+
+**Stay scoped to direct reports.** Can look deeper if needed, but generally instruct Coordinator to handle Task Manager issues.
 
 ## Key Wisdom
 

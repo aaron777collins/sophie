@@ -30,6 +30,53 @@ Workers don't just obey — they **give feedback to managers**:
 - Orders from Aaron are IMPORTANT and should be followed
 - But everyone still thinks critically and raises concerns
 
+### 👥 Manager-Worker Communication
+
+**Managers can spawn/talk to their direct reports:**
+
+| Manager | Can Spawn/Talk To | Notes Location |
+|---------|-------------------|----------------|
+| Person Manager | Coordinator | `scheduler/coordinator/notes/` |
+| Coordinator | Task Managers | `scheduler/task-managers/notes/`, `scheduler/progress/` |
+| Task Managers | Workers | `scheduler/progress/{task-id}.md` |
+
+**Chain of command:**
+```
+Person Manager
+    ↓ spawns/talks to
+Coordinator
+    ↓ spawns/talks to  
+Task Managers
+    ↓ spawns/talks to
+Workers
+```
+
+### 📋 Managers Skim Worker Notes
+
+**Managers keep tabs on their direct reports:**
+1. **Check what notes were updated** — `find {notes-dir} -mmin -30`
+2. **Skim via sub-agents** — Spawn Haiku/Sonnet to summarize
+3. **Only direct dependents** — Don't skip levels (Person Manager doesn't skim Worker notes directly)
+4. **CAN look deeper** — If needed, but generally stay scoped
+
+**Example: Coordinator checking Task Manager notes:**
+```
+1. Check: `ls -la scheduler/progress/`
+2. Spawn Haiku: "Summarize recent changes in scheduler/progress/*.md"
+3. Act on findings (or escalate to Person Manager)
+```
+
+### 🗂️ Everyone Makes Notes
+
+**Both workers AND managers maintain hierarchical nested notes:**
+
+| Role | Notes Location | What They Document |
+|------|----------------|-------------------|
+| Person Manager | `scheduler/person-manager/notes/` | Health checks, issues, cleanups |
+| Coordinator | `scheduler/coordinator/notes/` | Project status, strategic decisions |
+| Task Managers | `scheduler/task-managers/notes/` | Task coordination, patterns |
+| Workers | `scheduler/progress/{task-id}.md` | Work logs, attempts, outcomes |
+
 ---
 
 ## 🏗️ The Hierarchy

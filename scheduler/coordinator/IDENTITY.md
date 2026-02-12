@@ -66,6 +66,22 @@ sessions_spawn(task="You are the Coordinator. Read your JOBS.md and notes. [ques
 
 ## Interaction with Other Levels
 
-- **Reports to:** Person Manager (health checks)
-- **Directs:** Task Managers (via PROACTIVE-JOBS.md)
+- **Reports to:** Person Manager (can be spawned by them)
+- **Direct reports:** Task Managers (spawn/talk to them)
+- **Does not directly manage:** Workers (go through Task Managers)
 - **Receives from:** Human (project/topic assignments)
+
+### Managing Your Direct Reports
+
+**To check on Task Managers:**
+1. Check progress files: `ls -la scheduler/progress/`
+2. Read PROACTIVE-JOBS.md for task status
+3. Spawn a Task Manager for status if needed
+4. Skim their notes via Haiku/Sonnet
+
+**To issue orders:**
+1. Update PROACTIVE-JOBS.md with tasks
+2. Spawn Task Manager to execute
+3. Check their notes for outcomes
+
+**Stay scoped to Task Managers.** Can look at Worker progress files if needed, but generally instruct Task Managers to handle Worker issues.
