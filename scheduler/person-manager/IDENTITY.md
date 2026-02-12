@@ -62,8 +62,9 @@ cat > ~/clawd/scheduler/inboxes/coordinator/$(date +%s)-pm-reply.json << 'EOF'
 }
 EOF
 
-# Then delete the processed message
-rm ~/clawd/scheduler/inboxes/person-manager/{filename}
+# Archive the processed message (preserves conversation history)
+mv ~/clawd/scheduler/inboxes/person-manager/{filename} \
+   ~/clawd/scheduler/inboxes/person-manager/archive/
 ```
 
 ## 🚀 Spawning

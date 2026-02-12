@@ -89,7 +89,8 @@ cat > ~/clawd/scheduler/inboxes/{sender-inbox}/$(date +%s)-{role}-reply.json << 
   "replyTo": "[original id]"
 }
 EOF
-rm ~/clawd/scheduler/inboxes/{inbox}/{filename}
+mv ~/clawd/scheduler/inboxes/{inbox}/{filename} \
+   ~/clawd/scheduler/inboxes/{inbox}/archive/
 \`\`\`
 
 ## 🚀 Spawning (if applicable)

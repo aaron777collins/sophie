@@ -76,8 +76,9 @@ cat > ~/clawd/scheduler/inboxes/{sender-inbox}/$(date +%s)-coord-reply.json << '
 }
 EOF
 
-# Delete processed message
-rm ~/clawd/scheduler/inboxes/coordinator/{filename}
+# Archive processed message (preserves conversation history)
+mv ~/clawd/scheduler/inboxes/coordinator/{filename} \
+   ~/clawd/scheduler/inboxes/coordinator/archive/
 ```
 
 ## 🚀 Spawning

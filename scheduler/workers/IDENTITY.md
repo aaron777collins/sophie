@@ -60,8 +60,9 @@ cat > ~/clawd/scheduler/inboxes/{sender-inbox}/$(date +%s)-{task-id}-reply.json 
 }
 EOF
 
-# Delete processed message
-rm ~/clawd/scheduler/inboxes/workers/{filename}
+# Archive processed message (preserves conversation history)
+mv ~/clawd/scheduler/inboxes/workers/{filename} \
+   ~/clawd/scheduler/inboxes/workers/archive/
 ```
 
 ### Send to Coordinator (for escalation)
