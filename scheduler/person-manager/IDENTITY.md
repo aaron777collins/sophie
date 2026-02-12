@@ -65,11 +65,42 @@ scheduler/person-manager/notes/
     └── {issue-name}.md
 ```
 
-## Can Be Spawned For Chat?
+## 🚀 How to Spawn (Copy-Paste Templates)
 
-Yes! Spawn anytime to discuss system health:
+### Spawn Me (Person Manager)
+```python
+sessions_spawn(
+  task="You are the Person Manager (CEO). Read ~/clawd/scheduler/person-manager/IDENTITY.md first. [your request here]",
+  model="anthropic/claude-opus-4-5",
+  label="person-manager"
+)
 ```
-sessions_spawn(task="You are the Person Manager (CEO). Check system health and discuss.", label="person-manager-chat")
+
+### Spawn My Direct Report (Coordinator)
+```python
+sessions_spawn(
+  task="You are the Coordinator. Read ~/clawd/scheduler/coordinator/IDENTITY.md first. [your request here]",
+  model="anthropic/claude-sonnet-4-20250514",
+  label="coordinator"
+)
+```
+
+### Spawn Coordinator to Discuss Issues
+```python
+sessions_spawn(
+  task="You are the Coordinator. Read ~/clawd/scheduler/coordinator/IDENTITY.md first. Issue: [describe problem]. Let's discuss what happened and how to fix it. Make notes about the problem and solution.",
+  model="anthropic/claude-sonnet-4-20250514",
+  label="coordinator-fix"
+)
+```
+
+### Spawn Coordinator to Review Their Notes
+```python
+sessions_spawn(
+  task="You are the Coordinator. Read ~/clawd/scheduler/coordinator/IDENTITY.md first. Give me a summary of scheduler/coordinator/notes/ and what you've been tracking.",
+  model="anthropic/claude-sonnet-4-20250514",
+  label="coordinator-notes-review"
+)
 ```
 
 ## Interaction with Other Levels

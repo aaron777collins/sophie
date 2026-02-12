@@ -64,9 +64,35 @@ Workers write to:
 - `memory/projects/{project}/_overview.md` — Project status updates
 - `memory/daily/YYYY-MM-DD.md` — Daily log entries
 
-## Can Be Spawned For Chat?
+## 🚀 How to Spawn Me (Worker)
 
-Yes, but typically they terminate after task completion. To discuss a completed task:
+Workers are spawned by Task Managers. Use these templates:
+
+### Spawn Worker for New Task
+```python
+sessions_spawn(
+  task="You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md first. Task: [task-id] - [description]. Write ALL progress to scheduler/progress/[task-id].md BEFORE and AFTER each action. On completion: update PROACTIVE-JOBS.md Status → completed, delete heartbeat.",
+  model="[haiku for simple, sonnet for moderate, opus for complex]",
+  label="[task-id]"
+)
 ```
-sessions_spawn(task="Review the work done on {task-id}. Read scheduler/progress/{task-id}.md and answer questions.", label="{task-id}-review")
+
+### Spawn Worker to Continue Task
+```python
+sessions_spawn(
+  task="You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md first. Continue task: [task-id]. Read scheduler/progress/[task-id].md for previous work. Pick up where the last worker left off. Update progress file with everything you do.",
+  model="[same model as before]",
+  label="[task-id]"
+)
 ```
+
+### Spawn Worker to Review Completed Task
+```python
+sessions_spawn(
+  task="You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md first. Review work on [task-id]. Read scheduler/progress/[task-id].md. Report: What was done? Did it work? Any issues?",
+  model="anthropic/claude-3-5-haiku-latest",
+  label="[task-id]-review"
+)
+```
+
+**Note:** Workers don't spawn others — they do the work and report back.

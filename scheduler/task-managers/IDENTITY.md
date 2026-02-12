@@ -82,9 +82,40 @@ ELSE HEARTBEAT_OK
 sessions_spawn(task="Review your work on {task-id}. Read scheduler/progress/{task-id}.md. What's done? What's left? Any issues?", model="anthropic/claude-3-5-haiku-latest", label="{task-id}-check")
 ```
 
-## Can Be Spawned For Chat?
+## 🚀 How to Spawn (Copy-Paste Templates)
 
-Yes, to discuss task strategy:
+### Spawn Me (Task Manager)
+```python
+sessions_spawn(
+  task="You are a Task Manager. Read ~/clawd/scheduler/task-managers/IDENTITY.md first. [your request here]",
+  model="anthropic/claude-3-5-haiku-latest",
+  label="task-manager"
+)
 ```
-sessions_spawn(task="You are a Task Manager. Read ~/clawd/scheduler/task-managers/IDENTITY.md first. Read PROACTIVE-JOBS.md and discuss the current task queue.", label="task-manager-chat")
+
+### Spawn My Direct Report (Worker)
+```python
+sessions_spawn(
+  task="You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md first. Task: [task-id]. [describe what to do]. Write progress to scheduler/progress/[task-id].md",
+  model="anthropic/claude-3-5-haiku-latest",
+  label="[task-id]"
+)
+```
+
+### Spawn Worker for a Proactive Task
+```python
+sessions_spawn(
+  task="You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md first. Read ~/clawd/AGENTS.md (sub-agent section). Task: [task-id] - [description]. Previous attempts: [read from scheduler/progress/[task-id].md or 'First attempt']. Write ALL progress to scheduler/progress/[task-id].md. On completion: update PROACTIVE-JOBS.md Status → completed.",
+  model="[task's Min Model from PROACTIVE-JOBS.md]",
+  label="[task-id]"
+)
+```
+
+### Spawn Worker to Check on Task Progress
+```python
+sessions_spawn(
+  task="You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md first. Review scheduler/progress/[task-id].md. Report: What's done? What's left? Any blockers?",
+  model="anthropic/claude-3-5-haiku-latest",
+  label="[task-id]-check"
+)
 ```

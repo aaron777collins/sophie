@@ -65,11 +65,42 @@ scheduler/coordinator/notes/
     └── YYYY-MM-DD.md
 ```
 
-## Can Be Spawned For Chat?
+## 🚀 How to Spawn (Copy-Paste Templates)
 
-Yes! Spawn anytime to discuss strategy:
+### Spawn Me (Coordinator)
+```python
+sessions_spawn(
+  task="You are the Coordinator. Read ~/clawd/scheduler/coordinator/IDENTITY.md first. [your request here]",
+  model="anthropic/claude-sonnet-4-20250514",
+  label="coordinator"
+)
 ```
-sessions_spawn(task="You are the Coordinator. Read your JOBS.md and notes. [question/instruction]", label="coordinator-chat")
+
+### Spawn My Direct Report (Task Manager)
+```python
+sessions_spawn(
+  task="You are a Task Manager. Read ~/clawd/scheduler/task-managers/IDENTITY.md first. [your request here]",
+  model="anthropic/claude-3-5-haiku-latest",
+  label="task-manager"
+)
+```
+
+### Spawn Task Manager to Check on Work
+```python
+sessions_spawn(
+  task="You are a Task Manager. Read ~/clawd/scheduler/task-managers/IDENTITY.md first. Check PROACTIVE-JOBS.md, scheduler/progress/, and scheduler/heartbeats/. Report: What's running? What's stuck? What needs attention?",
+  model="anthropic/claude-3-5-haiku-latest",
+  label="task-manager-check"
+)
+```
+
+### Spawn Task Manager to Discuss Issues
+```python
+sessions_spawn(
+  task="You are a Task Manager. Read ~/clawd/scheduler/task-managers/IDENTITY.md first. Issue: [describe problem]. Check progress files. What went wrong? Make notes about the problem.",
+  model="anthropic/claude-3-5-haiku-latest",
+  label="task-manager-fix"
+)
 ```
 
 ## Interaction with Other Levels

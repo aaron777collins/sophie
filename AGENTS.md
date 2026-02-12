@@ -238,6 +238,19 @@ Person Manager notices HAOS stalled
 - Orders from Aaron are IMPORTANT and should be followed
 - But everyone still thinks critically and raises concerns
 
+### 🚀 Quick Spawn Reference
+
+| Role | Model | Label | Command |
+|------|-------|-------|---------|
+| Person Manager | opus | `person-manager` | Read `scheduler/person-manager/IDENTITY.md` first |
+| Coordinator | sonnet | `coordinator` | Read `scheduler/coordinator/IDENTITY.md` first |
+| Task Manager | haiku | `task-manager` | Read `scheduler/task-managers/IDENTITY.md` first |
+| Worker | varies | `{task-id}` | Read `scheduler/workers/IDENTITY.md` first |
+
+**Every spawn MUST include:** "Read ~/clawd/scheduler/{role}/IDENTITY.md first."
+
+**Full templates:** See each role's IDENTITY.md file → "How to Spawn" section.
+
 **Full spec:** `docs/MANAGEMENT-HIERARCHY.md`
 
 ---
