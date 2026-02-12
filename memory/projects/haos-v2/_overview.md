@@ -68,6 +68,35 @@
   - Edit/delete: RoomEvent.Redaction handling for message updates
   - Production-ready: 498 lines, full TypeScript types, comprehensive error handling
   - [2026-02-12 19:32 EST] Cleanup completed: heartbeat removed, notification sent
+- [2026-02-12 07:35 EST] **p1-2-f: useTypingIndicator hook ✅** — `hooks/use-typing-indicator.ts`
+  - Parameters: roomId, Returns: typingUsers[], setTyping()
+  - Shows when others are typing, sends typing notifications
+  - Auto-clears after timeout, heartbeat management for sustained typing
+  - RoomMemberEvent.Typing client-level listeners, full Matrix SDK integration
+  - Production-ready: TypeScript ✓, ESLint ✓, comprehensive error handling
+  - Validated: build ✓, lint ✓, deps ✓, integration ✓
+- [2026-02-13 08:50 EST] **p1-2-g: usePresence hook ✅** — `hooks/use-presence.ts`
+  - Parameters: userId?: string, Returns: presence, lastActiveAgo, setPresence()
+  - Current user presence control ('online' | 'offline' | 'unavailable')
+  - Other user presence monitoring with optional userId parameter
+  - Real-time updates via UserEvent.Presence and UserEvent.DisplayName listeners
+  - Last active time tracking with automatic calculation
+  - Periodic presence polling (5 min intervals) for data freshness
+  - Production-ready: 463 lines, comprehensive TypeScript types and JSDoc
+  - Validated: build ✓, lint ✓, TypeScript ✓, integration ✓
+- [2026-02-13 08:59 EST] **p1-2-h: useReadReceipts hook ✅** — `hooks/use-read-receipts.ts`
+  - Parameters: roomId: string, Returns: receipts: Map<eventId, userId[]>, markAsRead(eventId): void
+  - Tracks who has read which messages with real-time updates
+  - Marks messages as read via Matrix SDK sendReadReceipt()
+  - Real-time updates via RoomEvent.Receipt listeners
+  - Production-ready: 16.2kB, comprehensive TypeScript types and JSDoc
+  - Validated: TypeScript ✓, lint ✓, Matrix SDK integration ✓
+- [2026-02-13 13:25 EST] **p1-2-i: Connection Status Component ✅** — `components/connection-indicator.tsx`
+  - Visual indicator for Matrix sync connection state (green/yellow/red)
+  - Green = synced (PREPARED/SYNCING), Yellow = connecting (CATCHUP/RECONNECTING), Red = error (ERROR/STOPPED)
+  - Features: ActionTooltip with details, auto-retry on disconnect (3 attempts), clickable for more info
+  - Production-ready: Full TypeScript, Discord-style design patterns, animations, accessibility
+  - Validated: pnpm build ✓, pnpm lint ✓, integrates seamlessly with MatrixProvider
 
 ### ✅ p2-1-a (Server Sidebar) Complete
 - [2026-02-12 12:15 EST] **p2-1-a: Discord-style server sidebar ✅**
@@ -87,6 +116,16 @@
   - ✅ Mention count badges (red, 99+ overflow)
   - ✅ Smooth transitions for all hover states
   - Component exceeds all requirements with optimized animations
+
+### ✅ p2-1-c (Add Server Button) Complete
+- [2026-02-12 22:40 EST] **p2-1-c: Add Server Button implementation ✅**
+  - Enhanced navigation-action.tsx with consistent styling patterns
+  - ✅ Opens createServer modal on click (useModal integration)
+  - ✅ Green emerald-500 accent matching Discord design
+  - ✅ Smooth hover animations (round→square, duration-200 ease-in-out)
+  - ✅ Tooltip displays "Add a server" properly
+  - ✅ All validation checks passed (build, lint, TypeScript)
+  - Validated: build ✓, lint ✓, TypeScript ✓, modal integration ✓
 
 ### ✅ p2-1-c (Add Server Button) Complete
 - [2026-02-12 19:45 EST] **p2-1-c: Add Server Button ✅**

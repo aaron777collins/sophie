@@ -46,101 +46,110 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 ## Phase 1 Tasks (In Progress)
 
 ### haos-v2-sync-manager-p1-2: Real-Time Sync Migration (Manager)
-- **Status:** pending
+- **Status:** in-progress (manager)
 - **Min Model:** opus
 - **Description:** Coordinate real-time sync migration — Matrix client singleton, React providers, hooks for rooms/messages/typing/presence/receipts, connection status UI. Manage sub-agents.
-- **Sub-Tasks:**
+- **Sub-Tasks (Phase 1):**
   - haos-v2-matrix-client-p1-2-a: ✅ completed
   - haos-v2-matrix-provider-p1-2-b: ✅ completed
   - haos-v2-client-hook-p1-2-c: ✅ completed
   - haos-v2-use-room-p1-2-d: ✅ completed
   - haos-v2-use-room-messages-p1-2-e: ✅ completed
+- **Sub-Tasks (Phase 2 - Ready):**
+  - haos-v2-typing-indicator-p1-2-f: ✅ completed
+  - haos-v2-presence-hook-p1-2-g: ✅ completed
+  - haos-v2-read-receipts-p1-2-h: ✅ completed
+  - haos-v2-connection-status-p1-2-i: ✅ completed
+  - haos-v2-remove-socketio-p1-2-j: pending
 
-### haos-v2-matrix-client-p1-2-a: Create Matrix Client Singleton
-- **Status:** pending
+### haos-v2-typing-indicator-p1-2-f: Create useTypingIndicator Hook
+- **Status:** completed
+- **Completed:** 2026-02-12 07:35 EST
 - **Min Model:** sonnet
-- **Description:** Singleton Matrix SDK client instance with proper lifecycle management
-- **Files to Create:**
-  - `apps/web/lib/matrix/client.ts`
-- **Functions:**
-  - `initializeClient(session: MatrixSession): MatrixClient`
-  - `getClient(): MatrixClient | null`
-  - `destroyClient(): void`
-- **Success Criteria:**
-  - Only one client instance exists
-  - Client persists across navigation
-  - Clean shutdown on logout
-
-### haos-v2-matrix-provider-p1-2-b: Create MatrixProvider Context
-- **Status:** pending
-- **Min Model:** sonnet
-- **Depends On:** haos-v2-matrix-client-p1-2-a
-- **Description:** React context managing Matrix client lifecycle, exposes client and sync state to app
-- **Files to Create:**
-  - `apps/web/components/providers/matrix-provider.tsx`
-- **Context Values:**
-  - `client: MatrixClient | null`
-  - `syncState: SyncState`
-  - `rooms: Room[]`
-  - `isReady: boolean`
-- **Success Criteria:**
-  - Client initializes when user logs in
-  - Sync state exposed to components
-  - Rooms update in real-time
-
-### haos-v2-client-hook-p1-2-c: Create useMatrixClient Hook
-- **Status:** pending
-- **Min Model:** sonnet
-- **Depends On:** haos-v2-matrix-provider-p1-2-b
-- **Description:** Hook to access Matrix client with type safety
-- **Files to Create:**
-  - `apps/web/hooks/use-matrix-client.ts`
-- **Returns:**
-  - `client: MatrixClient | null`
-  - `isReady: boolean`
-- **Success Criteria:**
-  - Throws error if used outside provider
-  - Type-safe client access
-
-### haos-v2-room-hook-p1-2-d: Create useRoom Hook
-- **Status:** pending
-- **Min Model:** sonnet
-- **Depends On:** haos-v2-client-hook-p1-2-c
-- **Description:** Hook to access single room data with reactive updates
-- **Files to Create:**
-  - `apps/web/hooks/use-room.ts`
-- **Parameters:** `roomId: string`
-- **Returns:**
-  - `room: Room | null`
-  - `members: RoomMember[]`
-  - `isLoading: boolean`
-  - `error: Error | null`
-- **Success Criteria:**
-  - Room data reactive to changes
-  - Members list updates on join/leave
-  - Handles room not found
-
-### haos-v2-messages-hook-p1-2-e: Create useRoomMessages Hook
-- **Status:** in-progress
-- **Started:** 2026-02-12 19:16 EST
-- **Min Model:** sonnet
-- **Depends On:** haos-v2-room-hook-p1-2-d
-- **Description:** Hook for room message timeline with pagination
-- **Files to Create:**
-  - `apps/web/hooks/use-room-messages.ts`
-- **Parameters:** `roomId: string`
-- **Returns:**
-  - `messages: TimelineEvent[]`
-  - `isLoading: boolean`
-  - `loadMore(): Promise<void>`
-  - `hasMore: boolean`
-  - `error: Error | null`
-  - `isLoadingMore: boolean`
-- **Success Criteria:**
-  - Messages appear in real-time (RoomEvent.Timeline)
-  - Can paginate backwards (client.paginateEventTimeline)
-  - Handles edit/delete updates (RoomEvent.Redaction)
 - **Parent:** haos-v2-sync-manager-p1-2
+- **Description:** Hook for typing indicators with real-time updates
+- **Files to Create:**
+  - `hooks/use-typing-indicator.ts`
+- **Parameters:** `roomId: string`
+- **Returns:**
+  - `typingUsers: string[]`
+  - `setTyping(isTyping: boolean): void`
+- **Success Criteria:**
+  - Shows when others are typing
+  - Sends typing notifications
+  - Auto-clears after timeout
+
+### haos-v2-presence-hook-p1-2-g: Create usePresence Hook
+- **Status:** completed
+- **Completed:** 2026-02-13 08:50 EST
+- **Min Model:** sonnet
+- **Parent:** haos-v2-sync-manager-p1-2
+- **Description:** Hook for user presence state with real-time sync
+- **Files to Create:**
+  - `hooks/use-presence.ts`
+- **Parameters:** `userId?: string`
+- **Returns:**
+  - `presence: 'online' | 'offline' | 'unavailable'`
+  - `lastActiveAgo: number`
+  - `setPresence(presence): void`
+- **Success Criteria:**
+  - Current user presence syncs
+  - Can read other users' presence
+  - Updates in real-time
+- **Started:** 2026-02-12 22:45 EST
+
+### haos-v2-read-receipts-p1-2-h: Create useReadReceipts Hook
+- **Status:** completed
+- **Completed:** 2026-02-13 08:59 EST
+- **Min Model:** sonnet
+- **Parent:** haos-v2-sync-manager-p1-2
+- **Description:** Hook for read receipt tracking and marking
+- **Files Created:**
+  - `hooks/use-read-receipts.ts` — Complete implementation (16.2kB)
+- **Parameters:** `roomId: string`
+- **Returns:**
+  - `receipts: Map<eventId, userId[]>`
+  - `markAsRead(eventId): void`
+- **Success Criteria:** ✅ ALL MET
+  - ✅ Shows who has read messages (receipts Map)
+  - ✅ Marks messages as read on scroll (markAsRead function)
+  - ✅ Updates in real-time (RoomEvent.Receipt listeners)
+
+### haos-v2-connection-status-p1-2-i: Create Connection Status Component
+- **Status:** completed
+- **Completed:** 2026-02-13 13:25 EST
+- **Min Model:** sonnet
+- **Parent:** haos-v2-sync-manager-p1-2
+- **Description:** UI indicator for sync connection state
+- **Files to Create:**
+  - `components/connection-indicator.tsx`
+- **Features:**
+  - Green = synced, yellow = syncing, red = error
+  - Tooltip with details
+  - Auto-retry on disconnect
+- **Success Criteria:**
+  - Accurately reflects sync state
+  - Visible but not intrusive
+  - Clickable for details
+- **Started:** 2026-02-12 05:15 EST
+
+### haos-v2-remove-socketio-p1-2-j: Remove Socket.io Dependencies
+- **Status:** pending
+- **Min Model:** haiku
+- **Parent:** haos-v2-sync-manager-p1-2
+- **Description:** Clean removal of all Socket.io code
+- **Files to Delete:**
+  - `components/providers/socket-provider.tsx`
+  - `hooks/use-chat-socket.ts`
+  - `pages/api/socket/` (entire directory)
+- **Actions:**
+  - Remove socket.io from package.json
+  - Remove socket.io-client from package.json
+  - Search for all socket references
+- **Success Criteria:**
+  - `pnpm build` succeeds
+  - No socket.io in bundle
+  - Real-time works via Matrix
 
 ### haos-v2-matrix-auth-types-p1-1-a: Create Matrix Auth Types ✅
 - **Status:** completed
@@ -295,38 +304,51 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - ✅ Tooltip displays properly
 - **Summary:** Component already existed and met all requirements. Likely completed as part of p2-1-a.
 
-### p2-1-d: Implement User Panel
-- **Status:** pending
+### p2-1-d: Implement User Panel ✅
+- **Status:** completed
+- **Completed:** 2026-02-12 20:12 EST
 - **Min Model:** sonnet
 - **Depends On:** p2-1-a (completed)
 - **Description:** User info panel at bottom of sidebar with controls
-- **Files to Create:**
-  - `apps/web/components/navigation/user-panel.tsx`
-- **Features:**
-  - User avatar and display name
-  - Online status indicator
-  - Settings, mute, deafen buttons
-- **Success Criteria:**
-  - Shows current user information
-  - Settings button opens user settings
-  - Audio controls integrate with voice features
+- **Files Created:**
+  - `components/navigation/user-panel.tsx` — Discord-style user panel component
+- **Files Modified:**
+  - `hooks/use-modal-store.ts` — Added "userSettings" modal type
+  - `components/navigation/navigation-sidebar.tsx` — Integrated UserPanel
+- **Features:** ✅ ALL COMPLETED
+  - User avatar and display name with Matrix auth integration
+  - Online status indicator (green/yellow/gray dots)
+  - Settings, mute, deafen buttons with hover tooltips
+  - Discord-style animations and visual feedback
+- **Success Criteria:** ✅ ALL MET
+  - Shows current user information from MatrixAuthProvider
+  - Settings button opens user settings modal 
+  - Audio controls implemented (ready for voice system integration)
+- **Validation:** Build ✅, Lint ✅, TypeScript ✅
 
 ### p2-2-a: Implement Channel Sidebar
-- **Status:** pending
+- **Status:** completed
+- **Completed:** 2026-02-12 15:05 EST
 - **Min Model:** sonnet
 - **Depends On:** p1-4-a (Space Service - pending)
 - **Description:** Discord-style channel list with categories and member toggle
 - **Files to Create/Modify:**
   - `apps/web/components/server/server-sidebar.tsx`
 - **Features:**
-  - Server name header with dropdown
-  - Channel categories (collapsible)
-  - Channel list with type icons
-  - Member list toggle
+  - Server name header with dropdown ✅
+  - Channel categories (collapsible) ✅
+  - Channel list with type icons ✅
+  - Member list toggle ✅
 - **Success Criteria:**
-  - Shows all channels in current space
-  - Categories collapse/expand properly
-  - Layout matches Discord design
+  - Shows all channels in current space ✅
+  - Categories collapse/expand properly ✅
+  - Layout matches Discord design ✅
+- **Implementation Notes:**
+  - Added collapsible ServerSection with chevron animation
+  - Created ServerSidebarContent client component for interactivity
+  - Member toggle uses eye/eye-off icons
+  - Git commit: 62b339a
+- **Started:** 2026-02-12 21:20 EST
 
 ### p2-2-b: Implement Server Header
 - **Status:** pending

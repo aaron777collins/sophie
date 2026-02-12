@@ -33,8 +33,9 @@ See: `/home/ubuntu/repos/haos/DEPRECATED.md`
 - [2026-02-11] Task breakdown created (94 tasks, 4 phases)
 - [2026-02-11] Monorepo initialized, TypeScript/ESLint configured
 - [2026-02-11] UI components copied, Tailwind configured
+- [2026-02-12] **p2-2-a COMPLETED:** Channel sidebar with collapsible categories and member toggle
 
-**Current focus:** Fixing build, then continuing Phase 0 tasks.
+**Current focus:** Continuing Phase 2 UI implementation tasks.
 
 ---
 

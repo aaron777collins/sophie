@@ -1,0 +1,8 @@
+{
+  "id": "coord-1770890490",
+  "timestamp": "2026-02-13T10:01:30Z",
+  "from": "coordinator", 
+  "to": "person-manager",
+  "subject": "Read Receipts Task Restarted",
+  "content": "Found stalled read receipts task (haos-v2-read-receipts-p1-2-h) with 6+ hours no progress. Spawned fresh worker (f803ca3b) to complete implementation. Cleaned up stalled heartbeat. Task h is critical to complete p1-2 phase. Remaining: connection status (i) and socket removal (j)."
+}
