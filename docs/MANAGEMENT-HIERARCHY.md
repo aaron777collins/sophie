@@ -24,14 +24,17 @@
 
 ### Cron Frequency by Level
 
-| Level | Agent | Cron Schedule | Model | Purpose |
-|-------|-------|---------------|-------|---------|
-| 1 (Top) | Person Manager | 2x/day (08:00, 20:00) | Sonnet | Meta-management, cleanup, oversight |
-| 2 | Coordinator | Every 30 min | Sonnet | Strategic project/topic management |
-| 3 | Task Managers | Every 15 min | Sonnet/Opus | Tactical task coordination |
-| 4 (Bottom) | Workers | Never (spawned) | Any | Execution |
+| Level | Agent | Cron Schedule | Always Runs? | Purpose |
+|-------|-------|---------------|--------------|---------|
+| 1 (Top) | Person Manager | 2x/day (08:00, 20:00) | **YES** (CEO) | Meta-management, cleanup, oversight |
+| 2 | Coordinator | Every 30 min | Only if JOBS.md has work | Strategic project/topic management |
+| 3 | Task Managers | Every 15 min | Only if PROACTIVE-JOBS.md has work | Tactical task coordination |
+| 4 (Bottom) | Workers | Never (spawned) | N/A | Execution |
 
-**Key Pattern:** Cron frequency DECREASES as you go up. Higher levels think more strategically, lower levels act more frequently.
+**Key Pattern:** 
+- **Person Manager is the CEO** — ALWAYS runs, checks on everyone
+- **Everyone else** — Only spawns if their jobs file has active items
+- Empty jobs file = HEARTBEAT_OK (no spawn, no tokens burned)
 
 ---
 

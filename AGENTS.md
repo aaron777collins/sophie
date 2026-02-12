@@ -169,11 +169,12 @@ We use a layered management system. Each level has decreasing cron frequency goi
 
 ### Key Patterns
 
-1. **Every "person" has a jobs file** — only spawn if file has active items
-2. **Every "person" maintains hierarchical notes** — in their `notes/` folder
-3. **Every "person" can be spawned** — for direct conversation anytime
-4. **Jobs files must get emptied** — when work is complete
-5. **Cron frequency decreases going up** — strategic thinking > tactical action
+1. **Person Manager is the CEO** — ALWAYS runs (only exception)
+2. **Everyone else** — only spawn if jobs file has active items
+3. **Every "person" maintains hierarchical notes** — in their `notes/` folder
+4. **Every "person" can be spawned** — for direct conversation anytime
+5. **Jobs files must get emptied** — when work is complete
+6. **Cron frequency decreases going up** — strategic thinking > tactical action
 
 **Full spec:** `docs/MANAGEMENT-HIERARCHY.md`
 
