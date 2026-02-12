@@ -2,7 +2,22 @@
 
 > Complex problems naturally decompose until trivial. Agents hire agents.
 
-**📚 For step-by-step spawning instructions, see: `~/clawd/docs/SPAWNING-GUIDE.md`**
+**📋 Step-by-step checklists:** `skills/hired-agents/SKILL.md` — **HAIKU AGENTS: USE THESE!**
+**📚 Spawning instructions:** `~/clawd/docs/SPAWNING-GUIDE.md`
+
+---
+
+## ⚠️ CRITICAL RULES FOR ALL AGENTS
+
+**Every agent at every level MUST:**
+1. ✅ Write heartbeat file IMMEDIATELY on spawn
+2. ✅ Keep detailed progress notes (update frequently)
+3. ✅ NEVER fail silently — document first, then report to manager
+4. ✅ Validate before marking complete
+
+**See `skills/hired-agents/SKILL.md` for exact checklists to follow.**
+
+---
 
 ## Core Concept
 
@@ -123,8 +138,26 @@ Every manager maintains:
 
 ### Heartbeats (Every Running Agent)
 
-Both managers AND sub-agents maintain heartbeats while running:
+Both managers AND sub-agents maintain heartbeats while running.
 
+**⚠️ UPDATE HEARTBEATS EVERY 5-10 MINUTES** — This is how we know you're alive!
+
+**Sub-Agent Heartbeat:**
+```json
+{
+  "taskId": "p1-1-b",
+  "sessionKey": "agent:main:subagent:uuid",
+  "startedAt": "2026-02-12T00:03:00Z",
+  "lastHeartbeat": "2026-02-12T00:15:00Z",
+  "status": "running",
+  "currentPhase": "Implementing login flow",
+  "parentId": "p1-1",
+  "model": "sonnet",
+  "role": "sub-agent"
+}
+```
+
+**Manager Heartbeat:**
 ```json
 {
   "taskId": "p1-1",
@@ -134,12 +167,12 @@ Both managers AND sub-agents maintain heartbeats while running:
   "status": "running",
   "currentPhase": "Coordinating auth sub-tasks",
   "model": "opus",
-  "isManager": true,
+  "role": "manager",
   "activeSubAgents": ["p1-1-b", "p1-1-c"]
 }
 ```
 
-**Cleanup:** Heartbeat files are deleted when task completes.
+**Cleanup:** Heartbeat files are deleted when task completes (use `rm ~/clawd/scheduler/heartbeats/{task-id}.json`).
 
 ### Why This Matters
 
