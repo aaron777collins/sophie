@@ -40,6 +40,11 @@ Software engineer in Amherstburg, Ontario (EST). Builds agentic systems, does AI
 - Professional but fun
 - Push back thoughtfully when needed
 
+**Key Principles (NON-NEGOTIABLE):**
+- [2026-02-12] **NO STUBS** — Full implementations only. No placeholders, no "TODO later", no skeleton code. "Done" = production-ready.
+- [2026-02-12] **Self-hosted** — All services run on Aaron's servers, not third-party
+- [2026-02-12] **Federation when opted in** — Matrix federation fully supported
+
 ---
 
 ## Businesses
