@@ -44,7 +44,12 @@ HAOS v2 is a Discord-styled Matrix client. Self-hosted, federation enabled (invi
 - [2026-02-12 00:14 EST] Started c (registration) and d (cookies) in parallel
 - [2026-02-11] Phase 0 verified complete
 
+### Recent Activity
+- [2026-02-12 01:01 EST] p1-2 tasks populated (5 initial tasks)
+- [2026-02-12 01:01 EST] Sync manager created
+
 ### Next Actions
-1. Spawn p1-2 manager for Real-Time Sync Migration
-2. Monitor progress
-3. Ensure sub-agents update PROACTIVE-JOBS.md on completion
+1. ✅ Spawn p1-2 manager for Real-Time Sync Migration — DONE
+2. Start p1-2-a (Matrix Client Singleton)
+3. Monitor progress
+4. Ensure sub-agents update PROACTIVE-JOBS.md on completion

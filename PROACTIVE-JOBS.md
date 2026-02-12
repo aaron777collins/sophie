@@ -19,38 +19,119 @@
 
 ---
 
-## Current Priority: Phase 1 - Core Matrix Integration 🚀
+## Current Priority: Phase 1 - Core Integration 🔧
 
-**Phase 0 COMPLETE** (verified 2026-02-12). All foundation tasks done, build passes.
+**p1-1 (Auth) COMPLETE** (2026-02-12). Login, registration, cookies, and provider done.
 
-**Now executing Phase 1:** Auth, Matrix sync, media services.
+**Now executing p1-2:** Real-Time Sync Migration — Matrix client, hooks, presence.
 
 See: `~/clawd/docs/haos-v2/TASK-BREAKDOWN.md` for full task list (94 tasks across 4 phases)
 See: `memory/projects/haos-v2/_overview.md` for current project state
-See: `scheduler/progress/p0-verify.md` for Phase 0 verification results
+
+### Phase 1 Progress
+| Section | Status | Tasks Done |
+|---------|--------|------------|
+| p1-1: Auth | ✅ Complete | 5/5 |
+| p1-2: Sync | 🚀 In Progress | 0/10 |
+| p1-3: Media | ⏳ Pending | 0/8 |
+| p1-4: Services | ⏳ Pending | 0/6 |
 
 ---
 
 ## Phase 1 Tasks (In Progress)
 
-### haos-v2-auth-manager-p1-1: Matrix Authentication (Manager) ✅
-- **Status:** completed
-- **Started:** 2026-02-12 00:03 EST
-- **Completed:** 2026-02-12 00:32 EST
+### haos-v2-sync-manager-p1-2: Real-Time Sync Migration (Manager)
+- **Status:** pending
 - **Min Model:** opus
-- **Description:** Coordinate auth migration — monitor sub-agents, integrate components
+- **Description:** Coordinate real-time sync migration — Matrix client singleton, React providers, hooks for rooms/messages/typing/presence/receipts, connection status UI. Manage sub-agents.
 - **Sub-Tasks:**
-  - haos-v2-matrix-auth-types-p1-1-a: ✅ completed
-  - haos-v2-matrix-login-p1-1-b: ✅ completed
-  - haos-v2-matrix-registration-p1-1-c: ✅ completed
-  - haos-v2-session-cookies-p1-1-d: ✅ completed
-  - haos-v2-auth-provider-p1-1-e: ✅ completed
-- **Manager Notes:**
-  - [00:03] Auth types done, login function starting
-  - [00:05] p1-1-b also completed! Both a and b done
-  - [00:14] Spawning c (registration) and d (cookies) in parallel
-  - [00:25] c and d both completed! Spawning e (auth provider)
-  - [00:32] e completed! ALL AUTH TASKS DONE ✅
+  - haos-v2-matrix-client-p1-2-a
+  - haos-v2-matrix-provider-p1-2-b
+  - haos-v2-client-hook-p1-2-c
+  - haos-v2-room-hook-p1-2-d
+  - haos-v2-messages-hook-p1-2-e
+
+### haos-v2-matrix-client-p1-2-a: Create Matrix Client Singleton
+- **Status:** pending
+- **Min Model:** sonnet
+- **Description:** Singleton Matrix SDK client instance with proper lifecycle management
+- **Files to Create:**
+  - `apps/web/lib/matrix/client.ts`
+- **Functions:**
+  - `initializeClient(session: MatrixSession): MatrixClient`
+  - `getClient(): MatrixClient | null`
+  - `destroyClient(): void`
+- **Success Criteria:**
+  - Only one client instance exists
+  - Client persists across navigation
+  - Clean shutdown on logout
+
+### haos-v2-matrix-provider-p1-2-b: Create MatrixProvider Context
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-matrix-client-p1-2-a
+- **Description:** React context managing Matrix client lifecycle, exposes client and sync state to app
+- **Files to Create:**
+  - `apps/web/components/providers/matrix-provider.tsx`
+- **Context Values:**
+  - `client: MatrixClient | null`
+  - `syncState: SyncState`
+  - `rooms: Room[]`
+  - `isReady: boolean`
+- **Success Criteria:**
+  - Client initializes when user logs in
+  - Sync state exposed to components
+  - Rooms update in real-time
+
+### haos-v2-client-hook-p1-2-c: Create useMatrixClient Hook
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-matrix-provider-p1-2-b
+- **Description:** Hook to access Matrix client with type safety
+- **Files to Create:**
+  - `apps/web/hooks/use-matrix-client.ts`
+- **Returns:**
+  - `client: MatrixClient | null`
+  - `isReady: boolean`
+- **Success Criteria:**
+  - Throws error if used outside provider
+  - Type-safe client access
+
+### haos-v2-room-hook-p1-2-d: Create useRoom Hook
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-client-hook-p1-2-c
+- **Description:** Hook to access single room data with reactive updates
+- **Files to Create:**
+  - `apps/web/hooks/use-room.ts`
+- **Parameters:** `roomId: string`
+- **Returns:**
+  - `room: Room | null`
+  - `members: RoomMember[]`
+  - `isLoading: boolean`
+  - `error: Error | null`
+- **Success Criteria:**
+  - Room data reactive to changes
+  - Members list updates on join/leave
+  - Handles room not found
+
+### haos-v2-messages-hook-p1-2-e: Create useRoomMessages Hook
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-room-hook-p1-2-d
+- **Description:** Hook for room message timeline with pagination
+- **Files to Create:**
+  - `apps/web/hooks/use-room-messages.ts`
+- **Parameters:** `roomId: string`
+- **Returns:**
+  - `messages: TimelineEvent[]`
+  - `isLoading: boolean`
+  - `loadMore(): Promise<void>`
+  - `hasMore: boolean`
+- **Success Criteria:**
+  - Messages appear in real-time
+  - Can paginate backwards
+  - Handles edit/delete updates
 
 ### haos-v2-matrix-auth-types-p1-1-a: Create Matrix Auth Types ✅
 - **Status:** completed
@@ -125,6 +206,109 @@ See: `scheduler/progress/p0-verify.md` for Phase 0 verification results
   - `components/providers/matrix-auth-provider.tsx`
   - `lib/matrix/actions/auth.ts`
 - **Summary:** MatrixAuthProvider context with useMatrixAuth() hook. Auto-validates session on mount, secure cookie handling via server actions. Build ✅ Lint ✅ Commit: 248f201
+
+---
+
+## Phase 1.2: Real-Time Sync Migration
+
+### haos-v2-sync-manager-p1-2: Real-Time Sync Migration (Manager)
+- **Status:** in-progress (manager)
+- **Started:** 2026-02-12 01:01 EST
+- **Min Model:** opus
+- **Description:** Coordinate sync migration — migrate from Socket.io to Matrix sync
+- **Sub-Tasks:**
+  - haos-v2-matrix-client-singleton-p1-2-a: 🔄 in-progress
+  - haos-v2-matrix-provider-p1-2-b: pending (blocked by a)
+  - haos-v2-use-matrix-client-p1-2-c: pending (blocked by b)
+  - haos-v2-use-room-p1-2-d: pending (blocked by b)
+  - haos-v2-use-room-messages-p1-2-e: pending (blocked by d)
+- **Manager Notes:**
+  - [01:01] Manager created, 5 initial sub-tasks populated
+  - [01:02] Starting p1-2-a (Matrix Client Singleton)
+
+### haos-v2-matrix-client-singleton-p1-2-a: Create Matrix Client Singleton
+- **Status:** in-progress
+- **Started:** 2026-02-12 01:02 EST
+- **Parent:** haos-v2-sync-manager-p1-2
+- **Min Model:** sonnet
+- **Description:** Singleton Matrix SDK client instance
+- **Files to Create:**
+  - `lib/matrix/client.ts`
+- **Functions:**
+  - `initializeClient(session: MatrixSession): MatrixClient`
+  - `getClient(): MatrixClient | null`
+  - `destroyClient(): void`
+- **Success Criteria:**
+  - Only one client instance exists
+  - Client persists across navigation
+  - Clean shutdown on logout
+
+### haos-v2-matrix-provider-p1-2-b: Create MatrixProvider Context
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-matrix-client-singleton-p1-2-a
+- **Description:** React context managing Matrix client lifecycle
+- **Files to Create:**
+  - `components/providers/matrix-provider.tsx`
+- **Context Values:**
+  - `client: MatrixClient | null`
+  - `syncState: SyncState`
+  - `rooms: Room[]`
+  - `isReady: boolean`
+- **Success Criteria:**
+  - Client initializes when user logs in
+  - Sync state exposed to components
+  - Rooms update in real-time
+
+### haos-v2-use-matrix-client-p1-2-c: Create useMatrixClient Hook
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-matrix-provider-p1-2-b
+- **Description:** Hook to access Matrix client
+- **Files to Create:**
+  - `hooks/use-matrix-client.ts`
+- **Returns:**
+  - `client: MatrixClient | null`
+  - `isReady: boolean`
+- **Success Criteria:**
+  - Throws error if used outside provider
+  - Type-safe client access
+
+### haos-v2-use-room-p1-2-d: Create useRoom Hook
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-matrix-provider-p1-2-b
+- **Description:** Hook to access single room data
+- **Files to Create:**
+  - `hooks/use-room.ts`
+- **Parameters:** `roomId: string`
+- **Returns:**
+  - `room: Room | null`
+  - `members: RoomMember[]`
+  - `isLoading: boolean`
+  - `error: Error | null`
+- **Success Criteria:**
+  - Room data reactive to changes
+  - Members list updates on join/leave
+  - Handles room not found
+
+### haos-v2-use-room-messages-p1-2-e: Create useRoomMessages Hook
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-use-room-p1-2-d
+- **Description:** Hook for room message timeline
+- **Files to Create:**
+  - `hooks/use-room-messages.ts`
+- **Parameters:** `roomId: string`
+- **Returns:**
+  - `messages: TimelineEvent[]`
+  - `isLoading: boolean`
+  - `loadMore(): Promise<void>`
+  - `hasMore: boolean`
+- **Success Criteria:**
+  - Messages appear in real-time
+  - Can paginate backwards
+  - Handles edit/delete updates
 
 ---
 
