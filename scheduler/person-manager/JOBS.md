@@ -20,10 +20,14 @@
 
 ## Issues Requiring Attention
 
-- ⚠️ **p1-2-a worker heartbeat stale** — Started but no updates. Monitor for progress or restart if needed.
+- 🔴 **No workers running!** — Heartbeats empty, 0/2 slots used despite unblocked tasks
+- ⚠️ **p1-2-d ready but not spawned** — Task is unblocked, needs worker
 
 ## Recent Actions
 
+- [2026-02-12 01:54 EST] **FULL AUDIT COMPLETED** — See `notes/health-checks/2026-02-12-0154.md`
+- [2026-02-12 01:54 EST] Updated p1-2 manager file (p1-2-c now marked complete)
+- [2026-02-12 01:54 EST] Identified work stoppage — no active workers
 - [2026-02-12 01:07 EST] Full system health check completed
 - [2026-02-12 01:07 EST] Cleaned up orphaned heartbeat: `p2-1-a.json` (5h stale)
 - [2026-02-12 01:07 EST] Sent health check report to Slack
