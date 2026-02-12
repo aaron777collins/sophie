@@ -149,6 +149,36 @@ Every piece of information MUST have a timestamp:
 - **Text > Brain** 📝
 - **Timestamps > Vague references** 📅
 
+## 🏗️ Management Hierarchy
+
+We use a layered management system. Each level has decreasing cron frequency going up.
+
+```
+👔 Person Manager (2x/day) ─ Meta-management, cleanup, oversight
+   └── 🎯 Coordinator (30 min) ─ Strategic project/topic management
+       └── 📋 Task Managers (15 min) ─ Tactical task coordination
+           └── ⚙️ Workers (spawned) ─ Execution
+```
+
+| Level | Agent | Cron | Model | Jobs File |
+|-------|-------|------|-------|-----------|
+| 1 | Person Manager | 2x/day | Sonnet | `scheduler/person-manager/JOBS.md` |
+| 2 | Coordinator | 30 min | Sonnet | `scheduler/coordinator/JOBS.md` |
+| 3 | Task Managers | 15 min | Varies | `PROACTIVE-JOBS.md` |
+| 4 | Workers | Never | Varies | N/A (spawned) |
+
+### Key Patterns
+
+1. **Every "person" has a jobs file** — only spawn if file has active items
+2. **Every "person" maintains hierarchical notes** — in their `notes/` folder
+3. **Every "person" can be spawned** — for direct conversation anytime
+4. **Jobs files must get emptied** — when work is complete
+5. **Cron frequency decreases going up** — strategic thinking > tactical action
+
+**Full spec:** `docs/MANAGEMENT-HIERARCHY.md`
+
+---
+
 ## Proactive Scheduler
 
 The proactive scheduler runs every 15 minutes via cron (Haiku).
