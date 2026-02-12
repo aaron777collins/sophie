@@ -53,6 +53,24 @@ Software engineer in Amherstburg, Ontario (EST). Builds agentic systems, does AI
 - [2026-02-12] **Workers give feedback to managers** — Obey, but raise issues so managers can make smarter decisions
 - [2026-02-12] **WRITE EVERYTHING DOWN FIRST** — Notes via hierarchical nested .md files are KEY
 - [2026-02-12] **Write outcomes before acting again** — Document what happened, then proceed
+- [2026-02-12] **Take action, don't just recommend** — Person Manager & Coordinator should DO things, not just suggest
+- [2026-02-12] **Manage direct reports only** — Don't skip levels; skim notes of direct dependents via Haiku/Sonnet
+
+**Management Hierarchy (REMEMBER THIS):**
+```
+👔 Person Manager (2x/day, Opus) — CEO, ALWAYS runs
+   └── 🎯 Coordinator (30 min, Sonnet) — Strategic, only if has work
+       └── 📋 Task Managers (15 min, varies) — Tactical, only if has work
+           └── ⚙️ Workers (spawned, varies) — Execution
+```
+
+Key files:
+- `docs/MANAGEMENT-HIERARCHY.md` — Full spec
+- `scheduler/person-manager/` — CEO jobs + notes
+- `scheduler/coordinator/` — Strategic jobs + notes
+- `scheduler/task-managers/` — Tactical jobs + notes
+- `scheduler/workers/` — Worker identity
+- `PROACTIVE-JOBS.md` — Task queue
 
 ---
 
