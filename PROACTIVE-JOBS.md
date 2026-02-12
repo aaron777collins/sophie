@@ -113,19 +113,18 @@ See: `scheduler/progress/p0-verify.md` for Phase 0 verification results
   - `hasSessionCookie`, `updateSessionTokens`
 - **Summary:** Secure httpOnly cookies with proper flags. Build ✅ Lint ✅
 
-### haos-v2-auth-provider-p1-1-e: Create MatrixAuthProvider Context
-- **Status:** in-progress
+### haos-v2-auth-provider-p1-1-e: Create MatrixAuthProvider Context ✅
+- **Status:** completed
 - **Started:** 2026-02-12 00:25 EST
+- **Completed:** 2026-02-12 00:53 EST
 - **Parent:** haos-v2-auth-manager-p1-1
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-session-cookies-p1-1-d
 - **Description:** React context providing auth state to app
-- **Files to Create:**
-  - `apps/web/components/providers/matrix-auth-provider.tsx`
-- **Success Criteria:**
-  - useMatrixAuth() hook available throughout app
-  - Auto-validates session on mount
-  - Handles loading/error states
+- **Files Created:**
+  - `components/providers/matrix-auth-provider.tsx`
+  - `lib/matrix/actions/auth.ts`
+- **Summary:** MatrixAuthProvider context with useMatrixAuth() hook. Auto-validates session on mount, secure cookie handling via server actions. Build ✅ Lint ✅ Commit: 248f201
 
 ---
 
