@@ -163,6 +163,23 @@
   - New modal types: serverBoost, createCategory, notificationSettings, editServerProfile
   - Git commit: 23bbae7
 
+### ✅ p2-2-c (Channel Category) Complete
+- [2026-02-19 14:50 EST] **p2-2-c: Channel Category ✅** — `components/server/server-section.tsx`
+  - Enhanced existing ServerSection component with persistent state per server
+  - ✅ Category name with collapse arrow (ChevronRight with smooth rotation)
+  - ✅ Create channel button (admin only) - shows for role !== MemberRole.GUEST
+  - ✅ Smooth collapse/expand animation with CSS transitions
+  - ✅ Persistent state per server using localStorage with server-specific keys
+  - ✅ State isolated per server using keys: `haos-collapse-{serverId}-{sectionType}-{channelType}`
+  - ✅ Updated all ServerSection usage sites to pass serverId prop
+  - Production-ready: Full validation passed, TypeScript ✓, ESLint ✓
+  - All success criteria met: toggle works, state persists per server, admin controls work, animations smooth
+- [2026-02-19 20:38 EST] **p2-2-c: Verified Complete** — Agent validation confirmed task completion
+  - ✅ Component properly integrated in server-sidebar-content.tsx
+  - ✅ ESLint passes, proper TypeScript types
+  - ✅ All success criteria independently verified
+  - Task was already complete per PROACTIVE-JOBS.md - validation successful
+
 ### ✅ p1-3-a (Matrix Media Types) Complete
 - [2026-02-15 20:38 EST] **p1-3-a: Matrix media types ✅** — `lib/matrix/types/media.ts`
   - Comprehensive TypeScript types for Matrix media handling and mxc:// URLs
@@ -334,6 +351,23 @@
   - ✅ Added react-markdown dependency to project
   - Production-ready: 18KB, TypeScript ✓, ESLint ✓
   - Git commit: 46d50e9
+
+### ✅ p2-3-c (Message Input Component) Complete
+- [2026-02-17 21:30 EST] **p2-3-c: Discord-style chat input composer ✅** — `apps/web/components/chat/chat-input.tsx`
+  - Discord-style message input with full Matrix integration
+  - ✅ Multi-line textarea with auto-resize (44-200px height range)
+  - ✅ File attachment button (opens Matrix FileUpload modal)
+  - ✅ Emoji picker integration (existing EmojiPicker component)
+  - ✅ Send on Enter, Shift+Enter for newline, Escape to clear
+  - ✅ Typing indicator integration via useTypingIndicator hook
+  - ✅ Matrix sendMessage service integration with markdown support
+  - ✅ Slash commands support preparation (/me, /shrug, /tableflip, /unflip)
+  - ✅ Character limit enforcement (4000 chars) with visual feedback
+  - ✅ Discord UX patterns (styling, animations, keyboard shortcuts)
+  - ✅ Updated message-file-modal.tsx for Matrix media upload system
+  - ✅ Updated modal store types for Matrix file upload workflow
+  - Production-ready: 14.3KB, comprehensive TypeScript types, full error handling
+  - All success criteria met: Matrix sending, file uploads, emoji insertion, typing indicators
 
 ### ❌ What's Broken / Incomplete
 - Next.js version has security vulnerability (minor, should upgrade)
