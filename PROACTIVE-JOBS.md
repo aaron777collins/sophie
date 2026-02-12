@@ -225,7 +225,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - haos-v2-matrix-client-singleton-p1-2-a: ✅ completed
   - haos-v2-matrix-provider-p1-2-b: ✅ completed
   - haos-v2-use-matrix-client-p1-2-c: ✅ completed
-  - haos-v2-use-room-p1-2-d: pending (unblocked, ready)
+  - haos-v2-use-room-p1-2-d: in-progress
   - haos-v2-use-room-messages-p1-2-e: pending (blocked by d)
 - **Manager Notes:**
   - [01:01] Manager created, 5 initial sub-tasks populated
@@ -334,7 +334,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 
 ### haos-v2-use-room-p1-2-d: Create useRoom Hook
 - **Status:** in-progress
-- **Started:** 2026-02-12 17:00 EST
+- **Started:** 2026-02-12 02:01 EST
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-matrix-provider-p1-2-b
 - **Description:** Hook to access single room data

@@ -10,7 +10,7 @@ Migrate HAOS v2 from Socket.io to Matrix sync for real-time functionality.
 | p1-2-a | Matrix Client Singleton | ✅ completed | - |
 | p1-2-b | MatrixProvider Context | ✅ completed | a |
 | p1-2-c | useMatrixClient Hook | ✅ completed | b |
-| p1-2-d | useRoom Hook | ⏳ pending (unblocked) | b |
+| p1-2-d | useRoom Hook | 🔄 in-progress | b |
 | p1-2-e | useRoomMessages Hook | ⏳ pending | d |
 
 ## Execution Order
