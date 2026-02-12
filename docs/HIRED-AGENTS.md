@@ -119,8 +119,67 @@ Each sub-agent:
 3. **Does focused work** on their piece
 4. **Takes detailed notes** in their progress file
 5. **Hires own sub-agents** if task still too complex
-6. **Reports completion** by updating status
-7. **Notifies** manager (Slack message + status update)
+6. **Commits work** atomically (see Git Workflow below)
+7. **Reports completion** by updating status
+8. **Notifies** manager (Slack message + status update)
+
+## 📦 Git Workflow (Atomic Commits)
+
+**Every task completion = git commit.** Work must be recoverable.
+
+### Sub-Task Commits
+
+When completing a leaf task:
+```bash
+cd /home/ubuntu/repos/{project}
+git add -A
+git commit -m "{task-id}: {brief description}"
+```
+
+### Parent/Manager Commits
+
+When all children complete, the manager:
+```bash
+# Verify sub-task commits exist
+git log --oneline -10
+
+# Integration commit if needed
+git add -A
+git commit -m "{task-id}: Complete {feature}
+
+Sub-tasks:
+- {child-1}: description
+- {child-2}: description"
+
+# Push to remote
+git push origin main
+```
+
+### Phase Completion
+
+When entire phase completes:
+```bash
+# Tag the milestone
+git tag -a "phase-{N}-complete" -m "Phase {N}: {description}"
+git push origin --tags
+
+# Deploy if appropriate
+# (check for deploy script, notify Slack first)
+```
+
+### Commit Message Format
+
+```
+{task-id}: {imperative verb} {what}
+
+- Detail 1
+- Detail 2
+```
+
+Examples:
+- `p1-1-a: Create Matrix auth types`
+- `p1-1-b: Implement Matrix login function`
+- `p1-1: Complete Matrix authentication (5 sub-tasks)`
 
 ## Processing Order
 

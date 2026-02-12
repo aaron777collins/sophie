@@ -323,6 +323,7 @@ When spawned for a proactive task:
    - ✅ Update `memory/projects/{project}/_overview.md` with final status
    - ✅ Add completion entry to `memory/daily/YYYY-MM-DD.md` with timestamp
    - ✅ Include validation summary: "Validated: build ✓, tests ✓, deps ✓"
+   - ✅ **Git commit** your changes (see Git Workflow below)
    - ✅ Auto-archive task in `PROACTIVE-JOBS.md` (change `Status: in-progress` → `Status: completed`)
    - ✅ **DELETE heartbeat file** using exec tool: `rm ~/clawd/scheduler/heartbeats/{task-id}.json`
    - ✅ **Send Slack notification** using the `message` tool with these parameters:
@@ -332,6 +333,87 @@ When spawned for a proactive task:
      - message: "✅ [{task-id}] Completed! {brief summary}"
    
    > ⚠️ **ALL MODELS: Follow these steps EXACTLY. Do not skip the heartbeat deletion or Slack notification.**
+
+### 📦 Git Workflow (Atomic Commits)
+
+**Every task = atomic commit.** This keeps work recoverable and reviewable.
+
+#### For Sub-Tasks (Leaf Work)
+
+When you complete a sub-task:
+```bash
+cd /home/ubuntu/repos/{project}
+git add -A
+git commit -m "{task-id}: {brief description}
+
+- What was implemented
+- Key files changed
+- Any notes for reviewers"
+```
+
+**Commit message format:**
+- `p1-1-a: Create Matrix auth types`
+- `p1-1-b: Implement Matrix login function`
+
+#### For Parent Tasks (Manager Completion)
+
+When ALL sub-tasks are done and you're completing the parent:
+```bash
+# 1. Ensure all sub-task commits are in
+git log --oneline -10  # verify sub-task commits
+
+# 2. Final integration commit (if needed)
+git add -A
+git commit -m "{parent-task-id}: Complete {feature}
+
+Sub-tasks completed:
+- {sub-task-1}: description
+- {sub-task-2}: description
+
+Integration work:
+- Any final wiring/cleanup"
+
+# 3. Push to remote
+git push origin main
+```
+
+#### For Phase Completion
+
+When an entire phase completes:
+```bash
+# 1. Tag the milestone
+git tag -a "phase-{N}-complete" -m "Phase {N}: {description}"
+git push origin --tags
+
+# 2. If deployment is appropriate:
+#    - Check if deploy script exists
+#    - Notify in Slack before deploying
+#    - Run deploy: `./scripts/deploy.sh` (if exists)
+```
+
+#### Branch Strategy (Optional)
+
+For risky changes, use feature branches:
+```bash
+git checkout -b {task-id}
+# ... do work ...
+git push -u origin {task-id}
+# Create PR or merge directly if low-risk
+git checkout main && git merge {task-id}
+git push origin main
+```
+
+**Default:** Commit directly to main for standard task work. Branch for risky/experimental changes.
+
+#### Memory Repo (~/clawd)
+
+For memory/doc changes in the clawd workspace:
+```bash
+cd ~/clawd
+git add -A
+git commit -m "docs: {description}" # or "memory: {description}"
+git push origin master
+```
 
 7. **On failure (can't complete at your tier):**
    - Log reason in progress file with full context
