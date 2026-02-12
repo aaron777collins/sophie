@@ -1,6 +1,6 @@
 # HAOS v2 Project Overview
 
-**Last Updated:** [2026-02-12 00:40 EST]
+**Last Updated:** [2026-02-12 05:35 EST]
 
 ## Quick Reference
 
@@ -33,7 +33,10 @@
 ### 🚧 Phase 1 In Progress
 - [2026-02-12 06:48 EST] p1-1-a: Created Matrix auth types (auth.ts) ✅
 - [2026-02-12 06:54 EST] p1-1-b: Implemented Matrix login function (auth.ts) ✅
-- Next: p1-1-c (registration function), p1-1-d (cookies), p1-1-e (auth provider)
+- [2026-02-12 00:36 EST] p1-1-c: Implemented Matrix registration functions (auth.ts) ✅
+  - `checkUsernameAvailable()` and `register()` with full UIAA support
+- [2026-02-12 05:35 EST] p1-1-d: Implemented session cookie management (cookies.ts) ✅
+- Next: p1-1-e (NextAuth provider)
 
 ### ❌ What's Broken / Incomplete
 - No auth system yet (types done, functions pending)

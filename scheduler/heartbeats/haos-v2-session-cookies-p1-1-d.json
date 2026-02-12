@@ -1,9 +1,0 @@
-{
-  "taskId": "haos-v2-session-cookies-p1-1-d",
-  "sessionKey": "agent:main:subagent:d78f7bfa-0810-4590-ac25-2d636f3325c1",
-  "startedAt": "2026-02-12T10:30:00Z",
-  "lastHeartbeat": "2026-02-12T10:30:00Z",
-  "status": "running",
-  "currentPhase": "Reading context and planning implementation",
-  "model": "opus"
-}

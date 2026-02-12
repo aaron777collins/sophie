@@ -160,13 +160,14 @@ It orchestrates **continuous project work** defined in `PROACTIVE-JOBS.md`.
 > 
 > | Task Type | How to Identify | Counts As |
 > |-----------|-----------------|-----------|
-> | **Manager task** | Has `Sub-Tasks:` list | 1 slot (includes all its sub-tasks) |
-> | **Standalone task** | No `Parent:` field, no sub-tasks | 1 slot |
-> | **Sub-task** | Has `Parent:` field | Part of parent (0 slots) |
+> | **Leaf task** | `Status: in-progress` + no sub-tasks running | 1 slot |
+> | **Manager task** | Has `Sub-Tasks:` list, coordinates work | 0 slots (coordination only) |
 > 
-> **Example:** `haos-v2-auth-manager-p1-1` running with 3 sub-agents = **1 slot**, not 4
+> **Count the actual running agents, not the hierarchy.**
 > 
-> Keep at most **2 top-level slots** active. This prevents resource contention while allowing managers to parallelize their sub-work.
+> **Example:** Manager `p1-1` with sub-agents `c` and `d` running = **2 slots** (c + d)
+> 
+> Keep at most **2 leaf tasks** running. Managers don't count — they're coordination overhead.
 
 ### 📚 Spawning Sub-Agents
 

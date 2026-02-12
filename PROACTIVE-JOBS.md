@@ -9,12 +9,11 @@
 > - **Read BOTH before starting. Update BOTH while working.**
 
 > 🔢 **TASK COUNTING RULES:**
-> - **Manager tasks** (with Sub-Tasks listed) = 1 slot, includes all its sub-tasks
-> - **Standalone tasks** (no Parent field) = 1 slot each
-> - **Sub-tasks** (have `Parent:` field) = part of parent, DON'T count separately
-> - **Max 2 top-level task slots active** — but a manager can run multiple sub-agents
+> - **Leaf tasks** (in-progress, no sub-tasks of their own running) = 1 slot each
+> - **Manager tasks** (coordinate sub-agents) = 0 slots (coordination overhead)
+> - **Max 2 leaf task slots active** — count actual running agents, not hierarchy
 > 
-> Example: `haos-v2-auth-manager-p1-1` running with 2 sub-agents (c, d) = **1 slot**, not 3
+> Example: `haos-v2-auth-manager-p1-1` with sub-agents c + d running = **2 slots** (at capacity)
 
 > 🧠 **MODEL:** Use **Opus** for verification/complex tasks, **Sonnet** for implementation
 
