@@ -8,7 +8,13 @@
 > - **Project Memory:** `memory/projects/haos-v2/_overview.md` — Project state
 > - **Read BOTH before starting. Update BOTH while working.**
 
-> 🔢 **RUN 1 TASK AT A TIME** — No resource conflicts
+> 🔢 **TASK COUNTING RULES:**
+> - **Manager tasks** (with Sub-Tasks listed) = 1 slot, includes all its sub-tasks
+> - **Standalone tasks** (no Parent field) = 1 slot each
+> - **Sub-tasks** (have `Parent:` field) = part of parent, DON'T count separately
+> - **Max 2 top-level task slots active** — but a manager can run multiple sub-agents
+> 
+> Example: `haos-v2-auth-manager-p1-1` running with 2 sub-agents (c, d) = **1 slot**, not 3
 
 > 🧠 **MODEL:** Use **Opus** for verification/complex tasks, **Sonnet** for implementation
 
@@ -36,8 +42,8 @@ See: `scheduler/progress/p0-verify.md` for Phase 0 verification results
 - **Sub-Tasks:**
   - haos-v2-matrix-auth-types-p1-1-a: ✅ completed
   - haos-v2-matrix-login-p1-1-b: ✅ completed
-  - haos-v2-matrix-registration-p1-1-c: pending (unblocked now)
-  - haos-v2-session-cookies-p1-1-d: pending (unblocked now)
+  - haos-v2-matrix-registration-p1-1-c: 🔄 in-progress (spawned)
+  - haos-v2-session-cookies-p1-1-d: 🔄 in-progress (spawned)
   - haos-v2-auth-provider-p1-1-e: pending (blocked by d)
 - **Manager Notes:**
   - [00:03] Auth types done, login function starting
