@@ -1,6 +1,6 @@
 # HAOS v2 Project Overview
 
-**Last Updated:** [2026-02-12 05:35 EST]
+**Last Updated:** [2026-02-12 00:53 EST]
 
 ## Quick Reference
 
@@ -36,11 +36,23 @@
 - [2026-02-12 00:36 EST] p1-1-c: Implemented Matrix registration functions (auth.ts) ✅
   - `checkUsernameAvailable()` and `register()` with full UIAA support
 - [2026-02-12 05:35 EST] p1-1-d: Implemented session cookie management (cookies.ts) ✅
-- Next: p1-1-e (NextAuth provider)
+- [2026-02-12 00:53 EST] p1-1-e: Created MatrixAuthProvider React context ✅
+  - Provider + useMatrixAuth() hook with login, logout, register, auto-validate
+  - Server actions for secure cookie handling
+  - Files: `components/providers/matrix-auth-provider.tsx`, `lib/matrix/actions/auth.ts`
+- **Auth system P1-1 COMPLETE!** Ready for integration
 
 ### ❌ What's Broken / Incomplete
-- No auth system yet (types done, functions pending)
 - Next.js version has security vulnerability (minor, should upgrade)
+- Auth system needs to be wired into app layout (MatrixAuthProvider)
+
+### 📁 File Structure Note
+Matrix auth files are at **`lib/matrix/`** (root level), NOT `apps/web/lib/`:
+- `lib/matrix/types/auth.ts` — TypeScript types
+- `lib/matrix/auth.ts` — Login, register, logout, validate functions
+- `lib/matrix/cookies.ts` — Session cookie management
+- `lib/matrix/actions/auth.ts` — Server actions for client components
+- `components/providers/matrix-auth-provider.tsx` — React context provider
 
 ### 🚧 Ready for Phase 1
 Phase 0 is complete. Ready to begin Phase 1: Core Matrix Integration
@@ -60,11 +72,13 @@ Phase 0 is complete. Ready to begin Phase 1: Core Matrix Integration
 ### Media Architecture
 - **Video rooms by default** — rooms support video, audio, screensharing
 - **Cameras OFF by default** — users opt-in to video, not auto-enabled
-- **Multi-screenshare** — multiple people can screenshare simultaneously (Element/Discord style)
-- **Snappy UI** — fast, responsive video grid like Element video rooms + Discord
+- **Discord UI** — LOOKS like Discord (the whole app is Discord-styled)
+- **Element-level features** — multi-screenshare, video grid, etc. (feature parity with Element video rooms)
 - **P2P for direct calls** — 1:1 calls use peer-to-peer when possible
 - **Self-hosted LiveKit** — all media routes through our LiveKit server
 - **E2EE everywhere** — end-to-end encryption for all media streams
+
+> **Clarification:** The UI/UX is Discord. Element video rooms are referenced for *features*, not aesthetics.
 
 ## Architecture Decisions
 
