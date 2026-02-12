@@ -156,7 +156,17 @@ It orchestrates **continuous project work** defined in `PROACTIVE-JOBS.md`.
 
 > ⚠️ **NOT for scheduled jobs!** Daily/weekly tasks use regular cron, not this.
 
-> 🔢 **Max 2 Dev Tasks In-Progress:** Keep at most 2 tasks with `Status: in-progress` at a time. Remaining tasks stay `pending` (scheduled but not running). This prevents resource contention and context switching overhead.
+> 🔢 **Task Slot Counting (Max 2 Slots Active):**
+> 
+> | Task Type | How to Identify | Counts As |
+> |-----------|-----------------|-----------|
+> | **Manager task** | Has `Sub-Tasks:` list | 1 slot (includes all its sub-tasks) |
+> | **Standalone task** | No `Parent:` field, no sub-tasks | 1 slot |
+> | **Sub-task** | Has `Parent:` field | Part of parent (0 slots) |
+> 
+> **Example:** `haos-v2-auth-manager-p1-1` running with 3 sub-agents = **1 slot**, not 4
+> 
+> Keep at most **2 top-level slots** active. This prevents resource contention while allowing managers to parallelize their sub-work.
 
 ### 📚 Spawning Sub-Agents
 
