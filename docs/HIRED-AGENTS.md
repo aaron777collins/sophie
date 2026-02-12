@@ -252,6 +252,60 @@ The Hired Agents system is working when:
 7. ✅ The Circle/Council used for decisions
 8. ✅ No task stays "too complex" - always decomposes
 
+## 🧹 Note Sweep Agents
+
+**Critical pattern:** When changes affect existing documentation, spawn a note-sweep agent.
+
+### When to Spawn Note Sweeps
+
+- Project renamed or relocated
+- Approach deprecated for new one  
+- File structure reorganized
+- Key decision reversed
+- Anything that could leave stale references
+
+### Note Sweep Task Format
+
+```markdown
+### {task-id}-note-sweep
+- **Status:** pending
+- **Parent:** {task-id}
+- **Min Model:** haiku
+- **Description:** Find and update all references to {old-thing} → {new-thing}
+- **Search Locations:**
+  - `memory/` (projects, topics, dailies)
+  - `scheduler/progress/`
+  - `docs/`
+  - `*.md` in workspace root
+- **Actions:**
+  - Update paths/names to current
+  - Add deprecation notices to old locations
+  - Explain what changed and why
+  - Report all updates in progress file
+```
+
+### Sweep Agent Workflow
+
+1. `grep -r "{old-name}" ~/clawd/` to find all occurrences
+2. For each file:
+   - If reference is primary → update to new path/name
+   - If historical context → add note explaining change
+   - If deprecated doc → add deprecation header pointing to new
+3. Update progress file with list of all files changed
+4. Update INDEX.md if project/topic references changed
+
+### Deprecation Format
+
+```markdown
+> ⚠️ **DEPRECATED** [2026-02-11]: This was replaced by {new-thing}.
+> **Reason:** {why it changed}
+> **See:** `{path/to/new}` for current approach.
+```
+
+**Goal:** Any agent reading old notes immediately knows what's current vs stale.
+
+---
+
 ## Anti-Patterns
 
 ❌ **Over-hiring:** Creating sub-agents for trivial work (overhead > benefit)
@@ -260,3 +314,4 @@ The Hired Agents system is working when:
 ❌ **Orphan sub-agents:** Sub-agents without clear parent coordination
 ❌ **Flat decomposition:** Breaking into too many peers instead of hierarchy
 ❌ **Premature completion:** Marking parent done before children finish
+❌ **Stale notes:** Making changes without updating related documentation

@@ -32,6 +32,31 @@ You wake up fresh each session. The `memory/` folder is your continuity — orga
 2. **ALWAYS TIMESTAMP** — every entry: `[YYYY-MM-DD HH:MM TZ]`
 3. **ALWAYS RECORD** — significant events, learnings, decisions → files
 4. **ALWAYS TRACK INSTANCES** — multiple learnings = multiple dated entries
+5. **ALWAYS UPDATE OLD NOTES** — when things change, find and fix stale references
+
+### 🔄 Note Maintenance (Critical!)
+
+**Stale notes cause confusion and wasted time.** When you make significant changes:
+
+1. **Spawn a sub-agent** to find and update all related notes
+2. **Search broadly** — `memory/`, `scheduler/progress/`, `docs/`, `PROACTIVE-JOBS.md`
+3. **Update references** — old path → new path, old name → new name
+4. **Explain changes** — add a note: `[DATE] ⚠️ Changed: {was} → {now} because {reason}`
+5. **Don't delete history** — mark old things as deprecated, point to new
+
+**Examples of changes requiring note sweeps:**
+- Project renamed or relocated (haos → haos-v2)
+- Approach abandoned for new one
+- File structure reorganized
+- Key decision reversed
+
+**Format for deprecation notes:**
+```markdown
+> ⚠️ **DEPRECATED** [2026-02-11]: This project was abandoned due to {reason}.
+> See: `{new-location}` for the current approach.
+```
+
+**The goal:** Any agent reading old notes should immediately understand what's current and what's stale.
 
 ### 📁 Memory Structure (Self-Scaling)
 
@@ -384,6 +409,30 @@ scheduler/progress/
 5. **Integrate** completed work
 6. **Use The Circle/Council** for cross-cutting decisions
 7. **Complete** only after ALL children complete
+8. **Spawn note-sweep agent** when changes affect other docs (see below)
+
+#### 🧹 Note Sweep Pattern
+
+When significant changes happen (rename, deprecate, pivot, restructure):
+
+1. **Spawn a sub-agent** specifically for note maintenance:
+   ```markdown
+   ### {task-id}-note-sweep
+   - **Status:** pending
+   - **Parent:** {task-id}
+   - **Min Model:** haiku
+   - **Description:** Find and update all references to {old-thing}
+   - **Search:** memory/, scheduler/progress/, docs/, *.md
+   - **Update:** Point old → new, mark deprecated, explain changes
+   ```
+
+2. **The sweep agent should:**
+   - `grep -r "{old-name}" ~/clawd/` to find all references
+   - Update each file with current info
+   - Add deprecation notices where needed
+   - Report what was updated in progress file
+
+**This prevents future agents from wasting time on stale information.**
 
 #### Sub-Agent Responsibilities
 

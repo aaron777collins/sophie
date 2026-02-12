@@ -2,7 +2,7 @@
 
 *Master navigation for Sophie's self-scaling hierarchical memory system (v2).*
 
-**Last Updated:** [2026-02-10 00:01 EST]
+**Last Updated:** [2026-02-12 00:41 EST]
 
 ---
 
@@ -28,7 +28,8 @@
 | Project | Status | Last Updated | Description |
 |---------|--------|--------------|-------------|
 | [Proactive Tasks](projects/proactivetasks.md) | ✅ Live | 2026-02-09 | Autonomous continuous work system |
-| [HAOS](projects/haos/_overview.md) | ✅ Core Implementation Complete | 2026-02-10 | Discord-clone UI for Element-web (proactive task) |
+| [HAOS v2](projects/haos-v2/_overview.md) | 🚀 Phase 1 Ready | 2026-02-12 | Discord-clone Matrix client (fresh build, not Element fork) |
+| ~~[HAOS v1](projects/haos/_overview.md)~~ | ❌ Abandoned | 2026-02-11 | Element Web fork — intractable webpack issues |
 | [Matrix on dev2](projects/matrix-dev2.md) | ✅ Live | 2026-02-09 | Self-hosted Matrix/Element/Synapse |
 | [ConnectedDrivingPipelineV4](projects/connected-driving-pipeline.md) | 🟢 Active | 2026-02-04 | ML pipeline for CV data (**Jaekel server only**) |
 | [Jaekel Server](projects/jaekel-server.md) | 🟢 Active | 2026-02-04 | Dedicated 64GB research server |
