@@ -18,6 +18,22 @@ A sub-agent's job is to:
 2. Document everything in progress file
 3. Update heartbeat regularly
 4. Report completion/failure to parent
+5. **UPDATE PROACTIVE-JOBS.md when done!**
+
+---
+
+> 🚨 **CRITICAL: Sub-agents MUST update PROACTIVE-JOBS.md on completion!**
+> 
+> The proactive scheduler ONLY reads `PROACTIVE-JOBS.md` to determine what's done.
+> If a sub-agent completes but doesn't update the file:
+> - Scheduler thinks task is still running
+> - Next task never starts
+> - Work stalls
+> 
+> **Every sub-agent must edit PROACTIVE-JOBS.md:**
+> 1. Change `Status: in-progress` → `Status: completed`
+> 2. Add `Completed: YYYY-MM-DD HH:MM EST`
+> 3. Update parent's Sub-Tasks list
 
 ---
 
@@ -107,13 +123,16 @@ Add to apps/web/lib/matrix/auth.ts:
 2. Update memory/projects/haos-v2/_overview.md
 3. Add entry to memory/daily/YYYY-MM-DD.md
 4. Git commit your changes
-5. Delete your heartbeat file
-6. Send Slack notification to C0ABAU26S6N
+5. **🚨 UPDATE ~/clawd/PROACTIVE-JOBS.md** — CRITICAL!
+   - Change YOUR task's Status: in-progress → Status: completed
+   - Add Completed: timestamp
+   - Update parent's Sub-Tasks list to show ✅ completed
+6. Delete your heartbeat file: rm ~/clawd/scheduler/heartbeats/p1-1-c.json
+7. Send Slack notification to C0ABAU26S6N
 
 ## IF YOU GET STUCK
 Document what you tried in progress file, mark status as blocked, and explain the issue.
 """,
-  agentId = "sonnet",  # or appropriate model
   label = "p1-1-c"
 )
 ```
@@ -162,8 +181,13 @@ You are sub-agent {TASK_ID} working on {PROJECT_NAME}.
 2. Update memory/projects/{PROJECT}/_overview.md
 3. Add entry to memory/daily/YYYY-MM-DD.md
 4. Git commit your changes
-5. Delete your heartbeat file: rm ~/clawd/scheduler/heartbeats/{TASK_ID}.json
-6. Send Slack notification to C0ABAU26S6N
+5. **🚨 UPDATE PROACTIVE-JOBS.md** — CRITICAL! Edit ~/clawd/PROACTIVE-JOBS.md:
+   - Change YOUR task's `Status: in-progress` → `Status: completed`
+   - Add `Completed: YYYY-MM-DD HH:MM EST` field
+   - Update parent's Sub-Tasks list (change your entry to ✅ completed)
+   - THE SCHEDULER READS THIS TO START NEXT TASKS!
+6. Delete your heartbeat file: rm ~/clawd/scheduler/heartbeats/{TASK_ID}.json
+7. Send Slack notification to C0ABAU26S6N: "✅ [{TASK_ID}] Completed! {summary}"
 
 ## IF YOU GET STUCK
 Document what you tried in progress file, mark status as blocked, and explain the issue.

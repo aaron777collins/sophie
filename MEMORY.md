@@ -43,7 +43,8 @@ Software engineer in Amherstburg, Ontario (EST). Builds agentic systems, does AI
 **Key Principles (NON-NEGOTIABLE):**
 - [2026-02-12] **NO STUBS** — Full implementations only. No placeholders, no "TODO later", no skeleton code. "Done" = production-ready.
 - [2026-02-12] **Self-hosted** — All services run on Aaron's servers, not third-party
-- [2026-02-12] **Federation when opted in** — Matrix federation fully supported
+- [2026-02-12] **Federation** — Matrix federation enabled but **INVITE-ONLY by default**
+- [2026-02-12] **HAOS Media** — Self-hosted LiveKit with E2EE, video rooms by default, P2P direct calls, full audio/video/screensharing
 
 ---
 

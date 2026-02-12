@@ -49,9 +49,19 @@ Phase 0 is complete. Ready to begin Phase 1: Core Matrix Integration
 
 | Requirement | Details |
 |-------------|---------|
-| **Self-Hosted** | Everything runs on Aaron's servers, not third-party services |
-| **Federation** | Full Matrix federation support when opted in |
+| **Self-Hosted** | Everything runs on Aaron's servers — all data, all traffic |
+| **Federation** | Matrix federation enabled but **INVITE-ONLY by default** |
+| **Security** | Very secure, invite-only access to system |
+| **LiveKit** | Self-hosted LiveKit with E2EE for all real-time media |
+| **Video Rooms** | Default to video rooms (not voice-only) |
+| **Full Media** | Audio, video, screensharing, P2P direct calls |
 | **Full Implementations** | NO stubs, NO placeholders, NO "TODO later" — production-ready only |
+
+### Media Architecture
+- **Video rooms by default** — rooms support video, audio, screensharing
+- **P2P for direct calls** — 1:1 calls use peer-to-peer when possible
+- **Self-hosted LiveKit** — all media routes through our LiveKit server
+- **E2EE everywhere** — end-to-end encryption for all media streams
 
 ## Architecture Decisions
 

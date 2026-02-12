@@ -353,7 +353,11 @@ When spawned for a proactive task:
    - ✅ Add completion entry to `memory/daily/YYYY-MM-DD.md` with timestamp
    - ✅ Include validation summary: "Validated: build ✓, tests ✓, deps ✓"
    - ✅ **Git commit** your changes (see Git Workflow below)
-   - ✅ Auto-archive task in `PROACTIVE-JOBS.md` (change `Status: in-progress` → `Status: completed`)
+   - ✅ **UPDATE PROACTIVE-JOBS.md** — This is CRITICAL! Edit the file:
+     - Change your task's `Status: in-progress` → `Status: completed`
+     - Add `Completed: YYYY-MM-DD HH:MM EST` field
+     - Update parent's Sub-Tasks list (your task: ✅ completed)
+     - **The scheduler reads this file to know what's done!**
    - ✅ **DELETE heartbeat file** using exec tool: `rm ~/clawd/scheduler/heartbeats/{task-id}.json`
    - ✅ **Send Slack notification** using the `message` tool with these parameters:
      - action: "send"
@@ -361,7 +365,11 @@ When spawned for a proactive task:
      - target: "channel:C0ABAU26S6N"
      - message: "✅ [{task-id}] Completed! {brief summary}"
    
-   > ⚠️ **ALL MODELS: Follow these steps EXACTLY. Do not skip the heartbeat deletion or Slack notification.**
+   > 🚨 **CRITICAL: UPDATE PROACTIVE-JOBS.md!**
+   > The proactive scheduler ONLY reads PROACTIVE-JOBS.md to determine what's done.
+   > If you don't update it, the next task won't start automatically!
+   
+   > ⚠️ **ALL MODELS: Follow these steps EXACTLY. Do not skip ANY step.**
 
 ### 📦 Git Workflow (Atomic Commits)
 
