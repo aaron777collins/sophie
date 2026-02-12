@@ -32,7 +32,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 | Section | Status | Tasks Done |
 |---------|--------|------------|
 | p1-1: Auth | ✅ Complete | 5/5 |
-| p1-2: Sync | 🚀 In Progress | 1/10 |
+| p1-2: Sync | 🚀 In Progress | 2/10 |
 | p1-3: Media | ⏳ Pending | 0/8 |
 | p1-4: Services | ⏳ Pending | 0/6 |
 
@@ -223,13 +223,15 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 - **Description:** Coordinate sync migration — migrate from Socket.io to Matrix sync
 - **Sub-Tasks:**
   - haos-v2-matrix-client-singleton-p1-2-a: ✅ completed
-  - haos-v2-matrix-provider-p1-2-b: pending (unblocked, ready)
-  - haos-v2-use-matrix-client-p1-2-c: pending (blocked by b)
-  - haos-v2-use-room-p1-2-d: pending (blocked by b)
+  - haos-v2-matrix-provider-p1-2-b: ✅ completed
+  - haos-v2-use-matrix-client-p1-2-c: pending (unblocked, ready)
+  - haos-v2-use-room-p1-2-d: pending (unblocked, ready)
   - haos-v2-use-room-messages-p1-2-e: pending (blocked by d)
 - **Manager Notes:**
   - [01:01] Manager created, 5 initial sub-tasks populated
   - [01:02] Starting p1-2-a (Matrix Client Singleton)
+  - [02:20] p1-2-a completed (Matrix Client Singleton) — lib/matrix/client.ts
+  - [08:15] p1-2-b completed (MatrixProvider) — components/providers/matrix-provider.tsx
 
 ### haos-v2-matrix-client-singleton-p1-2-a: Create Matrix Client Singleton ✅
 - **Status:** completed
@@ -280,22 +282,34 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - `useSpaces()` hook returns empty array until Matrix SDK integration (p1-2-b, p1-4-a)
   - When Matrix client ready, update `hooks/use-spaces.ts` to use real data
 
-### haos-v2-matrix-provider-p1-2-b: Create MatrixProvider Context
-- **Status:** in-progress
-- **Min Model:** sonnet
+### haos-v2-matrix-provider-p1-2-b: Create MatrixProvider Context ✅
+- **Status:** completed
+- **Started:** 2026-02-12 08:05 EST
+- **Completed:** 2026-02-12 08:15 EST
+- **Parent:** haos-v2-sync-manager-p1-2
+- **Min Model:** sonnet (ran as opus)
 - **Depends On:** haos-v2-matrix-client-singleton-p1-2-a
 - **Description:** React context managing Matrix client lifecycle
-- **Files to Create:**
-  - `components/providers/matrix-provider.tsx`
+- **Files Created:**
+  - `components/providers/matrix-provider.tsx` — 381 lines
 - **Context Values:**
   - `client: MatrixClient | null`
-  - `syncState: SyncState`
+  - `syncState: SyncState | null`
   - `rooms: Room[]`
   - `isReady: boolean`
+  - `isSyncing: boolean`
+  - `syncError: Error | null`
+- **Actions:**
+  - `getRoom(roomId): Room | null`
+  - `refreshRooms(): void`
 - **Success Criteria:**
-  - Client initializes when user logs in
-  - Sync state exposed to components
-  - Rooms update in real-time
+  - ✅ Client initializes when user logs in (via MatrixAuthProvider session)
+  - ✅ Sync state exposed to components (SyncState enum)
+  - ✅ Rooms update in real-time (listens to ClientEvent.Room/DeleteRoom)
+- **Verification:**
+  - Build: ✅ `pnpm build` passes
+  - Lint: ✅ `pnpm lint` passes
+- **Commit:** c56367d
 
 ### haos-v2-use-matrix-client-p1-2-c: Create useMatrixClient Hook
 - **Status:** pending

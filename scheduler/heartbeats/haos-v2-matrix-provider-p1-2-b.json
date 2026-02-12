@@ -1,9 +1,0 @@
-{
-  "taskId": "haos-v2-matrix-provider-p1-2-b",
-  "sessionKey": "agent:main:subagent:a45b6357-4a76-404d-a7cb-285e02dbef24",
-  "startedAt": "2026-02-12T17:15:00Z",
-  "lastHeartbeat": "2026-02-12T17:15:00Z",
-  "status": "running",
-  "currentPhase": "Reading existing code patterns",
-  "model": "opus"
-}

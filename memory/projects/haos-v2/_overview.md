@@ -43,7 +43,13 @@
 - [2026-02-12 02:20 EST] **p1-2-a: Matrix client singleton ✅** — `lib/matrix/client.ts`
   - Singleton pattern with initializeClient, getClient, destroyClient
   - Added matrix-js-sdk dependency (40.3.0-rc.0)
-- Next up: p1-2-b (MatrixProvider context)
+- [2026-02-12 08:15 EST] **p1-2-b: MatrixProvider context ✅** — `components/providers/matrix-provider.tsx`
+  - React context managing client lifecycle
+  - Exposes: client, syncState, rooms, isReady, isSyncing, syncError
+  - Actions: getRoom(roomId), refreshRooms()
+  - Listens to ClientEvent.Sync for state changes
+  - Listens to ClientEvent.Room/DeleteRoom for room updates
+- Next up: p1-2-c (useMatrixClient), p1-2-d (useRoom) — both unblocked
 
 ### ✅ p2-1-a (Server Sidebar) Complete
 - [2026-02-12 12:15 EST] **p2-1-a: Discord-style server sidebar ✅**

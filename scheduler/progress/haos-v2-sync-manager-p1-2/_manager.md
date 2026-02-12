@@ -8,9 +8,9 @@ Migrate HAOS v2 from Socket.io to Matrix sync for real-time functionality.
 | Task | Description | Status | Depends On |
 |------|-------------|--------|------------|
 | p1-2-a | Matrix Client Singleton | ✅ completed | - |
-| p1-2-b | MatrixProvider Context | pending | a |
-| p1-2-c | useMatrixClient Hook | pending | b |
-| p1-2-d | useRoom Hook | pending | b |
+| p1-2-b | MatrixProvider Context | ✅ completed | a |
+| p1-2-c | useMatrixClient Hook | pending (unblocked) | b |
+| p1-2-d | useRoom Hook | pending (unblocked) | b |
 | p1-2-e | useRoomMessages Hook | pending | d |
 
 ## Execution Order
@@ -24,6 +24,9 @@ Migrate HAOS v2 from Socket.io to Matrix sync for real-time functionality.
 
 - [01:01 EST] Manager created, 5 initial tasks populated
 - Starting with p1-2-a (no dependencies)
+- [02:20 EST] p1-2-a completed (Matrix Client Singleton)
+- [12:28 EST] p1-2-b completed (MatrixProvider Context) — Commit c56367d
+- Next: p1-2-c and p1-2-d can run in parallel (both unblocked by b)
 
 ## Integration Notes
 
