@@ -428,9 +428,18 @@ When significant changes happen (rename, deprecate, pivot, restructure):
 
 2. **The sweep agent should:**
    - `grep -r "{old-name}" ~/clawd/` to find all references
+   - **Use The Circle (🟢 Light)** to think through each update:
+     - Is this reference still relevant or should it be removed?
+     - Should I update, deprecate, or just add a note?
+     - What context does a future reader need?
    - Update each file with current info
    - Add deprecation notices where needed
    - Report what was updated in progress file
+
+3. **Circle at Haiku level:**
+   - Sweep agents are typically Haiku
+   - Use 🟢 Light Circle (1-2 Haiku sub-agents) for tricky cases
+   - Quick sanity check: "Is this update correct? Am I missing context?"
 
 **This prevents future agents from wasting time on stale information.**
 

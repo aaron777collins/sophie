@@ -287,12 +287,31 @@ The Hired Agents system is working when:
 ### Sweep Agent Workflow
 
 1. `grep -r "{old-name}" ~/clawd/` to find all occurrences
-2. For each file:
+2. **Use The Circle (🟢 Light)** for each update decision:
+   - Spawn 1-2 Haiku sub-agents if unsure about an update
+   - Questions to consider:
+     - Is this reference still relevant?
+     - Update, deprecate, or add context note?
+     - What does a future reader need to understand?
+3. For each file:
    - If reference is primary → update to new path/name
    - If historical context → add note explaining change
    - If deprecated doc → add deprecation header pointing to new
-3. Update progress file with list of all files changed
-4. Update INDEX.md if project/topic references changed
+4. Update progress file with list of all files changed
+5. Update INDEX.md if project/topic references changed
+
+### Circle at Haiku Level
+
+Sweep agents are typically Haiku. They should still think critically:
+
+| Situation | Circle Weight | Agents |
+|-----------|---------------|--------|
+| Obvious update (path rename) | 💭 Internal | 0 (just do it) |
+| Ambiguous reference | 🟢 Light | 1-2 Haiku |
+| Affects multiple docs | 🟢 Light | 1-2 Haiku |
+| Uncertain if relevant | 🟢 Light | 1-2 Haiku |
+
+**Even Haiku should pause and think** — spawn quick Haiku sub-agents for sanity checks on non-obvious updates.
 
 ### Deprecation Format
 
