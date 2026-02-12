@@ -1,9 +1,33 @@
 {
   "version": "1.0",
   "created": "2025-02-10T18:30:00Z",
-  "lastUpdated": "2025-02-10T18:30:00Z",
+  "lastUpdated": "2026-02-11T22:21:20Z",
   "description": "Index of recurring patterns discovered through self-reflection",
-  "patterns": [],
+  "patterns": [
+    {
+      "id": "pattern-001",
+      "name": "URL/Detail Fabrication",
+      "category": "technical",
+      "type": "weakness",
+      "description": "Tendency to cite specific URLs, paths, or technical details that sound plausible but haven't been verified. Should always confirm infrastructure details exist before stating them as fact.",
+      "instances": [
+        {
+          "date": "2026-02-11",
+          "context": "Referenced non-existent dashboard URL (jaekel.mcmastergdsc.ca/dashboard/) for ConnectedDrivingPipelineV4 when results are actually SSH-only local files",
+          "outcome": "negative",
+          "notes": ""
+        }
+      ],
+      "frequency": "occasional",
+      "impact": "medium",
+      "status": "active",
+      "improvements": [],
+      "relatedPatterns": [],
+      "firstSeen": "2026-02-11",
+      "lastSeen": "2026-02-11",
+      "tags": []
+    }
+  ],
   "patternSchema": {
     "id": "unique-pattern-id",
     "name": "Pattern name",
@@ -12,11 +36,18 @@
     "frequency": "Number of times observed",
     "firstSeen": "ISO date of first observation",
     "lastSeen": "ISO date of most recent observation",
-    "instances": ["Array of daily reflection file references"],
+    "instances": [
+      "Array of daily reflection file references"
+    ],
     "status": "active|resolved|monitoring",
-    "improvements": ["Actions taken to address this pattern"],
+    "improvements": [
+      "Actions taken to address this pattern"
+    ],
     "impact": "low|medium|high",
-    "tags": ["relevant", "tags"]
+    "tags": [
+      "relevant",
+      "tags"
+    ]
   },
   "categories": {
     "communication": "Patterns in how I communicate with Aaron",
@@ -30,5 +61,17 @@
     "activePatterns": 0,
     "resolvedPatterns": 0,
     "lastAnalysis": null
+  },
+  "statistics": {
+    "totalPatterns": 1,
+    "byCategory": {
+      "technical": 1
+    },
+    "byType": {
+      "weakness": 1
+    },
+    "byStatus": {
+      "active": 1
+    }
   }
 }

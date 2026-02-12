@@ -10,163 +10,135 @@
 
 ---
 
-## Current Priority: HAOS v2 Phase 0 - Foundation
+## Current Priority: Phase 0 - Foundation
 
-Phase 0 establishes the development environment and infrastructure.
-Full task breakdown: ~/clawd/docs/haos-v2/TASK-BREAKDOWN.md
+Task breakdown complete! Starting Phase 0 implementation.
+
+See: `~/clawd/docs/haos-v2/TASK-BREAKDOWN.md` for full task list (94 tasks across 4 phases)
 
 ---
 
 ## Phase 0 Tasks (Ready to Execute)
 
-### haos-0.1-monorepo-setup
-- **Status:** pending
-- **Min Model:** sonnet
-- **Description:** Create monorepo structure with pnpm workspaces
-- **Instructions:**
-  1. Create new directory structure: `~/repos/haos-v2/`
-  2. Create root `package.json` with pnpm workspaces config
-  3. Create `pnpm-workspace.yaml` pointing to `apps/*` and `packages/*`
-  4. Create `apps/web/package.json` with Next.js 14 dependencies
-  5. Create `apps/web/next.config.js` with proper configuration
-  6. Create `tsconfig.json` and `tsconfig.base.json` for TypeScript
-  7. Set up path aliases (`@/` for apps/web/src)
-  8. Add `.eslintrc.js` and `.prettierrc` for linting
-  9. Add `.editorconfig` and `.gitignore`
-  10. Verify: `pnpm install` succeeds, `pnpm dev` starts Next.js
-  11. Create initial git commit
-- **Success Criteria:**
-  - `pnpm install` runs without errors
-  - `pnpm dev` starts Next.js dev server
-  - TypeScript compilation passes
-- **Output:** Announce to Slack #aibot-chat when done
+### p0-1-a: Initialize Monorepo Structure ✅
+- **Status:** completed
+- **Completed:** 2026-02-11 12:16 PM EST
+- **Summary:** Monorepo initialized with pnpm workspace. All 3 projects detected. Minor note: matrix-js-sdk dependency in pre-existing web app needs `onlyBuiltDependencies` config later.
 
-### haos-0.2-tailwind-setup
-- **Status:** pending
-- **Depends on:** haos-0.1-monorepo-setup
-- **Min Model:** sonnet
-- **Description:** Configure Tailwind CSS with Discord-like dark theme
-- **Instructions:**
-  1. Install Tailwind CSS, PostCSS, Autoprefixer in apps/web
-  2. Create `apps/web/tailwind.config.ts` with Discord color palette:
-     - Background: #313338, #2b2d31, #1e1f22
-     - Brand: #5865F2 (blurple)
-     - Text: #dbdee1 (light), #949ba4 (muted)
-  3. Create `apps/web/app/globals.css` with Tailwind directives
-  4. Add custom utility classes for Discord patterns
-  5. Test: Create a simple page with Discord colors
-- **Success Criteria:**
-  - Tailwind classes apply in components
-  - Dark theme matches Discord aesthetic
+### p0-1-b: Configure TypeScript ✅
+- **Status:** completed
+- **Completed:** 2026-02-11 12:32 PM EST
+- **Summary:** Created tsconfig.base.json (strict mode, ES2022, path aliases), apps/web/tsconfig.json, packages/shared/tsconfig.json, and root tsconfig.json with project references. `pnpm exec tsc --noEmit` passes.
 
-### haos-0.3-discord-clone-extraction
-- **Status:** pending
-- **Depends on:** haos-0.2-tailwind-setup
-- **Min Model:** sonnet
-- **Description:** Extract UI components from Discord clone repo
-- **Instructions:**
-  1. Clone https://github.com/nayak-nirmalya/discord-clone locally
-  2. Copy `components/ui/*.tsx` to `apps/web/components/ui/`
-  3. Copy `components/navigation/*.tsx` (strip Clerk imports)
-  4. Copy `components/modals/*.tsx` (strip Prisma imports)
-  5. Copy `components/chat/*.tsx` (strip database queries)
-  6. Copy `lib/utils.ts` (cn function, etc.)
-  7. Add TODO comments where Matrix integration needed
-  8. Install required dependencies: @radix-ui/*, lucide-react, etc.
-  9. Verify: `pnpm build` passes (components may have placeholders)
-- **Success Criteria:**
-  - All base UI components available
-  - No Clerk/Prisma imports remain
-  - Build passes
+### p0-1-c: Configure ESLint & Prettier ✅
+- **Status:** completed
+- **Completed:** 2026-02-11 12:47 PM EST
+- **Summary:** Created .eslintrc.js (TypeScript, React, Next.js rules), .prettierrc (with Tailwind plugin), .prettierignore, and added lint/format scripts. `pnpm lint` and `pnpm format:check` both pass.
 
-### haos-0.4-matrix-sdk-setup
-- **Status:** pending
-- **Depends on:** haos-0.1-monorepo-setup
-- **Min Model:** sonnet
-- **Description:** Set up Matrix JS SDK and environment configuration
-- **Instructions:**
-  1. Install `matrix-js-sdk` in apps/web
-  2. Create `apps/web/.env.example` with:
-     - NEXT_PUBLIC_MATRIX_HOMESERVER
-     - LIVEKIT_API_KEY
-     - LIVEKIT_API_SECRET
-     - NEXT_PUBLIC_LIVEKIT_URL
-  3. Create `apps/web/lib/matrix-client.ts` with client factory function
-  4. Create `apps/web/types/matrix.ts` with common types
-  5. Test: Import SDK and create client (don't connect yet)
-- **Success Criteria:**
-  - matrix-js-sdk installed and importable
-  - Environment variables documented
-  - Client factory function works
+### p0-5-a: Initialize Next.js 14 App ✅
+- **Status:** completed
+- **Completed:** 2026-02-11 1:00 PM EST
+- **Summary:** Created Next.js 14 app structure with dark theme. `pnpm dev` runs on localhost:3000.
 
-### haos-0.5-matrix-homeserver-verify
-- **Status:** pending
-- **Min Model:** sonnet
-- **Description:** Verify Matrix homeserver on dev2 and create test accounts
-- **Instructions:**
-  1. Test connectivity: `curl https://matrix.dev2.aaroncollins.info/_matrix/client/versions`
-  2. Check if CORS is configured for localhost development
-  3. Create test user accounts if needed (via admin API)
-  4. Create a test space with #general, #random rooms
-  5. Document the Matrix homeserver URL and any required config
-  6. Update `.env.local` with correct homeserver URL
-- **Success Criteria:**
-  - Can reach Matrix homeserver from dev machine
-  - Test accounts exist
-  - CORS allows localhost requests
+### p0-4-a: Clone Discord Clone Repository ✅
+- **Status:** completed
+- **Completed:** 2026-02-11 1:15 PM EST
+- **Summary:** Discord clone repo cloned to /tmp/discord-clone-source. Working tree clean.
 
-### haos-0.6-cicd-pipeline
+### p0-4-b: Audit Discord Clone Structure ✅
+- **Status:** completed
+- **Completed:** 2026-02-11 1:31 PM EST
+- **Summary:** Created comprehensive inventory at `~/clawd/docs/haos-v2/DISCORD-CLONE-INVENTORY.md` documenting all components, hooks, utilities, and Matrix adaptation needs.
+
+### p0-4-c: Copy UI Components to HAOS ✅
+- **Status:** completed
+- **Completed:** 2026-02-11 2:30 PM EST
+- **Summary:** 19 shadcn/ui components copied to `apps/web/src/components/ui/` with index.ts barrel export. Imports use relative paths (`../../lib/utils`). Dependencies already present in Element Web package.json. `components.json` configured.
+- **Note:** Build fails due to pre-existing monorepo resolution bug (unrelated to this task) - see p0-fix-build
+
+### p0-fix-build: Fix Monorepo Build Resolution Bug ❌ ABANDONED
+- **Status:** abandoned
+- **Abandoned:** 2026-02-11 11:00 PM EST
+- **Reason:** Intractable tech debt from Element Web fork. Multiple sub-agents hit the same wall (webpack resolution + yarn workspace hoisting + lodash alias conflicts). Strategic decision: focus on haos-v2 instead of fixing legacy code.
+- **See:** `scheduler/progress/p0-fix-build.md` for full failure analysis
+- **See:** `/home/ubuntu/repos/haos/DEPRECATED.md` for deprecation notice
+
+### p0-4-e: Copy Styling and Tailwind Config ✅
+- **Status:** completed
+- **Completed:** 2026-02-11 9:19 PM EST
+- **Summary:** Tailwind v3 configured with dark theme CSS variables. Used `.cjs` extensions for configs (ESM compatibility). JIT compiles in 246ms.
+
+### p0-6-a: Create GitHub Actions Build Workflow
 - **Status:** pending
-- **Depends on:** haos-0.1-monorepo-setup
 - **Min Model:** sonnet
-- **Description:** Set up GitHub Actions CI/CD pipeline
+- **Depends On:** p0-1-a
+- **Description:** CI that builds on every PR
 - **Instructions:**
-  1. Create `.github/workflows/build.yml`:
-     - Run on PR and push to main
-     - Install pnpm dependencies (with caching)
-     - Run TypeScript type check
-     - Run ESLint
+  1. Create `.github/workflows/build.yml`
+  2. Workflow steps:
+     - Checkout code
+     - Setup Node.js 20
+     - Setup pnpm
+     - Install dependencies
+     - Run lint
+     - Run type-check
      - Run build
-  2. Set up branch protection rules (require CI pass)
-  3. Optionally: Add preview deployment workflow
+  3. Trigger on push to main and PRs
 - **Success Criteria:**
-  - CI runs on every PR
-  - Build, lint, type-check all pass
-  - Failed CI blocks merge
+  - Workflow file valid YAML
+  - Would run on PR (can't test until repo on GitHub)
+- **Files to Create:**
+  - `/home/ubuntu/repos/haos/.github/workflows/build.yml`
 
-### haos-0.7-development-docs
+### p0-7-a: Create Development Setup Guide
 - **Status:** pending
-- **Depends on:** haos-0.3-discord-clone-extraction
 - **Min Model:** sonnet
-- **Description:** Create development documentation
+- **Depends On:** p0-5-a
+- **Description:** Complete setup instructions for new devs
 - **Instructions:**
-  1. Create `README.md` with project overview and quick start
-  2. Create `docs/haos-v2/SETUP-GUIDE.md` with detailed setup steps
-  3. Create `docs/haos-v2/ARCHITECTURE.md` with component structure
-  4. Create `docs/haos-v2/CONVENTIONS.md` with coding standards
-  5. Create `docs/haos-v2/MATRIX-PATTERNS.md` with SDK usage patterns
+  1. Create `docs/haos-v2/DEV-SETUP.md`
+  2. Include sections:
+     - Prerequisites (Node 20+, pnpm 8+)
+     - Clone and install steps
+     - Environment variable setup
+     - Running dev server
+     - Connecting to Matrix (dev2)
+     - Troubleshooting common issues
 - **Success Criteria:**
-  - New developer can set up in <30 min following guide
-  - Architecture is documented
-  - Coding conventions established
+  - Doc is complete and accurate
+  - A new dev could follow it
+- **Files to Create:**
+  - `~/clawd/docs/haos-v2/DEV-SETUP.md`
 
 ---
 
-## Next Phase Preview: Phase 1 - Core Integration
+## Phase 0 Verification Tasks
 
-After Phase 0 completes, Phase 1 tasks will be added:
-- 1.1 Authentication Migration (Clerk → Matrix)
-- 1.2 Real-Time Migration (Socket.io → Matrix sync)
-- 1.3 Media Upload Migration (UploadThing → Matrix content)
-- 1.4 Core UI Integration (Services for space/room/member/message)
+### p0-verify: Phase 0 Completion Check
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** All p0-* tasks
+- **Description:** Verify all Phase 0 milestones met
+- **Instructions:**
+  1. Run `pnpm install` — should succeed
+  2. Run `pnpm dev` — should start Next.js
+  3. Run `pnpm lint` — should pass
+  4. Run `pnpm build` — should succeed
+  5. Verify UI components render
+  6. Document any issues found
+  7. Update PROACTIVE-JOBS.md to add Phase 1 tasks
+- **Success Criteria:**
+  - All checks pass
+  - Ready to start Phase 1
 
 ---
 
 ## Completed Tasks
 
 ### impl-00-task-breakdown ✅
-- Created: ~/clawd/docs/haos-v2/TASK-BREAKDOWN.md
-- Summary: 307 atomic sub-tasks across 4 phases, ~600h estimated
+- **Completed:** 2025-02-13
+- **Deliverable:** `~/clawd/docs/haos-v2/TASK-BREAKDOWN.md`
+- **Summary:** 94 atomic tasks across 4 phases, all with clear deliverables and success criteria
 
 ---
 

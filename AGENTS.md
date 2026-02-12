@@ -140,6 +140,16 @@ When spawned for a proactive task:
 > ⚠️ **READ THIS ENTIRE AGENTS.md FILE FIRST** — including the Memory section above!
 > Memory updates are MANDATORY, not optional.
 
+> 🩸 **BLOOD ON THE WALLS — READ BEFORE YOU START!**
+> The progress file at `scheduler/progress/{task-id}.md` contains what previous agents tried.
+> - **READ IT FIRST** — before doing ANYTHING
+> - **DON'T REPEAT FAILURES** — if something was tried and failed, try something different
+> - **ADD YOUR OWN BLOOD** — log what YOU try, what works, what fails
+> - **DAILY LOG TOO** — write timestamped entries to `memory/daily/YYYY-MM-DD.md`
+> 
+> If you fail without updating the progress file, the next agent will waste time repeating your mistakes.
+> **Your notes are the ONLY way future agents learn from you.**
+
 > 🚨 **FULL COMPLETION ONLY — NO SHORTCUTS!**
 > - NO "placeholder hooks" or "stub implementations"
 > - NO "can iterate later" or "basic version for now"  

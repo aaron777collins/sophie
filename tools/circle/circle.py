@@ -1,556 +1,717 @@
 #!/usr/bin/env python3
 """
-💜 The Circle — Multi-Perspective CLI Tool
+circle - Multi-perspective thinking CLI tool
 
-Invoke multi-perspective thinking at any weight level.
+Invoke The Circle at any weight level for thoughtful pre-response thinking.
 
 Usage:
     circle "Should I refactor the auth module?" --weight standard
     circle "How to phrase this feedback?" --weight light --focus empathy
     circle --convene "Architecture: monorepo vs polyrepo"  # Full Council
+
+Weight Levels:
+    internal  - Quick self-check (no agents, just structured thinking)
+    light     - 1-2 Haiku agents (~$0.02, ~5s)
+    standard  - 3 Sonnet agents (~$0.15, ~30s)
+    elevated  - 5 Sonnet agents (~$0.30, ~45s)
+    council   - 5-7 Opus agents (~$2-3, ~90s) - "The Counsel"
 """
 
 import argparse
+import asyncio
 import json
 import os
+import re
 import subprocess
 import sys
-import time
-import uuid
-import re
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import Optional
 
-# ════════════════════════════════════════════════════════════════════════════
-# Configuration
-# ════════════════════════════════════════════════════════════════════════════
-
-PERSPECTIVES = {
-    # Critical perspectives
-    "architect": {"emoji": "🏛️", "name": "The Architect", "focus": "System design, scalability, structure", "type": "critical"},
-    "guardian": {"emoji": "🛡️", "name": "The Guardian", "focus": "Security, privacy, risk, failure modes", "type": "critical"},
-    "pragmatist": {"emoji": "🔧", "name": "The Pragmatist", "focus": "Implementation, timeline, resources", "type": "critical"},
-    "skeptic": {"emoji": "🔍", "name": "The Skeptic", "focus": "Edge cases, assumptions, blind spots", "type": "critical"},
-    "visionary": {"emoji": "🔮", "name": "The Visionary", "focus": "Long-term, flexibility, future impact", "type": "critical"},
-    "historian": {"emoji": "📚", "name": "The Historian", "focus": "Precedent, patterns, lessons learned", "type": "critical"},
-    # Empathy perspectives
-    "mind": {"emoji": "💭", "name": "Their Mind", "focus": "Thoughts, beliefs, assumptions", "type": "empathy"},
-    "heart": {"emoji": "💔", "name": "Their Heart", "focus": "Emotions, feelings, mood", "type": "empathy"},
-    "needs": {"emoji": "🎯", "name": "Their Needs", "focus": "Real needs vs stated wants", "type": "empathy"},
-    "relationship": {"emoji": "🤝", "name": "The Relationship", "focus": "Trust, connection, dynamics", "type": "empathy"},
-    "empath": {"emoji": "💜", "name": "The Empath", "focus": "Overall emotional impact", "type": "empathy"},
-}
-
-WEIGHT_CONFIG = {
-    "internal": {"agents": 0, "model": "self", "perspectives": []},
-    "light": {"agents": 2, "model": "haiku", "perspectives": ["pragmatist", "empath"]},
-    "standard": {"agents": 3, "model": "sonnet", "perspectives": ["pragmatist", "skeptic", "empath"]},
-    "elevated": {"agents": 5, "model": "sonnet", "perspectives": ["architect", "guardian", "pragmatist", "skeptic", "empath"]},
-    "council": {"agents": 7, "model": "opus", "perspectives": ["architect", "guardian", "pragmatist", "skeptic", "visionary", "empath", "relationship"]},
-}
-
-MEMORY_DIR = Path(os.path.expanduser("~/clawd/memory/counsel"))
-
-# ════════════════════════════════════════════════════════════════════════════
-# Prompt Templates
-# ════════════════════════════════════════════════════════════════════════════
-
-def get_counselor_system_prompt(perspective_id: str, weight: str) -> str:
-    """Generate system prompt for a counselor."""
-    p = PERSPECTIVES[perspective_id]
+# ANSI color codes
+class Colors:
+    RESET = '\033[0m'
+    BOLD = '\033[1m'
+    DIM = '\033[2m'
     
-    if weight == "council":
-        return f"""You are a Counselor in The Counsel, a formal multi-agent deliberation system for critical decisions.
+    RED = '\033[91m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    BLUE = '\033[94m'
+    MAGENTA = '\033[95m'
+    CYAN = '\033[96m'
+    WHITE = '\033[97m'
+    
+    # Weight level colors
+    INTERNAL = '\033[90m'  # Gray
+    LIGHT = '\033[92m'     # Green
+    STANDARD = '\033[93m'  # Yellow
+    ELEVATED = '\033[38;5;208m'  # Orange
+    COUNCIL = '\033[91m'   # Red
 
-Your perspective: {p['name']} ({p['emoji']})
-Your focus: {p['focus']}
+# Configuration
+WEIGHT_CONFIG = {
+    'internal': {'agents': 0, 'model': None, 'cost': 0},
+    'light': {'agents': 2, 'model': 'haiku', 'cost': 0.02},
+    'standard': {'agents': 3, 'model': 'sonnet', 'cost': 0.15},
+    'elevated': {'agents': 5, 'model': 'sonnet', 'cost': 0.30},
+    'council': {'agents': 7, 'model': 'opus', 'cost': 2.50},
+}
 
-This is a high-stakes decision requiring careful analysis. Your response will be aggregated with other counselors and logged for future reference.
+# Perspective definitions
+CRITICAL_PERSPECTIVES = {
+    'architect': {
+        'emoji': '🏛️',
+        'name': 'The Architect',
+        'focus': 'System design, scalability, structure',
+        'question': 'How does this affect the whole system?'
+    },
+    'guardian': {
+        'emoji': '🛡️',
+        'name': 'The Guardian',
+        'focus': 'Security, privacy, risk, failure modes',
+        'question': "What's the worst case? How do we prevent it?"
+    },
+    'pragmatist': {
+        'emoji': '🔧',
+        'name': 'The Pragmatist',
+        'focus': 'Implementation, timeline, resources',
+        'question': "Can we actually do this? What's realistic?"
+    },
+    'skeptic': {
+        'emoji': '🔍',
+        'name': 'The Skeptic',
+        'focus': 'Edge cases, assumptions, blind spots',
+        'question': "What are we missing? What if we're wrong?"
+    },
+    'visionary': {
+        'emoji': '🔮',
+        'name': 'The Visionary',
+        'focus': 'Long-term, flexibility, future impact',
+        'question': 'How does this position us for the future?'
+    },
+    'historian': {
+        'emoji': '📚',
+        'name': 'The Historian',
+        'focus': 'Precedent, patterns, lessons learned',
+        'question': 'What have others done? What patterns apply?'
+    },
+}
 
-REQUIREMENTS:
-1. Analyze THOROUGHLY from your perspective
-2. Consider empathy: how does this affect humans involved?
-3. Be specific in your concerns and suggestions
-4. Assign confidence honestly (don't inflate)
-5. Explain your key risk clearly
+EMPATHY_PERSPECTIVES = {
+    'mind': {
+        'emoji': '💭',
+        'name': 'Their Mind',
+        'focus': 'Thoughts, beliefs, assumptions',
+        'question': 'What are they actually thinking?'
+    },
+    'heart': {
+        'emoji': '💔',
+        'name': 'Their Heart',
+        'focus': 'Emotions, feelings, mood',
+        'question': 'How do they feel about this?'
+    },
+    'needs': {
+        'emoji': '🎯',
+        'name': 'Their Needs',
+        'focus': 'Real needs vs stated wants',
+        'question': 'What do they actually need?'
+    },
+    'relationship': {
+        'emoji': '🤝',
+        'name': 'The Relationship',
+        'focus': 'Trust, connection, dynamics',
+        'question': 'How does this impact our relationship?'
+    },
+    'empath': {
+        'emoji': '💜',
+        'name': 'The Empath',
+        'focus': 'Overall emotional impact',
+        'question': 'How will this land emotionally?'
+    },
+}
 
-Respond ONLY with valid JSON in this exact format:
+ALL_PERSPECTIVES = {**CRITICAL_PERSPECTIVES, **EMPATHY_PERSPECTIVES}
+
+# Default perspectives by weight
+DEFAULT_PERSPECTIVES = {
+    'light': ['pragmatist', 'empath'],
+    'standard': ['pragmatist', 'skeptic', 'empath'],
+    'elevated': ['architect', 'guardian', 'pragmatist', 'skeptic', 'empath'],
+    'council': ['architect', 'guardian', 'pragmatist', 'skeptic', 'visionary', 'empath', 'relationship'],
+}
+
+
+def get_model_name(model: str) -> str:
+    """Get the full model name for Claude CLI."""
+    models = {
+        'haiku': 'claude-3-5-haiku-latest',
+        'sonnet': 'claude-sonnet-4-20250514',
+        'opus': 'opus',
+    }
+    return models.get(model, model)
+
+
+def slugify(text: str) -> str:
+    """Create a URL-friendly slug from text."""
+    text = text.lower()
+    text = re.sub(r'[^\w\s-]', '', text)
+    text = re.sub(r'[\s_-]+', '-', text)
+    return text[:50].strip('-')
+
+
+def print_header(question: str, weight: str, perspectives: list):
+    """Print a nice header for the Circle session."""
+    color = getattr(Colors, weight.upper(), Colors.WHITE)
+    emoji = {'internal': '💭', 'light': '🟢', 'standard': '🟡', 'elevated': '🟠', 'council': '🔴'}[weight]
+    
+    print()
+    print(f"{Colors.BOLD}╔{'═' * 70}╗{Colors.RESET}")
+    print(f"{Colors.BOLD}║{color}  {emoji} THE CIRCLE — {weight.upper()} WEIGHT{Colors.RESET}{Colors.BOLD}{' ' * (52 - len(weight))}║{Colors.RESET}")
+    print(f"{Colors.BOLD}╠{'═' * 70}╣{Colors.RESET}")
+    print(f"{Colors.BOLD}║{Colors.RESET} 📋 Question: {question[:53]:<53}{Colors.BOLD}║{Colors.RESET}")
+    if len(question) > 53:
+        remaining = question[53:]
+        while remaining:
+            chunk = remaining[:67]
+            remaining = remaining[67:]
+            print(f"{Colors.BOLD}║{Colors.RESET}    {chunk:<67}{Colors.BOLD}║{Colors.RESET}")
+    
+    config = WEIGHT_CONFIG[weight]
+    persp_str = ', '.join([ALL_PERSPECTIVES[p]['emoji'] for p in perspectives[:7]])
+    print(f"{Colors.BOLD}║{Colors.RESET} 👥 Counselors: {config['agents']} ({persp_str}){' ' * max(0, 47 - len(persp_str))}{Colors.BOLD}║{Colors.RESET}")
+    if config['model']:
+        print(f"{Colors.BOLD}║{Colors.RESET} 🤖 Model: {config['model'].capitalize():<57}{Colors.BOLD}║{Colors.RESET}")
+    print(f"{Colors.BOLD}╚{'═' * 70}╝{Colors.RESET}")
+    print()
+
+
+def build_perspective_prompt(perspective_id: str, question: str, context: str = '', options: list = None) -> str:
+    """Build the prompt for a specific perspective."""
+    p = ALL_PERSPECTIVES[perspective_id]
+    
+    options_text = ''
+    if options:
+        options_text = '\nOPTIONS:\n' + '\n'.join([f'{chr(65+i)}) {opt}' for i, opt in enumerate(options)])
+    
+    context_text = f'\nCONTEXT:\n{context}' if context else ''
+    
+    return f"""You are {p['emoji']} {p['name']} — focused on {p['focus']}.
+
+Your key question: "{p['question']}"
+
+QUESTION: {question}{options_text}{context_text}
+
+Analyze this from your perspective. Also consider empathy — how does this affect the humans involved?
+
+Respond in this exact JSON format (and nothing else):
 {{
   "perspective": "{perspective_id}",
   "perspective_emoji": "{p['emoji']}",
-  "assessment": "[3-5 sentences of thorough analysis from your angle]",
+  "assessment": "[2-4 sentences analyzing from your perspective]",
   "concerns": ["[specific concern 1]", "[specific concern 2]"],
   "suggestions": ["[actionable recommendation 1]", "[actionable recommendation 2]"],
-  "vote": "[PROCEED or PAUSE or ADJUST]",
+  "vote": "{'[A or B or C or abstain]' if options else '[PROCEED or ADJUST or PAUSE]'}",
   "confidence": [0-100],
-  "key_risk": "[the main thing that could go wrong if your perspective is ignored]"
-}}"""
-    else:
-        return f"""You are a counselor in The Circle, a multi-perspective thinking framework.
-
-Your perspective: {p['name']} ({p['emoji']})
-Your focus: {p['focus']}
-
-IMPORTANT: Also consider empathy — how does this affect the humans involved?
-
-Respond ONLY with valid JSON in this format:
-{{
-  "perspective": "{perspective_id}",
-  "perspective_emoji": "{p['emoji']}",
-  "assessment": "[2-4 sentences from your angle]",
-  "concerns": ["[specific concern 1]", "[specific concern 2]"],
-  "suggestions": ["[recommendation 1]", "[recommendation 2]"],
-  "vote": "[PROCEED or PAUSE or ADJUST]",
-  "confidence": [0-100],
-  "key_risk": "[main concern if your perspective is ignored]"
+  "key_risk": "[main concern if this perspective is ignored]"
 }}"""
 
 
-def get_counselor_user_prompt(question: str, context: Optional[str] = None) -> str:
-    """Generate user prompt for counselor."""
-    ctx = f"\n\nCONTEXT:\n{context}" if context else ""
-    return f"""THE CIRCLE HAS BEEN CONVENED
-
-QUESTION/SITUATION:
-{question}{ctx}
-
-Analyze from your perspective and cast your vote:
-- PROCEED: Good to go as-is
-- ADJUST: Needs modification (explain how)
-- PAUSE: Needs more thought or human input
-
-Deliberate carefully and provide your assessment."""
-
-
-def get_light_combined_prompt(question: str, context: Optional[str] = None) -> str:
-    """Get combined prompt for light weight (single agent doing both perspectives)."""
-    ctx = f"\nContext: {context}" if context else ""
-    return f"""You are a quick sanity checker. Analyze this and respond with ONLY a JSON object, no other text.
-
-Question: {question}{ctx}
-
-Check: 1) Is this logical/realistic? 2) How will people feel about it?
-
-RESPOND WITH ONLY THIS JSON (replace bracketed text with your analysis):
-{{"critical_assessment":"[2 sentences on logic]","empathy_assessment":"[2 sentences on feelings]","concerns":["concern1"],"suggestions":["suggestion1"],"vote":"PROCEED","confidence":75,"recommendation":"[brief advice]"}}"""
-
-
-# ════════════════════════════════════════════════════════════════════════════
-# Agent Spawning
-# ════════════════════════════════════════════════════════════════════════════
-
-def run_claude_cli(prompt: str, model: str, timeout: int = 60) -> Tuple[bool, str]:
-    """Run claude CLI and return (success, output)."""
-    model_map = {
-        "haiku": "claude-3-5-haiku-latest",
-        "sonnet": "claude-sonnet-4-20250514",
-        "opus": "claude-opus-4-20250514",
-    }
-    
-    actual_model = model_map.get(model, model)
+def run_claude_sync(prompt: str, model: str) -> dict:
+    """Run Claude CLI synchronously and return the parsed response."""
+    model_name = get_model_name(model)
     
     try:
         result = subprocess.run(
-            ["claude", "-p", prompt, "--model", actual_model, "--output-format", "json"],
+            ['claude', '-p', prompt, '--model', model_name, '--output-format', 'json'],
             capture_output=True,
             text=True,
-            timeout=timeout,
-            env={**os.environ, "ANTHROPIC_AUTH_PROFILE": "anthropic:claude-cli"}
+            timeout=120
         )
         
-        if result.returncode == 0:
+        if result.returncode != 0:
+            return {'error': f'Claude CLI failed: {result.stderr}'}
+        
+        # Parse the outer JSON from Claude CLI
+        try:
+            cli_response = json.loads(result.stdout)
+            response_text = cli_response.get('result', '')
+        except json.JSONDecodeError:
+            response_text = result.stdout
+        
+        # Extract JSON from the response text
+        json_match = re.search(r'\{[\s\S]*\}', response_text)
+        if json_match:
             try:
-                response = json.loads(result.stdout)
-                return True, response.get("result", "")
+                return json.loads(json_match.group())
             except json.JSONDecodeError:
-                return True, result.stdout
-        else:
-            return False, result.stderr
-            
+                return {'error': 'Failed to parse counselor response', 'raw': response_text}
+        
+        return {'error': 'No JSON found in response', 'raw': response_text}
+        
     except subprocess.TimeoutExpired:
-        return False, "Timeout expired"
+        return {'error': 'Claude CLI timed out'}
     except Exception as e:
-        return False, str(e)
+        return {'error': str(e)}
 
 
-def spawn_counselor(perspective_id: str, question: str, context: Optional[str], weight: str, model: str) -> Dict:
-    """Spawn a single counselor and get their response."""
-    system_prompt = get_counselor_system_prompt(perspective_id, weight)
-    user_prompt = get_counselor_user_prompt(question, context)
-    full_prompt = f"{system_prompt}\n\n---\n\n{user_prompt}"
-    
-    p = PERSPECTIVES[perspective_id]
-    
-    timeout = 120 if weight == "council" else 60
-    success, output = run_claude_cli(full_prompt, model, timeout=timeout)
-    
-    if not success:
-        return {
-            "perspective": perspective_id,
-            "perspective_emoji": p["emoji"],
-            "error": output,
-            "vote": "abstain",
-            "confidence": 0
-        }
-    
-    # Parse JSON from output
-    try:
-        # Try to extract JSON from the response - handle nested objects/arrays
-        # Look for outermost braces
-        brace_count = 0
-        start_idx = None
-        for i, char in enumerate(output):
-            if char == '{':
-                if brace_count == 0:
-                    start_idx = i
-                brace_count += 1
-            elif char == '}':
-                brace_count -= 1
-                if brace_count == 0 and start_idx is not None:
-                    json_str = output[start_idx:i+1]
-                    return json.loads(json_str)
-        # Fallback: try parsing whole output
-        return json.loads(output)
-    except json.JSONDecodeError:
-        return {
-            "perspective": perspective_id,
-            "perspective_emoji": p["emoji"],
-            "assessment": output[:500],
-            "vote": "abstain",
-            "confidence": 50,
-            "error": "Failed to parse JSON response"
-        }
-
-
-def run_light_check(question: str, context: Optional[str], debug: bool = False) -> Dict:
-    """Run a lightweight combined check."""
-    prompt = get_light_combined_prompt(question, context)
-    success, output = run_claude_cli(prompt, "haiku", timeout=90)  # Increased timeout
-    
-    if debug:
-        print(f"DEBUG: success={success}, output_len={len(output) if output else 0}", file=sys.stderr)
-        print(f"DEBUG: output={output[:500] if output else 'None'}...", file=sys.stderr)
-    
-    if not success:
-        return {"error": output, "vote": "PAUSE", "confidence": 0}
+async def run_claude_async(prompt: str, model: str, perspective_id: str) -> dict:
+    """Run Claude CLI asynchronously."""
+    model_name = get_model_name(model)
     
     try:
-        # Handle nested objects/arrays
-        brace_count = 0
-        start_idx = None
-        for i, char in enumerate(output):
-            if char == '{':
-                if brace_count == 0:
-                    start_idx = i
-                brace_count += 1
-            elif char == '}':
-                brace_count -= 1
-                if brace_count == 0 and start_idx is not None:
-                    json_str = output[start_idx:i+1]
-                    if debug:
-                        print(f"DEBUG: extracted json={json_str[:200]}...", file=sys.stderr)
-                    return json.loads(json_str)
-        return json.loads(output)
-    except json.JSONDecodeError as e:
-        if debug:
-            print(f"DEBUG: JSON parse error: {e}", file=sys.stderr)
-        return {
-            "assessment": output[:500] if output else "No output",
-            "vote": "PAUSE",
-            "confidence": 50,
-            "error": f"Failed to parse response: {str(e)}"
+        proc = await asyncio.create_subprocess_exec(
+            'claude', '-p', prompt, '--model', model_name, '--output-format', 'json',
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE
+        )
+        
+        stdout, stderr = await asyncio.wait_for(proc.communicate(), timeout=120)
+        
+        if proc.returncode != 0:
+            return {'perspective': perspective_id, 'error': f'Claude CLI failed: {stderr.decode()}'}
+        
+        # Parse the outer JSON from Claude CLI
+        try:
+            cli_response = json.loads(stdout.decode())
+            response_text = cli_response.get('result', '')
+        except json.JSONDecodeError:
+            response_text = stdout.decode()
+        
+        # Extract JSON from the response text
+        json_match = re.search(r'\{[\s\S]*\}', response_text)
+        if json_match:
+            try:
+                result = json.loads(json_match.group())
+                result['perspective'] = perspective_id  # Ensure perspective is set
+                return result
+            except json.JSONDecodeError:
+                return {'perspective': perspective_id, 'error': 'Failed to parse', 'raw': response_text}
+        
+        return {'perspective': perspective_id, 'error': 'No JSON found', 'raw': response_text}
+        
+    except asyncio.TimeoutError:
+        return {'perspective': perspective_id, 'error': 'Timed out'}
+    except Exception as e:
+        return {'perspective': perspective_id, 'error': str(e)}
+
+
+def do_internal_check(question: str, context: str = '') -> dict:
+    """Do a quick internal Circle check (no spawning)."""
+    result = {
+        'weight': 'internal',
+        'question': question,
+        'context': context,
+        'timestamp': datetime.now().isoformat(),
+        'recommendation': 'PROCEED',  # Will be filled in manually
+        'internal_check': {
+            'critical': {
+                'logic_sound': '?',
+                'risks': [],
+                'realistic': '?'
+            },
+            'empathy': {
+                'interpretation': '?',
+                'emotional_state': '?',
+                'actual_need': '?'
+            }
         }
-
-
-def run_internal_check(question: str) -> Dict:
-    """Format for internal check (no spawn)."""
-    return {
-        "weight": "internal",
-        "note": "Internal check - no agents spawned. Use your own judgment with quick critical/empathy lens.",
-        "checklist": {
-            "critical": "Logic sound? Risks? Realistic?",
-            "empathy": "How will they feel? Tone right? What do they need?"
-        },
-        "question": question
     }
-
-
-# ════════════════════════════════════════════════════════════════════════════
-# Aggregation
-# ════════════════════════════════════════════════════════════════════════════
-
-def aggregate_votes(responses: List[Dict]) -> Dict:
-    """Aggregate counselor votes and produce summary."""
-    votes = {"PROCEED": [], "PAUSE": [], "ADJUST": [], "abstain": []}
     
-    for r in responses:
-        vote = r.get("vote", "abstain").upper()
-        if vote in votes:
-            votes[vote].append(r)
-        else:
-            votes["abstain"].append(r)
+    # Print the internal check template
+    print(f"\n{Colors.BOLD}## 💭 Circle Internal Check{Colors.RESET}\n")
+    print(f"{Colors.DIM}Situation:{Colors.RESET} {question}")
+    if context:
+        print(f"{Colors.DIM}Context:{Colors.RESET} {context}")
+    print()
+    print(f"{Colors.CYAN}🧠 Critical:{Colors.RESET}")
+    print(f"   • Logic sound? [analyze]")
+    print(f"   • Risks? [list any]")
+    print(f"   • Realistic? [yes/no]")
+    print()
+    print(f"{Colors.MAGENTA}💜 Empathy:{Colors.RESET}")
+    print(f"   • How will they read this? [interpretation]")
+    print(f"   • Their emotional state? [assessment]")
+    print(f"   • What they actually need? [need]")
+    print()
+    print(f"{Colors.GREEN}→ Decision:{Colors.RESET} [PROCEED / ADJUST: how / PAUSE: why]")
+    print()
+    
+    return result
+
+
+async def run_circle(
+    question: str,
+    weight: str = 'standard',
+    perspectives: list = None,
+    context: str = '',
+    options: list = None,
+    output_json: bool = False,
+    log: bool = False,
+    focus: str = 'both'
+) -> dict:
+    """Run The Circle at the specified weight level."""
+    
+    # Handle internal weight specially
+    if weight == 'internal':
+        return do_internal_check(question, context)
+    
+    config = WEIGHT_CONFIG[weight]
+    
+    # Determine perspectives to use
+    if perspectives is None:
+        perspectives = DEFAULT_PERSPECTIVES.get(weight, ['pragmatist', 'empath'])
+    
+    # Filter by focus if specified
+    if focus == 'critical':
+        perspectives = [p for p in perspectives if p in CRITICAL_PERSPECTIVES]
+    elif focus == 'empathy':
+        perspectives = [p for p in perspectives if p in EMPATHY_PERSPECTIVES]
+    
+    # Ensure we have at least one perspective
+    if not perspectives:
+        perspectives = ['pragmatist', 'empath']
+    
+    # Limit perspectives to configured agent count
+    perspectives = perspectives[:config['agents']]
+    
+    if not output_json:
+        print_header(question, weight, perspectives)
+    
+    # Build prompts and run in parallel
+    tasks = []
+    for p_id in perspectives:
+        prompt = build_perspective_prompt(p_id, question, context, options)
+        tasks.append(run_claude_async(prompt, config['model'], p_id))
+    
+    # Progress indicator
+    if not output_json:
+        print(f"{Colors.DIM}⏳ Consulting {len(perspectives)} counselors...{Colors.RESET}", flush=True)
+    
+    # Run all perspectives in parallel
+    responses = await asyncio.gather(*tasks)
+    
+    # Aggregate results
+    result = aggregate_responses(question, weight, config['model'], perspectives, responses, options)
+    result['context'] = context
+    
+    # Print results
+    if not output_json:
+        print_results(result)
+    
+    # Log if requested
+    if log:
+        log_path = save_log(result)
+        result['log_file'] = str(log_path)
+        if not output_json:
+            print(f"\n{Colors.DIM}📝 Logged to: {log_path}{Colors.RESET}")
+    
+    return result
+
+
+def aggregate_responses(question: str, weight: str, model: str, perspectives: list, responses: list, options: list = None) -> dict:
+    """Aggregate counselor responses into a final result."""
+    
+    valid_responses = [r for r in responses if 'error' not in r]
+    failed_responses = [r for r in responses if 'error' in r]
+    
+    # Count votes
+    tally = {}
+    counselor_votes = []
+    
+    for resp in valid_responses:
+        vote = resp.get('vote', 'abstain')
+        confidence = resp.get('confidence', 50)
+        p_id = resp.get('perspective', 'unknown')
+        
+        if vote not in tally:
+            tally[vote] = {'count': 0, 'voters': [], 'confidences': []}
+        tally[vote]['count'] += 1
+        tally[vote]['voters'].append(p_id)
+        tally[vote]['confidences'].append(confidence)
+        
+        counselor_votes.append({
+            'perspective': p_id,
+            'emoji': ALL_PERSPECTIVES.get(p_id, {}).get('emoji', '❓'),
+            'vote': vote,
+            'confidence': confidence,
+            'assessment': resp.get('assessment', ''),
+            'concerns': resp.get('concerns', []),
+            'suggestions': resp.get('suggestions', []),
+            'key_risk': resp.get('key_risk', '')
+        })
+    
+    # Calculate average confidences
+    for vote_key in tally:
+        confs = tally[vote_key]['confidences']
+        tally[vote_key]['avg_confidence'] = sum(confs) / len(confs) if confs else 0
+        del tally[vote_key]['confidences']  # Clean up
     
     # Determine winner
-    vote_counts = {k: len(v) for k, v in votes.items() if k != "abstain"}
-    if not vote_counts or all(c == 0 for c in vote_counts.values()):
-        winner = "PAUSE"
-        winner_count = 0
-    else:
-        winner = max(vote_counts, key=vote_counts.get)
-        winner_count = vote_counts[winner]
+    decision = None
+    max_votes = 0
+    tied = []
     
-    # Check for tie
-    tied = [k for k, v in vote_counts.items() if v == winner_count and v > 0]
-    is_tied = len(tied) > 1
+    for vote_key, data in tally.items():
+        if vote_key == 'abstain':
+            continue
+        if data['count'] > max_votes:
+            max_votes = data['count']
+            decision = vote_key
+            tied = []
+        elif data['count'] == max_votes:
+            tied.append(vote_key)
     
-    # Calculate confidence
-    total_confidence = sum(r.get("confidence", 50) for r in responses if r.get("vote", "").upper() != "ABSTAIN")
-    responding = len([r for r in responses if r.get("vote", "").upper() != "ABSTAIN"])
-    avg_confidence = total_confidence / responding if responding > 0 else 0
+    if tied:
+        tied.insert(0, decision)
+        # Tie-breaker: use confidence
+        best_conf = 0
+        for t in tied:
+            if tally[t]['avg_confidence'] > best_conf:
+                best_conf = tally[t]['avg_confidence']
+                decision = t
     
     # Check for dissent
-    dissenting = [r for r in responses if r.get("vote", "").upper() != winner and r.get("vote", "").upper() != "ABSTAIN"]
+    dissenting = [cv for cv in counselor_votes if cv['vote'] != decision and cv['vote'] != 'abstain']
+    dissent = {
+        'exists': len(dissenting) > 0,
+        'count': len(dissenting),
+        'perspectives': [d['perspective'] for d in dissenting],
+        'concerns': [d['key_risk'] for d in dissenting if d['key_risk']],
+        'flagged': len(dissenting) >= 2
+    }
+    
+    # Quorum check
+    min_quorum = {7: 5, 5: 4, 3: 2, 2: 1, 1: 1}
+    required = min_quorum.get(len(perspectives), 1)
+    quorum_met = len(valid_responses) >= required
+    
+    # Collect all suggestions as mitigations
+    mitigations = []
+    for cv in counselor_votes:
+        if cv['vote'] != decision:
+            mitigations.extend(cv['suggestions'])
+    
+    # Empathy summary
+    empathy_assessments = [cv['assessment'] for cv in counselor_votes 
+                          if cv['perspective'] in EMPATHY_PERSPECTIVES]
+    empathy_summary = ' '.join(empathy_assessments) if empathy_assessments else None
     
     return {
-        "decision": winner,
-        "votes_for_winner": winner_count,
-        "total_responding": responding,
-        "tied": tied if is_tied else None,
-        "unanimous": len(dissenting) == 0 and responding > 0,
-        "avg_confidence": round(avg_confidence, 1),
-        "tally": {k: len(v) for k, v in votes.items()},
-        "dissent": {
-            "exists": len(dissenting) > 0,
-            "count": len(dissenting),
-            "perspectives": [r.get("perspective") for r in dissenting],
-            "concerns": [r.get("key_risk") for r in dissenting if r.get("key_risk")],
-            "flagged": len(dissenting) >= 2
-        }
+        'question': question,
+        'weight': weight,
+        'model': model,
+        'timestamp': datetime.now().isoformat(),
+        'counselors_spawned': len(perspectives),
+        'counselors_responded': len(valid_responses),
+        'counselors_failed': [r.get('perspective', 'unknown') for r in failed_responses],
+        'quorum_met': quorum_met,
+        'tally': tally,
+        'decision': decision,
+        'decision_text': decision,
+        'votes_for_winner': max_votes,
+        'unanimous': max_votes == len(valid_responses) and len(valid_responses) > 0,
+        'tied': tied if len(tied) > 1 else None,
+        'counselor_votes': counselor_votes,
+        'dissent': dissent,
+        'empathy_summary': empathy_summary,
+        'mitigations': mitigations[:3],  # Top 3
     }
 
 
-# ════════════════════════════════════════════════════════════════════════════
-# Output Formatting
-# ════════════════════════════════════════════════════════════════════════════
-
-def format_human_output(question: str, weight: str, model: str, responses: List[Dict], aggregation: Dict, elapsed: float) -> str:
-    """Format output for human reading."""
+def print_results(result: dict):
+    """Print the Circle results in a nice format."""
     
-    # Header based on weight
-    if weight == "council":
-        header = """
-╔════════════════════════════════════════════════════════════════════╗
-║  ⚖️  T H E   C O U N S E L   C O N V E N E D  ⚖️                  ║
-╚════════════════════════════════════════════════════════════════════╝
+    print(f"\n{Colors.BOLD}─── 🗳️ Votes ───{Colors.RESET}\n")
+    
+    for cv in result['counselor_votes']:
+        conf_color = Colors.GREEN if cv['confidence'] >= 75 else (Colors.YELLOW if cv['confidence'] >= 50 else Colors.RED)
+        print(f"  {cv['emoji']} {cv['perspective'].capitalize():12} │ {cv['vote']:8} │ {conf_color}{cv['confidence']:3}%{Colors.RESET} │ {cv['assessment'][:50]}...")
+    
+    print(f"\n{Colors.BOLD}─── 📊 Tally ───{Colors.RESET}\n")
+    
+    total_votes = sum(v['count'] for k, v in result['tally'].items() if k != 'abstain')
+    for vote, data in sorted(result['tally'].items(), key=lambda x: -x[1]['count']):
+        if vote == 'abstain':
+            continue
+        pct = int((data['count'] / total_votes) * 100) if total_votes > 0 else 0
+        bar = '█' * (pct // 5) + '░' * (20 - pct // 5)
+        print(f"  {vote}: {bar} {data['count']} votes ({pct}%) - avg conf: {data['avg_confidence']:.0f}%")
+    
+    decision_color = Colors.GREEN if result['unanimous'] else Colors.YELLOW
+    print(f"\n{Colors.BOLD}✅ Decision: {decision_color}{result['decision']}{Colors.RESET}")
+    
+    if result['unanimous']:
+        print(f"   {Colors.GREEN}(Unanimous){Colors.RESET}")
+    
+    if result['dissent']['exists']:
+        print(f"\n{Colors.BOLD}─── ⚠️ Dissent ───{Colors.RESET}")
+        print(f"  {result['dissent']['count']} counselor(s) disagreed: {', '.join(result['dissent']['perspectives'])}")
+        for concern in result['dissent']['concerns']:
+            print(f"  • {concern}")
+    
+    if result['empathy_summary']:
+        print(f"\n{Colors.BOLD}─── 💜 Empathy Summary ───{Colors.RESET}")
+        print(f"  {result['empathy_summary'][:200]}...")
+    
+    if result['mitigations']:
+        print(f"\n{Colors.BOLD}─── 🛡️ Mitigations ───{Colors.RESET}")
+        for m in result['mitigations']:
+            print(f"  • {m}")
+    
+    if not result['quorum_met']:
+        print(f"\n{Colors.RED}⚠️ WARNING: Quorum not met! Only {result['counselors_responded']}/{result['counselors_spawned']} responded.{Colors.RESET}")
+    
+    print()
+
+
+def save_log(result: dict) -> Path:
+    """Save the Circle result to the counsel log directory."""
+    log_dir = Path.home() / 'clawd' / 'memory' / 'counsel'
+    log_dir.mkdir(parents=True, exist_ok=True)
+    
+    timestamp = datetime.now().strftime('%Y-%m-%d-%H-%M')
+    slug = slugify(result['question'])
+    filename = f"{timestamp}-{slug}.md"
+    filepath = log_dir / filename
+    
+    # Build markdown content
+    content = f"""# Circle Decision: {result['question']}
+
+**Weight:** {result['weight']}
+**Model:** {result['model']}
+**Timestamp:** {result['timestamp']}
+**Counselors:** {result['counselors_responded']}/{result['counselors_spawned']} responded
+**Quorum:** {'✅ Met' if result['quorum_met'] else '❌ Not Met'}
+
+## Decision: {result['decision']}
+
+{'**(Unanimous)**' if result['unanimous'] else ''}
+
+## Votes
+
+| Counselor | Vote | Confidence | Key Risk |
+|-----------|------|------------|----------|
 """
-    else:
-        emoji_map = {"light": "🟢", "standard": "🟡", "elevated": "🟠", "council": "🔴"}
-        header = f"\n{emoji_map.get(weight, '💜')} Circle Analysis ({weight.title()} Weight)\n{'═' * 50}\n"
     
-    lines = [header]
-    lines.append(f"📋 Question: {question}")
-    lines.append(f"🤖 Model: {model} | ⏱️ Elapsed: {elapsed:.1f}s")
-    lines.append("")
+    for cv in result['counselor_votes']:
+        content += f"| {cv['emoji']} {cv['perspective']} | {cv['vote']} | {cv['confidence']}% | {cv.get('key_risk', 'N/A')} |\n"
     
-    # Votes table
-    lines.append("┌─────────────────────┬────────┬────────────┬─────────────────────────────────────────┐")
-    lines.append("│ Counselor           │ Vote   │ Confidence │ Key Risk                                │")
-    lines.append("├─────────────────────┼────────┼────────────┼─────────────────────────────────────────┤")
-    
-    for r in responses:
-        emoji = r.get("perspective_emoji", "❓")
-        perspective = r.get("perspective", "unknown")[:12]
-        vote = r.get("vote", "?")[:7]
-        conf = r.get("confidence", 0)
-        conf_bar = "🟢" if conf >= 70 else "🟡" if conf >= 40 else "🔴"
-        risk = (r.get("key_risk", "") or "")[:38]
-        lines.append(f"│ {emoji} {perspective:<12} │ {vote:<6} │ {conf_bar} {conf:>3}%    │ {risk:<39} │")
-    
-    lines.append("└─────────────────────┴────────┴────────────┴─────────────────────────────────────────┘")
-    lines.append("")
-    
-    # Tally
-    tally = aggregation["tally"]
-    lines.append("📊 Tally:")
-    for vote_type in ["PROCEED", "ADJUST", "PAUSE"]:
-        count = tally.get(vote_type, 0)
-        bar = "█" * count + "░" * (7 - count)
-        lines.append(f"   {vote_type}: {bar} {count}")
-    
-    lines.append("")
-    
-    # Decision
-    decision = aggregation["decision"]
-    decision_emoji = {"PROCEED": "✅", "ADJUST": "⚠️", "PAUSE": "🛑"}.get(decision, "❓")
-    lines.append(f"{decision_emoji} Decision: {decision}")
-    
-    if aggregation["unanimous"]:
-        lines.append("   (Unanimous)")
-    elif aggregation["tied"]:
-        lines.append(f"   ⚠️ TIE between: {', '.join(aggregation['tied'])}")
-    
-    lines.append(f"   Avg Confidence: {aggregation['avg_confidence']}%")
-    
-    # Dissent
-    if aggregation["dissent"]["exists"]:
-        lines.append("")
-        lines.append("⚠️ Dissenting Concerns:")
-        for perspective, concern in zip(aggregation["dissent"]["perspectives"], aggregation["dissent"]["concerns"]):
-            if concern:
-                emoji = PERSPECTIVES.get(perspective, {}).get("emoji", "❓")
-                lines.append(f"   {emoji} {perspective}: {concern}")
-    
-    lines.append("")
-    return "\n".join(lines)
+    content += f"""
+## Tally
 
+"""
+    for vote, data in sorted(result['tally'].items(), key=lambda x: -x[1]['count']):
+        content += f"- **{vote}**: {data['count']} votes (avg confidence: {data['avg_confidence']:.0f}%)\n"
+        content += f"  - Voters: {', '.join(data['voters'])}\n"
+    
+    if result['dissent']['exists']:
+        content += f"""
+## Dissent
 
-def format_light_output(question: str, result: Dict, elapsed: float) -> str:
-    """Format light-weight check output."""
-    lines = [
-        "\n🟢 Circle Quick Check (Light Weight)",
-        "═" * 40,
-        f"📋 Question: {question}",
-        f"⏱️ Elapsed: {elapsed:.1f}s",
-        "",
-        "🔧 Critical Assessment:",
-        f"   {result.get('critical_assessment', 'N/A')}",
-        "",
-        "💜 Empathy Assessment:",
-        f"   {result.get('empathy_assessment', 'N/A')}",
-        "",
-    ]
-    
-    if result.get("concerns"):
-        lines.append("⚠️ Concerns:")
-        for c in result["concerns"]:
-            lines.append(f"   • {c}")
-        lines.append("")
-    
-    if result.get("suggestions"):
-        lines.append("💡 Suggestions:")
-        for s in result["suggestions"]:
-            lines.append(f"   • {s}")
-        lines.append("")
-    
-    vote = result.get("vote", "PAUSE")
-    vote_emoji = {"PROCEED": "✅", "ADJUST": "⚠️", "PAUSE": "🛑"}.get(vote, "❓")
-    lines.append(f"{vote_emoji} Recommendation: {vote}")
-    lines.append(f"   Confidence: {result.get('confidence', 50)}%")
-    
-    if result.get("recommendation"):
-        lines.append(f"   {result['recommendation']}")
-    
-    lines.append("")
-    return "\n".join(lines)
+**{result['dissent']['count']} counselor(s) disagreed:** {', '.join(result['dissent']['perspectives'])}
 
+Concerns:
+"""
+        for concern in result['dissent']['concerns']:
+            content += f"- {concern}\n"
+    
+    if result['empathy_summary']:
+        content += f"""
+## Empathy Summary
 
-# ════════════════════════════════════════════════════════════════════════════
-# Logging
-# ════════════════════════════════════════════════════════════════════════════
+{result['empathy_summary']}
+"""
+    
+    if result['mitigations']:
+        content += """
+## Mitigations
 
-def save_log(question: str, weight: str, model: str, responses: List[Dict], aggregation: Dict, elapsed: float) -> str:
-    """Save deliberation log to memory/counsel/."""
-    MEMORY_DIR.mkdir(parents=True, exist_ok=True)
+"""
+        for m in result['mitigations']:
+            content += f"- {m}\n"
     
-    timestamp = datetime.now()
-    slug = re.sub(r'[^a-z0-9]+', '-', question.lower()[:30]).strip('-')
-    filename = f"{timestamp.strftime('%Y-%m-%d-%H-%M')}-{slug}.md"
-    filepath = MEMORY_DIR / filename
-    
-    content = [
-        f"# 💜 Circle Decision: {question[:60]}...",
-        "",
-        f"**Timestamp:** {timestamp.isoformat()}",
-        f"**Weight:** {weight}",
-        f"**Model:** {model}",
-        f"**Elapsed:** {elapsed:.1f}s",
-        "",
-        "## Question",
-        question,
-        "",
-        "## Counselor Responses",
-        ""
-    ]
-    
-    for r in responses:
-        emoji = r.get("perspective_emoji", "❓")
-        perspective = r.get("perspective", "unknown")
-        content.append(f"### {emoji} {perspective}")
-        content.append(f"**Vote:** {r.get('vote', 'N/A')} | **Confidence:** {r.get('confidence', 0)}%")
-        content.append("")
-        content.append(f"**Assessment:** {r.get('assessment', 'N/A')}")
-        content.append("")
-        if r.get("concerns"):
-            content.append("**Concerns:**")
-            for c in r["concerns"]:
-                content.append(f"- {c}")
-            content.append("")
-        if r.get("key_risk"):
-            content.append(f"**Key Risk:** {r['key_risk']}")
-        content.append("")
-    
-    content.extend([
-        "## Aggregated Decision",
-        "",
-        f"**Decision:** {aggregation['decision']}",
-        f"**Votes for winner:** {aggregation['votes_for_winner']}/{aggregation['total_responding']}",
-        f"**Unanimous:** {aggregation['unanimous']}",
-        f"**Avg Confidence:** {aggregation['avg_confidence']}%",
-        "",
-    ])
-    
-    if aggregation["dissent"]["exists"]:
-        content.append("### Dissent")
-        content.append(f"**Count:** {aggregation['dissent']['count']}")
-        content.append(f"**Flagged:** {aggregation['dissent']['flagged']}")
-        for perspective, concern in zip(aggregation["dissent"]["perspectives"], aggregation["dissent"]["concerns"]):
-            if concern:
-                content.append(f"- **{perspective}:** {concern}")
-        content.append("")
-    
-    filepath.write_text("\n".join(content))
-    return str(filepath)
+    # Add full assessments
+    content += """
+## Full Assessments
 
+"""
+    for cv in result['counselor_votes']:
+        content += f"""### {cv['emoji']} {cv['perspective'].capitalize()}
 
-# ════════════════════════════════════════════════════════════════════════════
-# Main
-# ════════════════════════════════════════════════════════════════════════════
+**Vote:** {cv['vote']} (Confidence: {cv['confidence']}%)
+
+{cv['assessment']}
+
+**Concerns:**
+"""
+        for c in cv.get('concerns', []):
+            content += f"- {c}\n"
+        content += "\n**Suggestions:**\n"
+        for s in cv.get('suggestions', []):
+            content += f"- {s}\n"
+        content += "\n"
+    
+    # Add JSON for machine readability
+    content += f"""
+---
+
+## Raw JSON
+
+```json
+{json.dumps(result, indent=2)}
+```
+"""
+    
+    filepath.write_text(content)
+    return filepath
+
 
 def main():
     parser = argparse.ArgumentParser(
-        description="💜 The Circle — Multi-Perspective Thinking CLI",
+        description='The Circle - Multi-perspective thinking CLI',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   circle "Should I refactor the auth module?" --weight standard
   circle "How to phrase this feedback?" --weight light --focus empathy
   circle --convene "Architecture: monorepo vs polyrepo"
-  circle "Is this secure?" --weight elevated --perspectives guardian,skeptic
+  circle "Redis or PostgreSQL?" --options "Redis,PostgreSQL" --weight standard
+  circle "Deploy now?" --weight elevated --log
         """
     )
     
-    parser.add_argument("question", nargs="?", help="The question or situation to analyze")
-    parser.add_argument("--convene", metavar="QUESTION", help="Convene full Council (shorthand for --weight council)")
-    parser.add_argument("--weight", "-w", choices=["internal", "light", "standard", "elevated", "council"],
-                        default="standard", help="Weight level (default: standard)")
-    parser.add_argument("--focus", "-f", choices=["critical", "empathy", "both"],
-                        default="both", help="Which perspective group to emphasize")
-    parser.add_argument("--perspectives", "-p", help="Comma-separated list of specific perspectives")
-    parser.add_argument("--context", "-c", help="Additional context for the question")
-    parser.add_argument("--output", "-o", choices=["human", "json"], default="human",
-                        help="Output format (default: human)")
-    parser.add_argument("--log", "-l", action="store_true", help="Save log to memory/counsel/")
-    parser.add_argument("--quiet", "-q", action="store_true", help="Minimal output (just decision)")
-    parser.add_argument("--debug", "-d", action="store_true", help="Show debug output")
+    parser.add_argument('question', nargs='?', help='The question or situation to analyze')
+    parser.add_argument('--convene', '-C', metavar='QUESTION', help='Convene full Council (weight=council)')
+    parser.add_argument('--weight', '-w', 
+                        choices=['internal', 'light', 'standard', 'elevated', 'council'],
+                        default='standard',
+                        help='Weight level (default: standard)')
+    parser.add_argument('--focus', '-f',
+                        choices=['critical', 'empathy', 'both'],
+                        default='both',
+                        help='Focus on critical thinking, empathy, or both (default: both)')
+    parser.add_argument('--perspectives', '-p',
+                        help='Comma-separated list of specific perspectives to use')
+    parser.add_argument('--context', '-c',
+                        default='',
+                        help='Additional context for the question')
+    parser.add_argument('--options', '-o',
+                        help='Comma-separated list of options to vote on')
+    parser.add_argument('--output', 
+                        choices=['text', 'json'],
+                        default='text',
+                        help='Output format (default: text)')
+    parser.add_argument('--log', '-l',
+                        action='store_true',
+                        help='Save result to memory/counsel/')
     
     args = parser.parse_args()
     
-    # Handle --convene shorthand
+    # Handle --convene shortcut
     if args.convene:
         question = args.convene
-        weight = "council"
+        weight = 'council'
     elif args.question:
         question = args.question
         weight = args.weight
@@ -558,126 +719,45 @@ Examples:
         parser.print_help()
         sys.exit(1)
     
-    # Handle internal weight
-    if weight == "internal":
-        result = run_internal_check(question)
-        if args.output == "json":
-            print(json.dumps(result, indent=2))
-        else:
-            print("\n💭 Internal Check (no agents spawned)")
-            print("═" * 40)
-            print(f"📋 Question: {question}")
-            print("\n🧠 Critical: Logic sound? Risks? Realistic?")
-            print("💜 Empathy: How will they feel? Tone right? What do they need?")
-            print("\n→ Use your own judgment with these lenses.\n")
-        return
-    
-    # Get configuration
-    config = WEIGHT_CONFIG[weight]
-    model = config["model"]
-    
-    # Determine perspectives
+    # Parse perspectives
+    perspectives = None
     if args.perspectives:
-        perspectives = [p.strip() for p in args.perspectives.split(",")]
-        # Validate
-        for p in perspectives:
-            if p not in PERSPECTIVES:
-                print(f"Error: Unknown perspective '{p}'", file=sys.stderr)
-                print(f"Available: {', '.join(PERSPECTIVES.keys())}", file=sys.stderr)
-                sys.exit(1)
-    else:
-        perspectives = config["perspectives"]
-        # Filter by focus
-        if args.focus == "critical":
-            perspectives = [p for p in perspectives if PERSPECTIVES[p]["type"] == "critical"]
-        elif args.focus == "empathy":
-            perspectives = [p for p in perspectives if PERSPECTIVES[p]["type"] == "empathy"]
+        perspectives = [p.strip() for p in args.perspectives.split(',')]
+        # Validate perspectives
+        invalid = [p for p in perspectives if p not in ALL_PERSPECTIVES]
+        if invalid:
+            print(f"{Colors.RED}Error: Unknown perspectives: {', '.join(invalid)}{Colors.RESET}")
+            print(f"Valid perspectives: {', '.join(ALL_PERSPECTIVES.keys())}")
+            sys.exit(1)
     
-    # Light weight uses combined prompt
-    if weight == "light" and not args.perspectives:
-        print("🟢 Spawning quick checker...", file=sys.stderr)
-        start = time.time()
-        result = run_light_check(question, args.context, debug=args.debug)
-        elapsed = time.time() - start
+    # Parse options
+    options = None
+    if args.options:
+        options = [o.strip() for o in args.options.split(',')]
+    
+    # Run the Circle
+    try:
+        result = asyncio.run(run_circle(
+            question=question,
+            weight=weight,
+            perspectives=perspectives,
+            context=args.context,
+            options=options,
+            output_json=(args.output == 'json'),
+            log=args.log,
+            focus=args.focus
+        ))
         
-        if args.output == "json":
-            result["weight"] = weight
-            result["model"] = model
-            result["elapsed"] = elapsed
+        if args.output == 'json':
             print(json.dumps(result, indent=2))
-        elif args.quiet:
-            print(result.get("vote", "PAUSE"))
-        else:
-            print(format_light_output(question, result, elapsed))
-        
-        if args.log:
-            # Simple log for light weight
-            MEMORY_DIR.mkdir(parents=True, exist_ok=True)
-            timestamp = datetime.now()
-            slug = re.sub(r'[^a-z0-9]+', '-', question.lower()[:30]).strip('-')
-            filename = f"{timestamp.strftime('%Y-%m-%d-%H-%M')}-{slug}.md"
-            filepath = MEMORY_DIR / filename
-            filepath.write_text(f"# Light Check: {question}\n\n```json\n{json.dumps(result, indent=2)}\n```\n")
-            print(f"📝 Logged to: {filepath}", file=sys.stderr)
-        return
-    
-    # Spawn counselors in parallel
-    n_counselors = len(perspectives)
-    print(f"{'🔴' if weight == 'council' else '🟡'} Spawning {n_counselors} counselors ({weight}/{model})...", file=sys.stderr)
-    
-    start = time.time()
-    responses = []
-    
-    with ThreadPoolExecutor(max_workers=min(n_counselors, 7)) as executor:
-        futures = {
-            executor.submit(spawn_counselor, p, question, args.context, weight, model): p
-            for p in perspectives
-        }
-        
-        for i, future in enumerate(as_completed(futures), 1):
-            perspective = futures[future]
-            emoji = PERSPECTIVES[perspective]["emoji"]
-            print(f"   {emoji} {perspective} responded ({i}/{n_counselors})", file=sys.stderr)
-            try:
-                responses.append(future.result())
-            except Exception as e:
-                responses.append({
-                    "perspective": perspective,
-                    "perspective_emoji": PERSPECTIVES[perspective]["emoji"],
-                    "error": str(e),
-                    "vote": "abstain",
-                    "confidence": 0
-                })
-    
-    elapsed = time.time() - start
-    
-    # Aggregate
-    aggregation = aggregate_votes(responses)
-    aggregation["weight"] = weight
-    aggregation["model"] = model
-    aggregation["counselors_spawned"] = n_counselors
-    aggregation["counselors_responded"] = len([r for r in responses if r.get("vote", "").upper() != "ABSTAIN"])
-    aggregation["quorum_met"] = aggregation["counselors_responded"] >= max(2, n_counselors // 2)
-    aggregation["elapsed"] = elapsed
-    
-    # Output
-    if args.output == "json":
-        output = {
-            "question": question,
-            **aggregation,
-            "counselor_votes": responses
-        }
-        print(json.dumps(output, indent=2))
-    elif args.quiet:
-        print(aggregation["decision"])
-    else:
-        print(format_human_output(question, weight, model, responses, aggregation, elapsed))
-    
-    # Log if requested
-    if args.log:
-        logfile = save_log(question, weight, model, responses, aggregation, elapsed)
-        print(f"📝 Logged to: {logfile}", file=sys.stderr)
+            
+    except KeyboardInterrupt:
+        print(f"\n{Colors.YELLOW}Cancelled.{Colors.RESET}")
+        sys.exit(130)
+    except Exception as e:
+        print(f"{Colors.RED}Error: {e}{Colors.RESET}")
+        sys.exit(1)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
