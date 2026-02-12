@@ -42,7 +42,7 @@ See: `scheduler/progress/p0-verify.md` for Phase 0 verification results
 - **Manager Notes:**
   - [00:03] Auth types done, login function starting
   - [00:05] p1-1-b also completed! Both a and b done
-  - Next: p1-1-c and p1-1-d can run (both unblocked)
+  - [00:14] Spawning c (registration) and d (cookies) in parallel
 
 ### haos-v2-matrix-auth-types-p1-1-a: Create Matrix Auth Types ✅
 - **Status:** completed
@@ -76,7 +76,9 @@ See: `scheduler/progress/p0-verify.md` for Phase 0 verification results
 - **Summary:** Full auth implementation with well-known discovery, proper error handling via MatrixAuthError class, and JSDoc documentation. TypeScript compiles cleanly, lint passes, no 'any' types.
 
 ### haos-v2-matrix-registration-p1-1-c: Implement Matrix Registration Function
-- **Status:** pending
+- **Status:** in-progress
+- **Started:** 2026-02-12 00:14 EST
+- **Parent:** haos-v2-auth-manager-p1-1
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-matrix-auth-types-p1-1-a
 - **Description:** Function to register new Matrix accounts
@@ -90,7 +92,9 @@ See: `scheduler/progress/p0-verify.md` for Phase 0 verification results
   - Username validation works
 
 ### haos-v2-session-cookies-p1-1-d: Create Session Cookie Management
-- **Status:** pending
+- **Status:** in-progress
+- **Started:** 2026-02-12 00:14 EST
+- **Parent:** haos-v2-auth-manager-p1-1
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-matrix-login-p1-1-b
 - **Description:** Secure cookie handling for Matrix sessions
