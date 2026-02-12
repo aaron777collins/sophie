@@ -168,6 +168,28 @@ We use a layered management system. Each level has decreasing cron frequency goi
 - Person Manager breaks it down, assigns to Coordinator, and so on down the chain
 - Each level can hire/create sub-levels as complexity demands
 
+### 🔧 Managers Fix Problems (Active Coaching)
+
+**Managers don't just delegate — they coach, correct, and improve:**
+
+1. **Identify the issue** → Something stalled? Task failed? Pattern of problems?
+2. **Spawn the report** → Talk to the person below about what went wrong
+3. **Both make notes** → Document the problem, the discussion, and the fix
+4. **Address systemic issues** → If it's deeper than one task, fix the root cause
+5. **Right-size the model** → Task Manager is usually Haiku, but for systemic fixes spawn Sonnet
+
+**Example flow:**
+```
+Person Manager notices HAOS stalled
+  → Spawns Coordinator: "What happened with HAOS? Let's fix this."
+  → Coordinator reviews, talks to Task Manager
+  → Both make notes about what went wrong
+  → Systemic fix? Spawn Sonnet to redesign the approach
+  → Document lessons learned in notes/
+```
+
+**The goal:** Each level actively manages the level below. Problems get caught, discussed, and fixed — not just re-assigned.
+
 | Level | Agent | Cron | Model | Jobs File |
 |-------|-------|------|-------|-----------|
 | 1 | Person Manager | 2x/day | Sonnet | `scheduler/person-manager/JOBS.md` |
@@ -183,6 +205,22 @@ We use a layered management system. Each level has decreasing cron frequency goi
 4. **Every "person" can be spawned** — for direct conversation anytime
 5. **Jobs files must get emptied** — when work is complete
 6. **Cron frequency decreases going up** — strategic thinking > tactical action
+
+### 📝 WRITE EVERYTHING DOWN (Critical!)
+
+**Notes via hierarchical nested .md files are KEY:**
+1. **Before raising issues** → Write it down in notes first
+2. **Before doing anything** → Document the plan
+3. **After discussions** → Write down the outcomes
+4. **Before acting again** → Review what was written
+
+### 🔄 Feedback Flows Up
+
+- Workers obey managers BUT give feedback
+- Have an issue? → **Write it down first**, then tell manager
+- Manager makes smarter decisions from worker feedback
+- Orders from Aaron are IMPORTANT and should be followed
+- But everyone still thinks critically and raises concerns
 
 ### 📝 WRITE EVERYTHING DOWN (Critical!)
 
