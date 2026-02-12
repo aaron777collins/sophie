@@ -18,7 +18,7 @@
 
 **Phase 0 COMPLETE** (verified 2026-02-12). All foundation tasks done, build passes.
 
-Ready to begin Phase 1: Auth, Matrix sync, media services.
+**Now executing Phase 1:** Auth, Matrix sync, media services.
 
 See: `~/clawd/docs/haos-v2/TASK-BREAKDOWN.md` for full task list (94 tasks across 4 phases)
 See: `memory/projects/haos-v2/_overview.md` for current project state
@@ -26,7 +26,78 @@ See: `scheduler/progress/p0-verify.md` for Phase 0 verification results
 
 ---
 
-## Phase 0 Tasks (Ready to Execute)
+## Phase 1 Tasks (In Progress)
+
+### p1-1-a: Create Matrix Auth Types
+- **Status:** pending
+- **Min Model:** sonnet
+- **Description:** TypeScript types for Matrix authentication
+- **Files to Create:**
+  - `apps/web/lib/matrix/types/auth.ts`
+- **Types to Define:**
+  - `MatrixCredentials`, `MatrixSession`, `MatrixUser`
+  - `AuthState`, `LoginRequest`/`LoginResponse`
+  - `RegisterRequest`/`RegisterResponse`
+- **Success Criteria:**
+  - All auth-related data has proper types
+  - No `any` types in auth flow
+
+### p1-1-b: Implement Matrix Login Function
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** p1-1-a
+- **Description:** Function to authenticate with Matrix homeserver
+- **Files to Create:**
+  - `apps/web/lib/matrix/auth.ts`
+- **Functions:**
+  - `loginWithPassword(username, password): Promise<MatrixSession>`
+  - `validateSession(accessToken): Promise<MatrixUser>`
+- **Success Criteria:**
+  - Valid credentials return session
+  - Invalid credentials throw appropriate error
+
+### p1-1-c: Implement Matrix Registration Function
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** p1-1-a
+- **Description:** Function to register new Matrix accounts
+- **Files to Create:**
+  - `apps/web/lib/matrix/auth.ts` (add to existing)
+- **Functions:**
+  - `register(username, password, email?): Promise<MatrixSession>`
+  - `checkUsernameAvailable(username): Promise<boolean>`
+- **Success Criteria:**
+  - New accounts can be created
+  - Username validation works
+
+### p1-1-d: Create Session Cookie Management
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** p1-1-b
+- **Description:** Secure cookie handling for Matrix sessions
+- **Files to Create:**
+  - `apps/web/lib/matrix/cookies.ts`
+- **Functions:**
+  - `setSessionCookie`, `getSessionCookie`, `clearSessionCookie`
+- **Success Criteria:**
+  - Cookies are httpOnly, secure, sameSite
+  - Session persists across browser refresh
+
+### p1-1-e: Create MatrixAuthProvider Context
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** p1-1-d
+- **Description:** React context providing auth state to app
+- **Files to Create:**
+  - `apps/web/components/providers/matrix-auth-provider.tsx`
+- **Success Criteria:**
+  - useMatrixAuth() hook available throughout app
+  - Auto-validates session on mount
+  - Handles loading/error states
+
+---
+
+## Phase 0 Tasks (Completed)
 
 ### p0-1-a: Initialize Monorepo Structure ✅
 - **Status:** completed
