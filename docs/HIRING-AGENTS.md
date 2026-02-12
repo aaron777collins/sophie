@@ -141,7 +141,7 @@ touch ~/clawd/scheduler/{role-name}/JOBS.md
 For cron-based agents, add a job:
 
 ```javascript
-// Use cron tool
+// Use cron tool — L1/L2 ONLY deliver to Slack
 cron.add({
   name: "{role-name}",
   enabled: true,
@@ -152,7 +152,12 @@ cron.add({
     kind: "agentTurn",
     message: "You are the **{Role Name}**.\n\nFIRST: Read ~/clawd/scheduler/{role-name}/IDENTITY.md\n\n{instructions}",
     model: "{model}",
-    deliver: true,
+    // ⚠️ SLACK DELIVERY RULES:
+    // L1 (Person Manager): deliver: true, channel: "slack"
+    // L2 (Coordinator): deliver: true, channel: "slack"  
+    // L3 (Task Managers): deliver: false OR omit channel/to
+    // L3 should communicate via inbox files, NOT Slack
+    deliver: true,  // Set to false for L3!
     channel: "slack",
     to: "channel:C0ABAU26S6N"
   }

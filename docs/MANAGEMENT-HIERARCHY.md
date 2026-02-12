@@ -340,7 +340,36 @@ Workers don't have jobs files — they're spawned with explicit task instruction
 1. **Update PROACTIVE-JOBS.md** when complete
 2. **Maintain progress file** during work
 3. **Delete heartbeat** when done
-4. **Send Slack notification** when done
+4. **Send Slack completion notification** (brief: "✅ task-id complete")
+
+---
+
+## 📢 Slack Communication Rules
+
+**Only L1/L2 post thoughts and summaries to Slack. L3/L4 communicate via files and inboxes.**
+
+| Level | Role | Posts to Slack? | How They Communicate |
+|-------|------|-----------------|----------------------|
+| **L1** | Person Manager | ✅ Yes — summaries, issues, status | Slack + direct with Sophie/Aaron |
+| **L2** | Coordinator | ✅ Yes — project updates, batched summaries | Slack + inbox with PM |
+| **L3** | Task Managers | ❌ **NO** (except errors) | **Inbox/files only** → Coordinator |
+| **L4** | Workers | ✅ Completion only | Brief "✅ done" + inbox/files → TM |
+
+### Why This Matters
+
+- **L1/L2** provide high-level visibility without noise
+- **L3** would flood Slack with periodic check-in spiels — communicate UP via files instead
+- **L4** completion notifications are useful and brief
+
+### Task Manager Communication Pattern
+
+Instead of posting to Slack, Task Managers should:
+1. **Write to progress files** — `scheduler/progress/*.md`
+2. **Send to Coordinator inbox** — `scheduler/inboxes/coordinator/`
+3. **Take notes** — `scheduler/task-managers/notes/`
+
+The **Coordinator** then batches and summarizes for Slack:
+> "Phase 2.3 complete: 5/5 tasks done" (not 5 separate notifications)
 
 ---
 

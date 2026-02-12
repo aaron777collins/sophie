@@ -6,6 +6,15 @@
 
 Task Managers handle tactical coordination. The primary Task Manager is the **Proactive Scheduler** cron (every 15 min), which spawns workers for pending tasks.
 
+## ⚠️ NO SLACK POSTS
+
+**Task Managers do NOT post to Slack.** Communicate via:
+- **Coordinator inbox** — `scheduler/inboxes/coordinator/`
+- **Progress files** — `scheduler/progress/`
+- **Notes** — `scheduler/task-managers/notes/`
+
+The Coordinator batches and summarizes for Slack. This prevents flooding the channel with periodic check-in spiels.
+
 ## Key Characteristics
 
 - **Cron:** Every 15 minutes (proactive-scheduler)

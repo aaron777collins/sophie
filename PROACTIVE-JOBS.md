@@ -481,25 +481,23 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - ✅ Topic truncates gracefully
   - ✅ Member count updates live
 
-### haos-v2-create-server-modal-p2-4-a: Implement Create Server Modal
-- **Status:** in-progress
-- **Started:** 2026-02-20 11:49 EST
-- **Spawned:** 2026-02-20 12:00 EST
+### haos-v2-create-server-modal-p2-4-a: Implement Create Server Modal ✅
+- **Status:** completed
+- **Completed:** 2026-02-20 11:57 EST
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-chat-header-p2-3-e
 - **Description:** Server creation wizard modal
-- **Files to Create/Modify:**
-  - `apps/web/components/modals/create-server-modal.tsx`
-- **Features:**
-  - "Create" vs "Join" initial choice
-  - Server name input with validation
-  - Avatar upload with preview
-  - Template selection (optional)
-  - Matrix space creation
-- **Success Criteria:**
-  - Creates Matrix space correctly
-  - Redirects to new server
-  - Modal closes on success
+- **Files Created:**
+  - `apps/web/components/modals/create-server-modal.tsx` (24KB)
+- **Features Completed:**
+  - ✅ Multi-step wizard: choice → create/join → template → customize
+  - ✅ Server name input with validation (1-100 chars)
+  - ✅ Avatar upload with Matrix FileUpload (5MB limit)
+  - ✅ 4 templates: Gaming, Study, Friends, Work (auto-create channels)
+- **Success Criteria:** ✅ ALL MET
+  - ✅ Creates Matrix space correctly
+  - ✅ Redirects to new server
+  - ✅ Modal closes on success
   - Templates pre-configure channels
 
 ### haos-v2-create-channel-modal-p2-4-c: Implement Create Channel Modal

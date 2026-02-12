@@ -208,22 +208,28 @@ Person Manager notices HAOS stalled
 
 ### 📢 Slack Notification Rules
 
-**Only L1/L2 post to Slack:**
+**L1/L2 post summaries. L3 stays quiet. L4 posts completions only.**
 
 | Level | Role | Posts to Slack? |
 |-------|------|-----------------|
 | L1 | Person Manager | ✅ Yes — high-level summaries |
 | L2 | Coordinator | ✅ Yes — project status updates |
-| L3 | Task Managers | ❌ NO — report to Coordinator only |
-| L4 | Workers | ❌ NO — report to Task Manager only |
+| L3 | Task Managers | ❌ **NO** — inbox/files only, no check-in spiels |
+| L4 | Workers | ✅ Completion only — brief "✅ task done" |
 
-**Why?** Workers and Task Managers completing individual tasks would flood the channel. They report UP the chain via progress files. Coordinators and Person Managers batch these into meaningful summaries.
+**Why?** Task Managers posting their entire check-in thought process floods the channel. They should communicate UP via inbox/files. Coordinators and Person Managers batch these into meaningful summaries.
 
 **Worker completion flow:**
 1. Update your progress file ✅
 2. Update PROACTIVE-JOBS.md ✅
 3. Update parent's progress file ✅
-4. **DO NOT post to Slack** ❌
+4. Send brief Slack notification: "✅ task-id complete" ✅
+
+**Task Manager flow (NO Slack):**
+1. Check heartbeats and progress files
+2. Spawn workers as needed
+3. Write notes to `scheduler/task-managers/notes/`
+4. Send status to Coordinator inbox — **NOT Slack**
 
 ### 📝 WRITE EVERYTHING DOWN (Critical!)
 
