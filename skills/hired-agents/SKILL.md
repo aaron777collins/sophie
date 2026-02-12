@@ -119,13 +119,13 @@
 □ 13. DELETE heartbeat file
       rm ~/clawd/scheduler/heartbeats/{task-id}.json
 
-□ 14. Send Slack notification
-      message action=send channel=slack target="channel:C0ABAU26S6N"
-      message="✅ [{task-id}] Completed! {summary}"
-
-□ 15. Report to parent manager (if you have one)
+□ 14. Report to parent manager
       Update parent's progress file with your completion
-      OR send them a message if they have an active session
+      DO NOT send Slack notifications — managers handle that
+
+□ 15. (MANAGERS ONLY) Send Slack summary
+      Only L1/L2 (Person Manager, Coordinator) send Slack updates
+      Workers and Task Managers do NOT post to Slack directly
 ```
 
 ### On FAILURE:

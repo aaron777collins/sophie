@@ -128,7 +128,7 @@ Add to apps/web/lib/matrix/auth.ts:
    - Add Completed: timestamp
    - Update parent's Sub-Tasks list to show ✅ completed
 6. Delete your heartbeat file: rm ~/clawd/scheduler/heartbeats/p1-1-c.json
-7. Send Slack notification to C0ABAU26S6N
+7. **DO NOT post to Slack** — update parent's progress file only
 
 ## IF YOU GET STUCK
 Document what you tried in progress file, mark status as blocked, and explain the issue.
@@ -187,7 +187,7 @@ You are sub-agent {TASK_ID} working on {PROJECT_NAME}.
    - Update parent's Sub-Tasks list (change your entry to ✅ completed)
    - THE SCHEDULER READS THIS TO START NEXT TASKS!
 6. Delete your heartbeat file: rm ~/clawd/scheduler/heartbeats/{TASK_ID}.json
-7. Send Slack notification to C0ABAU26S6N: "✅ [{TASK_ID}] Completed! {summary}"
+7. **DO NOT post to Slack** — report to parent manager only (update their progress file)
 
 ## IF YOU GET STUCK
 Document what you tried in progress file, mark status as blocked, and explain the issue.

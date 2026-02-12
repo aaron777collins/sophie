@@ -206,6 +206,25 @@ Person Manager notices HAOS stalled
 5. **Jobs files must get emptied** — when work is complete
 6. **Cron frequency decreases going up** — strategic thinking > tactical action
 
+### 📢 Slack Notification Rules
+
+**Only L1/L2 post to Slack:**
+
+| Level | Role | Posts to Slack? |
+|-------|------|-----------------|
+| L1 | Person Manager | ✅ Yes — high-level summaries |
+| L2 | Coordinator | ✅ Yes — project status updates |
+| L3 | Task Managers | ❌ NO — report to Coordinator only |
+| L4 | Workers | ❌ NO — report to Task Manager only |
+
+**Why?** Workers and Task Managers completing individual tasks would flood the channel. They report UP the chain via progress files. Coordinators and Person Managers batch these into meaningful summaries.
+
+**Worker completion flow:**
+1. Update your progress file ✅
+2. Update PROACTIVE-JOBS.md ✅
+3. Update parent's progress file ✅
+4. **DO NOT post to Slack** ❌
+
 ### 📝 WRITE EVERYTHING DOWN (Critical!)
 
 **Notes via hierarchical nested .md files are KEY:**

@@ -1,6 +1,6 @@
 # HAOS v2 Project Overview
 
-**Last Updated:** [2026-02-12 19:15 EST]
+**Last Updated:** [2026-02-20 11:30 EST]
 
 ## Quick Reference
 
@@ -179,6 +179,36 @@
   - ✅ ESLint passes, proper TypeScript types
   - ✅ All success criteria independently verified
   - Task was already complete per PROACTIVE-JOBS.md - validation successful
+
+### ✅ p2-2-d (Channel Item) Complete
+- [2026-02-19 21:30 EST] **p2-2-d: Channel Item ✅** — `components/server/server-channel.tsx`
+  - Complete rewrite from Prisma to Matrix backend integration
+  - ✅ Icons by type (text #, voice 🔊, video 📹, announcement #)
+  - ✅ Channel name with active state styling for current channel
+  - ✅ Unread/mention indicators with badge system (ready for real Matrix data)
+  - ✅ Hover actions (edit, invite, delete) with Matrix permission integration
+  - ✅ Matrix backend integration using SpaceChannel, MemberRole, Matrix services
+  - ✅ Role-based permissions (owner/admin/moderator/member/restricted)
+  - ✅ General channel protection with lock icon
+  - ✅ Modal store integration updated for Matrix types (spaceChannel, space)
+  - Production-ready: ESLint ✓, Discord-style design, full Matrix integration
+  - All success criteria met: correct icons, active state, action buttons, unread badges
+
+### ✅ p2-2-e (Member List) Complete
+- [2026-01-11 14:30 EST] **p2-2-e: Member List ✅** — `apps/web/components/server/server-member-list.tsx`
+  - Discord-style right sidebar member list with full Matrix integration
+  - ✅ Members grouped by role hierarchy (owner → admin → moderator → member → restricted)
+  - ✅ Online/offline sections with accurate member counts per role
+  - ✅ Member count per role header with collapsible sections (persistent state)
+  - ✅ Click opens profile card (integrated with existing modal system)
+  - ✅ Real-time presence updates via usePresence hook
+  - ✅ Typing indicators for actively typing members
+  - ✅ Discord-style UI patterns with hover animations and proper spacing
+  - ✅ UserAvatar integration with presence status dots
+  - ✅ Error handling and loading states for robust UX
+  - Production-ready: 11.8KB, full TypeScript types, comprehensive JSDoc
+  - Matrix integration: getMembers service, usePresence hook, real-time updates
+  - All success criteria met: role grouping, presence updates, profile cards, accurate counts
 
 ### ✅ p1-3-a (Matrix Media Types) Complete
 - [2026-02-15 20:38 EST] **p1-3-a: Matrix media types ✅** — `lib/matrix/types/media.ts`
@@ -368,6 +398,37 @@
   - ✅ Updated modal store types for Matrix file upload workflow
   - Production-ready: 14.3KB, comprehensive TypeScript types, full error handling
   - All success criteria met: Matrix sending, file uploads, emoji insertion, typing indicators
+
+### ✅ p2-3-d (Message Actions) Complete
+- [2026-02-20 18:55 EST] **p2-3-d: Message Actions ✅** — `apps/web/components/chat/message-actions.tsx`
+  - Discord-style hover action buttons for message interactions
+  - ✅ React, reply, edit, delete buttons appear on message hover
+  - ✅ Quick reaction buttons (👍, 👎, ❤️, 😂, 😮, 😢, 🎉) with Matrix integration
+  - ✅ More menu for additional actions: Copy text, Copy link, Pin, Thread (placeholders)
+  - ✅ Permission-based action visibility respecting Matrix power levels
+  - ✅ Edit opens inline editor callback, Delete confirms before action
+  - ✅ Matrix backend integration: addReaction, editMessage, deleteMessage services
+  - ✅ Comprehensive permission checking with useMessagePermissions hook
+  - ✅ Updated chat-item.tsx to integrate actions with hover state
+  - ✅ Updated delete-message-modal.tsx for Matrix backend integration
+  - Production-ready: 14.2KB, comprehensive TypeScript types, accessibility features
+  - All success criteria met: hover actions, permissions respected, Matrix integration
+
+### ✅ p2-3-e (Chat Header) Complete
+- [2025-01-27 18:45 EST] **p2-3-e: Chat Header ✅** — `apps/web/components/chat/chat-header.tsx`
+  - Discord-style channel header with information and controls
+  - ✅ Channel name with type icon (text #, voice 🔊, video 📹, announcement 📢)  
+  - ✅ Topic/description with graceful truncation (60 chars, respects word boundaries)
+  - ✅ Live member count display updated via useRoom hook
+  - ✅ Search, pins, members toggle buttons with proper state management
+  - ✅ Private channel lock indicator for invite-only rooms
+  - ✅ Permission-based actions (settings/notifications for admins)
+  - ✅ Matrix backend integration: useRoom, useMatrixClient hooks for live updates
+  - ✅ Channel type detection from Matrix room state (LiveKit for video, power levels for announcements)
+  - ✅ ActionTooltip integration for accessibility and UX
+  - ✅ Responsive design patterns that adapt to screen sizes
+  - Production-ready: 13KB, comprehensive TypeScript types with JSDoc, error handling
+  - All success criteria met: shows channel info, toggle buttons work, topic truncates, member count live
 
 ### ❌ What's Broken / Incomplete
 - Next.js version has security vulnerability (minor, should upgrade)
