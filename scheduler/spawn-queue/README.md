@@ -15,6 +15,7 @@ Since `sessions_spawn` is not available to sub-agents, they can request spawns b
 
 Create a file: `requests/{unique-id}.json`
 
+**Format A (nested spawn object):**
 ```json
 {
   "requestId": "unique-id",
@@ -24,10 +25,23 @@ Create a file: `requests/{unique-id}.json`
     "label": "child-task-id",
     "model": "anthropic/claude-3-5-haiku-latest",
     "task": "Your task instructions here..."
-  },
-  "waitForResult": false
+  }
 }
 ```
+
+**Format B (flat - also accepted):**
+```json
+{
+  "requestId": "unique-id",
+  "requestedBy": "parent-task-id",
+  "timestamp": "ISO timestamp",
+  "label": "child-task-id",
+  "model": "anthropic/claude-3-5-haiku-latest",
+  "task": "Your task instructions here..."
+}
+```
+
+Note: `requestId` can be inferred from filename if missing.
 
 ## Response Format
 
