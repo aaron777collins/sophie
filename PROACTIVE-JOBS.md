@@ -50,11 +50,11 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 - **Min Model:** opus
 - **Description:** Coordinate real-time sync migration — Matrix client singleton, React providers, hooks for rooms/messages/typing/presence/receipts, connection status UI. Manage sub-agents.
 - **Sub-Tasks:**
-  - haos-v2-matrix-client-p1-2-a
-  - haos-v2-matrix-provider-p1-2-b
-  - haos-v2-client-hook-p1-2-c
-  - haos-v2-room-hook-p1-2-d
-  - haos-v2-messages-hook-p1-2-e
+  - haos-v2-matrix-client-p1-2-a: ✅ completed
+  - haos-v2-matrix-provider-p1-2-b: ✅ completed
+  - haos-v2-client-hook-p1-2-c: ✅ completed
+  - haos-v2-use-room-p1-2-d: ✅ completed
+  - haos-v2-use-room-messages-p1-2-e: ⏳ pending
 
 ### haos-v2-matrix-client-p1-2-a: Create Matrix Client Singleton
 - **Status:** pending
@@ -225,7 +225,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - haos-v2-matrix-client-singleton-p1-2-a: ✅ completed
   - haos-v2-matrix-provider-p1-2-b: ✅ completed
   - haos-v2-use-matrix-client-p1-2-c: ✅ completed
-  - haos-v2-use-room-p1-2-d: in-progress
+  - haos-v2-use-room-p1-2-d: ✅ completed
   - haos-v2-use-room-messages-p1-2-e: pending (blocked by d)
 - **Manager Notes:**
   - [01:01] Manager created, 5 initial sub-tasks populated
@@ -332,9 +332,10 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 - **Parent:** haos-v2-sync-manager-p1-2
 - **Summary:** Hook implemented with focused interface (client + isReady), custom error handling, performance optimization with useMemo, and comprehensive documentation. Type-safe access to Matrix client from components.
 
-### haos-v2-use-room-p1-2-d: Create useRoom Hook
-- **Status:** in-progress
-- **Started:** 2026-02-12 02:01 EST
+### haos-v2-use-room-p1-2-d: Create useRoom Hook ✅
+- **Status:** completed
+- **Started:** 2026-02-12 01:54 EST
+- **Completed:** 2026-02-12 07:02 EST
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-matrix-provider-p1-2-b
 - **Description:** Hook to access single room data

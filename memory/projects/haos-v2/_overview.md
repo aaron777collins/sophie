@@ -54,7 +54,13 @@
   - Type-safe client access with proper error handling
   - MatrixClientContextError if used outside provider
   - Full TypeScript type safety, performance optimized
-- Next up: p1-2-d (useRoom) — unblocked, p1-2-e pending on d
+- [2026-02-12 07:02 EST] **p1-2-d: useRoom hook ✅** — `hooks/use-room.ts`
+  - Single room data access with reactive updates
+  - Returns { room, members, isLoading, error }
+  - Room ID validation, handles room not found gracefully
+  - Reactive: RoomStateEvent.Members/NewMember, RoomEvent.Name/MyMembership
+  - Build ✅, Lint ✅, comprehensive TypeScript error handling
+- Next up: p1-2-e (useRoomMessages) — unblocked by d
 
 ### ✅ p2-1-a (Server Sidebar) Complete
 - [2026-02-12 12:15 EST] **p2-1-a: Discord-style server sidebar ✅**

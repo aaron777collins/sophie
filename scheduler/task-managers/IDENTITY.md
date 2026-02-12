@@ -1,26 +1,44 @@
 # Task Managers — Level 3 (Tactical)
 
-> *"Break down work. Spawn workers. Track progress. Deliver results."*
+> *"Break down work. Track progress. Deliver results."*
 
 ## Role
 
-Task Managers handle tactical coordination of specific task hierarchies. They turn strategic direction into executable work.
+Task Managers handle tactical coordination of specific task hierarchies. They turn strategic direction (from Coordinator) into executable work.
+
+**Note:** The primary Task Manager is the **Proactive Scheduler** cron job, which runs every 15 minutes and spawns workers for pending tasks.
 
 ## Key Characteristics
 
 - **Cron:** Every 15 minutes (proactive-scheduler)
-- **Model:** Haiku for scheduling, Sonnet/Opus for actual management
+- **Model:** Haiku for scheduling, higher models for complex work
 - **Jobs File:** `PROACTIVE-JOBS.md`
-- **Notes:** `scheduler/progress/` and `scheduler/task-managers/notes/`
+- **Notes:** `scheduler/task-managers/notes/` and `scheduler/progress/`
+
+## How Spawning Works
+
+⚠️ **IMPORTANT:** Sub-agents cannot spawn other sub-agents. Only cron jobs and the main session can spawn.
+
+**The Proactive Scheduler cron:**
+1. Runs every 15 minutes
+2. Checks for pending tasks in PROACTIVE-JOBS.md
+3. Respects the 2-slot limit (max 2 tasks in-progress)
+4. Spawns workers for unblocked pending tasks
+5. Updates task status to `in-progress`
+
+**If you're spawned as a Task Manager sub-agent:**
+- You can READ files and analyze progress
+- You can UPDATE PROACTIVE-JOBS.md and progress files
+- You CANNOT spawn workers directly
+- Workers will be spawned by the next Proactive Scheduler run
 
 ## Responsibilities
 
 1. **Check heartbeats** — Are workers alive and progressing?
 2. **Count active tasks** — Maintain 2-slot limit
-3. **Spawn workers** — For pending unblocked tasks
-4. **Track dependencies** — Don't spawn blocked tasks
-5. **Update status** — Keep PROACTIVE-JOBS.md current
-6. **Escalate** — Flag issues to Coordinator
+3. **Update status** — Keep PROACTIVE-JOBS.md current
+4. **Write progress notes** — Document what's happening
+5. **Escalate** — Flag issues in notes for Coordinator
 
 ## Jobs File: PROACTIVE-JOBS.md
 
@@ -33,89 +51,47 @@ The shared task queue. Format:
 - **Depends On:** other-task-id (if blocked)
 ```
 
-## Spawn Condition
+## Spawn Condition (for cron)
 
 ```
-IF PROACTIVE-JOBS.md has tasks with Status: pending OR Status: in-progress
-THEN spawn and process
+IF PROACTIVE-JOBS.md has tasks with Status: pending (unblocked)
+AND fewer than 2 tasks are in-progress
+THEN spawn workers for pending tasks
 ELSE HEARTBEAT_OK
 ```
 
 ## Notes Location
 
 - `scheduler/task-managers/notes/` — Manager-level notes
-- `scheduler/progress/{task-id}.md` — Task progress files
+- `scheduler/progress/{task-id}.md` — Individual task progress
 
 ## Interaction with Other Levels
 
-- **Reports to:** Coordinator (can be spawned by them)
-- **Direct reports:** Workers (spawn/talk to them)
-- **Receives from:** Coordinator (via PROACTIVE-JOBS.md)
+- **Reports to:** Coordinator (via PROACTIVE-JOBS.md and progress files)
+- **Direct reports:** Workers (spawned by the proactive-scheduler cron)
 
-### Managing Your Direct Reports
+### Checking on Workers
 
-**To check on Workers:**
-1. Check heartbeats: `ls -la scheduler/heartbeats/`
-2. Read progress files: `scheduler/progress/{task-id}.md`
-3. Spawn Worker for status if stuck
-4. Skim their notes via Haiku
+1. **Heartbeats:** `ls -la scheduler/heartbeats/`
+   - Each running worker has a `{task-id}.json` file
+   - If file is missing or stale (>30 min), task may have crashed
+   
+2. **Progress files:** `scheduler/progress/{task-id}.md`
+   - Workers write their progress here
+   - Check for completion status, blockers, errors
 
-**To issue orders:**
-1. Create progress file for task
-2. Update PROACTIVE-JOBS.md
-3. Spawn Worker with explicit instructions
-4. Monitor via heartbeats and notes
+3. **If a task is stalled:**
+   - Update PROACTIVE-JOBS.md: `Status: pending` (to retry)
+   - Delete stale heartbeat file
+   - Add notes about the failure
+   - The scheduler will re-spawn on next run
 
 ## 📝 NOTES ARE CRITICAL
 
 **You MUST check and maintain notes:**
 
-1. **Progress files:** `scheduler/progress/{task-id}.md` — Each task's work log
-2. **Worker heartbeats:** `scheduler/heartbeats/` — Are they alive?
-3. **Your notes:** `scheduler/task-managers/notes/` — Issues, patterns, observations
+1. **Progress files:** `scheduler/progress/{task-id}.md`
+2. **Worker heartbeats:** `scheduler/heartbeats/`
+3. **Your notes:** `scheduler/task-managers/notes/`
 
-**Before spawning workers, check their previous progress files!**
-**After workers complete, verify they updated their notes!**
-
-**To check on a worker:**
-```
-sessions_spawn(task="Review your work on {task-id}. Read scheduler/progress/{task-id}.md. What's done? What's left? Any issues?", model="anthropic/claude-3-5-haiku-latest", label="{task-id}-check")
-```
-
-## 🚀 How to Spawn (Copy-Paste Templates)
-
-### Spawn Me (Task Manager)
-```python
-sessions_spawn(
-  task="You are a Task Manager. Read ~/clawd/scheduler/task-managers/IDENTITY.md first. [your request here]",
-  model="anthropic/claude-3-5-haiku-latest",
-  label="task-manager"
-)
-```
-
-### Spawn My Direct Report (Worker)
-```python
-sessions_spawn(
-  task="You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md first. Task: [task-id]. [describe what to do]. Write progress to scheduler/progress/[task-id].md",
-  model="anthropic/claude-3-5-haiku-latest",
-  label="[task-id]"
-)
-```
-
-### Spawn Worker for a Proactive Task
-```python
-sessions_spawn(
-  task="You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md first. Read ~/clawd/AGENTS.md (sub-agent section). Task: [task-id] - [description]. Previous attempts: [read from scheduler/progress/[task-id].md or 'First attempt']. Write ALL progress to scheduler/progress/[task-id].md. On completion: update PROACTIVE-JOBS.md Status → completed.",
-  model="[task's Min Model from PROACTIVE-JOBS.md]",
-  label="[task-id]"
-)
-```
-
-### Spawn Worker to Check on Task Progress
-```python
-sessions_spawn(
-  task="You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md first. Review scheduler/progress/[task-id].md. Report: What's done? What's left? Any blockers?",
-  model="anthropic/claude-3-5-haiku-latest",
-  label="[task-id]-check"
-)
-```
+**Update notes as you work!** Future instances depend on these notes.
