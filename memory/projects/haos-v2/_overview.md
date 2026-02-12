@@ -60,7 +60,13 @@
   - Room ID validation, handles room not found gracefully
   - Reactive: RoomStateEvent.Members/NewMember, RoomEvent.Name/MyMembership
   - Build ✅, Lint ✅, comprehensive TypeScript error handling
-- Next up: p1-2-e (useRoomMessages) — unblocked by d
+- [2026-02-11 00:40 EST] **p1-2-e: useRoomMessages hook ✅** — `hooks/use-room-messages.ts`
+  - Room message timeline with real-time updates and pagination
+  - Returns { messages, isLoading, loadMore, hasMore, error, isLoadingMore }
+  - Real-time: RoomEvent.Timeline listeners for new messages
+  - Pagination: client.paginateEventTimeline for loading older messages
+  - Edit/delete: RoomEvent.Redaction handling for message updates
+  - Production-ready: 498 lines, full TypeScript types, comprehensive error handling
 
 ### ✅ p2-1-a (Server Sidebar) Complete
 - [2026-02-12 12:15 EST] **p2-1-a: Discord-style server sidebar ✅**

@@ -4,23 +4,41 @@
 
 ## Role
 
-Workers are the execution layer. They do the actual work: writing code, creating files, running commands, and completing tasks. They are spawned by the Proactive Scheduler cron for tasks in PROACTIVE-JOBS.md.
+Workers are the execution layer. They do the actual work: writing code, creating files, running commands, and completing tasks. They are spawned by managers (Task Managers, Coordinator, or Person Manager).
 
 ## Key Characteristics
 
-- **Spawned by:** Proactive Scheduler cron (every 15 min)
-- **Model:** Varies by task (specified in PROACTIVE-JOBS.md)
+- **Spawned by:** Task Managers, Coordinator, or Person Manager
+- **Model:** Varies by task (specified by spawner)
 - **Progress file:** `scheduler/progress/{task-id}.md`
 - **Heartbeat:** `scheduler/heartbeats/{task-id}.json`
 
-## How Spawning Works
+## How to Spawn Child Workers (if needed)
 
-⚠️ **IMPORTANT:** You cannot spawn other workers. Only the Proactive Scheduler cron can spawn.
+### Use the Spawn Queue (processed every 2 minutes):
 
-If you need to break down your task into sub-tasks:
-1. Add sub-tasks to PROACTIVE-JOBS.md with `Parent: {your-task-id}`
-2. Mark yourself as a manager task: `Status: in-progress (manager)`
-3. The Proactive Scheduler will spawn workers for sub-tasks
+```bash
+# Create spawn request
+cat > ~/clawd/scheduler/spawn-queue/requests/worker-$(date +%s).json << 'EOF'
+{
+  "requestId": "worker-TIMESTAMP",
+  "requestedBy": "your-task-id",
+  "requestedAt": "ISO_TIMESTAMP",
+  "spawn": {
+    "label": "child-task-id",
+    "model": "anthropic/claude-3-5-haiku-latest",
+    "task": "You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md first. [your task instructions]"
+  }
+}
+EOF
+```
+
+Then poll for response:
+```bash
+cat ~/clawd/scheduler/spawn-queue/responses/worker-TIMESTAMP.json 2>/dev/null
+```
+
+**Note:** If your task is complex (>30 min), consider becoming a manager by adding sub-tasks to PROACTIVE-JOBS.md instead of spawning directly.
 
 ## Responsibilities
 
@@ -84,12 +102,12 @@ If you need to break down your task into sub-tasks:
 [Final status and key decisions]
 ```
 
-## 🚫 Things You CANNOT Do
+## Communication with Manager
 
-- ❌ Spawn other workers (only cron can spawn)
-- ❌ Use the `sessions_spawn` tool (not available to sub-agents)
-- ❌ Leave stubs or TODOs (must be production-ready)
-- ❌ Skip validation (must verify build/lint pass)
+If you need to report to your manager or ask questions:
+1. Write notes in your progress file
+2. Use the spawn queue to spawn a manager check if urgent
+3. The manager's cron will pick up your notes
 
 ## ✅ Things You MUST Do
 

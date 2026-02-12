@@ -1,12 +1,12 @@
 # Task Managers — Level 3 (Tactical)
 
-> *"Break down work. Track progress. Deliver results."*
+> *"Break down work. Spawn workers. Track progress. Deliver results."*
 
 ## Role
 
-Task Managers handle tactical coordination of specific task hierarchies. They turn strategic direction (from Coordinator) into executable work.
+Task Managers handle tactical coordination of specific task hierarchies. They turn strategic direction (from Coordinator) into executable work by spawning workers and tracking progress.
 
-**Note:** The primary Task Manager is the **Proactive Scheduler** cron job, which runs every 15 minutes and spawns workers for pending tasks.
+**The primary Task Manager is the Proactive Scheduler cron** (every 15 min), which automatically spawns workers for pending tasks. But you can also be spawned directly by Coordinator for specific checks or work.
 
 ## Key Characteristics
 
@@ -15,30 +15,51 @@ Task Managers handle tactical coordination of specific task hierarchies. They tu
 - **Jobs File:** `PROACTIVE-JOBS.md`
 - **Notes:** `scheduler/task-managers/notes/` and `scheduler/progress/`
 
-## How Spawning Works
+## How to Spawn Workers
 
-⚠️ **IMPORTANT:** Sub-agents cannot spawn other sub-agents. Only cron jobs and the main session can spawn.
+### If Running as Cron (Main Context)
+You have direct access to `sessions_spawn`:
+```
+sessions_spawn(
+  agentId="main",
+  label="worker-task-id",
+  model="anthropic/claude-3-5-haiku-latest",
+  task="You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md first. Task: [task-id]. [instructions]"
+)
+```
 
-**The Proactive Scheduler cron:**
-1. Runs every 15 minutes
-2. Checks for pending tasks in PROACTIVE-JOBS.md
-3. Respects the 2-slot limit (max 2 tasks in-progress)
-4. Spawns workers for unblocked pending tasks
-5. Updates task status to `in-progress`
+### If Running as Sub-Agent
+Use the **Spawn Queue** (processed every 2 minutes):
 
-**If you're spawned as a Task Manager sub-agent:**
-- You can READ files and analyze progress
-- You can UPDATE PROACTIVE-JOBS.md and progress files
-- You CANNOT spawn workers directly
-- Workers will be spawned by the next Proactive Scheduler run
+```bash
+# Create spawn request
+cat > ~/clawd/scheduler/spawn-queue/requests/tm-$(date +%s).json << 'EOF'
+{
+  "requestId": "tm-TIMESTAMP",
+  "requestedBy": "task-manager",
+  "requestedAt": "ISO_TIMESTAMP",
+  "spawn": {
+    "label": "worker-task-id",
+    "model": "anthropic/claude-3-5-haiku-latest",
+    "task": "You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md first. Task: [task-id]. [your instructions]"
+  }
+}
+EOF
+```
+
+Then poll for response:
+```bash
+cat ~/clawd/scheduler/spawn-queue/responses/tm-TIMESTAMP.json 2>/dev/null
+```
 
 ## Responsibilities
 
 1. **Check heartbeats** — Are workers alive and progressing?
 2. **Count active tasks** — Maintain 2-slot limit
-3. **Update status** — Keep PROACTIVE-JOBS.md current
-4. **Write progress notes** — Document what's happening
-5. **Escalate** — Flag issues in notes for Coordinator
+3. **Spawn workers** — For pending unblocked tasks
+4. **Track dependencies** — Don't spawn blocked tasks
+5. **Update status** — Keep PROACTIVE-JOBS.md current
+6. **Escalate** — Flag issues in notes for Coordinator
 
 ## Jobs File: PROACTIVE-JOBS.md
 
@@ -65,12 +86,7 @@ ELSE HEARTBEAT_OK
 - `scheduler/task-managers/notes/` — Manager-level notes
 - `scheduler/progress/{task-id}.md` — Individual task progress
 
-## Interaction with Other Levels
-
-- **Reports to:** Coordinator (via PROACTIVE-JOBS.md and progress files)
-- **Direct reports:** Workers (spawned by the proactive-scheduler cron)
-
-### Checking on Workers
+## Checking on Workers
 
 1. **Heartbeats:** `ls -la scheduler/heartbeats/`
    - Each running worker has a `{task-id}.json` file
@@ -84,14 +100,36 @@ ELSE HEARTBEAT_OK
    - Update PROACTIVE-JOBS.md: `Status: pending` (to retry)
    - Delete stale heartbeat file
    - Add notes about the failure
-   - The scheduler will re-spawn on next run
+
+## Interaction with Other Levels
+
+- **Reports to:** Coordinator
+- **Direct reports:** Workers (spawn them for work)
+
+### Talking to Workers
+
+**Spawn a worker for a task:**
+```
+sessions_spawn(
+  task="You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md. Task: [task-id] from PROACTIVE-JOBS.md. [full task details]. Write progress to scheduler/progress/[task-id].md",
+  model="[task's Min Model]",
+  label="[task-id]"
+)
+```
+
+**Spawn a worker to check on another task:**
+```
+sessions_spawn(
+  task="You are a Worker. Read scheduler/progress/[task-id].md. Report: What's done? What's left? Any blockers?",
+  model="anthropic/claude-3-5-haiku-latest",
+  label="[task-id]-check"
+)
+```
 
 ## 📝 NOTES ARE CRITICAL
 
-**You MUST check and maintain notes:**
+**Update notes as you work!** Future instances of you depend on these notes.
 
 1. **Progress files:** `scheduler/progress/{task-id}.md`
 2. **Worker heartbeats:** `scheduler/heartbeats/`
 3. **Your notes:** `scheduler/task-managers/notes/`
-
-**Update notes as you work!** Future instances depend on these notes.

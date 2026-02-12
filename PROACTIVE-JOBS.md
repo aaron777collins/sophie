@@ -54,7 +54,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - haos-v2-matrix-provider-p1-2-b: ✅ completed
   - haos-v2-client-hook-p1-2-c: ✅ completed
   - haos-v2-use-room-p1-2-d: ✅ completed
-  - haos-v2-use-room-messages-p1-2-e: ⏳ pending
+  - haos-v2-use-room-messages-p1-2-e: ✅ completed
 
 ### haos-v2-matrix-client-p1-2-a: Create Matrix Client Singleton
 - **Status:** pending
@@ -353,22 +353,25 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - Handles room not found
 
 ### haos-v2-use-room-messages-p1-2-e: Create useRoomMessages Hook
-- **Status:** pending
+- **Status:** completed
+- **Completed:** 2026-02-11 00:40 EST
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-use-room-p1-2-d
 - **Description:** Hook for room message timeline
-- **Files to Create:**
-  - `hooks/use-room-messages.ts`
+- **Files Created:**
+  - `hooks/use-room-messages.ts` (498 lines)
 - **Parameters:** `roomId: string`
 - **Returns:**
   - `messages: TimelineEvent[]`
   - `isLoading: boolean`
   - `loadMore(): Promise<void>`
   - `hasMore: boolean`
-- **Success Criteria:**
-  - Messages appear in real-time
-  - Can paginate backwards
-  - Handles edit/delete updates
+  - `error: Error | null`
+  - `isLoadingMore: boolean`
+- **Success Criteria:** ✅
+  - Messages appear in real-time (RoomEvent.Timeline)
+  - Can paginate backwards (client.paginateEventTimeline)
+  - Handles edit/delete updates (RoomEvent.Redaction)
 
 ---
 
