@@ -158,6 +158,18 @@ It orchestrates **continuous project work** defined in `PROACTIVE-JOBS.md`.
 
 > 🔢 **Max 2 Dev Tasks In-Progress:** Keep at most 2 tasks with `Status: in-progress` at a time. Remaining tasks stay `pending` (scheduled but not running). This prevents resource contention and context switching overhead.
 
+### 📚 Spawning Sub-Agents
+
+**BEFORE spawning any sub-agent, read:** `~/clawd/docs/SPAWNING-GUIDE.md`
+
+That guide has the complete template and checklist. The short version:
+1. Add task to PROACTIVE-JOBS.md (Status: in-progress, Parent: {parent})
+2. Create progress file at `scheduler/progress/{parent-id}/{task-id}.md`
+3. Spawn with EXPLICIT instructions (use the template in the guide)
+4. Monitor via heartbeats and progress files
+
+---
+
 ### As a Sub-Agent on a Proactive Task
 
 When spawned for a proactive task:

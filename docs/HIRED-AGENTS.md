@@ -2,6 +2,8 @@
 
 > Complex problems naturally decompose until trivial. Agents hire agents.
 
+**📚 For step-by-step spawning instructions, see: `~/clawd/docs/SPAWNING-GUIDE.md`**
+
 ## Core Concept
 
 When an agent faces a complex task, it becomes a **Manager** and "hires" **Sub-Agents** dynamically. Sub-agents can also hire their own sub-agents, creating a recursive tree. Each level communicates with its direct parent/children only — no context explosion.
