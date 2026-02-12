@@ -1,0 +1,79 @@
+# HAOS v2 Project Overview
+
+**Last Updated:** [2026-02-12 00:40 EST]
+
+## Quick Reference
+
+| Item | Value |
+|------|-------|
+| **Repo** | `/home/ubuntu/repos/haos-v2` |
+| **Stack** | Next.js 14 + Tailwind + Matrix SDK |
+| **Goal** | Discord-styled Matrix client |
+| **Planning Docs** | `~/clawd/docs/haos-v2/` |
+| **Package Manager** | pnpm (NOT yarn) |
+
+## Current Status
+
+### ✅ What's Done (Phase 0) - VERIFIED 2026-02-12
+- Monorepo structure (pnpm workspace)
+- TypeScript config (strict mode)
+- ESLint + Prettier configured
+- Next.js 14 app initialized
+- Discord clone UI components copied
+- Tailwind v3 + dark theme configured
+- GitHub Actions CI workflow
+- **All verification checks pass** (install, dev, lint, build)
+
+### ✅ Phase 0 Verification Complete
+- `pnpm install` ✅
+- `pnpm dev` ✅ 
+- `pnpm lint` ✅
+- `pnpm build` ✅
+
+### ❌ What's Broken / Incomplete
+- No Matrix integration yet (Phase 1)
+- No auth system yet (Phase 1)
+- Next.js version has security vulnerability (minor, should upgrade)
+
+### 🚧 Ready for Phase 1
+Phase 0 is complete. Ready to begin Phase 1: Core Matrix Integration
+
+## Architecture Decisions
+
+See detailed docs in `~/clawd/docs/haos-v2/`:
+- `IMPLEMENTATION-PLAN.md` — Master roadmap (4 phases, 15-20 weeks)
+- `TASK-BREAKDOWN.md` — 94 atomic tasks with deliverables
+- `AUTH-STRATEGY.md` — Clerk → Matrix auth migration
+- `BACKEND-MAPPING.md` — Prisma → Matrix entity mapping
+- `REALTIME-STRATEGY.md` — Socket.io → Matrix sync
+
+## Key Context for Agents
+
+1. **Two repos exist:**
+   - `/home/ubuntu/repos/haos` — ❌ OLD, ABANDONED (Element Web fork, broken webpack)
+   - `/home/ubuntu/repos/haos-v2` — ✅ CURRENT (Discord clone approach)
+
+2. **Always use `/home/ubuntu/repos/haos-v2`**
+
+3. **Package manager:** pnpm (not yarn)
+
+4. **Phase order:** Phase 0 (foundation) → Phase 1 (core integration) → Phase 2 (UI) → Phase 3 (polish) → Phase 4 (production)
+
+## Gotchas / Known Issues
+
+- The old `/home/ubuntu/repos/haos` has intractable webpack issues — don't touch it
+- Discord clone source was copied, Clerk auth was stripped but Matrix not integrated yet
+
+## Phase Status
+
+| Phase | Status | Notes |
+|-------|--------|-------|
+| Phase 0: Foundation | ✅ Complete | Verified 2026-02-12 - all checks pass |
+| Phase 1: Core Integration | 🚀 Ready | Auth, sync, media, services |
+| Phase 2: UI Reskin | ⏳ Pending | Discord-style components |
+| Phase 3: Polish | ⏳ Pending | Settings, roles, admin |
+| Phase 4: Production | ⏳ Pending | Docs, testing, deployment |
+
+---
+
+*This file is the source of truth for HAOS v2 project state. Update it after meaningful progress.*

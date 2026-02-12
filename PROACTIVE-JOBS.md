@@ -1,20 +1,28 @@
 # Proactive Jobs - HAOS v2 (Discord Clone + Matrix Backend)
 
-> 🚨 **STRATEGIC PIVOT [2026-02-11]**
-> Using Discord clone frontend + Matrix backend instead of Element reskinning
-> Source: https://github.com/nayak-nirmalya/discord-clone
+> 🚨 **REPO PATH: `/home/ubuntu/repos/haos-v2`**
+> ⚠️ Do NOT use `/home/ubuntu/repos/haos` — that's the old abandoned Element fork!
+
+> 📚 **DOCUMENTATION REQUIRED:**
+> - **Task Progress:** `scheduler/progress/{task-id}.md` — YOUR work log
+> - **Project Memory:** `memory/projects/haos-v2/_overview.md` — Project state
+> - **Read BOTH before starting. Update BOTH while working.**
 
 > 🔢 **RUN 1 TASK AT A TIME** — No resource conflicts
 
-> 🧠 **MODEL:** Use **Sonnet** for implementation tasks
+> 🧠 **MODEL:** Use **Opus** for verification/complex tasks, **Sonnet** for implementation
 
 ---
 
-## Current Priority: Phase 0 - Foundation
+## Current Priority: Phase 1 - Core Matrix Integration 🚀
 
-Task breakdown complete! Starting Phase 0 implementation.
+**Phase 0 COMPLETE** (verified 2026-02-12). All foundation tasks done, build passes.
+
+Ready to begin Phase 1: Auth, Matrix sync, media services.
 
 See: `~/clawd/docs/haos-v2/TASK-BREAKDOWN.md` for full task list (94 tasks across 4 phases)
+See: `memory/projects/haos-v2/_overview.md` for current project state
+See: `scheduler/progress/p0-verify.md` for Phase 0 verification results
 
 ---
 
@@ -68,68 +76,41 @@ See: `~/clawd/docs/haos-v2/TASK-BREAKDOWN.md` for full task list (94 tasks acros
 - **Completed:** 2026-02-11 9:19 PM EST
 - **Summary:** Tailwind v3 configured with dark theme CSS variables. Used `.cjs` extensions for configs (ESM compatibility). JIT compiles in 246ms.
 
-### p0-6-a: Create GitHub Actions Build Workflow
-- **Status:** pending
+### p0-6-a: Create GitHub Actions Build Workflow ✅
+- **Status:** completed
+- **Completed:** 2026-02-11 00:31 AM EST
 - **Min Model:** sonnet
 - **Depends On:** p0-1-a
 - **Description:** CI that builds on every PR
-- **Instructions:**
-  1. Create `.github/workflows/build.yml`
-  2. Workflow steps:
-     - Checkout code
-     - Setup Node.js 20
-     - Setup pnpm
-     - Install dependencies
-     - Run lint
-     - Run type-check
-     - Run build
-  3. Trigger on push to main and PRs
-- **Success Criteria:**
-  - Workflow file valid YAML
-  - Would run on PR (can't test until repo on GitHub)
-- **Files to Create:**
+- **Summary:** Created `.github/workflows/build.yml` with checkout, Node.js 20, pnpm 9 (with caching), install, lint, typecheck, and build steps. Triggers on push to main and PRs. Includes concurrency control.
+- **Files Created:**
   - `/home/ubuntu/repos/haos/.github/workflows/build.yml`
 
-### p0-7-a: Create Development Setup Guide
-- **Status:** pending
+### p0-7-a: Create Development Setup Guide ✅
+- **Status:** completed
+- **Started:** 2026-02-11 11:08 PM EST
+- **Completed:** 2026-02-11 HH:MM EST
 - **Min Model:** sonnet
 - **Depends On:** p0-5-a
 - **Description:** Complete setup instructions for new devs
-- **Instructions:**
-  1. Create `docs/haos-v2/DEV-SETUP.md`
-  2. Include sections:
-     - Prerequisites (Node 20+, pnpm 8+)
-     - Clone and install steps
-     - Environment variable setup
-     - Running dev server
-     - Connecting to Matrix (dev2)
-     - Troubleshooting common issues
+- **Deliverables:**
+  - `~/clawd/docs/haos-v2/DEV-SETUP.md`
 - **Success Criteria:**
   - Doc is complete and accurate
   - A new dev could follow it
-- **Files to Create:**
-  - `~/clawd/docs/haos-v2/DEV-SETUP.md`
+- **Summary:** Comprehensive development setup guide created with sections on prerequisites, installation, environment setup, Matrix connection, and troubleshooting.
 
 ---
 
 ## Phase 0 Verification Tasks
 
-### p0-verify: Phase 0 Completion Check
-- **Status:** pending
-- **Min Model:** sonnet
-- **Depends On:** All p0-* tasks
-- **Description:** Verify all Phase 0 milestones met
-- **Instructions:**
-  1. Run `pnpm install` — should succeed
-  2. Run `pnpm dev` — should start Next.js
-  3. Run `pnpm lint` — should pass
-  4. Run `pnpm build` — should succeed
-  5. Verify UI components render
-  6. Document any issues found
-  7. Update PROACTIVE-JOBS.md to add Phase 1 tasks
-- **Success Criteria:**
-  - All checks pass
-  - Ready to start Phase 1
+### p0-verify: Phase 0 Completion Check ✅
+- **Status:** completed
+- **Completed:** 2026-02-12 00:40 EST
+- **Min Model:** opus
+- **Summary:** All verification checks pass (pnpm install, dev, lint, build). Fixed 2 TypeScript issues in shadcn components (dialog.tsx, sheet.tsx - Radix UI breaking change). Added note about running `prisma generate` after install.
+- **See:** `scheduler/progress/p0-verify.md` for full details
+- **Verdict:** ✅ Phase 0 COMPLETE - Ready for Phase 1
 
 ---
 

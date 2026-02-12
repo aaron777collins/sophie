@@ -140,14 +140,28 @@ When spawned for a proactive task:
 > ⚠️ **READ THIS ENTIRE AGENTS.md FILE FIRST** — including the Memory section above!
 > Memory updates are MANDATORY, not optional.
 
-> 🩸 **BLOOD ON THE WALLS — READ BEFORE YOU START!**
-> The progress file at `scheduler/progress/{task-id}.md` contains what previous agents tried.
-> - **READ IT FIRST** — before doing ANYTHING
-> - **DON'T REPEAT FAILURES** — if something was tried and failed, try something different
-> - **ADD YOUR OWN BLOOD** — update `scheduler/progress/{task-id}.md` with what YOU try, what works, what fails
-> - **DAILY LOG TOO** — write timestamped entries to `memory/daily/YYYY-MM-DD.md`
+> 📚 **TWO DOCUMENTATION LAYERS — BOTH REQUIRED:**
 > 
-> If you fail without updating the progress file, the next agent will waste time repeating your mistakes.
+> | Layer | Location | Purpose | Updated When |
+> |-------|----------|---------|--------------|
+> | **Task Progress** | `scheduler/progress/{task-id}.md` | What YOU tried, what worked, what failed | Every action |
+> | **Project Memory** | `memory/projects/{project}/` | High-level project state, architecture, decisions | Meaningful progress |
+> 
+> **Both prevent loops.** Task progress helps the next agent on THIS task. Project memory helps ANY agent working on this project.
+
+> 🩸 **BLOOD ON THE WALLS — READ BEFORE YOU START!**
+> 
+> **Step 0a: Read task progress** (`scheduler/progress/{task-id}.md`)
+> - What previous agents tried, what worked, what failed
+> - Their recommendations, blockers, and suggestions
+> - **DON'T REPEAT FAILURES** — try something different
+> 
+> **Step 0b: Read project memory** (`memory/projects/{project}/_overview.md`)
+> - Current project state, what's done, what's broken
+> - Architecture decisions and why they were made
+> - Known issues and gotchas
+> 
+> If you fail without updating BOTH, the next agent will waste time repeating your mistakes.
 > **Your notes are the ONLY way future agents learn from you.**
 
 > 🚨 **FULL COMPLETION ONLY — NO SHORTCUTS!**
@@ -157,14 +171,27 @@ When spawned for a proactive task:
 > - NO partial implementations — if it needs SDK integration, INTEGRATE IT
 > - "Done" means **PRODUCTION READY**, not "skeleton exists"
 > - If you can't fully complete something, **DON'T claim it's done**
-> - Be HONEST about what's actually working vs what still needs work You ARE the continuity system.
+> - Be HONEST about what's actually working vs what still needs work
 
-0. **FIRST: Read the progress file** (if it exists)
-   - Check `scheduler/progress/{task-id}.md`
-   - Learn what previous agents tried, what worked, what failed
-   - Read their recommendations and blockers
-   - **Don't repeat the same mistakes** — this is your continuity with past attempts
-   - If the file doesn't exist, you're the first agent on this task
+> 📂 **HIERARCHICAL DOCUMENTATION (Self-Scaling)**
+> 
+> When a markdown file exceeds ~500 lines or has 3+ major sections:
+> 1. Create a folder with the same name (minus .md)
+> 2. Create `_overview.md` inside as the index
+> 3. Split content into logical sub-files
+> 4. Update any references
+> 
+> Example: `memory/projects/haos-v2.md` → `memory/projects/haos-v2/_overview.md` + sub-files
+
+---
+
+### Step-by-Step: Sub-Agent Workflow
+
+**0. FIRST: Read ALL relevant docs** (before doing ANYTHING)
+   - `scheduler/progress/{task-id}.md` — previous attempts on this task
+   - `memory/projects/{project}/_overview.md` — project state and context
+   - If neither exists, you're starting fresh — create them as you go
+   - **Understand what's been tried, what works, what's broken**
 
 1. **Claim the task:** Update your heartbeat file immediately
    - Write to `scheduler/heartbeats/{task-id}.json`
@@ -183,39 +210,56 @@ When spawned for a proactive task:
      ```
    - **Update `lastHeartbeat` timestamp every 5-10 minutes!**
 
-2. **During work:** Track EVERYTHING in progress file
-   - `scheduler/progress/{task-id}.md` — maintain a detailed work log:
-     ```markdown
-     ## Work Log
-     - [HH:MM] Started: what you're doing
-     - [HH:MM] Completed: specific file/component
-     - [HH:MM] Issue found: description
-     - [HH:MM] Decision: why you chose X over Y
-     
-     ## Files Changed
-     - path/to/file.tsx — what was done
-     
-     ## Dependencies Discovered
-     - Component X relies on Y
-     - Need to update Z when changing W
-     
-     ## Open Questions / Blockers
-     - [ ] Unresolved: description
-     - [x] Resolved: how it was fixed
-     
-     ## Tests / Verification Done
-     - [ ] Built successfully
-     - [ ] Tested manually
-     - [ ] Checked related components
-     ```
+2. **During work:** Track EVERYTHING in BOTH places
 
-3. **Every 5-10 minutes:** Update heartbeat + progress
+   **A. Task Progress** (`scheduler/progress/{task-id}.md`):
+   ```markdown
+   # Task: {task-id}
+   
+   ## Summary
+   - **Status:** in-progress | completed | blocked
+   - **What it does:** Brief description
+   - **What works:** ✅ List of working parts
+   - **What's broken:** ❌ List of issues
+   - **Suggestions for next agent:** If you die, what should they try?
+   
+   ## Work Log
+   - [HH:MM] Started: what you're doing
+   - [HH:MM] Completed: specific file/component
+   - [HH:MM] Issue found: description
+   - [HH:MM] Decision: why you chose X over Y
+   
+   ## Files Changed
+   - path/to/file.tsx — what was done
+   
+   ## What I Tried
+   - Approach A: Result (worked/failed because...)
+   - Approach B: Result (worked/failed because...)
+   
+   ## Open Questions / Blockers
+   - [ ] Unresolved: description
+   - [x] Resolved: how it was fixed
+   
+   ## Recommendations for Next Agent
+   - Try X instead of Y
+   - Don't waste time on Z, it's a dead end
+   - The real issue might be...
+   ```
+   
+   **B. Project Memory** (`memory/projects/{project}/_overview.md`):
+   - High-level status, architecture, key decisions
+   - What's working, what's not, what's next
+   - Cross-task context that any agent needs
+
+3. **Every 5-10 minutes:** Update heartbeat + BOTH doc layers
    - `scheduler/heartbeats/{task-id}.json` (timestamp)
-   - Add new entries to progress file work log
+   - Add entries to task progress file
+   - If significant: update project memory too
 
-4. **On meaningful progress:** Update project memory (MANDATORY!)
+4. **On meaningful progress:** Project memory update (MANDATORY!)
    - `memory/projects/{project}/_overview.md` — update status, what's done, what's next
    - `memory/daily/YYYY-MM-DD.md` — add timestamped entry: `[HH:MM TZ] task-id: what you did`
+   - If project file is getting big (>500 lines), split into folder structure
 
 5. **Before marking complete: VALIDATION PHASE** ⚠️
    
@@ -254,9 +298,15 @@ When spawned for a proactive task:
    - ✅ Update `memory/projects/{project}/_overview.md` with final status
    - ✅ Add completion entry to `memory/daily/YYYY-MM-DD.md` with timestamp
    - ✅ Include validation summary: "Validated: build ✓, tests ✓, deps ✓"
-   - ✅ Auto-archive task in `PROACTIVE-JOBS.md`
-   - ✅ Remove heartbeat file
-   - ✅ Slack #aibot-chat: "[task-id] completed! Validation: ✓ build, ✓ tests, ✓ integration"
+   - ✅ Auto-archive task in `PROACTIVE-JOBS.md` (change `Status: in-progress` → `Status: completed`)
+   - ✅ **DELETE heartbeat file** using exec tool: `rm ~/clawd/scheduler/heartbeats/{task-id}.json`
+   - ✅ **Send Slack notification** using the `message` tool with these parameters:
+     - action: "send"
+     - channel: "slack"
+     - target: "channel:C0ABAU26S6N"
+     - message: "✅ [{task-id}] Completed! {brief summary}"
+   
+   > ⚠️ **ALL MODELS: Follow these steps EXACTLY. Do not skip the heartbeat deletion or Slack notification.**
 
 7. **On failure (can't complete at your tier):**
    - Log reason in progress file with full context
@@ -265,26 +315,103 @@ When spawned for a proactive task:
    - Add failure entry to daily log with timestamp
    - Exit cleanly (next cron spawns higher tier)
 
-### Spawning Child Sub-Agents
+### 🤝 Hired Agents — Recursive Task Decomposition
 
-You CAN spawn child sub-agents for parallel work. Rules:
+Complex problems decompose naturally. When a task is too big, **hire sub-agents**.
 
-1. **Shared heartbeat:** ALL agents (you + children + grandchildren) update the SAME heartbeat file: `scheduler/heartbeats/{task-id}.json`
+> 📖 **Full spec:** `docs/HIRED-AGENTS.md`
 
-2. **Before spawning:** You're responsible for the task until children complete
-   - Stay alive and monitor children via `sessions_list`
+#### The Pattern
+
+```
+task-1 (Manager - coordinates, takes notes)
+├── task-1-auth (Sub-agent - focused work)
+│   ├── task-1-auth-login (Sub-sub-agent)
+│   └── task-1-auth-session (Sub-sub-agent)
+├── task-1-ui (Sub-agent - queued)
+└── task-1-api (Sub-agent - queued)
+```
+
+**Processing Order:** Deepest first. Complete leaves before parents.
+**Concurrency:** Manager runs alongside its deepest active sub-agent.
+
+#### When to Hire
+
+✅ **Hire when:**
+- Task has multiple independent parts
+- Task requires different expertise
+- Estimated effort > 30 minutes
+- You can't hold it all in context
+
+❌ **Don't hire when:**
+- Task is trivial (< 15 min)
+- Sequential steps requiring tight coordination
+- Overhead > benefit
+
+#### How to Hire
+
+1. **Break down** the task (use The Circle if uncertain)
+2. **Add sub-tasks** to PROACTIVE-JOBS.md:
+   ```markdown
+   ### {parent-id}-{subtask-name}
+   - **Status:** pending
+   - **Parent:** {parent-id}
+   - **Min Model:** sonnet
+   - **Depends On:** {other-subtask} (if blocked)
+   - **Description:** {focused description}
+   ```
+3. **Update your progress file** with the breakdown
+4. **Continue as manager** — monitor, coordinate, integrate
+
+#### Progress File Hierarchy
+
+```
+scheduler/progress/
+├── task-1.md                        # Manager notes
+├── task-1-auth.md                   # Sub-agent notes
+├── task-1-auth-login.md             # Sub-sub-agent notes
+└── task-1-auth/                     # Scaled to folder
+    ├── _overview.md
+    └── decisions.md
+```
+
+#### Manager Responsibilities
+
+1. **Monitor** sub-agent progress via their progress files
+2. **Coordinate** dependencies and sequencing
+3. **Take notes** on overall progress
+4. **Hire more** sub-agents if gaps emerge
+5. **Integrate** completed work
+6. **Use The Circle/Council** for cross-cutting decisions
+7. **Complete** only after ALL children complete
+
+#### Sub-Agent Responsibilities
+
+1. **Read parent's notes** for context
+2. **Do focused work** on your piece
+3. **Take detailed notes** in your progress file
+4. **Hire your own sub-agents** if still too complex
+5. **Report completion** (status update + Slack)
+
+### Spawning Child Sub-Agents (Legacy)
+
+You CAN also spawn ad-hoc child sub-agents for parallel work:
+
+1. **Shared heartbeat:** ALL agents update the SAME heartbeat file: `scheduler/heartbeats/{task-id}.json`
+
+2. **Before spawning:** You're responsible until children complete
+   - Monitor children via `sessions_list`
    - Keep updating heartbeat while children work
    - Aggregate results when children finish
 
-3. **If you're a NEW parent and children already exist:**
+3. **If orphaned children exist:**
    - Check `sessions_list` for agents with labels containing your task-id
-   - If orphaned children are running, wait for them instead of duplicating work
-   - Read progress file to understand current state
+   - Wait for them instead of duplicating work
 
-4. **Child agent responsibilities:**
-   - Update the shared heartbeat file (keeps it fresh)
-   - Report results back to parent (or write to progress file)
-   - Use descriptive labels: `{task-id}-{subtask}` (e.g., `haos-implementation-voice-tsx`)
+4. **Child responsibilities:**
+   - Update the shared heartbeat file
+   - Report results to parent or write to progress file
+   - Use descriptive labels: `{task-id}-{subtask}`
 
 ### Task Planning (BEFORE Scheduling)
 

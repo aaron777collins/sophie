@@ -1,3 +1,10 @@
 {
-  "packageManager": "yarn@4.12.0"
+  "name": "haos",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "dev": "pnpm --filter @haos/web dev",
+    "build": "pnpm --filter @haos/web build"
+  }
 }
