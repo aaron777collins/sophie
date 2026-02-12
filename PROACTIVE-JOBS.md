@@ -273,7 +273,8 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - Room deletion works
 
 ### haos-v2-member-service-p1-4-c: Create Member Service
-- **Status:** in-progress
+- **Status:** completed
+- **Completed:** 2026-02-17 13:55 EST
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-room-service-p1-4-b
 - **Description:** Service for membership operations

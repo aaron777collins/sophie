@@ -237,6 +237,22 @@
 
 ### ✅ p1-4-b (Room Service) Complete
 - [2026-02-17 05:48 EST] **p1-4-b: Matrix Room Service ✅** — `apps/web/services/matrix-room.ts`
+
+### ✅ p1-4-c (Member Service) Complete
+- [2026-02-17 13:55 EST] **p1-4-c: Matrix Member Service ✅** — `apps/web/services/matrix-member.ts`
+  - Complete Matrix room membership operations service
+  - ✅ getMembers(roomId) - Retrieves room member list with power levels and roles
+  - ✅ inviteMember/kickMember/banMember/unbanMember - Full moderation actions
+  - ✅ setPowerLevel(roomId, userId, level) - Power level management with validation
+  - ✅ getMemberRole(roomId, userId) - Discord-style role mapping (owner/admin/moderator/member/restricted)
+  - ✅ Permission validation for all operations based on Matrix power levels
+  - ✅ Convenience functions: getOnlineMembers, getMembersByRole, isUserAdmin, canUserModerate
+  - Production-ready: 16.5KB, comprehensive error handling, full Matrix SDK integration
+  - Custom MemberServiceError with proper error codes and HTTP status mapping
+  - Power level constants: OWNER=100, ADMIN=75, MODERATOR=50, MEMBER=0, RESTRICTED=-1
+  - Member interface includes presence, typing status, join dates, and role mappings
+  - All success criteria met: member list accurate, moderation actions work, power levels map to roles
+  - Validated: TypeScript ✓, all required functions ✓, permissions ✓, error handling ✓
   - Complete Matrix room (channel) CRUD operations service
   - ✅ createRoom(name, type, parentSpaceId) - Creates text/audio/video channels in spaces
   - ✅ getRoom(roomId) - Retrieves room with MatrixRoom interface
