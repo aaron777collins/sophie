@@ -281,7 +281,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - When Matrix client ready, update `hooks/use-spaces.ts` to use real data
 
 ### haos-v2-matrix-provider-p1-2-b: Create MatrixProvider Context
-- **Status:** pending
+- **Status:** in-progress
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-matrix-client-singleton-p1-2-a
 - **Description:** React context managing Matrix client lifecycle
