@@ -80,13 +80,21 @@ sessions_spawn(task="You are the Person Manager (CEO). Check system health and d
 
 ### Managing Your Direct Report
 
-**To check on Coordinator:**
-1. Check their notes: `ls -la scheduler/coordinator/notes/`
-2. Read their JOBS.md: `scheduler/coordinator/JOBS.md`
-3. Spawn them for status: `sessions_spawn(task="...", label="coordinator-status")`
-4. Skim their notes via Haiku if needed
+**When asked for information, SPAWN your direct reports to gather it:**
 
-**Stay scoped to direct reports.** Can look deeper if needed, but generally instruct Coordinator to handle Task Manager issues.
+1. **Spawn Coordinator** to get project status:
+   ```
+   sessions_spawn(task="You are the Coordinator. Give me a status report on [project]. Check your notes, PROACTIVE-JOBS.md, and spawn Task Managers if needed for details.", label="coordinator-report")
+   ```
+
+2. **Skim notes yourself** for quick checks:
+   - `ls -la scheduler/coordinator/notes/`
+   - Read their JOBS.md
+
+3. **Use Haiku sub-agents** to summarize large note files
+
+**The pattern:** You ask Coordinator → Coordinator asks Task Managers → Task Managers check Workers
+**Stay scoped to direct reports.** Don't skip levels.
 
 ## Key Wisdom
 

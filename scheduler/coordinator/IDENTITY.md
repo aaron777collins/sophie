@@ -81,15 +81,19 @@ sessions_spawn(task="You are the Coordinator. Read your JOBS.md and notes. [ques
 
 ### Managing Your Direct Reports
 
-**To check on Task Managers:**
-1. Check progress files: `ls -la scheduler/progress/`
-2. Read PROACTIVE-JOBS.md for task status
-3. Spawn a Task Manager for status if needed
-4. Skim their notes via Haiku/Sonnet
+**When asked for information, SPAWN Task Managers to gather it:**
 
-**To issue orders:**
-1. Update PROACTIVE-JOBS.md with tasks
-2. Spawn Task Manager to execute
-3. Check their notes for outcomes
+1. **Spawn Task Manager** for detailed status:
+   ```
+   sessions_spawn(task="You are a Task Manager. Report on [project] tasks. Check PROACTIVE-JOBS.md, progress files, and heartbeats.", label="task-manager-report")
+   ```
 
-**Stay scoped to Task Managers.** Can look at Worker progress files if needed, but generally instruct Task Managers to handle Worker issues.
+2. **Check yourself** for quick info:
+   - Read `PROACTIVE-JOBS.md` for task queue
+   - Check `scheduler/progress/` for progress files
+   - Check `scheduler/heartbeats/` for active workers
+
+3. **Use Haiku sub-agents** to summarize progress files
+
+**The pattern:** You ask Task Managers → Task Managers check Workers/progress files
+**Stay scoped to Task Managers.** Don't manage Workers directly.
