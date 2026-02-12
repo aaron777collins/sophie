@@ -74,19 +74,18 @@ See detailed docs in `~/clawd/docs/haos-v2/`:
 
 ## Key Context for Agents
 
-1. **Two repos exist:**
-   - `/home/ubuntu/repos/haos` — ❌ OLD, ABANDONED (Element Web fork, broken webpack)
-   - `/home/ubuntu/repos/haos-v2` — ✅ CURRENT (Discord clone approach)
+> 🚨 **ONLY USE: `/home/ubuntu/repos/haos-v2`**
+> 
+> Old repo was renamed to `/home/ubuntu/repos/archived-haos-DO-NOT-USE`
+> **DO NOT TOUCH THE ARCHIVED REPO!**
 
-2. **Always use `/home/ubuntu/repos/haos-v2`**
+1. **Package manager:** pnpm (not yarn)
 
-3. **Package manager:** pnpm (not yarn)
-
-4. **Phase order:** Phase 0 (foundation) → Phase 1 (core integration) → Phase 2 (UI) → Phase 3 (polish) → Phase 4 (production)
+2. **Phase order:** Phase 0 (foundation) → Phase 1 (core integration) → Phase 2 (UI) → Phase 3 (polish) → Phase 4 (production)
 
 ## Gotchas / Known Issues
 
-- The old `/home/ubuntu/repos/haos` has intractable webpack issues — don't touch it
+- The archived repo has intractable webpack issues — it's dead, ignore it
 - Discord clone source was copied, Clerk auth was stripped but Matrix not integrated yet
 
 ## Phase Status

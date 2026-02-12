@@ -1,7 +1,7 @@
 # Proactive Jobs - HAOS v2 (Discord Clone + Matrix Backend)
 
 > 🚨 **REPO PATH: `/home/ubuntu/repos/haos-v2`**
-> ⚠️ Do NOT use `/home/ubuntu/repos/haos` — that's the old abandoned Element fork!
+> ⚠️ Old repo renamed to `/home/ubuntu/repos/archived-haos-DO-NOT-USE` — DO NOT TOUCH IT!
 
 > 📚 **DOCUMENTATION REQUIRED:**
 > - **Task Progress:** `scheduler/progress/{task-id}.md` — YOUR work log
