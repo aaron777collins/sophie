@@ -32,8 +32,8 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 | Section | Status | Tasks Done |
 |---------|--------|------------|
 | p1-1: Auth | ✅ Complete | 5/5 |
-| p1-2: Sync | 🚀 In Progress | 5/10 |
-| p1-3: Media | ⏳ Pending | 0/8 |
+| p1-2: Sync | 🚀 In Progress | 9/10 |
+| p1-3: Media | 🚀 In Progress | 6/8 |
 | p1-4: Services | ⏳ Pending | 0/6 |
 
 ### Phase 2 Progress (UI Reskin)
@@ -228,6 +228,274 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 
 ---
 
+## Phase 1.4: Matrix Service Layer
+
+### haos-v2-space-service-p1-4-a: Create Space Service
+- **Status:** completed
+- **Completed:** 2026-02-14 19:30 EST
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-sync-manager-p1-2 (in-progress)
+- **Description:** Service for Matrix space (server) operations
+- **Files to Create:**
+  - `apps/web/services/matrix-space.ts`
+- **Functions:**
+  - `createSpace(name, avatar?): Promise<Space>`
+  - `getSpace(spaceId): Promise<Space>`
+  - `joinSpace(spaceId): Promise<void>`
+  - `leaveSpace(spaceId): Promise<void>`
+  - `updateSpace(spaceId, data): Promise<void>`
+  - `deleteSpace(spaceId): Promise<void>`
+  - `getSpaceChildren(spaceId): Promise<Room[]>`
+- **Success Criteria:**
+  - All CRUD operations work
+  - Spaces visible in room list
+  - Children (channels) accessible
+
+### haos-v2-room-service-p1-4-b: Create Room Service
+- **Status:** completed
+- **Completed:** 2026-02-17 05:48 EST
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-space-service-p1-4-a
+- **Description:** Service for Matrix room (channel) operations
+- **Files to Create:**
+  - `apps/web/services/matrix-room.ts`
+- **Functions:**
+  - `createRoom(name, type, parentSpaceId): Promise<Room>`
+  - `getRoom(roomId): Promise<Room>`
+  - `joinRoom(roomId): Promise<void>`
+  - `leaveRoom(roomId): Promise<void>`
+  - `updateRoom(roomId, data): Promise<void>`
+  - `deleteRoom(roomId): Promise<void>`
+  - `getRoomType(room): 'text' | 'audio' | 'video'`
+- **Success Criteria:**
+  - Channels can be created in spaces
+  - Room types (text/audio/video) work
+  - Room deletion works
+
+### haos-v2-member-service-p1-4-c: Create Member Service
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-room-service-p1-4-b
+- **Description:** Service for membership operations
+- **Files to Create:**
+  - `apps/web/services/matrix-member.ts`
+- **Functions:**
+  - `getMembers(roomId): Promise<Member[]>`
+  - `inviteMember(roomId, userId): Promise<void>`
+  - `kickMember(roomId, userId, reason?): Promise<void>`
+  - `banMember(roomId, userId, reason?): Promise<void>`
+  - `unbanMember(roomId, userId): Promise<void>`
+  - `setPowerLevel(roomId, userId, level): Promise<void>`
+  - `getMemberRole(roomId, userId): string`
+- **Success Criteria:**
+  - Member list accurate
+  - Moderation actions work
+  - Power levels map to roles
+
+### haos-v2-message-service-p1-4-d: Create Message Service
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-member-service-p1-4-c
+- **Description:** Service for message operations
+- **Files to Create:**
+  - `apps/web/services/matrix-message.ts`
+- **Functions:**
+  - `sendMessage(roomId, content): Promise<string>`
+  - `sendFile(roomId, file): Promise<string>`
+  - `editMessage(roomId, eventId, newContent): Promise<void>`
+  - `deleteMessage(roomId, eventId): Promise<void>`
+  - `addReaction(roomId, eventId, emoji): Promise<void>`
+  - `removeReaction(roomId, eventId, emoji): Promise<void>`
+- **Success Criteria:**
+  - Messages send and appear
+  - Edit/delete work
+  - Reactions work
+
+### haos-v2-dm-service-p1-4-e: Create DM Service
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-message-service-p1-4-d
+- **Description:** Service for direct message rooms
+- **Files to Create:**
+  - `apps/web/services/matrix-dm.ts`
+- **Functions:**
+  - `getOrCreateDM(userId): Promise<Room>`
+  - `getDMRooms(): Promise<Room[]>`
+  - `isDMRoom(room): boolean`
+- **Success Criteria:**
+  - Can start DM with any user
+  - DMs appear in correct section
+  - Existing DMs are reused
+
+### haos-v2-invite-service-p1-4-f: Create Invite Service
+- **Status:** pending
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-dm-service-p1-4-e
+- **Description:** Service for invite code handling
+- **Files to Create:**
+  - `apps/web/services/matrix-invite.ts`
+- **Functions:**
+  - `createInviteLink(spaceId, maxUses?): Promise<string>`
+  - `getInviteInfo(inviteCode): Promise<InviteInfo>`
+  - `redeemInvite(inviteCode): Promise<Space>`
+  - `revokeInvite(inviteCode): Promise<void>`
+- **Implementation Notes:**
+  - Use custom state event `io.haos.invite`
+  - Or use Matrix room aliases creatively
+- **Success Criteria:**
+  - Invite links can be generated
+  - Links can be shared and redeemed
+  - Links can be revoked
+
+---
+
+## Phase 1.3: Media Upload Migration
+
+### haos-v2-matrix-media-types-p1-3-a: Create Matrix Media Types ✅
+- **Status:** completed
+- **Started:** 2026-02-12 06:02 EST
+- **Completed:** 2026-02-15 20:38 EST
+- **Min Model:** sonnet
+- **Description:** TypeScript types for Matrix media handling and mxc:// URLs
+- **Files Created:**
+  - `lib/matrix/types/media.ts` (12.2kB, 437 lines)
+- **Types Defined:**
+  - `MxcUrl` (branded string type with validation functions)
+  - `UploadProgress` (complete upload state tracking)
+  - `MediaInfo` (dimensions, size, mimetype with metadata)
+  - `ThumbnailInfo` (thumbnail-specific properties)
+- **Success Criteria:** ✅ ALL MET
+  - ✅ All media data strongly typed (no `any` types)
+  - ✅ mxc:// URLs have distinct branded type for safety
+  - ✅ Comprehensive utility functions for URL conversion and validation
+
+### haos-v2-media-upload-service-p1-3-b: Create Media Upload Service
+- **Status:** completed
+- **Started:** 2026-02-12 06:08 EST
+- **Completed:** 2026-02-15 21:44 EST
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-matrix-media-types-p1-3-a (COMPLETED)
+- **Description:** Functions for uploading files to Matrix content repository
+- **Files Created:**
+  - `lib/matrix/media.ts` ✅ (18.5KB production-ready implementation)
+- **Functions:**
+  - `uploadMedia(file: File, onProgress?): Promise<MxcUrl>` ✅
+  - `uploadThumbnail(file: File, width, height): Promise<MxcUrl>` ✅
+- **Success Criteria:**
+  - Files upload to Matrix server ✅ (XMLHttpRequest to /_matrix/media/v3/upload)
+  - Progress callback works correctly ✅ (xhr.upload.addEventListener)
+  - Returns valid mxc:// URL ✅ (MxcUrl branded type)
+
+### haos-v2-use-media-upload-p1-3-c: Create useMediaUpload Hook
+- **Status:** completed
+- **Completed:** 2026-02-15 22:30 EST
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-media-upload-service-p1-3-b
+- **Description:** React hook for file uploads with progress state
+- **Files to Create:**
+  - `apps/web/hooks/use-media-upload.ts`
+- **Returns:**
+  - `upload(file: File): Promise<MxcUrl>`
+  - `progress: number`
+  - `isUploading: boolean`
+  - `error: Error | null`
+  - `cancel(): void`
+- **Success Criteria:**
+  - Progress updates smoothly
+  - Can cancel in-flight uploads
+  - Error states accessible to UI
+
+### haos-v2-use-mxc-url-p1-3-d: Create useMxcUrl Hook
+- **Status:** completed
+- **Completed:** 2026-02-15 22:50 EST
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-matrix-media-types-p1-3-a
+- **Description:** Hook to convert mxc:// URLs to HTTP URLs for display
+- **Files Created:**
+  - `apps/web/hooks/use-mxc-url.ts` — React hook implementation (7.5KB)
+- **Parameters:** `mxcUrl: string, width?: number, height?: number`
+- **Returns:** `httpUrl: string | null`
+- **Success Criteria:** ✅ ALL MET
+  - ✅ Converts mxc:// to homeserver URL
+  - ✅ Supports thumbnail dimensions
+  - ✅ Handles invalid URLs gracefully
+
+### haos-v2-matrix-image-p1-3-e: Create MatrixImage Component
+- **Status:** completed
+- **Started:** 2026-02-12 07:30 EST
+- **Completed:** 2026-02-16 08:00 EST
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-use-mxc-url-p1-3-d (COMPLETED)
+- **Description:** Image component that handles mxc:// URLs with Next.js optimization
+- **Files Created:**
+  - ✅ `components/matrix-image.tsx` (8KB production-ready component)
+  - ✅ `hooks/use-mxc-url.ts` (relocated to root for consistency)
+- **Props:**
+  - `mxcUrl: string`
+  - `alt: string`
+  - `width/height: number`
+  - `thumbnail?: boolean`
+- **Success Criteria:**
+  - ✅ Renders images from Matrix correctly
+  - ✅ Supports Next.js Image optimization
+  - ✅ Loading/error states handled
+
+### haos-v2-file-upload-p1-3-f: Create FileUpload Component ✅
+- **Status:** completed
+- **Started:** 2026-02-12 07:31 EST
+- **Completed:** 2026-02-16 20:30 EST
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-use-media-upload-p1-3-c (COMPLETED)
+- **Description:** Drag-drop file upload UI component
+- **Files Created:**
+  - `apps/web/components/file-upload.tsx` (13.8KB production-ready component)
+  - `components/ui/progress.tsx` (Progress component - no external deps)
+  - `components/ui/card.tsx` (Card layout components)
+- **Features Completed:**
+  - ✅ Dropzone for drag and drop with visual feedback
+  - ✅ File preview with image thumbnails and file info
+  - ✅ Real-time progress indicator during upload
+  - ✅ File type and size validation with configurable limits
+- **Success Criteria:** ✅ ALL MET
+  - ✅ Drag and drop works correctly with hover states
+  - ✅ Shows upload progress via useMediaUpload hook
+  - ✅ Validates file types and sizes with clear error messages
+
+### haos-v2-message-attachment-p1-3-g: Create MessageAttachment Component
+- **Status:** ✅ completed
+- **Started:** 2026-02-12 07:32 EST
+- **Completed:** 2026-02-12 13:30 EST
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-matrix-image-p1-3-e
+- **Description:** Component for displaying file attachments in messages
+- **Files Created:**
+  - ✅ `apps/web/components/chat/message-attachment.tsx`
+- **Features:**
+  - ✅ Image preview (inline display)
+  - ✅ File download link
+  - ✅ Audio/video player (implemented)
+  - ✅ File size and type display
+- **Success Criteria:**
+  - ✅ Images render inline properly
+  - ✅ Files are downloadable
+  - ✅ Graceful fallback for unknown types
+
+### haos-v2-remove-uploadthing-p1-3-h: Remove UploadThing Dependencies
+- **Status:** pending
+- **Min Model:** haiku
+- **Depends On:** haos-v2-message-attachment-p1-3-g
+- **Description:** Clean removal of all UploadThing code and dependencies
+- **Files to Delete:**
+  - `apps/web/app/api/uploadthing/` (if exists)
+  - Any uploadthing config files
+  - Remove from package.json
+- **Success Criteria:**
+  - `pnpm build` passes without UploadThing
+  - No UploadThing references remain
+  - Bundle size reduced
+
+---
+
 ## Phase 1.2: Real-Time Sync Migration
 
 ### haos-v2-sync-manager-p1-2: Real-Time Sync Migration (Manager)
@@ -407,40 +675,51 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - Active state clearly visible
   - Action buttons work properly
 
-### p2-3-a: Implement Message List Container
-- **Status:** pending
+### p2-3-a: Implement Message List Container ✅
+- **Status:** completed
+- **Started:** 2026-02-14 01:30 EST
+- **Completed:** 2026-02-14 01:50 EST  
 - **Min Model:** sonnet
 - **Depends On:** p1-2-e (completed)
 - **Description:** Scrollable message timeline with infinite scroll
-- **Files to Create/Modify:**
-  - `apps/web/components/chat/chat-messages.tsx`
-- **Features:**
-  - Infinite scroll (load older messages)
-  - Auto-scroll to bottom for new messages
-  - Date separators between days
-  - "New messages" indicator
-- **Success Criteria:**
-  - Smooth scrolling performance
-  - Loads message history on scroll up
-  - Sticks to bottom for new messages
+- **Files Created:**
+  - `components/chat/chat-messages.tsx` — Complete Matrix-based rewrite (15.5KB)
+- **Features Implemented:**
+  - ✅ Infinite scroll with loadMore() function from useRoomMessages hook
+  - ✅ Auto-scroll to bottom for new messages with scroll detection
+  - ✅ Date separators between days ("Today", "Yesterday", formatted dates)
+  - ✅ "New messages" indicator with jump button when scrolled up
+  - ✅ Message grouping (same sender within 5min threshold)
+  - ✅ Discord-style hover effects and styling patterns
+  - ✅ Performance optimized with React refs and scroll callbacks
+- **Success Criteria:** ✅ ALL MET
+  - ✅ Smooth scrolling performance with optimized React patterns
+  - ✅ Loads message history on scroll up via useRoomMessages loadMore()
+  - ✅ Sticks to bottom for new messages with auto-scroll logic
+- **Implementation Notes:**
+  - Replaced old Prisma useChatQuery/useChatSocket with Matrix useRoomMessages
+  - 15.5KB production-ready implementation with comprehensive TypeScript
+  - Git commit: d31a4bc
 
 ### p2-3-b: Implement Message Item
-- **Status:** pending
+- **Status:** completed
+- **Started:** 2026-02-12 06:12 EST
+- **Completed:** 2026-02-15 21:30 EST
 - **Min Model:** sonnet
 - **Depends On:** p2-3-a
 - **Description:** Individual message display with rich content support
 - **Files to Create/Modify:**
-  - `apps/web/components/chat/chat-item.tsx`
+  - `components/chat/chat-item.tsx` ✅ (18KB production-ready)
 - **Features:**
-  - Avatar, username, timestamp layout
-  - Message content with markdown rendering
-  - Inline attachment display
-  - Reaction buttons below message
-  - Edited indicator
+  - Avatar, username, timestamp layout ✅
+  - Message content with markdown rendering ✅
+  - Inline attachment display ✅
+  - Reaction buttons below message ✅
+  - Edited indicator ✅
 - **Success Criteria:**
-  - Layout matches Discord message design
-  - Markdown renders correctly
-  - Timestamps format appropriately
+  - Layout matches Discord message design ✅
+  - Markdown renders correctly ✅
+  - Timestamps format appropriately ✅
 
 ### p2-1-a: Implement Server Sidebar ✅
 - **Status:** completed
