@@ -33,9 +33,10 @@ See: `scheduler/progress/p0-verify.md` for Phase 0 verification results
 
 ## Phase 1 Tasks (In Progress)
 
-### haos-v2-auth-manager-p1-1: Matrix Authentication (Manager)
-- **Status:** in-progress (manager)
+### haos-v2-auth-manager-p1-1: Matrix Authentication (Manager) ✅
+- **Status:** completed
 - **Started:** 2026-02-12 00:03 EST
+- **Completed:** 2026-02-12 00:32 EST
 - **Min Model:** opus
 - **Description:** Coordinate auth migration — monitor sub-agents, integrate components
 - **Sub-Tasks:**
@@ -43,12 +44,13 @@ See: `scheduler/progress/p0-verify.md` for Phase 0 verification results
   - haos-v2-matrix-login-p1-1-b: ✅ completed
   - haos-v2-matrix-registration-p1-1-c: ✅ completed
   - haos-v2-session-cookies-p1-1-d: ✅ completed
-  - haos-v2-auth-provider-p1-1-e: 🔄 in-progress (spawning now)
+  - haos-v2-auth-provider-p1-1-e: ✅ completed
 - **Manager Notes:**
   - [00:03] Auth types done, login function starting
   - [00:05] p1-1-b also completed! Both a and b done
   - [00:14] Spawning c (registration) and d (cookies) in parallel
   - [00:25] c and d both completed! Spawning e (auth provider)
+  - [00:32] e completed! ALL AUTH TASKS DONE ✅
 
 ### haos-v2-matrix-auth-types-p1-1-a: Create Matrix Auth Types ✅
 - **Status:** completed
