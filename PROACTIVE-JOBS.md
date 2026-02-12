@@ -28,8 +28,25 @@ See: `scheduler/progress/p0-verify.md` for Phase 0 verification results
 
 ## Phase 1 Tasks (In Progress)
 
+### p1-1: Matrix Authentication (Manager)
+- **Status:** in-progress (manager)
+- **Started:** 2026-02-12 00:03 EST
+- **Min Model:** opus
+- **Description:** Coordinate auth migration — monitor sub-agents, integrate components
+- **Sub-Tasks:**
+  - p1-1-a: ✅ completed
+  - p1-1-b: ✅ completed
+  - p1-1-c: pending (unblocked now)
+  - p1-1-d: pending (unblocked now)
+  - p1-1-e: pending (blocked by d)
+- **Manager Notes:**
+  - [00:03] Auth types done, login function starting
+  - [00:05] p1-1-b also completed! Both a and b done
+  - Next: p1-1-c and p1-1-d can run (both unblocked)
+
 ### p1-1-a: Create Matrix Auth Types ✅
 - **Status:** completed
+- **Parent:** p1-1
 - **Started:** 2026-02-11 23:51 EST
 - **Completed:** 2026-02-12 06:48 EST
 - **Min Model:** sonnet
@@ -43,19 +60,20 @@ See: `scheduler/progress/p0-verify.md` for Phase 0 verification results
   - Type guards: `isAuthenticated()`, `isAuthError()`, `isAuthLoading()`
 - **Summary:** All auth-related data has proper types. No `any` types. Strict typing throughout.
 
-### p1-1-b: Implement Matrix Login Function
-- **Status:** pending
+### p1-1-b: Implement Matrix Login Function ✅
+- **Status:** completed
+- **Started:** 2026-02-12 06:50 EST
+- **Completed:** 2026-02-12 06:54 EST
 - **Min Model:** sonnet
 - **Depends On:** p1-1-a
 - **Description:** Function to authenticate with Matrix homeserver
-- **Files to Create:**
+- **Files Created:**
   - `apps/web/lib/matrix/auth.ts`
-- **Functions:**
+- **Functions Implemented:**
   - `loginWithPassword(username, password): Promise<MatrixSession>`
   - `validateSession(accessToken): Promise<MatrixUser>`
-- **Success Criteria:**
-  - Valid credentials return session
-  - Invalid credentials throw appropriate error
+  - Bonus: `logout()`, `logoutAll()`, `refreshAccessToken()`
+- **Summary:** Full auth implementation with well-known discovery, proper error handling via MatrixAuthError class, and JSDoc documentation. TypeScript compiles cleanly, lint passes, no 'any' types.
 
 ### p1-1-c: Implement Matrix Registration Function
 - **Status:** pending
