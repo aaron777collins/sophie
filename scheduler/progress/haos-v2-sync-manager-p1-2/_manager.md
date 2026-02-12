@@ -7,7 +7,7 @@ Migrate HAOS v2 from Socket.io to Matrix sync for real-time functionality.
 
 | Task | Description | Status | Depends On |
 |------|-------------|--------|------------|
-| p1-2-a | Matrix Client Singleton | pending | - |
+| p1-2-a | Matrix Client Singleton | ✅ completed | - |
 | p1-2-b | MatrixProvider Context | pending | a |
 | p1-2-c | useMatrixClient Hook | pending | b |
 | p1-2-d | useRoom Hook | pending | b |

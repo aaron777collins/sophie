@@ -49,8 +49,10 @@ Software engineer in Amherstburg, Ontario (EST). Builds agentic systems, does AI
 **Key Wisdom (REMEMBER THIS):**
 - [2026-02-12] **"Many hands make light work"** — The organization is smarter than the individual
 - [2026-02-12] **Layers add intelligence** — Hierarchical management provides inherent intelligence that individuals lack
-- [2026-02-12] **Don't second-guess direction** — When Aaron gives clear direction, execute. Don't override with analysis.
-- [2026-02-12] **Execute, don't overthink** — Analysis is good, but not when it delays executing clear instructions
+- [2026-02-12] **Orders from Aaron are IMPORTANT** — Follow them, but still think critically
+- [2026-02-12] **Workers give feedback to managers** — Obey, but raise issues so managers can make smarter decisions
+- [2026-02-12] **WRITE EVERYTHING DOWN FIRST** — Notes via hierarchical nested .md files are KEY
+- [2026-02-12] **Write outcomes before acting again** — Document what happened, then proceed
 
 ---
 

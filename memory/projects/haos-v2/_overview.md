@@ -1,6 +1,6 @@
 # HAOS v2 Project Overview
 
-**Last Updated:** [2026-02-12 00:53 EST]
+**Last Updated:** [2026-02-12 12:15 EST]
 
 ## Quick Reference
 
@@ -40,8 +40,19 @@
 
 ### 🚧 p1-2 (Real-Time Sync) In Progress
 - [2026-02-12 08:15 EST] Coordinator populated first 5 tasks (a-e)
-- Manager + sub-tasks queued in PROACTIVE-JOBS.md
-- Tasks: Matrix client singleton, MatrixProvider context, hooks for client/room/messages
+- [2026-02-12 02:20 EST] **p1-2-a: Matrix client singleton ✅** — `lib/matrix/client.ts`
+  - Singleton pattern with initializeClient, getClient, destroyClient
+  - Added matrix-js-sdk dependency (40.3.0-rc.0)
+- Next up: p1-2-b (MatrixProvider context)
+
+### ✅ p2-1-a (Server Sidebar) Complete
+- [2026-02-12 12:15 EST] **p2-1-a: Discord-style server sidebar ✅**
+  - Created `lib/matrix/types/space.ts` — Space/channel types
+  - Created `components/navigation/navigation-dm.tsx` — DM shortcut
+  - Created `hooks/use-spaces.ts` — Spaces hook (mock data, ready for Matrix)
+  - Updated `navigation-sidebar.tsx` — Client component with full Discord layout
+  - Updated `navigation-item.tsx` — Letter fallback, badges, hover animations
+  - Fixed `next.config.js` — Enabled server actions (pre-existing issue)
 
 ### ❌ What's Broken / Incomplete
 - Next.js version has security vulnerability (minor, should upgrade)
@@ -112,7 +123,7 @@ See detailed docs in `~/clawd/docs/haos-v2/`:
 |-------|--------|-------|
 | Phase 0: Foundation | ✅ Complete | Verified 2026-02-12 - all checks pass |
 | Phase 1: Core Integration | 🚀 Ready | Auth, sync, media, services |
-| Phase 2: UI Reskin | ⏳ Pending | Discord-style components |
+| Phase 2: UI Reskin | 🚧 Started | p2-1-a (server sidebar) complete |
 | Phase 3: Polish | ⏳ Pending | Settings, roles, admin |
 | Phase 4: Production | ⏳ Pending | Docs, testing, deployment |
 

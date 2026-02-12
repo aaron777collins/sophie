@@ -32,9 +32,14 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 | Section | Status | Tasks Done |
 |---------|--------|------------|
 | p1-1: Auth | ✅ Complete | 5/5 |
-| p1-2: Sync | 🚀 In Progress | 0/10 |
+| p1-2: Sync | 🚀 In Progress | 1/10 |
 | p1-3: Media | ⏳ Pending | 0/8 |
 | p1-4: Services | ⏳ Pending | 0/6 |
+
+### Phase 2 Progress (UI Reskin)
+| Section | Status | Tasks Done |
+|---------|--------|------------|
+| p2-1: Navigation | 🚀 In Progress | 1/5 |
 
 ---
 
@@ -217,8 +222,8 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 - **Min Model:** opus
 - **Description:** Coordinate sync migration — migrate from Socket.io to Matrix sync
 - **Sub-Tasks:**
-  - haos-v2-matrix-client-singleton-p1-2-a: 🔄 in-progress
-  - haos-v2-matrix-provider-p1-2-b: pending (blocked by a)
+  - haos-v2-matrix-client-singleton-p1-2-a: ✅ completed
+  - haos-v2-matrix-provider-p1-2-b: pending (unblocked, ready)
   - haos-v2-use-matrix-client-p1-2-c: pending (blocked by b)
   - haos-v2-use-room-p1-2-d: pending (blocked by b)
   - haos-v2-use-room-messages-p1-2-e: pending (blocked by d)
@@ -226,22 +231,54 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - [01:01] Manager created, 5 initial sub-tasks populated
   - [01:02] Starting p1-2-a (Matrix Client Singleton)
 
-### haos-v2-matrix-client-singleton-p1-2-a: Create Matrix Client Singleton
-- **Status:** in-progress
+### haos-v2-matrix-client-singleton-p1-2-a: Create Matrix Client Singleton ✅
+- **Status:** completed
 - **Started:** 2026-02-12 01:02 EST
+- **Completed:** 2026-02-12 02:20 EST
 - **Parent:** haos-v2-sync-manager-p1-2
-- **Min Model:** sonnet
+- **Min Model:** sonnet (escalated to opus)
 - **Description:** Singleton Matrix SDK client instance
-- **Files to Create:**
-  - `lib/matrix/client.ts`
+- **Files Created:**
+  - `lib/matrix/client.ts` — Singleton with initializeClient, getClient, hasClient, destroyClient
 - **Functions:**
   - `initializeClient(session: MatrixSession): MatrixClient`
   - `getClient(): MatrixClient | null`
+  - `hasClient(): boolean`
   - `destroyClient(): void`
-- **Success Criteria:**
-  - Only one client instance exists
-  - Client persists across navigation
-  - Clean shutdown on logout
+- **Summary:** Singleton pattern implemented with auto-cleanup of existing client, proper validation, sync start on init, and listener cleanup on destroy. Added matrix-js-sdk 40.3.0-rc.0. Build ✅ Lint ✅ Commit: e6eb73b
+
+---
+
+## Phase 2 Tasks (UI Reskin)
+
+### p2-1-a: Implement Server Sidebar ✅
+- **Status:** completed
+- **Started:** 2026-02-12 11:45 EST
+- **Completed:** 2026-02-12 12:15 EST
+- **Parent:** p2-1 (Server Sidebar / Navigation Components)
+- **Min Model:** opus
+- **Description:** Discord-style server/space sidebar with DM button, server icons, add button
+- **Files Created:**
+  - `lib/matrix/types/space.ts` — Space/channel types for navigation
+  - `components/navigation/navigation-dm.tsx` — DM shortcut button
+  - `hooks/use-spaces.ts` — Spaces hook (mock data, ready for Matrix)
+- **Files Modified:**
+  - `components/navigation/navigation-sidebar.tsx` — Client component with full Discord layout
+  - `components/navigation/navigation-item.tsx` — Letter fallback, badges, hover animations
+  - `next.config.js` — Fixed server actions (pre-existing issue)
+- **Features:**
+  - ✅ DM shortcut at top with unread badge
+  - ✅ Server icons with letter fallback
+  - ✅ Active server indicator (pill on left)
+  - ✅ Hover animations (round → square corners)
+  - ✅ Add server button (green plus icon)
+  - ✅ User panel at bottom
+  - ✅ Loading skeleton states
+- **Verification:**
+  - Build ✅ Lint ✅ TypeScript ✅
+- **Integration Notes:**
+  - `useSpaces()` hook returns empty array until Matrix SDK integration (p1-2-b, p1-4-a)
+  - When Matrix client ready, update `hooks/use-spaces.ts` to use real data
 
 ### haos-v2-matrix-provider-p1-2-b: Create MatrixProvider Context
 - **Status:** pending
@@ -309,6 +346,42 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - Messages appear in real-time
   - Can paginate backwards
   - Handles edit/delete updates
+
+---
+
+## Phase 2 Tasks (UI Reskin)
+
+### p2-1-a: Implement Server Sidebar ✅
+- **Status:** completed
+- **Started:** 2026-02-12 12:00 EST
+- **Completed:** 2026-02-12 12:25 EST
+- **Parent:** p2-1 (Server Sidebar / Navigation Components)
+- **Min Model:** opus
+- **Description:** Discord-style server sidebar with spaces
+- **Files Created:**
+  - `lib/matrix/types/space.ts` — Space type definitions
+  - `hooks/use-spaces.ts` — Space fetching hooks
+  - `components/navigation/navigation-dm.tsx` — DM shortcut button
+- **Files Modified:**
+  - `components/navigation/navigation-item.tsx` — MXC URL support, badges
+  - `components/navigation/navigation-sidebar.tsx` — Client component with hooks
+- **Features Implemented:**
+  - ✅ Server icons with hover effects (round → square)
+  - ✅ Active server indicator pill
+  - ✅ DM shortcut at top
+  - ✅ Add server button
+  - ✅ User avatar with online indicator
+  - ✅ Loading skeletons
+  - ✅ Empty state for no servers
+  - ✅ Unread/mention badges
+  - ✅ MXC to HTTP URL conversion
+  - ✅ Fallback initials
+- **Verification:**
+  - Build: ✅ `pnpm build` passes
+  - Lint: ✅ `pnpm lint` passes
+  - TypeScript: ✅ No errors, no `any` types
+- **Summary:** Navigation sidebar converted from server component with Prisma to client component using Matrix auth hooks. Uses temporary `useSpaces()` stub that will integrate with Matrix sync once p1-2-b complete.
+- **Commit:** e6eb73b (combined with p1-2-a Matrix client)
 
 ---
 

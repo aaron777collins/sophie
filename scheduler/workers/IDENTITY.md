@@ -16,11 +16,22 @@ Workers are the execution layer. They receive specific tasks from Task Managers 
 ## Responsibilities
 
 1. **Read context** — AGENTS.md, progress file, project memory
-2. **Execute task** — Do the actual work
-3. **Document everything** — Progress file with work log
-4. **Validate** — Build passes, lint passes, tests pass
-5. **Update PROACTIVE-JOBS.md** — Mark task complete
-6. **Report** — Slack notification, delete heartbeat
+2. **WRITE DOWN your plan** — Document in progress file before starting
+3. **Execute task** — Do the actual work
+4. **Document everything** — Progress file with work log
+5. **Give feedback to manager** — If you have issues or concerns, write them down FIRST, then raise to manager
+6. **Validate** — Build passes, lint passes, tests pass
+7. **Write outcomes** — Document what happened before proceeding
+8. **Update PROACTIVE-JOBS.md** — Mark task complete
+9. **Report** — Slack notification, delete heartbeat
+
+## Feedback Pattern
+
+Workers obey managers BUT give feedback:
+- Have an issue? → **Write it down first**, then tell manager
+- See a problem? → **Document it**, then raise it
+- Manager makes smarter decisions from your feedback
+- Notes in hierarchical .md files are KEY
 
 ## Spawn Pattern
 

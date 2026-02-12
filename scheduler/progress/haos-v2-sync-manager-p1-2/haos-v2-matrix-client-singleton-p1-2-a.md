@@ -1,38 +1,58 @@
 # Task: haos-v2-matrix-client-singleton-p1-2-a — Matrix Client Singleton
 
 ## Summary
-- **Status:** pending
+- **Status:** completed ✅
 - **Parent:** haos-v2-sync-manager-p1-2
-- **Model:** sonnet
+- **Model:** opus (assigned sonnet, escalated)
+- **Completed:** [2026-02-12 02:20 EST]
 
-## What to Build
-Create a singleton Matrix SDK client at `lib/matrix/client.ts`:
-- `initializeClient(session: MatrixSession): MatrixClient` — Create and start client
-- `getClient(): MatrixClient | null` — Get existing client
-- `destroyClient(): void` — Clean shutdown
+## What Was Built
+Created `lib/matrix/client.ts` with a singleton Matrix SDK client:
+- `initializeClient(session: MatrixSession): MatrixClient` — Creates client, starts sync, stores singleton
+- `getClient(): MatrixClient | null` — Returns current client or null
+- `hasClient(): boolean` — Quick check if client exists
+- `destroyClient(): void` — Stops sync, removes listeners, clears singleton
 
-## Prior Context
-- Auth system complete (p1-1)
-- MatrixSession type exists in `lib/matrix/types/auth.ts`
-- Will be used by MatrixProvider (p1-2-b)
+## Implementation Details
+- Uses `matrix-js-sdk` (added as dependency, version 40.3.0-rc.0)
+- Validates session has required fields (homeserverUrl, accessToken, userId)
+- Auto-destroys existing client before creating new one (idempotent)
+- Starts sync with sensible defaults (initialSyncLimit: 10, no archived rooms)
+- Removes all event listeners on destroy to prevent memory leaks
+- Re-exports MatrixClient type for consumers
 
-## Requirements
-- Only one client instance at a time
-- Client persists across React navigation
-- Must start sync when initialized
-- Clean shutdown on logout (stop sync, clear state)
-- Use matrix-js-sdk (already installed)
+## Files Changed
+- `/home/ubuntu/repos/haos-v2/lib/matrix/client.ts` — New file (singleton implementation)
+- `/home/ubuntu/repos/haos-v2/package.json` — Added matrix-js-sdk dependency
 
-## Success Criteria
-- [ ] Singleton pattern implemented
-- [ ] initializeClient starts sync
-- [ ] getClient returns current instance
-- [ ] destroyClient stops sync and clears
-- [ ] Build passes
-- [ ] Lint passes
+## Success Criteria - All Met
+- [x] Singleton pattern (only one client at a time)
+- [x] initializeClient starts sync
+- [x] getClient returns current instance
+- [x] destroyClient stops sync and clears
+- [x] TypeScript types (no 'any')
+- [x] Build passes
+- [x] Lint passes
 
 ## Work Log
-(Agent will fill this in)
+- [02:15 EST] Read context docs, manager notes, auth types
+- [02:16 EST] Claimed task via heartbeat
+- [02:17 EST] Installed matrix-js-sdk (wasn't in package.json despite docs)
+- [02:18 EST] Created lib/matrix/client.ts with full implementation
+- [02:19 EST] Build passed (had to clear .next cache due to stale state)
+- [02:20 EST] Lint passed
+- [02:20 EST] Git commit: e6eb73b
+
+## Notes for Next Agent (p1-2-b: MatrixProvider)
+- Import from `@/lib/matrix/client`
+- Use `initializeClient(session)` when user logs in (from MatrixAuthProvider)
+- Call `destroyClient()` on logout
+- The client emits events for sync state - listen for 'sync' event
+- Consider wrapping in React context that tracks sync state
 
 ## Validation
-(Agent will fill this in)
+```bash
+cd /home/ubuntu/repos/haos-v2
+pnpm build  # ✅ Passes
+pnpm lint   # ✅ No warnings or errors
+```

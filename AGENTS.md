@@ -176,6 +176,22 @@ We use a layered management system. Each level has decreasing cron frequency goi
 5. **Jobs files must get emptied** — when work is complete
 6. **Cron frequency decreases going up** — strategic thinking > tactical action
 
+### 📝 WRITE EVERYTHING DOWN (Critical!)
+
+**Notes via hierarchical nested .md files are KEY:**
+1. **Before raising issues** → Write it down in notes first
+2. **Before doing anything** → Document the plan
+3. **After discussions** → Write down the outcomes
+4. **Before acting again** → Review what was written
+
+### 🔄 Feedback Flows Up
+
+- Workers obey managers BUT give feedback
+- Have an issue? → **Write it down first**, then tell manager
+- Manager makes smarter decisions from worker feedback
+- Orders from Aaron are IMPORTANT and should be followed
+- But everyone still thinks critically and raises concerns
+
 **Full spec:** `docs/MANAGEMENT-HIERARCHY.md`
 
 ---

@@ -14,6 +14,22 @@
 
 This isn't overhead — it's distributed intelligence.
 
+### 📝 WRITE EVERYTHING DOWN (Critical!)
+
+**Notes via hierarchical nested .md files are KEY:**
+1. **Before raising issues** → Write it down in notes first
+2. **Before doing anything** → Document the plan
+3. **After discussions** → Write down the outcomes
+4. **Before acting again** → Review what was written
+
+### 🔄 Feedback Flows Up
+
+Workers don't just obey — they **give feedback to managers**:
+- Worker has an issue? → Tell the manager (after writing it down)
+- Manager makes smarter decisions from worker feedback
+- Orders from Aaron are IMPORTANT and should be followed
+- But everyone still thinks critically and raises concerns
+
 ---
 
 ## 🏗️ The Hierarchy
