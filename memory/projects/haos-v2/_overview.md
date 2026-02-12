@@ -253,6 +253,22 @@
   - Member interface includes presence, typing status, join dates, and role mappings
   - All success criteria met: member list accurate, moderation actions work, power levels map to roles
   - Validated: TypeScript ✓, all required functions ✓, permissions ✓, error handling ✓
+
+### ✅ p1-4-d (Message Service) Complete
+- [2026-02-17 20:15 EST] **p1-4-d: Matrix Message Service ✅** — `apps/web/services/matrix-message.ts`
+  - Complete Matrix message operations service
+  - ✅ sendMessage(roomId, content) - Text/rich content with reply/thread support
+  - ✅ sendFile(roomId, file) - File upload integration with media service
+  - ✅ editMessage(roomId, eventId, newContent) - Message editing with Matrix relations
+  - ✅ deleteMessage(roomId, eventId) - Message redaction with validation
+  - ✅ addReaction(roomId, eventId, emoji) - Emoji reactions via annotations
+  - ✅ removeReaction(roomId, eventId, emoji) - Remove user reactions
+  - Production-ready: 18.5KB, comprehensive error handling, full Matrix SDK integration
+  - Custom MessageServiceError with proper error codes and HTTP status mapping
+  - Full TypeScript types with JSDoc documentation, no 'any' types except SDK workarounds
+  - Permission validation for all operations, markdown support, thread/reply relationships
+  - All success criteria met: messages send and appear, edit/delete work, reactions work
+  - Validated: TypeScript ✓, ESLint ✓, Matrix SDK integration ✓
   - Complete Matrix room (channel) CRUD operations service
   - ✅ createRoom(name, type, parentSpaceId) - Creates text/audio/video channels in spaces
   - ✅ getRoom(roomId) - Retrieves room with MatrixRoom interface
