@@ -46,6 +46,11 @@ Software engineer in Amherstburg, Ontario (EST). Builds agentic systems, does AI
 - [2026-02-12] **Federation** — Matrix federation enabled but **INVITE-ONLY by default**
 - [2026-02-12] **HAOS Media** — Self-hosted LiveKit with E2EE, video rooms by default, P2P direct calls, full audio/video/screensharing
 
+**Key Wisdom (REMEMBER THIS):**
+- [2026-02-12] **"Many hands make light work"** — The organization is smarter than the individual
+- [2026-02-12] **Layers add intelligence** — Hierarchical management provides inherent intelligence that individuals lack
+- [2026-02-12] **Don't second-guess direction** — When Aaron gives clear direction, execute. Don't override with analysis.
+
 ---
 
 ## Businesses

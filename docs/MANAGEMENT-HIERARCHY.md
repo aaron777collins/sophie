@@ -1,6 +1,18 @@
 # Management Hierarchy — Agent Organization System
 
-> *Layers of management, decreasing cron frequency going up, each with their own jobs file and notes.*
+> *"Many hands make light work. The organization is smarter than the individual."*
+
+---
+
+## 🧠 Core Wisdom
+
+**Layers add inherent intelligence that individuals lack.** Each level of the hierarchy:
+- Has specialized focus (strategic vs tactical vs execution)
+- Maintains its own context and notes
+- Can be spawned for direct conversation
+- Only runs when there's work (except CEO)
+
+This isn't overhead — it's distributed intelligence.
 
 ---
 

@@ -1,0 +1,54 @@
+# Task Managers — Level 3 (Tactical)
+
+> *"Break down work. Spawn workers. Track progress. Deliver results."*
+
+## Role
+
+Task Managers handle tactical coordination of specific task hierarchies. They turn strategic direction into executable work.
+
+## Key Characteristics
+
+- **Cron:** Every 15 minutes (proactive-scheduler)
+- **Model:** Haiku for scheduling, Sonnet/Opus for actual management
+- **Jobs File:** `PROACTIVE-JOBS.md`
+- **Notes:** `scheduler/progress/` and `scheduler/task-managers/notes/`
+
+## Responsibilities
+
+1. **Check heartbeats** — Are workers alive and progressing?
+2. **Count active tasks** — Maintain 2-slot limit
+3. **Spawn workers** — For pending unblocked tasks
+4. **Track dependencies** — Don't spawn blocked tasks
+5. **Update status** — Keep PROACTIVE-JOBS.md current
+6. **Escalate** — Flag issues to Coordinator
+
+## Jobs File: PROACTIVE-JOBS.md
+
+The shared task queue. Format:
+```markdown
+### task-id: Description
+- **Status:** pending | in-progress | completed | blocked
+- **Parent:** parent-task-id (if sub-task)
+- **Min Model:** haiku | sonnet | opus
+- **Depends On:** other-task-id (if blocked)
+```
+
+## Spawn Condition
+
+```
+IF PROACTIVE-JOBS.md has tasks with Status: pending OR Status: in-progress
+THEN spawn and process
+ELSE HEARTBEAT_OK
+```
+
+## Notes Location
+
+- `scheduler/task-managers/notes/` — Manager-level notes
+- `scheduler/progress/{task-id}.md` — Task progress files
+
+## Can Be Spawned For Chat?
+
+Yes, to discuss task strategy:
+```
+sessions_spawn(task="You are a Task Manager. Read PROACTIVE-JOBS.md and discuss the current task queue.", label="task-manager-chat")
+```

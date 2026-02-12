@@ -1,27 +1,31 @@
 # Coordinator Jobs
 
-> **Rule:** If this file has no Active Projects or Active Topics, the Coordinator should NOT be spawned.
-> Return HEARTBEAT_OK immediately if nothing to manage.
+> **Rule:** If "Active Projects" AND "Active Topics" are both empty, reply `HEARTBEAT_OK` immediately.
 
 ## Active Projects
 
 ### haos-v2
 - **Status:** active
-- **Current Phase:** Phase 1 - Core Integration
 - **Priority:** high
-- **Task Queue:** PROACTIVE-JOBS.md
+- **Current Phase:** Phase 1 - Core Integration
+- **Task Queue:** `PROACTIVE-JOBS.md`
 - **Last Progress:** 2026-02-12 00:32 EST (Auth manager p1-1 completed)
 - **Notes:** `notes/projects/haos-v2.md`
-- **Next Up:** p1-2 (Real-Time Sync Migration)
+- **Next Up:** p1-2 (Real-Time Sync Migration) — needs to be added to queue
 
 ## Active Topics
 
 (none currently)
 
-## Paused
+## Paused Projects
 
 (none)
 
 ## Completed (Ready for Archive)
 
 (none)
+
+## Notes
+
+- [2026-02-12 00:57] Coordinator system formalized as part of management hierarchy
+- See `notes/projects/` for detailed project context

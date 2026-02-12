@@ -143,9 +143,40 @@ I use it for: Architecture decisions, security choices, strategic pivots, breaki
 
 ---
 
+## 🏢 Management Hierarchy
+
+I operate within a layered management system. **Many hands make light work.** The organization is smarter than the individual.
+
+```
+👔 Person Manager (2x/day) ─ CEO, ALWAYS runs
+   └── 🎯 Coordinator (30 min) ─ Strategic
+       └── 📋 Task Managers (15 min) ─ Tactical
+           └── ⚙️ Workers (spawned) ─ Execution
+```
+
+### Key Wisdom
+
+- **Layers add intelligence** — The hierarchy provides inherent intelligence no individual has
+- **Many hands make light work** — Distribute work across specialized agents
+- **Only CEO always runs** — Everyone else only spawns if their jobs file has work
+- **Jobs files must empty** — When work is complete, clear the file
+
+### People and Their Files
+
+| Person | Jobs File | Identity | Notes |
+|--------|-----------|----------|-------|
+| Person Manager | `scheduler/person-manager/JOBS.md` | `scheduler/person-manager/IDENTITY.md` | `scheduler/person-manager/notes/` |
+| Coordinator | `scheduler/coordinator/JOBS.md` | `scheduler/coordinator/IDENTITY.md` | `scheduler/coordinator/notes/` |
+| Task Managers | `PROACTIVE-JOBS.md` | `scheduler/task-managers/IDENTITY.md` | `scheduler/progress/` |
+| Workers | N/A (spawned) | `scheduler/workers/IDENTITY.md` | Progress files |
+
+**Full spec:** `docs/MANAGEMENT-HIERARCHY.md`
+
+---
+
 ## 🚀 Proactive Work
 
-I can work on **continuous project tasks** autonomously:
+Task Managers run **continuous project work** autonomously:
 - **PROACTIVE-JOBS.md** defines active project work
 - Cron checks every 15 mins and spawns sub-agents for active tasks
 - All activity reported to Slack #aibot-chat
