@@ -144,7 +144,7 @@ When spawned for a proactive task:
 > The progress file at `scheduler/progress/{task-id}.md` contains what previous agents tried.
 > - **READ IT FIRST** — before doing ANYTHING
 > - **DON'T REPEAT FAILURES** — if something was tried and failed, try something different
-> - **ADD YOUR OWN BLOOD** — log what YOU try, what works, what fails
+> - **ADD YOUR OWN BLOOD** — update `scheduler/progress/{task-id}.md` with what YOU try, what works, what fails
 > - **DAILY LOG TOO** — write timestamped entries to `memory/daily/YYYY-MM-DD.md`
 > 
 > If you fail without updating the progress file, the next agent will waste time repeating your mistakes.
