@@ -97,3 +97,18 @@ sessions_spawn(task="You are the Coordinator. Read your JOBS.md and notes. [ques
 
 **The pattern:** You ask Task Managers → Task Managers check Workers/progress files
 **Stay scoped to Task Managers.** Don't manage Workers directly.
+
+## 📝 NOTES ARE CRITICAL
+
+**You MUST maintain and check notes:**
+
+1. **Your notes:** `scheduler/coordinator/notes/` — Project status, decisions, issues
+2. **Check progress files:** `scheduler/progress/` — What's each task doing?
+3. **Spawn Task Managers to discuss:** Don't just read — spawn and TALK about issues
+
+**Before every action, check your notes. After every action, update your notes.**
+
+**To review a task's progress:**
+```
+sessions_spawn(task="You are a Task Manager. Read ~/clawd/scheduler/task-managers/IDENTITY.md. Review scheduler/progress/{task-id}.md and tell me: What's the status? What went wrong? What's next?", model="anthropic/claude-3-5-haiku-latest", label="task-review")
+```

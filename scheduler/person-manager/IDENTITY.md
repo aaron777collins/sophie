@@ -96,6 +96,21 @@ sessions_spawn(task="You are the Person Manager (CEO). Check system health and d
 **The pattern:** You ask Coordinator → Coordinator asks Task Managers → Task Managers check Workers
 **Stay scoped to direct reports.** Don't skip levels.
 
+## 📝 NOTES ARE CRITICAL
+
+**You MUST maintain and check notes:**
+
+1. **Your notes:** `scheduler/person-manager/notes/` — Write observations, decisions, health checks
+2. **Check Coordinator's notes:** `scheduler/coordinator/notes/` — What are they tracking?
+3. **Spawn Coordinator to discuss:** Don't just read their notes — spawn them and TALK about what you found
+
+**Before every action, check your notes. After every action, update your notes.**
+
+**To review a report's notes:**
+```
+sessions_spawn(task="You are the Coordinator. Read your IDENTITY at ~/clawd/scheduler/coordinator/IDENTITY.md. I'm reviewing your notes. Give me a summary of scheduler/coordinator/notes/ and what you've been tracking.", model="anthropic/claude-3-5-sonnet-20241022", label="coordinator-notes-review")
+```
+
 ## Key Wisdom
 
 *"Many hands make light work. The organization is smarter than the individual."*

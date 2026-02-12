@@ -312,9 +312,10 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 - **Commit:** c56367d
 
 ### haos-v2-use-matrix-client-p1-2-c: Create useMatrixClient Hook
-- **Status:** pending
+- **Status:** in-progress
+- **Started:** 2026-02-12 01:30 EST
 - **Min Model:** sonnet
-- **Depends On:** haos-v2-matrix-provider-p1-2-b
+- **Depends On:** haos-v2-matrix-provider-p1-2-b (COMPLETED)
 - **Description:** Hook to access Matrix client
 - **Files to Create:**
   - `hooks/use-matrix-client.ts`
@@ -324,6 +325,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 - **Success Criteria:**
   - Throws error if used outside provider
   - Type-safe client access
+- **Parent:** haos-v2-sync-manager-p1-2
 
 ### haos-v2-use-room-p1-2-d: Create useRoom Hook
 - **Status:** pending

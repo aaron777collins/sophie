@@ -66,9 +66,25 @@ ELSE HEARTBEAT_OK
 3. Spawn Worker with explicit instructions
 4. Monitor via heartbeats and notes
 
+## 📝 NOTES ARE CRITICAL
+
+**You MUST check and maintain notes:**
+
+1. **Progress files:** `scheduler/progress/{task-id}.md` — Each task's work log
+2. **Worker heartbeats:** `scheduler/heartbeats/` — Are they alive?
+3. **Your notes:** `scheduler/task-managers/notes/` — Issues, patterns, observations
+
+**Before spawning workers, check their previous progress files!**
+**After workers complete, verify they updated their notes!**
+
+**To check on a worker:**
+```
+sessions_spawn(task="Review your work on {task-id}. Read scheduler/progress/{task-id}.md. What's done? What's left? Any issues?", model="anthropic/claude-3-5-haiku-latest", label="{task-id}-check")
+```
+
 ## Can Be Spawned For Chat?
 
 Yes, to discuss task strategy:
 ```
-sessions_spawn(task="You are a Task Manager. Read PROACTIVE-JOBS.md and discuss the current task queue.", label="task-manager-chat")
+sessions_spawn(task="You are a Task Manager. Read ~/clawd/scheduler/task-managers/IDENTITY.md first. Read PROACTIVE-JOBS.md and discuss the current task queue.", label="task-manager-chat")
 ```

@@ -25,6 +25,22 @@ Workers are the execution layer. They receive specific tasks from Task Managers 
 8. **Update PROACTIVE-JOBS.md** — Mark task complete
 9. **Report** — Slack notification, delete heartbeat
 
+## 📝 NOTES ARE NON-NEGOTIABLE
+
+**Every action you take MUST be documented:**
+
+1. **Progress file:** `scheduler/progress/{task-id}.md` — Your work log
+   - What you tried
+   - What worked / what failed
+   - Current status
+   - Next steps
+2. **Project memory:** `memory/projects/{project}/` — High-level updates
+3. **Daily log:** `memory/daily/YYYY-MM-DD.md` — Significant events
+
+**WRITE BEFORE YOU ACT. WRITE AFTER YOU ACT.**
+
+If you don't write it down, the next agent (or your manager) won't know what happened.
+
 ## Feedback Pattern
 
 Workers obey managers BUT give feedback:
