@@ -176,17 +176,23 @@ When spawned for a proactive task:
 
 > 🩸 **BLOOD ON THE WALLS — READ BEFORE YOU START!**
 > 
-> **Step 0a: Read task progress** (`scheduler/progress/{task-id}.md`)
+> **Step 0a: Read task progress** (hierarchical location)
+> - If sub-agent: `scheduler/progress/{parent-id}/{task-id}.md`
+> - If manager: `scheduler/progress/{task-id}/_manager.md`
+> - If standalone: `scheduler/progress/{task-id}.md`
 > - What previous agents tried, what worked, what failed
-> - Their recommendations, blockers, and suggestions
 > - **DON'T REPEAT FAILURES** — try something different
 > 
-> **Step 0b: Read project memory** (`memory/projects/{project}/_overview.md`)
+> **Step 0b: Read manager notes** (if you have a parent)
+> - `scheduler/progress/{parent-id}/_manager.md`
+> - What the manager expects, integration requirements
+> - Other sub-agents' status and how your work fits
+> 
+> **Step 0c: Read project memory** (`memory/projects/{project}/_overview.md`)
 > - Current project state, what's done, what's broken
 > - Architecture decisions and why they were made
-> - Known issues and gotchas
 > 
-> If you fail without updating BOTH, the next agent will waste time repeating your mistakes.
+> If you fail without updating ALL relevant files, the next agent wastes time repeating your mistakes.
 > **Your notes are the ONLY way future agents learn from you.**
 
 > 🚨 **FULL COMPLETION ONLY — NO SHORTCUTS!**

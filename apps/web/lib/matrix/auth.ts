@@ -2,21 +2,45 @@ import { createClient, MatrixClient, LoginFlow, LoginResponse, User } from 'matr
 
 // Matrix authentication error types
 export class MatrixAuthError extends Error {
-  constructor(message: string) {
+  public readonly errorCode?: string;
+  public readonly homeserverUrl?: string;
+
+  constructor(message: string, errorCode?: string, homeserverUrl?: string) {
     super(message);
     this.name = 'MatrixAuthError';
+    this.errorCode = errorCode;
+    this.homeserverUrl = homeserverUrl;
   }
 }
 
 export class InvalidCredentialsError extends MatrixAuthError {
-  constructor() {
-    super('Invalid username or password');
+  constructor(homeserverUrl: string) {
+    super('Invalid username or password', 'M_FORBIDDEN', homeserverUrl);
   }
 }
 
 export class HomeserverUnavailableError extends MatrixAuthError {
-  constructor(serverUrl: string) {
-    super(`Matrix homeserver at ${serverUrl} is unavailable`);
+  constructor(serverUrl: string, originalError?: Error) {
+    super(
+      `Matrix homeserver at ${serverUrl} is unavailable`, 
+      'M_HOMESERVER_UNAVAILABLE', 
+      serverUrl
+    );
+
+    // Attach original error for debugging
+    if (originalError) {
+      this.cause = originalError;
+    }
+  }
+}
+
+export class SessionValidationError extends MatrixAuthError {
+  constructor(homeserverUrl: string, errorCode?: string) {
+    super(
+      'Failed to validate session', 
+      errorCode || 'M_UNKNOWN_TOKEN', 
+      homeserverUrl
+    );
   }
 }
 
@@ -34,6 +58,24 @@ export interface MatrixUser {
 }
 
 /**
+ * Validate Matrix homeserver URL
+ * @throws {HomeserverUnavailableError} if URL is invalid
+ */
+function validateHomeserverUrl(homeserverUrl: string): void {
+  // Basic URL validation
+  if (!homeserverUrl) {
+    throw new HomeserverUnavailableError('(empty URL)', 
+      new Error('Homeserver URL cannot be empty'));
+  }
+
+  try {
+    new URL(homeserverUrl);
+  } catch (error) {
+    throw new HomeserverUnavailableError(homeserverUrl, error);
+  }
+}
+
+/**
  * Authenticate with Matrix homeserver using username and password
  * @param homeserverUrl Matrix homeserver URL
  * @param username User's Matrix username (e.g., @username:matrix.org)
@@ -47,6 +89,9 @@ export async function loginWithPassword(
   username: string, 
   password: string
 ): Promise<MatrixSession> {
+  // Validate homeserver URL first
+  validateHomeserverUrl(homeserverUrl);
+
   try {
     // Create Matrix client with just the homeserver URL
     const client = createClient({ baseUrl: homeserverUrl });
@@ -60,7 +105,7 @@ export async function loginWithPassword(
 
     // Validate login response
     if (!loginResponse.access_token) {
-      throw new InvalidCredentialsError();
+      throw new InvalidCredentialsError(homeserverUrl);
     }
 
     // Return session details
@@ -72,16 +117,26 @@ export async function loginWithPassword(
     };
   } catch (error) {
     // Distinguish between different error types
-    if (error.errcode === 'M_FORBIDDEN') {
-      throw new InvalidCredentialsError();
+    if (error.errcode === 'M_FORBIDDEN' || error.message.includes('Invalid credentials')) {
+      throw new InvalidCredentialsError(homeserverUrl);
     }
 
+    // Network-related or connection errors
     if (error.name === 'TypeError' || error.code === 'ENOTFOUND') {
-      throw new HomeserverUnavailableError(homeserverUrl);
+      throw new HomeserverUnavailableError(homeserverUrl, error);
     }
 
-    // Rethrow any other unexpected errors
-    throw error;
+    // If an existing MatrixAuthError, re-throw
+    if (error instanceof MatrixAuthError) {
+      throw error;
+    }
+
+    // Wrap other unexpected errors
+    throw new MatrixAuthError(
+      error.message || 'Unexpected error during login', 
+      'M_UNKNOWN_ERROR', 
+      homeserverUrl
+    );
   }
 }
 
@@ -90,12 +145,15 @@ export async function loginWithPassword(
  * @param homeserverUrl Matrix homeserver URL
  * @param accessToken Session access token to validate
  * @returns Promise resolving to MatrixUser if session is valid
- * @throws {MatrixAuthError} If session is invalid or cannot be validated
+ * @throws {SessionValidationError} If session is invalid or cannot be validated
  */
 export async function validateSession(
   homeserverUrl: string, 
   accessToken: string
 ): Promise<MatrixUser> {
+  // Validate homeserver URL first
+  validateHomeserverUrl(homeserverUrl);
+
   try {
     // Create Matrix client with the access token
     const client = createClient({
@@ -103,26 +161,44 @@ export async function validateSession(
       accessToken: accessToken
     });
 
+    // Validate access token by fetching own user profile
+    const whoami = await client.whoami();
+
+    // Ensure whoami returns a valid user ID
+    if (!whoami.user_id) {
+      throw new SessionValidationError(homeserverUrl, 'M_INVALID_USER');
+    }
+
     // Attempt to get user profile
-    const userProfile = await client.getProfileInfo(client.credentials.userId);
+    const userProfile = await client.getProfileInfo(whoami.user_id);
 
     // Return user details
     return {
-      userId: client.credentials.userId,
+      userId: whoami.user_id,
       displayName: userProfile.displayname,
       avatarUrl: userProfile.avatar_url
     };
   } catch (error) {
     // Handle various authentication errors
-    if (error.errcode === 'M_UNKNOWN_TOKEN') {
-      throw new MatrixAuthError('Session token is invalid or expired');
+    if (error.errcode === 'M_UNKNOWN_TOKEN' || 
+        error.message.includes('Invalid access token')) {
+      throw new SessionValidationError(homeserverUrl, 'M_UNKNOWN_TOKEN');
     }
 
+    // Network-related errors
     if (error.name === 'TypeError' || error.code === 'ENOTFOUND') {
-      throw new HomeserverUnavailableError(homeserverUrl);
+      throw new HomeserverUnavailableError(homeserverUrl, error);
     }
 
-    // Rethrow any other unexpected errors
-    throw error;
+    // If an existing MatrixAuthError, re-throw
+    if (error instanceof MatrixAuthError) {
+      throw error;
+    }
+
+    // Wrap other unexpected errors
+    throw new SessionValidationError(
+      homeserverUrl, 
+      'M_UNKNOWN_ERROR'
+    );
   }
 }

@@ -57,18 +57,94 @@ Task 1 (Manager - runs continuously)
   - build-haos-auth-session-context-hooks: pending
 ```
 
-## Progress File Hierarchy
+## Hierarchical Documentation
+
+**Every level gets FULL documentation:** heartbeats, progress files, notes. This creates complete visibility into what's happening at every depth.
+
+### Folder Structure (Nested by Manager)
 
 ```
-scheduler/progress/
-├── build-haos-auth.md                           # Manager's notes
-├── build-haos-auth-login-form.md                # Sub-agent notes
-├── build-haos-auth-session-context/             # Became folder (got big)
-│   ├── _overview.md                             # Main progress
-│   ├── storage-decisions.md                     # Split out
-│   └── hooks-implementation.md                  # Split out
-└── build-haos-auth-session-context-storage.md   # Sub-sub-agent
+scheduler/
+├── heartbeats/
+│   ├── p1-1.json              # Manager heartbeat
+│   ├── p1-1-a.json            # Sub-agent heartbeat (while running)
+│   └── p1-1-b.json            # Sub-agent heartbeat (while running)
+│
+└── progress/
+    └── p1-1/                  # Manager folder
+        ├── _manager.md        # Manager's overview & coordination notes
+        ├── p1-1-a.md          # Sub-agent a progress
+        ├── p1-1-b.md          # Sub-agent b progress
+        ├── p1-1-c.md          # Sub-agent c progress
+        └── p1-1-d/            # Sub-agent d (became manager, got nested)
+            ├── _manager.md    # d's manager notes
+            ├── p1-1-d-1.md    # d's sub-agent progress
+            └── p1-1-d-2.md    # d's sub-agent progress
 ```
+
+### Manager Progress File (`_manager.md`)
+
+Every manager maintains:
+
+```markdown
+# Manager: {task-id} - {description}
+
+## Status
+- **State:** in-progress
+- **Started:** YYYY-MM-DD HH:MM TZ
+- **Model:** opus
+
+## Sub-Agent Tracking
+
+| Task | Status | Agent Session | Started | Completed | Notes |
+|------|--------|---------------|---------|-----------|-------|
+| p1-1-a | ✅ completed | session-abc | 23:51 | 00:02 | Auth types |
+| p1-1-b | in-progress | session-def | 00:05 | — | Login func |
+| p1-1-c | pending | — | — | — | Registration |
+
+## Dependency Graph
+(visual representation of what blocks what)
+
+## Manager Log
+- [HH:MM] Action taken, decision made
+- [HH:MM] Sub-agent spawned/completed
+
+## Integration Checklist
+(what to verify when all sub-tasks complete)
+
+## Decisions
+- [HH:MM] Why this approach over alternatives
+
+## Blockers / Escalations
+(issues that need human or higher-level attention)
+```
+
+### Heartbeats (Every Running Agent)
+
+Both managers AND sub-agents maintain heartbeats while running:
+
+```json
+{
+  "taskId": "p1-1",
+  "sessionKey": "agent:main:subagent:uuid",
+  "startedAt": "2026-02-12T00:03:00Z",
+  "lastHeartbeat": "2026-02-12T00:15:00Z",
+  "status": "running",
+  "currentPhase": "Coordinating auth sub-tasks",
+  "model": "opus",
+  "isManager": true,
+  "activeSubAgents": ["p1-1-b", "p1-1-c"]
+}
+```
+
+**Cleanup:** Heartbeat files are deleted when task completes.
+
+### Why This Matters
+
+1. **Visibility** — See what's happening at every level
+2. **Recovery** — If an agent dies, next one knows exactly where things stand
+3. **Coordination** — Managers can track sub-agent progress in real-time
+4. **History** — Progress files are permanent record of what was tried
 
 **Scaling Rule:** When a progress file exceeds ~500 lines or has 3+ major sections, convert to folder with `_overview.md`.
 

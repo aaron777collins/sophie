@@ -32,7 +32,8 @@
 
 ### 🚧 Phase 1 In Progress
 - [2026-02-12 06:48 EST] p1-1-a: Created Matrix auth types (auth.ts) ✅
-- Next: p1-1-b (login function), p1-1-c (registration function)
+- [2026-02-12 06:54 EST] p1-1-b: Implemented Matrix login function (auth.ts) ✅
+- Next: p1-1-c (registration function), p1-1-d (cookies), p1-1-e (auth provider)
 
 ### ❌ What's Broken / Incomplete
 - No auth system yet (types done, functions pending)
