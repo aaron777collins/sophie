@@ -501,7 +501,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - Templates pre-configure channels
 
 ### haos-v2-create-channel-modal-p2-4-c: Implement Create Channel Modal
-- **Status:** in-progress
+- **Status:** pending
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-create-server-modal-p2-4-a
 - **Description:** Channel creation dialog with type selection
@@ -842,7 +842,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 - **Git Commit:** 23bbae7
 
 ### p2-2-c: Implement Channel Category
-- **Status:** in-progress
+- **Status:** completed
 - **Min Model:** sonnet
 - **Depends On:** p2-2-a
 - **Description:** Collapsible channel category sections
@@ -882,7 +882,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - ✅ Recent items show first
 
 ### haos-v2-channel-category-p2-2-c: Implement Channel Category
-- **Status:** in-progress
+- **Status:** completed
 - **Min Model:** sonnet
 - **Depends On:** p2-2-a
 - **Description:** Collapsible channel category sections with admin controls
@@ -900,7 +900,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - Animation smooth and responsive
 
 ### haos-v2-channel-item-p2-2-d: Implement Channel Item
-- **Status:** in-progress
+- **Status:** completed
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-channel-category-p2-2-c
 - **Description:** Individual channel row with type icons and status
@@ -917,8 +917,8 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - Action buttons work properly
   - Unread badges appear correctly
 
-### haos-v2-member-list-p2-2-e: Implement Member List
-- **Status:** in-progress
+### haos-v2-member-list-p2-2-e: Implement Member List ✅
+- **Status:** completed
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-channel-item-p2-2-d
 - **Description:** Right sidebar member list with role grouping
@@ -961,8 +961,8 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - ✅ Emoji picker works and inserts emojis
   - ✅ Typing indicators sent properly via Matrix
 
-### haos-v2-message-actions-p2-3-d: Implement Message Actions
-- **Status:** in-progress
+### haos-v2-message-actions-p2-3-d: Implement Message Actions ✅
+- **Status:** completed
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-message-input-p2-3-c
 - **Description:** Hover action buttons on messages for interactions
@@ -979,8 +979,8 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - Delete confirms before action
   - Permissions respected per role
 
-### haos-v2-chat-header-p2-3-e: Implement Chat Header
-- **Status:** in-progress
+### haos-v2-chat-header-p2-3-e: Implement Chat Header ✅
+- **Status:** completed
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-message-actions-p2-3-d
 - **Description:** Channel header with info and controls
@@ -1017,7 +1017,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - Templates pre-configure channels
 
 ### haos-v2-server-settings-modal-p2-4-b: Implement Server Settings Modal
-- **Status:** in-progress
+- **Status:** pending
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-create-server-modal-p2-4-a
 - **Description:** Comprehensive server settings dialog
