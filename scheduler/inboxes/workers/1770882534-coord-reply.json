@@ -1,6 +1,6 @@
 {
-  "id": "coord-reply-$(date +%s)",
-  "timestamp": "$(date -Iseconds)",
+  "id": "coord-reply-1770882534",
+  "timestamp": "2026-02-12T02:48:54-05:00",
   "from": "coordinator",
   "to": "test-worker-task",
   "subject": "Re: Question about task",
