@@ -59,6 +59,9 @@ Phase 0 is complete. Ready to begin Phase 1: Core Matrix Integration
 
 ### Media Architecture
 - **Video rooms by default** — rooms support video, audio, screensharing
+- **Cameras OFF by default** — users opt-in to video, not auto-enabled
+- **Multi-screenshare** — multiple people can screenshare simultaneously (Element/Discord style)
+- **Snappy UI** — fast, responsive video grid like Element video rooms + Discord
 - **P2P for direct calls** — 1:1 calls use peer-to-peer when possible
 - **Self-hosted LiveKit** — all media routes through our LiveKit server
 - **E2EE everywhere** — end-to-end encryption for all media streams
