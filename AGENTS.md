@@ -149,7 +149,14 @@ When spawned for a proactive task:
 > - If you can't fully complete something, **DON'T claim it's done**
 > - Be HONEST about what's actually working vs what still needs work You ARE the continuity system.
 
-1. **First thing:** Update your heartbeat file immediately
+0. **FIRST: Read the progress file** (if it exists)
+   - Check `scheduler/progress/{task-id}.md`
+   - Learn what previous agents tried, what worked, what failed
+   - Read their recommendations and blockers
+   - **Don't repeat the same mistakes** — this is your continuity with past attempts
+   - If the file doesn't exist, you're the first agent on this task
+
+1. **Claim the task:** Update your heartbeat file immediately
    - Write to `scheduler/heartbeats/{task-id}.json`
    - This claims the task and prevents duplicate spawns
    - **USE THIS EXACT FORMAT:**
