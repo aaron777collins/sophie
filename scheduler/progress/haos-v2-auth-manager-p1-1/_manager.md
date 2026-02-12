@@ -11,7 +11,7 @@
 |------|--------|---------------|---------|-----------|-------|
 | p1-1-a | ✅ completed | (completed) | 23:51 | 06:48 | Auth types created |
 | p1-1-b | ✅ completed | (completed) | 06:50 | 06:52 | Login function done |
-| p1-1-c | pending | — | — | — | Registration function |
+| p1-1-c | ✅ completed | opus | 00:31 | 00:36 | Registration functions (register, checkUsernameAvailable) |
 | p1-1-d | pending | — | — | — | Cookie management |
 | p1-1-e | pending | — | — | — | NextAuth integration |
 

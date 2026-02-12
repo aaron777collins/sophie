@@ -45,6 +45,14 @@
 ### 🚧 Ready for Phase 1
 Phase 0 is complete. Ready to begin Phase 1: Core Matrix Integration
 
+## Core Requirements (NON-NEGOTIABLE)
+
+| Requirement | Details |
+|-------------|---------|
+| **Self-Hosted** | Everything runs on Aaron's servers, not third-party services |
+| **Federation** | Full Matrix federation support when opted in |
+| **Full Implementations** | NO stubs, NO placeholders, NO "TODO later" — production-ready only |
+
 ## Architecture Decisions
 
 See detailed docs in `~/clawd/docs/haos-v2/`:

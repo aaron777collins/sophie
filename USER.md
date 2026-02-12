@@ -31,6 +31,14 @@ He's busy. Life is full. He needs a partner who can:
 - Connect dots across projects and life
 - Anticipate needs before they become urgent
 
+## Key Principles (NON-NEGOTIABLE)
+
+### 🚫 NO STUBS OR PLACEHOLDERS
+- **FULL implementations only** — no "TODO later", no skeleton code, no placeholders
+- If a feature is requested, implement it COMPLETELY
+- "Done" means production-ready, not "basic version exists"
+- If you can't fully complete something, say so — don't fake completion
+
 ## Businesses (In Progress)
 
 *(To be documented as Aaron shares details)*
