@@ -1,0 +1,137 @@
+.logList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background-color: #2b2d31;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.logEntry {
+  display: flex;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: #313338;
+  transition: background-color 0.15s;
+}
+
+.logEntry:hover {
+  background-color: #36373d;
+}
+
+.logContent {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.logHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.logUser {
+  font-weight: 600;
+  color: #f2f3f5;
+}
+
+.logAction {
+  color: #b5bac1;
+}
+
+.logTarget {
+  color: #00aff4;
+  font-size: 13px;
+}
+
+.logReason {
+  font-size: 13px;
+  color: #96989d;
+  font-style: italic;
+}
+
+.logChanges {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 12px;
+  background-color: #2b2d31;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.change {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-family: monospace;
+}
+
+.changeKey {
+  color: #b5bac1;
+  font-weight: 500;
+}
+
+.changeOld {
+  color: #ed4245;
+  text-decoration: line-through;
+}
+
+.changeArrow {
+  color: #6d6f78;
+}
+
+.changeNew {
+  color: #23a55a;
+}
+
+.logDate {
+  font-size: 12px;
+  color: #6d6f78;
+  margin-top: 4px;
+}
+
+.loadMore {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  background-color: #313338;
+}
+
+/* Scrollbar styling */
+.logList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.logList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.logList::-webkit-scrollbar-thumb {
+  background-color: #1a1b1e;
+  border-radius: 4px;
+}
+
+.logList::-webkit-scrollbar-thumb:hover {
+  background-color: #26272b;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .logEntry {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .logHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}

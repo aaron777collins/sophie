@@ -1,0 +1,605 @@
+/* Input Wrapper */
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputWrapper.fullWidth {
+  width: 100%;
+}
+
+/* Label */
+.label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #b5bac1;
+}
+
+.required {
+  color: #ed4245;
+}
+
+/* Input Container */
+.inputContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #1e1f22;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+
+.inputContainer:focus-within {
+  border-color: #5865f2;
+}
+
+.inputContainer.error {
+  border-color: #ed4245;
+}
+
+/* Size variants */
+.inputContainer.small {
+  padding: 6px 10px;
+}
+
+.inputContainer.medium {
+  padding: 10px 12px;
+}
+
+.inputContainer.large {
+  padding: 12px 16px;
+}
+
+/* Input */
+.input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #dbdee1;
+  font-family: inherit;
+}
+
+.input::placeholder {
+  color: #6d6f78;
+}
+
+/* Icons */
+.leftIcon,
+.rightIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b5bac1;
+  flex-shrink: 0;
+}
+
+/* Helper & Error Text */
+.helperText,
+.errorText {
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.helperText {
+  color: #b5bac1;
+}
+
+.errorText {
+  color: #ed4245;
+}
+
+/* Textarea */
+.textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px 12px;
+  background-color: #1e1f22;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: inherit;
+  color: #dbdee1;
+  resize: vertical;
+  transition: border-color 0.15s;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #5865f2;
+}
+
+.textarea.error {
+  border-color: #ed4245;
+}
+
+.textarea::placeholder {
+  color: #6d6f78;
+}
+
+.textareaFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.charCount {
+  font-size: 12px;
+  color: #b5bac1;
+}
+
+.charCountLimit {
+  color: #ed4245;
+}
+
+/* Select */
+.selectContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #1e1f22;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+
+.selectContainer:focus-within {
+  border-color: #5865f2;
+}
+
+.selectContainer.error {
+  border-color: #ed4245;
+}
+
+.selectContainer.small {
+  padding: 6px 10px;
+}
+
+.selectContainer.medium {
+  padding: 10px 12px;
+}
+
+.selectContainer.large {
+  padding: 12px 16px;
+}
+
+.select {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #dbdee1;
+  font-family: inherit;
+  cursor: pointer;
+  appearance: none;
+  padding-right: 24px;
+}
+
+.select option {
+  background-color: #1e1f22;
+  color: #dbdee1;
+}
+
+.selectIcon {
+  position: absolute;
+  right: 12px;
+  pointer-events: none;
+  color: #b5bac1;
+}
+
+/* Checkbox */
+.checkboxWrapper {
+  display: flex;
+  align-items: flex-start;
+}
+
+.checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.checkboxBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background-color: #1e1f22;
+  border: 1px solid #4e5058;
+  border-radius: 6px;
+  flex-shrink: 0;
+  transition: background-color 0.15s, border-color 0.15s;
+  color: transparent;
+}
+
+.checkbox:checked + .checkboxLabel .checkboxBox {
+  background-color: #5865f2;
+  border-color: #5865f2;
+  color: #fff;
+}
+
+.checkbox:focus-visible + .checkboxLabel .checkboxBox {
+  outline: 2px solid #5865f2;
+  outline-offset: 2px;
+}
+
+.checkbox:disabled + .checkboxLabel {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.checkboxText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 2px;
+}
+
+.checkboxLabelText {
+  font-size: 16px;
+  color: #dbdee1;
+}
+
+.checkboxDescription {
+  font-size: 14px;
+  color: #b5bac1;
+}
+
+/* Toggle */
+.toggleWrapper {
+  width: 100%;
+}
+
+.toggleContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.toggleText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.toggleLabel {
+  font-size: 16px;
+  font-weight: 500;
+  color: #dbdee1;
+  cursor: pointer;
+}
+
+.toggleDescription {
+  font-size: 14px;
+  color: #b5bac1;
+  line-height: 1.4;
+}
+
+.toggleSwitch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.toggleInput {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggleSlider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #80848e;
+  border-radius: 12px;
+  transition: background-color 0.2s;
+}
+
+.toggleSlider::before {
+  content: '';
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.toggleInput:checked + .toggleSlider {
+  background-color: #23a55a;
+}
+
+.toggleInput:checked + .toggleSlider::before {
+  transform: translateX(16px);
+}
+
+.toggleInput:focus-visible + .toggleSlider {
+  outline: 2px solid #5865f2;
+  outline-offset: 2px;
+}
+
+.toggleInput:disabled + .toggleSlider {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Button */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 4px;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s, opacity 0.15s;
+  white-space: nowrap;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.button:focus-visible {
+  outline: 2px solid #5865f2;
+  outline-offset: 2px;
+}
+
+/* Button sizes */
+.button.small {
+  padding: 6px 12px;
+  font-size: 14px;
+  min-height: 32px;
+}
+
+.button.medium {
+  padding: 8px 16px;
+  font-size: 14px;
+  min-height: 38px;
+}
+
+.button.large {
+  padding: 10px 20px;
+  font-size: 16px;
+  min-height: 44px;
+}
+
+.button.fullWidth {
+  width: 100%;
+}
+
+/* Button variants */
+.button.primary {
+  background-color: #5865f2;
+  color: #fff;
+}
+
+.button.primary:hover:not(:disabled) {
+  background-color: #4752c4;
+}
+
+.button.secondary {
+  background-color: #4e5058;
+  color: #fff;
+}
+
+.button.secondary:hover:not(:disabled) {
+  background-color: #6d6f78;
+}
+
+.button.danger {
+  background-color: #ed4245;
+  color: #fff;
+}
+
+.button.danger:hover:not(:disabled) {
+  background-color: #c93b3e;
+}
+
+.button.ghost {
+  background-color: transparent;
+  color: #b5bac1;
+}
+
+.button.ghost:hover:not(:disabled) {
+  background-color: rgba(79, 84, 92, 0.4);
+  color: #dbdee1;
+}
+
+.button.link {
+  background-color: transparent;
+  color: #00aff4;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.button.link:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+/* Button loading state */
+.button.loading {
+  position: relative;
+}
+
+.buttonSpinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.buttonIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Color Picker */
+.colorPickerWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.colorPicker {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.presetColors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.presetColor {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.15s;
+}
+
+.presetColor:hover {
+  transform: scale(1.1);
+}
+
+.presetColor.selected {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px #5865f2;
+}
+
+.presetColor:focus-visible {
+  outline: 2px solid #5865f2;
+  outline-offset: 2px;
+}
+
+.customColor {
+  display: flex;
+  align-items: center;
+}
+
+.customColorLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background-color: #1e1f22;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: border-color 0.15s;
+}
+
+.customColorLabel.active {
+  border-color: #5865f2;
+}
+
+.colorInput {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.colorPreview {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.colorValue {
+  font-size: 14px;
+  font-family: monospace;
+  color: #b5bac1;
+}
+
+/* Form Section */
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formSectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.formSectionTitle {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #b5bac1;
+}
+
+.formSectionDescription {
+  margin: 0;
+  font-size: 14px;
+  color: #b5bac1;
+  line-height: 1.4;
+}
+
+.formSectionContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Divider */
+.divider {
+  border: none;
+  height: 1px;
+  background-color: #3f4147;
+  margin: 16px 0;
+}

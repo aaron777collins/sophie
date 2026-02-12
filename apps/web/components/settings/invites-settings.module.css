@@ -1,0 +1,84 @@
+.stats {
+  display: flex;
+  gap: 24px;
+  padding: 16px;
+  background-color: #2b2d31;
+  border-radius: 8px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 700;
+  color: #f2f3f5;
+}
+
+.statLabel {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #b5bac1;
+}
+
+.inviteList {
+  background-color: #2b2d31;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.inviter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inviteCode {
+  font-family: monospace;
+  font-size: 13px;
+  color: #00aff4;
+  background-color: rgba(0, 175, 244, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.channel {
+  font-size: 14px;
+  color: #b5bac1;
+}
+
+.uses {
+  font-size: 14px;
+  color: #dbdee1;
+}
+
+.expiry {
+  font-size: 14px;
+  color: #b5bac1;
+}
+
+.date {
+  font-size: 14px;
+  color: #6d6f78;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .inviteList {
+    overflow-x: auto;
+  }
+
+  .inviteList table {
+    min-width: 600px;
+  }
+}

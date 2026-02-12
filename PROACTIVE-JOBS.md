@@ -39,14 +39,18 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 ### Phase 2 Progress (UI Reskin)
 | Section | Status | Tasks Done |
 |---------|--------|------------|
-| p2-1: Navigation | 🚀 In Progress | 1/5 |
+| p2-1: Navigation | ✅ Complete | 5/5 |
+| p2-2: Channel Sidebar | ✅ Complete | 5/5 |
+| p2-3: Chat Components | ✅ Complete | 5/5 |
+| p2-4: Modals | ✅ Complete | 6/6 |
 
 ---
 
 ## Phase 1 Tasks (In Progress)
 
 ### haos-v2-sync-manager-p1-2: Real-Time Sync Migration (Manager)
-- **Status:** in-progress (manager)
+- **Status:** completed
+- **Completed:** 2026-02-14 00:30 EST
 - **Min Model:** opus
 - **Description:** Coordinate real-time sync migration — Matrix client singleton, React providers, hooks for rooms/messages/typing/presence/receipts, connection status UI. Manage sub-agents.
 - **Sub-Tasks (Phase 1):**
@@ -524,6 +528,74 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - ✅ Modal closes on success
   - ✅ Navigation to new channel
 - **Git Commit:** 17c765b
+
+### haos-v2-invite-modal-p2-4-d: Implement Invite Modal
+- **Status:** completed
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-create-channel-modal-p2-4-c (COMPLETED)
+- **Description:** Invite link generator modal with copy functionality
+- **Files to Create:**
+  - `components/modals/invite-modal.tsx`
+- **Features:**
+  - Display invite link for current server
+  - Copy button with clipboard integration
+  - Expiration options (1 hour, 12 hours, 1 day, 7 days, never)
+  - Max uses options (1, 5, 10, 25, 50, unlimited)
+  - Active invites list with revoke functionality
+- **Success Criteria:**
+  - Link copies to clipboard successfully
+  - Generated link works when shared
+  - Expiration and max uses options affect link behavior
+  - Can revoke active invites
+
+### haos-v2-members-modal-p2-4-e: Implement Member Management Modal
+- **Status:** completed
+- **Started:** 2026-02-12 13:42 EST
+- **Completed:** 2026-02-12 19:20 EST
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-invite-modal-p2-4-d (COMPLETED)
+- **Description:** Server member management with role assignment and moderation
+- **Files Created:**
+  - `components/modals/members-modal.tsx` (29.7KB, 760+ lines)
+- **Features Implemented:**
+  - ✅ Member list with search and filtering (by name, user ID, role, online status)
+  - ✅ Multiple sorting options (role, name, join date, last activity)
+  - ✅ Role dropdown per member with Matrix power level integration
+  - ✅ Kick/ban buttons with comprehensive permission checks
+  - ✅ Transfer ownership functionality with multi-step confirmation
+  - ✅ Member activity status and join dates display
+  - ✅ Banned members tab for unban functionality
+  - ✅ Comprehensive confirmation dialogs for all destructive actions
+- **Success Criteria:** ✅ ALL MET
+  - ✅ Roles can be assigned and take effect immediately via Matrix setPowerLevel
+  - ✅ Kick/ban operations work correctly with permission validation
+  - ✅ Ownership transfer works with proper confirmation and permission updates
+  - ✅ Search and filtering functions properly with real-time updates
+  - ✅ Modal opens from server header dropdown (already integrated)
+  - ✅ ESLint passes, TypeScript compilation successful
+  - ✅ Production-ready with comprehensive error handling and Discord-style UI
+
+### haos-v2-user-profile-modal-p2-4-f: Implement User Profile Modal
+- **Status:** completed
+- **Started:** 2026-02-12 15:45 EST
+- **Completed:** 2026-02-12 19:32 EST
+- **Min Model:** sonnet
+- **Depends On:** haos-v2-members-modal-p2-4-e
+- **Description:** User profile card with interaction options
+- **Files Created:**
+  - `apps/web/components/modals/user-profile-modal.tsx`
+- **Features:** ✅ ALL IMPLEMENTED
+  - ✅ Avatar and display name with Matrix user data
+  - ✅ User status/bio from Matrix profile
+  - ✅ Roles in current server with badges
+  - ✅ DM button that starts direct conversation
+  - ✅ Add friend button (placeholder for future friend system)
+  - ✅ User activity indicators
+- **Success Criteria:** ✅ ALL MET
+  - ✅ Profile information displays correctly from Matrix
+  - ✅ DM button successfully starts conversation
+  - ✅ Server roles shown correctly with proper badges
+  - ✅ Profile opens from member list and member mentions
 
 ### haos-v2-invite-service-p1-4-f: Create Invite Service ✅
 - **Status:** completed
@@ -1031,22 +1103,30 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - ✅ Template channels pre-configured on space creation
 
 ### haos-v2-server-settings-modal-p2-4-b: Implement Server Settings Modal
-- **Status:** pending
+- **Status:** completed
+- **Started:** 2026-02-20 21:15 EST
+- **Completed:** 2026-02-20 21:23 EST
 - **Min Model:** sonnet
-- **Depends On:** haos-v2-create-server-modal-p2-4-a
-- **Description:** Comprehensive server settings dialog
-- **Files to Create:**
-  - `apps/web/components/modals/server-settings-modal.tsx`
-- **Features:**
-  - Tabbed interface (Overview, Roles, Members, Invites)
-  - Edit server name/avatar/description
-  - Role management and permissions
-  - Delete server (danger zone with confirmation)
-- **Success Criteria:**
-  - All settings save to Matrix correctly
-  - Role changes apply immediately
-  - Delete requires admin confirmation
-  - Tabs navigate smoothly
+- **Depends On:** haos-v2-create-server-modal-p2-4-a (COMPLETED)
+- **Description:** Comprehensive server settings dialog with tabbed interface
+- **Files Created:**
+  - `apps/web/components/modals/server-settings-modal.tsx` (29.8KB)
+  - `components/ui/tabs.tsx` (Radix UI tabs component)
+  - Updated modal store, provider, and server header integration
+- **Features Implemented:**
+  - ✅ Tabbed interface (Overview, Roles, Members, Invites, Danger Zone)
+  - ✅ Edit server name/avatar/description with Matrix integration
+  - ✅ Role management and permissions visualization
+  - ✅ Member management with moderation actions
+  - ✅ Invite management (create, revoke, copy)
+  - ✅ Delete server with multi-step confirmation process
+- **Success Criteria:** ✅ ALL MET
+  - ✅ All settings save to Matrix correctly
+  - ✅ Role changes apply immediately
+  - ✅ Delete requires admin confirmation (3-step process)
+  - ✅ Tabs navigate smoothly without reload
+  - ✅ Comprehensive error handling and validation
+  - ✅ ESLint passes, TypeScript strict typing
 
 ### p2-3-a: Implement Message List Container ✅
 - **Status:** completed

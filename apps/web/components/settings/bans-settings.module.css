@@ -1,0 +1,90 @@
+.banCount {
+  font-size: 14px;
+  color: #b5bac1;
+  white-space: nowrap;
+}
+
+.banList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background-color: #2b2d31;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.banItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  background-color: #313338;
+  transition: background-color 0.15s;
+}
+
+.banItem:hover {
+  background-color: #36373d;
+}
+
+.banInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.banHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.banUser {
+  font-size: 16px;
+  font-weight: 600;
+  color: #f2f3f5;
+}
+
+.banUserId {
+  font-size: 12px;
+  color: #6d6f78;
+  font-family: monospace;
+}
+
+.banReason {
+  font-size: 14px;
+  color: #dbdee1;
+  line-height: 1.4;
+}
+
+.banReasonLabel {
+  color: #96989d;
+  font-weight: 500;
+}
+
+.banMeta {
+  font-size: 12px;
+  color: #6d6f78;
+}
+
+.banActions {
+  flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .banItem {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .banActions {
+    width: 100%;
+  }
+
+  .banActions button {
+    width: 100%;
+  }
+}

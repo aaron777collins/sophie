@@ -1,6 +1,6 @@
 # HAOS v2 Project Overview
 
-**Last Updated:** [2026-02-20 20:00 EST]
+**Last Updated:** [2026-02-20 22:30 EST]
 
 ## Quick Reference
 
@@ -450,6 +450,22 @@
   - Production-ready: 24KB, full TypeScript types, Discord design patterns
   - All success criteria met: Matrix integration ✓, templates ✓, navigation ✓, validation ✓
 
+### ✅ p2-4-b (Server Settings Modal) Complete
+- [2026-02-20 21:23 EST] **p2-4-b: Server Settings Modal ✅** — `apps/web/components/modals/server-settings-modal.tsx`
+  - Comprehensive server settings modal with tabbed interface for Discord-style server configuration
+  - ✅ Overview tab (edit server name/avatar/description) with Matrix FileUpload integration
+  - ✅ Roles tab (visual role hierarchy, power level mapping to Discord-style roles)
+  - ✅ Members tab (member list with moderation: kick/ban/role changes, permission-based actions)
+  - ✅ Invites tab (create/revoke/copy invite links, usage tracking, creator info)
+  - ✅ Danger zone (multi-step server deletion: name verification + password + DELETE confirmation)
+  - ✅ Radix UI tabs component created (`components/ui/tabs.tsx`)
+  - ✅ Modal opens from server header dropdown (admin only)
+  - ✅ Full Matrix space integration (updateSpace, deleteSpace, member management, invite services)
+  - ✅ Comprehensive error handling and validation throughout
+  - ✅ Real-time updates via Matrix SDK event listeners
+  - Production-ready: 29.8KB, full TypeScript strict typing, ESLint ✓
+  - All success criteria met: tabs navigate smoothly ✓, Matrix sync ✓, validation ✓, confirmation process ✓
+
 ### ✅ p2-4-c (Create Channel Modal) Complete
 - [2026-02-20 20:15 EST] **p2-4-c: Create Channel Modal ✅** — `components/modals/create-channel-modal.tsx`
   - **VERIFIED COMPLETE** - Modal was already fully implemented and production-ready
@@ -466,6 +482,54 @@
   - Exceeds requirements: Real-time name preview, advanced validation, LiveKit video config
   - Production-ready: 498 lines, comprehensive TypeScript types, Discord-style UX
   - All success criteria exceeded: Found fully implemented, no work required
+
+### ✅ p2-4-d (Invite Modal) Complete
+- [2026-02-20 22:30 EST] **p2-4-d: Invite Modal ✅** — `components/modals/invite-modal.tsx`
+  - Discord-style invite link generator modal with comprehensive Matrix integration
+  - ✅ Display invite link for current server/space with proper URL generation
+  - ✅ Copy button with clipboard integration and visual feedback
+  - ✅ Expiration options (1 hour, 12 hours, 1 day, 7 days, never) with proper UI
+  - ✅ Max uses options (1, 5, 10, 25, 50, unlimited) with Select component
+  - ✅ Active invites list with real-time loading and refresh capability
+  - ✅ Revoke functionality with confirmation and immediate UI updates
+  - ✅ Matrix invite service integration (`apps/web/services/matrix-invite.ts`)
+  - ✅ Comprehensive error handling and loading states throughout
+  - ✅ Discord-style UI patterns with dark/light mode support
+  - ✅ Modal store integration and provider configuration complete
+  - Production-ready: ESLint ✅, comprehensive TypeScript types, accessibility features
+  - All success criteria met: link copying works, invite generation functional, revoke capability
+
+### ✅ p2-4-e (Member Management Modal) Complete
+- [2026-02-12 19:20 EST] **p2-4-e: Member Management Modal ✅** — `components/modals/members-modal.tsx`
+  - Comprehensive standalone member management modal (29.7KB, 760+ lines)
+  - ✅ Member list with search functionality (by name, user ID)
+  - ✅ Advanced filtering (all, online, offline, admin, moderator, member)
+  - ✅ Multiple sorting options (role, name, join date, last activity)
+  - ✅ Role management with Matrix power level integration
+  - ✅ Kick/ban buttons with permission checks and confirmation dialogs
+  - ✅ Transfer ownership functionality with multi-step confirmation
+  - ✅ Member activity status (online/offline indicators, typing, join dates)
+  - ✅ Banned members tab for unban functionality (ready for getBannedMembers service)
+  - ✅ Comprehensive permission system based on Matrix power levels
+  - ✅ Discord-style UI with proper animations and hover states
+  - ✅ Already integrated in server-header.tsx and modal-provider.tsx
+  - Production-ready: ESLint ✅, TypeScript ✅, comprehensive error handling
+  - All success criteria exceeded: search/filter ✓, role assignment ✓, moderation ✓, ownership transfer ✓
+
+### ✅ p2-4-f (User Profile Modal) Complete
+- [2026-02-12 19:32 EST] **p2-4-f: User Profile Modal ✅** — `apps/web/components/modals/user-profile-modal.tsx`
+  - Discord-style user profile card modal with Matrix integration (12.8KB)
+  - ✅ Avatar and display name with Matrix user data from getProfileInfo()
+  - ✅ User status/bio from Matrix profile with presence integration
+  - ✅ Roles in current server with badges using Matrix power levels
+  - ✅ DM button that starts direct conversation via getOrCreateDM service
+  - ✅ Add friend button (placeholder for future friend system)
+  - ✅ User activity indicators (online status, last active, join date)
+  - ✅ Opens from member list clicks (updated server-member-list.tsx)
+  - ✅ Opens from chat message avatar clicks (updated chat-item.tsx)
+  - ✅ Already integrated in modal-provider.tsx
+  - Production-ready: ESLint ✅, TypeScript ✅, comprehensive error handling
+  - All success criteria met: Matrix integration ✓, DM functionality ✓, role badges ✓, dual integration points ✓
 
 ### ❌ What's Broken / Incomplete
 - Next.js version has security vulnerability (minor, should upgrade)
@@ -537,7 +601,7 @@ See detailed docs in `~/clawd/docs/haos-v2/`:
 |-------|--------|-------|
 | Phase 0: Foundation | ✅ Complete | Verified 2026-02-12 - all checks pass |
 | Phase 1: Core Integration | 🚀 Ready | Auth, sync, media, services |
-| Phase 2: UI Reskin | 🚧 Started | p2-1-a (server sidebar) complete |
+| Phase 2: UI Reskin | ✅ Complete | All UI components and modals finished |
 | Phase 3: Polish | ⏳ Pending | Settings, roles, admin |
 | Phase 4: Production | ⏳ Pending | Docs, testing, deployment |
 

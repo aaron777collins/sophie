@@ -1,0 +1,243 @@
+/* Roles Settings - Split Layout */
+.rolesContainer {
+  display: flex;
+  height: 100%;
+  margin: -32px -40px;
+}
+
+/* Role List (Left Sidebar) */
+.rolesList {
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #2b2d31;
+  border-right: 1px solid #1e1f22;
+}
+
+.rolesHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid #3f4147;
+}
+
+.rolesTitle {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #b5bac1;
+}
+
+.rolesSearch {
+  padding: 8px 12px;
+  border-bottom: 1px solid #3f4147;
+}
+
+.rolesListItems {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.roleItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s;
+  margin-bottom: 2px;
+}
+
+.roleItem:hover {
+  background-color: rgba(79, 84, 92, 0.4);
+}
+
+.roleItem.selected {
+  background-color: rgba(79, 84, 92, 0.6);
+}
+
+.roleColor {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.roleName {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  color: #dbdee1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.roleMemberCount {
+  font-size: 12px;
+  color: #6d6f78;
+  flex-shrink: 0;
+}
+
+/* Role Editor (Right Panel) */
+.roleEditor {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.roleEditorHeader {
+  padding: 20px 24px;
+  border-bottom: 1px solid #3f4147;
+  background-color: #313338;
+}
+
+.rolePreview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rolePreviewColor {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.rolePreviewName {
+  font-size: 18px;
+  font-weight: 600;
+  color: #f2f3f5;
+}
+
+.roleEditorContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  padding-bottom: 80px; /* Space for save bar */
+}
+
+/* Permission Categories */
+.permissionCategory {
+  margin-bottom: 24px;
+}
+
+.permissionCategoryTitle {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #b5bac1;
+}
+
+.permissionList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background-color: #2b2d31;
+  border-radius: 8px;
+}
+
+.permissionItem {
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.15s;
+}
+
+.permissionItem:hover {
+  background-color: rgba(79, 84, 92, 0.3);
+}
+
+.dangerPermission {
+  background-color: rgba(237, 66, 69, 0.1);
+  border: 1px solid rgba(237, 66, 69, 0.3);
+}
+
+.dangerPermission:hover {
+  background-color: rgba(237, 66, 69, 0.15);
+}
+
+/* Danger Text */
+.dangerText {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: #b5bac1;
+  line-height: 1.4;
+}
+
+/* No Role Selected State */
+.noRoleSelected {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6d6f78;
+  font-size: 14px;
+}
+
+/* Scrollbar styling */
+.rolesListItems::-webkit-scrollbar,
+.roleEditorContent::-webkit-scrollbar {
+  width: 8px;
+}
+
+.rolesListItems::-webkit-scrollbar-track,
+.roleEditorContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.rolesListItems::-webkit-scrollbar-thumb,
+.roleEditorContent::-webkit-scrollbar-thumb {
+  background-color: #1a1b1e;
+  border-radius: 4px;
+}
+
+.rolesListItems::-webkit-scrollbar-thumb:hover,
+.roleEditorContent::-webkit-scrollbar-thumb:hover {
+  background-color: #26272b;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .rolesContainer {
+    flex-direction: column;
+  }
+
+  .rolesList {
+    width: 100%;
+    max-height: 200px;
+    border-right: none;
+    border-bottom: 1px solid #1e1f22;
+  }
+
+  .rolesListItems {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .roleItem {
+    width: auto;
+    margin-bottom: 0;
+  }
+
+  .roleEditorContent {
+    padding: 16px;
+  }
+}
