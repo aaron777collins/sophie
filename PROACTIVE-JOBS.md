@@ -333,7 +333,8 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 - **Summary:** Hook implemented with focused interface (client + isReady), custom error handling, performance optimization with useMemo, and comprehensive documentation. Type-safe access to Matrix client from components.
 
 ### haos-v2-use-room-p1-2-d: Create useRoom Hook
-- **Status:** pending
+- **Status:** in-progress
+- **Started:** 2026-02-12 17:00 EST
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-matrix-provider-p1-2-b
 - **Description:** Hook to access single room data
