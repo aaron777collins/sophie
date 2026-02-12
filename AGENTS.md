@@ -415,12 +415,24 @@ git commit -m "docs: {description}" # or "memory: {description}"
 git push origin master
 ```
 
-7. **On failure (can't complete at your tier):**
-   - Log reason in progress file with full context
-   - Document what was tried and why it didn't work
-   - Update Escalation field in `PROACTIVE-JOBS.md`
-   - Add failure entry to daily log with timestamp
-   - Exit cleanly (next cron spawns higher tier)
+7. **On failure (can't complete):**
+   - **ALWAYS document** in progress file:
+     - What you tried
+     - Why it failed
+     - What you recommend trying next
+   - **Report to manager** (if you have a parent):
+     - Update your progress file with failure summary
+     - Manager will read it and decide: retry, pivot, or escalate
+   - **If no manager** (top-level task):
+     - Update Escalation field in `PROACTIVE-JOBS.md`
+     - Add failure entry to daily log
+     - Next cron run handles escalation
+
+8. **On pivot (manager decides different approach):**
+   - Manager spawns new task with different name (e.g., `p1-1-b-v2`)
+   - New task includes context: "Previous attempt failed because X, try Y instead"
+   - Original task marked `Status: abandoned (pivoted to p1-1-b-v2)`
+   - History preserved — future agents can learn from failures
 
 ### 🤝 Hired Agents — Recursive Task Decomposition
 

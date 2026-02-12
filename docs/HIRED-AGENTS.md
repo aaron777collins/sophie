@@ -4,7 +4,15 @@
 
 ## Core Concept
 
-When an agent faces a complex task, it becomes a **Manager** and "hires" **Sub-Agents** to handle parts of the work. Sub-agents can also hire their own sub-agents, creating a recursive tree. Processing prioritizes the deepest leaves first (bottom-up completion), while managers run concurrently to coordinate.
+When an agent faces a complex task, it becomes a **Manager** and "hires" **Sub-Agents** dynamically. Sub-agents can also hire their own sub-agents, creating a recursive tree. Each level communicates with its direct parent/children only — no context explosion.
+
+### Key Principles
+
+1. **Managers spawn sub-agents at runtime** — assess the work, decide how to break it down
+2. **Each level talks to its neighbors** — sub-agents report to their manager, not globally
+3. **Failures ALWAYS documented + reported up** — manager decides to retry, pivot, or escalate
+4. **Different route = different task name** — if pivoting, spawn new task with relevant context
+5. **Context stays scoped** — pass only what the sub-agent needs, not everything
 
 ## Architecture
 
@@ -115,13 +123,50 @@ The manager agent:
 
 Each sub-agent:
 1. **Claims** task via heartbeat
-2. **Reads** parent's notes for context
+2. **Reads** parent's notes for context (only what's passed to you)
 3. **Does focused work** on their piece
 4. **Takes detailed notes** in their progress file
 5. **Hires own sub-agents** if task still too complex
 6. **Commits work** atomically (see Git Workflow below)
-7. **Reports completion** by updating status
-8. **Notifies** manager (Slack message + status update)
+7. **Reports to manager** (not just Slack broadcast — update progress file)
+8. **On failure:** Document what went wrong, what you tried, recommendations → manager decides next steps
+
+### Communication Between Levels
+
+```
+Manager
+  ↓ spawns with scoped context
+Sub-Agent
+  ↓ reports back (success/failure + notes)
+Manager
+  ↓ decides: continue, retry, pivot?
+Next Sub-Agent (or new approach)
+```
+
+**On Success:**
+- Sub-agent completes, documents in progress file
+- Manager reads progress, spawns next sub-agent or completes
+
+**On Failure:**
+- Sub-agent documents: what failed, what was tried, recommendations
+- Sub-agent reports to manager: "I failed because X, suggest Y"
+- Manager decides:
+  - **Retry** same approach with adjustments?
+  - **Pivot** to different approach? → new task name, fresh context
+  - **Escalate** to higher tier model?
+  - **Abort** and report up?
+
+**Pivoting = New Task Name:**
+```markdown
+### p1-1-b-v2: Implement Login (Alternative Approach)
+- **Status:** pending
+- **Parent:** p1-1
+- **Replaces:** p1-1-b (failed due to X)
+- **New Approach:** Use Y instead of Z
+- **Context from failed attempt:**
+  - Don't try: {what didn't work}
+  - Do try: {recommendations}
+```
 
 ## 📦 Git Workflow (Atomic Commits)
 

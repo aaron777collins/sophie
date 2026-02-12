@@ -6,5 +6,8 @@
   "scripts": {
     "dev": "pnpm --filter @haos/web dev",
     "build": "pnpm --filter @haos/web build"
+  },
+  "dependencies": {
+    "matrix-js-sdk": "40.3.0-rc.0"
   }
 }

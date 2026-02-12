@@ -28,19 +28,20 @@ See: `scheduler/progress/p0-verify.md` for Phase 0 verification results
 
 ## Phase 1 Tasks (In Progress)
 
-### p1-1-a: Create Matrix Auth Types
-- **Status:** pending
+### p1-1-a: Create Matrix Auth Types ✅
+- **Status:** completed
+- **Started:** 2026-02-11 23:51 EST
+- **Completed:** 2026-02-12 06:48 EST
 - **Min Model:** sonnet
 - **Description:** TypeScript types for Matrix authentication
-- **Files to Create:**
+- **Files Created:**
   - `apps/web/lib/matrix/types/auth.ts`
-- **Types to Define:**
+- **Types Defined:**
   - `MatrixCredentials`, `MatrixSession`, `MatrixUser`
-  - `AuthState`, `LoginRequest`/`LoginResponse`
-  - `RegisterRequest`/`RegisterResponse`
-- **Success Criteria:**
-  - All auth-related data has proper types
-  - No `any` types in auth flow
+  - `AuthState` (discriminated union), `LoginRequest`/`LoginResponse`
+  - `RegisterRequest`/`RegisterResponse`, `RegistrationFlowInfo`
+  - Type guards: `isAuthenticated()`, `isAuthError()`, `isAuthLoading()`
+- **Summary:** All auth-related data has proper types. No `any` types. Strict typing throughout.
 
 ### p1-1-b: Implement Matrix Login Function
 - **Status:** pending
