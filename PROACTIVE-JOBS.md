@@ -32,7 +32,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 | Section | Status | Tasks Done |
 |---------|--------|------------|
 | p1-1: Auth | ✅ Complete | 5/5 |
-| p1-2: Sync | 🚀 In Progress | 2/10 |
+| p1-2: Sync | 🚀 In Progress | 3/10 |
 | p1-3: Media | ⏳ Pending | 0/8 |
 | p1-4: Services | ⏳ Pending | 0/6 |
 
@@ -224,7 +224,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 - **Sub-Tasks:**
   - haos-v2-matrix-client-singleton-p1-2-a: ✅ completed
   - haos-v2-matrix-provider-p1-2-b: ✅ completed
-  - haos-v2-use-matrix-client-p1-2-c: pending (unblocked, ready)
+  - haos-v2-use-matrix-client-p1-2-c: ✅ completed
   - haos-v2-use-room-p1-2-d: pending (unblocked, ready)
   - haos-v2-use-room-messages-p1-2-e: pending (blocked by d)
 - **Manager Notes:**
@@ -232,6 +232,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - [01:02] Starting p1-2-a (Matrix Client Singleton)
   - [02:20] p1-2-a completed (Matrix Client Singleton) — lib/matrix/client.ts
   - [08:15] p1-2-b completed (MatrixProvider) — components/providers/matrix-provider.tsx
+  - [16:45] p1-2-c completed (useMatrixClient) — hooks/use-matrix-client.ts
 
 ### haos-v2-matrix-client-singleton-p1-2-a: Create Matrix Client Singleton ✅
 - **Status:** completed
@@ -311,21 +312,25 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - Lint: ✅ `pnpm lint` passes
 - **Commit:** c56367d
 
-### haos-v2-use-matrix-client-p1-2-c: Create useMatrixClient Hook
-- **Status:** in-progress
+### haos-v2-use-matrix-client-p1-2-c: Create useMatrixClient Hook ✅
+- **Status:** completed
 - **Started:** 2026-02-12 01:30 EST
+- **Completed:** 2026-02-12 16:45 EST
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-matrix-provider-p1-2-b (COMPLETED)
 - **Description:** Hook to access Matrix client
-- **Files to Create:**
+- **Files Created:**
   - `hooks/use-matrix-client.ts`
 - **Returns:**
   - `client: MatrixClient | null`
   - `isReady: boolean`
-- **Success Criteria:**
-  - Throws error if used outside provider
-  - Type-safe client access
+- **Success Criteria:** ✅ All Met
+  - ✅ Throws error if used outside provider (MatrixClientContextError)
+  - ✅ Type-safe client access with full TypeScript types
+  - ✅ Build passes (`pnpm build`)
+  - ✅ Lint passes (`pnpm lint`)
 - **Parent:** haos-v2-sync-manager-p1-2
+- **Summary:** Hook implemented with focused interface (client + isReady), custom error handling, performance optimization with useMemo, and comprehensive documentation. Type-safe access to Matrix client from components.
 
 ### haos-v2-use-room-p1-2-d: Create useRoom Hook
 - **Status:** pending

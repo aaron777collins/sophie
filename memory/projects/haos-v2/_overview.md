@@ -49,7 +49,12 @@
   - Actions: getRoom(roomId), refreshRooms()
   - Listens to ClientEvent.Sync for state changes
   - Listens to ClientEvent.Room/DeleteRoom for room updates
-- Next up: p1-2-c (useMatrixClient), p1-2-d (useRoom) — both unblocked
+- [2026-02-12 16:45 EST] **p1-2-c: useMatrixClient hook ✅** — `hooks/use-matrix-client.ts`
+  - Focused hook returning { client, isReady }
+  - Type-safe client access with proper error handling
+  - MatrixClientContextError if used outside provider
+  - Full TypeScript type safety, performance optimized
+- Next up: p1-2-d (useRoom) — unblocked, p1-2-e pending on d
 
 ### ✅ p2-1-a (Server Sidebar) Complete
 - [2026-02-12 12:15 EST] **p2-1-a: Discord-style server sidebar ✅**
