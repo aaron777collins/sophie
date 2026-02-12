@@ -32,9 +32,9 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
 | Section | Status | Tasks Done |
 |---------|--------|------------|
 | p1-1: Auth | ✅ Complete | 5/5 |
-| p1-2: Sync | 🚀 In Progress | 9/10 |
-| p1-3: Media | 🚀 In Progress | 6/8 |
-| p1-4: Services | ⏳ Pending | 0/6 |
+| p1-2: Sync | ✅ Complete | 10/10 |
+| p1-3: Media | 🚀 In Progress | 7/8 |
+| p1-4: Services | 🚀 In Progress | 2/6 |
 
 ### Phase 2 Progress (UI Reskin)
 | Section | Status | Tasks Done |
@@ -133,7 +133,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - Clickable for details
 - **Started:** 2026-02-12 05:15 EST
 
-### haos-v2-remove-socketio-p1-2-j: Remove Socket.io Dependencies
+### haos-v2-remove-socketio-p1-2-j: Remove Socket.io Dependencies ✅
 - **Status:** completed
 - **Completed:** 2026-02-14 00:30 EST
 - **Min Model:** haiku
@@ -273,7 +273,7 @@ See: `memory/projects/haos-v2/_overview.md` for current project state
   - Room deletion works
 
 ### haos-v2-member-service-p1-4-c: Create Member Service
-- **Status:** pending
+- **Status:** in-progress
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-room-service-p1-4-b
 - **Description:** Service for membership operations
