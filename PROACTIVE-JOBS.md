@@ -41,13 +41,14 @@ See: `scheduler/progress/p0-verify.md` for Phase 0 verification results
 - **Sub-Tasks:**
   - haos-v2-matrix-auth-types-p1-1-a: ✅ completed
   - haos-v2-matrix-login-p1-1-b: ✅ completed
-  - haos-v2-matrix-registration-p1-1-c: 🔄 in-progress (spawned)
-  - haos-v2-session-cookies-p1-1-d: 🔄 in-progress (spawned)
-  - haos-v2-auth-provider-p1-1-e: pending (blocked by d)
+  - haos-v2-matrix-registration-p1-1-c: ✅ completed
+  - haos-v2-session-cookies-p1-1-d: ✅ completed
+  - haos-v2-auth-provider-p1-1-e: 🔄 in-progress (spawning now)
 - **Manager Notes:**
   - [00:03] Auth types done, login function starting
   - [00:05] p1-1-b also completed! Both a and b done
   - [00:14] Spawning c (registration) and d (cookies) in parallel
+  - [00:25] c and d both completed! Spawning e (auth provider)
 
 ### haos-v2-matrix-auth-types-p1-1-a: Create Matrix Auth Types ✅
 - **Status:** completed
@@ -80,39 +81,40 @@ See: `scheduler/progress/p0-verify.md` for Phase 0 verification results
   - Bonus: `logout()`, `logoutAll()`, `refreshAccessToken()`
 - **Summary:** Full auth implementation with well-known discovery, proper error handling via MatrixAuthError class, and JSDoc documentation. TypeScript compiles cleanly, lint passes, no 'any' types.
 
-### haos-v2-matrix-registration-p1-1-c: Implement Matrix Registration Function
-- **Status:** in-progress
+### haos-v2-matrix-registration-p1-1-c: Implement Matrix Registration Function ✅
+- **Status:** completed
 - **Started:** 2026-02-12 00:14 EST
+- **Completed:** 2026-02-12 00:23 EST
 - **Parent:** haos-v2-auth-manager-p1-1
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-matrix-auth-types-p1-1-a
 - **Description:** Function to register new Matrix accounts
-- **Files to Create:**
-  - `apps/web/lib/matrix/auth.ts` (add to existing)
-- **Functions:**
-  - `register(username, password, email?): Promise<MatrixSession>`
+- **Files Modified:**
+  - `apps/web/lib/matrix/auth.ts`
+- **Functions Implemented:**
+  - `register(username, password, email?): Promise<MatrixSession>` with full UIAA support
   - `checkUsernameAvailable(username): Promise<boolean>`
-- **Success Criteria:**
-  - New accounts can be created
-  - Username validation works
+- **Summary:** Full registration with UIAA flow support (dummy, terms, email). Build ✅ Lint ✅
 
-### haos-v2-session-cookies-p1-1-d: Create Session Cookie Management
-- **Status:** in-progress
+### haos-v2-session-cookies-p1-1-d: Create Session Cookie Management ✅
+- **Status:** completed
 - **Started:** 2026-02-12 00:14 EST
+- **Completed:** 2026-02-12 00:24 EST
 - **Parent:** haos-v2-auth-manager-p1-1
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-matrix-login-p1-1-b
 - **Description:** Secure cookie handling for Matrix sessions
-- **Files to Create:**
+- **Files Created:**
   - `apps/web/lib/matrix/cookies.ts`
-- **Functions:**
+- **Functions Implemented:**
   - `setSessionCookie`, `getSessionCookie`, `clearSessionCookie`
-- **Success Criteria:**
-  - Cookies are httpOnly, secure, sameSite
-  - Session persists across browser refresh
+  - `hasSessionCookie`, `updateSessionTokens`
+- **Summary:** Secure httpOnly cookies with proper flags. Build ✅ Lint ✅
 
 ### haos-v2-auth-provider-p1-1-e: Create MatrixAuthProvider Context
-- **Status:** pending
+- **Status:** in-progress
+- **Started:** 2026-02-12 00:25 EST
+- **Parent:** haos-v2-auth-manager-p1-1
 - **Min Model:** sonnet
 - **Depends On:** haos-v2-session-cookies-p1-1-d
 - **Description:** React context providing auth state to app
