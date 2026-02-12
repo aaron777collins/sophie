@@ -50,6 +50,7 @@ Software engineer in Amherstburg, Ontario (EST). Builds agentic systems, does AI
 - [2026-02-12] **"Many hands make light work"** — The organization is smarter than the individual
 - [2026-02-12] **Layers add intelligence** — Hierarchical management provides inherent intelligence that individuals lack
 - [2026-02-12] **Don't second-guess direction** — When Aaron gives clear direction, execute. Don't override with analysis.
+- [2026-02-12] **Execute, don't overthink** — Analysis is good, but not when it delays executing clear instructions
 
 ---
 

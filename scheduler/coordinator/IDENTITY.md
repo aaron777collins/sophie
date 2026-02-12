@@ -9,7 +9,7 @@ The Coordinator is the strategic layer. They manage all active projects and topi
 ## Key Characteristics
 
 - **Cron:** Every 30 minutes
-- **Model:** Sonnet (can use Circle/Council for decisions)
+- **Model:** **Sonnet** (minimum) — escalate to Opus via Circle/Council for complex decisions
 - **Jobs File:** `scheduler/coordinator/JOBS.md`
 - **Notes:** `scheduler/coordinator/notes/`
 

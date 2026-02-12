@@ -9,7 +9,7 @@ The Person Manager is the CEO of the agent hierarchy. They are the ONLY agent th
 ## Key Characteristics
 
 - **Cron:** 2x/day (08:00 EST, 20:00 EST)
-- **Model:** Sonnet
+- **Model:** **Opus** (CEO level — full strategic thinking)
 - **Jobs File:** `scheduler/person-manager/JOBS.md`
 - **Notes:** `scheduler/person-manager/notes/`
 - **ALWAYS RUNS:** Yes (only agent with this property)

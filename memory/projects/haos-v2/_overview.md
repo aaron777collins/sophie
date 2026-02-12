@@ -30,17 +30,18 @@
 - `pnpm lint` ✅
 - `pnpm build` ✅
 
-### 🚧 Phase 1 In Progress
+### ✅ p1-1 (Auth) Complete
 - [2026-02-12 06:48 EST] p1-1-a: Created Matrix auth types (auth.ts) ✅
 - [2026-02-12 06:54 EST] p1-1-b: Implemented Matrix login function (auth.ts) ✅
 - [2026-02-12 00:36 EST] p1-1-c: Implemented Matrix registration functions (auth.ts) ✅
-  - `checkUsernameAvailable()` and `register()` with full UIAA support
 - [2026-02-12 05:35 EST] p1-1-d: Implemented session cookie management (cookies.ts) ✅
 - [2026-02-12 00:53 EST] p1-1-e: Created MatrixAuthProvider React context ✅
-  - Provider + useMatrixAuth() hook with login, logout, register, auto-validate
-  - Server actions for secure cookie handling
-  - Files: `components/providers/matrix-auth-provider.tsx`, `lib/matrix/actions/auth.ts`
-- **Auth system P1-1 COMPLETE!** Ready for integration
+- **Auth system P1-1 COMPLETE!**
+
+### 🚧 p1-2 (Real-Time Sync) In Progress
+- [2026-02-12 08:15 EST] Coordinator populated first 5 tasks (a-e)
+- Manager + sub-tasks queued in PROACTIVE-JOBS.md
+- Tasks: Matrix client singleton, MatrixProvider context, hooks for client/room/messages
 
 ### ❌ What's Broken / Incomplete
 - Next.js version has security vulnerability (minor, should upgrade)
