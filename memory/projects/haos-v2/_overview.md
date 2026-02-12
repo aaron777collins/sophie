@@ -30,9 +30,12 @@
 - `pnpm lint` ✅
 - `pnpm build` ✅
 
+### 🚧 Phase 1 In Progress
+- [2026-02-12 06:48 EST] p1-1-a: Created Matrix auth types (auth.ts) ✅
+- Next: p1-1-b (login function), p1-1-c (registration function)
+
 ### ❌ What's Broken / Incomplete
-- No Matrix integration yet (Phase 1)
-- No auth system yet (Phase 1)
+- No auth system yet (types done, functions pending)
 - Next.js version has security vulnerability (minor, should upgrade)
 
 ### 🚧 Ready for Phase 1
