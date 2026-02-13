@@ -97,15 +97,19 @@
 
 ## 🚨 CRITICAL: Build Fixes
 
-### build-fix-livekit-deps — Fix LiveKit Dependencies (CRITICAL)
-- **Status:** in-progress
-- **Priority:** CRITICAL (blocking all progress)
-- **Model:** Sonnet  
-- **Description:** Fix missing livekit-client dependency causing build failure
-- **Current Error:** Cannot find module 'livekit-client' in screen-share-controls.tsx
-- **Worker:** build-fix-livekit-deps (spawning now)
-- **Progress:** `scheduler/progress/build-fix-livekit-deps.md`
-- **Previous Work:** Earlier TypeScript fixes partially completed but this critical dependency missing
+### build-fix-typescript-errors — Fix All TypeScript Build Errors
+- **Status:** completed
+- **Completed:** 2026-02-13 13:15 EST
+- **Priority:** CRITICAL (was blocking all progress)
+- **Model:** Coordinator (direct fix after worker failures)
+- **Description:** Fixed all TypeScript errors preventing build
+- **Resolution:** 
+  - Fixed ScreenShareSource enum (FULL_SCREEN, WINDOW, TAB)
+  - Fixed Button variant (destructive → danger)
+  - Fixed screen-share-view to use proper video ref pattern
+  - Fixed catch block typing (unknown → typed error)
+  - Fixed Matrix account data type assertions
+- **Build Status:** ✅ PASSING (exit code 0)
 
 #### PM Assessment (2026-02-13 12:01 EST):
 Original issue (use-spaces hook) was stale — hook exists. **Actual blockers:**
@@ -148,37 +152,47 @@ Original issue (use-spaces hook) was stale — hook exists. **Actual blockers:**
   - ✅ p3-1-f: Reply threading (Matrix relations + UI)
 
 ### p3-presence — Presence & Typing
-- **Status:** in-progress
+- **Status:** completed
+- **Completed:** 2026-02-13 17:00 EST
 - **Priority:** MEDIUM
 - **Model:** Haiku
 - **Description:** Typing indicators and presence
-- **Worker:** p3-presence (spawned 2026-02-13 15:45 EST)
+- **Worker:** p3-presence (completed 2026-02-13 17:00 EST)
 - **Progress:** `scheduler/progress/p3-presence.md`
 - **Sub-Tasks:**
-  - p3-2-a: Send typing indicators ✅ (completed)
-  - p3-2-b: Display typing indicators ⏳
+  - ✅ p3-2-a: Send typing indicators (completed)
+  - ✅ p3-2-b: Display typing indicators (completed)
 
 ---
 
 ## ⏸️ Phase 4: User Experience (Blocked)
 
 ### p4-profile — User Profile & Settings
-- **Status:** blocked
-- **Blocked By:** Phase 1-3 completion
+- **Status:** completed
+- **Completed:** 2026-02-13 16:30 EST
 - **Priority:** MEDIUM
-- **Model:** Sonnet
+- **Model:** Opus
+- **Worker:** f801146e-cf61-4eaa-8e65-51e2f650a3ab (completed 2026-02-13 16:30 EST)
+- **Progress:** User settings modal implemented with 5 tabs (Profile, Account, Privacy, Notifications, Appearance)
+- **Files:** `components/modals/user-settings-modal.tsx` (1,460 lines), navigation integration
+- **Commit:** 1ad6fcd
 
 ### p4-media — Media & Files
-- **Status:** blocked
-- **Blocked By:** p3-messaging
+- **Status:** in-progress
+- **Started:** 2026-02-13 14:01 EST
 - **Priority:** MEDIUM
 - **Model:** Sonnet
+- **Worker:** fcae66c7-9639-49a1-a759-f8207e7b1e15 (spawned 2026-02-13 14:01 EST)
+- **Description:** File upload, image sharing, and media management for Matrix messages
+- **Progress:** `scheduler/progress/p4-media.md`
+- **Dependencies:** p3-messaging ✅ (completed)
 
 ### p4-notifications — Notifications
-- **Status:** blocked
-- **Blocked By:** p3-messaging
+- **Status:** pending
 - **Priority:** MEDIUM
-- **Model:** Haiku
+- **Model:** Sonnet
+- **Description:** Desktop and browser notifications for new messages, mentions, and events
+- **Dependencies:** p3-messaging ✅ (completed)
 
 ---
 
