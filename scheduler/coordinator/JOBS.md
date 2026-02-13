@@ -5,14 +5,14 @@
 ## Active Projects
 
 ### haos-v2
-- **Status:** BUILD FIX IN PROGRESS — 2 Workers Active
+- **Status:** BUILD BROKEN — New Export Errors Discovered
 - **Priority:** CRITICAL  
 - **Current Phase:** Phase 1-3 Complete, Build Failing
-- **Task Queue:** build-fix-spaces-hook actively being worked
-- **Last Progress:** 2026-02-13 12:01 EST — PM assessed build, 2 workers actively fixing TypeScript errors
-- **Notes:** `notes/projects/haos-v2.md`, PM notes at `scheduler/person-manager/notes/2026-02-13-1201-build-assessment.md`
-- **Current Blocker:** TypeScript compilation errors (server components, LiveKit API, Prisma enums)
-- **Worker Status:** Sonnet + Opus workers both running, fixing type mismatches
+- **Task Queue:** build-fix-media-exports needs worker assignment
+- **Last Progress:** 2026-02-13 14:30 EST — Coordinator verified build fails with export errors on media-test page
+- **Notes:** `notes/projects/haos-v2.md`, `coordinator/notes/2026-02-13-1430-build-verification.md`
+- **Current Blocker:** Media test page export errors, lockfile patching failures
+- **Worker Status:** No active workers, previous completion claims were false
 
 ## Active Topics
 

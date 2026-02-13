@@ -127,8 +127,9 @@ export function getMediaUrl(
   width?: number,
   height?: number
 ): string {
+  // If it's not an mxc:// URI, return as-is (for testing with HTTP URLs)
   if (!contentUri.startsWith('mxc://')) {
-    throw new Error('Invalid mxc:// URI');
+    return contentUri;
   }
 
   const baseUrl = client.getHomeserverUrl();
@@ -159,6 +160,11 @@ export function getThumbnailUrl(
   width: number = 300,
   height: number = 300
 ): string {
+  // If it's not an mxc:// URI, return as-is (for testing with HTTP URLs)
+  if (!contentUri.startsWith('mxc://')) {
+    return contentUri;
+  }
+  
   return getMediaUrl(client, contentUri, width, height);
 }
 

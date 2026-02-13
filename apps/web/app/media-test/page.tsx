@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChatInterface } from '@/components/chat';
-import { MediaUploadResult } from '@/lib/matrix/media';
+import { ChatInterface, MediaUploadResult } from '@/components/chat';
 
 // Mock Matrix client for testing
 const mockMatrixClient = {
