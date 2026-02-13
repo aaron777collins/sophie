@@ -97,18 +97,21 @@
 
 ## 🚨 CRITICAL: Build Fixes
 
-### build-type-errors — Fix TypeScript Compilation Errors
-- **Status:** pending
+### build-fix-spaces-hook — Fix Build Errors (Scope Expanded)
+- **Status:** in-progress
 - **Priority:** CRITICAL (blocking all progress)
-- **Model:** Sonnet
-- **Description:** Fix 22+ TypeScript errors preventing build
-- **Last Verified:** 2026-02-13 12:01 EST by Person Manager
+- **Model:** Sonnet/Opus
+- **Description:** Fix TypeScript errors preventing build (originally spaces hook, scope expanded)
+- **Workers Active:** 2 workers running as of 2026-02-13 12:01 EST
+- **Progress:** `scheduler/progress/build-fix-spaces-hook.md`
+- **Heartbeat:** `scheduler/heartbeats/build-fix-spaces-hook.json`
 
-#### Error Categories:
+#### PM Assessment (2026-02-13 12:01 EST):
+Original issue (use-spaces hook) was stale — hook exists. **Actual blockers:**
 1. **Server components** — Type mismatches between MatrixSpace/ServerHeaderData
-2. **LiveKit API** — TrackRef property, ConnectionStatus.Connected/Disconnected removed
+2. **LiveKit API** — TrackRef property, ConnectionStatus properties removed
 3. **Prisma/Matrix enums** — MemberRole case mismatch (ADMIN vs admin)
-4. **Various** — pathname null checks, export issues
+4. **Various** — pathname null checks, toast import scope
 
 #### Files With Errors:
 - `components/server/server-channel.tsx`
@@ -118,13 +121,7 @@
 - `components/video-call/participant-list.tsx`
 - `components/video-call/video-call-layout.tsx`
 - `components/video-call/video-controls.tsx`
-- `components/modals/server-discovery-modal.tsx` (toast scope issue)
-
-#### Instructions:
-1. Run `npx tsc --noEmit 2>&1 | head -60` to see current errors
-2. Fix errors by category (server components first, then LiveKit, then enums)
-3. Verify each fix with incremental type-check
-4. Final verification: `npm run build` must pass
+- `components/modals/server-discovery-modal.tsx`
 
 #### Success Criteria:
 - [ ] All TypeScript errors resolved

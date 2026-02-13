@@ -1,11 +1,12 @@
 # Task: build-fix-spaces-hook
 
 ## Summary
-- **Status:** in-progress
+- **Status:** nearly-complete (verifying final build)
 - **What it does:** Fix build failure caused by missing `@/hooks/use-spaces` import
-- **What works:** Hook file exists at `/home/ubuntu/repos/haos-v2/hooks/use-spaces.ts`
-- **What's broken:** ❌ Build failing, need to investigate actual import issue
-- **Suggestions for next agent:** Check if build actually passes or if there's a different import issue
+- **What works:** ✅ Hook files exist in both locations, imports resolve correctly
+- **What was broken:** ❌ Missing 'audio' type in iconMap, MatrixSpace type mismatch - BOTH FIXED
+- **Actual Issue:** PROACTIVE-JOBS.md had wrong problem description - use-spaces existed, real issue was TypeScript errors
+- **Suggestions for next agent:** Task should be complete once build verification passes
 
 ## Work Log
 - [15:15] Started: examining project structure
@@ -19,6 +20,15 @@
 - [15:20] Actual error: Missing 'audio' type in iconMap in server-channel.tsx
 - [15:21] Fixed: Added 'audio: Mic' entry to iconMap
 - [15:22] Running build again to verify fix
+- [15:23] DISCOVERY: Original PROACTIVE-JOBS.md description was wrong!
+- [15:23] use-spaces hook already existed in TWO locations:
+  - Root: `/home/ubuntu/repos/haos-v2/hooks/use-spaces.ts` 
+  - Web app: `/home/ubuntu/repos/haos-v2/apps/web/hooks/use-spaces.ts`
+- [15:24] Real build issue was missing 'audio' type in iconMap in server-channel.tsx
+- [15:25] Fixed: Added audio: Mic to iconMap - THAT error resolved
+- [15:26] NEW error discovered: MatrixSpace type mismatch in modal data
+- [15:27] Fixed: Added all required MatrixSpace fields with defaults
+- [15:28] Running final build verification
 
 ## Files Examined
 - `/home/ubuntu/repos/haos-v2/hooks/use-spaces.ts` — Hook exists with proper exports

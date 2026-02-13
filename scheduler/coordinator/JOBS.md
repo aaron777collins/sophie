@@ -5,14 +5,14 @@
 ## Active Projects
 
 ### haos-v2
-- **Status:** BUILD BLOCKED — Multiple TypeScript Errors
+- **Status:** BUILD FIX IN PROGRESS — 2 Workers Active
 - **Priority:** CRITICAL  
 - **Current Phase:** Phase 1-3 Complete, Build Failing
-- **Task Queue:** 1 critical type-fix task needed
-- **Last Progress:** 2026-02-13 12:01 EST — PM assessed build, found 22+ TypeScript errors
+- **Task Queue:** build-fix-spaces-hook actively being worked
+- **Last Progress:** 2026-02-13 12:01 EST — PM assessed build, 2 workers actively fixing TypeScript errors
 - **Notes:** `notes/projects/haos-v2.md`, PM notes at `scheduler/person-manager/notes/2026-02-13-1201-build-assessment.md`
-- **Current Blocker:** TypeScript compilation errors in server components, LiveKit API, Prisma enums
-- **Updated PROACTIVE-JOBS.md:** Changed build-fix-spaces-hook → build-type-errors with accurate scope
+- **Current Blocker:** TypeScript compilation errors (server components, LiveKit API, Prisma enums)
+- **Worker Status:** Sonnet + Opus workers both running, fixing type mismatches
 
 ## Active Topics
 
