@@ -47,8 +47,8 @@ export default defineConfig({
         }
       })
       
-      // Code coverage (if enabled)
-      require('@cypress/code-coverage/task')(on, config)
+      // Code coverage (if enabled) - disabled for now
+      // require('@cypress/code-coverage/task')(on, config)
       
       return config
     }
@@ -61,7 +61,7 @@ export default defineConfig({
     },
     specPattern: 'cypress/component/**/*.cy.{js,jsx,ts,tsx}',
     setupNodeEvents(on, config) {
-      require('@cypress/code-coverage/task')(on, config)
+      // require('@cypress/code-coverage/task')(on, config) - disabled for now
       return config
     }
   },
