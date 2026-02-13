@@ -1,9 +1,9 @@
 import { LocalTrack } from 'livekit-client';
 
 export enum ScreenShareSource {
-  FULL_SCREEN = 'full-screen',
+  FULL_SCREEN = 'monitor',
   WINDOW = 'window',
-  TAB = 'tab'
+  TAB = 'browser'
 }
 
 export interface ScreenShareControlsProps {

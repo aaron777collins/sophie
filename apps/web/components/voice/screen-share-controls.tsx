@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { LocalTrack, createLocalScreenTracks } from 'livekit-client';
 import { ScreenShareSource, ScreenShareControlsProps } from './screen-share.types';
-import { Button } from '../ui/button';
-import { Icons } from '../ui/icons';
+import { Button } from '../ui';
+import { ScreenShare, ScreenShareOff } from 'lucide-react';
 
 export const ScreenShareControls: React.FC<ScreenShareControlsProps> = ({
   isScreenSharing,
@@ -31,11 +31,11 @@ export const ScreenShareControls: React.FC<ScreenShareControlsProps> = ({
     if (isScreenSharing) {
       return (
         <Button 
-          variant="destructive" 
+          variant="danger" 
           onClick={onStopScreenShare}
           aria-label="Stop Screen Share"
         >
-          <Icons.ScreenShareOff />
+          <ScreenShareOff />
           Stop Sharing
         </Button>
       );
@@ -47,7 +47,7 @@ export const ScreenShareControls: React.FC<ScreenShareControlsProps> = ({
           onClick={handleStartScreenShare}
           aria-label="Start Screen Share"
         >
-          <Icons.ScreenShare />
+          <ScreenShare />
           Share Screen
         </Button>
         <select 

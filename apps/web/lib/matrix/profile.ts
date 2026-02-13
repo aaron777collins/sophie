@@ -106,7 +106,7 @@ export async function saveUserSettings(session: MatrixSession, settings: UserSet
   const client = createMatrixClient(session);
   
   try {
-    await client.setAccountData('com.haos.settings', settings);
+    await client.setAccountData('com.haos.settings' as any, settings as any);
   } catch (error) {
     console.error('Failed to save user settings:', error);
     throw error;
@@ -120,8 +120,8 @@ export async function loadUserSettings(session: MatrixSession): Promise<UserSett
   const client = createMatrixClient(session);
   
   try {
-    const event = await client.getAccountData('com.haos.settings');
-    return event?.getContent() || null;
+    const event = await client.getAccountData('com.haos.settings' as any);
+    return (event?.getContent() as UserSettings) || null;
   } catch (error) {
     console.error('Failed to load user settings:', error);
     return null;
@@ -155,9 +155,9 @@ export async function updateCompleteProfile(
     
     // Update "about me" in account data (custom field)
     if (profile.aboutMe !== undefined) {
-      await client.setAccountData('com.haos.profile', {
+      await client.setAccountData('com.haos.profile' as any, {
         aboutMe: profile.aboutMe,
-      });
+      } as any);
     }
     
     return result;
@@ -174,8 +174,8 @@ export async function getAboutMe(session: MatrixSession): Promise<string | undef
   const client = createMatrixClient(session);
   
   try {
-    const event = await client.getAccountData('com.haos.profile');
-    return event?.getContent()?.aboutMe;
+    const event = await client.getAccountData('com.haos.profile' as any);
+    return (event?.getContent() as { aboutMe?: string } | undefined)?.aboutMe;
   } catch (error) {
     console.error('Failed to get about me:', error);
     return undefined;

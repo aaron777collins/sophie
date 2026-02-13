@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { LocalTrack } from 'livekit-client';
 import { ScreenShareViewOptions } from './screen-share.types';
 
@@ -7,10 +7,20 @@ interface ScreenShareViewProps {
 }
 
 export const ScreenShareView: React.FC<ScreenShareViewProps> = ({ screenShareTrack }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [viewOptions, setViewOptions] = useState<ScreenShareViewOptions>({
     fitMode: 'fit',
     quality: 'medium'
   });
+
+  useEffect(() => {
+    if (screenShareTrack && videoRef.current) {
+      screenShareTrack.attach(videoRef.current);
+      return () => {
+        screenShareTrack.detach(videoRef.current!);
+      };
+    }
+  }, [screenShareTrack]);
 
   if (!screenShareTrack) return null;
 
@@ -35,8 +45,12 @@ export const ScreenShareView: React.FC<ScreenShareViewProps> = ({ screenShareTra
           objectFit: viewOptions.fitMode === 'fit' ? 'contain' : 'cover' 
         }}
       >
-        {/* Render the screen share track */}
-        {screenShareTrack.videoTrack?.attach()}
+        <video 
+          ref={videoRef} 
+          autoPlay 
+          playsInline 
+          style={{ width: '100%', height: '100%', objectFit: viewOptions.fitMode === 'fit' ? 'contain' : 'cover' }}
+        />
       </div>
       
       <div className="screen-share-controls">

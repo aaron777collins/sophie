@@ -97,14 +97,15 @@
 
 ## 🚨 CRITICAL: Build Fixes
 
-### build-fix-spaces-hook — Fix Build Errors (Scope Expanded)
+### build-fix-livekit-deps — Fix LiveKit Dependencies (CRITICAL)
 - **Status:** in-progress
 - **Priority:** CRITICAL (blocking all progress)
-- **Model:** Sonnet/Opus
-- **Description:** Fix TypeScript errors preventing build (originally spaces hook, scope expanded)
-- **Workers Active:** 2 workers running as of 2026-02-13 12:01 EST
-- **Progress:** `scheduler/progress/build-fix-spaces-hook.md`
-- **Heartbeat:** `scheduler/heartbeats/build-fix-spaces-hook.json`
+- **Model:** Sonnet  
+- **Description:** Fix missing livekit-client dependency causing build failure
+- **Current Error:** Cannot find module 'livekit-client' in screen-share-controls.tsx
+- **Worker:** build-fix-livekit-deps (spawning now)
+- **Progress:** `scheduler/progress/build-fix-livekit-deps.md`
+- **Previous Work:** Earlier TypeScript fixes partially completed but this critical dependency missing
 
 #### PM Assessment (2026-02-13 12:01 EST):
 Original issue (use-spaces hook) was stale — hook exists. **Actual blockers:**
@@ -147,14 +148,15 @@ Original issue (use-spaces hook) was stale — hook exists. **Actual blockers:**
   - ✅ p3-1-f: Reply threading (Matrix relations + UI)
 
 ### p3-presence — Presence & Typing
-- **Status:** blocked
-- **Blocked By:** build-fix-spaces-hook (critical build failure)
+- **Status:** in-progress
 - **Priority:** MEDIUM
 - **Model:** Haiku
 - **Description:** Typing indicators and presence
+- **Worker:** p3-presence (spawned 2026-02-13 15:45 EST)
+- **Progress:** `scheduler/progress/p3-presence.md`
 - **Sub-Tasks:**
-  - p3-2-a: Send typing indicators
-  - p3-2-b: Display typing indicators
+  - p3-2-a: Send typing indicators ✅ (completed)
+  - p3-2-b: Display typing indicators ⏳
 
 ---
 

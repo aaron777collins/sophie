@@ -71,7 +71,7 @@ function validateHomeserverUrl(homeserverUrl: string): void {
   try {
     new URL(homeserverUrl);
   } catch (error) {
-    throw new HomeserverUnavailableError(homeserverUrl, error);
+    throw new HomeserverUnavailableError(homeserverUrl, error instanceof Error ? error : undefined);
   }
 }
 
@@ -115,20 +115,21 @@ export async function loginWithPassword(
       deviceId: loginResponse.device_id,
       homeserverUrl: homeserverUrl
     };
-  } catch (error) {
+  } catch (err) {
+    const error = err as { errcode?: string; message?: string; name?: string; code?: string };
     // Distinguish between different error types
-    if (error.errcode === 'M_FORBIDDEN' || error.message.includes('Invalid credentials')) {
+    if (error.errcode === 'M_FORBIDDEN' || error.message?.includes('Invalid credentials')) {
       throw new InvalidCredentialsError(homeserverUrl);
     }
 
     // Network-related or connection errors
     if (error.name === 'TypeError' || error.code === 'ENOTFOUND') {
-      throw new HomeserverUnavailableError(homeserverUrl, error);
+      throw new HomeserverUnavailableError(homeserverUrl, err instanceof Error ? err : undefined);
     }
 
     // If an existing MatrixAuthError, re-throw
-    if (error instanceof MatrixAuthError) {
-      throw error;
+    if (err instanceof MatrixAuthError) {
+      throw err;
     }
 
     // Wrap other unexpected errors
@@ -178,21 +179,22 @@ export async function validateSession(
       displayName: userProfile.displayname,
       avatarUrl: userProfile.avatar_url
     };
-  } catch (error) {
+  } catch (err) {
+    const error = err as { errcode?: string; message?: string; name?: string; code?: string };
     // Handle various authentication errors
     if (error.errcode === 'M_UNKNOWN_TOKEN' || 
-        error.message.includes('Invalid access token')) {
+        error.message?.includes('Invalid access token')) {
       throw new SessionValidationError(homeserverUrl, 'M_UNKNOWN_TOKEN');
     }
 
     // Network-related errors
     if (error.name === 'TypeError' || error.code === 'ENOTFOUND') {
-      throw new HomeserverUnavailableError(homeserverUrl, error);
+      throw new HomeserverUnavailableError(homeserverUrl, err instanceof Error ? err : undefined);
     }
 
     // If an existing MatrixAuthError, re-throw
-    if (error instanceof MatrixAuthError) {
-      throw error;
+    if (err instanceof MatrixAuthError) {
+      throw err;
     }
 
     // Wrap other unexpected errors
