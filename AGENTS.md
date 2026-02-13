@@ -209,10 +209,63 @@ Person Manager notices HAOS stalled
 
 | Level | Agent | Cron | Model | Jobs File |
 |-------|-------|------|-------|-----------|
-| 1 | Person Manager | 4x/day | Sonnet | `scheduler/person-manager/JOBS.md` |
-| 2 | Coordinator | 30 min | Sonnet | `scheduler/coordinator/JOBS.md` |
-| 3 | Task Managers | 15 min | Varies | `PROACTIVE-JOBS.md` |
-| 4 | Workers | Never | Varies | N/A (spawned) |
+| 1 | Person Manager | 4x/day | **Opus** | `scheduler/person-manager/JOBS.md` |
+| 2 | Coordinator | 30 min | **Opus**/Sonnet | `scheduler/coordinator/JOBS.md` |
+| 3 | Task Managers | 15 min | Sonnet | `PROACTIVE-JOBS.md` |
+| 4 | Workers | Never | Haiku/Sonnet | N/A (spawned) |
+
+### 📋 Planning Before Execution (CRITICAL!)
+
+**No execution starts without an approved plan.**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                    PLANNING FLOW (Before Any Work)                  │
+└─────────────────────────────────────────────────────────────────────┘
+
+Aaron: "Build X"
+    ↓
+L1 (Person Manager, Opus): Creates Master Plan v1
+    ↓ spawns reviewer (Sonnet/Opus)
+Reviewer: Reviews, finds gaps → feedback
+    ↓
+L1: Incorporates feedback → Master Plan v2 (approved)
+    ↓
+L2 (Coordinator, Opus): Creates Phase Plans from Master Plan
+    ↓ spawns reviewer (Sonnet/Opus)
+Reviewer: Reviews breakdown, checks dependencies → feedback
+    ↓
+L2: Incorporates feedback → Phase Plans v2 → sends for L1 approval
+    ↓
+L1: Approves Phase Plans
+    ↓
+L2: Populates PROACTIVE-JOBS.md with explicit tasks
+    ↓
+┌─────────────────────────────────────────────────────────────────────┐
+│                    EXECUTION PHASE (Plan Locked)                    │
+└─────────────────────────────────────────────────────────────────────┘
+    ↓
+L3/L4: Execute pre-planned tasks (no design decisions)
+```
+
+**Why?**
+- **Context rot** — Fresh reviewers catch what tired agents miss
+- **Small windows** — No single agent can hold a complex project
+- **Clean execution** — Workers follow plans, don't make decisions
+- **Many hands make light work** — Distribute the cognitive load
+
+**Model Rules for Planning:**
+| Activity | Minimum Model |
+|----------|---------------|
+| Creating Master Plans | **Opus** |
+| Creating Phase Plans | **Opus** (Sonnet acceptable) |
+| Reviewing any plan | **Sonnet** |
+| Writing task definitions | **Sonnet** |
+| Executing tasks | Haiku (or Sonnet for complex) |
+
+**Never use Haiku for planning. Planning requires reasoning.**
+
+**Full spec:** `docs/PLANNING-SYSTEM.md`
 
 ### Key Patterns
 

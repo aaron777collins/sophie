@@ -20,23 +20,26 @@
 ## 🔴 Phase 1: Core Chat UI (Priority: CRITICAL)
 
 ### p1-layout — App Layout Structure
-- **Status:** pending
+- **Status:** completed
 - **Priority:** CRITICAL
 - **Model:** Sonnet
 - **Description:** Build the Discord-style app shell layout
+- **Worker:** p1-layout (spawned 2025-01-15, completed 2026-02-13)
+- **Progress:** `scheduler/progress/p1-layout.md`
 - **Sub-Tasks:**
-  - p1-1-a: Server sidebar (left rail)
-  - p1-1-b: Channel sidebar 
-  - p1-1-c: Main content area
-  - p1-1-d: Member sidebar (right rail, toggleable)
-  - p1-1-e: Responsive breakpoints
+  - ✅ p1-1-a: Server sidebar (left rail)
+  - ✅ p1-1-b: Channel sidebar 
+  - ✅ p1-1-c: Main content area
+  - ✅ p1-1-d: Member sidebar (right rail, toggleable)
+  - ✅ p1-1-e: Responsive breakpoints
 
 ### p1-messages — Message Components
-- **Status:** blocked
+- **Status:** in-progress
 - **Blocked By:** p1-layout
 - **Priority:** CRITICAL
 - **Model:** Sonnet
 - **Description:** Build message list and input components
+- **Worker:** p1-messages (spawned 2026-02-13 10:45 EST)
 - **Sub-Tasks:**
   - p1-2-a: Virtual scrolling message list
   - p1-2-b: Message component (avatar, name, time, content)
@@ -59,15 +62,17 @@
 ## 🔴 Phase 2: Matrix Integration (Priority: CRITICAL)
 
 ### p2-auth — Authentication Flows
-- **Status:** pending (can start parallel to Phase 1)
+- **Status:** completed
 - **Priority:** CRITICAL
 - **Model:** Sonnet
 - **Description:** Complete Matrix authentication
+- **Worker:** p2-auth (spawned 2025-01-28, completed 2026-02-13)
+- **Progress:** `scheduler/progress/p2-auth.md`
 - **Sub-Tasks:**
-  - p2-1-a: Login form with homeserver input
-  - p2-1-b: Registration flow
-  - p2-1-c: Session persistence
-  - p2-1-d: Logout with cleanup
+  - ✅ p2-1-a: Login form with homeserver input
+  - ✅ p2-1-b: Registration flow
+  - ✅ p2-1-c: Session persistence
+  - ✅ p2-1-d: Logout with cleanup
 
 ### p2-rooms — Room Management
 - **Status:** blocked

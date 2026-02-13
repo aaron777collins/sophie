@@ -5,13 +5,13 @@
 ## Active Projects
 
 ### haos-v2
-- **Status:** POST-RELEASE MONITORING — v1.0.0 COMPLETE
-- **Priority:** MEDIUM  
-- **Current Phase:** Post-Release Monitoring
-- **Task Queue:** Monitor for critical bugs, collect feedback
-- **Last Progress:** 2026-02-13 09:15 EST — v1.0.0 release completed
-- **Notes:** `notes/projects/haos-v2.md`
-- **Current Work:** Monitor deployment, collect user feedback, plan v1.1 roadmap
+- **Status:** FOUNDATION REBUILD — Reality Check Complete
+- **Priority:** HIGH  
+- **Current Phase:** Phase 1 & 2 Parallel Foundation
+- **Task Queue:** 2 active workers building core structure + auth
+- **Last Progress:** 2026-02-13 10:30 EST — Foundation workers spawned (p1-layout, p2-auth)
+- **Notes:** `notes/projects/haos-v2.md`, `notes/2026-02-13-1030-foundation-restart.md`
+- **Current Work:** Building Discord-style layout + Matrix authentication
 
 ## Active Topics
 
