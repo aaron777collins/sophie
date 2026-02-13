@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  haos:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: haos-v2
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_MATRIX_HOMESERVER=https://dev2.aaroncollins.info
+    networks:
+      - matrix_matrix  # Join existing Matrix network
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  matrix_matrix:
+    external: true
