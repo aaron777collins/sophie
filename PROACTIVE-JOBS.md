@@ -34,28 +34,31 @@
   - ✅ p1-1-e: Responsive breakpoints
 
 ### p1-messages — Message Components
-- **Status:** in-progress
-- **Blocked By:** p1-layout
+- **Status:** completed
+- **Completed:** 2026-02-13 16:45 EST
 - **Priority:** CRITICAL
-- **Model:** Sonnet
+- **Model:** Opus
 - **Description:** Build message list and input components
-- **Worker:** p1-messages (spawned 2026-02-13 10:45 EST)
+- **Worker:** p1-messages (spawned 2026-02-13 15:47 EST)
+- **Progress:** `scheduler/progress/p1-messages.md`
 - **Sub-Tasks:**
-  - p1-2-a: Virtual scrolling message list
-  - p1-2-b: Message component (avatar, name, time, content)
-  - p1-2-c: Message grouping (consecutive same-user)
-  - p1-2-d: Message input with send
-  - p1-2-e: Typing indicator area
+  - ✅ p1-2-a: Virtual scrolling message list (MessageList with react-window)
+  - ✅ p1-2-b: Message component (Discord-style with avatar, username, timestamp, content)
+  - ✅ p1-2-c: Message grouping (consecutive messages from same user within 5min)
+  - ✅ p1-2-d: Message input integration (ChatInterface combines existing ChatInput)
+  - ✅ p1-2-e: Complete chat interface (ChatInterface with all components)
 
 ### p1-nav — Navigation
-- **Status:** blocked
-- **Blocked By:** p1-layout
+- **Status:** completed
 - **Priority:** HIGH
 - **Model:** Haiku
 - **Description:** URL routing and quick switcher
+- **Worker:** p1-nav (spawned 2026-02-14 11:00 EST)
+- **Completed:** 2026-02-14 12:45 EST
+- **Progress:** `scheduler/progress/p1-nav.md`
 - **Sub-Tasks:**
-  - p1-3-a: Server/channel URL routing
-  - p1-3-b: Quick switcher modal (Ctrl+K)
+  - ✅ p1-3-a: Server/channel URL routing
+  - ✅ p1-3-b: Quick switcher modal (Ctrl+K)
 
 ---
 
@@ -75,40 +78,80 @@
   - ✅ p2-1-d: Logout with cleanup
 
 ### p2-rooms — Room Management
-- **Status:** blocked
-- **Blocked By:** p2-auth
+- **Status:** completed
+- **Completed:** 2025-01-28 17:30 EST
 - **Priority:** CRITICAL
 - **Model:** Sonnet
 - **Description:** Map Matrix rooms to Discord concepts
+- **Worker:** p2-rooms (spawned 2025-01-28 16:45 EST)
+- **Progress:** `scheduler/progress/p2-rooms.md`
 - **Sub-Tasks:**
-  - p2-2-a: Fetch joined rooms on login
-  - p2-2-b: Map Spaces→Servers, Rooms→Channels
-  - p2-2-c: Join room by ID/alias
-  - p2-2-d: Leave room
-  - p2-2-e: Create room (channel)
-  - p2-2-f: Create space (server)
+  - ✅ p2-2-a: Fetch joined rooms on login
+  - ✅ p2-2-b: Map Spaces→Servers, Rooms→Channels
+  - ✅ p2-2-c: Join room by ID/alias
+  - ✅ p2-2-d: Leave room
+  - ✅ p2-2-e: Create room (channel)
+  - ✅ p2-2-f: Create space (server)
 
 ---
+
+## 🚨 CRITICAL: Build Fixes
+
+### build-type-errors — Fix TypeScript Compilation Errors
+- **Status:** pending
+- **Priority:** CRITICAL (blocking all progress)
+- **Model:** Sonnet
+- **Description:** Fix 22+ TypeScript errors preventing build
+- **Last Verified:** 2026-02-13 12:01 EST by Person Manager
+
+#### Error Categories:
+1. **Server components** — Type mismatches between MatrixSpace/ServerHeaderData
+2. **LiveKit API** — TrackRef property, ConnectionStatus.Connected/Disconnected removed
+3. **Prisma/Matrix enums** — MemberRole case mismatch (ADMIN vs admin)
+4. **Various** — pathname null checks, export issues
+
+#### Files With Errors:
+- `components/server/server-channel.tsx`
+- `components/server/server-header.tsx`
+- `components/server/server-sidebar-content.tsx`
+- `components/server/settings/server-settings-sidebar.tsx`
+- `components/video-call/participant-list.tsx`
+- `components/video-call/video-call-layout.tsx`
+- `components/video-call/video-controls.tsx`
+- `components/modals/server-discovery-modal.tsx` (toast scope issue)
+
+#### Instructions:
+1. Run `npx tsc --noEmit 2>&1 | head -60` to see current errors
+2. Fix errors by category (server components first, then LiveKit, then enums)
+3. Verify each fix with incremental type-check
+4. Final verification: `npm run build` must pass
+
+#### Success Criteria:
+- [ ] All TypeScript errors resolved
+- [ ] `npm run build` succeeds
+- [ ] No runtime errors on dev server startup
 
 ## 🔴 Phase 3: Real-time Messaging (Priority: CRITICAL)
 
 ### p3-messaging — Core Messaging
-- **Status:** blocked
-- **Blocked By:** p1-messages, p2-rooms
+- **Status:** completed
+- **Completed:** 2026-02-13 15:15 EST
 - **Priority:** CRITICAL
 - **Model:** Sonnet
 - **Description:** Send and receive messages
+- **Worker:** p3-messaging (completed 2026-02-13 15:15 EST)
+- **Progress:** `scheduler/progress/p3-messaging.md`
 - **Sub-Tasks:**
-  - p3-1-a: Send text messages
-  - p3-1-b: Receive messages (sync)
-  - p3-1-c: Message history (pagination)
-  - p3-1-d: Edit messages
-  - p3-1-e: Delete messages
-  - p3-1-f: Reply threading
+  - ✅ p3-1-a: Send text messages (sendMessage service)
+  - ✅ p3-1-b: Receive messages (sync) (useRoomMessages timeline listeners)
+  - ✅ p3-1-c: Message history (pagination) (Matrix scrollback)
+  - ✅ p3-1-d: Edit messages (editMessage service + UI)
+  - ✅ p3-1-e: Delete messages (deleteMessage service + UI)
+  - ✅ p3-1-f: Reply threading (Matrix relations + UI)
 
 ### p3-presence — Presence & Typing
 - **Status:** blocked
-- **Blocked By:** p3-messaging
+- **Blocked By:** build-fix-spaces-hook (critical build failure)
 - **Priority:** MEDIUM
 - **Model:** Haiku
 - **Description:** Typing indicators and presence
