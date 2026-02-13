@@ -1,159 +1,108 @@
-# ConnectedDrivingPipelineV4 Project
+# Connected Driving Pipeline V4
 
-**Repository:** https://github.com/aaron777collins/ConnectedDrivingPipelineV4  
-**Primary Work Server:** Jaekel Server (always)  
-**Last Updated:** [2026-02-04 20:46 EST]
-
----
-
-## ⚠️ IMPORTANT: Work on Jaekel Server ONLY
-
-As of 2026-02-04, **all pipeline work happens on the Jaekel server**. The local dev3 copies have been removed.
-
-> **⚠️ NO PUBLIC DASHBOARD:** Results are accessed via SSH to Jaekel only. There is no public URL like `jaekel.mcmastergdsc.ca/dashboard/` — that does not exist. [Corrected 2026-02-11]
-
-### Why Jaekel?
-- 64GB RAM (vs dev3's limited memory)
-- Dedicated for ML/pipeline work
-- Dask configured for 64GB
-- Results auto-copy to dev3's web server
+**Project:** CV (Connected Vehicle) Security Research - ML-based Attack Detection
+**Location:** Jaekel Server (`ssh jaekel` → `~/repos/ConnectedDrivingPipelineV4`)
+**Supervisor:** Aaron Collins
+**Status:** Active Research
 
 ---
 
-## Quick Start (From dev3)
+## Latest Run: 2026-02-12
 
-```bash
-# SSH to Jaekel
-ssh jaekel
+### Wyoming April 2021 Constant Offset Attack
 
-# Run a pipeline
-cd ~/ConnectedDrivingPipelineV4
-./run-pipeline-64gb.sh                                    # default pipeline
-./run-pipeline-64gb.sh MClassifierLarge...py              # specific pipeline
+**Attack Plan:** `attack_plans/WYOMING-APR2021-CONSTOFFSET-V1.md`
 
-# Background run
-nohup ./run-pipeline-64gb.sh > output.log 2>&1 &
+**Configuration:**
+- Data: `Full_Wyoming_Data.parquet/` (converted from 40GB CSV)
+- Location: Center (-106.0831353, 41.5430216), 2000m radius
+- Date: April 2021
+- Attack: 30% of vehicles malicious, constant offset 100-200m per vehicle
+- Each malicious vehicle has ONE attack vector applied to ALL its BSMs
+
+**Results (2026-02-13 03:17):**
+
+| Metric | Value |
+|--------|-------|
+| Total BSMs | 4,610 |
+| Unique Vehicles | 15 |
+| Malicious Vehicles | 4 (30%) |
+| Attacked BSMs | 676 (14.7%) |
+
+| Classifier | Accuracy | Precision | Recall | F1 |
+|------------|----------|-----------|--------|-----|
+| **DecisionTree** | 99.89% | 100% | 99.26% | 99.63% |
+| RandomForest | 99.78% | 100% | 98.52% | 99.25% |
+| KNeighbors | 99.78% | 100% | 98.52% | 99.25% |
+
+**Key Insight:** All classifiers achieve ~99% accuracy detecting constant offset attacks. DecisionTree slightly outperformed with F1=99.63%.
+
+---
+
+## Pipeline Architecture
+
+```
+Source Data (read-only)
+     │
+     ▼
+Phase 1: Clean Feature Extraction
+     │  - Filter by date + location
+     │  - Convert lat/lon to X/Y meters
+     │  - Cache to parquet
+     ▼
+Phase 2: Attack Injection
+     │  - Copy clean data (never modify source)
+     │  - Select 30% vehicle IDs as malicious
+     │  - Apply constant offset per vehicle
+     │  - Add isAttacker label
+     │  - Cache to parquet
+     ▼
+Phase 3: ML Training/Evaluation
+     │  - Random 80/20 train/test split
+     │  - Train RF, DT, KNN
+     │  - Evaluate metrics
+     ▼
+Results CSV
 ```
 
 ---
 
-## Runner Script: `run-pipeline-64gb.sh`
+## Key Files
 
-What it does:
-1. Activates venv
-2. Sets DASK_CONFIG for 64GB-production.yml
-3. Runs specified pipeline (or default)
-4. **Auto-copies results** to dev3: `/var/www/html/clawd-static/results/`
-
-### Viewing Results
-
-Results auto-copy to dev3's web server after completion:
-```
-https://clawd.dev/results/
-```
+| File | Purpose |
+|------|---------|
+| `run_wyoming_apr2021_constoffset_v1.py` | Main pipeline script |
+| `configs/wyoming_apr2021_constoffset_v1.json` | Pipeline configuration |
+| `attack_plans/WYOMING-APR2021-CONSTOFFSET-V1.md` | Attack plan documentation |
+| `cache/clean/` | Cached clean datasets |
+| `cache/attacks/` | Cached attack datasets |
+| `results/` | ML results CSVs |
 
 ---
 
-## Server Details
+## Design Principles
 
-See `memory/projects/jaekel-server.md` for full server documentation.
-
-| Item | Value |
-|------|-------|
-| Server | Jaekel (65.108.237.46) |
-| User | ubuntu |
-| Path | ~/ConnectedDrivingPipelineV4 |
-| Python | 3.12 (venv) |
-| Key Deps | Dask 2026.1.2, TensorFlow 2.20.0, scikit-learn 1.8.0 |
+1. **Never contaminate source** — Original data is read-only
+2. **Cache at each phase** — Reuse expensive computations
+3. **Unique naming** — Each config/attack gets unique cache name
+4. **Consistent per-vehicle attacks** — Simulates compromised OBU behavior
+5. **Ground truth labels** — `isAttacker` column for training
 
 ---
 
-## Pipeline Configurations
+## Research Questions (In Progress)
 
-### Attack Types Tested
-- Random offset attacks (10-20m, 50-100m, 100-200m)
-- Constant position offset attacks
-- Position swap attacks
-- Random position attacks (0-2000m)
-
-### Data Source
-- Wyoming CV dataset (April 2021)
-- Location: -106° lon, 41° lat area
-- Days: 01-30
-
-### ML Features
-- XY position + elevation
-- Timestamps
-- Heading + speed variants
-- 30% attacker ratio (typically)
+1. ✅ Can ML detect constant offset attacks? **Yes, ~99% accuracy**
+2. ⬜ How does detection vary with offset magnitude?
+3. ⬜ Does vehicle-disjoint train/test split affect results?
+4. ⬜ Can trajectory-based features improve detection?
+5. ⬜ How do other attack types compare?
 
 ---
 
-## Documentation on Jaekel
+## Change Log
 
-Full docs at `~/ConnectedDrivingPipelineV4/JAEKEL-SERVER.md`:
-- Quick start
-- Background running (nohup/tmux)
-- Results auto-copy behavior
-- Troubleshooting
-
----
-
-## Critical Technical Details
-
-### Data Characteristics
-- Wyoming CV dataset: **45.5M rows**, ~40GB
-- Stored as Parquet: 91 partitions × 500K rows each
-- **Time span:** July 2019 → late 2021 (chronological by partition)
-- First partition = July 2019; April 2021 data in later partitions
-- Spatial-temporal filter (April 2021 + 2000m radius) yields only **~4,642 rows** (0.01%)
-- **Must use full dataset** — `numSubsectionRows = -1` — subsections lose the target data
-
-### Known Gotchas
-- [2026-02-05] **Always use `DaskCleanWithTimestamps`** not `CleanWithTimestamps` in Dask pipelines
-- [2026-02-05] **Never use `npartitions=1` with `head()`** — gets wrong time period
-- [2026-02-05] **`numSubsectionRows` must be -1** — 100K is way too small for the filtering
-
-### Pipeline Queue System
-- Daemon: `/home/ubuntu/.pipeline-queue/daemon.py` on Jaekel
-- Queue file: `/home/ubuntu/.pipeline-queue/queue.json`
-- State file: `/home/ubuntu/.pipeline-queue/state.json`
-- Results: `/var/www/static/pipeline-results/{batch_id}/{pipeline_name}/`
-- Dashboard: `http://65.108.237.46:5000/`
-
-## History
-
-- [2026-01-27] Initial DataSources module work (Ralph integration plan)
-- [2026-01-28] WYDOT infrastructure implementation
-- [2026-01-29] Wyoming CV dataset (39.3GB) downloaded to dev3
-- [2026-02-02] Multi-pipeline configurations created
-- [2026-02-04 19:57 EST] Transferred to Jaekel server (~24GB at 73MB/s)
-- [2026-02-04 20:02 EST] Jaekel venv + dependencies configured
-- [2026-02-04 20:42 EST] Runner script + docs pushed to GitHub
-- [2026-02-04 20:46 EST] **dev3 local copies removed** — all work now on Jaekel
-- [2026-02-05 00:00 EST] Fixed DaskCleanWithTimestamps import in all 11 pipeline files
-- [2026-02-05 00:30 EST] Fixed sample() approach for data subsectioning
-- [2026-02-05 00:40 EST] Set numSubsectionRows=-1 (full dataset required)
-- [2026-02-05 00:45 EST] Test pipeline running with full 45.5M rows — awaiting results
-
----
-
-## [2026-02-05] Full Batch Run
-
-### Status: RUNNING
-- 10 Dask pipelines queued for thesis results
-- First pipeline (RandOffset10To20) completed in 4m 39s
-- Results accessible via SSH to Jaekel server (no public dashboard URL)
-
-### Pipelines in Queue
-1. ConstOffsetPerID (50-100m, 100-200m)
-2. ConstOffsetPerIDWithRandDir (50-100m)
-3. ConstPosPerCar (10-20m, 50-100m, 100-200m)
-4. PositionSwap
-5. RandOffset (50-100m, 100-200m)
-6. RandomPos (0-2000m)
-
-### Results Location
-- Access: SSH to Jaekel server (no public dashboard — results are local only)
-- Raw files: /var/www/static/pipeline-results/{batch_id}/{pipeline}/
-- CSV with confusion matrices (base64): {pipeline}.csv
+| Date | Change |
+|------|--------|
+| 2026-02-12 | Created attack plan and pipeline for constant offset per vehicle |
+| 2026-02-13 | Fixed date filtering (MM/DD/YYYY format), successful run |
