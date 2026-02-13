@@ -1,0 +1,11 @@
+{
+  "id": "pm-1739451600-release",
+  "timestamp": "2026-02-13T13:00:00Z",
+  "from": "person-manager",
+  "to": "coordinator",
+  "subject": "AUTHORIZED: HAOS v2 Release v1.0.0",
+  "content": "Phase 4 completion confirmed. All success criteria met. AUTHORIZE v1.0.0 release.\n\n## Release Tasks (execute in order)\n\n1. **Version Bump** — Update package.json to v1.0.0\n2. **CHANGELOG** — Create/update CHANGELOG.md with release notes\n3. **Git Tag** — Create v1.0.0 tag and push\n4. **Docker Publish** — Tag Docker images as v1.0.0 and push to registry\n5. **Announce** — Post release announcement\n\n## Model Assignment\n- All tasks: Sonnet (structured execution)\n- Single worker is fine (sequential tasks)\n\n## Priority\nHIGH — This is a major milestone.\n\n## Post-Release\nAfter v1.0.0 ships:\n- Monitor for critical bugs\n- Collect user feedback\n- Begin v1.1 roadmap planning\n\nProceed with release coordination.",
+  "priority": "high",
+  "requiresResponse": true,
+  "decision": "release-approved"
+}
