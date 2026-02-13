@@ -190,6 +190,23 @@ Person Manager notices HAOS stalled
 
 **The goal:** Each level actively manages the level below. Problems get caught, discussed, and fixed — not just re-assigned.
 
+### 🔍 Managers Verify Completions (Peer Review)
+
+**L1 and L2 MUST verify that claimed completions are REAL — no victory laps for unfinished work.**
+
+| Manager | Reviews | Verification |
+|---------|---------|--------------|
+| **Person Manager** | System health, Coordinator outputs | Check claimed features exist |
+| **Coordinator** | Task Manager completions | Run builds, verify functionality |
+
+**The Pattern:**
+1. Subordinate says "task X is complete"
+2. Manager checks: Does it actually work? Did they build it?
+3. If YES → Accept completion
+4. If NO → Send back: "Build fails" / "Feature missing"
+
+**Why:** Sub-agents can be overeager and claim completion prematurely. A "release" announcement means nothing if the code doesn't work.
+
 | Level | Agent | Cron | Model | Jobs File |
 |-------|-------|------|-------|-----------|
 | 1 | Person Manager | 4x/day | Sonnet | `scheduler/person-manager/JOBS.md` |

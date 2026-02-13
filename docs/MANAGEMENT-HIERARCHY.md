@@ -30,6 +30,28 @@ Workers don't just obey — they **give feedback to managers**:
 - Orders from Aaron are IMPORTANT and should be followed
 - But everyone still thinks critically and raises concerns
 
+### 🔍 PEER REVIEW: Trust But Verify (CRITICAL!)
+
+**L1 and L2 managers MUST verify that completions are real, not celebrations of unfinished work.**
+
+| Manager | Reviews | How to Verify |
+|---------|---------|---------------|
+| **Person Manager** | Coordinator's summaries, overall system health | Check that claimed features actually exist |
+| **Coordinator** | Task Manager completion claims | Run builds, verify functionality |
+
+**The Pattern:**
+1. Subordinate says "task X is complete" or "release ready"
+2. Manager checks: Does it actually work? Did they build it? Is it deployed?
+3. If YES → Accept the completion, propagate up
+4. If NO → Send back with specific feedback: "Build fails" / "Feature missing" / "Not actually deployed"
+
+**Why This Matters:**
+- Sub-agents can be overeager and claim completion prematurely
+- A "release" announcement means nothing if the code doesn't work
+- Peer review catches false completions before they embarrass the team
+
+**No victory laps until verification passes.**
+
 ### 👥 Manager-Worker Communication
 
 **Managers can spawn/talk to their direct reports:**
@@ -188,6 +210,11 @@ When the file looks like this → **cron returns HEARTBEAT_OK immediately, no ag
 3. **"Have the talk"** — If an agent isn't updating their file, investigate
 4. **System health** — Are things progressing? Any stalls?
 5. **Report to human** — Summary of system status if issues found
+6. **🔍 PEER REVIEW COMPLETIONS** — Verify claimed completions are REAL:
+   - Check that "completed" tasks actually work (build passes, feature exists)
+   - If a subordinate says something is done, **trust but verify**
+   - If completion is fake/premature, tell them to fix it or escalate
+   - Don't accept "release" announcements without checking
 
 ### Jobs File: `scheduler/person-manager/JOBS.md`
 
@@ -239,6 +266,11 @@ ELSE HEARTBEAT_OK
 3. **Hierarchical notes** — Keep high-level notes on each project/topic
 4. **Cross-project awareness** — Understand how projects relate
 5. **Escalate to human** — If decisions needed, flag for Aaron
+6. **🔍 PEER REVIEW COMPLETIONS** — Verify task completions are REAL:
+   - When Task Managers mark tasks complete, **verify the work**
+   - Run builds, check that features exist, validate integration
+   - If work is incomplete/broken, send it back with specific feedback
+   - Don't let premature "done" claims propagate up the chain
 
 ### Jobs File: `scheduler/coordinator/JOBS.md`
 
