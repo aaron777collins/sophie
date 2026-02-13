@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ["@haos/ui"],
+  turbopack: {
+    root: '/home/ubuntu/clawd'
+  }
 };
 
 module.exports = nextConfig;

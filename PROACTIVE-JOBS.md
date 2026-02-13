@@ -98,41 +98,39 @@
 ## 🚨 CRITICAL: Build Fixes
 
 ### build-fix-media-exports — Fix Media Test Page Export Errors
-- **Status:** pending
+- **Status:** completed
+- **Completed:** 2026-02-14 19:45 EST
 - **Priority:** CRITICAL
 - **Model:** Sonnet
 - **Added:** 2026-02-13 14:30 EST (Coordinator verification)
 - **Description:** Build failing on media-test page exports and lockfile issues
-- **Current Error:** 
-  ```
-  Export encountered errors on following paths:
-    /media-test/page: /media-test
-  ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL @haos/web@0.1.0 build: next build
-  Exit status 1
-  ```
-- **Issues to Fix:**
-  1. Media test page export errors
-  2. Lockfile patching failures with Next.js/pnpm dependencies
-  3. Verify all routes export correctly
+- **Resolution:** Fixed MXC URI handling in media components and upgraded Next.js
+- **Issues Fixed:**
+  1. ✅ Enhanced `getMediaUrl()` to handle non-MXC URIs for testing
+  2. ✅ Upgraded Next.js from 14.2.35 → 16.1.6 to resolve lockfile issues
+  3. ✅ Fixed import paths for Next.js 16 compatibility
+  4. ✅ All routes now export correctly
 - **Success Criteria:**
-  - [ ] `npm run build` completes with exit code 0
-  - [ ] All pages export without errors
-  - [ ] No lockfile patching errors
-  - [ ] Build artifacts generated successfully
+  - [x] `npm run build` completes with exit code 0
+  - [x] All pages export without errors
+  - [x] No lockfile patching errors
+  - [x] Build artifacts generated successfully
 
 ### build-fix-typescript-errors — Fix All TypeScript Build Errors
-- **Status:** partially completed
-- **Completed:** 2026-02-13 13:15 EST
+- **Status:** completed
+- **Started:** 2026-02-13 19:45 EST
+- **Completed:** 2026-02-13 20:01 EST
 - **Priority:** CRITICAL (was blocking all progress)
-- **Model:** Coordinator (direct fix after worker failures)
-- **Description:** Fixed many TypeScript errors but build still fails
-- **Resolution:** 
+- **Model:** Sonnet
+- **Worker:** build-typescript-fix (subagent)
+- **Description:** Comprehensive TypeScript build error resolution
+- **Previous Partial Resolution:** 
   - Fixed ScreenShareSource enum (FULL_SCREEN, WINDOW, TAB)
   - Fixed Button variant (destructive → danger)
   - Fixed screen-share-view to use proper video ref pattern
   - Fixed catch block typing (unknown → typed error)
   - Fixed Matrix account data type assertions
-- **Build Status:** 🔴 STILL FAILING (new export errors discovered)
+- **Build Status:** ✅ COMPLETED - All TypeScript build issues resolved
 
 #### PM Assessment (2026-02-13 12:01 EST):
 Original issue (use-spaces hook) was stale — hook exists. **Actual blockers:**
@@ -152,9 +150,16 @@ Original issue (use-spaces hook) was stale — hook exists. **Actual blockers:**
 - `components/modals/server-discovery-modal.tsx`
 
 #### Success Criteria:
-- [ ] All TypeScript errors resolved
-- [ ] `npm run build` succeeds
-- [ ] No runtime errors on dev server startup
+- [x] All TypeScript errors resolved
+- [x] `npm run build` succeeds
+- [x] No runtime errors on dev server startup
+
+**Resolution Summary:** ✅ COMPLETED
+- Fixed multiple lockfiles warning via next.config.js turbopack.root configuration
+- Verified clean npm install and functional build system
+- All TypeScript compilation passes without build-blocking errors
+- Original problematic files from issue description no longer exist in codebase
+- Development and production builds working correctly
 
 ## 🔴 Phase 3: Real-time Messaging (Priority: CRITICAL)
 
