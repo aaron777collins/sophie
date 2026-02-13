@@ -1,0 +1,45 @@
+{
+  "name": "haos-v2-e2e-tests",
+  "version": "1.0.0",
+  "description": "End-to-end testing suite for HAOS v2 chat application",
+  "main": "index.js",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:run:headless": "cypress run --headless",
+    "cypress:run:mobile": "cypress run --config viewportWidth=375,viewportHeight=667",
+    "cypress:run:tablet": "cypress run --config viewportWidth=768,viewportHeight=1024",
+    "cypress:run:ci": "cypress run --headless --reporter json --reporter-options output=test-results.json",
+    "test:smoke": "cypress run --spec cypress/e2e/critical/**/*",
+    "test:full": "npm run cypress:run",
+    "test:mobile": "npm run cypress:run:mobile",
+    "test:performance": "cypress run --spec cypress/e2e/performance/**/*",
+    "install:all": "npm install && cd ../haos && npm install"
+  },
+  "keywords": [
+    "e2e",
+    "cypress",
+    "testing",
+    "haos",
+    "chat",
+    "matrix"
+  ],
+  "author": "HAOS Development Team",
+  "license": "MIT",
+  "devDependencies": {
+    "cypress": "^13.7.0",
+    "cypress-multi-reporters": "^1.6.4",
+    "cypress-mochawesome-reporter": "^3.8.2",
+    "cypress-real-events": "^1.12.0",
+    "cypress-file-upload": "^5.0.8",
+    "cypress-axe": "^1.5.0",
+    "@testing-library/cypress": "^10.0.1",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.3.0",
+    "typescript": "^5.3.3",
+    "@types/node": "^20.11.0"
+  },
+  "dependencies": {
+    "cypress-cucumber-preprocessor": "^4.3.1"
+  }
+}

@@ -1,0 +1,474 @@
+name: End-to-End Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    # Run nightly regression tests at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Test suite to run'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - smoke
+          - critical
+          - performance
+          - mobile
+      environment:
+        description: 'Environment to test against'
+        required: false
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+          - local
+
+env:
+  # Cypress configuration
+  CYPRESS_CACHE_FOLDER: ~/.cache/cypress
+  CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+  
+  # Test environment configuration
+  CYPRESS_baseUrl: ${{ vars.TEST_BASE_URL || 'http://localhost:3000' }}
+  CYPRESS_TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
+  CYPRESS_TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+  CYPRESS_MATRIX_SERVER_URL: ${{ vars.MATRIX_SERVER_URL || 'https://matrix.org' }}
+  
+  # Performance thresholds
+  CYPRESS_PERFORMANCE_THRESHOLD_LOAD_TIME: 3000
+  CYPRESS_PERFORMANCE_THRESHOLD_FIRST_PAINT: 1500
+  
+  # Feature flags
+  CYPRESS_ENABLE_VOICE_TESTS: true
+  CYPRESS_ENABLE_VIDEO_TESTS: true
+  CYPRESS_ENABLE_PERFORMANCE_TESTS: true
+
+jobs:
+  # Pre-flight checks
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      test-suite: ${{ steps.determine-suite.outputs.suite }}
+      should-run-performance: ${{ steps.determine-suite.outputs.performance }}
+      should-run-mobile: ${{ steps.determine-suite.outputs.mobile }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Determine test suite
+        id: determine-suite
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "suite=${{ github.event.inputs.test_suite }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event_name }}" == "schedule" ]]; then
+            echo "suite=all" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "suite=critical" >> $GITHUB_OUTPUT
+          else
+            echo "suite=smoke" >> $GITHUB_OUTPUT
+          fi
+          
+          # Determine specific test types
+          case "${{ github.event.inputs.test_suite || 'auto' }}" in
+            "all"|"performance")
+              echo "performance=true" >> $GITHUB_OUTPUT
+              ;;
+            *)
+              echo "performance=false" >> $GITHUB_OUTPUT
+              ;;
+          esac
+          
+          case "${{ github.event.inputs.test_suite || 'auto' }}" in
+            "all"|"mobile")
+              echo "mobile=true" >> $GITHUB_OUTPUT
+              ;;
+            *)
+              echo "mobile=false" >> $GITHUB_OUTPUT
+              ;;
+          esac
+
+  # Build and prepare test environment
+  build:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          cd ../haos && npm ci
+
+      - name: Build HAOS application
+        run: |
+          cd ../haos
+          npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Start application server
+        run: |
+          cd ../haos
+          npm run start &
+          echo $! > app.pid
+          
+          # Wait for server to be ready
+          npx wait-on http://localhost:3000 --timeout 60000
+          echo "Application server started successfully"
+
+      - name: Verify application health
+        run: |
+          curl -f http://localhost:3000/api/health || exit 1
+          echo "Health check passed"
+
+      - name: Cache build artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            ../haos/.next
+            ../haos/node_modules
+          key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+
+  # Core E2E tests
+  e2e-core:
+    runs-on: ubuntu-latest
+    needs: [setup, build]
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chrome, firefox]
+        viewport: [desktop, tablet]
+        include:
+          - browser: chrome
+            viewport: desktop
+            record: true
+          - browser: chrome
+            viewport: tablet
+            record: false
+          - browser: firefox
+            viewport: desktop
+            record: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Restore build cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ../haos/.next
+            ../haos/node_modules
+          key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Install E2E dependencies
+        run: npm ci
+
+      - name: Start application
+        run: |
+          cd ../haos && npm run start &
+          npx wait-on http://localhost:3000 --timeout 60000
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: .
+          browser: ${{ matrix.browser }}
+          record: ${{ matrix.record }}
+          parallel: ${{ matrix.record }}
+          group: 'E2E Core - ${{ matrix.browser }} - ${{ matrix.viewport }}'
+          spec: |
+            cypress/e2e/auth/**/*
+            cypress/e2e/critical/**/*
+            cypress/e2e/messaging/**/*
+          config: |
+            viewportWidth=${{ matrix.viewport == 'tablet' && '768' || '1280' }}
+            viewportHeight=${{ matrix.viewport == 'tablet' && '1024' || '720' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-core-${{ matrix.browser }}-${{ matrix.viewport }}
+          path: |
+            cypress/screenshots
+            cypress/videos
+            cypress/reports
+          retention-days: 30
+
+  # Voice/Video tests (requires special setup)
+  e2e-voice-video:
+    runs-on: ubuntu-latest
+    needs: [setup, build]
+    if: needs.setup.outputs.test-suite == 'all' || contains(github.event.head_commit.message, '[voice]')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup audio/video testing environment
+        run: |
+          # Install virtual audio driver
+          sudo apt-get update
+          sudo apt-get install -y pulseaudio pulseaudio-utils
+          pulseaudio --start --daemonize
+          
+          # Setup virtual display for video testing
+          export DISPLAY=:99
+          Xvfb :99 -screen 0 1920x1080x24 &
+          
+          # Install Chrome with audio/video codecs
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          
+          # Grant microphone/camera permissions (for headless testing)
+          google-chrome --no-sandbox --disable-web-security --disable-features=VizDisplayCompositor --use-fake-ui-for-media-stream --use-fake-device-for-media-stream
+
+      - name: Start application with LiveKit mocks
+        run: |
+          cd ../haos
+          # Set up LiveKit test environment variables
+          export LIVEKIT_API_KEY="test-key"
+          export LIVEKIT_API_SECRET="test-secret"
+          export LIVEKIT_WS_URL="ws://localhost:7880"
+          npm run start &
+          npx wait-on http://localhost:3000
+
+      - name: Run voice/video tests
+        run: |
+          npx cypress run --spec "cypress/e2e/voice-video/**/*" --browser chrome
+        env:
+          DISPLAY: :99
+          CYPRESS_ENABLE_VOICE_TESTS: true
+          CYPRESS_ENABLE_VIDEO_TESTS: true
+
+      - name: Upload voice/video test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-voice-video
+          path: |
+            cypress/screenshots
+            cypress/videos
+            cypress/reports
+
+  # Mobile responsive tests
+  e2e-mobile:
+    runs-on: ubuntu-latest
+    needs: [setup, build]
+    if: needs.setup.outputs.should-run-mobile == 'true'
+    strategy:
+      matrix:
+        device:
+          - { name: 'iPhone SE', width: 375, height: 667 }
+          - { name: 'iPhone 12', width: 390, height: 844 }
+          - { name: 'Samsung Galaxy', width: 412, height: 915 }
+          - { name: 'iPad Mini', width: 768, height: 1024 }
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start application
+        run: |
+          cd ../haos && npm run start &
+          npx wait-on http://localhost:3000
+
+      - name: Run mobile tests for ${{ matrix.device.name }}
+        run: |
+          npx cypress run \
+            --spec "cypress/e2e/mobile/**/*" \
+            --browser chrome \
+            --config viewportWidth=${{ matrix.device.width }},viewportHeight=${{ matrix.device.height }}
+        env:
+          CYPRESS_MOBILE_DEVICE: ${{ matrix.device.name }}
+
+      - name: Upload mobile test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-mobile-${{ matrix.device.name }}
+          path: |
+            cypress/screenshots
+            cypress/videos
+
+  # Performance tests
+  e2e-performance:
+    runs-on: ubuntu-latest
+    needs: [setup, build]
+    if: needs.setup.outputs.should-run-performance == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start application in production mode
+        run: |
+          cd ../haos
+          NODE_ENV=production npm run start &
+          npx wait-on http://localhost:3000
+
+      - name: Run performance tests
+        run: |
+          npx cypress run --spec "cypress/e2e/performance/**/*" --browser chrome
+        env:
+          # Stricter performance thresholds for CI
+          CYPRESS_PERFORMANCE_THRESHOLD_LOAD_TIME: 2500
+          CYPRESS_PERFORMANCE_THRESHOLD_FIRST_PAINT: 1200
+
+      - name: Generate performance report
+        run: |
+          # Compile performance metrics into report
+          node scripts/generate-performance-report.js
+
+      - name: Upload performance results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-results
+          path: |
+            cypress/reports/performance-report.html
+            cypress/reports/performance-metrics.json
+
+      - name: Comment performance results on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = './cypress/reports/performance-metrics.json';
+            
+            if (fs.existsSync(path)) {
+              const metrics = JSON.parse(fs.readFileSync(path, 'utf8'));
+              
+              const body = `## 🚀 Performance Test Results
+              
+              | Metric | Value | Threshold | Status |
+              |--------|-------|-----------|--------|
+              | First Contentful Paint | ${metrics.fcp}ms | 1200ms | ${metrics.fcp <= 1200 ? '✅' : '❌'} |
+              | Largest Contentful Paint | ${metrics.lcp}ms | 2500ms | ${metrics.lcp <= 2500 ? '✅' : '❌'} |
+              | Time to Interactive | ${metrics.tti}ms | 3000ms | ${metrics.tti <= 3000 ? '✅' : '❌'} |
+              | JS Bundle Size | ${(metrics.jsSize / 1024).toFixed(1)}KB | 1000KB | ${metrics.jsSize <= 1000000 ? '✅' : '❌'} |
+              
+              [View detailed report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})`;
+              
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body
+              });
+            }
+
+  # Test reporting and notifications
+  report:
+    runs-on: ubuntu-latest
+    needs: [e2e-core, e2e-voice-video, e2e-mobile, e2e-performance]
+    if: always()
+    steps:
+      - name: Download all test artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Merge test results
+        run: |
+          # Install mochawesome-merge
+          npm install -g mochawesome-merge mochawesome-report-generator
+          
+          # Merge all test results
+          npx mochawesome-merge test-results-*/reports/*.json > merged-report.json
+          
+          # Generate HTML report
+          npx marge merged-report.json --reportDir merged-report --inline
+
+      - name: Calculate test coverage
+        run: |
+          # Calculate overall test coverage from all test runs
+          node scripts/calculate-test-coverage.js
+
+      - name: Upload merged results
+        uses: actions/upload-artifact@v4
+        with:
+          name: merged-test-results
+          path: merged-report
+
+      - name: Update test badges
+        if: github.ref == 'refs/heads/main'
+        run: |
+          # Update README badges with test results
+          node scripts/update-test-badges.js
+
+      - name: Notify Slack on failure
+        if: failure() && github.ref == 'refs/heads/main'
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          channel: '#haos-ci'
+          text: |
+            ❌ E2E Tests failed on main branch
+            Repository: ${{ github.repository }}
+            Commit: ${{ github.sha }}
+            Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Notify on success
+        if: success() && github.ref == 'refs/heads/main'
+        uses: 8398a7/action-slack@v3
+        with:
+          status: success
+          channel: '#haos-ci'
+          text: |
+            ✅ E2E Tests passed on main branch
+            All systems green! 🚀
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

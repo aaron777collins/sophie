@@ -1,0 +1,41 @@
+{
+  "reporterEnabled": "cypress-mochawesome-reporter, mocha-junit-reporter",
+  "cypressMochawesomeReporterReporterOptions": {
+    "reportDir": "cypress/reports",
+    "reportFilename": "report-[datetime]-[name]",
+    "reportPageTitle": "HAOS E2E Test Results",
+    "embeddedScreenshots": true,
+    "inlineAssets": true,
+    "saveAllAttempts": false,
+    "debug": false,
+    "overwrite": false,
+    "html": true,
+    "json": true,
+    "charts": true,
+    "reporterOptions": {
+      "includeConsoleLog": true,
+      "timestamp": "longDate",
+      "showPassed": true,
+      "showFailed": true,
+      "showPending": true,
+      "showSkipped": false,
+      "showHooks": "failed",
+      "saveJson": true,
+      "autoOpen": false,
+      "dev": false
+    }
+  },
+  "mochaJunitReporterReporterOptions": {
+    "mochaFile": "cypress/reports/junit/results-[hash].xml",
+    "toConsole": true,
+    "attachments": true,
+    "antMode": false,
+    "jenkins": true,
+    "properties": {
+      "build.number": "${BUILD_NUMBER}",
+      "build.url": "${BUILD_URL}",
+      "git.commit": "${GIT_COMMIT}",
+      "git.branch": "${GIT_BRANCH}"
+    }
+  }
+}

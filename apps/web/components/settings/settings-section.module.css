@@ -1,0 +1,357 @@
+/* Shared styles for settings sections */
+
+.container {
+  max-width: 600px;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  color: #b9bbbe;
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.sectionTitle {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Toggle styles */
+.toggleGrid {
+  display: grid;
+  gap: 16px;
+}
+
+.toggleOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  background: #2f3136;
+  border: 1px solid #40444b;
+  border-radius: 8px;
+}
+
+.toggleInfo {
+  flex: 1;
+}
+
+.toggleName {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+}
+
+.toggleDescription {
+  color: #b9bbbe;
+  font-size: 12px;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Custom toggle switch */
+.toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  display: block;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggleSlider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #72767d;
+  border-radius: 12px;
+  transition: 0.2s;
+}
+
+.toggleSlider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.toggle input:checked + .toggleSlider {
+  background: #5865f2;
+}
+
+.toggle input:checked + .toggleSlider:before {
+  transform: translateX(20px);
+}
+
+/* Radio group styles */
+.radioGroup {
+  display: grid;
+  gap: 12px;
+}
+
+.radioOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #2f3136;
+  border: 2px solid #40444b;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.radioOption:hover {
+  border-color: #4f545c;
+  background: #32363c;
+}
+
+.radioOption input[type="radio"]:checked + .radioInfo {
+  /* Parent selector would be ideal, but let's use a different approach */
+}
+
+.radioOption:has(input[type="radio"]:checked) {
+  border-color: #5865f2;
+  background: rgba(88, 101, 242, 0.1);
+}
+
+.radioOption input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #5865f2;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.radioInfo {
+  flex: 1;
+}
+
+.radioName {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+}
+
+.radioDescription {
+  color: #b9bbbe;
+  font-size: 12px;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Form styles */
+.form {
+  display: grid;
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  color: #b9bbbe;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.select {
+  background: #40444b;
+  border: 1px solid #4f545c;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 8px 12px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.select:focus {
+  border-color: #5865f2;
+}
+
+/* Card styles */
+.card {
+  background: #2f3136;
+  border: 1px solid #40444b;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cardContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px;
+}
+
+.cardInfo {
+  flex: 1;
+}
+
+.cardTitle {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+}
+
+.cardDescription {
+  color: #b9bbbe;
+  font-size: 12px;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Danger zone */
+.dangerZone {
+  border: 1px solid #f04747;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dangerCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(240, 71, 71, 0.1);
+}
+
+.dangerInfo {
+  flex: 1;
+}
+
+.dangerTitle {
+  color: #f04747;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+}
+
+.dangerDescription {
+  color: #b9bbbe;
+  font-size: 12px;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Actions bar */
+.actions {
+  position: fixed;
+  bottom: 0;
+  left: 218px;
+  right: 0;
+  background: #2f3136;
+  border-top: 1px solid #40444b;
+  padding: 16px 40px;
+  z-index: 100;
+}
+
+.actionsContent {
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.unsavedText {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 12px;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .actions {
+    left: 180px;
+    padding: 16px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: none;
+  }
+  
+  .toggleOption,
+  .radioOption,
+  .cardContent,
+  .dangerCard {
+    flex-direction: column;
+    text-align: center;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .toggle {
+    align-self: center;
+  }
+  
+  .actions {
+    left: 0;
+    padding: 16px 20px;
+  }
+  
+  .actionsContent {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .actionButtons {
+    justify-content: stretch;
+  }
+  
+  .actionButtons button {
+    flex: 1;
+  }
+}

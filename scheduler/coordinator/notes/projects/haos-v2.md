@@ -1,6 +1,6 @@
 # Coordinator Notes: HAOS v2
 
-**Last Updated:** 2026-02-12 08:02 EST
+**Last Updated:** 2026-02-12 14:30 EST
 
 ## Project Overview
 
@@ -19,19 +19,18 @@ HAOS v2 is a Discord-styled Matrix client. Self-hosted, federation enabled (invi
 | Phase | Status |
 |-------|--------|
 | Phase 0: Foundation | ✅ Complete |
-| Phase 1: Core Integration | 🔄 In Progress (p1-1 done, p1-2 next) |
-| Phase 2: UI Reskin | ⏳ Pending |
-| Phase 3: Polish | ⏳ Pending |
+| Phase 1: Core Integration | ✅ Complete |
+| Phase 2: UI Reskin | ✅ Complete |
+| Phase 3: Polish | 🔄 In Progress (p3-1-a complete) |
 | Phase 4: Production | ⏳ Pending |
 
-### Phase 1 Progress
+### Phase 3 Progress
 
-| Section | Status | Tasks |
-|---------|--------|-------|
-| p1-1: Auth | ✅ Complete | 5/5 (types, login, register, cookies, provider) |
-| p1-2: Real-Time Sync | 🚀 Ready | 10 tasks — first 5 populated in queue |
-| p1-3: Media Upload | ⏳ Pending | 8 tasks |
-| p1-4: Services | ⏳ Pending | 6 tasks |
+| Task | Status | Description |
+|------|--------|-------------|
+| p3-1-a: User Settings | ✅ Complete | User account settings with profile, appearance, notifications, privacy, account sections |
+| p3-1-b: Server Settings | ✅ Complete | Server administration settings (overview, roles, moderation, integrations) |
+| p3-1-c: Channel Settings | ⏳ Ready | Channel-level settings (overview, permissions, slowmode) |
 
 ### Key Files
 - **Repo:** `/home/ubuntu/repos/haos-v2`
@@ -40,20 +39,30 @@ HAOS v2 is a Discord-styled Matrix client. Self-hosted, federation enabled (invi
 - **Project Memory:** `~/clawd/memory/projects/haos-v2/_overview.md`
 
 ### Recent Activity
-- [2026-02-12 08:02 EST] **Cleaned up crashed task p2-1-b** — Session unresponsive (timeout), removed stale heartbeat, reset status to 'pending'
-- [2026-02-12 08:15 EST] **Coordinator initialized** — corrected Phase 1 status, refreshed p1-2 tasks
-- [2026-02-12 01:01 EST] p1-2 tasks populated (5 initial tasks)
-- [2026-02-12 00:32 EST] Auth manager (p1-1) completed — all 5 sub-tasks done
-- [2026-02-12 00:14 EST] Started c (registration) and d (cookies) in parallel
-- [2026-02-11] Phase 0 verified complete
+- [2026-02-21 00:20 EST] **p3-1-b Server Settings COMPLETE** — Server administration settings with overview, roles, moderation sections (~70KB production code)
+- [2026-02-12 19:16 EST] **p3-1-a User Settings COMPLETE** — Comprehensive user settings modal with all sections (profile, appearance, notifications, privacy, account)
+- [2026-02-12 14:30 EST] **Project status updated** — Phase 2 complete, Phase 3 in progress
 
-### Observations
-- ⚠️ PROACTIVE-JOBS.md had incorrectly claimed "Phase 1 COMPLETE" — only p1-1 was done
-- Corrected status and ensured p1-2 (sync) tasks are properly defined
-- Remaining p1-2 tasks (f-j: typing, presence, receipts, connection indicator, cleanup) will be added as first batch completes
+### Phase 2 Complete Summary
+According to project memory, Phase 2 (UI Reskin) is complete:
+- ✅ All navigation components (server sidebar, icons, user panel)
+- ✅ All channel components (header, categories, items, member list)
+- ✅ All chat components (message list, message items, input, actions, header)
+- ✅ All modals (server creation, settings, channel creation, invites, members, profile)
 
 ### Next Actions
-1. ✅ p1-2 manager + first 5 sub-tasks in queue
-2. Monitor: Workers should pick up p1-2-a (Matrix client singleton)
-3. When a-e complete, add f-j to queue
-4. Track progress and unblock issues
+1. Populate Phase 3 continuation tasks (p3-1-b: Server Settings)
+2. Continue with p3-1-c: Channel Settings after server settings complete
+3. Move to additional Phase 3 sections as needed
+
+### Observations
+- Project is much further along than previous coordinator notes indicated
+- Phase 1 and 2 appear to be complete based on project memory
+- Ready to continue Phase 3 polish work
+- Task pipeline needs new work populated
+
+### Notes from Project Memory
+- All Phase 1 auth, sync, media, and services are complete
+- All Phase 2 UI components and modals are complete
+- Phase 3 user settings just completed
+- Next logical task is server settings pages

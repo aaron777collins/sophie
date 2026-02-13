@@ -1,0 +1,91 @@
+{
+  "next_batch": "s123456_123_456_789_1",
+  "rooms": {
+    "join": {
+      "!testroom:matrix.org": {
+        "timeline": {
+          "events": [
+            {
+              "type": "m.room.message",
+              "event_id": "$event1",
+              "origin_server_ts": 1640995200000,
+              "sender": "@testuser:matrix.org",
+              "content": {
+                "msgtype": "m.text",
+                "body": "Hello world!"
+              }
+            }
+          ],
+          "limited": false,
+          "prev_batch": "p123456"
+        },
+        "state": {
+          "events": [
+            {
+              "type": "m.room.name",
+              "event_id": "$name_event",
+              "origin_server_ts": 1640995100000,
+              "sender": "@testuser:matrix.org",
+              "content": {
+                "name": "Test Room"
+              },
+              "state_key": ""
+            },
+            {
+              "type": "m.room.member",
+              "event_id": "$member_event",
+              "origin_server_ts": 1640995000000,
+              "sender": "@testuser:matrix.org",
+              "content": {
+                "membership": "join",
+                "displayname": "Test User"
+              },
+              "state_key": "@testuser:matrix.org"
+            }
+          ]
+        },
+        "account_data": {
+          "events": []
+        },
+        "ephemeral": {
+          "events": []
+        },
+        "unread_notifications": {
+          "notification_count": 0,
+          "highlight_count": 0
+        }
+      }
+    },
+    "invite": {},
+    "leave": {}
+  },
+  "presence": {
+    "events": [
+      {
+        "type": "m.presence",
+        "sender": "@testuser:matrix.org",
+        "content": {
+          "presence": "online",
+          "last_active_ago": 0,
+          "status_msg": "Testing HAOS"
+        }
+      }
+    ]
+  },
+  "account_data": {
+    "events": [
+      {
+        "type": "m.push_rules",
+        "content": {
+          "global": {
+            "override": [],
+            "content": [],
+            "room": [],
+            "sender": [],
+            "underride": []
+          }
+        }
+      }
+    ]
+  }
+}

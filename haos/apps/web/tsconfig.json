@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./*"],
       "@haos/shared": ["../../packages/shared/src/index.ts"],
       "@haos/shared/*": ["../../packages/shared/src/*"]
     },

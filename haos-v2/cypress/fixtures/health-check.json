@@ -1,0 +1,11 @@
+{
+  "status": "healthy",
+  "uptime": 123456,
+  "version": "1.0.0",
+  "services": {
+    "database": "connected",
+    "matrix": "connected",
+    "livekit": "connected"
+  },
+  "timestamp": "2026-02-12T20:45:00Z"
+}

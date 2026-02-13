@@ -1,0 +1,175 @@
+/* Profile section styling */
+
+.container {
+  max-width: 600px;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  color: #b9bbbe;
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.section {
+  margin-bottom: 40px;
+  padding: 0;
+}
+
+.sectionTitle {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Avatar section */
+.avatarSection {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+  background: #2f3136;
+  border-radius: 8px;
+  border: 1px solid #40444b;
+}
+
+.avatarPreview {
+  flex-shrink: 0;
+}
+
+.avatarControls {
+  flex: 1;
+}
+
+.avatarUpload {
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.avatarHint {
+  color: #72767d;
+  font-size: 12px;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Form grid */
+.formGrid {
+  display: grid;
+  gap: 20px;
+}
+
+/* Matrix info */
+.matrixInfo {
+  padding: 16px;
+  background: #2f3136;
+  border-radius: 6px;
+  border: 1px solid #40444b;
+}
+
+.matrixField {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.matrixLabel {
+  color: #b9bbbe;
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 80px;
+}
+
+.matrixValue {
+  color: #ffffff;
+  font-family: 'Monaco', 'Menlo', monospace;
+  font-size: 13px;
+  background: #40444b;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #4f545c;
+}
+
+/* Actions bar */
+.actions {
+  position: fixed;
+  bottom: 0;
+  left: 218px; /* Sidebar width */
+  right: 0;
+  background: #2f3136;
+  border-top: 1px solid #40444b;
+  padding: 16px 40px;
+  z-index: 100;
+}
+
+.actionsContent {
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.unsavedText {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 12px;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .actions {
+    left: 180px; /* Smaller sidebar width */
+    padding: 16px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: none;
+  }
+  
+  .avatarSection {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+  
+  .actions {
+    left: 0;
+    padding: 16px 20px;
+  }
+  
+  .actionsContent {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .actionButtons {
+    justify-content: stretch;
+  }
+  
+  .actionButtons button {
+    flex: 1;
+  }
+}
