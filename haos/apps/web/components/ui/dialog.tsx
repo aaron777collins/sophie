@@ -73,3 +73,39 @@ export function DialogContent({ className, children, hideCloseButton = false, ..
     </div>
   );
 }
+
+export interface DialogHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
+}
+
+export function DialogHeader({ className, children, ...props }: DialogHeaderProps) {
+  return (
+    <div
+      className={cn(
+        'flex flex-col space-y-1.5 text-center sm:text-left',
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+}
+
+export interface DialogTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  children: React.ReactNode;
+}
+
+export function DialogTitle({ className, children, ...props }: DialogTitleProps) {
+  return (
+    <h2
+      className={cn(
+        'text-lg font-semibold leading-none tracking-tight',
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </h2>
+  );
+}
