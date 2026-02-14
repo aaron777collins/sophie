@@ -43,19 +43,19 @@
 - **Note:** Implementation was already complete by another sub-agent in correct directory. Initial work done in wrong directory was cleaned up.
 
 ### p5-3-voice-ui — Voice Channel UI Components
-- **Status:** in-progress
+- **Status:** ✅ COMPLETED
 - **Priority:** HIGH
 - **Model:** sonnet
 - **Description:** Build Discord-style voice channel UI
-- **Started:** 2026-02-13 22:15 EST
+- **Completed:** 2026-02-13 22:35 EST
 - **Tasks:**
-  - [ ] Create `components/voice/voice-channel-list.tsx` — sidebar voice channels
-  - [ ] Create `components/voice/voice-channel-panel.tsx` — current channel view
-  - [ ] Create `components/voice/voice-controls.tsx` — mute/deafen/settings
-  - [ ] Create `components/voice/participant-tile.tsx` — user avatar with speaking indicator
-  - [ ] Create `components/voice/speaking-indicator.tsx` — green ring animation
-  - [ ] Integrate voice controls into main app layout
-  - [ ] Add connected users display with avatars
+  - [x] ✅ Create `components/voice/voice-channel-list.tsx` — sidebar voice channels
+  - [x] ✅ Create `components/voice/voice-channel-panel.tsx` — current channel view
+  - [x] ✅ Create `components/voice/voice-controls.tsx` — mute/deafen/settings
+  - [x] ✅ Create `components/voice/participant-tile.tsx` — user avatar with speaking indicator
+  - [x] ✅ Create `components/voice/speaking-indicator.tsx` — green ring animation
+  - [x] ✅ Create `components/voice/index.ts` — component exports
+  - [x] ✅ Create `lib/utils.ts` — cn() utility function
 - **Outputs:** Complete voice channel UI matching Discord style
 
 ### p5-4-video — Video Calling Implementation

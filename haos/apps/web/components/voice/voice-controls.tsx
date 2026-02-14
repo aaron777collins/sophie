@@ -1,6 +1,19 @@
 'use client';
 
-import { Mic, MicOff, Headphones, HeadphonesIcon as Deafen, Settings, PhoneOff, Monitor, MonitorOff } from 'lucide-react';
+import { useCallback, useEffect, KeyboardEvent as ReactKeyboardEvent } from 'react';
+import { 
+  Mic, 
+  MicOff, 
+  Headphones, 
+  HeadphonesOff, 
+  Settings, 
+  PhoneOff, 
+  Monitor, 
+  MonitorOff,
+  Video,
+  VideoOff
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { useVoiceChannel } from '@/hooks/use-voice-channel';
 import { useVoiceStore } from '@/stores/voice-store';
 
@@ -9,19 +22,93 @@ interface VoiceControlsProps {
   userId?: string;
   className?: string;
   onSettingsClick?: () => void;
+  /** Compact mode for sidebar */
+  compact?: boolean;
+}
+
+interface ControlButtonProps {
+  onClick: () => void;
+  isActive?: boolean;
+  tooltip: string;
+  children: React.ReactNode;
+  variant?: 'default' | 'danger' | 'success';
+  'aria-pressed'?: boolean;
+  disabled?: boolean;
+}
+
+function ControlButton({ 
+  onClick, 
+  isActive, 
+  tooltip, 
+  children, 
+  variant = 'default',
+  'aria-pressed': ariaPressed,
+  disabled = false,
+}: ControlButtonProps) {
+  const getButtonClasses = () => {
+    const base = cn(
+      'w-10 h-10 rounded-full transition-all flex items-center justify-center',
+      'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#2f3136]',
+      disabled && 'opacity-50 cursor-not-allowed'
+    );
+    
+    if (variant === 'danger') {
+      return cn(base, 'bg-red-500 hover:bg-red-600 text-white focus:ring-red-400');
+    }
+    
+    if (variant === 'success') {
+      return cn(base, 'bg-green-600 hover:bg-green-700 text-white focus:ring-green-400');
+    }
+    
+    // Toggle states for default variant
+    if (isActive === false) {
+      return cn(base, 'bg-red-500/80 hover:bg-red-500 text-white focus:ring-red-400');
+    }
+    
+    if (isActive === true) {
+      return cn(base, 'bg-[#3c3f45] hover:bg-[#4a4d55] text-white focus:ring-white/20');
+    }
+    
+    return cn(base, 'bg-[#3c3f45] hover:bg-[#4a4d55] text-white focus:ring-white/20');
+  };
+
+  const handleKeyDown = (e: ReactKeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (!disabled) onClick();
+    }
+  };
+
+  return (
+    <button
+      onClick={disabled ? undefined : onClick}
+      onKeyDown={handleKeyDown}
+      className={getButtonClasses()}
+      title={tooltip}
+      aria-label={tooltip}
+      aria-pressed={ariaPressed}
+      disabled={disabled}
+      role="switch"
+    >
+      {children}
+    </button>
+  );
 }
 
 export function VoiceControls({ 
   roomName, 
   userId, 
   className = '', 
-  onSettingsClick 
+  onSettingsClick,
+  compact = false,
 }: VoiceControlsProps) {
   const {
     isConnected,
     isAudioEnabled,
+    isVideoEnabled,
     isScreenSharing,
     toggleAudio,
+    toggleVideo,
     toggleScreenShare,
     disconnect,
   } = useVoiceChannel({
@@ -31,72 +118,114 @@ export function VoiceControls({
 
   const { isDeafened, setDeafened } = useVoiceStore();
 
-  const handleDeafenToggle = () => {
-    setDeafened(!isDeafened);
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
+      // Only handle when not typing in an input
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+
+      // Ctrl/Cmd + Shift + M = Toggle Mute
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'M') {
+        e.preventDefault();
+        toggleAudio();
+      }
+      
+      // Ctrl/Cmd + Shift + D = Toggle Deafen
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'D') {
+        e.preventDefault();
+        handleDeafenToggle();
+      }
+
+      // Ctrl/Cmd + Shift + V = Toggle Video
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'V') {
+        e.preventDefault();
+        toggleVideo();
+      }
+    };
+
+    if (isConnected) {
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [isConnected, toggleAudio, toggleVideo]);
+
+  const handleDeafenToggle = useCallback(() => {
+    const newDeafened = !isDeafened;
+    setDeafened(newDeafened);
     
     // When deafening, also mute if currently unmuted
-    if (!isDeafened && isAudioEnabled) {
+    if (newDeafened && isAudioEnabled) {
       toggleAudio();
     }
-  };
+  }, [isDeafened, setDeafened, isAudioEnabled, toggleAudio]);
 
-  const handleDisconnect = () => {
+  const handleDisconnect = useCallback(() => {
     disconnect();
-  };
+  }, [disconnect]);
 
   if (!isConnected) {
     return null;
   }
 
-  const ControlButton = ({ 
-    onClick, 
-    isActive, 
-    tooltip, 
-    children, 
-    variant = 'default' 
-  }: {
-    onClick: () => void;
-    isActive?: boolean;
-    tooltip: string;
-    children: React.ReactNode;
-    variant?: 'default' | 'danger';
-  }) => {
-    const getButtonClasses = () => {
-      const base = 'w-10 h-10 rounded-full transition-all flex items-center justify-center';
-      
-      if (variant === 'danger') {
-        return `${base} bg-red-500 hover:bg-red-600 text-white`;
-      }
-      
-      if (isActive === false) {
-        return `${base} bg-red-500 hover:bg-red-600 text-white`;
-      }
-      
-      if (isActive === true) {
-        return `${base} bg-green-500 hover:bg-green-600 text-white`;
-      }
-      
-      return `${base} hover:bg-gray-600 text-white`;
-    };
-
+  if (compact) {
     return (
-      <button
-        onClick={onClick}
-        className={getButtonClasses()}
-        title={tooltip}
+      <div 
+        className={cn(
+          'flex items-center gap-1 p-1 rounded bg-[#232428]',
+          className
+        )}
+        role="toolbar"
+        aria-label="Voice controls"
       >
-        {children}
-      </button>
+        <ControlButton
+          onClick={toggleAudio}
+          isActive={isAudioEnabled}
+          tooltip={isAudioEnabled ? 'Mute (Ctrl+Shift+M)' : 'Unmute (Ctrl+Shift+M)'}
+          aria-pressed={!isAudioEnabled}
+        >
+          {isAudioEnabled ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
+        </ControlButton>
+
+        <ControlButton
+          onClick={handleDeafenToggle}
+          isActive={!isDeafened}
+          tooltip={isDeafened ? 'Undeafen (Ctrl+Shift+D)' : 'Deafen (Ctrl+Shift+D)'}
+          aria-pressed={isDeafened}
+        >
+          {isDeafened ? <HeadphonesOff className="w-4 h-4" /> : <Headphones className="w-4 h-4" />}
+        </ControlButton>
+
+        <ControlButton
+          onClick={handleDisconnect}
+          tooltip="Disconnect"
+          variant="danger"
+        >
+          <PhoneOff className="w-4 h-4" />
+        </ControlButton>
+      </div>
     );
-  };
+  }
 
   return (
-    <div className={`fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 flex items-center space-x-2 px-4 py-2 rounded-lg bg-[#2f3136] border border-[#40444b] shadow-lg ${className}`}>
+    <div 
+      className={cn(
+        'fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50',
+        'flex items-center gap-2 px-4 py-3 rounded-xl',
+        'bg-[#1e1f22]/95 backdrop-blur-sm border border-[#2d2f34]',
+        'shadow-lg shadow-black/30',
+        className
+      )}
+      role="toolbar"
+      aria-label="Voice controls"
+    >
       {/* Microphone toggle */}
       <ControlButton
         onClick={toggleAudio}
         isActive={isAudioEnabled}
-        tooltip={isAudioEnabled ? 'Mute' : 'Unmute'}
+        tooltip={isAudioEnabled ? 'Mute (Ctrl+Shift+M)' : 'Unmute (Ctrl+Shift+M)'}
+        aria-pressed={!isAudioEnabled}
       >
         {isAudioEnabled ? <Mic className="w-5 h-5" /> : <MicOff className="w-5 h-5" />}
       </ControlButton>
@@ -105,9 +234,23 @@ export function VoiceControls({
       <ControlButton
         onClick={handleDeafenToggle}
         isActive={!isDeafened}
-        tooltip={isDeafened ? 'Undeafen' : 'Deafen'}
+        tooltip={isDeafened ? 'Undeafen (Ctrl+Shift+D)' : 'Deafen (Ctrl+Shift+D)'}
+        aria-pressed={isDeafened}
       >
-        {isDeafened ? <Deafen className="w-5 h-5" /> : <Headphones className="w-5 h-5" />}
+        {isDeafened ? <HeadphonesOff className="w-5 h-5" /> : <Headphones className="w-5 h-5" />}
+      </ControlButton>
+
+      {/* Separator */}
+      <div className="w-px h-6 bg-[#3c3f45] mx-1" aria-hidden="true" />
+
+      {/* Video toggle */}
+      <ControlButton
+        onClick={toggleVideo}
+        isActive={isVideoEnabled}
+        tooltip={isVideoEnabled ? 'Turn off camera (Ctrl+Shift+V)' : 'Turn on camera (Ctrl+Shift+V)'}
+        aria-pressed={isVideoEnabled}
+      >
+        {isVideoEnabled ? <Video className="w-5 h-5" /> : <VideoOff className="w-5 h-5" />}
       </ControlButton>
 
       {/* Screen share toggle */}
@@ -115,9 +258,13 @@ export function VoiceControls({
         onClick={toggleScreenShare}
         isActive={isScreenSharing}
         tooltip={isScreenSharing ? 'Stop sharing' : 'Share screen'}
+        aria-pressed={isScreenSharing}
       >
-        {isScreenSharing ? <Monitor className="w-5 h-5" /> : <MonitorOff className="w-5 h-5" />}
+        {isScreenSharing ? <Monitor className="w-5 h-5 text-green-400" /> : <MonitorOff className="w-5 h-5" />}
       </ControlButton>
+
+      {/* Separator */}
+      <div className="w-px h-6 bg-[#3c3f45] mx-1" aria-hidden="true" />
 
       {/* Settings */}
       {onSettingsClick && (

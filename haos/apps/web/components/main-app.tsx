@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react';
 import { Hash, Volume2, Settings, Plus, Users, ChevronDown, ChevronRight } from 'lucide-react';
 import { ServerDiscoveryModal } from './server-discovery/server-discovery-modal';
-import { VoiceChannelList, VoiceChannelItem } from './voice/voice-channel-list';
+import { VoiceChannelList, VoiceChannelInfo } from './voice/voice-channel-list';
 import { VoiceChannelPanel } from './voice/voice-channel-panel';
 import { VoiceControls } from './voice/voice-controls';
 import { ConnectedUsersDisplay } from './voice/connected-users-display';

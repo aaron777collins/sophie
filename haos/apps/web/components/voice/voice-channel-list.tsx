@@ -5,7 +5,7 @@ import { Volume2, Users, Crown, Lock, Plus, UserPlus } from 'lucide-react';
 import { useVoiceChannel } from '@/hooks/use-voice-channel';
 import { useVoiceStore, VoiceParticipant } from '@/stores/voice-store';
 
-interface VoiceChannelInfo {
+export interface VoiceChannelInfo {
   id: string;
   name: string;
   participantCount: number;
