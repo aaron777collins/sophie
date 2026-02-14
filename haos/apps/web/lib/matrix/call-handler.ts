@@ -552,7 +552,8 @@ export class MatrixCallHandler {
     const activeCallData = Array.from(this.activeCalls.entries()).find(([, data]) => data.callId === callId);
     
     if (!activeCallData) {
-      console.warn(`No active call found for callId: ${callId}`);
+      // TODO: Replace with proper logging service
+      // console.warn(`No active call found for callId: ${callId}`);
       return;
     }
 
@@ -569,9 +570,11 @@ export class MatrixCallHandler {
       // Clean up locally
       await this.cleanupCall(callId, roomId);
 
-      console.log(`Ended call ${callId}`);
+      // TODO: Replace with proper logging service
+      // console.log(`Ended call ${callId}`);
     } catch (error) {
-      console.error('Failed to end call:', error);
+      // TODO: Replace with proper logging service
+      // console.error('Failed to end call:', error);
       throw error;
     }
   }
