@@ -5,7 +5,7 @@ import {
   Mic, 
   MicOff, 
   Headphones, 
-  HeadphonesOff, 
+  VolumeX, 
   Settings, 
   PhoneOff, 
   Monitor, 
@@ -194,7 +194,7 @@ export function VoiceControls({
           tooltip={isDeafened ? 'Undeafen (Ctrl+Shift+D)' : 'Deafen (Ctrl+Shift+D)'}
           aria-pressed={isDeafened}
         >
-          {isDeafened ? <HeadphonesOff className="w-4 h-4" /> : <Headphones className="w-4 h-4" />}
+          {isDeafened ? <VolumeX className="w-4 h-4" /> : <Headphones className="w-4 h-4" />}
         </ControlButton>
 
         <ControlButton
@@ -237,7 +237,7 @@ export function VoiceControls({
         tooltip={isDeafened ? 'Undeafen (Ctrl+Shift+D)' : 'Deafen (Ctrl+Shift+D)'}
         aria-pressed={isDeafened}
       >
-        {isDeafened ? <HeadphonesOff className="w-5 h-5" /> : <Headphones className="w-5 h-5" />}
+        {isDeafened ? <VolumeX className="w-5 h-5" /> : <Headphones className="w-5 h-5" />}
       </ControlButton>
 
       {/* Separator */}

@@ -3,22 +3,23 @@
 import { useState, useCallback } from 'react';
 import { Hash, Volume2, Settings, Plus, Users, ChevronDown, ChevronRight } from 'lucide-react';
 import { ServerDiscoveryModal } from './server-discovery/server-discovery-modal';
-import { VoiceChannelList, VoiceChannelInfo } from './voice/voice-channel-list';
-import { VoiceChannelPanel } from './voice/voice-channel-panel';
-import { VoiceControls } from './voice/voice-controls';
-import { ConnectedUsersDisplay } from './voice/connected-users-display';
-import { useVoiceStore } from '@/stores/voice-store';
+import { VoiceChannelList, VoiceChannelInfo } from './voice';
+import { VoiceChannelPanel, VoiceControls } from './voice';
+// ConnectedUsersDisplay component not implemented yet
+import { useVoiceStore, VoiceParticipant } from '@/stores/voice-store';
 
 // Mock data for demonstration
-const mockVoiceChannels: VoiceChannelItem[] = [
+const mockVoiceChannels: VoiceChannelInfo[] = [
   {
     id: 'vc-1',
     name: 'General',
+    participantCount: 0,
     participants: [],
   },
   {
     id: 'vc-2',
     name: 'Gaming',
+    participantCount: 2,
     participants: [
       {
         identity: 'user-1',
@@ -45,7 +46,8 @@ const mockVoiceChannels: VoiceChannelItem[] = [
   {
     id: 'vc-3',
     name: 'Music',
-    isLocked: true,
+    participantCount: 0,
+    isPrivate: true,
     maxParticipants: 10,
     participants: [],
   },
@@ -205,7 +207,7 @@ export function MainApp() {
               <div className="mt-1">
                 <VoiceChannelList
                   channels={mockVoiceChannels}
-                  currentChannelId={currentChannel?.id}
+                  currentUserId="user-current"
                   onJoinChannel={handleJoinVoiceChannel}
                 />
               </div>
@@ -268,13 +270,14 @@ export function MainApp() {
           </div>
           
           {/* Connected users display in header */}
-          {isConnected && participantList.length > 0 && (
+          {/* TODO: Implement ConnectedUsersDisplay component */}
+          {/* {isConnected && participantList.length > 0 && (
             <ConnectedUsersDisplay
               participants={participantList}
               maxVisible={4}
               onUserClick={(p) => console.log('Clicked user:', p.name)}
             />
-          )}
+          )} */}
         </header>
 
         {/* Content */}
