@@ -31,6 +31,13 @@
   - Connected users display with avatars and speaking indicators
   - Voice activity animations and real-time participant tracking
   - Build passes without TypeScript errors in new components
+- ✅ **p7-3-device-verify** — Device verification (emoji/QR) for Matrix E2EE (2026-02-15)
+  - Complete DeviceVerificationModal component with emoji and QR verification flows
+  - Device verification utilities at lib/matrix/crypto/verification.ts
+  - React hooks for verification management at hooks/use-device-verification.ts
+  - Unverified device prompts and status indicators
+  - QR code dependencies integrated (qrcode, react-qr-code)
+  - Mock implementation ready for Matrix SDK integration
 
 ## Core Components Implemented
 

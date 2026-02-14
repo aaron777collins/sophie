@@ -195,25 +195,26 @@
   - ✅ Can connect to voice channel (infrastructure ready)
 
 ### p7-8-voice-channels — Voice Channel UI
-- **Status:** 🔄 in-progress
+- **Status:** ✅ completed
 - **Model:** sonnet
 - **Priority:** HIGH
 - **Depends on:** p7-7-livekit-deploy ✅
 - **Agent:** agent:main:subagent:13edf010-6571-430c-8e51-218dbc498565
 - **Started:** 2026-02-14 12:43 EST
+- **Completed:** 2026-02-14 18:10 EST
 - **Description:**
-  - Wire up VoiceChannel component to LiveKit
-  - Show connected users in voice channel
-  - Implement voice channel permissions
-  - Add "Join Voice" button to voice channels
-  - Voice activity indicators
+  - ✅ Wire up VoiceChannel component to LiveKit
+  - ✅ Show connected users in voice channel
+  - ✅ Implement voice channel permissions
+  - ✅ Add "Join Voice" button to voice channels
+  - ✅ Voice activity indicators
 - **Files:**
-  - `components/voice/voice-channel.tsx` — UPDATE
-  - `components/server/server-channel.tsx` — Add voice indicators
+  - `components/voice/voice-channel.tsx` — NEW: Full LiveKit integration (11KB)
+  - `components/server/server-channel.tsx` — NEW: Voice indicators (8.7KB)
 - **Acceptance:**
-  - Can join/leave voice channels
-  - See who's in voice channel
-  - Speaking indicators work
+  - ✅ Can join/leave voice channels
+  - ✅ See who's in voice channel (user list with avatars)
+  - ✅ Speaking indicators work (visual feedback with animations)
 
 ### p7-9-video-calls — Video Call Functionality
 - **Status:** ⏳ pending
@@ -281,11 +282,11 @@
 | p7-5-key-backup | ⏳ pending | HIGH | sonnet | p7-4 |
 | p7-6-secret-storage | ⏳ pending | MEDIUM | sonnet | p7-5 |
 | p7-7-livekit-deploy | ✅ completed | HIGH | sonnet | — |
-| p7-8-voice-channels | ⏳ pending | HIGH | sonnet | p7-7 |
+| p7-8-voice-channels | ✅ completed | HIGH | sonnet | p7-7 ✅ |
 | p7-9-video-calls | ⏳ pending | HIGH | sonnet | p7-8 |
 | p7-10-screen-share | ⏳ pending | MEDIUM | sonnet | p7-9 |
 
-**Total Tasks:** 10 (2 ✅, 0 🔄, 8 ⏳)
+**Total Tasks:** 10 (3 ✅, 0 🔄, 7 ⏳)
 **Phase 7 Status:** 🟡 **IN PROGRESS** — Crypto foundation complete, p7-2 and p7-3 now unblocked
 
 ---
