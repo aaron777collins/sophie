@@ -179,10 +179,77 @@ federation_verify_certificates: true
 ## 🆘 Troubleshooting
 
 ### Common Issues
-- Check Docker logs: `docker logs haos-v2`
-- Verify environment variables
-- Check Matrix server connectivity
-- Validate network configurations
+
+#### Docker Build Performance Issues
+**Problem:** Docker build timeouts or extremely slow builds  
+**Symptoms:** Build hangs during "Copying context" or takes >180s  
+**Solution:** Create .dockerignore file to reduce build context:
+```bash
+# Create .dockerignore in project root
+cat > .dockerignore << EOF
+.git/
+node_modules/
+.next/
+*.log
+.env*
+coverage/
+cypress/videos/
+cypress/screenshots/
+memory/
+EOF
+```
+
+#### Container Startup Failures
+**Problem:** Container exits immediately or won't start  
+**Symptoms:** `docker compose up` shows container stopping  
+**Diagnosis Steps:**
+```bash
+# Check container logs
+docker compose logs haos
+
+# Verify build completed successfully
+docker images | grep haos
+
+# Test standalone build locally first
+cd apps/web/.next/standalone && node apps/web/server.js
+```
+
+#### Environment Configuration Missing
+**Problem:** Application fails at runtime due to missing environment variables  
+**Required Variables:**
+```bash
+NEXT_PUBLIC_MATRIX_HOMESERVER=https://your-matrix-server.com
+NEXT_PUBLIC_LIVEKIT_URL=wss://your-livekit-server.com  
+LIVEKIT_API_KEY=your_livekit_api_key
+LIVEKIT_API_SECRET=your_livekit_secret
+LIVEKIT_JWT_SERVICE_URL=https://your-jwt-service.com
+```
+
+#### Network Connectivity Issues
+**Problem:** Can't connect to Matrix server or LiveKit  
+**Validation:**
+```bash
+# Test Matrix server connectivity
+curl -I https://your-matrix-server.com/_matrix/client/versions
+
+# Verify Docker network exists
+docker network inspect matrix_matrix || docker network create matrix_matrix
+```
+
+### Deployment Verification Checklist
+- [ ] Docker build completes without timeout (<5 minutes)
+- [ ] Container starts and stays running
+- [ ] Health check returns HTTP 200 
+- [ ] Application logs show "Ready in Xms"
+- [ ] Web interface accessible on configured port
+- [ ] Matrix server connectivity confirmed
+- [ ] LiveKit services responding
+
+### Advanced Troubleshooting
+- Check Docker logs: `docker compose logs -f haos-v2`
+- Verify environment variables: `docker compose exec haos-v2 env`  
+- Check Matrix server connectivity: `docker compose exec haos-v2 wget -O- https://matrix.server.com/_matrix/client/versions`
+- Validate network configurations: `docker network inspect matrix_matrix`
 
 ## 📚 Additional Resources
 - [Matrix Server Setup Guide](https://matrix.org/docs/guides/home-server-setup)

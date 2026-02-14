@@ -1,41 +1,38 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { WelcomeWizard } from '../components/onboarding/welcome-wizard'
 import { MainApp } from '../components/main-app'
+import { useMatrixUserStore } from '../lib/matrix-user-context'
 
 export default function HomePage() {
-  const [showFirstRun, setShowFirstRun] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const { setUser, isAuthenticated } = useMatrixUserStore()
 
   useEffect(() => {
-    // Check if user has completed first-run experience
+    // Attempt to retrieve existing Matrix session
+    const matrixSession = localStorage.getItem('haos-matrix-session')
     const hasCompletedFirstRun = localStorage.getItem('haos-first-run-completed')
-    const hasExistingAuth = localStorage.getItem('haos-matrix-session')
-    
-    // Show first-run if not completed and no existing session
-    setShowFirstRun(!hasCompletedFirstRun && !hasExistingAuth)
-    setIsLoading(false)
-  }, [])
 
-  const handleFirstRunComplete = () => {
-    localStorage.setItem('haos-first-run-completed', 'true')
-    setShowFirstRun(false)
-  }
+    if (matrixSession) {
+      try {
+        const sessionData = JSON.parse(matrixSession)
+        setUser({
+          userId: sessionData.userId,
+          displayName: sessionData.displayName,
+          avatarUrl: sessionData.avatarUrl
+        })
+      } catch (error) {
+        console.error('Failed to parse Matrix session:', error)
+      }
+    }
+  }, [setUser])
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-discord-dark flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
-          <p className="text-gray-400">Loading HAOS...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (showFirstRun) {
-    return <WelcomeWizard onComplete={handleFirstRunComplete} />
+  // Show first-run wizard if no existing authentication
+  if (!isAuthenticated) {
+    return <WelcomeWizard onComplete={() => {
+      localStorage.setItem('haos-first-run-completed', 'true')
+      // The authentication should be handled by the wizard itself
+    }} />
   }
 
   return <MainApp />

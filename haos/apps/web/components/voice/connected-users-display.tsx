@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { Users } from 'lucide-react';
 import { VoiceParticipant } from '@/stores/voice-store';
 import { SpeakingIndicator } from './speaking-indicator';
+import { useMatrixUserStore } from '@/lib/matrix-user-context';
 
 interface ConnectedUsersDisplayProps {
   participants: VoiceParticipant[];
@@ -18,6 +19,7 @@ export function ConnectedUsersDisplay({
   className = '',
   onUserClick,
 }: ConnectedUsersDisplayProps) {
+  const { userId } = useMatrixUserStore()
   const visibleParticipants = participants.slice(0, maxVisible);
   const remainingCount = Math.max(0, participants.length - maxVisible);
 
@@ -59,8 +61,8 @@ export function ConnectedUsersDisplay({
               'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 focus:ring-offset-[#2f3136]'
             )}
             style={{ zIndex: visibleParticipants.length - index }}
-            title={`${participant.name}${participant.isLocal ? ' (You)' : ''}`}
-            aria-label={`${participant.name}${participant.isLocal ? ' (You)' : ''}${participant.isSpeaking ? ', speaking' : ''}`}
+            title={`${participant.name}${participant.identity === userId ? ' (You)' : ''}`}
+            aria-label={`${participant.name}${participant.identity === userId ? ' (You)' : ''}${participant.isSpeaking ? ', speaking' : ''}`}
           >
             {participant.avatar ? (
               <img

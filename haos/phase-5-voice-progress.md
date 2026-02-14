@@ -1,4 +1,30 @@
-# Phase 5 Voice/Video UI Components - COMPLETED ✅
+# Phase 5 Voice/Video - DEPLOYED ✅
+
+**Deployed:** 2026-02-14 04:59 UTC
+**Server:** dev2.aaroncollins.info
+
+## Deployment Summary
+
+### ✅ Production Deployment
+- HAOS v2 deployed to dev2 server
+- Container running with health check passing
+- HTTP endpoint returning 200
+
+### ✅ Infrastructure Verified
+- LiveKit Server: Running
+- LiveKit JWT Service: Running  
+- Matrix Synapse: Healthy
+- TURN Server (Coturn): Running
+- Redis: Running
+
+### Access URLs
+- HAOS v2: https://dev2.aaroncollins.info:3001
+- Matrix: https://dev2.aaroncollins.info
+- LiveKit: wss://livekit.dev2.aaroncollins.info
+
+---
+
+## Phase 5 Voice/Video UI Components
 
 **Task:** Create Discord-style voice channel UI components
 

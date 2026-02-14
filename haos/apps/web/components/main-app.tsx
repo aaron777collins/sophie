@@ -1,12 +1,16 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Hash, Volume2, Settings, Plus, Users, ChevronDown, ChevronRight } from 'lucide-react';
+import { Hash, Volume2, Settings, Plus, Users, ChevronDown, ChevronRight, UserIcon } from 'lucide-react';
 import { ServerDiscoveryModal } from './server-discovery/server-discovery-modal';
 import { VoiceChannelList, VoiceChannelInfo } from './voice';
 import { VoiceChannelPanel, VoiceControls } from './voice';
+import { UserProfileModal } from './user/user-profile-modal';
+import { FriendList } from './user/friend-list';
 // ConnectedUsersDisplay component not implemented yet
 import { useVoiceStore, VoiceParticipant } from '@/stores/voice-store';
+import { useMatrixUserStore } from '@/lib/matrix-user-context';
+import { useFriends } from '@/hooks/use-friends';
 
 // Mock data for demonstration
 const mockVoiceChannels: VoiceChannelInfo[] = [
@@ -62,6 +66,7 @@ const mockTextChannels = [
 export function MainApp() {
   const [showServerDiscovery, setShowServerDiscovery] = useState(false);
   const [showVoicePanel, setShowVoicePanel] = useState(false);
+  const [showUserProfile, setShowUserProfile] = useState(false);
   const [voiceChannelsExpanded, setVoiceChannelsExpanded] = useState(true);
   const [textChannelsExpanded, setTextChannelsExpanded] = useState(true);
   
@@ -70,6 +75,9 @@ export function MainApp() {
     participants,
     connectionState,
   } = useVoiceStore();
+
+  const { userId, displayName, avatarUrl } = useMatrixUserStore();
+  const { friends, incomingRequests, addMockFriendRequest } = useFriends();
 
   const participantList = Array.from(participants.values());
   const isConnected = connectionState === 'connected';
@@ -84,6 +92,19 @@ export function MainApp() {
     console.log('Opening voice settings');
     // This would open a settings modal
   }, []);
+
+  const handleAddMockFriendRequest = useCallback(() => {
+    const mockUsers = [
+      { id: '@alice:matrix.org', name: 'Alice Johnson' },
+      { id: '@bob:matrix.org', name: 'Bob Smith' },
+      { id: '@charlie:matrix.org', name: 'Charlie Brown' },
+      { id: '@diana:matrix.org', name: 'Diana Prince' },
+    ];
+    const randomUser = mockUsers[Math.floor(Math.random() * mockUsers.length)];
+    if (randomUser) {
+      addMockFriendRequest(randomUser.id, randomUser.name);
+    }
+  }, [addMockFriendRequest]);
 
   return (
     <div className="min-h-screen bg-discord-dark flex">
@@ -213,6 +234,16 @@ export function MainApp() {
               </div>
             )}
           </div>
+
+          {/* Friends */}
+          <div>
+            <FriendList
+              friends={friends}
+              incomingRequests={incomingRequests}
+              onOpenUserProfile={() => setShowUserProfile(true)}
+              compact={true}
+            />
+          </div>
         </div>
 
         {/* User panel at bottom (voice connected state) */}
@@ -243,13 +274,30 @@ export function MainApp() {
 
         {/* User area */}
         <div className="p-2 bg-[#232428] flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-[#5865f2] flex items-center justify-center text-white text-sm font-semibold">
-            U
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="text-sm font-medium text-white truncate">Username</div>
-            <div className="text-xs text-gray-400 truncate">Online</div>
-          </div>
+          <button
+            onClick={() => setShowUserProfile(true)}
+            className="flex items-center gap-2 flex-1 min-w-0 hover:bg-white/10 rounded p-1 transition-colors"
+            aria-label="Open user profile"
+          >
+            <div className="w-8 h-8 rounded-full bg-[#5865f2] flex items-center justify-center text-white text-sm font-semibold">
+              {avatarUrl ? (
+                <img src={avatarUrl} alt={displayName || 'User'} className="w-full h-full rounded-full object-cover" />
+              ) : (
+                displayName ? displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : 'U'
+              )}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-sm font-medium text-white truncate">{displayName || 'Username'}</div>
+              <div className="text-xs text-gray-400 truncate">
+                Online
+                {incomingRequests.length > 0 && (
+                  <span className="ml-2 bg-red-500 text-white px-1.5 py-0.5 rounded-full text-xs">
+                    {incomingRequests.length} friend request{incomingRequests.length !== 1 ? 's' : ''}
+                  </span>
+                )}
+              </div>
+            </div>
+          </button>
           <button 
             onClick={handleSettingsClick}
             className="p-1.5 rounded hover:bg-white/10 text-gray-400 hover:text-white"
@@ -303,6 +351,19 @@ export function MainApp() {
                   <Volume2 className="w-4 h-4" />
                   Join Voice
                 </button>
+                <button
+                  onClick={() => setShowUserProfile(true)}
+                  className="px-6 py-2.5 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded transition-colors flex items-center justify-center gap-2"
+                >
+                  <UserIcon className="w-4 h-4" />
+                  Manage Friends
+                </button>
+                <button
+                  onClick={handleAddMockFriendRequest}
+                  className="px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded transition-colors text-sm"
+                >
+                  + Mock Friend Request
+                </button>
               </div>
             </div>
           </div>
@@ -341,6 +402,10 @@ export function MainApp() {
       <ServerDiscoveryModal
         open={showServerDiscovery}
         onOpenChange={setShowServerDiscovery}
+      />
+      <UserProfileModal
+        open={showUserProfile}
+        onOpenChange={setShowUserProfile}
       />
     </div>
   );
