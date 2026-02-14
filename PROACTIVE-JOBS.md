@@ -1,51 +1,17 @@
 # PROACTIVE-JOBS.md — HAOS v2 Phase 5: Voice & Video
 
-> **Status (2026-02-13 23:58 EST):** DEPLOYED TO DEV2
+> **Status (2026-02-14 05:00 EST):** DEPLOYMENT FAILED
 > **Authorized by:** Aaron Collins (direct order)
-> **Build Status:** ✅ PASSING
-> **Deployment:** ✅ LIVE at http://dev2.aaroncollins.info:3000
+> **Build Status:** ❌ REQUIRES INVESTIGATION
+> **Deployment:** ❌ FAILED TO DEPLOY
 
-## ✅ COMPLETED
+## 🚨 BLOCKED
 
-### p5-1-infra — LiveKit Infrastructure ✅
-- **Status:** complete
-- **Completed:** 2026-02-13 22:07 EST
-
-### p5-2-voice-service — Voice Services & Hooks ✅
-- **Status:** complete
-- **Completed:** 2026-02-13 22:15 EST
-
-### p5-3-voice-ui — Voice UI Components ✅
-- **Status:** complete
-- **Completed:** 2026-02-13 22:17 EST
-
-### p5-4-video — Video Calling Implementation ✅
-- **Status:** complete
-- **Completed:** 2026-02-13 22:45 EST
-
-### p5-5-screenshare — Screen Sharing Implementation ✅
-- **Status:** complete
-- **Completed:** 2026-02-13 23:30 EST
-
-### p5-6-integration — Matrix Voice/Video Integration ✅
-- **Status:** complete
-- **Completed:** 2026-02-13 23:48 EST
-
-### p5-7-deploy — Deploy to dev2 ✅
-- **Status:** complete
-- **Completed:** 2026-02-13 23:58 EST
-- **URL:** http://dev2.aaroncollins.info:3000
-- **Process:** PM2 managed as `haos-v2`
-
-### p5-8-review — Code Review & Cleanup ✅
-- **Status:** complete
-- **Completed:** 2026-02-15 15:45 EST
-- **Report:** ~/clawd/scheduler/progress/p5-8-review.md
-- **Fixes Applied:** Replaced console.log with proper logging TODOs
-
-## 🚀 REMAINING
-
-*No remaining tasks - Phase 5 is complete!*
+### p5-7-deploy — Deploy to dev2 ❌
+- **Status:** blocked
+- **Reason:** Docker container failed to start
+- **Detailed Report:** ~/clawd/scheduler/progress/p5-7-deploy.md
+- **Requires:** Manual investigation and remediation
 
 ## 📊 SUMMARY
 
@@ -57,8 +23,8 @@
 | p5-4-video | ✅ complete |
 | p5-5-screenshare | ✅ complete |
 | p5-6-integration | ✅ complete |
-| p5-7-deploy | ✅ complete |
-| p5-8-review | ✅ complete |
+| p5-7-deploy | ❌ blocked |
+| p5-8-review | Not started |
 
-**Build Status:** ✅ Passing
-**Deployment:** ✅ Live at http://dev2.aaroncollins.info:3000
+**Build Status:** ❌ Requires Intervention
+**Deployment:** ❌ Failed
