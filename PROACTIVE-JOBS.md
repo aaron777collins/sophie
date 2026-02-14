@@ -47,7 +47,7 @@
 
 ### p5-6-integration — Matrix Voice/Video Integration ✅
 - **Status:** complete
-- **Completed:** 2025-01-09 21:15 EST
+- **Completed:** 2026-02-13 23:44 EST
 - **Files Created:**
   - `stores/call-store.ts` — per-room call state management
   - `components/room/room-call-bar.tsx` — active call status in room header
@@ -61,34 +61,8 @@
 
 ## 🚀 ACTIVE DEVELOPMENT
 
-### p5-6-integration — Matrix Voice/Video Integration ✅
-- **Status:** complete
-- **Priority:** HIGH
-- **Model:** sonnet
-- **Completed:** 2025-01-09 21:15 EST
-- **Description:** Wire voice/video into Matrix rooms
-- **Tasks:**
-  - [x] Update room store with voice/video state
-  - [x] Create `components/room/room-call-bar.tsx` — call status in room
-  - [x] Add voice channel to room sidebar
-  - [x] Handle Matrix call events (m.call.invite, m.call.answer, etc.)
-  - [x] Sync participant status with Matrix presence
-  - [x] Add call notification system
-  - [x] Create `components/call/incoming-call-modal.tsx`
-- **Files Created:**
-  - `stores/call-store.ts` — per-room call state management
-  - `components/room/room-call-bar.tsx` — active call status in room header
-  - `components/room/room-voice-sidebar.tsx` — voice channel in room sidebar
-  - `components/call/incoming-call-modal.tsx` — incoming call notification
-  - `components/call/call-notification.tsx` — toast for call events
-  - `components/call/index.ts` — barrel exports
-  - `components/room/index.ts` — barrel exports
-  - `components/ui/` components (Button, Badge, Avatar, Dialog, Separator, Toast)
-  - `hooks/use-toast.ts` — toast notification hook
-- **Outputs:** Voice/video fully integrated with Matrix rooms
-
 ### p5-7-deploy — Deploy to dev2
-- **Status:** queued
+- **Status:** in-progress
 - **Priority:** HIGH
 - **Model:** haiku
 - **Description:** Deploy updated HAOS to dev2 server
@@ -125,8 +99,8 @@
 | p5-3-voice-ui | ✅ complete | — |
 | p5-4-video | ✅ complete | — |
 | p5-5-screenshare | ✅ complete | — |
-| p5-6-integration | 🔄 queued | — |
-| p5-7-deploy | 🔄 queued | — |
+| p5-6-integration | ✅ complete | — |
+| p5-7-deploy | 🔄 in-progress | — |
 | p5-8-review | 🔄 queued | — |
 
 **Build Status:** ✅ Passing (2026-02-13 23:23 EST)
