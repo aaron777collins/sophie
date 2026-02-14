@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Hash, Pin, Users, Search, Settings, Bell, HelpCircle } from 'lucide-react';
+import { Hash, Pin, Users, Search, Settings, Bell, HelpCircle, Lock, LockOpen, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PinnedMessagesModal } from '../pinned-messages';
 import { usePins } from '@/hooks/use-pins';
+import { useMatrix } from '../providers/matrix-provider';
+import { getRoomEncryptionStatus } from '@/lib/matrix/crypto/room-encryption';
 
 export interface ChatHeaderProps {
   /** The channel/room name */
@@ -29,6 +31,8 @@ export interface ChatHeaderProps {
   onOpenSearch?: () => void;
   /** Callback for toggling notifications */
   onToggleNotifications?: () => void;
+  /** Show encryption status indicator */
+  showEncryption?: boolean;
 }
 
 /**
@@ -47,9 +51,15 @@ export function ChatHeader({
   onOpenMembers,
   onOpenSearch,
   onToggleNotifications,
+  showEncryption = true,
 }: ChatHeaderProps) {
   const [showPinnedMessages, setShowPinnedMessages] = useState(false);
   const { pinnedMessages } = usePins(roomId);
+  const { client } = useMatrix();
+  
+  // Get room encryption status
+  const room = client?.getRoom(roomId);
+  const encryptionStatus = room && client ? getRoomEncryptionStatus(client, room) : null;
 
   const handleOpenPinnedMessages = () => {
     setShowPinnedMessages(true);
@@ -76,6 +86,32 @@ export function ChatHeader({
             )}
             <h1 className="font-semibold text-white truncate">{channelName}</h1>
           </div>
+
+          {/* Encryption indicator */}
+          {showEncryption && encryptionStatus && (
+            <div className="flex items-center gap-1 ml-2">
+              {encryptionStatus.isEncrypted ? (
+                <div className="flex items-center gap-1">
+                  {encryptionStatus.canDecrypt ? (
+                    <div title="End-to-end encrypted">
+                      <Lock className="w-4 h-4 text-green-400" />
+                    </div>
+                  ) : (
+                    <div title="Encrypted but cannot decrypt">
+                      <LockOpen className="w-4 h-4 text-yellow-400" />
+                    </div>
+                  )}
+                  <span className="text-xs text-green-400 hidden md:inline">
+                    E2E
+                  </span>
+                </div>
+              ) : (
+                <div title="Not encrypted">
+                  <Shield className="w-4 h-4 text-gray-500" />
+                </div>
+              )}
+            </div>
+          )}
           
           {description && (
             <div className="h-6 w-px bg-gray-600 mx-1" aria-hidden="true" />
