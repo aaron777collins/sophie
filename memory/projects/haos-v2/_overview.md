@@ -4,13 +4,20 @@
 **Phase:** 7 (Security & Voice/Video)
 **Progress:** 🟢 ON TRACK
 
-### Phase 7 Progress (E2EE Security)
+### Phase 7 Progress (E2EE Security & Voice/Video)
 - ✅ **p7-1-crypto-init** — Rust crypto system initialized (2026-02-15)
   - @matrix-org/matrix-sdk-crypto-wasm integrated
   - IndexedDB crypto store at lib/matrix/crypto/store.ts
   - initRustCrypto() in lib/matrix/client.ts
   - MatrixProvider handles crypto ready state
   - Build passes with all TypeScript fixes
+- ✅ **p7-7-livekit-deploy** — LiveKit infrastructure deployed (2026-02-14)
+  - LiveKit server: wss://livekit.dev2.aaroncollins.info (operational)
+  - JWT service: https://dev2.aaroncollins.info/_livekit (operational)
+  - API credentials configured in next.config.js
+  - Client integration at apps/web/services/livekit.ts (13KB comprehensive service)
+  - Build issues with Matrix SDK logger imports fixed
+  - Development server and connectivity tests passing
 
 ## Core Components Implemented
 

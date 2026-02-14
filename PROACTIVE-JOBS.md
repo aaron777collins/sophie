@@ -65,10 +65,12 @@
 - **Docs:** See `docs/haos-v2/HAOS-MASTER-PLAN.md` Phase 1.1
 
 ### p7-2-room-encryption — Enable Room Encryption
-- **Status:** ⏳ pending
+- **Status:** 🔄 in-progress
 - **Model:** sonnet
 - **Priority:** 🔴 CRITICAL
-- **Depends on:** p7-1-crypto-init
+- **Depends on:** p7-1-crypto-init ✅
+- **Agent:** agent:main:subagent:3bc88b5b-3030-4250-a2e5-6a50e9f89a24
+- **Started:** 2026-02-14 12:40 EST
 - **Description:**
   - Enable encryption for new rooms by default
   - Handle encrypted message sending (Megolm)
@@ -85,10 +87,12 @@
   - Encryption status visible in UI
 
 ### p7-3-device-verify — Device Verification
-- **Status:** ⏳ pending
+- **Status:** 🔄 in-progress
 - **Model:** sonnet
 - **Priority:** HIGH
-- **Depends on:** p7-1-crypto-init
+- **Depends on:** p7-1-crypto-init ✅
+- **Agent:** agent:main:subagent:61550638-eaba-442b-9a44-57cac905cf88
+- **Started:** 2026-02-14 12:40 EST
 - **Description:**
   - Create DeviceVerificationModal component
   - Implement emoji verification flow (SAS)

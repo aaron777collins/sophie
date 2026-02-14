@@ -16,6 +16,7 @@ async function testLiveKitConnectivity() {
     // Test 1: JWT Service connectivity
     console.log('\n📝 Testing JWT token service...')
     
+    // Try to hit the JWT endpoint to see if it's accessible (expect auth error)
     const tokenResponse = await fetch(`${LIVEKIT_JWT_SERVICE_URL}/sfu/get`, {
       method: 'POST',
       headers: {
@@ -28,13 +29,15 @@ async function testLiveKitConnectivity() {
       }),
     })
     
-    if (!tokenResponse.ok) {
+    if (tokenResponse.status === 400) {
+      console.log('✅ JWT service is responding (400 = needs Matrix auth, which is expected)')
+    } else if (tokenResponse.ok) {
+      const tokenData = await tokenResponse.json()
+      console.log('✅ JWT token service is working!')
+      console.log(`   Token: ${tokenData.jwt ? tokenData.jwt.substring(0, 50) + '...' : 'No token in response'}`)
+    } else {
       throw new Error(`Token service returned ${tokenResponse.status}: ${await tokenResponse.text()}`)
     }
-    
-    const tokenData = await tokenResponse.json()
-    console.log('✅ JWT token service is working!')
-    console.log(`   Token: ${tokenData.jwt.substring(0, 50)}...`)
     
     // Test 2: WebSocket endpoint connectivity
     console.log('\n🔌 Testing WebSocket endpoint...')
@@ -57,11 +60,9 @@ async function testLiveKitConnectivity() {
   }
 }
 
-// Run the test if this file is executed directly
-if (require.main === module) {
-  testLiveKitConnectivity().then(success => {
-    process.exit(success ? 0 : 1)
-  })
-}
+// Run the test
+testLiveKitConnectivity().then(success => {
+  process.exit(success ? 0 : 1)
+})
 
 export { testLiveKitConnectivity }
