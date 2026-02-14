@@ -53,7 +53,30 @@
 - ✅ Browser notifications for new DM messages
 - ✅ getOrCreateDM service integration
 
+### Reactions (Phase 6 - Completed)
+- ✅ Full Matrix-compliant reaction system
+- ✅ Real-time reaction fetching and tracking
+- ✅ Emoji picker integration
+- ✅ Support for adding, removing, and tracking reactions
+- ✅ Optimistic UI updates for smooth interaction
+- ✅ Supports multiple users reacting to a single message
+
 ## Recent Updates
+- [2026-02-14 22:35 EST] ✅ **Phase 6-5 Message Pinning** verified complete - all functionality implemented and tested
+- [2026-02-14 21:46 EST] ✅ **Phase 6-5 Message Pinning** completed by p6-5-pins sub-agent
+  - Implemented `hooks/use-pins.ts` with full Matrix protocol support using m.room.pinned_events
+  - Created `components/chat/message-actions.tsx` for pin/unpin context menu functionality
+  - Built `components/pinned-messages.tsx` modal for viewing pinned messages with jump-to capability
+  - Added `components/chat/chat-header.tsx` with pinned messages count display
+  - Created missing UI components (dropdown-menu, scroll-area, dialog enhancements)
+  - Fixed TypeScript compilation issues and Matrix SDK type compatibility
+  - All pinning functionality ready for integration into main chat interface
+- [2026-02-14 22:15 EST] - **Media Duration Extraction** completed
+  - Implemented media duration support in `lib/matrix/media.ts`
+  - Added optional duration field to MediaInfo type
+  - Uses get-video-duration library for cross-browser compatibility
+  - Supports audio and video file duration extraction
+- [2026-02-14 14:00 EST] - Matrix Reaction Functionality Implemented
 - [2026-02-14 06:55 EST] - Direct Messages functionality implemented
 - [2026-02-14 03:00 EST] ✅ **Phase 6-1 Cleanup completed** by p6-1-cleanup sub-agent
   - Removed placeholder Clerk auth files (`lib/auth.ts`, `lib/auth-server.ts`)
@@ -63,4 +86,4 @@
   - Enhanced components preserved in migration directories for future integration
 
 ## Last Updated
-[2026-02-14 06:55 EST]
+[2026-02-14 21:46 EST]

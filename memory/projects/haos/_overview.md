@@ -27,6 +27,44 @@
 - Device management and permission handling
 - Participant management and moderation tools
 
+**✅ NEW - Threading Functionality (2026-02-14):**
+- Message threading with Matrix protocol support
+- MessageActions component with thread creation
+- ThreadViewModal for viewing and replying to threads
+- useThreads hook for comprehensive thread management
+- Thread indicators showing reply counts on messages
+- ReportMessageModal for message reporting
+- Full Matrix RelationType.Thread compliance
+
+**✅ NEW - Message Pinning Functionality (2026-02-14):
+- Message pinning with Matrix m.room.pinned_events state support
+- Pin/unpin actions in message actions menu with proper permissions
+- PinnedMessages modal component for viewing and managing pins
+- Pinned messages button in chat header with pin count indicator
+- usePins hook with Matrix client integration and real-time updates
+- Full Matrix protocol compliance for persistent pin state
+
+✅ NEW - Message Reactions Functionality (2024-02-14):
+- Matrix-compliant reaction support via m.reaction events
+- Real-time reaction addition and removal
+- Reaction count displays with user list
+- Emoji picker integration
+- Supports multiple unique reactions per message
+- Optimistic UI updates for responsive interaction**
+- Message pinning with Matrix m.room.pinned_events state support
+- Pin/unpin actions in message actions menu with proper permissions
+- PinnedMessages modal component for viewing and managing pins
+- Pinned messages button in chat header with pin count indicator
+- usePins hook with Matrix client integration and real-time updates
+- Full Matrix protocol compliance for persistent pin state
+
+**✅ NEW - In-Call Chat (2026-02-14):**
+- CallChatSidebar component for voice/video calls
+- Real-time Matrix chat during calls
+- Message sending/receiving via Matrix client
+- Compact UI with auto-scroll and message grouping
+- Integrates with channel's regular chat history
+
 **❌ Still Does NOT Exist:**
 - No actual chat UI (MainApp is a placeholder)
 - No channel sidebar
