@@ -70,10 +70,10 @@ function ServerListItem({ room, isSelected, onSelect }: ServerListItemProps) {
 
   const getJoinIcon = () => {
     if (room.join_rule === 'invite') {
-      return <LockIcon className="w-3 h-3 text-discord-red" title="Invite only" />
+      return <span title="Invite only"><LockIcon className="w-3 h-3 text-discord-red" /></span>
     }
     if (room.world_readable) {
-      return <GlobeIcon className="w-3 h-3 text-discord-green" title="World readable" />
+      return <span title="World readable"><GlobeIcon className="w-3 h-3 text-discord-green" /></span>
     }
     return <HashIcon className="w-3 h-3 text-gray-400" />
   }

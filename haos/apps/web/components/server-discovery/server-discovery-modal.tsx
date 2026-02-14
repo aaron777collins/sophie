@@ -48,7 +48,7 @@ export function ServerDiscoveryModal({ open, onOpenChange }: ServerDiscoveryModa
         },
       })
       
-      setRooms(response.chunk || [])
+      setRooms((response.chunk || []) as PublicRoom[])
     } catch (err) {
       console.error('Failed to load public rooms:', err)
       setError('Failed to load servers. Please try again.')

@@ -3,6 +3,24 @@
 import { useState, useEffect } from 'react'
 import { MatrixClient, createClient } from 'matrix-js-sdk'
 
+// Type for public rooms response
+export interface PublicRoomsResult {
+  chunk: Array<{
+    room_id: string;
+    name?: string;
+    topic?: string;
+    num_joined_members: number;
+    world_readable: boolean;
+    guest_can_join: boolean;
+    avatar_url?: string;
+    join_rule?: string;
+    canonical_alias?: string;
+  }>;
+  next_batch?: string;
+  prev_batch?: string;
+  total_room_count_estimate?: number;
+}
+
 export function useMatrixClient() {
   const [client, setClient] = useState<MatrixClient | null>(null)
   const [loading, setLoading] = useState(true)
@@ -49,9 +67,9 @@ export function useMatrixClient() {
 
   const loginWithPassword = async (homeserver: string, username: string, password: string) => {
     try {
-      const client = createClient({ baseUrl: homeserver })
+      const newClient = createClient({ baseUrl: homeserver })
       
-      const response = await client.login('m.login.password', {
+      const response = await newClient.login('m.login.password', {
         user: username,
         password: password,
       })
@@ -125,14 +143,14 @@ export function useMatrixClient() {
       generic_search_term?: string
     }
     server?: string
-  }) => {
+  }): Promise<PublicRoomsResult> => {
     if (!client) {
       throw new Error('No Matrix client available')
     }
 
     try {
       const result = await client.publicRooms(options)
-      return result
+      return result as unknown as PublicRoomsResult
     } catch (err) {
       console.error('Failed to get public rooms:', err)
       throw err
