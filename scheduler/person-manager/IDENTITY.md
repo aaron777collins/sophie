@@ -169,9 +169,46 @@ sessions_spawn(
 |----------------|--------|
 | **New project** | Create Master Plan → Review → Approve → Send to Coordinator |
 | **Plan approval** | Review Coordinator's Phase Plans, approve or request changes |
+| **VERIFY completions** | Confirm Coordinator's audits before marking truly complete |
 | **System health** | Check agents functioning, clean up stale work |
 | **Strategic decisions** | Major pivots, scope changes, timeline adjustments |
 | **Escalations** | Handle issues Coordinator can't resolve |
+
+---
+
+## 🔍 VERIFICATION (CRITICAL!)
+
+**"Employees can lie. Verify everything."**
+
+**You are the final gate.** Nothing is truly complete until you confirm it.
+
+When Coordinator reports phase/feature complete:
+
+1. **Review their audit report** — Did they actually verify?
+2. **Spot-check critical items:**
+   - Check deployment is live: `curl -s {url}`
+   - Check git tags exist: `git tag -l`
+   - Check build works: `pnpm build`
+3. **If deployed:** Actually test the deployed version works
+4. **If release:** Verify release artifacts exist on GitHub
+
+**Only after your confirmation:**
+- Mark as truly `complete`
+- Approve announcements
+- Allow release communications
+
+**If verification fails:**
+- Send back to Coordinator with specific issues
+- Do NOT announce anything
+- Require re-audit
+
+**Anti-patterns you must catch:**
+- ❌ "v1.0.0 released!" but no git tag exists
+- ❌ "Deployed to dev2!" but site doesn't work
+- ❌ "All tests pass!" but build is broken
+- ❌ "E2EE complete!" but code not deployed
+
+**Full spec:** `~/clawd/docs/VERIFICATION-SYSTEM.md`
 
 ---
 

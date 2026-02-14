@@ -1,0 +1,568 @@
+.keyBackupModal {
+  max-width: 600px;
+  min-height: 400px;
+}
+
+.content {
+  padding: 32px;
+  text-align: center;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.header h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 16px 0 8px;
+}
+
+.header p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.headerIcon {
+  width: 48px;
+  height: 48px;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+/* Feature list for setup intro */
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 32px 0;
+  text-align: left;
+}
+
+.feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.feature svg {
+  width: 20px;
+  height: 20px;
+  color: var(--success);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.feature h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 4px;
+}
+
+.feature p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Passphrase display */
+.passphraseDisplay {
+  margin: 24px 0;
+}
+
+.passphraseBox {
+  position: relative;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 48px 16px 16px;
+  text-align: left;
+}
+
+.passphraseBox code {
+  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+
+.copyButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  padding: 8px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.copyButton:hover {
+  background: var(--surface-tertiary);
+  color: var(--text-primary);
+}
+
+/* Passphrase input */
+.passphraseInput {
+  margin: 24px 0;
+}
+
+.passphraseTextarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  background: var(--surface-primary);
+  color: var(--text-primary);
+  transition: border-color 0.2s;
+}
+
+.passphraseTextarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.passphraseTextarea:disabled {
+  background: var(--surface-secondary);
+  color: var(--text-disabled);
+  cursor: not-allowed;
+}
+
+.passphraseTextarea::placeholder {
+  color: var(--text-placeholder);
+}
+
+/* Passphrase strength indicator */
+.strength {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.strengthBar {
+  flex: 1;
+  height: 4px;
+  background: var(--surface-tertiary);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.strengthFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.strength.weak .strengthFill {
+  width: 33%;
+  background: var(--error);
+}
+
+.strength.medium .strengthFill {
+  width: 66%;
+  background: var(--warning);
+}
+
+.strength.strong .strengthFill {
+  width: 100%;
+  background: var(--success);
+}
+
+.strength span {
+  color: var(--text-secondary);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Progress bar */
+.progressContainer {
+  margin: 24px 0;
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background: var(--surface-tertiary);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  border-radius: 4px;
+  transition: width 0.3s ease;
+  min-width: 8px;
+}
+
+.progressText {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+  text-align: center;
+}
+
+/* Warning/info boxes */
+.warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: var(--warning-background);
+  border: 1px solid var(--warning-border);
+  border-radius: 8px;
+  margin: 24px 0;
+  text-align: left;
+}
+
+.warning svg {
+  width: 20px;
+  height: 20px;
+  color: var(--warning);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.warning h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--warning-text);
+  margin: 0 0 4px;
+}
+
+.warning p {
+  font-size: 14px;
+  color: var(--warning-text);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Checkbox */
+.checkbox {
+  margin: 24px 0;
+  text-align: left;
+}
+
+.checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+}
+
+/* Status grid for manage mode */
+.statusGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 24px 0;
+  text-align: left;
+}
+
+.statusItem {
+  padding: 16px;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.statusItem h4 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 8px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.status svg {
+  width: 16px;
+  height: 16px;
+}
+
+.status.enabled {
+  color: var(--success);
+}
+
+.status.disabled {
+  color: var(--text-secondary);
+}
+
+.status.trusted {
+  color: var(--success);
+}
+
+.status.untrusted {
+  color: var(--warning);
+}
+
+.status.good {
+  color: var(--success);
+}
+
+.status.warning {
+  color: var(--warning);
+}
+
+.statusText {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Error display */
+.error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: var(--error-background);
+  border: 1px solid var(--error-border);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--error-text);
+}
+
+.error svg {
+  width: 16px;
+  height: 16px;
+  color: var(--error);
+  flex-shrink: 0;
+}
+
+/* Action buttons */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.primaryButton {
+  padding: 12px 24px;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.primaryButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.primaryButton:disabled {
+  background: var(--surface-tertiary);
+  color: var(--text-disabled);
+  cursor: not-allowed;
+}
+
+.secondaryButton {
+  padding: 12px 24px;
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.secondaryButton:hover:not(:disabled) {
+  background: var(--surface-secondary);
+  border-color: var(--border-hover);
+}
+
+.secondaryButton:disabled {
+  color: var(--text-disabled);
+  border-color: var(--border-disabled);
+  cursor: not-allowed;
+}
+
+.dangerButton {
+  padding: 12px 24px;
+  background: var(--error);
+  color: var(--error-foreground);
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.dangerButton:hover:not(:disabled) {
+  background: var(--error-hover);
+  transform: translateY(-1px);
+}
+
+.dangerButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.dangerButton:disabled {
+  background: var(--surface-tertiary);
+  color: var(--text-disabled);
+  cursor: not-allowed;
+}
+
+/* Loading animation for icons */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.headerIcon:has(+ h2:contains("Generating")),
+.headerIcon:has(+ h2:contains("Creating")),
+.headerIcon:has(+ h2:contains("Backing Up")),
+.headerIcon:has(+ h2:contains("Restoring")) {
+  animation: spin 2s linear infinite;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .content {
+    padding: 24px;
+  }
+  
+  .statusGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .primaryButton,
+  .secondaryButton,
+  .dangerButton {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .passphraseBox {
+    background: var(--surface-primary);
+  }
+}
+
+/* CSS variables (these should be defined in your global theme) */
+:root {
+  --primary: #2563eb;
+  --primary-light: #60a5fa;
+  --primary-hover: #1d4ed8;
+  --primary-foreground: #ffffff;
+  
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --error-hover: #dc2626;
+  --error-foreground: #ffffff;
+  
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-disabled: #9ca3af;
+  --text-placeholder: #9ca3af;
+  
+  --surface-primary: #ffffff;
+  --surface-secondary: #f9fafb;
+  --surface-tertiary: #f3f4f6;
+  
+  --border: #e5e7eb;
+  --border-hover: #d1d5db;
+  --border-disabled: #f3f4f6;
+  
+  --warning-background: #fef3c7;
+  --warning-border: #f59e0b;
+  --warning-text: #92400e;
+  
+  --error-background: #fef2f2;
+  --error-border: #fecaca;
+  --error-text: #991b1b;
+}
+
+[data-theme="dark"] {
+  --primary: #3b82f6;
+  --primary-light: #60a5fa;
+  --primary-hover: #2563eb;
+  --primary-foreground: #ffffff;
+  
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --error-hover: #dc2626;
+  --error-foreground: #ffffff;
+  
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-disabled: #6b7280;
+  --text-placeholder: #6b7280;
+  
+  --surface-primary: #111827;
+  --surface-secondary: #1f2937;
+  --surface-tertiary: #374151;
+  
+  --border: #374151;
+  --border-hover: #4b5563;
+  --border-disabled: #374151;
+  
+  --warning-background: #451a03;
+  --warning-border: #92400e;
+  --warning-text: #fbbf24;
+  
+  --error-background: #450a0a;
+  --error-border: #991b1b;
+  --error-text: #fca5a5;
+}

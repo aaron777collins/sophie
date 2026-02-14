@@ -4,6 +4,38 @@
 
 ## Active Projects
 
+### portableralph — Phase 0: Deep Analysis 🟡 NEW
+- **Status:** 🟡 **STARTING** — Person Manager direction (2026-02-14 15:30 EST)
+- **Priority:** HIGH — Aaron requested "rock solid" production readiness
+- **Master Plan:** `docs/plans/portableralph/MASTER-PLAN.md`
+- **Review:** `docs/plans/portableralph/reviews/review-v1.md`
+- **Repository:** https://github.com/aaron777collins/portableralph
+- **Local Clone:** ~/repos/portableralph-audit
+- **Goal:** All tests pass, PRs reviewed, Windows verified, deployed
+
+**Current State:**
+- 7 of 10 test suites FAILING
+- 2 open PRs (email fix, Docker sandbox)
+
+**Phase 0 Tasks (Deep Analysis):**
+| Task | Description | Model |
+|------|-------------|-------|
+| p0-1 | Categorize all test failures by type | Opus |
+| p0-2 | Identify if failures are related (systemic vs isolated) | Opus |
+| p0-3 | Check for architectural issues | Opus |
+| p0-4 | Create fix complexity estimates | Opus |
+| p0-5 | Create prioritized fix order | Opus |
+
+**Output Required:** Fix strategy document before any code changes
+
+**Immediate Actions:**
+1. Populate PROACTIVE-JOBS.md with Phase 0 tasks
+2. Execute p0-1 through p0-5 with Opus workers
+3. Produce fix strategy document
+4. Report back when Phase 0 complete
+
+---
+
 ### haos-v2 — Phase 7: Security Foundation + Voice/Video 🔴 CRITICAL
 - **Status:** 🔴 **STARTING** — Aaron's direct order (2026-02-14 12:19 EST)
 - **Priority:** 🔴 CRITICAL — Security is non-negotiable

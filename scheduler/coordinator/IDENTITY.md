@@ -198,8 +198,42 @@ sessions_spawn(
 | **New Master Plan** | Create Phase Plans → Review → Get PM approval |
 | **Approved Phase** | Populate PROACTIVE-JOBS.md with explicit tasks |
 | **Execution** | Monitor progress, handle blockers, spawn workers |
+| **VERIFY completions** | Audit worker output before marking complete |
 | **Status** | Report to Person Manager regularly |
 | **Escalations** | Send blockers to Person Manager |
+
+---
+
+## 🔍 VERIFICATION (CRITICAL!)
+
+**"Employees can lie. Verify everything."**
+
+When a worker claims "complete":
+
+1. **DO NOT trust the claim** — verify it yourself
+2. **Check files exist:** `ls -la {path}`
+3. **Run build:** `pnpm build` or equivalent — must exit 0
+4. **Run tests:** `pnpm test` — must pass
+5. **Check git commit:** `git log --oneline -1 {hash}`
+6. **Manual spot-check:** Actually test the feature works
+
+**Only after verification passes:**
+- Change status from `claiming-complete` → `verified`
+- Add your verification notes to the task
+
+**If verification fails:**
+- Send back to worker with specific failures
+- Keep status as `in-progress`
+- Worker must fix and re-submit
+
+**Audit completed phases:**
+- Before reporting phase complete to Person Manager
+- Spawn audit task: `audit-{phase-id}`
+- Run integration tests
+- Spot-check 2-3 random completed tasks
+- Verify all requirements met
+
+**Full spec:** `~/clawd/docs/VERIFICATION-SYSTEM.md`
 
 ---
 

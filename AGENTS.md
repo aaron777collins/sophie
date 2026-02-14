@@ -190,22 +190,44 @@ Person Manager notices HAOS stalled
 
 **The goal:** Each level actively manages the level below. Problems get caught, discussed, and fixed — not just re-assigned.
 
-### 🔍 Managers Verify Completions (Peer Review)
+### 🔍 Verification Chain (MANDATORY)
 
-**L1 and L2 MUST verify that claimed completions are REAL — no victory laps for unfinished work.**
+**"Employees can lie. Verify everything."**
 
-| Manager | Reviews | Verification |
-|---------|---------|--------------|
-| **Person Manager** | System health, Coordinator outputs | Check claimed features exist |
-| **Coordinator** | Task Manager completions | Run builds, verify functionality |
+Every completion must be verified by the level above. No exceptions.
 
-**The Pattern:**
-1. Subordinate says "task X is complete"
-2. Manager checks: Does it actually work? Did they build it?
-3. If YES → Accept completion
-4. If NO → Send back: "Build fails" / "Feature missing"
+```
+Worker claims "done"
+    ↓
+Task Manager VERIFIES (runs tests, checks files, validates output)
+    ↓ only if verified
+Coordinator AUDITS (spot-checks, runs integration tests)
+    ↓ only if audited  
+Person Manager CONFIRMS (reviews audit, checks deployment)
+    ↓ only if confirmed
+ACTUALLY COMPLETE ✅
+```
 
-**Why:** Sub-agents can be overeager and claim completion prematurely. A "release" announcement means nothing if the code doesn't work.
+**Task Statuses:**
+- `pending` → `in-progress` → `claiming-complete` → `verified` → `audited` → `complete`
+
+**Verification Requirements:**
+
+| Level | Verifies | How |
+|-------|----------|-----|
+| **Task Manager** | Worker output | Run build, run tests, check files exist, manual test |
+| **Coordinator** | Task Manager reports | Spot-check files, run integration tests, verify requirements |
+| **Person Manager** | Coordinator audits | Review audit report, confirm deployment, approve release |
+
+**If verification fails:** Send back with specific failures. Do NOT mark complete.
+
+**Anti-patterns:**
+- ❌ Trusting "done" without checking
+- ❌ Skipping verification to save time
+- ❌ Marking verified without running commands
+- ❌ Announcing completion before deployment verified
+
+**Full spec:** `docs/VERIFICATION-SYSTEM.md`
 
 | Level | Agent | Cron | Model | Jobs File |
 |-------|-------|------|-------|-----------|
