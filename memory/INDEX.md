@@ -2,7 +2,7 @@
 
 *Master navigation for Sophie's self-scaling hierarchical memory system (v2).*
 
-**Last Updated:** [2026-02-12 00:41 EST]
+**Last Updated:** [2026-02-14 18:24 EST]
 
 ---
 
@@ -39,6 +39,7 @@
 ### Topics (Domain Knowledge)
 | Topic | Last Updated | Description |
 |-------|--------------|-------------|
+| [Sophie vs Clawd Repos](topics/sophie-vs-clawd-repos.md) | 2026-02-14 | **KEY:** Template (public) vs Active workspace (private) |
 | [AWS S3 Authentication](topics/aws-s3-authentication.md) | 2026-02-01 | S3 credential patterns, USDOT bucket access |
 | [Chrome/Xvfb Automation](topics/chrome-xvfb-automation.md) | 2026-02-01 | Headless browser setup |
 | [Problem-Solving Methodology](topics/problem-solving-methodology.md) | 2026-02-01 | Brain/Body model, sub-agents |
@@ -100,8 +101,8 @@ Recent decisions:
 |--------|-------|---------|
 | daily/ | 7 | 0 |
 | projects/ | 5 | 0 |
-| topics/ | 7 | 0 |
+| topics/ | 8 | 0 |
 | people/ | 1 | 0 |
-| **Total** | **20** | **0** |
+| **Total** | **21** | **0** |
 
 *No files at scaling threshold yet (all < 200 lines)*
