@@ -5,14 +5,14 @@
 ## Active Projects
 
 ### haos-v2
-- **Status:** PHASES 1-4 COMPLETE — Build Working, Need Strategic Direction
-- **Priority:** MEDIUM (awaiting direction)
-- **Current Phase:** Phase 4 Complete, Phase 5 (Voice/Video) Planning Needed
-- **Task Queue:** No active tasks, awaiting Person Manager guidance
-- **Last Progress:** 2026-02-13 15:01 EST — Build verification shows all systems working
+- **Status:** STABILIZATION — Phase 5 ON HOLD per Person Manager
+- **Priority:** LOW (monitoring only)
+- **Current Phase:** Phases 1-4 Complete, Phase 5 awaiting Aaron's approval
+- **Task Queue:** No active tasks — stabilization mode
+- **Last Progress:** 2026-02-13 20:00 EST — Strategic direction received from PM
 - **Notes:** `notes/projects/haos-v2.md`, `coordinator/notes/2026-02-13-1501-status-verification.md`
-- **Current Status:** Ready for Phase 5 work or deployment focus
-- **Worker Status:** No workers needed until direction provided
+- **Current Status:** Monitoring for bugs, no new feature work
+- **Worker Status:** No workers needed — stabilization period
 
 ## Active Topics
 
