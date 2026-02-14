@@ -68,7 +68,7 @@ You should see: `Message successfully sent!`
 | **Config file** | `~/.config/himalaya/config.toml` |
 | **From address** | `contact@aaroncollins.info` |
 | **Display name** | `Aaron Collins` |
-| **App password** | `***REMOVED***` |
+| **App password** | *(stored in himalaya config file - do not commit)* |
 | **IMAP host** | `imap.fastmail.com` |
 | **IMAP port** | `993` (TLS) |
 | **SMTP host** | `smtp.fastmail.com` |
@@ -77,7 +77,7 @@ You should see: `Message successfully sent!`
 ### Aaron's Email Addresses
 | Purpose | Address |
 |---------|---------|
-| **Primary (receiving)** | aaron777collins@gmail.com |
+| **Primary (receiving)** | *(see USER.md)* |
 | **Sending from** | contact@aaroncollins.info |
 | **University** | colli11s@uwindsor.ca |
 
@@ -86,6 +86,10 @@ You should see: `Message successfully sent!`
 himalaya account list
 # Should show: fastmail | IMAP, SMTP | yes
 ```
+
+### If credentials are missing:
+The himalaya config at `~/.config/himalaya/config.toml` should have the app password.
+Ask Aaron for the Fastmail app password if it's not configured.
 
 ---
 
@@ -238,7 +242,7 @@ The config file has wrong credentials. Check `~/.config/himalaya/config.toml`:
 ```bash
 cat ~/.config/himalaya/config.toml
 ```
-Password should be: `***REMOVED***`
+Ask Aaron for the correct Fastmail app password if needed.
 
 ### Email shows "${HTML_CONTENT}" literally
 You used quoted heredoc `<< 'EOF'`. Change to unquoted `<< EOF`.
