@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: 'standalone', // Temporarily disabled for development
+  output: 'standalone', // Required for Docker builds
   transpilePackages: ['@haos/shared'],
   eslint: {
     ignoreDuringBuilds: true,

@@ -142,7 +142,8 @@ export function useLocalVideo(options: UseLocalVideoOptions = {}): UseLocalVideo
         }
       }
     } catch (err) {
-      console.error('Failed to enumerate video devices:', err);
+      // TODO: Replace with proper logging service
+      // console.error('Failed to enumerate video devices:', err);
       setError('Failed to get video devices');
     } finally {
       setIsDeviceListLoading(false);

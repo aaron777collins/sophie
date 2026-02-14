@@ -261,7 +261,8 @@ export class ScreenShareService {
       }
       this.onViewerStateChanged?.(this.state.viewerState);
     } catch (error) {
-      console.error('Failed to toggle fullscreen:', error);
+      // TODO: Replace with proper logging service
+      // console.error('Failed to toggle fullscreen:', error);
     }
   }
 

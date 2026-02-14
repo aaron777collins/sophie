@@ -431,7 +431,8 @@ export class VideoCallService {
       // Disconnect from room
       await this.liveKit.disconnect();
     } catch (error) {
-      console.error('Error during video call cleanup:', error);
+      // TODO: Replace with proper logging service
+      // console.error('Error during video call cleanup:', error);
     }
   }
 

@@ -316,23 +316,27 @@ export class LiveKitService {
 
     // Participant events
     this.room.on('participantConnected', (participant) => {
-      console.log('Participant connected:', participant.identity);
+      // TODO: Replace with proper logging service
+      // console.log('Participant connected:', participant.identity);
       this.onParticipantConnected?.(participant);
     });
 
     this.room.on('participantDisconnected', (participant) => {
-      console.log('Participant disconnected:', participant.identity);
+      // TODO: Replace with proper logging service
+      // console.log('Participant disconnected:', participant.identity);
       this.onParticipantDisconnected?.(participant);
     });
 
     // Track events
     this.room.on('trackSubscribed', (track, publication, participant) => {
-      console.log('Track subscribed:', track.kind, 'from', participant.identity);
+      // TODO: Replace with proper logging service
+      // console.log('Track subscribed:', track.kind, 'from', participant.identity);
       this.onTrackSubscribed?.(track, participant);
     });
 
     this.room.on('trackUnsubscribed', (track, publication, participant) => {
-      console.log('Track unsubscribed:', track.kind, 'from', participant.identity);
+      // TODO: Replace with proper logging service
+      // console.log('Track unsubscribed:', track.kind, 'from', participant.identity);
       this.onTrackUnsubscribed?.(track, participant);
     });
 
@@ -347,35 +351,41 @@ export class LiveKitService {
 
     // Connection events
     this.room.on('reconnecting', () => {
-      console.log('Reconnecting to room...');
+      // TODO: Replace with proper logging service
+      // console.log('Reconnecting to room...');
       this.onConnectionStateChanged?.('reconnecting');
     });
 
     this.room.on('reconnected', () => {
-      console.log('Reconnected to room');
+      // TODO: Replace with proper logging service
+      // console.log('Reconnected to room');
       this.reconnectAttempts = 0;
       this.onConnectionStateChanged?.('connected');
     });
 
     this.room.on('disconnected', (reason) => {
-      console.log('Disconnected from room:', reason);
+      // TODO: Replace with proper logging service
+      // console.log('Disconnected from room:', reason);
       this.onConnectionStateChanged?.('disconnected');
     });
 
     // Data events
     this.room.on('dataReceived', (payload, participant, kind) => {
-      console.log('Data received from', participant?.identity, 'kind:', kind);
+      // TODO: Replace with proper logging service
+      // console.log('Data received from', participant?.identity, 'kind:', kind);
       // Handle received data here
     });
 
     // Connection quality
     this.room.on('connectionQualityChanged', (quality, participant) => {
-      console.log('Connection quality changed for', participant.identity, ':', quality);
+      // TODO: Replace with proper logging service
+      // console.log('Connection quality changed for', participant.identity, ':', quality);
     });
 
     // Media device errors
     this.room.on('mediaDevicesError', (error) => {
-      console.error('Media devices error:', error);
+      // TODO: Replace with proper logging service
+      // console.error('Media devices error:', error);
       this.handleError(new Error(`Media devices error: ${error.message}`));
     });
   }
@@ -400,7 +410,8 @@ export class LiveKitService {
    * Handle errors
    */
   private handleError(error: Error): void {
-    console.error('LiveKit Service Error:', error);
+    // TODO: Replace with proper logging service
+    // console.error('LiveKit Service Error:', error);
     this.onError?.(error);
   }
 }

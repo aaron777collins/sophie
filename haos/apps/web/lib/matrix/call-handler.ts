@@ -118,7 +118,8 @@ export class MatrixCallHandler {
       this.callEndAudio = new Audio('/sounds/call-end.mp3');
       this.callEndAudio.volume = 0.5;
     } catch (error) {
-      console.warn('Could not initialize audio notifications:', error);
+      // TODO: Replace with proper logging service
+      // console.warn('Could not initialize audio notifications:', error);
     }
   }
 
@@ -145,10 +146,12 @@ export class MatrixCallHandler {
           await this.handleCallCandidates(event, roomId, sender);
           break;
         default:
-          console.log('Unhandled call event:', event.getType());
+          // TODO: Replace with proper logging service
+          // console.log('Unhandled call event:', event.getType());
       }
     } catch (error) {
-      console.error(`Error handling ${event.getType()}:`, error);
+      // TODO: Replace with proper logging service
+      // console.error(`Error handling ${event.getType()}:`, error);
       
       // Add error notification
       this.callStore.addNotification({
@@ -188,7 +191,8 @@ export class MatrixCallHandler {
     const version = content['version'] || 0;
     
     if (!callId) {
-      console.error('Call invite missing call_id');
+      // TODO: Replace with proper logging service
+      // console.error('Call invite missing call_id');
       return;
     }
 
@@ -234,7 +238,8 @@ export class MatrixCallHandler {
       try {
         await this.ringtoneAudio.play();
       } catch (error) {
-        console.warn('Could not play ringtone:', error);
+        // TODO: Replace with proper logging service
+        // console.warn('Could not play ringtone:', error);
       }
     }
 
@@ -249,7 +254,8 @@ export class MatrixCallHandler {
       }, content['lifetime']);
     }
 
-    console.log(`Incoming ${callType} call from ${inviter} in ${roomName}`);
+    // TODO: Replace with proper logging service
+    // console.log(`Incoming ${callType} call from ${inviter} in ${roomName}`);
   }
 
   private async handleCallAnswer(event: MatrixEvent, roomId: string, answerer: string) {
@@ -279,9 +285,11 @@ export class MatrixCallHandler {
         // Update to active status
         this.roomStore.updateCallStatus(roomId, 'active');
         
-        console.log(`Call answered by ${answerer} in room ${roomId}`);
+        // TODO: Replace with proper logging service
+        // console.log(`Call answered by ${answerer} in room ${roomId}`);
       } catch (error) {
-        console.error('Failed to set remote description:', error);
+        // TODO: Replace with proper logging service
+        // console.error('Failed to set remote description:', error);
         this.endCall(callId);
       }
     }
@@ -294,7 +302,8 @@ export class MatrixCallHandler {
     
     if (!callId) return;
 
-    console.log(`Call ${callId} ended by ${sender}: ${reason}`);
+    // TODO: Replace with proper logging service
+    // console.log(`Call ${callId} ended by ${sender}: ${reason}`);
 
     // Stop ringtone
     this.stopRingtone();
@@ -304,7 +313,8 @@ export class MatrixCallHandler {
       try {
         await this.callEndAudio.play();
       } catch (error) {
-        console.warn('Could not play call end sound:', error);
+        // TODO: Replace with proper logging service
+        // console.warn('Could not play call end sound:', error);
       }
     }
 
@@ -347,7 +357,8 @@ export class MatrixCallHandler {
         try {
           await activeCall.peerConnection.addIceCandidate(candidate);
         } catch (error) {
-          console.error('Failed to add ICE candidate:', error);
+          // TODO: Replace with proper logging service
+          // console.error('Failed to add ICE candidate:', error);
         }
       }
     }
@@ -384,12 +395,14 @@ export class MatrixCallHandler {
 
     this.roomStore.addCallParticipant(roomId, participant);
 
-    console.log(`Participant ${userId} joined call in ${roomId}`);
+    // TODO: Replace with proper logging service
+    // console.log(`Participant ${userId} joined call in ${roomId}`);
   }
 
   private async handleParticipantLeft(roomId: string, userId: string) {
     this.roomStore.removeCallParticipant(roomId, userId);
-    console.log(`Participant ${userId} left call in ${roomId}`);
+    // TODO: Replace with proper logging service
+    // console.log(`Participant ${userId} left call in ${roomId}`);
   }
 
   // Public methods for call management
@@ -457,11 +470,13 @@ export class MatrixCallHandler {
       this.roomStore.setActiveCall(roomId, activeCall);
       this.callStore.startCall(roomId, this.getRoomName(roomId), type);
 
-      console.log(`Initiated ${type} call ${callId} in ${roomId}`);
+      // TODO: Replace with proper logging service
+      // console.log(`Initiated ${type} call ${callId} in ${roomId}`);
       return callId;
 
     } catch (error) {
-      console.error('Failed to initiate call:', error);
+      // TODO: Replace with proper logging service
+      // console.error('Failed to initiate call:', error);
       throw error;
     }
   }
@@ -492,9 +507,11 @@ export class MatrixCallHandler {
       // Update call status
       this.roomStore.updateCallStatus(incomingCall.roomId, 'active');
 
-      console.log(`Answered call ${callId}`);
+      // TODO: Replace with proper logging service
+      // console.log(`Answered call ${callId}`);
     } catch (error) {
-      console.error('Failed to answer call:', error);
+      // TODO: Replace with proper logging service
+      // console.error('Failed to answer call:', error);
       throw error;
     }
   }
@@ -522,9 +539,11 @@ export class MatrixCallHandler {
       // Clear room call state
       this.roomStore.setActiveCall(incomingCall.roomId, null);
 
-      console.log(`Rejected call ${callId}`);
+      // TODO: Replace with proper logging service
+      // console.log(`Rejected call ${callId}`);
     } catch (error) {
-      console.error('Failed to reject call:', error);
+      // TODO: Replace with proper logging service
+      // console.error('Failed to reject call:', error);
       throw error;
     }
   }
