@@ -7,15 +7,14 @@ import {
   Headphones, 
   VolumeX, 
   Settings, 
-  PhoneOff, 
-  Monitor, 
-  MonitorOff,
+  PhoneOff,
   Video,
   VideoOff
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useVoiceChannel } from '@/hooks/use-voice-channel';
 import { useVoiceStore } from '@/stores/voice-store';
+import { ScreenShareButton } from '@/components/screenshare';
 
 interface VoiceControlsProps {
   roomName?: string;
@@ -106,10 +105,8 @@ export function VoiceControls({
     isConnected,
     isAudioEnabled,
     isVideoEnabled,
-    isScreenSharing,
     toggleAudio,
     toggleVideo,
-    toggleScreenShare,
     disconnect,
   } = useVoiceChannel({
     roomName: roomName || '',
@@ -197,6 +194,13 @@ export function VoiceControls({
           {isDeafened ? <VolumeX className="w-4 h-4" /> : <Headphones className="w-4 h-4" />}
         </ControlButton>
 
+        <ScreenShareButton
+          variant="compact"
+          size="sm"
+          showDropdown={false}
+          className="w-8 h-8 min-w-8"
+        />
+
         <ControlButton
           onClick={handleDisconnect}
           tooltip="Disconnect"
@@ -254,14 +258,11 @@ export function VoiceControls({
       </ControlButton>
 
       {/* Screen share toggle */}
-      <ControlButton
-        onClick={toggleScreenShare}
-        isActive={isScreenSharing}
-        tooltip={isScreenSharing ? 'Stop sharing' : 'Share screen'}
-        aria-pressed={isScreenSharing}
-      >
-        {isScreenSharing ? <Monitor className="w-5 h-5 text-green-400" /> : <MonitorOff className="w-5 h-5" />}
-      </ControlButton>
+      <ScreenShareButton
+        variant="default"
+        size="md"
+        showDropdown={true}
+      />
 
       {/* Separator */}
       <div className="w-px h-6 bg-[#3c3f45] mx-1" aria-hidden="true" />
