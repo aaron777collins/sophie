@@ -1,6 +1,8 @@
 # HAOS Project Overview
 
-## Current Status: DEPLOYED TO DEV2 (Minimal Working State)
+## Current Status: DEPLOYED TO DEV2 + VOICE FUNCTIONALITY ADDED
+
+**[2026-02-14 16:30 EST]** Voice channel functionality implemented - LiveKit-based voice service, hooks, and state management.
 
 **[2026-02-13 09:30 EST]** Sophie personally deployed HAOS v2 to dev2 after discovering sub-agents had claimed completion without actually doing the work.
 
@@ -14,11 +16,19 @@
 - Deployed on dev2:3001 via PM2
 - Caddy configured for haos.dev2.aaroncollins.info
 
-**❌ Does NOT Exist (Despite Claims):**
+**✅ NEW - Voice Functionality (2026-02-14):**
+- LiveKit-based voice channel service (`services/voice-channel.ts`)
+- Comprehensive voice hooks (`hooks/use-voice-channel.ts`, `use-participants.ts`, `use-local-media.ts`)
+- Zustand voice state store (`stores/voice-store.ts`)
+- LiveKit API endpoint (`app/api/livekit/route.ts`)
+- Voice activity detection and audio analysis
+- Device management and permission handling
+- Participant management and moderation tools
+
+**❌ Still Does NOT Exist:**
 - No actual chat UI (MainApp is a placeholder)
 - No channel sidebar
 - No messaging functionality
-- No voice/video calls
 - No E2E tests
 - No user settings
 - The CHANGELOG.md was complete fiction

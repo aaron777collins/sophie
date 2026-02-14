@@ -2,7 +2,9 @@ import { Room, RoomOptions, DataPacket_Kind, RemoteTrack, RemoteParticipant, Loc
 
 // Environment configuration
 const LIVEKIT_URL = process.env['NEXT_PUBLIC_LIVEKIT_URL'] || 'wss://livekit.dev2.aaroncollins.info';
-const LIVEKIT_JWT_SERVICE_URL = process.env['NEXT_PUBLIC_LIVEKIT_JWT_URL'] || 'https://dev2.aaroncollins.info/_livekit';
+const LIVEKIT_API_KEY = process.env['LIVEKIT_API_KEY'] || 'devkey';
+const LIVEKIT_API_SECRET = process.env['LIVEKIT_API_SECRET'] || 'LiveKit2026SecretKeyForMatrix';
+const LIVEKIT_JWT_SERVICE_URL = process.env['LIVEKIT_JWT_SERVICE_URL'] || 'https://dev2.aaroncollins.info/_livekit';
 
 export interface LiveKitConfig {
   url: string;

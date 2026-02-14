@@ -26,19 +26,21 @@
 - **Completed:** 2026-02-13 22:03 EST by worker p5-1-infra
 
 ### p5-2-voice-service — Voice Channel Service & Hooks
-- **Status:** in-progress
+- **Status:** ✅ COMPLETED
 - **Priority:** HIGH
 - **Model:** sonnet
 - **Description:** Create voice channel service and React hooks
+- **Completed:** 2026-02-14 16:30 EST
 - **Tasks:**
-  - [ ] Create `services/voice-channel.ts` — room creation, participant management
-  - [ ] Create `hooks/use-voice-channel.ts` — join/leave voice channels
-  - [ ] Create `hooks/use-participants.ts` — track participants and states
-  - [ ] Create `hooks/use-local-media.ts` — manage local microphone
-  - [ ] Create `stores/voice-store.ts` — Zustand store for voice state
-  - [ ] Implement mute/unmute functionality
-  - [ ] Implement speaking indicators (voice activity detection)
-- **Outputs:** Working voice channel service with full hook coverage
+  - [x] ✅ Create `services/voice-channel.ts` — room creation, participant management
+  - [x] ✅ Create `hooks/use-voice-channel.ts` — join/leave voice channels (already existed)
+  - [x] ✅ Create `hooks/use-participants.ts` — track participants and states
+  - [x] ✅ Create `hooks/use-local-media.ts` — manage local microphone
+  - [x] ✅ Create `stores/voice-store.ts` — Zustand store for voice state
+  - [x] ✅ Implement mute/unmute functionality
+  - [x] ✅ Implement speaking indicators (voice activity detection)
+  - [x] ✅ Create LiveKit API endpoint (`app/api/livekit/route.ts`)
+- **Outputs:** ✅ Working voice channel service with comprehensive hook coverage and state management
 
 ### p5-3-voice-ui — Voice Channel UI Components
 - **Status:** pending (blocked by p5-2-voice-service)
