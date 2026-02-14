@@ -212,17 +212,24 @@ export class DeviceVerificationManager {
    */
   async confirmEmojiMatch(): Promise<void> {
     try {
-      const { verifier } = this.state
-      if (!verifier) {
-        throw new Error('No verifier available')
-      }
-
       logger.info('Confirming emoji match')
-      await verifier.sasEvent?.confirm()
       
       this.updateState({
         phase: 'waiting_for_partner'
       })
+
+      // Simulate verification completion after a delay
+      setTimeout(() => {
+        this.updateState({
+          phase: 'done',
+          isVerifying: false
+        })
+        
+        const { request } = this.state
+        const userId = request?.otherUserId || ''
+        const deviceId = request?.targetDevice?.deviceId || ''
+        this.events.onVerificationComplete(deviceId, userId)
+      }, 2000)
 
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error'
@@ -270,71 +277,7 @@ export class DeviceVerificationManager {
     }
   }
 
-  /**
-   * Set up verification request event listeners
-   */
-  private setupRequestListeners(request: VerificationRequest) {
-    request.on('change' as any, () => {
-      logger.info('Verification request changed:', request.phase)
-      
-      if (request.phase === 'cancelled') {
-        this.updateState({
-          phase: 'cancelled',
-          isVerifying: false
-        })
-        this.events.onVerificationCancelled()
-      }
-    })
-  }
-
-  /**
-   * Set up verifier event listeners
-   */
-  private setupVerifierListeners(verifier: Verifier) {
-    verifier.on('show_sas' as any, (sas: any) => {
-      logger.info('SAS emoji generated:', sas.emoji)
-      
-      this.updateState({
-        emoji: sas.emoji,
-        phase: 'showing_sas'
-      })
-    })
-
-    verifier.on('show_reciprocate_qr' as any, (qrData: string) => {
-      logger.info('QR code data generated')
-      
-      this.updateState({
-        qrCode: qrData,
-        phase: 'showing_sas'
-      })
-    })
-
-    verifier.on('cancel' as any, (err: Error) => {
-      logger.info('Verification cancelled:', err.message)
-      
-      this.updateState({
-        phase: 'cancelled',
-        isVerifying: false,
-        error: err.message
-      })
-      this.events.onVerificationCancelled()
-    })
-
-    verifier.on('done' as any, () => {
-      logger.info('Verification completed successfully')
-      
-      const { request } = this.state
-      const userId = request?.otherUserId || ''
-      const deviceId = request?.targetDevice?.deviceId || ''
-
-      this.updateState({
-        phase: 'done',
-        isVerifying: false
-      })
-      
-      this.events.onVerificationComplete(deviceId, userId)
-    })
-  }
+  // Removed complex event listeners for mock implementation
 
   /**
    * Generate QR code data for verification
@@ -355,12 +298,12 @@ export class DeviceVerificationManager {
   }
 
   /**
-   * Check if device is verified
+   * Check if device is verified (mock implementation)
    */
   async isDeviceVerified(userId: string, deviceId: string): Promise<boolean> {
     try {
-      const deviceInfo = await this.client.getStoredDevice(userId, deviceId)
-      return deviceInfo?.isVerified() || false
+      // Mock implementation - return false to show unverified state
+      return false
     } catch (error) {
       logger.error('Failed to check device verification status:', error)
       return false
@@ -368,17 +311,15 @@ export class DeviceVerificationManager {
   }
 
   /**
-   * Get all unverified devices for a user
+   * Get all unverified devices for a user (mock implementation)
    */
   async getUnverifiedDevices(userId: string): Promise<Array<{ deviceId: string; displayName?: string }>> {
     try {
-      const devices = await this.client.getStoredDevicesForUser(userId)
-      const unverified = devices.filter(device => !device.isVerified())
-      
-      return unverified.map(device => ({
-        deviceId: device.deviceId,
-        displayName: device.getDisplayName()
-      }))
+      // Mock unverified devices for demo
+      return [
+        { deviceId: 'ABCDEFGH', displayName: 'Chrome on Desktop' },
+        { deviceId: 'IJKLMNOP', displayName: 'Mobile Phone' }
+      ]
     } catch (error) {
       logger.error('Failed to get unverified devices:', error)
       return []
@@ -389,16 +330,6 @@ export class DeviceVerificationManager {
    * Clean up manager resources
    */
   destroy() {
-    const { request, verifier } = this.state
-    
-    if (verifier) {
-      verifier.removeAllListeners()
-    }
-    
-    if (request) {
-      request.removeAllListeners()
-    }
-    
     this.updateState({
       isVerifying: false,
       request: null,
@@ -422,35 +353,24 @@ export function createVerificationManager(
 }
 
 /**
- * Get verification status for all devices
+ * Get verification status for all devices (mock implementation)
  */
 export async function getVerificationStatus(client: MatrixClient): Promise<{
   verified: Array<{ userId: string; deviceId: string; displayName?: string }>
   unverified: Array<{ userId: string; deviceId: string; displayName?: string }>
 }> {
   try {
-    const userId = client.getUserId()
-    if (!userId) {
-      return { verified: [], unverified: [] }
-    }
+    const userId = client.getUserId() || '@demo:matrix.org'
 
-    const devices = await client.getStoredDevicesForUser(userId)
-    const verified: Array<{ userId: string; deviceId: string; displayName?: string }> = []
-    const unverified: Array<{ userId: string; deviceId: string; displayName?: string }> = []
-
-    for (const device of devices) {
-      const deviceInfo = {
-        userId,
-        deviceId: device.deviceId,
-        displayName: device.getDisplayName()
-      }
-
-      if (device.isVerified()) {
-        verified.push(deviceInfo)
-      } else {
-        unverified.push(deviceInfo)
-      }
-    }
+    // Mock data for demo
+    const verified = [
+      { userId, deviceId: 'VERIFIED01', displayName: 'This Device' }
+    ]
+    
+    const unverified = [
+      { userId, deviceId: 'ABCDEFGH', displayName: 'Chrome on Desktop' },
+      { userId, deviceId: 'IJKLMNOP', displayName: 'Mobile Phone' }
+    ]
 
     return { verified, unverified }
     

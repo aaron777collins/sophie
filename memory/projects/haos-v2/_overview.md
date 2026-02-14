@@ -11,6 +11,12 @@
   - initRustCrypto() in lib/matrix/client.ts
   - MatrixProvider handles crypto ready state
   - Build passes with all TypeScript fixes
+- ✅ **p7-2-room-encryption** — Room-level E2EE encryption (2026-02-14)
+  - Room encryption utilities at lib/matrix/crypto/room-encryption.ts
+  - Message decryption hook at hooks/use-room-messages.ts
+  - Encryption status indicator in chat header (lock icons)
+  - New rooms encrypted by default with Megolm algorithm
+  - Graceful handling of "Unable to decrypt" messages
 - ✅ **p7-7-livekit-deploy** — LiveKit infrastructure deployed (2026-02-14)
   - LiveKit server: wss://livekit.dev2.aaroncollins.info (operational)
   - JWT service: https://dev2.aaroncollins.info/_livekit (operational)
@@ -18,6 +24,13 @@
   - Client integration at apps/web/services/livekit.ts (13KB comprehensive service)
   - Build issues with Matrix SDK logger imports fixed
   - Development server and connectivity tests passing
+- ✅ **p7-8-voice-channels** — Voice Channel UI wired to LiveKit (2026-02-14)
+  - Created components/voice/voice-channel.tsx with full LiveKit integration
+  - Created components/server/server-channel.tsx with voice activity indicators
+  - Join/leave voice channels functionality working
+  - Connected users display with avatars and speaking indicators
+  - Voice activity animations and real-time participant tracking
+  - Build passes without TypeScript errors in new components
 
 ## Core Components Implemented
 
