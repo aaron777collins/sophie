@@ -45,6 +45,13 @@
   - Unverified device prompts and status indicators
   - QR code dependencies integrated (qrcode, react-qr-code)
   - Mock implementation ready for Matrix SDK integration
+- ✅ **p7-4-cross-signing** — Cross-signing setup for Matrix E2EE (2026-02-14)
+  - Complete CrossSigningManager class with key generation, bootstrap, and signing
+  - Cross-signing utilities at lib/matrix/crypto/cross-signing.ts (412 lines)
+  - Security settings UI at components/settings/security-settings.tsx (351 lines)
+  - Master/self-signing/user-signing key management and status tracking
+  - One-click bootstrap flow with progress tracking and error handling
+  - Device and user signing capabilities via Matrix SDK integration
 
 ## Core Components Implemented
 
