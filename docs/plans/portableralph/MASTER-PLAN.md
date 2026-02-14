@@ -2,7 +2,7 @@
 
 **Created:** 2026-02-14
 **Author:** Sophie (for Person Manager)
-**Version:** 3 (added merge/push/deploy per Aaron)
+**Version:** 4 (fix PRs ourselves + communicate with contributors)
 **Status:** approved
 
 ---
@@ -110,25 +110,29 @@ Make PortableRalph rock solid and production ready. Fix all failing tests, revie
 
 **Quality Gate:** ALL tests must pass before proceeding
 
-### Phase 2: Review Open PRs
-**Goal:** Review, test, and merge/close open PRs
-**Estimated:** 0.5 days
+### Phase 2: Fix & Merge Open PRs
+**Goal:** Review, fix any issues ourselves, merge, and communicate with contributors
+**Estimated:** 1 day
 
-**PR Review Criteria:**
-- Code quality acceptable
-- Tests pass with PR merged
-- No security concerns
-- Integrates cleanly with master
-- Documentation updated if needed
+**Approach:**
+- Review each PR thoroughly
+- Fix any issues ourselves (don't just request changes)
+- Test with full suite
+- Merge when working
+- Reply to PR authors with status updates
 
 | Task | Description | Model |
 |------|-------------|-------|
-| p2-1 | Review PR #3 code (email notifications) | Sonnet |
-| p2-2 | Test PR #3 locally (merge to test branch) | Sonnet |
-| p2-3 | Decision: merge, request changes, or close | Sonnet |
-| p2-4 | Review PR #2 code (Docker sandbox) | Sonnet |
-| p2-5 | Test PR #2 locally | Sonnet |
-| p2-6 | Decision: merge, defer, or close | Sonnet |
+| p2-1 | Review PR #3 code (email notifications from avwohl) | Sonnet |
+| p2-2 | Test PR #3 locally | Sonnet |
+| p2-3 | Fix any issues in PR #3 | Sonnet |
+| p2-4 | Comment on PR #3 - update avwohl on status | Sonnet |
+| p2-5 | Merge PR #3 | Haiku |
+| p2-6 | Review PR #2 code (Docker sandbox from dmelo) | Sonnet |
+| p2-7 | Test PR #2 locally | Sonnet |
+| p2-8 | Fix any issues in PR #2 | Sonnet |
+| p2-9 | Comment on PR #2 - update dmelo on status | Sonnet |
+| p2-10 | Merge PR #2 | Haiku |
 
 ### Phase 3: Windows Verification
 **Goal:** Verify Windows native support works end-to-end
@@ -199,11 +203,11 @@ Make PortableRalph rock solid and production ready. Fix all failing tests, revie
 |-------|------|--------|-------|
 | Phase 0: Analysis | 0.5 days | 0 | 0.5 days |
 | Phase 1: Fix Tests | 1.5 days | 0.5 days | 2 days |
-| Phase 2: PRs | 0.5 days | 0 | 0.5 days |
+| Phase 2: Fix & Merge PRs | 0.75 days | 0.25 days | 1 day |
 | Phase 3: Windows | 0.5 days | 0 | 0.5 days |
 | Phase 4: Hardening | 0.5 days | 0 | 0.5 days |
 | Phase 5: Release | 0.25 days | 0.25 days | 0.5 days |
-| **Total** | **3.75 days** | **0.75 days** | **4.5 days** |
+| **Total** | **4 days** | **1 day** | **5 days** |
 
 ---
 
@@ -223,3 +227,8 @@ Make PortableRalph rock solid and production ready. Fix all failing tests, revie
   - Added explicit merge step for all branches
   - Added final test suite run before release
   - Added deployment trigger and verification steps
+- v4: 2026-02-14 - Per Aaron's direction:
+  - Renamed Phase 2 to "Fix & Merge Open PRs"
+  - Fix issues in PRs ourselves (don't just request changes)
+  - Add tasks to comment/reply to PR authors (avwohl, dmelo)
+  - Updated timeline: Phase 2 now 1 day, total ~5 days
