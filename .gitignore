@@ -1,0 +1,72 @@
+# Configured flag (created by onboard.sh)
+.configured
+
+# Node modules
+node_modules/
+
+# Secrets and keys (NEVER commit these)
+*.secret
+*.key
+*.pem
+.env
+.env.*
+secrets/
+credentials/
+
+# Clawdbot data (user-specific)
+.clawdbot/
+
+# Memory data (personal/sensitive)
+# Keep structure but not content
+memory/daily/*.md
+!memory/daily/.gitkeep
+memory/people/*.md
+!memory/people/.gitkeep
+memory/projects/*.md
+memory/projects/*/
+!memory/projects/.gitkeep
+memory/topics/*.md
+memory/topics/*/
+!memory/topics/.gitkeep
+memory/reflections/daily/*.md
+!memory/reflections/daily/.gitkeep
+memory/reflections/insights/*.md
+!memory/reflections/insights/.gitkeep
+memory/reflections/improvements/*.md
+!memory/reflections/improvements/.gitkeep
+
+# Scheduler runtime data
+scheduler/heartbeats/*.json
+scheduler/progress/*.md
+scheduler/progress/*/
+scheduler/inboxes/*/*.json
+!scheduler/inboxes/*/archive/
+scheduler/spawn-queue/requests/*.json
+scheduler/spawn-queue/results/*.json
+scheduler/person-manager/notes/*.md
+!scheduler/person-manager/notes/.gitkeep
+scheduler/coordinator/notes/*.md
+!scheduler/coordinator/notes/.gitkeep
+
+# Project-specific data
+docs/plans/*/
+!docs/plans/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp

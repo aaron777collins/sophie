@@ -1,0 +1,81 @@
+{
+  "meta": {
+    "note": "SOPHIE workspace template configuration",
+    "version": "1.0.0"
+  },
+  
+  "auth": {
+    "profiles": {
+      "anthropic:main": "YOUR_ANTHROPIC_API_KEY_HERE"
+    }
+  },
+  
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "anthropic/claude-opus-4-5"
+      },
+      "models": {
+        "anthropic/claude-opus-4-5": { "alias": "opus" },
+        "anthropic/claude-3-5-haiku-latest": { "alias": "haiku" },
+        "anthropic/claude-sonnet-4-20250514": { "alias": "sonnet" }
+      },
+      "workspace": "/path/to/your/sophie/workspace",
+      "memorySearch": {
+        "provider": "local",
+        "fallback": "none",
+        "local": {
+          "modelPath": "hf:ggml-org/embeddinggemma-300M-GGUF/embeddinggemma-300M-Q8_0.gguf"
+        },
+        "sync": { "watch": true }
+      },
+      "timeoutSeconds": 3600,
+      "maxConcurrent": 4,
+      "subagents": { "maxConcurrent": 8 }
+    }
+  },
+  
+  "hooks": {
+    "internal": {
+      "enabled": true,
+      "entries": {
+        "boot-md": { "enabled": true },
+        "command-logger": { "enabled": true },
+        "session-memory": { "enabled": true }
+      }
+    }
+  },
+  
+  "channels": {
+    "_comment": "Configure your messaging channels here",
+    "slack": {
+      "enabled": false,
+      "mode": "socket",
+      "botToken": "xoxb-YOUR-BOT-TOKEN",
+      "appToken": "xapp-YOUR-APP-TOKEN"
+    },
+    "telegram": {
+      "enabled": false,
+      "botToken": "YOUR-TELEGRAM-BOT-TOKEN"
+    },
+    "discord": {
+      "enabled": false,
+      "botToken": "YOUR-DISCORD-BOT-TOKEN"
+    }
+  },
+  
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "GENERATE_A_SECURE_TOKEN"
+    }
+  },
+  
+  "skills": {
+    "install": { "nodeManager": "npm" },
+    "entries": {}
+  }
+}

@@ -1,0 +1,1 @@
+# MEMORY.md - Curated Long-Term Memory\n\n> This file is populated over time with key learnings and insights.\n> Only load in main session (direct chats with your human).\n\n## Key Insights\n\n*None yet - will accumulate as you work together.*
