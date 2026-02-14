@@ -18,19 +18,50 @@
 
 ## How to Send Email
 
+### ⚠️ CRITICAL: Heredoc Quoting Rules
+- [2026-02-14 17:28 EST] **LESSON LEARNED THE HARD WAY**
+- `<< 'EOF'` (quoted) = NO variable expansion, $(cmd) appears literally
+- `<< EOF` (unquoted) = Variables and commands EXPAND
+- **ALWAYS use unquoted EOF when including file content or variables!**
+
+### Correct Pattern (with file content):
 ```bash
-# Simple send with template
-cat << 'EOF' | himalaya template send
+# Load content into variable first, then use unquoted heredoc
+CONTENT=$(cat /path/to/file.md)
+
+cat << EOF | himalaya template send
+From: contact@aaroncollins.info
+To: recipient@example.com
+Subject: Your Subject
+
+${CONTENT}
+EOF
+```
+
+### Simple message (no variables):
+```bash
+cat << EOF | himalaya template send
 From: contact@aaroncollins.info
 To: recipient@example.com
 Subject: Your Subject
 
 Your message body here.
 EOF
+```
 
-# Check account is working
+### Check account is working:
+```bash
 himalaya account list
 himalaya folder list
+```
+
+### ❌ WRONG - Do NOT do this:
+```bash
+# This will NOT expand the cat command!
+cat << 'EMAILEOF' | himalaya template send
+...
+$(cat /tmp/file.md)   # <-- This appears LITERALLY in the email!
+EMAILEOF
 ```
 
 ## Aaron's Email Addresses
