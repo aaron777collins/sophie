@@ -114,8 +114,8 @@ export function useRoomMessages(roomId: string) {
         isEncrypted: isEventEncrypted,
         canDecrypt: !content.decryption_error && isEventEncrypted,
         // Media handling from raw content
-        url: rawContent.url,
-        file: rawContent.file,
+        url: rawContent['url'],
+        file: rawContent['file'],
         // Relations
         relatesToEventId: relation?.event_id,
         relationshipType: relation?.rel_type,

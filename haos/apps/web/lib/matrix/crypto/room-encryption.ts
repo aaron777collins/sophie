@@ -70,7 +70,7 @@ export function isRoomEncrypted(room: Room): boolean {
  */
 export function getRoomEncryptionAlgorithm(room: Room): string | null {
   const encryptionEvent = room.currentState.getStateEvents(EventType.RoomEncryption, '')
-  return encryptionEvent?.getContent()?.algorithm || null
+  return encryptionEvent?.getContent()?.['algorithm'] || null
 }
 
 /**
@@ -198,8 +198,8 @@ export function getDecryptedMessageContent(event: MatrixEvent): {
     if (event.getType() !== 'm.room.encrypted') {
       const content = event.getContent()
       return {
-        body: content.body || '',
-        formatted_body: content.formatted_body,
+        body: content['body'] || '',
+        formatted_body: content['formatted_body'],
         msgtype: content.msgtype || 'm.text'
       }
     }
@@ -207,10 +207,10 @@ export function getDecryptedMessageContent(event: MatrixEvent): {
     // Try to get decrypted content
     const decryptedContent = event.getClearContent()
     
-    if (decryptedContent && decryptedContent.body) {
+    if (decryptedContent && decryptedContent['body']) {
       return {
-        body: decryptedContent.body,
-        formatted_body: decryptedContent.formatted_body,
+        body: decryptedContent['body'],
+        formatted_body: decryptedContent['formatted_body'],
         msgtype: decryptedContent.msgtype || 'm.text'
       }
     }
