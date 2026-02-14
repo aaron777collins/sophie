@@ -11,6 +11,7 @@ import { FriendList } from './user/friend-list';
 import { useVoiceStore, VoiceParticipant } from '@/stores/voice-store';
 import { useMatrixUserStore } from '@/lib/matrix-user-context';
 import { useFriends } from '@/hooks/use-friends';
+import { CryptoDebug } from './crypto/crypto-status';
 
 // Mock data for demonstration
 const mockVoiceChannels: VoiceChannelInfo[] = [
@@ -271,6 +272,11 @@ export function MainApp() {
             </div>
           </div>
         )}
+
+        {/* Crypto Debug Panel */}
+        <div className="p-2 border-t border-gray-600">
+          <CryptoDebug />
+        </div>
 
         {/* User area */}
         <div className="p-2 bg-[#232428] flex items-center gap-2">

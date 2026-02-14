@@ -1,8 +1,16 @@
 # HAOS v2 Project Overview
 
 ## Current Status
-**Phase:** 2-3 (Authentication, Rooms, Early UI Components)
+**Phase:** 7 (Security & Voice/Video)
 **Progress:** 🟢 ON TRACK
+
+### Phase 7 Progress (E2EE Security)
+- ✅ **p7-1-crypto-init** — Rust crypto system initialized (2026-02-15)
+  - @matrix-org/matrix-sdk-crypto-wasm integrated
+  - IndexedDB crypto store at lib/matrix/crypto/store.ts
+  - initRustCrypto() in lib/matrix/client.ts
+  - MatrixProvider handles crypto ready state
+  - Build passes with all TypeScript fixes
 
 ## Core Components Implemented
 

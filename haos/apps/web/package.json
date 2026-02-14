@@ -26,7 +26,8 @@
     "livekit-client": "^2.0.0",
     "@livekit/components-react": "^2.0.0",
     "@livekit/components-styles": "^1.0.0",
-    "livekit-server-sdk": "^2.0.0"
+    "livekit-server-sdk": "^2.0.0",
+    "@matrix-org/matrix-sdk-crypto-wasm": "^8.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

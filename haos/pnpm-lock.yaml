@@ -47,6 +47,9 @@ importers:
       '@livekit/components-styles':
         specifier: ^1.0.0
         version: 1.2.0
+      '@matrix-org/matrix-sdk-crypto-wasm':
+        specifier: ^8.0.0
+        version: 8.0.0
       '@radix-ui/react-dialog':
         specifier: ^1.0.5
         version: 1.1.15(@types/react-dom@18.3.7(@types/react@18.3.28))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -244,6 +247,10 @@ packages:
 
   '@matrix-org/matrix-sdk-crypto-wasm@4.10.0':
     resolution: {integrity: sha512-zOqKVAYPfzs6Hav/Km9F5xWwoQ0bxDuoUU0/121m03Fg2VnfcHk43TjKImZolFc7IlgXwVGoda9Pp9Z/eTVKJA==}
+    engines: {node: '>= 10'}
+
+  '@matrix-org/matrix-sdk-crypto-wasm@8.0.0':
+    resolution: {integrity: sha512-s0q3O2dK8b6hOJ+SZFz+s/IiMabmVsNue6r17sTwbrRD8liBkCrpjYnxoMYvtC01GggJ9TZLQbeqpt8hQSPHAg==}
     engines: {node: '>= 10'}
 
   '@napi-rs/wasm-runtime@0.2.12':
@@ -2633,6 +2640,8 @@ snapshots:
       '@bufbuild/protobuf': 1.10.1
 
   '@matrix-org/matrix-sdk-crypto-wasm@4.10.0': {}
+
+  '@matrix-org/matrix-sdk-crypto-wasm@8.0.0': {}
 
   '@napi-rs/wasm-runtime@0.2.12':
     dependencies:

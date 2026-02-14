@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { FirstRunExperienceProvider } from '@/components/onboarding/first-run-provider'
+import { MatrixProvider } from '@/components/providers/matrix-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${inter.className} bg-discord-dark text-white`}>
-        <FirstRunExperienceProvider>
-          {children}
-        </FirstRunExperienceProvider>
+        <MatrixProvider>
+          <FirstRunExperienceProvider>
+            {children}
+          </FirstRunExperienceProvider>
+        </MatrixProvider>
       </body>
     </html>
   )
