@@ -55,6 +55,33 @@ himalaya account list
 himalaya folder list
 ```
 
+## ⚠️ Email Formatting: Markdown → Plain Text
+- [2026-02-14 17:32 EST] **LESSON LEARNED**: Emails are plain text, markdown doesn't render!
+
+### Convert markdown to plain text before sending:
+```bash
+cat document.md | \
+  sed 's/^# \(.*\)/\n\U\1\E\n===============================================================================/g' | \
+  sed 's/^## \(.*\)/\n\U\1\E\n-------------------------------------------------------------------------------/g' | \
+  sed 's/^### \(.*\)/\n\U\1\E\n/g' | \
+  sed 's/\*\*//g' | \
+  sed 's/`//g' | \
+  sed 's/^- /• /g' > document-plaintext.txt
+```
+
+### What this does:
+- `# Header` → `HEADER` with `===` underline
+- `## Subheader` → `SUBHEADER` with `---` underline  
+- `### Small header` → `SMALL HEADER` (just caps)
+- `**bold**` → `bold` (remove markers)
+- `` `code` `` → `code` (remove backticks)
+- `- bullet` → `• bullet` (unicode bullet)
+
+### Always remember:
+- Tables with `|` won't align perfectly but are readable
+- ASCII art diagrams (boxes, arrows) work fine
+- Keep lines under 80 chars when possible
+
 ### ❌ WRONG - Do NOT do this:
 ```bash
 # This will NOT expand the cat command!
