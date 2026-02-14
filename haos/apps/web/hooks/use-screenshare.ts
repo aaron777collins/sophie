@@ -219,9 +219,10 @@ export function useScreenShare(options: UseScreenShareOptions = {}): UseScreenSh
     } else {
       // Start with screen selection
       const sources = await startSourceSelection();
-      if (sources.length === 1) {
+      const firstSource = sources[0];
+      if (sources.length === 1 && firstSource) {
         // If only one source available, use it directly
-        await selectAndStartSharing(sources[0]);
+        await selectAndStartSharing(firstSource);
       }
       // Otherwise, user needs to select from UI
     }

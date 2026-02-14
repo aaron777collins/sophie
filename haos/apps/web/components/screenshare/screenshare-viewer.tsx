@@ -59,12 +59,8 @@ export function ScreenShareViewer({
 
     const attachTrack = () => {
       try {
-        if ('attach' in track.track) {
-          track.track.attach(videoElement);
-        } else {
-          // For Remote tracks, attach directly
-          videoElement.srcObject = new MediaStream([track.track.mediaStreamTrack]);
-        }
+        // Both LocalVideoTrack and RemoteVideoTrack have attach method
+        track.track.attach(videoElement);
         setHasError(false);
       } catch (err) {
         console.error('Failed to attach screen share track:', err);
