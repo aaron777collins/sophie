@@ -2,6 +2,16 @@
 
 Skills define *how* tools work. This file is for *your* specifics — the stuff that's unique to your setup.
 
+## 🔑 Credentials & Access
+
+> **📖 Master Reference:** `memory/topics/credentials-and-access.md`
+
+Quick links to all credentials:
+- **Email:** See [Email section](#-email-himalaya) below or `memory/topics/email-setup.md`
+- **GitHub:** `~/.config/gh/hosts.yml`
+- **SSH:** `~/.ssh/config` (hosts: jaekel, dev2)
+- **AWS:** Not configured (ask Aaron if needed)
+
 ## Claude Code CLI (Opus Thinking)
 
 **Purpose:** Extra brainpower, second opinions, and deeper thinking. Use freely!
@@ -117,6 +127,74 @@ browser action=snapshot profile=chrome
 
 ### Channels
 - **#aibot-chat** → `C0ABAU26S6N` (default channel for Sophie)
+
+---
+
+## 📧 Email (Himalaya)
+
+> **📖 Full Guide:** `memory/topics/email-setup.md` ← **READ THIS BEFORE SENDING EMAIL**
+
+### Quick Reference
+
+| Setting | Value |
+|---------|-------|
+| **From address** | `contact@aaroncollins.info` |
+| **App password** | `749n8f4k755l4r32` |
+| **Config file** | `~/.config/himalaya/config.toml` |
+| **Aaron's primary** | `aaron777collins@gmail.com` (CC him here) |
+
+### Send a Simple Email (Copy-Paste Ready)
+
+```bash
+cat << EOF | himalaya template send
+From: contact@aaroncollins.info
+To: recipient@example.com
+Cc: aaron777collins@gmail.com
+Subject: Your Subject
+
+Your message here.
+
+Best,
+Aaron
+EOF
+```
+
+### Send HTML Email (Professional)
+
+```bash
+# 1. Create HTML file
+cat > /tmp/email.html << 'HTMLEOF'
+<!DOCTYPE html>
+<html><body style="font-family: Arial, sans-serif;">
+<h1>Title</h1>
+<p>Your content here.</p>
+</body></html>
+HTMLEOF
+
+# 2. Load and send
+HTML_CONTENT=$(cat /tmp/email.html)
+cat << EOF | himalaya template send
+From: contact@aaroncollins.info
+To: recipient@example.com
+Cc: aaron777collins@gmail.com
+Subject: Your Subject
+
+<#multipart type=alternative>
+Plain text fallback here.
+<#part type=text/html>
+${HTML_CONTENT}
+<#/multipart>
+EOF
+```
+
+### ⚠️ Critical Rule
+Use `<< EOF` (unquoted) NOT `<< 'EOF'` — quoted heredocs don't expand variables!
+
+### Test Connection
+```bash
+himalaya account list
+# Should show: fastmail | IMAP, SMTP | yes
+```
 
 ---
 

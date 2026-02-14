@@ -277,3 +277,4 @@ himalaya folder list
 - [ ] Plain text fallback included
 - [ ] From address is `contact@aaroncollins.info`
 - [ ] CC to `aaron777collins@gmail.com` if Aaron should see it
+- [ ] **VERIFY ALL LINKS** with `curl -sI <url>` — check for 200 response!
