@@ -31,6 +31,13 @@
   - Connected users display with avatars and speaking indicators
   - Voice activity animations and real-time participant tracking
   - Build passes without TypeScript errors in new components
+- ✅ **p7-9-video-calls** — Video call functionality implemented (2026-02-14)
+  - VideoCallLayout fully wired to LiveKit with camera controls
+  - Multi-participant video grid with up to 16 participants
+  - Camera toggle, device selection, and video quality settings
+  - Complete video controls (mute, camera, screen share, layout switching)
+  - Picture-in-picture and fullscreen mode support
+  - All TypeScript compilation errors resolved
 - ✅ **p7-3-device-verify** — Device verification (emoji/QR) for Matrix E2EE (2026-02-15)
   - Complete DeviceVerificationModal component with emoji and QR verification flows
   - Device verification utilities at lib/matrix/crypto/verification.ts

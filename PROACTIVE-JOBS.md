@@ -89,32 +89,35 @@
   - ✅ Build passes without TypeScript errors
 
 ### p7-3-device-verify — Device Verification
-- **Status:** 🔄 in-progress
+- **Status:** ✅ completed
 - **Model:** sonnet
 - **Priority:** HIGH
 - **Depends on:** p7-1-crypto-init ✅
 - **Agent:** agent:main:subagent:61550638-eaba-442b-9a44-57cac905cf88
 - **Started:** 2026-02-14 12:40 EST
+- **Completed:** 2026-02-15 08:15 EST
 - **Description:**
-  - Create DeviceVerificationModal component
-  - Implement emoji verification flow (SAS)
-  - Implement QR code verification
-  - Show verification prompts on new login
-  - Display device verification status
+  - ✅ Create DeviceVerificationModal component
+  - ✅ Implement emoji verification flow (SAS)
+  - ✅ Implement QR code verification
+  - ✅ Show verification prompts on new login
+  - ✅ Display device verification status
 - **Files:**
-  - `components/modals/device-verification-modal.tsx` — NEW
-  - `lib/matrix/crypto/verification.ts` — NEW
-  - `hooks/use-device-verification.ts` — NEW
+  - `components/modals/device-verification-modal.tsx` — NEW ✅
+  - `lib/matrix/crypto/verification.ts` — NEW ✅
+  - `hooks/use-device-verification.ts` — NEW ✅
 - **Acceptance:**
-  - Can verify devices with emoji comparison
-  - Verification status persists
-  - Prompts shown for unverified devices
+  - ✅ Can verify devices with emoji comparison
+  - ✅ Verification status persists
+  - ✅ Prompts shown for unverified devices
 
 ### p7-4-cross-signing — Cross-Signing Setup
-- **Status:** ⏳ pending
+- **Status:** 🔄 in-progress
 - **Model:** sonnet
 - **Priority:** HIGH
-- **Depends on:** p7-3-device-verify
+- **Depends on:** p7-3-device-verify ✅
+- **Agent:** agent:main:subagent:3cdbc1a2-8836-49ce-ae46-72d2ea5bb859
+- **Started:** 2026-02-15 13:00 EST
 - **Description:**
   - Implement master/self-signing/user-signing key generation
   - Create cross-signing bootstrap flow
@@ -217,10 +220,13 @@
   - ✅ Speaking indicators work (visual feedback with animations)
 
 ### p7-9-video-calls — Video Call Functionality
-- **Status:** ⏳ pending
+- **Status:** ✅ completed
 - **Model:** sonnet
 - **Priority:** HIGH
-- **Depends on:** p7-8-voice-channels
+- **Depends on:** p7-8-voice-channels ✅
+- **Agent:** agent:main:subagent:a842d608-1b8e-43a4-9dca-c3d6aafab862
+- **Started:** 2026-02-14 18:00 EST
+- **Completed:** 2026-02-14 18:10 EST
 - **Description:**
   - Wire up VideoCallLayout fully
   - Implement video toggle
@@ -277,17 +283,17 @@
 |------|--------|----------|-------|------------|
 | p7-1-crypto-init | ✅ completed | 🔴 CRITICAL | opus | — |
 | p7-2-room-encryption | ⏳ pending | 🔴 CRITICAL | sonnet | p7-1 ✅ |
-| p7-3-device-verify | ⏳ pending | HIGH | sonnet | p7-1 ✅ |
-| p7-4-cross-signing | ⏳ pending | HIGH | sonnet | p7-3 |
+| p7-3-device-verify | ✅ completed | HIGH | sonnet | p7-1 ✅ |
+| p7-4-cross-signing | 🔄 in-progress | HIGH | sonnet | p7-3 ✅ |
 | p7-5-key-backup | ⏳ pending | HIGH | sonnet | p7-4 |
 | p7-6-secret-storage | ⏳ pending | MEDIUM | sonnet | p7-5 |
 | p7-7-livekit-deploy | ✅ completed | HIGH | sonnet | — |
 | p7-8-voice-channels | ✅ completed | HIGH | sonnet | p7-7 ✅ |
-| p7-9-video-calls | ⏳ pending | HIGH | sonnet | p7-8 |
-| p7-10-screen-share | ⏳ pending | MEDIUM | sonnet | p7-9 |
+| p7-9-video-calls | ✅ completed | HIGH | sonnet | p7-8 ✅ |
+| p7-10-screen-share | ⏳ pending | MEDIUM | sonnet | p7-9 ✅ |
 
-**Total Tasks:** 10 (3 ✅, 0 🔄, 7 ⏳)
-**Phase 7 Status:** 🟡 **IN PROGRESS** — Crypto foundation complete, p7-2 and p7-3 now unblocked
+**Total Tasks:** 10 (6 ✅, 0 🔄, 4 ⏳)
+**Phase 7 Status:** 🟡 **IN PROGRESS** — Security & Voice/Video workstreams active in parallel
 
 ---
 
