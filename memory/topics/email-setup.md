@@ -82,6 +82,45 @@ cat document.md | \
 - ASCII art diagrams (boxes, arrows) work fine
 - Keep lines under 80 chars when possible
 
+## ✨ HTML Emails (The Better Way!)
+- [2026-02-14 17:37 EST] **USE HTML for professional emails!**
+
+### MML Format for HTML Emails:
+```bash
+HTML_CONTENT=$(cat /tmp/email.html)
+
+cat << EOF | himalaya template send
+From: contact@aaroncollins.info
+To: recipient@example.com
+Subject: Your Subject
+
+<#multipart type=alternative>
+Plain text fallback for old email clients.
+<#part type=text/html>
+${HTML_CONTENT}
+<#/multipart>
+EOF
+```
+
+### HTML Email Tips:
+- Use `<#multipart type=alternative>` for HTML with plain text fallback
+- Inline CSS styles (email clients strip <style> tags sometimes)
+- Use tables for layout (old school but reliable)
+- Good fonts: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial
+- Color-code important info: green for success, orange for warnings
+- Use `<code>` for technical terms, `<table>` for data
+
+### Example Inline Styles:
+```html
+<h1 style="color: #1a365d; border-bottom: 3px solid #3182ce;">Header</h1>
+<table style="border-collapse: collapse; width: 100%;">
+<tr><th style="background: #edf2f7; padding: 10px;">Col</th></tr>
+</table>
+<div style="background: #f0fff4; border-left: 4px solid #38a169; padding: 15px;">
+  Key insight box
+</div>
+```
+
 ### ❌ WRONG - Do NOT do this:
 ```bash
 # This will NOT expand the cat command!
