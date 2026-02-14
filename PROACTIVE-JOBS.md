@@ -1,9 +1,9 @@
-# PROACTIVE-JOBS.md — HAOS Phase 7: Security + Voice/Video
+# PROACTIVE-JOBS.md — Multiple Active Projects
 
-> **Status (2026-02-14 13:45 EST):** 🟢 **PHASE 7 FINAL STRETCH — 9/11 tasks done**
-> **Previous:** Phase 6 complete (2026-02-15 05:46 EST)
-> **Current Focus:** p7-6-secret-storage → p7-11-security-audit (OPUS) → DEPLOY to dev2
-> **Master Plan:** `docs/haos-v2/HAOS-MASTER-PLAN.md`
+> **Status (2026-02-14 14:01 EST):** 🟢 **HAOS Phase 7 Final Task + PortableRalph Phase 0**
+> **HAOS:** Phase 7 - 9/10 tasks done, p7-11-security-audit in-progress 
+> **PortableRalph:** Phase 0 - Deep Analysis starting (5 Opus tasks)
+> **Master Plans:** `docs/haos-v2/HAOS-MASTER-PLAN.md` | `docs/plans/portableralph/MASTER-PLAN.md`
 
 ## 📊 CURRENT STATE
 
@@ -31,7 +31,96 @@
 
 ---
 
-## 🚀 PHASE 7 TASKS — Security Foundation (E2EE)
+## 🔍 PORTABLERALPH PHASE 0 — Deep Analysis
+
+### p0-1-categorize-failures — Categorize Test Failures
+- **Status:** ✅ completed
+- **Completed:** 2026-02-14 14:10 EST
+- **Model:** opus
+- **Priority:** 🔴 CRITICAL
+- **Parent:** portableralph-p0
+- **Repository:** https://github.com/aaron777collins/portableralph
+- **Local Clone:** ~/repos/portableralph-audit
+- **Description:**
+  - Categorize all 7 failing test suites by failure type
+  - Group failures: build errors, dependency issues, test logic, environment, etc.
+  - Document patterns and commonalities
+- **Success Criteria:**
+  - [x] All 7 test failures categorized with types
+  - [x] Failure patterns documented
+  - [x] Created test-failure-analysis.md
+- **Deliverable:** `~/repos/portableralph-audit/test-failure-analysis.md`
+- **Categories Identified:**
+  1. MISSING_DEP (1) - Missing monitor-progress.sh
+  2. EXIT_CODE (3) - Wrong exit codes returned
+  3. IMPL_GAP (2) - Security features not implemented
+  4. ASSERT_LOGIC (2) - Test assertions don't match implementation
+
+### p0-2-identify-relations — Identify Failure Relations  
+- **Status:** pending
+- **Model:** opus
+- **Priority:** 🔴 CRITICAL
+- **Parent:** portableralph-p0
+- **Depends on:** p0-1-categorize-failures
+- **Description:**
+  - Analyze if test failures are related (systemic vs isolated)
+  - Identify root causes vs symptoms
+  - Map failure dependencies
+- **Success Criteria:**
+  - [ ] Systemic vs isolated failures identified
+  - [ ] Root cause vs symptom mapping complete
+  - [ ] Failure dependency graph created
+
+### p0-3-architecture-audit — Check Architecture Issues
+- **Status:** pending  
+- **Model:** opus
+- **Priority:** HIGH
+- **Parent:** portableralph-p0
+- **Depends on:** p0-2-identify-relations
+- **Description:**
+  - Review codebase architecture for fundamental issues
+  - Check for design problems causing cascading failures
+  - Assess technical debt impact on testing
+- **Success Criteria:**
+  - [ ] Architecture review complete
+  - [ ] Design issues documented
+  - [ ] Technical debt assessment done
+
+### p0-4-complexity-estimates — Fix Complexity Estimates
+- **Status:** pending
+- **Model:** opus  
+- **Priority:** HIGH
+- **Parent:** portableralph-p0
+- **Depends on:** p0-3-architecture-audit
+- **Description:**
+  - Estimate complexity/effort for each identified fix
+  - Consider dependencies between fixes
+  - Rate difficulty: trivial/easy/moderate/hard/major-refactor
+- **Success Criteria:**
+  - [ ] All fixes have complexity estimates
+  - [ ] Effort estimates documented
+  - [ ] Dependency complexity assessed
+
+### p0-5-prioritized-order — Create Fix Priority Order
+- **Status:** pending
+- **Model:** opus
+- **Priority:** HIGH  
+- **Parent:** portableralph-p0
+- **Depends on:** p0-4-complexity-estimates
+- **Description:**
+  - Create prioritized fix order considering:
+    - Impact on other fixes
+    - Effort vs benefit ratio
+    - Prerequisite dependencies
+    - Risk assessment
+- **Success Criteria:**
+  - [ ] Fix priority order documented
+  - [ ] Justification for ordering provided
+  - [ ] Created fix-strategy.md document
+
+---
+
+## 🚀 HAOS PHASE 7 TASKS — Security Foundation (E2EE)
 
 ### p7-1-crypto-init — Initialize Rust Crypto ✅
 - **Status:** ✅ completed
@@ -179,10 +268,12 @@
   - ✅ Works across devices
 
 ### p7-11-security-audit — Full Security Audit & Production Hardening
-- **Status:** ⏳ pending
+- **Status:** 🔄 in-progress
 - **Model:** opus
 - **Priority:** 🔴 CRITICAL
 - **Depends on:** p7-6-secret-storage
+- **Agent:** agent:main:subagent:360aed73-0483-4ab1-afde-c6be25d8c098
+- **Started:** 2026-02-14 14:00 EST
 - **Description:**
   - **Full security audit** of all E2EE code (crypto init, room encryption, device verification, cross-signing, key backup, secret storage)
   - **Identify vulnerabilities** — Review for common crypto mistakes, timing attacks, key leakage, improper randomness
