@@ -11,7 +11,7 @@ const nextConfig = {
   },
   env: {
     // LiveKit Configuration
-    NEXT_PUBLIC_LIVEKIT_URL: process.env.NEXT_PUBLIC_LIVEKIT_URL || 'ws://dev2.aaroncollins.info:7880',
+    NEXT_PUBLIC_LIVEKIT_URL: process.env.NEXT_PUBLIC_LIVEKIT_URL || 'wss://livekit.dev2.aaroncollins.info',
     LIVEKIT_API_KEY: process.env.LIVEKIT_API_KEY || 'devkey',
     LIVEKIT_API_SECRET: process.env.LIVEKIT_API_SECRET || 'LiveKit2026SecretKeyForMatrix',
   },

@@ -26,7 +26,7 @@
 - **Completed:** 2026-02-13 22:03 EST by worker p5-1-infra
 
 ### p5-2-voice-service — Voice Channel Service & Hooks
-- **Status:** pending (blocked by p5-1-infra)
+- **Status:** in-progress
 - **Priority:** HIGH
 - **Model:** sonnet
 - **Description:** Create voice channel service and React hooks

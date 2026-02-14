@@ -1,59 +1,68 @@
-# Progress: p5-1-infra
+# p5-1-infra: LiveKit Infrastructure Setup
 
-## Task
-Set up LiveKit infrastructure for voice/video calling.
-
-**CRITICAL TASK — BLOCKS ALL OTHER VOICE/VIDEO WORK**
-
-**Deliverables:**
-1. **LiveKit Server on dev2** (ssh dev2)
-   - Install LiveKit server via Docker
-   - Configure TURN/STUN servers
-   - Set up SSL (use existing certs or Let's Encrypt)
-   - Configure firewall rules for WebRTC UDP ports
-   - Create API keys
-   - Test LiveKit is accessible
-
-2. **HAOS Integration**
-   - Add dependencies to /home/ubuntu/clawd/haos/apps/web/package.json:
-     - livekit-client
-     - @livekit/components-react
-     - @livekit/components-styles
-   - Run pnpm install
-   - Create /home/ubuntu/clawd/haos/apps/web/services/livekit.ts:
-     - LiveKit client initialization
-     - Token generation service (call backend or use JWT)
-     - Room connection management
-   - Add environment variables to next.config.js
-   - Verify build still works
-
-## Communication Log
-- [2026-02-13 21:50 EST] Received task from main agent
-- [2026-02-13 21:50 EST] Starting progress tracking
-
-## Attempts
-### Attempt 1 — 2026-02-13 21:50 EST
-- **Status:** COMPLETED ✅
-- **What I tried:** Full LiveKit infrastructure setup for HAOS v2 Phase 5
-- **What worked:** 
-  - Found existing LiveKit server running on dev2 at port 7880
-  - LiveKit server is functional with API key `devkey` and secret `LiveKit2026SecretKeyForMatrix` 
-  - Successfully added LiveKit dependencies to HAOS package.json
-  - Created production-ready LiveKit service at `/home/ubuntu/clawd/haos/apps/web/services/livekit.ts`
-  - Added environment variables to next.config.js for LiveKit configuration
-  - Fixed TypeScript compatibility issues in existing HAOS code
-  - Verified TypeScript compilation passes without errors
-- **Deliverables completed:**
-  ✅ LiveKit Server accessible on dev2:7880
-  ✅ Added livekit-client, @livekit/components-react, @livekit/components-styles dependencies
-  ✅ Created production-ready LiveKit service with full error handling
-  ✅ Added environment configuration
-  ✅ TypeScript strict compliance verified
-- **Configuration Details:**
-  - LiveKit URL: ws://dev2.aaroncollins.info:7880
-  - API Key: devkey
-  - API Secret: LiveKit2026SecretKeyForMatrix
-  - Service includes: token generation, room management, media controls, error handling
+## Status: ✅ COMPLETED
+**Completed:** 2026-02-13 22:07 EST
 
 ## Summary
-✅ **TASK COMPLETED SUCCESSFULLY** - LiveKit infrastructure is ready for HAOS v2 voice/video integration. The existing LiveKit server on dev2 is functional and the HAOS integration layer has been implemented with production-ready code.
+LiveKit infrastructure was already running on dev2. Task focused on integrating LiveKit client into HAOS.
+
+## What Was Done
+
+### 1. Infrastructure Verification (dev2)
+- ✅ LiveKit server: `matrix-livekit` container on ports 7880-7882
+- ✅ JWT service: `matrix-livekit-jwt` container on port 8380
+- ✅ TURN server: `matrix-coturn` container
+- ✅ Caddy reverse proxy configured
+- ✅ All containers running 4+ days
+
+### 2. LiveKit Dependencies
+Added to `/home/ubuntu/clawd/haos/apps/web/package.json`:
+- `livekit-client@^2.0.0`
+- `@livekit/components-react@^2.0.0`
+- `@livekit/components-styles@^1.0.0`
+
+### 3. LiveKit Service Created
+File: `/home/ubuntu/clawd/haos/apps/web/services/livekit.ts` (13KB)
+
+Features implemented:
+- Token requests via JWT service (server-side token generation)
+- Room connection/disconnection with reconnection logic
+- Audio controls (mute/unmute)
+- Video controls (camera on/off)
+- Screen sharing with audio
+- Data channel messaging
+- Event handling system
+- Participant tracking
+- Singleton pattern for global access
+
+### 4. Configuration
+Created: `/home/ubuntu/clawd/haos/docs/LIVEKIT-CONFIG.md`
+
+Environment variables:
+- `NEXT_PUBLIC_LIVEKIT_URL=wss://livekit.dev2.aaroncollins.info`
+- `NEXT_PUBLIC_LIVEKIT_JWT_URL=https://dev2.aaroncollins.info/_livekit`
+
+### 5. Build Fixes
+Fixed TypeScript errors:
+- Updated Lucide icon usage (span wrapper for title)
+- Fixed Matrix SDK type imports
+- Fixed LiveKit Room options for v2 API
+- Fixed env variable access patterns
+
+## Build Status
+✅ Build passing as of 2026-02-13 22:05 EST
+
+## Files Changed
+- `haos/apps/web/package.json` - Added LiveKit deps
+- `haos/apps/web/services/livekit.ts` - NEW - LiveKit service
+- `haos/docs/LIVEKIT-CONFIG.md` - NEW - Configuration docs
+- `haos/docs/PHASE5-VOICE-VIDEO-PLAN.md` - NEW - Implementation plan
+- `haos/apps/web/next.config.js` - Updated env vars
+- `haos/apps/web/hooks/use-matrix-client.ts` - Fixed types
+- `haos/apps/web/components/server-discovery/server-list.tsx` - Fixed Lucide usage
+- `haos/apps/web/components/server-discovery/server-discovery-modal.tsx` - Fixed types
+
+## Next Steps
+- p5-2-voice-service: Voice channel hooks and store
+- p5-3-voice-ui: Voice channel UI components
+- p5-4-video: Video calling implementation
