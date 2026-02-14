@@ -5,14 +5,19 @@
 ## Active Projects
 
 ### haos-v2
-- **Status:** STABILIZATION — Phase 5 ON HOLD per Person Manager
-- **Priority:** LOW (monitoring only)
-- **Current Phase:** Phases 1-4 Complete, Phase 5 awaiting Aaron's approval
-- **Task Queue:** No active tasks — stabilization mode
-- **Last Progress:** 2026-02-13 20:00 EST — Strategic direction received from PM
-- **Notes:** `notes/projects/haos-v2.md`, `coordinator/notes/2026-02-13-1501-status-verification.md`
-- **Current Status:** Monitoring for bugs, no new feature work
-- **Worker Status:** No workers needed — stabilization period
+- **Status:** ACTIVE — Phase 5 Voice/Video FULL IMPLEMENTATION
+- **Priority:** HIGH (Aaron's direct order)
+- **Current Phase:** Phase 5 — Voice & Video Integration
+- **Task Queue:** Full Phase 5 implementation + deployment to dev2
+- **Last Progress:** 2026-02-13 21:45 EST — Aaron authorized full implementation
+- **Notes:** `notes/projects/haos-v2.md`
+- **Current Status:** FULL IMPLEMENTATION MODE — Voice/Video + Deploy to dev2
+- **Worker Status:** Spawning workers for Phase 5 tasks
+- **Requirements:** 
+  - Complete Voice/Video integration (LiveKit)
+  - Full code review on all work
+  - Deploy to dev2 when complete
+  - NO STUBS — production-ready implementation only
 
 ## Active Topics
 
