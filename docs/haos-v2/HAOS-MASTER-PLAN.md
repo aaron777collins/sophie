@@ -190,49 +190,97 @@ export async function initializeClient(session: MatrixSession): Promise<MatrixCl
 
 ---
 
-### Phase 2: Voice/Video Infrastructure
-**Timeline:** 1-2 weeks  
-**Complexity:** MEDIUM  
+### Phase 2: Voice/Video Infrastructure (MatrixRTC + LiveKit)
+**Timeline:** 2-3 weeks  
+**Complexity:** HIGH  
 
-#### 2.1 LiveKit Server Deployment
-**Tasks:**
-- [ ] P2-001: Deploy LiveKit server (Docker on dev2)
-- [ ] P2-002: Configure LiveKit with TLS
-- [ ] P2-003: Set up LiveKit API credentials
-- [ ] P2-004: Enable LiveKit API route (move from _disabled)
-- [ ] P2-005: Test basic voice connectivity
+> **Reference:** Element Call implementation, lk-jwt-service, matrix-js-sdk MatrixRTCSession
+> **Security Model:** LiveKit SFU only routes encrypted packets - never sees content
 
-#### 2.2 Voice Channels
+#### 2.1 MatrixRTC Backend Infrastructure
 **Tasks:**
-- [ ] P2-006: Create VoiceChannel component
-- [ ] P2-007: Wire up useVoiceChannel to UI
-- [ ] P2-008: Show connected users in voice channel
-- [ ] P2-009: Implement voice channel permissions
-- [ ] P2-010: Add "Join Voice" button to channels
+- [ ] P2-001: Deploy LiveKit SFU (Docker on dev2, port 7880)
+  - Use `docker run -p 7880:7880 livekit/livekit-server`
+  - Configure with `room.auto_create: false` (CRITICAL)
+- [ ] P2-002: Deploy lk-jwt-service (Docker, port 8080)
+  - Set `LIVEKIT_FULL_ACCESS_HOMESERVERS` to our homeserver
+  - Connect to LiveKit with API key/secret
+- [ ] P2-003: Configure Synapse for MatrixRTC
+  - Enable MSC3266 (room summaries)
+  - Enable MSC4140 (delayed events)
+  - Enable MSC4222 (sync v2 state_after)
+  - Set `max_event_delay_duration: 24h`
+- [ ] P2-004: Set up reverse proxy routing
+  - `/livekit/jwt` → lk-jwt-service:8080
+  - `/livekit/sfu` → LiveKit:7880 (WebSocket)
+- [ ] P2-005: Configure .well-known/matrix/client
+  - Add `org.matrix.msc4143.rtc_foci` with LiveKit service URL
+- [ ] P2-006: Test infrastructure with Element Call (reference implementation)
 
-#### 2.3 Video Calls
+#### 2.2 matrix-js-sdk MatrixRTC Integration
 **Tasks:**
-- [ ] P2-011: Wire up VideoCallLayout to rooms
-- [ ] P2-012: Implement video toggle
-- [ ] P2-013: Create video call UI (grid layout)
-- [ ] P2-014: Implement camera selection
-- [ ] P2-015: Add video call controls (mute, camera, leave)
+- [ ] P2-007: Create MatrixRTCProvider context
+  - Initialize MatrixRTCSession for rooms
+  - Handle session lifecycle
+- [ ] P2-008: Implement call membership management
+  - Use `m.call.member` state events
+  - Handle delayed leave events for proper cleanup
+- [ ] P2-009: Wire up RTCEncryptionManager
+  - Enable `manageMediaKeys: true`
+  - Handle EncryptionKeyChanged events
+  - Configure key rotation timing
+- [ ] P2-010: Implement key transport
+  - Use ToDeviceKeyTransport for E2EE key sharing
+  - Handle KeyTransportEvents.ReceivedKeys
+- [ ] P2-011: Create useMatrixRTCSession hook
 
-#### 2.4 Screen Sharing
+#### 2.3 LiveKit Client Integration
 **Tasks:**
-- [ ] P2-016: Implement screen capture
-- [ ] P2-017: Create screen share button
-- [ ] P2-018: Show screen share in call layout
-- [ ] P2-019: Implement screen share audio
-- [ ] P2-020: Handle multiple screen shares
+- [ ] P2-012: Set up LiveKit client SDK with E2EE
+  - Use @livekit/components-react
+  - Enable E2EE with key from Matrix
+- [ ] P2-013: Implement LiveKit token acquisition
+  - Get OpenID token from Matrix
+  - Exchange for LiveKit JWT via /livekit/jwt
+- [ ] P2-014: Connect encryption keys
+  - Pass Matrix encryption keys to LiveKit E2EE
+  - Handle key rotation in LiveKit
+- [ ] P2-015: Create useLiveKitRoom hook with E2EE
 
-#### 2.5 Call E2EE (Element-Level Security)
+#### 2.4 Voice Channels
 **Tasks:**
-- [ ] P2-021: Enable LiveKit E2EE
-- [ ] P2-022: Generate call encryption keys
-- [ ] P2-023: Distribute keys via Matrix
-- [ ] P2-024: Show E2EE indicator in calls
-- [ ] P2-025: Test encrypted call quality
+- [ ] P2-016: Create VoiceChannel component
+- [ ] P2-017: Wire up useMatrixRTCSession to voice channels
+- [ ] P2-018: Show connected users in voice channel (from call membership)
+- [ ] P2-019: Implement voice channel permissions
+- [ ] P2-020: Add "Join Voice" button to channels
+- [ ] P2-021: Voice activity detection (speaking indicators)
+
+#### 2.5 Video Calls
+**Tasks:**
+- [ ] P2-022: Create VideoCallLayout component
+  - Grid view for multiple participants
+  - Spotlight view for active speaker
+- [ ] P2-023: Implement video toggle with proper track management
+- [ ] P2-024: Implement camera selection
+- [ ] P2-025: Add video call controls (mute, camera, leave)
+- [ ] P2-026: Handle participant video tiles
+
+#### 2.6 Screen Sharing
+**Tasks:**
+- [ ] P2-027: Implement screen capture via getDisplayMedia
+- [ ] P2-028: Create screen share button
+- [ ] P2-029: Show screen share in call layout (spotlight when sharing)
+- [ ] P2-030: Implement screen share with system audio
+- [ ] P2-031: Handle multiple simultaneous screen shares
+
+#### 2.7 Call E2EE Verification & UI
+**Tasks:**
+- [ ] P2-032: Show E2EE shield indicator in calls
+- [ ] P2-033: Verify call encryption is working (test with network capture)
+- [ ] P2-034: Handle decryption errors gracefully
+- [ ] P2-035: Test key rotation on participant join/leave
+- [ ] P2-036: Performance testing with E2EE enabled
 
 ---
 
@@ -400,25 +448,192 @@ components/
 │   └── device-list.tsx
 ```
 
-### Voice/Video Architecture
+### Voice/Video Architecture (MatrixRTC + LiveKit)
+
+**Research Source:** Element Call implementation, matrix-js-sdk MatrixRTCSession, lk-jwt-service
+
+#### How Element Does It (Our Reference Implementation)
+
+Element implements secure video calls using **MatrixRTC** - a protocol that combines:
+1. **Matrix** - for signaling, room membership, and E2EE key exchange
+2. **LiveKit SFU** - for media routing (the SFU never sees decrypted media)
 
 ```
-┌─────────────────┐     ┌──────────────┐     ┌─────────────┐
-│   HAOS Client   │────▶│  LiveKit API │────▶│ LiveKit SFU │
-│   (Browser)     │     │  (Next.js)   │     │  (Server)   │
-└────────┬────────┘     └──────────────┘     └──────┬──────┘
-         │                                          │
-         │              Matrix Signaling            │
-         │         (Room events for E2EE keys)      │
-         └──────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────┐
+│                           HAOS MatrixRTC Stack                            │
+├───────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│   ┌─────────────────┐         ┌─────────────────┐                         │
+│   │   HAOS Client   │◀───────▶│   HAOS Client   │   (Other participants)  │
+│   │   (Browser)     │         │   (Browser)     │                         │
+│   └────────┬────────┘         └────────┬────────┘                         │
+│            │                           │                                  │
+│            │     ┌─────────────────────┴─────────────────────┐            │
+│            │     │                                           │            │
+│            ▼     ▼                                           │            │
+│   ┌─────────────────────┐                                    │            │
+│   │    Matrix Server    │◀───────────────────────────────────┘            │
+│   │     (Synapse)       │                                                 │
+│   │                     │  • Call membership events (m.call.member)       │
+│   │                     │  • E2EE key exchange (via encrypted events)     │
+│   │                     │  • OpenID token generation (for LiveKit auth)   │
+│   └─────────┬───────────┘                                                 │
+│             │                                                             │
+│             │ OpenID Token                                                │
+│             ▼                                                             │
+│   ┌─────────────────────┐                                                 │
+│   │  MatrixRTC Auth     │  lk-jwt-service                                 │
+│   │     Service         │  • Validates Matrix identity                    │
+│   │  /livekit/jwt       │  • Generates LiveKit JWT tokens                 │
+│   └─────────┬───────────┘  • Controls room creation permissions           │
+│             │                                                             │
+│             │ LiveKit JWT                                                 │
+│             ▼                                                             │
+│   ┌─────────────────────┐                                                 │
+│   │    LiveKit SFU      │  • Routes ENCRYPTED media between clients       │
+│   │  /livekit/sfu       │  • NEVER sees decrypted audio/video             │
+│   │   (Port 7880)       │  • Just a relay - no access to content          │
+│   └─────────────────────┘                                                 │
+│                                                                           │
+└───────────────────────────────────────────────────────────────────────────┘
 ```
 
-#### Required Environment Variables:
+#### Security Model (Why This is Safe)
+
+1. **End-to-End Encryption for Calls:**
+   - Each participant generates encryption keys locally
+   - Keys are exchanged via Matrix events (already E2EE encrypted)
+   - Media is encrypted at the client before being sent to LiveKit
+   - LiveKit SFU only sees encrypted packets
+   - Decryption happens only at receiving clients
+
+2. **Key Management (from matrix-js-sdk RTCEncryptionManager):**
+   ```
+   Join Call:
+   1. Generate random 128-bit encryption key
+   2. Send key to other participants via Matrix (encrypted)
+   3. Use WebRTC Insertable Streams API to encrypt media
+   4. LiveKit routes encrypted packets
+   
+   Participant Joins:
+   1. New joiner sends their key
+   2. Existing participants re-send their keys to new joiner
+   
+   Participant Leaves:
+   1. Wait brief period (makeKeyDelay) 
+   2. Generate new key (key rotation)
+   3. Distribute new key to remaining participants
+   4. Start using new key after useKeyDelay
+   ```
+
+3. **Key Rotation:**
+   - Keys rotate when participants join/leave
+   - Grace period prevents excessive rotation for rapid join/leave
+   - Forward secrecy: departing users can't decrypt future media
+
+#### Required Services
+
+| Service | Port | Purpose |
+|---------|------|---------|
+| Matrix Homeserver | 8008 | Identity, signaling, key exchange |
+| lk-jwt-service | 8080 | Matrix→LiveKit auth bridge |
+| LiveKit SFU | 7880 | Encrypted media routing |
+
+#### Required MSCs (Matrix Spec Changes)
+
+The Matrix homeserver (Synapse) must have these enabled:
+- **MSC3266**: Room Summary API (for knocking/federation)
+- **MSC4140**: Delayed Events (for proper call signaling)
+- **MSC4222**: sync v2 state_after (for reliable state tracking)
+
+Synapse config:
+```yaml
+experimental_features:
+  msc3266_enabled: true
+  msc4222_enabled: true
+max_event_delay_duration: 24h
+```
+
+#### well-known Configuration
+
+Matrix homeserver must announce MatrixRTC backend via `.well-known/matrix/client`:
+```json
+{
+  "m.homeserver": {
+    "base_url": "https://matrix.haos.example.com"
+  },
+  "org.matrix.msc4143.rtc_foci": [
+    {
+      "type": "livekit",
+      "livekit_service_url": "https://matrix-rtc.haos.example.com/livekit/jwt"
+    }
+  ]
+}
+```
+
+#### Environment Variables
 ```env
-# LiveKit
+# Matrix
+MATRIX_HOMESERVER_URL=https://matrix.haos.example.com
+
+# LiveKit SFU
+LIVEKIT_URL=wss://matrix-rtc.haos.example.com/livekit/sfu
 LIVEKIT_API_KEY=your_api_key
 LIVEKIT_API_SECRET=your_secret
-NEXT_PUBLIC_LIVEKIT_URL=wss://livekit.yourdomain.com
+
+# lk-jwt-service
+LIVEKIT_FULL_ACCESS_HOMESERVERS=matrix.haos.example.com
+```
+
+#### LiveKit Config (Critical for Security)
+
+LiveKit must NOT auto-create rooms (only authenticated users via lk-jwt-service can):
+```yaml
+# livekit.yaml
+room:
+  auto_create: false  # CRITICAL: Only lk-jwt-service creates rooms
+```
+
+#### Implementation Using matrix-js-sdk
+
+The matrix-js-sdk provides `MatrixRTCSession` which handles:
+- Call membership tracking
+- E2EE key generation and distribution
+- Key rotation on membership changes
+- Signaling via Matrix events
+
+Key classes to use:
+- `MatrixRTCSession` - Main session manager
+- `RTCEncryptionManager` - Key management (new) 
+- `EncryptionManager` - Legacy key management
+- `KeyTransport` - Key distribution (to-device or room events)
+
+#### Phase 2 Updated Tasks
+
+With this architecture, Phase 2 tasks become:
+
+```yaml
+Phase 2.1 - Infrastructure:
+  - Deploy LiveKit SFU (Docker, port 7880)
+  - Deploy lk-jwt-service (Docker, port 8080)
+  - Configure Synapse for MatrixRTC (MSC3266, MSC4140, MSC4222)
+  - Set up .well-known/matrix/client with rtc_foci
+  - Configure nginx/caddy routing (/livekit/jwt, /livekit/sfu)
+  - Disable LiveKit auto_create: false
+
+Phase 2.2 - Client Integration:
+  - Use matrix-js-sdk's MatrixRTCSession
+  - Implement call join/leave with proper membership events
+  - Wire up RTCEncryptionManager for E2EE
+  - Use LiveKit client SDK with E2EE enabled
+  - Connect LiveKit to encryption keys from Matrix
+
+Phase 2.3 - UI:
+  - Voice channel UI with participant list
+  - Video call layout (grid/spotlight)
+  - Call controls (mute, camera, screenshare, leave)
+  - E2EE indicator (shield icon)
+  - Speaking indicators
 ```
 
 ---
@@ -515,26 +730,132 @@ NEXT_PUBLIC_LIVEKIT_URL=wss://livekit.yourdomain.com
 ```json
 {
   "dependencies": {
+    // E2EE (Phase 1)
     "@matrix-org/matrix-sdk-crypto-wasm": "^17.0.0",
-    "idb": "^8.0.0"  // For IndexedDB wrapper
+    "idb": "^8.0.0",  // IndexedDB wrapper
+    
+    // MatrixRTC Voice/Video (Phase 2)
+    "@livekit/components-react": "^2.0.0",  // LiveKit React components
+    "livekit-client": "^2.0.0",             // LiveKit client SDK
+    
+    // Already in matrix-js-sdk:
+    // - MatrixRTCSession
+    // - RTCEncryptionManager  
+    // - KeyTransport
   }
 }
 ```
 
-## Appendix B: Reference Implementation
+### Docker Services to Deploy
 
-Element Web's crypto implementation:
-- https://github.com/element-hq/element-web
-- https://github.com/matrix-org/matrix-js-sdk/tree/develop/src/crypto
+```yaml
+# docker-compose.yml for MatrixRTC backend
+version: "3.9"
+
+services:
+  livekit:
+    image: livekit/livekit-server:latest
+    ports:
+      - "7880:7880"  # WebSocket
+      - "7881:7881"  # RTC
+    volumes:
+      - ./livekit.yaml:/etc/livekit.yaml
+    command: --config /etc/livekit.yaml
+    restart: unless-stopped
+
+  lk-jwt-service:
+    image: ghcr.io/element-hq/lk-jwt-service:latest
+    ports:
+      - "8080:8080"
+    environment:
+      LIVEKIT_URL: "ws://livekit:7880"
+      LIVEKIT_KEY: "${LIVEKIT_API_KEY}"
+      LIVEKIT_SECRET: "${LIVEKIT_API_SECRET}"
+      LIVEKIT_FULL_ACCESS_HOMESERVERS: "matrix.haos.example.com"
+    depends_on:
+      - livekit
+    restart: unless-stopped
+```
+
+```yaml
+# livekit.yaml
+port: 7880
+rtc:
+  port_range_start: 50000
+  port_range_end: 60000
+
+room:
+  auto_create: false  # CRITICAL: Only lk-jwt-service can create rooms
+
+keys:
+  your_api_key: your_secret_key
+```
+
+## Appendix B: Reference Implementations
+
+### E2EE (Phase 1)
+- Element Web crypto: https://github.com/element-hq/element-web
+- matrix-js-sdk crypto: https://github.com/matrix-org/matrix-js-sdk/tree/develop/src/crypto
+- matrix-sdk-crypto-wasm: https://github.com/matrix-org/matrix-rust-sdk/tree/main/crates/matrix-sdk-crypto-wasm
+
+### MatrixRTC Voice/Video (Phase 2)
+- Element Call (REFERENCE IMPLEMENTATION): https://github.com/element-hq/element-call
+- lk-jwt-service (auth bridge): https://github.com/element-hq/lk-jwt-service
+- MatrixRTCSession: https://github.com/matrix-org/matrix-js-sdk/blob/develop/src/matrixrtc/MatrixRTCSession.ts
+- RTCEncryptionManager: https://github.com/matrix-org/matrix-js-sdk/blob/develop/src/matrixrtc/RTCEncryptionManager.ts
+- Self-hosting guide: https://github.com/element-hq/element-call/blob/livekit/docs/self-hosting.md
+
+### MSC References
+- MSC3266 (Room summaries): https://github.com/matrix-org/matrix-spec-proposals/pull/3266
+- MSC4140 (Delayed events): https://github.com/matrix-org/matrix-spec-proposals/pull/4140
+- MSC4143 (RTC foci discovery): https://github.com/matrix-org/matrix-spec-proposals/pull/4143
+- MSC4195 (LiveKit backend): https://github.com/matrix-org/matrix-spec-proposals/pull/4195
+- MSC4222 (sync v2 state_after): https://github.com/matrix-org/matrix-spec-proposals/pull/4222
+
+### LiveKit E2EE
+- LiveKit client E2EE: https://github.com/livekit/client-sdk-js/blob/main/src/e2ee/E2eeManager.ts
+- LiveKit E2EE uses WebRTC Insertable Streams API to encrypt media client-side
 
 ## Appendix C: Risk Assessment
 
 | Risk | Impact | Likelihood | Mitigation |
 |------|--------|------------|------------|
-| Crypto implementation bugs | HIGH | MEDIUM | Extensive testing, follow Element patterns |
+| Crypto implementation bugs | HIGH | MEDIUM | Extensive testing, follow Element patterns exactly |
 | LiveKit server costs | MEDIUM | LOW | Self-host on existing infrastructure |
 | Browser compatibility | MEDIUM | LOW | Test across browsers, polyfills |
 | Performance issues | MEDIUM | MEDIUM | Profiling, lazy loading, virtualization |
+| MatrixRTC key exchange failures | HIGH | LOW | Follow matrix-js-sdk RTCEncryptionManager patterns |
+| LiveKit E2EE complexity | HIGH | MEDIUM | Use Element Call as reference, extensive testing |
+| Synapse MSC compatibility | MEDIUM | LOW | Test each MSC independently, check Synapse version |
+| lk-jwt-service misconfiguration | HIGH | MEDIUM | Follow Element docs exactly, test auth flow |
+| Call E2EE key rotation bugs | HIGH | MEDIUM | Test join/leave scenarios extensively |
+| WebRTC Insertable Streams support | MEDIUM | LOW | Check browser support, graceful degradation |
+
+## Appendix D: Security Verification Checklist
+
+Before going live with voice/video:
+
+### Infrastructure
+- [ ] LiveKit `auto_create: false` confirmed
+- [ ] lk-jwt-service validates Matrix OpenID tokens
+- [ ] lk-jwt-service restricts room creation to allowed homeservers
+- [ ] TLS enabled for all endpoints
+- [ ] Synapse OpenID listener configured
+
+### E2EE for Calls
+- [ ] Encryption keys generated client-side only
+- [ ] Keys distributed via encrypted Matrix events
+- [ ] LiveKit receives only encrypted media (verify with packet capture)
+- [ ] Key rotation occurs on participant leave
+- [ ] New joiners cannot decrypt old call history
+- [ ] E2EE indicator shown in UI
+
+### Testing
+- [ ] Test with 2, 5, 10+ participants
+- [ ] Test rapid join/leave scenarios
+- [ ] Test key rotation under load
+- [ ] Test with poor network conditions
+- [ ] Verify no plaintext in network traces
 
 ---
 
