@@ -14,7 +14,6 @@ export interface ActiveCall {
 export interface CallParticipant extends VoiceParticipant {
   userId: string;
   displayName: string;
-  avatar?: string;
   powerLevel?: number;
   joinedAt: Date;
   connectionState: 'connecting' | 'connected' | 'disconnected' | 'failed';

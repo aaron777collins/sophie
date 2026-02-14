@@ -169,7 +169,7 @@ export class MatrixCallHandler {
     
     if (eventType === 'm.room.member') {
       // Track participant joins/leaves during calls
-      const membership = event.getContent().membership;
+      const membership = event.getContent()['membership'];
       const userId = event.getStateKey();
       
       if (this.roomStore.isCallActive(roomId) && userId) {
@@ -184,8 +184,8 @@ export class MatrixCallHandler {
 
   private async handleCallInvite(event: MatrixEvent, roomId: string, inviter: string) {
     const content = event.getContent();
-    const callId = content.call_id;
-    const version = content.version || 0;
+    const callId = content['call_id'];
+    const version = content['version'] || 0;
     
     if (!callId) {
       console.error('Call invite missing call_id');
@@ -193,7 +193,7 @@ export class MatrixCallHandler {
     }
 
     // Determine call type from offer SDP or explicit field
-    const hasVideo = content.offer?.sdp?.includes('m=video') || content.type === 'video';
+    const hasVideo = content['offer']?.['sdp']?.includes('m=video') || content['type'] === 'video';
     const callType: 'voice' | 'video' = hasVideo ? 'video' : 'voice';
 
     // Get inviter details
@@ -211,7 +211,7 @@ export class MatrixCallHandler {
         avatar: inviterUser?.avatarUrl || undefined,
       },
       receivedAt: new Date(),
-      timeout: content.lifetime ? Math.floor(content.lifetime / 1000) : 30, // Convert to seconds
+      timeout: content['lifetime'] ? Math.floor(content['lifetime'] / 1000) : 30, // Convert to seconds
     };
 
     // Add to incoming calls
@@ -239,14 +239,14 @@ export class MatrixCallHandler {
     }
 
     // Auto-timeout handling
-    if (content.lifetime) {
+    if (content['lifetime']) {
       setTimeout(() => {
         if (this.callStore.getIncomingCalls().some(call => call.callId === callId)) {
           this.callStore.removeIncomingCall(callId);
           this.roomStore.updateCallStatus(roomId, 'ended');
           this.stopRingtone();
         }
-      }, content.lifetime);
+      }, content['lifetime']);
     }
 
     console.log(`Incoming ${callType} call from ${inviter} in ${roomName}`);
@@ -254,7 +254,7 @@ export class MatrixCallHandler {
 
   private async handleCallAnswer(event: MatrixEvent, roomId: string, answerer: string) {
     const content = event.getContent();
-    const callId = content.call_id;
+    const callId = content['call_id'];
     
     if (!callId) return;
 
@@ -269,11 +269,11 @@ export class MatrixCallHandler {
 
     // Handle WebRTC answer (if we're the caller)
     const activeCall = this.activeCalls.get(callId);
-    if (activeCall?.peerConnection && content.answer?.sdp) {
+    if (activeCall?.peerConnection && content['answer']?.['sdp']) {
       try {
         await activeCall.peerConnection.setRemoteDescription({
           type: 'answer',
-          sdp: content.answer.sdp,
+          sdp: content['answer']['sdp'],
         });
         
         // Update to active status
@@ -289,8 +289,8 @@ export class MatrixCallHandler {
 
   private async handleCallHangup(event: MatrixEvent, roomId: string, sender: string) {
     const content = event.getContent();
-    const callId = content.call_id;
-    const reason = content.reason || 'user_hangup';
+    const callId = content['call_id'];
+    const reason = (content['reason'] as string) || 'user_hangup';
     
     if (!callId) return;
 
@@ -316,12 +316,13 @@ export class MatrixCallHandler {
     this.roomStore.setActiveCall(roomId, null);
 
     // Add notification about call end
-    const reasonMessage = {
+    const reasonMessages: Record<string, string> = {
       'user_hangup': 'Call ended',
       'ice_failed': 'Call failed (connection error)',
       'invite_timeout': 'Call timed out',
       'unknown_error': 'Call failed (unknown error)',
-    }[reason] || 'Call ended';
+    };
+    const reasonMessage = reasonMessages[reason] || 'Call ended';
 
     this.callStore.addNotification({
       type: 'call-ended',
@@ -335,8 +336,8 @@ export class MatrixCallHandler {
 
   private async handleCallCandidates(event: MatrixEvent, roomId: string, sender: string) {
     const content = event.getContent();
-    const callId = content.call_id;
-    const candidates = content.candidates || [];
+    const callId = content['call_id'];
+    const candidates = content['candidates'] || [];
     
     if (!callId || !candidates.length) return;
 
@@ -362,7 +363,10 @@ export class MatrixCallHandler {
       name: user?.displayName || userId,
       avatar: user?.avatarUrl,
       isSpeaking: false,
-      audioLevel: 0,
+      isAudioEnabled: content['currently_active'] !== false, // Default true unless explicitly false
+      isVideoEnabled: false, // Start with video off
+      isScreenSharing: false,
+      isLocal: userId === this.client.getUserId(),
       connectionQuality: 'excellent',
       
       // CallParticipant additional fields
@@ -372,7 +376,7 @@ export class MatrixCallHandler {
       joinedAt: new Date(),
       connectionState: 'connected',
       mediaState: {
-        audio: content.currently_active !== false, // Default true unless explicitly false
+        audio: content['currently_active'] !== false, // Default true unless explicitly false
         video: false, // Start with video off
         screenshare: false,
       },
@@ -429,7 +433,7 @@ export class MatrixCallHandler {
       });
 
       // Send Matrix call invite
-      await this.client.sendEvent(roomId, 'm.call.invite', {
+      await this.client.sendEvent(roomId, 'm.call.invite' as any, {
         call_id: callId,
         lifetime: 30000, // 30 seconds
         offer: {
@@ -476,7 +480,7 @@ export class MatrixCallHandler {
       this.callStore.acceptIncomingCall(callId);
 
       // Send Matrix answer (simplified - in practice you'd set up WebRTC)
-      await this.client.sendEvent(incomingCall.roomId, 'm.call.answer', {
+      await this.client.sendEvent(incomingCall.roomId, 'm.call.answer' as any, {
         call_id: callId,
         answer: {
           type: 'answer',
@@ -509,7 +513,7 @@ export class MatrixCallHandler {
       this.callStore.rejectIncomingCall(callId);
 
       // Send Matrix hangup
-      await this.client.sendEvent(incomingCall.roomId, 'm.call.hangup', {
+      await this.client.sendEvent(incomingCall.roomId, 'm.call.hangup' as any, {
         call_id: callId,
         reason: 'user_hangup',
         version: 1,
@@ -537,7 +541,7 @@ export class MatrixCallHandler {
 
     try {
       // Send Matrix hangup
-      await this.client.sendEvent(roomId, 'm.call.hangup', {
+      await this.client.sendEvent(roomId, 'm.call.hangup' as any, {
         call_id: callId,
         reason: 'user_hangup',
         version: 1,
@@ -599,8 +603,8 @@ export class MatrixCallHandler {
     if (!powerLevelEvent) return 0;
 
     const content = powerLevelEvent.getContent();
-    const userLevels = content.users || {};
-    const defaultLevel = content.users_default || 0;
+    const userLevels = content['users'] || {};
+    const defaultLevel = content['users_default'] || 0;
 
     return userLevels[userId] || defaultLevel;
   }
@@ -629,9 +633,29 @@ let globalCallHandler: MatrixCallHandler | null = null;
 
 export function initializeMatrixCallHandler(
   client: MatrixClient,
-  callStore: ReturnType<typeof useCallStore>,
-  roomStore: ReturnType<typeof useRoomStore>,
-  voiceStore: ReturnType<typeof useVoiceStore>
+  callStore: {
+    addIncomingCall: (call: any) => void;
+    removeIncomingCall: (callId: string) => void;
+    acceptIncomingCall: (callId: string) => void;
+    rejectIncomingCall: (callId: string) => void;
+    getIncomingCalls: () => any[];
+    startCall: (roomId: string, roomName: string, type: 'voice' | 'video') => string;
+    endCall: (roomId: string) => void;
+    addNotification: (notification: any) => void;
+  },
+  roomStore: {
+    setActiveCall: (roomId: string, call: ActiveCall | null) => void;
+    updateCallStatus: (roomId: string, status: ActiveCall['status']) => void;
+    isCallActive: (roomId: string) => boolean;
+    addCallParticipant: (roomId: string, participant: CallParticipant) => void;
+    removeCallParticipant: (roomId: string, userId: string) => void;
+    isMutedCallNotifications: (roomId: string) => boolean;
+  },
+  voiceStore: {
+    isAudioEnabled: boolean;
+    isVideoEnabled: boolean;
+    connectionState: string;
+  }
 ): MatrixCallHandler {
   if (globalCallHandler) {
     globalCallHandler.destroy();
