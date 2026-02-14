@@ -1,8 +1,8 @@
 # PROACTIVE-JOBS.md — HAOS Phase 7: Security + Voice/Video
 
-> **Status (2026-02-14 13:00 EST):** 🟡 **PHASE 7 IN PROGRESS — p7-1-crypto-init COMPLETE**
+> **Status (2026-02-14 13:45 EST):** 🟢 **PHASE 7 FINAL STRETCH — 9/11 tasks done**
 > **Previous:** Phase 6 complete (2026-02-15 05:46 EST)
-> **Current Focus:** E2EE implementation (Element-level security) + Voice/Video activation
+> **Current Focus:** p7-6-secret-storage → p7-11-security-audit (OPUS) → DEPLOY to dev2
 > **Master Plan:** `docs/haos-v2/HAOS-MASTER-PLAN.md`
 
 ## 📊 CURRENT STATE
@@ -112,50 +112,58 @@
   - ✅ Prompts shown for unverified devices
 
 ### p7-4-cross-signing — Cross-Signing Setup
-- **Status:** 🔄 in-progress
+- **Status:** ✅ completed
 - **Model:** sonnet
 - **Priority:** HIGH
 - **Depends on:** p7-3-device-verify ✅
-- **Agent:** agent:main:subagent:3cdbc1a2-8836-49ce-ae46-72d2ea5bb859
-- **Started:** 2026-02-15 13:00 EST
+- **Agent:** agent:main:subagent:5821d957-1e2f-4f31-90ff-f32d894ce29e
+- **Started:** 2026-02-14 18:00 EST
+- **Completed:** 2026-02-14 18:10 EST
 - **Description:**
-  - Implement master/self-signing/user-signing key generation
-  - Create cross-signing bootstrap flow
-  - Handle cross-signing key upload
-  - Show cross-signing status in settings
+  - ✅ Implement master/self-signing/user-signing key generation
+  - ✅ Create cross-signing bootstrap flow
+  - ✅ Handle cross-signing key upload
+  - ✅ Show cross-signing status in settings
 - **Files:**
-  - `lib/matrix/crypto/cross-signing.ts` — NEW
-  - `components/settings/security-settings.tsx` — NEW/UPDATE
+  - `lib/matrix/crypto/cross-signing.ts` — NEW (412 lines)
+  - `components/settings/security-settings.tsx` — NEW (351 lines)
 - **Acceptance:**
-  - Cross-signing keys generated and uploaded
-  - Can sign new devices
-  - Can verify other users
+  - ✅ Cross-signing keys generated and uploaded
+  - ✅ Can sign new devices
+  - ✅ Can verify other users
 
-### p7-5-key-backup — Key Backup System
-- **Status:** ⏳ pending
+### p7-5-key-backup — Key Backup System ✅
+- **Status:** ✅ completed
 - **Model:** sonnet
 - **Priority:** HIGH
-- **Depends on:** p7-4-cross-signing
+- **Depends on:** p7-4-cross-signing ✅
+- **Agent:** agent:main:subagent:823955fe-82ec-49b6-95cd-7f9b5b7d2b1a
+- **Started:** 2026-02-14 14:30 EST
+- **Completed:** 2026-02-14 15:20 EST
 - **Description:**
-  - Create secure backup key generation
-  - Implement server-side key backup
-  - Create key recovery flow
-  - Implement secure backup passphrase
-  - Show "Set up key backup" prompt for new users
+  - ✅ Create secure backup key generation
+  - ✅ Implement server-side key backup
+  - ✅ Create key recovery flow
+  - ✅ Implement secure backup passphrase
+  - ✅ Show "Set up key backup" prompt for new users
 - **Files:**
-  - `lib/matrix/crypto/backup.ts` — NEW
-  - `components/modals/key-backup-modal.tsx` — NEW
-  - `hooks/use-key-backup.ts` — NEW
+  - ✅ `lib/matrix/crypto/backup.ts` — CREATED (6.6KB)
+  - ✅ `components/modals/key-backup-modal.tsx` — CREATED (19.6KB)
+  - ✅ `hooks/use-key-backup.ts` — CREATED (6.7KB)
 - **Acceptance:**
-  - Keys backed up to server
-  - Can recover keys on new device
-  - Passphrase encryption works
+  - ✅ Keys backed up to server
+  - ✅ Can recover keys on new device
+  - ✅ Passphrase encryption works
+  - ✅ All TypeScript types defined
+  - ✅ Build passes with no errors
 
 ### p7-6-secret-storage — Secret Storage (4S)
-- **Status:** ⏳ pending
+- **Status:** 🔄 in-progress
 - **Model:** sonnet
 - **Priority:** MEDIUM
-- **Depends on:** p7-5-key-backup
+- **Depends on:** p7-5-key-backup ✅
+- **Agent:** agent:main:subagent:6926fcfd-2a6f-4765-a387-f057e6640cd3
+- **Started:** 2026-02-14 13:31 EST
 - **Description:**
   - Implement secret storage initialization
   - Create security phrase/key setup UI
@@ -168,6 +176,35 @@
   - Secrets stored securely
   - Can access secrets with passphrase
   - Works across devices
+
+### p7-11-security-audit — Full Security Audit & Production Hardening
+- **Status:** ⏳ pending
+- **Model:** opus
+- **Priority:** 🔴 CRITICAL
+- **Depends on:** p7-6-secret-storage
+- **Description:**
+  - **Full security audit** of all E2EE code (crypto init, room encryption, device verification, cross-signing, key backup, secret storage)
+  - **Identify vulnerabilities** — Review for common crypto mistakes, timing attacks, key leakage, improper randomness
+  - **Plan fixes** — Document all issues found with severity ratings and fix plans
+  - **Implement fixes** — Make the code production-ready
+  - **Verify Matrix protocol compliance** — Ensure compatibility with Element/other Matrix clients
+  - **Test E2EE end-to-end** — Verify messages actually encrypt/decrypt correctly
+  - **Audit LiveKit integration** — Voice/video security review
+- **Files to audit:**
+  - `lib/matrix/crypto/` — All crypto modules
+  - `lib/matrix/client.ts` — Client-side crypto handling
+  - `components/providers/matrix-provider.tsx` — Crypto initialization
+  - `hooks/use-*` — All crypto-related hooks
+  - `components/modals/*-modal.tsx` — Security UI components
+- **Acceptance:**
+  - All vulnerabilities documented and fixed
+  - Build passes with no errors
+  - E2EE works end-to-end (verified)
+  - Ready for production deployment
+- **Post-Completion:**
+  - Git commit all changes
+  - Merge and push to remote
+  - Deploy to dev2.aaroncollins.info
 
 ---
 
@@ -224,40 +261,48 @@
 - **Model:** sonnet
 - **Priority:** HIGH
 - **Depends on:** p7-8-voice-channels ✅
-- **Agent:** agent:main:subagent:a842d608-1b8e-43a4-9dca-c3d6aafab862
-- **Started:** 2026-02-14 18:00 EST
-- **Completed:** 2026-02-14 18:10 EST
+- **Agent:** agent:main:subagent:6e860869-93ce-460b-b97b-b6236875c270
+- **Started:** 2026-02-14 20:10 EST
+- **Completed:** 2026-02-14 20:45 EST
 - **Description:**
-  - Wire up VideoCallLayout fully
-  - Implement video toggle
-  - Camera/device selection
-  - Video call controls (mute, camera, leave, etc.)
+  - ✅ Wire up VideoCallLayout fully to LiveKit
+  - ✅ Implement video toggle (camera on/off) 
+  - ✅ Camera/device selection UI with dropdown menus
+  - ✅ Video call controls (mute, camera, leave, screen share, layout switching)
+  - ✅ Multiple participant video grid (up to 16 participants)
 - **Files:**
-  - `components/video-call/video-call-layout.tsx` — UPDATE
-  - `components/video-call/video-controls.tsx` — UPDATE
+  - `components/video-call/video-call-layout.tsx` — CREATED (12.5KB comprehensive layout)
+  - `components/video-call/video-controls.tsx` — CREATED (14.8KB full controls)
+  - `components/video-call/index.ts` — CREATED (component exports)
 - **Acceptance:**
-  - Video calls work
-  - Can toggle camera
-  - Multiple participants supported
+  - ✅ Video calls work with camera
+  - ✅ Can toggle camera on/off
+  - ✅ Multiple participants supported (video grid)
+  - ✅ Video controls functional (mute, camera, leave)
 
-### p7-10-screen-share — Screen Sharing
-- **Status:** ⏳ pending
+### p7-10-screen-share — Screen Sharing ✅
+- **Status:** ✅ completed
 - **Model:** sonnet
 - **Priority:** MEDIUM
-- **Depends on:** p7-9-video-calls
+- **Depends on:** p7-9-video-calls ✅
+- **Agent:** agent:main:subagent:b963fdf7-c170-4c20-94cd-f7ca8ae7860b
+- **Started:** 2026-02-14 13:15 EST
+- **Completed:** 2026-02-14 13:05 EST
 - **Description:**
-  - Implement screen capture (getDisplayMedia)
-  - Create screen share button
-  - Show screen share in call layout
-  - Implement screen share audio option
-  - Handle multiple screen shares
+  - ✅ Implement screen capture (getDisplayMedia)
+  - ✅ Create screen share button
+  - ✅ Show screen share in call layout
+  - ✅ Implement screen share audio option
+  - ✅ Handle multiple screen shares
 - **Files:**
-  - `hooks/use-screen-share.ts` — NEW
-  - `components/video-call/screen-share-button.tsx` — NEW
+  - ✅ `hooks/use-screen-share.ts` — CREATED (7.8KB)
+  - ✅ `components/video-call/screen-share-button.tsx` — CREATED (7.5KB)
+  - ✅ `components/video-call/video-call-layout.tsx` — UPDATED (13.4KB)
+  - ✅ `components/video-call/video-call-example.tsx` — CREATED (7.0KB)
 - **Acceptance:**
-  - Can share screen
-  - Other participants see shared screen
-  - Audio sharing optional
+  - ✅ Can share screen
+  - ✅ Other participants see shared screen
+  - ✅ Audio sharing optional
 
 ---
 
@@ -282,18 +327,19 @@
 | Task | Status | Priority | Model | Depends On |
 |------|--------|----------|-------|------------|
 | p7-1-crypto-init | ✅ completed | 🔴 CRITICAL | opus | — |
-| p7-2-room-encryption | ⏳ pending | 🔴 CRITICAL | sonnet | p7-1 ✅ |
+| p7-2-room-encryption | ✅ completed | 🔴 CRITICAL | sonnet | p7-1 ✅ |
 | p7-3-device-verify | ✅ completed | HIGH | sonnet | p7-1 ✅ |
-| p7-4-cross-signing | 🔄 in-progress | HIGH | sonnet | p7-3 ✅ |
-| p7-5-key-backup | ⏳ pending | HIGH | sonnet | p7-4 |
-| p7-6-secret-storage | ⏳ pending | MEDIUM | sonnet | p7-5 |
+| p7-4-cross-signing | ✅ completed | HIGH | sonnet | p7-3 ✅ |
+| p7-5-key-backup | ✅ completed | HIGH | sonnet | p7-4 ✅ |
+| p7-6-secret-storage | 🔄 in-progress | MEDIUM | sonnet | p7-5 ✅ |
 | p7-7-livekit-deploy | ✅ completed | HIGH | sonnet | — |
 | p7-8-voice-channels | ✅ completed | HIGH | sonnet | p7-7 ✅ |
 | p7-9-video-calls | ✅ completed | HIGH | sonnet | p7-8 ✅ |
-| p7-10-screen-share | ⏳ pending | MEDIUM | sonnet | p7-9 ✅ |
+| p7-10-screen-share | ✅ completed | MEDIUM | sonnet | p7-9 ✅ |
+| p7-11-security-audit | ⏳ pending | 🔴 CRITICAL | opus | p7-6 |
 
-**Total Tasks:** 10 (6 ✅, 0 🔄, 4 ⏳)
-**Phase 7 Status:** 🟡 **IN PROGRESS** — Security & Voice/Video workstreams active in parallel
+**Total Tasks:** 11 (9 ✅, 1 🔄, 1 ⏳)
+**Phase 7 Status:** 🔄 **SECRET STORAGE IN PROGRESS** → then SECURITY AUDIT → then DEPLOY
 
 ---
 
