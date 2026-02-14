@@ -144,11 +144,31 @@ EOF
 
 ## On Completing a Task
 
-1. **Update PROACTIVE-JOBS.md** → Status: completed
-2. **Write final summary** in progress file
+**You don't mark `complete` — you mark `claiming-complete` with evidence.**
+
+1. **Update PROACTIVE-JOBS.md** → Status: `claiming-complete` (NOT `completed`)
+2. **Write completion report** in progress file with EVIDENCE:
+   ```markdown
+   ## Completion Report
+   - **Task:** {task-id}
+   - **Status:** claiming-complete
+   - **Evidence:**
+     - Files created/modified: {list with full paths}
+     - Build status: `pnpm build` → exit code 0
+     - Tests run: `pnpm test` → all pass
+     - Git commit: {hash}
+   - **Verification steps for manager:**
+     1. Check file exists: `ls -la {path}`
+     2. Run build: `pnpm build`
+     3. Manual test: {specific test to run}
+   ```
 3. **Delete heartbeat** file
 4. **Send completion message** to task-manager inbox
 5. **Git commit** your changes
+
+**Task Manager will verify your evidence.** If verification fails, you'll get it back with specific failures to fix.
+
+**You are NOT done until Task Manager changes status to `verified`.**
 
 ## Interaction with Other Levels
 
