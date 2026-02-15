@@ -1,11 +1,31 @@
 # HAOS v2 Deployment
 
-## Current Status: ✅ DEPLOYED AND WORKING
-- **Date:** 2026-02-14 18:50 EST
+## Current Status: ✅ FULLY WORKING - E2E TESTED
+- **Date:** 2026-02-14 19:15 EST
 - **URL:** https://dev2.aaroncollins.info
 - **Host:** dev2 (EC2 instance)
 
-## Recent Fix [2026-02-14 18:50 EST]
+## Major Fixes [2026-02-14 19:15 EST]
+
+### Bugs Fixed
+1. **Modal blocking sign-in page** - Removed InitialModal from global ModalProvider
+2. **Modal couldn't close** - Added X button and "Skip for now" option
+3. **Login failed "Unrecognized request"** - Fixed:
+   - Matrix API returns snake_case (`user_id`) but code expected camelCase (`userId`)
+   - Homeserver URL with trailing slash caused double-slash in API calls
+4. **Server actions not working** - Created /api/auth/login API route for standalone mode
+
+### Test User Created
+- Username: `sophietest`
+- Password: `SophieTest2026!`
+- User ID: `@sophietest:dev2.aaroncollins.info`
+
+### Commit
+- `804607c` pushed to https://github.com/aaron777collins/haos
+
+---
+
+## Previous Fix [2026-02-14 18:50 EST]
 
 ### Problem
 Main page was blank after deployment. PM2 logs showed:
