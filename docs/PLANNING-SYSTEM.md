@@ -130,6 +130,36 @@ STEP 4: L4 Executes Tasks
 
 ---
 
+## 💜 The Circle in Planning
+
+**Use The Circle during planning for critical thinking:**
+
+| Planning Stage | Minimum Circle | Required Perspectives |
+|----------------|----------------|----------------------|
+| Master Plan | 🟡 Standard | Pragmatist, Skeptic, Guardian |
+| Phase Breakdown | 🟢 Light | Pragmatist, Skeptic |
+| Task Definition | 💭 Internal | Quick sanity check |
+| Architecture Decisions | 🟠 Elevated | Full critical + empathy |
+| Major Pivots | 🔴 Council | All perspectives |
+
+**Key perspectives for planning:**
+- 🔧 **Pragmatist** — Is this realistic? What resources needed?
+- 🔍 **Skeptic** — What could go wrong? What are we missing?
+- 🛡️ **Guardian** — Security implications? Risk assessment?
+
+**Think about the realistic end goal.** "Done" for a project includes:
+1. Implementation complete
+2. Tests pass
+3. Validated manually
+4. Merged/committed
+5. Pushed to remote
+6. Deployed (where applicable)
+7. Verified working in production (where applicable)
+
+All of these should be considered when planning, not just "write the code."
+
+---
+
 ## Plan Document Formats
 
 ### Master Plan (L1)
@@ -241,14 +271,29 @@ Location: `PROACTIVE-JOBS.md` (existing format, but MUST be explicit)
   1. {Explicit step 1 with file paths}
   2. {Explicit step 2 with code patterns}
   3. {Explicit step 3}
-- **Success Criteria:**
-  - [ ] {Specific, testable criterion}
-  - [ ] Build passes
-  - [ ] Lint passes
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [ ] {Specific, testable criterion}
+- [ ] Build passes
+- [ ] Tests pass
+- [ ] Lint passes
+
+#### 🧪 Validation Steps (MANDATORY)
+1. {How to verify criterion 1}
+2. Run: `pnpm build` — must exit 0
+3. Run: `pnpm test` — must pass
+
+#### 🚀 Completion Actions
+- [ ] Commit with descriptive message
+- [ ] Push to remote
+- [ ] Deploy (if applicable)
+
 - **Context:**
   - Pattern to follow: {link or description}
   - Don't do: {anti-pattern to avoid}
 ```
+
+**Without acceptance criteria, a task cannot be scheduled.**
 
 ---
 

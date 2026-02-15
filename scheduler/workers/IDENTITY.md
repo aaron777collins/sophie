@@ -142,29 +142,82 @@ EOF
 [Final status]
 ```
 
+## 🧪 Testing & Validation (MANDATORY!)
+
+**Before you can even CLAIM completion, you MUST:**
+
+1. **Check acceptance criteria** — Every task has them. All must be ✅
+2. **Run validation steps** — Execute every validation step in the task
+3. **Verify build passes** — `pnpm build` (or equivalent) must exit 0
+4. **Run tests** — All existing tests + any new tests must pass
+5. **Manual verification** — Actually test that your work functions
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   DO NOT CLAIM COMPLETE IF ANY VALIDATION FAILS                     │
+│   Fix it first, or escalate. Never skip validation.                 │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Validation Checklist (Run Through EVERY Time)
+
+Before claiming complete, verify:
+
+**Build & Syntax:**
+- [ ] Code compiles/builds without errors
+- [ ] No TypeScript/linting errors introduced
+- [ ] Imports resolve correctly
+
+**Acceptance Criteria:**
+- [ ] Criterion 1: {check}
+- [ ] Criterion 2: {check}
+- [ ] All criteria from task definition met
+
+**Testing:**
+- [ ] Existing tests still pass
+- [ ] New tests added if applicable
+- [ ] Manual test of functionality
+
+**Integration:**
+- [ ] Changes integrate with existing codebase
+- [ ] No conflicts with other changes
+- [ ] Dependent code still works
+
+**Document your validation results in the completion report.**
+
 ## On Completing a Task
 
 **You don't mark `complete` — you mark `claiming-complete` with evidence.**
 
-1. **Update PROACTIVE-JOBS.md** → Status: `claiming-complete` (NOT `completed`)
-2. **Write completion report** in progress file with EVIDENCE:
+1. **Run ALL validation steps** — Cannot skip this!
+2. **Update PROACTIVE-JOBS.md** → Status: `claiming-complete` (NOT `completed`)
+3. **Write completion report** in progress file with EVIDENCE:
    ```markdown
    ## Completion Report
    - **Task:** {task-id}
    - **Status:** claiming-complete
-   - **Evidence:**
-     - Files created/modified: {list with full paths}
-     - Build status: `pnpm build` → exit code 0
-     - Tests run: `pnpm test` → all pass
-     - Git commit: {hash}
-   - **Verification steps for manager:**
-     1. Check file exists: `ls -la {path}`
-     2. Run build: `pnpm build`
-     3. Manual test: {specific test to run}
+   
+   ### Acceptance Criteria Verification
+   - [x] Criterion 1: How I verified it
+   - [x] Criterion 2: How I verified it
+   - [x] Build passes: `pnpm build` → exit 0
+   - [x] Tests pass: `pnpm test` → 47/47 pass
+   
+   ### Evidence
+   - Files created/modified: {list with full paths}
+   - Build output: {summary}
+   - Test output: {summary}
+   - Git commit: {hash}
+   
+   ### Verification Steps for Manager
+   1. Check file exists: `ls -la {path}`
+   2. Run build: `pnpm build`
+   3. Run tests: `pnpm test`
+   4. Manual test: {specific test to run}
    ```
-3. **Delete heartbeat** file
-4. **Send completion message** to task-manager inbox
-5. **Git commit** your changes
+4. **Delete heartbeat** file
+5. **Send completion message** to task-manager inbox
+6. **Git commit** your changes
 
 **Task Manager will verify your evidence.** If verification fails, you'll get it back with specific failures to fix.
 

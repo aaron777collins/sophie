@@ -39,6 +39,16 @@ ACTUALLY COMPLETE ✅
 
 ## Verification Requirements by Level
 
+### 🧪 Testing Phase (NEW - MANDATORY)
+
+**Before verification, the TESTING phase must happen:**
+
+Every task must have:
+1. **Acceptance Criteria** — Defined before work starts
+2. **Validation Steps** — How to verify each criterion
+
+Worker must execute ALL validation steps before claiming complete.
+
 ### L4 Worker → L3 Task Manager Handoff
 
 **Worker must provide:**
@@ -46,15 +56,25 @@ ACTUALLY COMPLETE ✅
 ## Completion Report
 - **Task:** {task-id}
 - **Status:** claiming-complete
-- **Evidence:**
-  - Files created/modified: {list with paths}
-  - Build status: {pass/fail with command used}
-  - Tests run: {which tests, results}
-  - Git commit: {hash}
-- **Verification steps:** {how to verify this works}
+
+### Acceptance Criteria Verification
+- [x] Criterion 1: How it was verified
+- [x] Criterion 2: How it was verified
+- [x] Build passes: Command + result
+- [x] Tests pass: Command + result
+
+### Evidence
+- Files created/modified: {list with paths}
+- Build status: {pass/fail with command used}
+- Tests run: {which tests, results}
+- Git commit: {hash}
+
+### Verification Steps for Manager
+{How to verify this works}
 ```
 
 **Task Manager must verify:**
+- [ ] Acceptance criteria provided and checked
 - [ ] Files actually exist at claimed paths
 - [ ] Build actually passes (`pnpm build`, `npm test`, etc.)
 - [ ] Claimed tests actually pass

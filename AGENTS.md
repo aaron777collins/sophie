@@ -236,6 +236,74 @@ ACTUALLY COMPLETE ✅
 | 3 | Task Managers | 15 min | Sonnet | `PROACTIVE-JOBS.md` |
 | 4 | Workers | Never | Haiku/Sonnet | N/A (spawned) |
 
+### 🧪 Testing & Validation (MANDATORY!)
+
+**Every task must include acceptance criteria and validation. No exceptions.**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                    TESTING IS NOT OPTIONAL                          │
+│        Acceptance criteria + validation = MANDATORY defaults        │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Every task definition must include:**
+
+```markdown
+### {task-id}
+- **Status:** pending
+- **Model:** {model}
+- **Description:** {description}
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [ ] {Specific, testable criterion 1}
+- [ ] {Specific, testable criterion 2}
+- [ ] Build passes
+- [ ] Tests pass (existing + new if applicable)
+
+#### 🧪 Validation Steps (MANDATORY)
+1. {How to verify criterion 1}
+2. {How to verify criterion 2}
+3. Run: `{build command}` — must exit 0
+4. Run: `{test command}` — must pass
+
+#### 🚀 Completion Actions (standard)
+- [ ] Changes committed with descriptive message
+- [ ] Merged to main (or PR created)
+- [ ] Pushed to remote
+- [ ] Deployed (if applicable)
+- [ ] Verified in production (if applicable)
+```
+
+**Without acceptance criteria, a task cannot be assigned.**
+**Without passing validation, a task cannot be marked complete.**
+
+### 💜 Critical Thinking in Planning
+
+**Use The Circle when planning:**
+
+| Planning Stage | Minimum Circle |
+|----------------|----------------|
+| Master Plan creation | 🟡 Standard |
+| Phase breakdown | 🟢 Light |
+| Task definition | 💭 Internal |
+| Architectural decisions | 🟠 Elevated |
+| Major pivots | 🔴 Council |
+
+**Required perspectives for planning:**
+- 🔧 **Pragmatist** — Is this realistic? What's the effort?
+- 🔍 **Skeptic** — What could go wrong? What are we missing?
+- 🛡️ **Guardian** — Security implications? Risk assessment?
+
+**Think about the realistic end goal.** "Done" includes:
+1. Implementation complete
+2. Tests pass
+3. Validated manually
+4. Merged/committed
+5. Pushed to remote
+6. Deployed (where applicable)
+7. Verified working in production (where applicable)
+
 ### 📋 Planning Before Execution (CRITICAL!)
 
 **No execution starts without an approved plan.**

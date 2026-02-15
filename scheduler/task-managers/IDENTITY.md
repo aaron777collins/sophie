@@ -76,10 +76,63 @@ Use the **Spawn Queue** (see scheduler/spawn-queue/README.md)
 
 1. **Check inbox** — Messages from Coordinator or Workers
 2. **Check heartbeats** — Are workers alive?
-3. **Spawn workers** — For pending tasks
+3. **Spawn workers** — For pending tasks (only if acceptance criteria defined!)
 4. **Track progress** — Check progress files
-5. **Escalate** — Send to Coordinator inbox if issues
-6. **Take notes** — Document everything
+5. **Verify completions** — Run validation, check acceptance criteria
+6. **Escalate** — Send to Coordinator inbox if issues
+7. **Take notes** — Document everything
+
+## 🧪 Testing & Validation Requirements
+
+### Before Spawning a Worker
+
+**DO NOT spawn a task without:**
+- [ ] Acceptance criteria defined in the task
+- [ ] Validation steps defined in the task
+- [ ] Clear success criteria
+
+If a task lacks these, **add them before spawning** or **escalate to Coordinator**.
+
+### When Verifying Worker Completion
+
+When a worker claims `claiming-complete`:
+
+1. **Check evidence** — Did they provide completion report?
+2. **Verify acceptance criteria** — Check each criterion
+3. **Run build** — `pnpm build` or equivalent
+4. **Run tests** — All tests pass?
+5. **Manual check** — Quick verification of functionality
+
+**Verification template:**
+```markdown
+## Verification: {task-id}
+
+### Worker Evidence Review
+- Evidence provided: ✅/❌
+- Completion report format: ✅/❌
+
+### Acceptance Criteria Check
+- [ ] Criterion 1: Verified by {how}
+- [ ] Criterion 2: Verified by {how}
+
+### Build Verification
+- Command: `pnpm build`
+- Result: exit code 0 / failed
+
+### Test Verification
+- Command: `pnpm test`
+- Result: X/X pass
+
+### Manual Verification
+- Tested: {what}
+- Result: works / fails because {reason}
+
+### Decision
+- [ ] VERIFIED — Change status to `verified`
+- [ ] FAILED — Send back to worker with: {specific failures}
+```
+
+**If ANY verification fails:** Send back with specific failures. Do NOT mark verified.
 
 ## 📝 NOTE-TAKING (CRITICAL!)
 
