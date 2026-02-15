@@ -1,16 +1,20 @@
-# PROACTIVE-JOBS.md — HAOS Production Fix
+# PROACTIVE-JOBS.md — HAOS Full Implementation
 
-> **Status (2026-02-15 03:40 EST):** ✅ **HAOS PRODUCTION FIX COMPLETE**
-> **Phase 1 (Critical):** ✅ 5/5 tasks complete — Login working!
-> **Phase 2 (Security):** ✅ 1/3 reviewed (accepted risk), 2 optional enhancements
+> **Status (2026-02-27 12:00 EST):** 🚀 **FULL HAOS IMPLEMENTATION IN PROGRESS**
+> **Phase 7 (E2EE + Voice/Video):** ✅ COMPLETE — All 11 tasks finished
+> **Phase 8 (Security Polish):** ✅ 2/3 COMPLETE — p8-3 pending (optional)
+> **Phase 9 (Chat Features):** 🔄 ACTIVE — 8 tasks (starting now)
+> **Phase 10 (Server Features):** ⏳ QUEUED — 14 tasks  
+> **Phase 11 (User Experience):** ⏳ QUEUED — 15 tasks
+> **Phase 12 (Infrastructure):** ⏳ QUEUED — 16 tasks
 > **PortableRalph:** ✅ Complete (10/10 test suites passing)
 
 ---
 
-## 🔧 HAOS PHASE 2: Security Fixes (Queued)
+## 🔧 HAOS PHASE 8: Security Polish
 
-> **Status:** ⏳ **QUEUED FOR AUTONOMOUS WORK**
-> **Target:** Fix remaining security vulnerabilities
+> **Status:** ✅ **MOSTLY COMPLETE** — p8-3 is optional
+> **Target:** Security UX enhancements
 > **Location:** ~/repos/haos-v2
 
 ### p8-1-sessionstorage-fix — Session Storage Audit ✅ ALREADY REVIEWED
@@ -24,24 +28,29 @@
 - **Conclusion:** No action required - follows Matrix best practices
 
 ### p8-2-device-prompts — Device Verification UI Enhancement
-- **Status:** in-progress
+- **Status:** ✅ completed
 - **Model:** sonnet
 - **Priority:** 🟡 MEDIUM (Nice to Have)
+- **Completed:** 2026-02-15 03:40 EST
 - **Description:**
   - Show verification prompt on first login to new device
   - Prompt to verify existing devices
   - Visual indicator for unverified devices
 - **Note:** Core crypto functionality already works, this is UX polish
-- **Files to enhance:**
-  - `components/modals/device-verification-modal.tsx` (create)
-  - `hooks/use-device-verification.ts` (create)
-  - `components/providers/matrix-provider.tsx` (add auto-prompt)
-- **Spawn Details:**
-  - **Session Key:** agent:main:subagent:2aab8038-adf2-4b9f-bde8-1a93ab40007b
-  - **Run ID:** db543304-b4c0-4d56-8b81-a6c55f4eba74
+- **Files created:**
+  - `hooks/use-first-login-detection.ts` — First-login and new device detection
+  - `components/modals/device-verification-prompt-modal.tsx` — Multi-step modal with tutorial
+  - `docs/device-verification-enhancement.md` — Documentation
+- **Files modified:**
+  - `components/providers/matrix-provider.tsx` — Added DeviceVerificationPromptTrigger
+- **Features:**
+  - Smart detection (first login vs. new device)
+  - Progressive disclosure (intro → explanation → tutorial)
+  - Skip option with security warnings
+  - Matrix protocol compliance messaging
 
 ### p8-3-encryption-ui — Encryption Status Indicator
-- **Status:** optional-enhancement
+- **Status:** pending
 - **Model:** sonnet
 - **Priority:** 🟡 MEDIUM (Nice to Have)
 - **Description:**
@@ -52,6 +61,903 @@
 - **Files to enhance:**
   - `components/chat/chat-header.tsx`
   - Add useCryptoStatus hook
+- **Acceptance Criteria:**
+  - [ ] Lock icon visible in chat header
+  - [ ] Color reflects encryption status correctly
+  - [ ] Tooltip explains current security state
+  - [ ] Build passes
+
+---
+
+## 🔧 HAOS PHASE 9: Chat Feature Completion
+
+> **Status:** ⏳ **QUEUED**
+> **Target:** Complete remaining chat features from Master Plan Phase 3
+> **Location:** ~/repos/haos-v2
+
+### p9-1-message-editing — Message Editing UI
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Description:**
+  - Implement full message editing UI
+  - Show edit button on own messages
+  - Edit inline with input replacement
+  - Show "(edited)" indicator
+  - Store edit history
+- **Files:**
+  - `components/chat/chat-item.tsx` — Add edit mode
+  - `hooks/use-message-edit.ts` — Create edit hook
+- **Acceptance Criteria:**
+  - [ ] Can edit own messages
+  - [ ] Edit saves to Matrix
+  - [ ] "(edited)" indicator shows
+  - [ ] Build passes
+
+### p9-2-message-deletion — Message Deletion UI
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Description:**
+  - Implement message deletion with confirmation
+  - Show delete button on own messages (and mod messages for mods)
+  - Show "Message deleted" placeholder
+- **Files:**
+  - `components/chat/chat-item.tsx` — Add delete action
+  - `components/modals/confirm-delete-modal.tsx` — Create
+- **Acceptance Criteria:**
+  - [ ] Can delete own messages
+  - [ ] Deletion shows confirmation
+  - [ ] Deleted message shows placeholder
+  - [ ] Build passes
+
+### p9-3-link-previews — Link Preview Cards
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Description:**
+  - Implement OpenGraph link previews
+  - Create server-side metadata fetcher
+  - Show preview cards under messages with links
+  - Support image, title, description
+- **Files:**
+  - `app/api/og-preview/route.ts` — Create OG fetcher API
+  - `components/chat/link-preview.tsx` — Create component
+  - `components/chat/chat-item.tsx` — Integrate previews
+- **Acceptance Criteria:**
+  - [ ] Links show preview cards
+  - [ ] Preview shows title, description, image
+  - [ ] Fallback for failed fetches
+  - [ ] Build passes
+
+### p9-4-mentions — @Mentions with Autocomplete
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Description:**
+  - Implement @user mentions with autocomplete
+  - Show mention dropdown when typing @
+  - Highlight mentioned users in messages
+  - Notify mentioned users
+- **Files:**
+  - `components/chat/mention-autocomplete.tsx` — Create
+  - `components/chat/chat-input.tsx` — Integrate mentions
+  - `hooks/use-mentions.ts` — Create hook
+- **Acceptance Criteria:**
+  - [ ] @ triggers user autocomplete
+  - [ ] Can select user from dropdown
+  - [ ] Mentions are highlighted in messages
+  - [ ] Build passes
+
+### p9-5-channel-mentions — #Channel Mentions
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Description:**
+  - Implement #channel mentions
+  - Show channel autocomplete when typing #
+  - Clicking channel mention navigates to channel
+- **Files:**
+  - `components/chat/channel-autocomplete.tsx` — Create
+  - `components/chat/chat-input.tsx` — Integrate
+- **Acceptance Criteria:**
+  - [ ] # triggers channel autocomplete
+  - [ ] Channel mentions are clickable
+  - [ ] Build passes
+
+### p9-6-code-highlighting — Code Block Syntax Highlighting
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Description:**
+  - Add syntax highlighting for code blocks
+  - Support common languages (JS, TS, Python, etc.)
+  - Use highlight.js or prism.js
+- **Files:**
+  - `components/chat/code-block.tsx` — Create
+  - `components/chat/chat-item.tsx` — Integrate
+- **Acceptance Criteria:**
+  - [ ] Code blocks have syntax highlighting
+  - [ ] Language auto-detection works
+  - [ ] Build passes
+
+### p9-7-emoji-autocomplete — Emoji Autocomplete
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Description:**
+  - Implement :emoji: autocomplete
+  - Show emoji dropdown when typing :
+  - Support custom server emojis
+- **Files:**
+  - `components/chat/emoji-autocomplete.tsx` — Create
+  - `components/chat/chat-input.tsx` — Integrate
+- **Acceptance Criteria:**
+  - [ ] : triggers emoji autocomplete
+  - [ ] Can select emoji from dropdown
+  - [ ] Build passes
+
+### p9-8-gif-picker — GIF Picker Integration
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Description:**
+  - Add GIF picker (Tenor or Giphy)
+  - GIF button in chat input
+  - Search and send GIFs
+- **Files:**
+  - `components/chat/gif-picker.tsx` — Create
+  - `components/chat/chat-input.tsx` — Add GIF button
+- **Acceptance Criteria:**
+  - [ ] GIF picker opens from button
+  - [ ] Can search GIFs
+  - [ ] Selected GIF sends as message
+  - [ ] Build passes
+
+---
+
+## 🔧 HAOS PHASE 10: Server/Space Features
+
+> **Status:** ⏳ **QUEUED**
+> **Target:** Complete server features from Master Plan Phase 4
+> **Location:** ~/repos/haos-v2
+
+### p10-1-role-ui — Role Management UI
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Description:**
+  - Create role management interface in server settings
+  - List roles with colors and permissions
+  - Drag-and-drop role ordering
+- **Files:**
+  - `components/server/role-manager.tsx` — Create
+  - `components/settings/server-settings.tsx` — Integrate
+- **Acceptance Criteria:**
+  - [ ] Roles list displays in server settings
+  - [ ] Roles can be reordered
+  - [ ] Build passes
+
+### p10-2-role-creation — Role Creation
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Depends on:** p10-1-role-ui
+- **Description:**
+  - Create new role modal
+  - Set role name, color, icon
+  - Map to Matrix power levels
+- **Files:**
+  - `components/modals/create-role-modal.tsx` — Create
+  - `lib/matrix/roles.ts` — Create role service
+- **Acceptance Criteria:**
+  - [ ] Can create new roles
+  - [ ] Role appears in list
+  - [ ] Maps to Matrix power levels
+  - [ ] Build passes
+
+### p10-3-permission-assignment — Permission Assignment
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Depends on:** p10-2-role-creation
+- **Description:**
+  - Implement granular permission toggles
+  - Admin, Moderator, Member base templates
+  - Channel-specific overrides
+- **Files:**
+  - `components/server/permission-editor.tsx` — Create
+  - `lib/matrix/permissions.ts` — Create permission mapping
+- **Acceptance Criteria:**
+  - [ ] Permissions toggle on/off
+  - [ ] Changes apply to Matrix power levels
+  - [ ] Build passes
+
+### p10-4-role-assignment — Assign Roles to Users
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Depends on:** p10-3-permission-assignment
+- **Description:**
+  - Assign roles to users in member list
+  - Multiple role support
+  - Role badge display on members
+- **Files:**
+  - `components/server/member-role-editor.tsx` — Create
+  - `components/server/member-list.tsx` — Add role badges
+- **Acceptance Criteria:**
+  - [ ] Can assign roles to members
+  - [ ] Role badges show on members
+  - [ ] Build passes
+
+### p10-5-role-badges — Role Badges on Users
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Depends on:** p10-4-role-assignment
+- **Description:**
+  - Show role color/badge next to usernames
+  - Highest role color for username
+- **Files:**
+  - `components/user/user-badge.tsx` — Create
+- **Acceptance Criteria:**
+  - [ ] Role badges visible
+  - [ ] Username colored by highest role
+  - [ ] Build passes
+
+### p10-6-user-kick — Kick Users
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Description:**
+  - Implement kick functionality for moderators
+  - Kick from context menu on user
+  - Optional kick reason
+- **Files:**
+  - `components/modals/kick-user-modal.tsx` — Create
+  - `lib/matrix/moderation.ts` — Create moderation service
+- **Acceptance Criteria:**
+  - [ ] Moderators can kick users
+  - [ ] Kicked user removed from room
+  - [ ] Optional reason logged
+  - [ ] Build passes
+
+### p10-7-user-ban — Ban Users
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Description:**
+  - Implement ban functionality
+  - Ban duration options (temp or permanent)
+  - Ban list management
+- **Files:**
+  - `components/modals/ban-user-modal.tsx` — Create
+  - `lib/matrix/moderation.ts` — Add ban methods
+- **Acceptance Criteria:**
+  - [ ] Can ban users
+  - [ ] Banned users cannot rejoin
+  - [ ] Ban list viewable
+  - [ ] Build passes
+
+### p10-8-message-moderation — Message Moderation
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Description:**
+  - Allow moderators to delete any message
+  - Bulk message deletion
+  - Moderation log
+- **Files:**
+  - `components/chat/mod-actions.tsx` — Create
+  - `lib/matrix/moderation.ts` — Add message moderation
+- **Acceptance Criteria:**
+  - [ ] Mods can delete any message
+  - [ ] Bulk delete works
+  - [ ] Actions logged
+  - [ ] Build passes
+
+### p10-9-audit-log — Audit Log Viewer
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Description:**
+  - Create audit log page in server settings
+  - Show moderation actions, role changes, etc.
+  - Filter by action type, user, date
+- **Files:**
+  - `components/server/audit-log.tsx` — Create
+  - `app/(main)/(routes)/servers/[serverId]/settings/audit-log/page.tsx` — Create
+- **Acceptance Criteria:**
+  - [ ] Audit log displays events
+  - [ ] Can filter by type/user/date
+  - [ ] Build passes
+
+### p10-10-mute — Mute Functionality
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Description:**
+  - Implement server/channel mute for users
+  - Timed mutes
+  - Mute prevents sending messages
+- **Files:**
+  - `components/modals/mute-user-modal.tsx` — Create
+  - `lib/matrix/moderation.ts` — Add mute methods
+- **Acceptance Criteria:**
+  - [ ] Can mute users
+  - [ ] Muted users can't send messages
+  - [ ] Mute expiry works
+  - [ ] Build passes
+
+### p10-11-invite-links — Improved Invite Links
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Description:**
+  - Generate shareable invite links
+  - Custom slugs
+  - QR code generation
+- **Files:**
+  - `components/server/invite-generator.tsx` — Enhance
+  - `lib/matrix/invites.ts` — Create invite service
+- **Acceptance Criteria:**
+  - [ ] Generate custom invite links
+  - [ ] QR code displays
+  - [ ] Build passes
+
+### p10-12-invite-expiry — Invite Expiry Options
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Depends on:** p10-11-invite-links
+- **Description:**
+  - Add expiry time to invites
+  - Max uses limit
+- **Files:**
+  - `components/server/invite-generator.tsx` — Add expiry options
+- **Acceptance Criteria:**
+  - [ ] Can set invite expiry
+  - [ ] Can set max uses
+  - [ ] Build passes
+
+### p10-13-invite-tracking — Invite Usage Tracking
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Depends on:** p10-12-invite-expiry
+- **Description:**
+  - Track who joined via which invite
+  - Show invite stats
+- **Files:**
+  - `components/server/invite-stats.tsx` — Create
+- **Acceptance Criteria:**
+  - [ ] Invite usage tracked
+  - [ ] Stats displayed
+  - [ ] Build passes
+
+### p10-14-invite-revocation — Invite Revocation
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Description:**
+  - Allow revoking invites
+  - Revoked invites no longer work
+- **Files:**
+  - `components/server/invite-manager.tsx` — Add revoke
+- **Acceptance Criteria:**
+  - [ ] Can revoke invites
+  - [ ] Revoked invites don't work
+  - [ ] Build passes
+
+---
+
+## 🔧 HAOS PHASE 11: User Experience
+
+> **Status:** ⏳ **QUEUED**
+> **Target:** Complete UX features from Master Plan Phase 5
+> **Location:** ~/repos/haos-v2
+
+### p11-1-settings-layout — Settings Page Layout
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Description:**
+  - Create comprehensive settings page
+  - Sidebar navigation for settings sections
+  - Consistent styling
+- **Files:**
+  - `app/(main)/(routes)/settings/layout.tsx` — Create
+  - `components/settings/settings-sidebar.tsx` — Create
+- **Acceptance Criteria:**
+  - [ ] Settings page accessible
+  - [ ] Sidebar navigation works
+  - [ ] Build passes
+
+### p11-2-profile-settings — Profile Settings
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Depends on:** p11-1-settings-layout
+- **Description:**
+  - Edit display name
+  - Change avatar
+  - Set status/bio
+- **Files:**
+  - `app/(main)/(routes)/settings/profile/page.tsx` — Create
+  - `components/settings/profile-form.tsx` — Create
+- **Acceptance Criteria:**
+  - [ ] Can edit display name
+  - [ ] Can change avatar
+  - [ ] Can set status
+  - [ ] Build passes
+
+### p11-3-notification-settings — Notification Settings
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Depends on:** p11-1-settings-layout
+- **Description:**
+  - Per-server notification preferences
+  - Per-channel overrides
+  - Mute options
+- **Files:**
+  - `app/(main)/(routes)/settings/notifications/page.tsx` — Create
+  - `components/settings/notification-form.tsx` — Create
+- **Acceptance Criteria:**
+  - [ ] Can set notification prefs
+  - [ ] Per-server settings work
+  - [ ] Per-channel overrides work
+  - [ ] Build passes
+
+### p11-4-privacy-settings — Privacy Settings
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Depends on:** p11-1-settings-layout
+- **Description:**
+  - Read receipts toggle
+  - Typing indicators toggle
+  - Activity status visibility
+- **Files:**
+  - `app/(main)/(routes)/settings/privacy/page.tsx` — Create
+  - `components/settings/privacy-form.tsx` — Create
+- **Acceptance Criteria:**
+  - [ ] Privacy toggles work
+  - [ ] Settings persist
+  - [ ] Build passes
+
+### p11-5-security-settings-page — Security Settings
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Depends on:** p11-1-settings-layout
+- **Description:**
+  - View logged-in devices
+  - Revoke device sessions
+  - Change password
+  - Two-factor setup
+- **Files:**
+  - `app/(main)/(routes)/settings/security/page.tsx` — Create
+  - `components/settings/device-manager.tsx` — Enhance
+- **Acceptance Criteria:**
+  - [ ] Devices list shows all sessions
+  - [ ] Can revoke sessions
+  - [ ] Build passes
+
+### p11-6-accessibility-settings — Accessibility Settings
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Depends on:** p11-1-settings-layout
+- **Description:**
+  - Font size adjustment
+  - Reduce motion toggle
+  - High contrast mode
+- **Files:**
+  - `app/(main)/(routes)/settings/accessibility/page.tsx` — Create
+- **Acceptance Criteria:**
+  - [ ] Accessibility options work
+  - [ ] Settings persist
+  - [ ] Build passes
+
+### p11-7-push-registration — Push Notification Registration
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Description:**
+  - Register service worker for push
+  - Request notification permission
+  - Store push subscription
+- **Files:**
+  - `lib/push/registration.ts` — Create
+  - `app/api/push/register/route.ts` — Create
+- **Acceptance Criteria:**
+  - [ ] Permission request works
+  - [ ] Subscription stored
+  - [ ] Build passes
+
+### p11-8-notification-service-worker — Notification Service Worker
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Depends on:** p11-7-push-registration
+- **Description:**
+  - Create service worker for push handling
+  - Show notifications when app not focused
+  - Handle notification clicks
+- **Files:**
+  - `public/sw.js` — Create service worker
+  - `lib/push/messaging.ts` — Create
+- **Acceptance Criteria:**
+  - [ ] Push notifications display
+  - [ ] Click opens correct room
+  - [ ] Build passes
+
+### p11-9-notification-preferences — Notification Preferences Storage
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Depends on:** p11-3-notification-settings
+- **Description:**
+  - Persist notification preferences to Matrix account data
+  - Sync across devices
+- **Files:**
+  - `lib/matrix/account-data.ts` — Add notification prefs
+- **Acceptance Criteria:**
+  - [ ] Prefs persist to Matrix
+  - [ ] Sync across devices
+  - [ ] Build passes
+
+### p11-10-desktop-notifications — Desktop Notifications
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Description:**
+  - Show desktop notifications in browser
+  - Permission handling
+  - Click to focus
+- **Files:**
+  - `lib/notifications/desktop.ts` — Create
+- **Acceptance Criteria:**
+  - [ ] Desktop notifications work
+  - [ ] Click focuses app
+  - [ ] Build passes
+
+### p11-11-notification-sounds — Notification Sounds
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Description:**
+  - Add notification sounds
+  - Per-type sound customization
+  - Mute option
+- **Files:**
+  - `lib/notifications/sounds.ts` — Create
+  - `public/sounds/` — Add sound files
+- **Acceptance Criteria:**
+  - [ ] Sounds play on notification
+  - [ ] Can customize sounds
+  - [ ] Build passes
+
+### p11-12-mobile-audit — Mobile Layout Audit
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Description:**
+  - Audit all pages for mobile responsiveness
+  - Document issues
+  - Create fix plan
+- **Files:**
+  - `docs/haos-v2/MOBILE-AUDIT.md` — Create
+- **Acceptance Criteria:**
+  - [ ] All pages tested on mobile
+  - [ ] Issues documented
+  - [ ] Fix plan created
+
+### p11-13-mobile-navigation — Fix Mobile Navigation
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Depends on:** p11-12-mobile-audit
+- **Description:**
+  - Implement mobile-friendly navigation
+  - Bottom nav bar
+  - Swipe gestures
+- **Files:**
+  - `components/navigation/mobile-nav.tsx` — Create
+- **Acceptance Criteria:**
+  - [ ] Mobile nav works
+  - [ ] Swipe navigation works
+  - [ ] Build passes
+
+### p11-14-mobile-chat — Optimize Mobile Chat
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Depends on:** p11-12-mobile-audit
+- **Description:**
+  - Optimize chat view for mobile
+  - Keyboard handling
+  - Touch-friendly input
+- **Files:**
+  - `components/chat/chat-mobile.tsx` — Create variants
+- **Acceptance Criteria:**
+  - [ ] Chat works well on mobile
+  - [ ] Keyboard doesn't cover input
+  - [ ] Build passes
+
+### p11-15-device-testing — Device Testing
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Depends on:** p11-14-mobile-chat
+- **Description:**
+  - Test on various devices
+  - Document compatibility
+  - Fix critical issues
+- **Files:**
+  - `docs/haos-v2/DEVICE-TESTING.md` — Create
+- **Acceptance Criteria:**
+  - [ ] Tested on iOS Safari
+  - [ ] Tested on Android Chrome
+  - [ ] Major issues fixed
+
+---
+
+## 🔧 HAOS PHASE 12: Infrastructure & Polish
+
+> **Status:** ⏳ **QUEUED**
+> **Target:** Complete infrastructure from Master Plan Phase 6
+> **Location:** ~/repos/haos-v2
+
+### p12-1-service-worker — Service Worker Setup
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Description:**
+  - Create service worker for offline support
+  - Cache static assets
+  - Handle offline requests gracefully
+- **Files:**
+  - `public/sw.js` — Enhance for caching
+  - `lib/sw-registration.ts` — Create
+- **Acceptance Criteria:**
+  - [ ] Service worker registers
+  - [ ] Static assets cached
+  - [ ] Build passes
+
+### p12-2-indexeddb-cache — IndexedDB Message Cache
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Description:**
+  - Cache messages locally in IndexedDB
+  - Load cached messages while syncing
+  - Reduce initial load time
+- **Files:**
+  - `lib/cache/message-cache.ts` — Create
+  - `hooks/use-cached-messages.ts` — Create
+- **Acceptance Criteria:**
+  - [ ] Messages cached locally
+  - [ ] Fast load from cache
+  - [ ] Build passes
+
+### p12-3-offline-queue — Offline Message Queue
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Depends on:** p12-2-indexeddb-cache
+- **Description:**
+  - Queue messages when offline
+  - Send when reconnected
+  - Show pending status
+- **Files:**
+  - `lib/cache/offline-queue.ts` — Create
+  - `hooks/use-offline-send.ts` — Create
+- **Acceptance Criteria:**
+  - [ ] Messages queue when offline
+  - [ ] Send on reconnect
+  - [ ] Pending status shows
+  - [ ] Build passes
+
+### p12-4-reconnect-sync — Reconnection & Sync
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Description:**
+  - Handle reconnection gracefully
+  - Sync missed messages
+  - Show reconnecting indicator
+- **Files:**
+  - `lib/matrix/reconnect.ts` — Create
+  - `components/ui/connection-status.tsx` — Create
+- **Acceptance Criteria:**
+  - [ ] Reconnect works automatically
+  - [ ] Missed messages sync
+  - [ ] Status indicator shows
+  - [ ] Build passes
+
+### p12-5-pwa-manifest — PWA Manifest
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Description:**
+  - Create manifest.json for PWA
+  - Configure app name, colors, icons
+- **Files:**
+  - `public/manifest.json` — Create
+  - `app/layout.tsx` — Add manifest link
+- **Acceptance Criteria:**
+  - [ ] Manifest configured
+  - [ ] App installable
+  - [ ] Build passes
+
+### p12-6-pwa-icons — PWA Icons
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Description:**
+  - Create app icons in all required sizes
+  - Add favicon
+- **Files:**
+  - `public/icons/` — Create icons
+- **Acceptance Criteria:**
+  - [ ] All icon sizes present
+  - [ ] Favicon works
+  - [ ] Build passes
+
+### p12-7-install-prompt — PWA Install Prompt
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Depends on:** p12-5-pwa-manifest
+- **Description:**
+  - Show install prompt
+  - Handle beforeinstallprompt event
+- **Files:**
+  - `components/ui/install-prompt.tsx` — Create
+- **Acceptance Criteria:**
+  - [ ] Install prompt shows
+  - [ ] Can install app
+  - [ ] Build passes
+
+### p12-8-pwa-testing — PWA Testing
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Description:**
+  - Test PWA installation
+  - Test offline functionality
+  - Verify icons and splash
+- **Files:**
+  - `docs/haos-v2/PWA-TESTING.md` — Create
+- **Acceptance Criteria:**
+  - [ ] PWA installs correctly
+  - [ ] Offline works
+  - [ ] Icons display properly
+
+### p12-9-error-boundaries — Error Boundaries
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Description:**
+  - Add React error boundaries
+  - Graceful error UI
+  - Prevent full app crash
+- **Files:**
+  - `components/error-boundary.tsx` — Create
+  - `app/layout.tsx` — Wrap with boundary
+- **Acceptance Criteria:**
+  - [ ] Errors caught by boundary
+  - [ ] Error UI shows
+  - [ ] App recovers gracefully
+  - [ ] Build passes
+
+### p12-10-error-components — Error UI Components
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟡 MEDIUM
+- **Depends on:** p12-9-error-boundaries
+- **Description:**
+  - Create error display components
+  - Retry button
+  - Error details (dev mode)
+- **Files:**
+  - `components/ui/error-display.tsx` — Create
+  - `components/ui/retry-button.tsx` — Create
+- **Acceptance Criteria:**
+  - [ ] Error displays nicely
+  - [ ] Retry works
+  - [ ] Build passes
+
+### p12-11-error-reporting — Error Reporting
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Description:**
+  - Implement error reporting (Sentry or similar)
+  - Report uncaught errors
+  - Include context
+- **Files:**
+  - `lib/error-reporting.ts` — Create
+- **Acceptance Criteria:**
+  - [ ] Errors reported to service
+  - [ ] Context included
+  - [ ] Build passes
+
+### p12-12-retry-mechanisms — Retry Mechanisms
+- **Status:** pending
+- **Model:** haiku
+- **Priority:** 🟢 LOW
+- **Description:**
+  - Add retry logic for failed requests
+  - Exponential backoff
+  - Max retries
+- **Files:**
+  - `lib/fetch-with-retry.ts` — Create
+- **Acceptance Criteria:**
+  - [ ] Failed requests retry
+  - [ ] Backoff works
+  - [ ] Build passes
+
+### p12-13-e2e-encryption-tests — E2EE Tests
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Description:**
+  - Add end-to-end tests for encryption
+  - Test key exchange
+  - Test message encryption/decryption
+- **Files:**
+  - `tests/e2e/encryption.spec.ts` — Create
+- **Acceptance Criteria:**
+  - [ ] E2EE tests pass
+  - [ ] Tests run in CI
+  - [ ] Build passes
+
+### p12-14-voice-video-tests — Voice/Video Tests
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Description:**
+  - Add tests for voice/video functionality
+  - Test join/leave
+  - Test mute/unmute
+- **Files:**
+  - `tests/e2e/voice-video.spec.ts` — Create
+- **Acceptance Criteria:**
+  - [ ] Voice/video tests pass
+  - [ ] Tests run in CI
+  - [ ] Build passes
+
+### p12-15-integration-tests — Integration Tests
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟡 MEDIUM
+- **Description:**
+  - Add integration tests for key flows
+  - Login, messaging, room creation
+- **Files:**
+  - `tests/integration/` — Create test suite
+- **Acceptance Criteria:**
+  - [ ] Integration tests pass
+  - [ ] Tests run in CI
+  - [ ] Build passes
+
+### p12-16-performance-testing — Performance Testing
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟢 LOW
+- **Description:**
+  - Performance profiling
+  - Lighthouse audits
+  - Optimization recommendations
+- **Files:**
+  - `docs/haos-v2/PERFORMANCE-AUDIT.md` — Create
+- **Acceptance Criteria:**
+  - [ ] Performance audited
+  - [ ] Recommendations documented
+  - [ ] Critical issues fixed
 
 ---
 

@@ -4,7 +4,46 @@
 
 ## Active Projects
 
-(none currently)
+### HAOS Full Implementation — Phases 8-12
+- **Status:** 🔴 **ACTIVE — BEGIN IMMEDIATELY**
+- **Priority:** 🔴 CRITICAL (Aaron's direct order)
+- **Started:** 2026-02-27 12:00 EST
+- **Jobs File:** `PROACTIVE-JOBS.md`
+- **Location:** ~/repos/haos-v2
+- **Total Tasks:** 53 (across 5 phases)
+
+#### Phase Breakdown
+
+| Phase | Description | Tasks | Priority | Status |
+|-------|-------------|-------|----------|--------|
+| **Phase 8** | Security Polish | 2 | 🟡 MEDIUM | 🔄 p8-2 in-progress |
+| **Phase 9** | Chat Features | 8 | 🟠 HIGH | ⏳ Ready to start |
+| **Phase 10** | Server Features | 14 | 🟠 HIGH | ⏳ Ready to start |
+| **Phase 11** | User Experience | 15 | 🟡 MEDIUM | ⏳ Ready to start |
+| **Phase 12** | Infrastructure | 16 | 🟡 MEDIUM | ⏳ Ready to start |
+
+#### Task Priority Order
+
+**Start with HIGH priority items that have no dependencies:**
+
+1. **p8-3-encryption-ui** (Sonnet) — Lock icon in chat header
+2. **p9-1-message-editing** (Sonnet) — Message editing UI
+3. **p9-2-message-deletion** (Sonnet) — Message deletion UI
+4. **p9-4-mentions** (Sonnet) — @mentions autocomplete
+5. **p10-1-role-ui** (Sonnet) — Role management UI
+6. **p10-6-user-kick** (Sonnet) — Kick functionality
+7. **p10-7-user-ban** (Sonnet) — Ban functionality
+8. **p11-1-settings-layout** (Sonnet) — Settings page
+9. **p11-12-mobile-audit** (Sonnet) — Mobile responsiveness
+10. **p12-9-error-boundaries** (Sonnet) — Error handling
+
+**Note:** Many tasks have dependencies. Check `Depends on:` field before spawning.
+
+#### Worker Slot Management
+
+- **Max Slots:** 2
+- **Current:** Check p8-2-device-prompts status first
+- **Strategy:** Keep 2 parallel workers running at all times
 
 ## Active Topics
 
@@ -45,15 +84,8 @@
 
 ## Notes
 
-- [2026-02-14 01:00] **PHASE 6 STARTED** — Sophie deployed correct codebase from dev3 to dev2. Found two separate codebases:
-  - dev3:/home/ubuntu/repos/haos-v2/ → Complete Discord-clone implementation with Matrix auth
-  - dev2:~/haos-v2/ → Old basic monorepo shell (WRONG)
-  - Fixed by deploying dev3 code to dev2:/home/ubuntu/repos/haos-v2-new/
-  - Configured Caddy to proxy port 80 to PM2 on port 3000
-  - Sign-in, auth, chat, voice/video all working
-  - 9 remaining tasks identified for full implementation
+- [2026-02-27 12:00] **PHASE 8-12 ACTIVATED** — Aaron ordered full HAOS implementation
+- [2026-02-27 12:00] **53 new tasks** queued in PROACTIVE-JOBS.md
+- [2026-02-27 12:00] **Priority:** Chat features (P9) and Server features (P10) are highest impact
+- [2026-02-14 01:00] **PHASE 6 STARTED** — Sophie deployed correct codebase from dev3 to dev2
 - [2026-02-14 00:30] **STATUS VERIFICATION COMPLETE** — Phase 5 deployed but discovered wrong codebase was live
-- [2026-02-13 23:58] **v1.0.0 Deployed** — Previous deployment was old shell, not complete codebase
-- [2026-02-13 15:01] **STATUS VERIFICATION** — Build working, Phases 1-4 complete
-- [2026-02-13 10:00] **v1.0.0 RELEASE COMPLETE** — Release tasks completed
-- [2026-02-13 08:00] **RELEASE AUTHORIZED** — Person Manager approved v1.0.0 release
