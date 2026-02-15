@@ -1,9 +1,72 @@
-# PROACTIVE-JOBS.md — All Projects Complete
+# PROACTIVE-JOBS.md — HAOS Production Fix
 
-> **Status (2026-02-14 15:31 EST):** ✅ **ALL PROJECTS COMPLETE**
-> **HAOS Phase 7:** ✅ 11/11 tasks complete — Full E2EE security + voice/video
-> **PortableRalph Phase 0:** ✅ 12/12 tasks complete — All tests passing (10/10 suites)
-> **Ready for new assignments from Aaron**
+> **Status (2026-02-15 03:30 EST):** 🔧 **HAOS PRODUCTION FIX IN PROGRESS**
+> **Phase 1 (Critical):** ✅ 5/5 tasks complete — Login working!
+> **Phase 2 (Security):** ⏳ 3 tasks queued
+> **PortableRalph:** ✅ Complete (10/10 test suites passing)
+
+---
+
+## 🔧 HAOS PHASE 2: Security Fixes (Queued)
+
+> **Status:** ⏳ **QUEUED FOR AUTONOMOUS WORK**
+> **Target:** Fix remaining security vulnerabilities
+> **Location:** ~/repos/haos-v2
+
+### p8-1-sessionstorage-fix — Remove Password from sessionStorage
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🔴 CRITICAL
+- **Description:**
+  - Current: Password stored in sessionStorage (XSS vulnerability)
+  - Fix: Store only access token, never password
+  - Update auth flow to use proper token-based persistence
+  - Audit all sessionStorage usage for sensitive data
+- **Files to check:**
+  - `lib/matrix/cookies.ts`
+  - `lib/matrix/actions/auth.ts`
+  - `components/providers/matrix-provider.tsx`
+- **Success Criteria:**
+  - [ ] No password ever stored in sessionStorage
+  - [ ] Authentication still works
+  - [ ] Session persistence via secure tokens only
+  - [ ] Build passes
+
+### p8-2-device-prompts — Device Verification Prompts
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Depends on:** p7-3-device-verify (already complete)
+- **Description:**
+  - Show verification prompt on first login to new device
+  - Prompt to verify existing devices
+  - Visual indicator for unverified devices
+- **Files to enhance:**
+  - `components/modals/device-verification-modal.tsx`
+  - `hooks/use-device-verification.ts`
+  - `components/providers/matrix-provider.tsx` (add auto-prompt)
+- **Success Criteria:**
+  - [ ] Prompt appears on first login
+  - [ ] User can verify via emoji
+  - [ ] Unverified devices show warning indicator
+
+### p8-3-encryption-ui — Encryption Status UI
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** 🟠 HIGH
+- **Description:**
+  - Show lock icon with encryption status in chat header
+  - Color coding: green (verified), yellow (unverified), red (unencrypted)
+  - Tooltip with encryption details
+- **Files to enhance:**
+  - `components/chat/chat-header.tsx`
+  - `hooks/use-room-messages.ts`
+- **Success Criteria:**
+  - [ ] Lock icon shows in chat header
+  - [ ] Status reflects actual room encryption
+  - [ ] Clicking shows encryption details modal
+
+---
 
 ## 📊 CURRENT STATE
 
