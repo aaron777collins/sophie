@@ -11,6 +11,7 @@ import {
   loginWithPassword as clientLogin,
   logout as clientLogout 
 } from '../../lib/matrix/client'
+import { DeviceVerificationPromptTrigger } from '../modals/device-verification-prompt-modal'
 // Use console instead of matrix logger for client-side compatibility
 const logger = {
   info: console.log,
@@ -238,6 +239,8 @@ export function MatrixProvider({ children }: MatrixProviderProps) {
   return (
     <MatrixContext.Provider value={contextValue}>
       {children}
+      {/* Device verification prompt - automatically shows when appropriate */}
+      <DeviceVerificationPromptTrigger />
     </MatrixContext.Provider>
   )
 }

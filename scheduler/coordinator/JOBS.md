@@ -42,8 +42,10 @@
 #### Worker Slot Management
 
 - **Max Slots:** 2
-- **Current:** Check p8-2-device-prompts status first
+- **Current:** 0/2 AVAILABLE
 - **Strategy:** Keep 2 parallel workers running at all times
+- **High Priority Queue:** p9-1-message-editing, p9-2-message-deletion, p10-3-permission-assignment
+- **Recently Completed:** p10-6-user-kick ✅, p10-7-user-ban ✅
 
 ## Active Topics
 
