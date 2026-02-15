@@ -39,7 +39,7 @@ Starting critical fixes...
 
 ### [03:22 EST] Issue #1: Created Matrix Admin Account
 - Created `sophie_admin` admin user for Matrix homeserver management
-- Reset password for `demonslayer77` to `DemonSlayer2026!Matrix`
+- Reset password for `demonslayer77` to `KingOfKings12345!`
 - Verified Matrix login works: ✅
 
 ### [03:24 EST] Issue #3: Fixed LiveKit URL
@@ -80,7 +80,7 @@ Starting critical fixes...
 ## ✅ Phase 1 Summary
 
 **All critical issues RESOLVED:**
-- Aaron can now login as `demonslayer77` with password `DemonSlayer2026!Matrix`
+- Aaron can now login as `demonslayer77` with password `KingOfKings12345!`
 - HAOS is running on Next.js 14.2.35 (stable)
 - LiveKit properly configured
 - No server action errors
