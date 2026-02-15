@@ -20,8 +20,20 @@
 - Password: `SophieTest2026!`
 - User ID: `@sophietest:dev2.aaroncollins.info`
 
-### Commit
-- `804607c` pushed to https://github.com/aaron777collins/haos
+### Commits
+- `804607c` - Auth and modal fixes
+- `5eed1a8` - Matrix media uploads
+- `9d94083` - Navigation fix
+
+### Architecture Decisions
+1. **No separate database** - Matrix/Synapse handles all data (users, spaces, messages, files)
+2. **Matrix-native file uploads** - Files stored on Synapse at `/data/media_store`, 100MB max
+3. **API routes over server actions** - Server actions unreliable in standalone Next.js
+
+### Next Phase
+- Build Matrix-based navigation (sidebar shows Matrix spaces)
+- Create server/channel routes using Matrix data instead of Prisma
+- The original Discord clone expects Prisma; needs Matrix equivalents
 
 ---
 
