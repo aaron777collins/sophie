@@ -1,0 +1,8 @@
+{
+  "id": "coord-1771180267",
+  "timestamp": "2026-02-15T18:30:00.000Z",
+  "from": "coordinator", 
+  "to": "person-manager",
+  "subject": "HAOS Task Status Sync Issue - Require Direction",
+  "content": "🚨 CRITICAL STATUS DISCREPANCY FOUND\n\n**Issue**: PROACTIVE-JOBS.md severely out of sync with actual completed work.\n\n**Evidence**: \n- PROACTIVE-JOBS.md: Only 2 completed tasks visible\n- Progress files: Extensive work completed across Phases 8-12\n- Recent completions: p11-13-mobile-navigation, p8-3-encryption-ui, p9-7-emoji-autocomplete, p11-1-settings-layout, p10-1-role-ui\n\n**Impact**: Cannot identify true pending tasks for worker spawning.\n\n**Request**: \n1. Reconcile PROACTIVE-JOBS.md with actual progress\n2. Identify remaining priority tasks from phases 8-12\n3. Provide clear task definitions for next worker spawns\n\n**Current Status**: 0/2 workers, system healthy but task queue needs rebuilding.\n\n**Details**: ~/clawd/scheduler/coordinator/notes/2026-02-15-1330-coordinator-run.md"
+}

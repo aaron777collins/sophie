@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Hash, Pin, Users, Search, Settings, Bell, HelpCircle, Lock, LockOpen, Shield } from 'lucide-react';
+import { Hash, Pin, Users, Search, Settings, Bell, HelpCircle, Lock, LockOpen, ShieldOff, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Tooltip } from '@/components/ui/tooltip';
 import { PinnedMessagesModal } from '../pinned-messages';
 import { usePins } from '@/hooks/use-pins';
-import { useMatrix } from '../providers/matrix-provider';
-import { getRoomEncryptionStatus } from '@/lib/matrix/crypto/room-encryption';
+import { useCryptoStatus, EncryptionVerificationState } from '@/hooks/use-crypto-status';
 
 export interface ChatHeaderProps {
   /** The channel/room name */
@@ -39,6 +39,53 @@ export interface ChatHeaderProps {
  * Header component for chat channels that displays channel information,
  * pinned message count, and provides access to channel actions.
  */
+/**
+ * Get the icon, color, and label for a given encryption state
+ * 
+ * Color coding:
+ * - GREEN (verified): Encrypted with all devices verified
+ * - YELLOW (unverified): Encrypted but not all devices verified  
+ * - RED (unencrypted): Room is not encrypted
+ */
+function getEncryptionStatusConfig(state: EncryptionVerificationState): {
+  icon: React.ElementType;
+  colorClass: string;
+  label: string;
+  bgClass: string;
+} {
+  switch (state) {
+    case 'verified':
+      return {
+        icon: ShieldCheck,
+        colorClass: 'text-green-400',
+        label: 'Verified',
+        bgClass: 'bg-green-500/10',
+      };
+    case 'unverified':
+      return {
+        icon: Lock,
+        colorClass: 'text-yellow-400',
+        label: 'Encrypted',
+        bgClass: 'bg-yellow-500/10',
+      };
+    case 'unencrypted':
+      return {
+        icon: ShieldOff,
+        colorClass: 'text-red-400',
+        label: 'Not encrypted',
+        bgClass: 'bg-red-500/10',
+      };
+    case 'unknown':
+    default:
+      return {
+        icon: LockOpen,
+        colorClass: 'text-gray-400',
+        label: 'Unknown',
+        bgClass: 'bg-gray-500/10',
+      };
+  }
+}
+
 export function ChatHeader({
   channelName,
   roomId,
@@ -55,11 +102,13 @@ export function ChatHeader({
 }: ChatHeaderProps) {
   const [showPinnedMessages, setShowPinnedMessages] = useState(false);
   const { pinnedMessages } = usePins(roomId);
-  const { client } = useMatrix();
   
-  // Get room encryption status
-  const room = client?.getRoom(roomId);
-  const encryptionStatus = room && client ? getRoomEncryptionStatus(client, room) : null;
+  // Get comprehensive crypto status using the hook
+  const cryptoStatus = useCryptoStatus(roomId);
+  
+  // Get display configuration based on encryption state
+  const encryptionConfig = getEncryptionStatusConfig(cryptoStatus.state);
+  const EncryptionIcon = encryptionConfig.icon;
 
   const handleOpenPinnedMessages = () => {
     setShowPinnedMessages(true);
@@ -87,30 +136,53 @@ export function ChatHeader({
             <h1 className="font-semibold text-white truncate">{channelName}</h1>
           </div>
 
-          {/* Encryption indicator */}
-          {showEncryption && encryptionStatus && (
-            <div className="flex items-center gap-1 ml-2">
-              {encryptionStatus.isEncrypted ? (
-                <div className="flex items-center gap-1">
-                  {encryptionStatus.canDecrypt ? (
-                    <div title="End-to-end encrypted">
-                      <Lock className="w-4 h-4 text-green-400" />
-                    </div>
-                  ) : (
-                    <div title="Encrypted but cannot decrypt">
-                      <LockOpen className="w-4 h-4 text-yellow-400" />
-                    </div>
-                  )}
-                  <span className="text-xs text-green-400 hidden md:inline">
-                    E2E
-                  </span>
+          {/* Encryption Status Indicator
+              Color coding:
+              - Green (verified): Encrypted with all devices verified
+              - Yellow (unverified): Encrypted but some devices unverified  
+              - Red (unencrypted): Room is not encrypted
+          */}
+          {showEncryption && (
+            <Tooltip
+              content={
+                <div className="max-w-xs whitespace-pre-wrap text-left">
+                  <div className="font-semibold mb-1 flex items-center gap-2">
+                    <EncryptionIcon className={`w-4 h-4 ${encryptionConfig.colorClass}`} />
+                    <span>{cryptoStatus.statusMessage}</span>
+                  </div>
+                  <div className="text-gray-300 text-xs leading-relaxed">
+                    {cryptoStatus.detailedMessage}
+                  </div>
                 </div>
-              ) : (
-                <div title="Not encrypted">
-                  <Shield className="w-4 h-4 text-gray-500" />
-                </div>
-              )}
-            </div>
+              }
+              side="bottom"
+              contentClassName="!whitespace-normal max-w-xs"
+            >
+              <div 
+                className={`
+                  flex items-center gap-1.5 px-2 py-1 rounded-md cursor-help
+                  transition-colors duration-200
+                  hover:${encryptionConfig.bgClass}
+                `}
+                role="status"
+                aria-label={`Encryption status: ${cryptoStatus.statusMessage}`}
+              >
+                <EncryptionIcon 
+                  className={`w-4 h-4 ${encryptionConfig.colorClass}`} 
+                  aria-hidden="true"
+                />
+                <span className={`text-xs ${encryptionConfig.colorClass} hidden md:inline font-medium`}>
+                  {cryptoStatus.state === 'verified' && 'Verified'}
+                  {cryptoStatus.state === 'unverified' && 'E2E'}
+                  {cryptoStatus.state === 'unencrypted' && 'Unencrypted'}
+                  {cryptoStatus.state === 'unknown' && 'Unknown'}
+                </span>
+                {/* Show loading indicator */}
+                {cryptoStatus.isLoading && (
+                  <span className="w-1.5 h-1.5 bg-current rounded-full animate-pulse" aria-hidden="true" />
+                )}
+              </div>
+            </Tooltip>
           )}
           
           {description && (

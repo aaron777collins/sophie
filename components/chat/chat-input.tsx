@@ -1,74 +1,86 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Channel } from '@/types/channel'; // Adjust import based on your project structure
-import { ChannelAutocomplete } from './channel-autocomplete';
+import React, { useState, useRef, useCallback } from 'react';
+import EmojiAutocomplete from './emoji-autocomplete';
 
 interface ChatInputProps {
-  channels: Channel[];
   onSendMessage: (message: string) => void;
+  customEmojis?: { name: string; url: string }[];
 }
 
 export const ChatInput: React.FC<ChatInputProps> = ({ 
-  channels, 
-  onSendMessage 
+  onSendMessage, 
+  customEmojis = [] 
 }) => {
-  const [inputValue, setInputValue] = useState('');
+  const [message, setMessage] = useState('');
+  const [emojiSearchTerm, setEmojiSearchTerm] = useState('');
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInputValue(e.target.value);
-  };
+    const inputValue = e.target.value;
+    setMessage(inputValue);
 
-  const handleChannelSelect = (channel: Channel) => {
-    // Replace the partial channel mention with the full channel mention
-    const parts = inputValue.split('#');
-    parts[parts.length - 1] = channel.name + ' ';
-    setInputValue(parts.join('#'));
+    // Check for emoji autocomplete trigger
+    const lastChar = inputValue.slice(-1);
+    const matches = inputValue.match(/:([^:\s]*)$/);
     
-    // Focus back on the input
-    inputRef.current?.focus();
-  };
-
-  const handleSendMessage = () => {
-    if (inputValue.trim()) {
-      onSendMessage(inputValue);
-      setInputValue('');
+    if (lastChar === ':') {
+      setEmojiSearchTerm('');
+    } else if (matches) {
+      setEmojiSearchTerm(matches[1]);
+    } else {
+      setEmojiSearchTerm('');
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // Send message on Enter (without Shift)
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
+  const handleEmojiSelect = useCallback((emoji: string) => {
+    if (!inputRef.current) return;
+
+    // Replace the current :search: with the selected emoji
+    const currentValue = inputRef.current.value;
+    const emojiSearchMatch = currentValue.match(/:([^:\s]*):/);
+    
+    if (emojiSearchMatch) {
+      const newValue = currentValue.replace(emojiSearchMatch[0], emoji);
+      setMessage(newValue);
+      setEmojiSearchTerm('');
+      inputRef.current.focus();
+    }
+  }, []);
+
+  const handleSendMessage = () => {
+    if (message.trim()) {
+      onSendMessage(message);
+      setMessage('');
+      setEmojiSearchTerm('');
     }
   };
 
   return (
-    <div className="relative">
-      <div className="flex items-center p-4 bg-white border-t">
-        <textarea
-          ref={inputRef}
-          value={inputValue}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          placeholder="Type a message... Use # to mention a channel"
-          className="w-full p-2 border rounded resize-none"
-          rows={3}
-        />
-        <button 
-          onClick={handleSendMessage}
-          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          Send
-        </button>
-      </div>
-      
-      {/* Channel Autocomplete */}
-      <ChannelAutocomplete 
-        channels={channels}
-        onChannelSelect={handleChannelSelect}
-        inputValue={inputValue}
+    <div className="chat-input-container">
+      <textarea
+        ref={inputRef}
+        value={message}
+        onChange={handleInputChange}
+        placeholder="Type a message..."
+        className="chat-input"
+        rows={3}
       />
+      
+      {emojiSearchTerm !== undefined && (
+        <EmojiAutocomplete
+          searchTerm={emojiSearchTerm}
+          onEmojiSelect={handleEmojiSelect}
+          customEmojis={customEmojis}
+        />
+      )}
+      
+      <button 
+        onClick={handleSendMessage} 
+        className="send-message-btn"
+      >
+        Send
+      </button>
     </div>
   );
 };
+
+export default ChatInput;

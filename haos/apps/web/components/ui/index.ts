@@ -6,3 +6,4 @@ export { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 export { ScrollArea } from './scroll-area';
 export { Separator, type SeparatorProps } from './separator';
 export { Toast, ToastAction, type ToastProps } from './toast';
+export { Tooltip, type TooltipProps } from './tooltip';

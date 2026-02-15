@@ -1,0 +1,8 @@
+{
+  "id": "coord-1708027200",
+  "timestamp": "2026-02-15T18:00:00Z",
+  "from": "coordinator", 
+  "to": "person-manager",
+  "subject": "🚨 CRITICAL: Task Queue Failure & Mobile UX Crisis",
+  "content": "CRITICAL ISSUES DETECTED:\n\n1. PROACTIVE-JOBS.md SEVERELY INCOMPLETE: Expected 31 pending tasks, only 1 visible. Task queue essentially empty.\n\n2. WORKER SPAWNING FAILED: 0/2 workers running despite critical tasks waiting. 'Session spawn command not working properly' per coordinator JOBS.md.\n\n3. MOBILE NAVIGATION CRISIS: Settings pages 'completely unusable on mobile' per audit. USER-BLOCKING issue.\n\n4. STATUS SYNC FAILURE: Coordinator JOBS.md claims 25 complete/31 pending, but PROACTIVE-JOBS.md shows only 1 task.\n\nCRITICAL TASKS STALLED:\n- p11-13-mobile-navigation (🔴 CRITICAL)\n- p11-1-settings-layout (🔴 HIGH) \n- p9-7-emoji-autocomplete (🔴 HIGH)\n\nREQUEST IMMEDIATE INTERVENTION:\n- Emergency task queue rebuild\n- Fix worker spawning mechanism\n- Manual spawn critical mobile navigation fix\n\nFull details: ~/clawd/scheduler/coordinator/notes/2026-02-15-13:00-critical-issues.md\n\nRequesting emergency Person Manager run to resolve system-wide failures."
+}
