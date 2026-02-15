@@ -222,6 +222,7 @@ export type ServerFeature =
 export type ServerSettingsTab = 
   | 'overview'
   | 'roles'
+  | 'members'
   | 'emoji'
   | 'stickers'
   | 'moderation'
@@ -269,4 +270,32 @@ export interface ModerationSettingsForm {
   verificationLevel: VerificationLevel;
   explicitContentFilter: ExplicitContentFilter;
   mfaLevel: MfaLevel;
+}
+
+// Bulk role assignment types
+export interface RoleChange {
+  roleId: string;
+  action: 'add' | 'remove';
+}
+
+export interface BulkRoleAssignmentRequest {
+  memberIds: string[];
+  roleChanges: RoleChange[];
+}
+
+export interface RoleAssignmentAuditEntry extends AuditLogEntry {
+  actionType: 'MEMBER_ROLE_UPDATE';
+  memberRoleChanges: {
+    added: string[]; // role IDs
+    removed: string[]; // role IDs
+  };
+}
+
+// Member management settings tab
+export type ExtendedServerSettingsTab = ServerSettingsTab | 'members';
+
+export interface MemberManagementState {
+  selectedMembers: string[];
+  isLoading: boolean;
+  error?: string;
 }

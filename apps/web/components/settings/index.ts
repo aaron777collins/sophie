@@ -5,6 +5,7 @@ export { ModerationSettings } from './moderation-settings';
 export { AuditLogSettings } from './audit-log-settings';
 export { BansSettings } from './bans-settings';
 export { InvitesSettings } from './invites-settings';
+export { MemberManagement } from './member-management';
 
 // User Settings Components
 export { default as UserSettings } from './user-settings';

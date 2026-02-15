@@ -4,3 +4,6 @@ export type { ServerSettingsModalProps } from './server-settings-modal';
 
 export { KeyBackupModal } from './key-backup-modal';
 export type { KeyBackupModalProps } from './key-backup-modal';
+
+export { BulkRoleAssignmentModal } from './bulk-role-assignment-modal';
+export { PermissionPreviewModal } from './permission-preview-modal';

@@ -1,0 +1,288 @@
+/* Member Management Styles */
+
+.filtersRow {
+  display: flex;
+  gap: 1rem;
+  align-items: end;
+}
+
+.filtersRow > *:first-child {
+  flex: 1;
+}
+
+.bulkActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.memberListHeader {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: var(--background-secondary);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.headerLabel {
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.memberList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.memberRow {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.memberRow:hover {
+  background-color: var(--background-modifier-hover);
+}
+
+.memberInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0; /* Allow text truncation */
+}
+
+.memberDetails {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.memberName {
+  font-weight: 500;
+  color: var(--text-normal);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.memberUsername {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.memberRoles {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  min-width: 120px;
+}
+
+.roleTag {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: white;
+  white-space: nowrap;
+}
+
+.noRoles {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.moreRoles {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.memberJoined {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.noMembers {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-muted);
+}
+
+/* Bulk Actions Panel */
+.bulkActionsPanel {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  background-color: var(--background-secondary);
+  border-radius: 8px;
+  border: 2px solid var(--brand-experiment);
+}
+
+.bulkActionsPanel h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-normal);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.bulkActionsPanel p {
+  margin: 0 0 1rem 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.bulkForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formRow {
+  display: flex;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.formRow > select {
+  flex: 1;
+}
+
+.roleChangesList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.roleChangesList h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-normal);
+}
+
+.roleChangeItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--background-primary);
+  border-radius: 6px;
+  border: 1px solid var(--background-modifier-accent);
+}
+
+.changeAction {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.roleChangeItem:has(.changeAction:contains("+ Add")) .changeAction {
+  background-color: var(--status-positive-background);
+  color: var(--status-positive-text);
+}
+
+.roleChangeItem:has(.changeAction:contains("- Remove")) .changeAction {
+  background-color: var(--status-danger-background);
+  color: var(--status-danger-text);
+}
+
+.changRole {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--text-normal);
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* Recent Role Changes */
+.auditList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.auditEntry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background-color: var(--background-secondary);
+  border-radius: 6px;
+  border-left: 3px solid var(--background-accent);
+}
+
+.auditInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.auditMember {
+  font-weight: 500;
+  color: var(--text-normal);
+  font-size: 0.875rem;
+}
+
+.auditDetails {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.auditTime {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono, monospace);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .memberListHeader,
+  .memberRow {
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+  }
+  
+  .memberRoles,
+  .memberJoined {
+    grid-column: 2;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .formRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .roleTag {
+    filter: brightness(0.9);
+  }
+}
