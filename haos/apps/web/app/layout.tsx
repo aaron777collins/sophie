@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { FirstRunExperienceProvider } from '@/components/onboarding/first-run-provider'
 import { MatrixProvider } from '@/components/providers/matrix-provider'
+import { PerformanceTrackingProvider } from '@/components/providers/performance-tracking-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,11 +20,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${inter.className} bg-discord-dark text-white`}>
-        <MatrixProvider>
-          <FirstRunExperienceProvider>
-            {children}
-          </FirstRunExperienceProvider>
-        </MatrixProvider>
+        <PerformanceTrackingProvider>
+          <MatrixProvider>
+            <FirstRunExperienceProvider>
+              {children}
+            </FirstRunExperienceProvider>
+          </MatrixProvider>
+        </PerformanceTrackingProvider>
       </body>
     </html>
   )
