@@ -144,13 +144,32 @@ EOF
 
 ## 🧪 Testing & Validation (MANDATORY!)
 
-**Before you can even CLAIM completion, you MUST:**
+> **"If you can't validate your work, it's the same as not doing it."** — Aaron
+
+### TDD/BDD Approach (REQUIRED!)
+
+**Write tests FIRST or ALONGSIDE code. Never write all code then all tests.**
+
+```
+TDD Flow:
+1. Write failing test
+2. Run test → confirm it fails
+3. Write minimal code to pass
+4. Run test → confirm it passes
+5. Refactor
+6. Repeat
+```
+
+**Read:** `~/clawd/docs/VALIDATION-CHECKLIST.md` for full testing standards.
+
+### Before CLAIMING completion, you MUST:
 
 1. **Check acceptance criteria** — Every task has them. All must be ✅
 2. **Run validation steps** — Execute every validation step in the task
 3. **Verify build passes** — `pnpm build` (or equivalent) must exit 0
 4. **Run tests** — All existing tests + any new tests must pass
 5. **Manual verification** — Actually test that your work functions
+6. **Coverage check** — Coverage must not decrease
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
