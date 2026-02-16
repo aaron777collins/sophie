@@ -196,21 +196,29 @@ L2 populates PROACTIVE-JOBS.md
 L3/L4 execute pre-planned tasks
 ```
 
-### 3. Verification Chain
+### 3. Self-Validation + Verification Chain
 
-Trust but verify at every level:
+Each level owns their quality and validates before passing up:
 
 ```
 Worker claims "done"
     ↓
-Task Manager VERIFIES (runs tests, checks output)
-    ↓
-Coordinator AUDITS (spot-checks, integration tests)
-    ↓
-Person Manager CONFIRMS (deployment check)
+Task Manager SELF-VALIDATES:
+  - Spawns verification sub-agent (Sonnet, not Haiku)
+  - Multi-perspective review (Skeptic, Pragmatist, Guardian)
+  - Runs build, tests, manual checks
+    ↓ only if passes
+Coordinator SELF-VALIDATES batch:
+  - Spawns verification sub-agent(s)
+  - Integration tests, cross-task checks
+  - Circle thinking review
+    ↓ only if passes
+Person Manager AUDITS (spot-checks completed work)
     ↓
 ACTUALLY COMPLETE ✅
 ```
+
+**Key principle:** Self-validation catches errors at the source. Each level validates BEFORE marking complete and moving on.
 
 ### 4. Memory System
 
