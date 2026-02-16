@@ -19,14 +19,13 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     setMessage(inputValue);
 
     // Check for emoji autocomplete trigger
-    const lastChar = inputValue.slice(-1);
     const matches = inputValue.match(/:([^:\s]*)$/);
     
-    if (lastChar === ':') {
-      setEmojiSearchTerm('');
-    } else if (matches) {
+    if (matches) {
+      // User is typing after a colon, show autocomplete
       setEmojiSearchTerm(matches[1]);
     } else {
+      // No active emoji search
       setEmojiSearchTerm('');
     }
   };
@@ -34,14 +33,21 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   const handleEmojiSelect = useCallback((emoji: string) => {
     if (!inputRef.current) return;
 
-    // Replace the current :search: with the selected emoji
+    // Replace the current :search term with the selected emoji
     const currentValue = inputRef.current.value;
-    const emojiSearchMatch = currentValue.match(/:([^:\s]*):/);
+    const emojiSearchMatch = currentValue.match(/:([^:\s]*)$/);
     
     if (emojiSearchMatch) {
       const newValue = currentValue.replace(emojiSearchMatch[0], emoji);
       setMessage(newValue);
       setEmojiSearchTerm('');
+      inputRef.current.focus();
+    }
+  }, []);
+
+  const handleCloseEmojiPicker = useCallback(() => {
+    setEmojiSearchTerm('');
+    if (inputRef.current) {
       inputRef.current.focus();
     }
   }, []);
@@ -65,10 +71,11 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         rows={3}
       />
       
-      {emojiSearchTerm !== undefined && (
+      {emojiSearchTerm !== undefined && emojiSearchTerm !== null && (
         <EmojiAutocomplete
           searchTerm={emojiSearchTerm}
           onEmojiSelect={handleEmojiSelect}
+          onClose={handleCloseEmojiPicker}
           customEmojis={customEmojis}
         />
       )}

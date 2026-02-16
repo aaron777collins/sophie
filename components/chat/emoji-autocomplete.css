@@ -20,7 +20,8 @@
   transition: background-color 0.2s;
 }
 
-.emoji-autocomplete-item:hover {
+.emoji-autocomplete-item:hover,
+.emoji-autocomplete-item.selected {
   background-color: #f0f0f0;
 }
 
