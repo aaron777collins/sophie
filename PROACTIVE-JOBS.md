@@ -1,40 +1,59 @@
 ## Active Proactive Jobs
 
-> **Last Updated:** 2026-02-16 11:02 EST  
-> **Updated By:** Sophie (fixing autonomous execution gap)
+> **Last Updated:** 2026-02-16 12:00 EST  
+> **Updated By:** Person Manager (noon check)
+
+### 🚨 CRITICAL — Build Fix Required
+
+#### build-fix-nextjs-errors
+- **Status:** pending
+- **Priority:** CRITICAL (blocks all deployment)
+- **Model:** claude-sonnet-4-20250514
+- **Description:** Fix Next.js build errors introduced by recent changes
+- **Dependencies:** None (blocks everything else)
+- **Issues to Fix:**
+  1. `/api/og-preview` route uses `request.url` — add `export const dynamic = 'force-dynamic'`
+  2. Event handlers passed to Client Components — add `"use client"` directive to affected components
+- **Acceptance Criteria:**
+  - [ ] `pnpm build` completes successfully with no errors
+  - [ ] All static pages generate correctly
+  - [ ] No "Event handlers cannot be passed to Client Component props" errors
+  - [ ] Committed and pushed
 
 ### Current Priority Batch — Phase 11 & 12 Completion
 
 #### p11-4-privacy-settings
-- **Status:** in-progress
+- **Status:** awaiting-verification
 - **Started:** 2026-02-16 11:02 EST
 - **Priority:** HIGH
 - **Model:** claude-sonnet-4-20250514
 - **Description:** Privacy settings page with DM controls, blocking, visibility
 - **Parent Phase:** p11 (User Experience)
-- **Dependencies:** None
+- **Dependencies:** build-fix-nextjs-errors
+- **Note:** Code committed (19b3cf7) but build currently failing
 - **Acceptance Criteria:**
-  - [ ] Privacy settings page at /settings/privacy
-  - [ ] Block/unblock user management
-  - [ ] DM privacy controls
-  - [ ] Online status visibility toggle
-  - [ ] Matrix account data persistence
-  - [ ] Build passes
+  - [x] Privacy settings page at /settings/privacy
+  - [x] Block/unblock user management
+  - [x] DM privacy controls
+  - [x] Online status visibility toggle
+  - [x] Matrix account data persistence
+  - [ ] Build passes ⚠️ BLOCKED
 
 #### p12-5-health-endpoints
-- **Status:** in-progress
+- **Status:** awaiting-verification
 - **Started:** 2026-02-16 11:02 EST
 - **Priority:** HIGH
 - **Model:** claude-sonnet-4-20250514
 - **Description:** Health check, readiness, and liveness endpoints for production
 - **Parent Phase:** p12 (Infrastructure)
-- **Dependencies:** None
+- **Dependencies:** build-fix-nextjs-errors
+- **Note:** Code committed (973be9b, 7cb073f) but build currently failing
 - **Acceptance Criteria:**
-  - [ ] /api/health endpoint with system info
-  - [ ] /api/ready endpoint checking Matrix connectivity
-  - [ ] /api/live liveness probe
-  - [ ] Proper error handling
-  - [ ] Build passes
+  - [x] /api/health endpoint with system info
+  - [x] /api/ready endpoint checking Matrix connectivity
+  - [x] /api/live liveness probe
+  - [x] Proper error handling
+  - [ ] Build passes ⚠️ BLOCKED
 
 ## Task Queue (Next Up)
 
@@ -47,7 +66,7 @@
 ### Phase 11 Remaining (5 tasks after p11-4)
 | Task ID | Description | Priority |
 |---------|-------------|----------|
-| p11-7-appearance-themes | Theme customization and presets | MEDIUM |
+| p11-7-appearance-themes | Theme customization and presets | MEDIUM (Stale - Needs Re-Evaluation) |
 | p11-9-data-export | Export user data (GDPR) | MEDIUM |
 | p11-10-account-deletion | Account deletion flow | MEDIUM |
 | p11-11-help-support | Help/support integration | LOW |
@@ -69,8 +88,8 @@
 
 ## Worker Status
 - **Max Slots:** 2
-- **Current:** 2/2 occupied
-- **Running:** p11-4-privacy-settings, p12-5-health-endpoints
+- **Current:** 0/2 occupied
+- **Queue:** build-fix-nextjs-errors (CRITICAL)
 
 ## Phase Progress Summary
 | Phase | Status | Progress |
@@ -83,5 +102,10 @@
 | **TOTAL** | | **37/56 (66%)** |
 
 ## Notes
+- [2026-02-16 12:00] **CRITICAL BUILD FAILURE** — Person Manager identified Next.js build errors blocking deployment
+  - Error 1: `/api/og-preview` uses `request.url` (needs dynamic export)
+  - Error 2: Event handlers passed to Client Components (need "use client")
+  - Created CRITICAL priority build-fix task
+  - p11-4 and p12-5 code is committed but awaiting build fix verification
 - [2026-02-16 11:02] Sophie manually spawned workers - fixing Coordinator passivity issue
 - [2026-02-16 11:02] Updated Coordinator IDENTITY.md with autonomous execution rules

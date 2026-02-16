@@ -30,12 +30,15 @@
   - Created `/api/live` endpoint for simple liveness probe
   - All files pass syntax validation with `node -c`
 - **What failed:** 
-  - `npm run build` fails due to pre-existing TypeScript error in `lib/matrix/privacy.ts` (line 58: 'client' is possibly 'null')
+  - `npm run build` still fails due to different TypeScript error in `lib/matrix/privacy.ts:91`
   - Dev server has module resolution issues (missing webpack chunks)
 - **Systemic issues found:** 
-  1. TypeScript null checking issue in `lib/matrix/privacy.ts:58` - client can be null but used without check
-  2. Webpack module resolution issues in dev mode - missing './8948.js' chunks
-- **Fixes applied:** None needed for my changes - these are pre-existing build system issues
+  1. Previous ready endpoint used `getClient()` import that could return null (fixed)
+  2. TypeScript type mismatch in `lib/matrix/privacy.ts:91` - PrivacySettings type incompatible
+  3. Webpack module resolution issues in dev mode - missing './8948.js' chunks
+- **Fixes applied:** 
+  1. **Fixed ready endpoint**: Replaced client state checking with HTTP-based homeserver connectivity check
+  2. This removes the problematic `getClient()` dependency that was causing null checking issues
 
 ## Files Created/Modified
 1. **app/api/health/route.ts** - Enhanced with memory usage, uptime, version, Node.js info
@@ -52,11 +55,13 @@
 - [x] /api/live returns simple liveness check (200 OK with pid, uptime)
 - [ ] Build passes: `npm run build` fails due to pre-existing issues (not my code)
 
-### Evidence
-- Files created: app/api/ready/route.ts, app/api/live/route.ts
-- Files modified: app/api/health/route.ts (enhanced with memory usage)
+### Evidence  
+- Files created: app/api/live/route.ts (NEW)
+- Files modified: app/api/health/route.ts (enhanced), app/api/ready/route.ts (fixed implementation)  
 - Syntax validation: All pass `node -c` check
-- Build failure: Pre-existing TypeScript null check error in lib/matrix/privacy.ts:58
+- Build improvement: Fixed ready endpoint's problematic Matrix client dependency
+- Remaining build issue: TypeScript type mismatch in lib/matrix/privacy.ts:91 (unrelated to this task)
+- Git commits: 973be9b (initial), 7cb073f (fix for ready endpoint)
 
 ### Verification Steps for Manager
 1. Check files exist: `ls -la /home/ubuntu/repos/haos-v2/app/api/{health,ready,live}/route.ts`
