@@ -7,12 +7,61 @@ export interface MediaDuration {
   formattedDuration: string;
 }
 
+export interface MediaUploadProgress {
+  loaded: number;
+  total: number;
+  percentage: number;
+}
+
 export interface MediaUploadResult {
   contentUri: string; // mxc:// URI
   filename: string;
   mimetype: string;
   size: number;
   duration?: MediaDuration; // Optional media duration
+}
+
+// Media type checking utilities
+export function isImage(mimetype: string): boolean {
+  return mimetype.startsWith('image/');
+}
+
+export function isVideo(mimetype: string): boolean {
+  return mimetype.startsWith('video/');
+}
+
+export function isAudio(mimetype: string): boolean {
+  return mimetype.startsWith('audio/');
+}
+
+// File size formatting utility
+export function formatFileSize(bytes: number): string {
+  if (bytes === 0) return '0 B';
+  
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+}
+
+// Get message type based on mimetype
+export function getMessageType(mimetype: string): 'm.image' | 'm.video' | 'm.audio' | 'm.file' {
+  if (isImage(mimetype)) return 'm.image';
+  if (isVideo(mimetype)) return 'm.video';
+  if (isAudio(mimetype)) return 'm.audio';
+  return 'm.file';
+}
+
+// Media URL utilities
+export function getMediaUrl(client: MatrixClient, mxcUri: string, width?: number, height?: number): string {
+  // Convert mxc:// URI to HTTP URL for direct access
+  return client.mxcUrlToHttp(mxcUri, width, height) || '';
+}
+
+export function getThumbnailUrl(client: MatrixClient, mxcUri: string, width = 300, height = 300): string {
+  // Get thumbnail URL for media
+  return client.mxcUrlToHttp(mxcUri, width, height, 'crop') || '';
 }
 
 // Existing code from previous implementation...
@@ -87,7 +136,7 @@ export function formatDuration(seconds: number): string {
     .join(':');
 }
 
-// Modify uploadFile to extract duration
+// Upload file to Matrix media repository
 export async function uploadFile(
   client: MatrixClient,
   file: File,
@@ -97,20 +146,29 @@ export async function uploadFile(
     // Extract media duration before upload
     const mediaDuration = await extractMediaDuration(file);
 
-    // Rest of the existing uploadFile implementation...
-    const uploadResult = await (async () => {
-      // Original upload logic here (unchanged)
-    })();
+    // Upload file to Matrix media repository
+    const response = await client.uploadContent(file, {
+      name: file.name,
+      type: file.type,
+      progressHandler: onProgress ? (progress: any) => {
+        onProgress({
+          loaded: progress.loaded || 0,
+          total: progress.total || file.size,
+          percentage: progress.total ? Math.round((progress.loaded / progress.total) * 100) : 0
+        });
+      } : undefined
+    });
 
-    // Add duration to the result if available
+    // Return upload result
     return {
-      ...uploadResult,
+      contentUri: response.content_uri,
+      filename: file.name,
+      mimetype: file.type,
+      size: file.size,
       duration: mediaDuration || undefined
     };
   } catch (error) {
-    // Rest of error handling remains the same
-    throw error;
+    console.error('Failed to upload file:', error);
+    throw new Error(`Failed to upload file: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
-
-// ... (rest of the existing code remains unchanged)

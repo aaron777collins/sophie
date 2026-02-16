@@ -1,0 +1,523 @@
+/* Notification Settings Styles */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 16px;
+  color: #6b7280;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.sectionDescription {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Toggle Grid */
+.toggleGrid {
+  display: grid;
+  gap: 16px;
+}
+
+.toggleOption {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  background: #f8f9fa;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.toggleInfo {
+  flex: 1;
+}
+
+.toggleName {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.toggleDescription {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+/* Toggle Switch */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggleSlider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #d1d5db;
+  transition: 0.2s;
+  border-radius: 24px;
+}
+
+.toggleSlider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: 0.2s;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.toggle input:checked + .toggleSlider {
+  background-color: #3b82f6;
+}
+
+.toggle input:checked + .toggleSlider:before {
+  transform: translateX(24px);
+}
+
+.toggle input:disabled + .toggleSlider {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Email Settings */
+.emailSettings {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f8f9fa;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.inputGroup {
+  margin-bottom: 16px;
+}
+
+.inputGroup:last-child {
+  margin-bottom: 0;
+}
+
+.inputLabel {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.textInput {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  background: white;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.textInput:focus {
+  border-color: #3b82f6;
+}
+
+.timeInput {
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  background: white;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.timeInput:focus {
+  border-color: #3b82f6;
+}
+
+.testButton {
+  padding: 8px 16px;
+  border: 1px solid #3b82f6;
+  background: #3b82f6;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.testButton:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.testButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.testButton.sent {
+  background: #10b981;
+  border-color: #10b981;
+}
+
+.testButton.sent:hover {
+  background: #10b981;
+  border-color: #10b981;
+}
+
+/* Warning Messages */
+.warningMessage {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 12px;
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #92400e;
+}
+
+/* Quiet Hours */
+.quietHours {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f8f9fa;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.timeRange {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Type Settings */
+.typeSettings {
+  display: grid;
+  gap: 16px;
+}
+
+.typeSetting {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.typeHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  background: #f8f9fa;
+}
+
+.typeInfo {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1;
+}
+
+.typeName {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.typeDescription {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+.typeDetails {
+  padding: 16px;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+}
+
+.deliveryMethods {
+  margin-bottom: 16px;
+}
+
+.detailLabel {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.methodButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.methodButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.methodButton:hover {
+  border-color: #9ca3af;
+  color: #374151;
+}
+
+.methodButton.selected {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.methodButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.methodButton:disabled:hover {
+  border-color: #d1d5db;
+  color: #6b7280;
+}
+
+.prioritySetting {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.prioritySelect {
+  padding: 6px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  background: white;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.prioritySelect:focus {
+  border-color: #3b82f6;
+}
+
+/* Actions */
+.actions {
+  position: sticky;
+  bottom: 0;
+  margin: 24px -24px -24px -24px;
+  padding: 16px 24px;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.actionsContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 752px; /* container max-width minus padding */
+  margin: 0 auto;
+}
+
+.unsavedText {
+  font-size: 14px;
+  font-weight: 500;
+  color: #f59e0b;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 12px;
+}
+
+/* States */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #6b7280;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f3f4f6;
+  border-top: 3px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: #ef4444;
+}
+
+.error p {
+  margin: 8px 0 0 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.errorMessage {
+  font-size: 14px;
+  color: #9ca3af !important;
+  font-weight: 400 !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    margin: 0;
+    padding: 16px;
+    border-radius: 0;
+  }
+  
+  .toggleOption {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .typeHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .timeRange {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .methodButtons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .methodButton {
+    justify-content: center;
+  }
+  
+  .actionsContent {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+  
+  .actionButtons {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 20px;
+  }
+  
+  .sectionTitle {
+    font-size: 16px;
+  }
+  
+  .actions {
+    margin: 16px -16px -16px -16px;
+    padding: 12px 16px;
+  }
+}

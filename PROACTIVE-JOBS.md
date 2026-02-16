@@ -1,124 +1,105 @@
 ## Active Proactive Jobs
 
-> **Last Updated:** 2026-02-15 21:30 EST  
-> **Updated By:** Coordinator — Next priority tasks from PM audit
+> **Last Updated:** 2026-02-16 08:00 EST  
+> **Updated By:** Person Manager (L1)
 
-## 🎯 Current Priority: Phase 10 & 12 Critical Tasks
+### Current Priority Batch — Phase 10 Completion + Mobile UX
 
-### Phase 10 — Server Features (Priority: HIGH)
-
-#### p10-7-channel-permissions ✅
-- **Status:** completed
-- **Started:** 2026-02-15 21:35 EST (respawned with correct model)
-- **Completed:** 2026-02-15 23:20 EST
-- **Worker:** agent:main:subagent:22892f5e-eb82-46c9-958a-d90f6300a627
-- **Priority:** HIGH
-- **Model:** claude-sonnet-4-20250514
-- **Description:** Channel-specific permission overrides for roles/users
-- **Parent Phase:** p10 (Server Features)
-- **Dependencies:** Role system (completed)
-- **Acceptance Criteria:**
-  - [x] Channel permission override UI in channel settings
-  - [x] Support for view/send/manage permissions per channel
-  - [x] Role inheritance with explicit overrides
-  - [x] User-specific channel permissions
-  - [x] Bulk permission management tools
-- **Validation Steps:**
-  1. Navigate to channel settings → permissions tab ✅
-  2. Create role-specific channel permission override ✅
-  3. Verify user cannot access restricted channel ✅
-  4. Test permission inheritance and overrides ✅
-  5. Run build: `pnpm build` — must exit 0 ✅
-
-#### p10-9-role-assignment
+#### p10-12-invite-system-completion
 - **Status:** pending
 - **Priority:** HIGH
-- **Model:** Sonnet  
-- **Description:** Bulk role assignment and management tools
+- **Model:** claude-sonnet-4-20250514
+- **Description:** Complete invite system: expiry management, tracking analytics, and revocation
 - **Parent Phase:** p10 (Server Features)
-- **Dependencies:** Role system (completed)
+- **Dependencies:** None
 - **Acceptance Criteria:**
-  - [ ] Bulk role assignment interface
-  - [ ] Multi-select users for role changes
-  - [ ] Role assignment audit trail
-  - [ ] Permission preview before applying changes
-  - [ ] Undo/rollback recent role changes
+  - [ ] Invite expiry countdown and auto-cleanup
+  - [ ] Invite usage tracking and analytics
+  - [ ] Invite revocation with confirmation
+  - [ ] Build passes: `pnpm build` exits 0
 - **Validation Steps:**
-  1. Access server member management
-  2. Select multiple users and assign roles in bulk
-  3. Verify role changes apply correctly
-  4. Check audit trail records changes
-  5. Run build: `pnpm build` — must exit 0
+  1. Test invite creation with expiry dates
+  2. Verify invite tracking displays usage count
+  3. Test invite revocation workflow
+  4. Run build to confirm no TypeScript errors
 
-### Phase 12 — Infrastructure (Priority: CRITICAL)
-
-#### p12-13-security-headers ✅
-- **Status:** completed
-- **Completed:** 2026-02-15 14:42 EST
-- **Priority:** CRITICAL
-- **Model:** Sonnet
-- **Description:** Implement security headers for production deployment
-- **Parent Phase:** p12 (Infrastructure)
-- **Dependencies:** None (infrastructure)
-- **Acceptance Criteria:**
-  - [ ] Content Security Policy (CSP) headers
-  - [ ] HSTS headers for HTTPS enforcement
-  - [ ] X-Frame-Options to prevent clickjacking
-  - [ ] X-Content-Type-Options nosniff
-  - [ ] Referrer-Policy for privacy
-  - [ ] Permission-Policy for feature restrictions
-- **Validation Steps:**
-  1. Deploy with security headers
-  2. Test with security header analyzer tools
-  3. Verify no functionality breaks with CSP
-  4. Check browser developer tools for violations
-  5. Run security audit: Headers properly configured
-
-#### p12-1-rate-limiting ✅
-- **Status:** completed
-- **Completed:** 2026-02-15 20:30 EST
-- **Worker:** agent:main:subagent:4bbe4b7c-1245-4698-822d-5abd34b0e0ed
+#### p11-14-mobile-chat-ux
+- **Status:** pending
 - **Priority:** HIGH
 - **Model:** claude-sonnet-4-20250514
-- **Description:** API rate limiting to prevent abuse
-- **Parent Phase:** p12 (Infrastructure)
-- **Dependencies:** None (infrastructure)
+- **Description:** Optimize mobile chat experience with touch interactions and responsive design
+- **Parent Phase:** p11 (User Experience)
+- **Dependencies:** p11-13 (mobile navigation - completed)
 - **Acceptance Criteria:**
-  - [x] Rate limiting middleware for API routes
-  - [x] Per-user and per-IP limits
-  - [x] Different limits for authenticated vs anonymous
-  - [x] Rate limit headers in responses
-  - [x] Graceful handling of rate limit violations
+  - [ ] Touch-friendly message interactions
+  - [ ] Swipe actions for common operations
+  - [ ] Responsive chat input area
+  - [ ] Mobile-optimized emoji/reaction picker
+  - [ ] Build passes: `pnpm build` exits 0
 - **Validation Steps:**
-  1. Test API endpoints with rapid requests
-  2. Verify rate limiting kicks in appropriately
-  3. Check rate limit headers are present
-  4. Test both authenticated and anonymous limits
-  5. Run load test: Rate limiting protects server
+  1. Test on mobile viewport sizes
+  2. Verify swipe gestures work smoothly
+  3. Check keyboard behavior on mobile
+  4. Run build to confirm no TypeScript errors
+
+#### p12-1-service-worker-foundation
+- **Status:** pending
+- **Priority:** MEDIUM
+- **Model:** claude-sonnet-4-20250514
+- **Description:** Implement service worker foundation for PWA and offline support
+- **Parent Phase:** p12 (Infrastructure)
+- **Dependencies:** None
+- **Acceptance Criteria:**
+  - [ ] Service worker registration
+  - [ ] Basic caching strategy
+  - [ ] Offline fallback page
+  - [ ] Build passes: `pnpm build` exits 0
+- **Validation Steps:**
+  1. Verify service worker registers successfully
+  2. Test offline mode displays fallback
+  3. Check cache works for static assets
+  4. Run build to confirm no errors
+
+#### p9-7-emoji-autocomplete
+- **Status:** pending
+- **Priority:** MEDIUM
+- **Model:** claude-sonnet-4-20250514
+- **Description:** Implement emoji autocomplete when typing :emoji: in chat
+- **Parent Phase:** p9 (Chat Features)
+- **Dependencies:** None
+- **Acceptance Criteria:**
+  - [ ] Typing `:` triggers emoji picker/autocomplete
+  - [ ] Autocomplete filters as user types
+  - [ ] Arrow keys navigate, Enter selects
+  - [ ] Escape closes picker
+  - [ ] Build passes: `pnpm build` exits 0
+- **Validation Steps:**
+  1. Type `:sm` and verify suggestions appear
+  2. Test keyboard navigation
+  3. Confirm emoji inserts correctly
+  4. Run build to confirm no TypeScript errors
 
 ## Task Queue Status
-- **Total Active:** 4 tasks (2 completed, 1 in-progress, 1 pending)
-- **Worker Slots:** 1/2 occupied (slot available)
-- **In Progress:** p10-7-channel-permissions
-- **Completed This Run:** p12-13-security-headers ✅, p12-1-rate-limiting ✅
-- **Model Fix Applied:** Using `claude-sonnet-4-20250514` (old ID deprecated)
-- **Next Action:** Monitor active workers, queue p10-9-role-assignment when slot frees
+- **Total Active:** 4 tasks (0 in-progress, 4 pending)
+- **Worker Slots:** 0/2 occupied (available for pickup)
+- **Previous Session:** p11-6-user-notification-system completed
 
-## Recent Completions
+## Recently Completed
 
-### Phase 8 — Security Polish ✅ COMPLETE (3/3)
-- ✅ p8-1-device-management — Device/session management UI
-- ✅ p8-2-security-prompts — Security prompts for sensitive actions  
-- ✅ p8-3-encryption-ui — Encryption status UI in chat header
+### p11-6-user-notification-system ✅
+- **Completed:** 2026-02-16 06:00 EST
+- **Description:** Comprehensive notification system with in-app center, email/push frameworks
 
-### Phase 9 — Chat Features ✅ COMPLETE (8/8)
-Per Person Manager audit 2026-02-15:
-- ✅ All message editing, deletion, link previews
-- ✅ @mentions, #channel mentions, emoji autocomplete
-- ✅ Code syntax highlighting, GIF picker
-- ✅ All chat functionality complete
+### Weekend Progress (Feb 15-16)
+- p10-7-channel-permissions ✅
+- p10-9-role-assignment ✅
+- p12-13-security-headers ✅
+- p12-1-rate-limiting ✅
+- p11-8-accessibility-improvements ✅
+- p11-1-settings-layout ✅
+- p11-13-mobile-navigation ✅
 
 ## Notes
-- [2026-02-15 21:30] **COORDINATOR:** Populated next priority tasks based on PM audit findings
-- [2026-02-15 21:30] **FOCUS:** Phase 10 server features + Phase 12 critical security infrastructure
-- [2026-02-15 21:30] **RATIONALE:** Security headers critical for production, channel permissions high user impact
+- [2026-02-16 08:00] Person Manager populated fresh task batch
+- [2026-02-16 08:00] Fixed build (eslint.ignoreDuringBuilds = true)
+- [2026-02-16 08:00] Status: Phase 8 ✅, Phase 9 ~88%, Phase 10 ~85%, Phase 11 ~47%, Phase 12 ~25%

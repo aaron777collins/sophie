@@ -17,3 +17,9 @@ export type {
   ScreenShareState, 
   UseScreenShareProps 
 } from './use-screen-share';
+
+export { useNotifications } from './use-notifications';
+export type { 
+  UseNotificationsReturn,
+  UseNotificationsOptions 
+} from './use-notifications';
