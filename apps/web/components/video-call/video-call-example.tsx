@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Room, connect, ConnectOptions, RoomOptions } from 'livekit-client';
+import { Room, VideoPreset } from 'livekit-client';
+import type { RoomOptions, RoomConnectOptions } from 'livekit-client';
 import { VideoCallLayout } from './video-call-layout';
 import { Button } from '@/components/ui';
 import { Phone, PhoneOff } from 'lucide-react';
@@ -48,15 +49,15 @@ export const VideoCallExample: React.FC<VideoCallExampleProps> = ({
         dynacast: true,
         publishDefaults: {
           videoSimulcastLayers: [
-            { resolution: { width: 320, height: 180 }, encoding: { maxBitrate: 150_000 } },
-            { resolution: { width: 640, height: 360 }, encoding: { maxBitrate: 500_000 } },
-            { resolution: { width: 1280, height: 720 }, encoding: { maxBitrate: 1_500_000 } },
+            new VideoPreset(320, 180, 150_000),
+            new VideoPreset(640, 360, 500_000),
+            new VideoPreset(1280, 720, 1_500_000),
           ],
         },
       };
 
       // Connect options
-      const connectOptions: ConnectOptions = {
+      const connectOptions: RoomConnectOptions = {
         autoSubscribe: true,
         maxRetries: 3,
       };

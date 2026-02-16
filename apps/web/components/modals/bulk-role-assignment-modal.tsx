@@ -144,7 +144,7 @@ export function BulkRoleAssignmentModal({
               />
               <Select
                 value={roleFilter}
-                onChange={setRoleFilter}
+                onChange={(e) => setRoleFilter(e.target.value)}
                 options={roleOptions}
                 placeholder="Filter by role"
               />
@@ -155,7 +155,6 @@ export function BulkRoleAssignmentModal({
                 <Checkbox
                   label={`Select all (${filteredMembers.length} members)`}
                   checked={selectedMembers.size === filteredMembers.length && filteredMembers.length > 0}
-                  indeterminate={selectedMembers.size > 0 && selectedMembers.size < filteredMembers.length}
                   onChange={handleSelectAll}
                 />
                 <span className={styles.selectedCount}>
@@ -176,8 +175,8 @@ export function BulkRoleAssignmentModal({
                     />
                     <Avatar
                       src={member.avatarUrl}
-                      name={member.displayName}
-                      size="small"
+                      alt={member.displayName}
+                      size="sm"
                     />
                     <div className={styles.memberInfo}>
                       <span className={styles.memberName}>
@@ -330,13 +329,13 @@ function RoleChangeBuilder({ roles, onAddChange }: RoleChangeBuilderProps) {
     <div className={styles.roleChangeBuilder}>
       <Select
         value={selectedRole}
-        onChange={setSelectedRole}
+        onChange={(e) => setSelectedRole(e.target.value)}
         options={roles.map(role => ({ value: role.id, label: role.name }))}
         placeholder="Select a role"
       />
       <Select
         value={action}
-        onChange={(value) => setAction(value as 'add' | 'remove')}
+        onChange={(e) => setAction(e.target.value as 'add' | 'remove')}
         options={[
           { value: 'add', label: 'Add Role' },
           { value: 'remove', label: 'Remove Role' }

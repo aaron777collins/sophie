@@ -97,6 +97,7 @@ export async function POST(request: NextRequest) {
       title,
       message,
       priority,
+      status: 'unread',
       deliveryMethods,
       userId,
       sourceId,

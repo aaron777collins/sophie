@@ -14,6 +14,7 @@ interface ChatItemProps {
     content: string;
     sender: string;
     timestamp: number;
+    roomId: string;
     reactions?: MatrixReaction[];
   };
   matrixClient: MatrixClient;
@@ -46,7 +47,17 @@ export const ChatItem: React.FC<ChatItemProps> = ({
       setIsEmojiPickerOpen(false);
 
       // Actual Matrix reaction
-      await matrixClient.sendReaction(message.id, emoji);
+      await (matrixClient as any).sendEvent(
+        message.roomId, 
+        'm.reaction', 
+        {
+          "m.relates_to": {
+            "rel_type": "m.annotation",
+            "event_id": message.id,
+            "key": emoji
+          }
+        }
+      );
     } catch (error) {
       console.error('Failed to add reaction:', error);
       // Rollback optimistic update if failed
@@ -66,17 +77,20 @@ export const ChatItem: React.FC<ChatItemProps> = ({
 
       // Find and redact the specific reaction
       const reactionEvent = await matrixClient.relations(
+        message.roomId,
         message.id, 
         'm.annotation', 
-        'm.reaction',
-        { fromUserId: currentUserId }
+        'm.reaction'
       );
       
       if (reactionEvent.events.length > 0) {
-        await matrixClient.redactEvent(
-          reactionEvent.events[0].getRoomId(), 
-          reactionEvent.events[0].getId()
-        );
+        const eventId = reactionEvent.events[0].getId();
+        if (eventId) {
+          await matrixClient.redactEvent(
+            message.roomId, 
+            eventId
+          );
+        }
       }
     } catch (error) {
       console.error('Failed to remove reaction:', error);

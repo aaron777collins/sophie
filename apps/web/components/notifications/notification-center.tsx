@@ -92,7 +92,7 @@ function NotificationItem({ notification, onMarkAsRead, onDismiss, onArchive }: 
       <div className={styles.notificationContent}>
         <div className={styles.notificationHeader}>
           <div className={styles.notificationIcon}>
-            <IconComponent size={16} />
+            <IconComponent />
           </div>
           <div className={styles.notificationMeta}>
             <span className={styles.notificationTime}>
@@ -253,7 +253,7 @@ export default function NotificationCenter({
           <h2 className={styles.title}>
             <Bell size={20} />
             Notifications
-            {counts.unread > 0 && (
+            {counts && counts.unread > 0 && (
               <span className={styles.badge}>{counts.unread}</span>
             )}
           </h2>
@@ -278,19 +278,19 @@ export default function NotificationCenter({
           className={`${styles.tab} ${activeTab === 'all' ? styles.active : ''}`}
           onClick={() => setActiveTab('all')}
         >
-          All ({counts.total})
+          All ({counts?.total ?? 0})
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'unread' ? styles.active : ''}`}
           onClick={() => setActiveTab('unread')}
         >
-          Unread ({counts.unread})
+          Unread ({counts?.unread ?? 0})
         </button>
         <button
           className={`${styles.tab} ${activeTab === 'mentions' ? styles.active : ''}`}
           onClick={() => setActiveTab('mentions')}
         >
-          Mentions ({counts.byType.mention + counts.byType.direct_message})
+          Mentions ({(counts?.byType?.mention ?? 0) + (counts?.byType?.direct_message ?? 0)})
         </button>
       </div>
 
@@ -317,7 +317,7 @@ export default function NotificationCenter({
           <button
             className={styles.controlButton}
             onClick={handleMarkAllAsRead}
-            disabled={counts.unread === 0}
+            disabled={(counts?.unread ?? 0) === 0}
             title="Mark all as read"
           >
             <CheckCheck size={16} />
@@ -347,7 +347,7 @@ export default function NotificationCenter({
                   }`}
                   onClick={() => handleTypeFilterToggle(type as NotificationType)}
                 >
-                  <IconComponent size={14} />
+                  <IconComponent />
                   {type.replace('_', ' ')}
                 </button>
               );

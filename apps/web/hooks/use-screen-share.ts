@@ -118,9 +118,11 @@ export function useScreenShare({
       const trackOptions: Parameters<typeof createLocalScreenTracks>[0] = {
         video: {
           displaySurface: mergedOptions.displaySurface || 'monitor',
-          width: mergedOptions.videoQuality?.width,
-          height: mergedOptions.videoQuality?.height,
-          frameRate: mergedOptions.videoQuality?.frameRate,
+          ...(mergedOptions.videoQuality && {
+            width: { ideal: mergedOptions.videoQuality.width },
+            height: { ideal: mergedOptions.videoQuality.height },
+            frameRate: { ideal: mergedOptions.videoQuality.frameRate },
+          }),
         },
         audio: mergedOptions.includeAudio || false,
       };
@@ -172,7 +174,7 @@ export function useScreenShare({
         ...prev,
         isScreenSharing: true,
         isStarting: false,
-        screenShareTrack: videoTrack,
+        screenShareTrack: videoTrack || null,
         screenShareAudioTrack: audioTrack || null,
         error: null,
       }));

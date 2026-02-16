@@ -360,6 +360,7 @@ export class NotificationServiceImpl implements NotificationService {
       title,
       message,
       priority: template.defaultPriority,
+      status: 'unread',
       userId,
       deliveryMethods: template.defaultDeliveryMethods,
       icon: template.icon,

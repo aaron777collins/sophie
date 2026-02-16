@@ -2,7 +2,20 @@
  * Push notification service implementation
  */
 
-import { Notification } from '@/lib/types/notification';
+// Temporary interface definition to bypass Turbopack import issue
+interface Notification {
+  id: string;
+  title: string;
+  message: string;
+  icon?: string;
+  actions?: Array<{
+    id: string;
+    label: string;
+  }>;
+  data?: Record<string, any>;
+  serverId?: string;
+  channelId?: string;
+}
 
 export interface PushNotificationService {
   send(notification: Notification, subscription: PushSubscription): Promise<boolean>;
@@ -166,14 +179,15 @@ class ClientPushService implements PushNotificationService {
     return subscription;
   }
 
-  private urlBase64ToUint8Array(base64String: string): Uint8Array {
+  private urlBase64ToUint8Array(base64String: string): Uint8Array<ArrayBuffer> {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);
     const base64 = (base64String + padding)
       .replace(/-/g, '+')
       .replace(/_/g, '/');
 
     const rawData = window.atob(base64);
-    const outputArray = new Uint8Array(rawData.length);
+    const buffer = new ArrayBuffer(rawData.length);
+    const outputArray = new Uint8Array(buffer);
 
     for (let i = 0; i < rawData.length; ++i) {
       outputArray[i] = rawData.charCodeAt(i);

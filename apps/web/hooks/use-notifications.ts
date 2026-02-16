@@ -12,10 +12,10 @@ import {
   NotificationType,
   NotificationStatus,
   NotificationPriority,
-} from '@/lib/types/notification';
+} from '../lib/types/notification';
 // import { notificationService } from '@/lib/notifications/service';
 // import { emailService } from '@/lib/notifications/email-service';
-// import { usePushNotifications } from '@/lib/notifications/push-service';
+import { usePushNotifications } from '../lib/notifications/push-service';
 
 export interface UseNotificationsOptions {
   userId?: string;
@@ -108,7 +108,7 @@ export function useNotifications(options: UseNotificationsOptions = {}): UseNoti
   const [settingsError, setSettingsError] = useState<string | null>(null);
 
   // Push notifications
-  // const pushService = usePushNotifications();
+  const pushService = usePushNotifications();
 
   // Load notifications
   const loadNotifications = useCallback(async (loadFilter?: NotificationFilter) => {
@@ -381,4 +381,4 @@ export function useNotifications(options: UseNotificationsOptions = {}): UseNoti
   ]);
 }
 
-export type { UseNotificationsReturn, UseNotificationsOptions };
+// Export statement removed to avoid conflicts - interfaces are already exported above

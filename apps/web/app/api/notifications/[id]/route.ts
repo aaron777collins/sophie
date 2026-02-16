@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { notificationService } from '@/lib/notifications/service';
+import { notificationService } from '../../../../lib/notifications/service';
 
 // GET /api/notifications/[id] - Get a specific notification
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     
     const notification = await notificationService.getById(id);
     
@@ -41,10 +41,10 @@ export async function GET(
 // PATCH /api/notifications/[id] - Update notification status
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
     const { action } = body;
 
@@ -92,10 +92,10 @@ export async function PATCH(
 // DELETE /api/notifications/[id] - Delete a specific notification
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     
     // Check if notification exists
     const notification = await notificationService.getById(id);

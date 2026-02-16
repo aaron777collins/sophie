@@ -199,8 +199,8 @@ export function PermissionPreviewModal({
                   <div className={styles.memberInfo}>
                     <Avatar
                       src={member.avatarUrl}
-                      name={member.displayName}
-                      size="small"
+                      alt={member.displayName}
+                      size="sm"
                     />
                     <span className={styles.memberName}>
                       {member.nickname || member.displayName}

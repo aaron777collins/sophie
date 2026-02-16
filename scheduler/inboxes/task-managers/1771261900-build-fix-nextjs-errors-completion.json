@@ -1,0 +1,9 @@
+{
+  "id": "worker-$(date +%s)",
+  "timestamp": "$(date -Iseconds)",
+  "from": "build-fix-nextjs-errors",
+  "to": "task-manager",
+  "subject": "Task Complete: build-fix-nextjs-errors",
+  "content": "CRITICAL build fix completed successfully. Both Next.js build errors resolved:\n\n1. ✅ Added 'export const dynamic = force-dynamic' to /api/og-preview route\n2. ✅ Refactored offline page client/server components for event handlers\n\nValidation Results:\n- ✅ pnpm build completes successfully\n- ✅ All static pages generate (28/28)\n- ✅ No Dynamic server usage errors\n- ✅ No Event handler client component errors\n- ✅ Changes committed (f85e15f)\n\nReady for Task Manager verification. This unblocks p11-4-privacy-settings and p12-5-health-endpoints tasks.",
+  "priority": "urgent"
+}

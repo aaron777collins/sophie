@@ -146,9 +146,9 @@ export default function NotificationSettingsComponent({ userId, onSave }: Notifi
     if (!localSettings || !hasChanges) return;
 
     try {
-      const saved = await updateSettings(localSettings);
+      await updateSettings(localSettings);
       setHasChanges(false);
-      onSave?.(saved);
+      onSave?.(localSettings);
     } catch (error) {
       console.error('Failed to save notification settings:', error);
     }
@@ -451,7 +451,7 @@ export default function NotificationSettingsComponent({ userId, onSave }: Notifi
               <div key={type.type} className={styles.typeSetting}>
                 <div className={styles.typeHeader}>
                   <div className={styles.typeInfo}>
-                    <IconComponent size={16} />
+                    <IconComponent />
                     <div>
                       <h4 className={styles.typeName}>{type.label}</h4>
                       <p className={styles.typeDescription}>{type.description}</p>

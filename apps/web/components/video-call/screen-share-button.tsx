@@ -142,12 +142,15 @@ export const ScreenShareButton: React.FC<ScreenShareButtonProps> = ({
     return variant;
   };
 
+  // Convert size prop to Button size
+  const buttonSize = size === 'sm' ? 'small' : size === 'lg' ? 'large' : 'medium';
+
   // Render not supported state
   if (!isSupported) {
     return (
       <Button
         variant="secondary"
-        size={size}
+        size={buttonSize}
         disabled={true}
         className={`${className} opacity-50 cursor-not-allowed`}
         aria-label="Screen sharing not supported"
@@ -162,7 +165,7 @@ export const ScreenShareButton: React.FC<ScreenShareButtonProps> = ({
     <div className="relative">
       <Button
         variant={getButtonVariant()}
-        size={size}
+        size={buttonSize}
         disabled={isButtonDisabled}
         onClick={handleClick}
         className={`${className} transition-all duration-200 ${

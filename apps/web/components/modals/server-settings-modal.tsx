@@ -21,6 +21,7 @@ import styles from './server-settings-modal.module.css';
 // Icons for tabs
 const TabIcons: Record<ServerSettingsTab, React.ReactNode> = {
   overview: <OverviewIcon />,
+  members: <div>👥</div>,
   roles: <RolesIcon />,
   emoji: <EmojiIcon />,
   stickers: <StickersIcon />,

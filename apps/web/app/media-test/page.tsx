@@ -1,7 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
-import { ChatInterface, MediaUploadResult } from '@/components/chat';
+import React, { useState, useEffect } from 'react';
+import { ChatInterface, MediaUploadResult } from '../../components/chat';
+
+// Force dynamic rendering to avoid SSR issues with Matrix client
+export const dynamic = 'force-dynamic';
 
 // Mock Matrix client for testing
 const mockMatrixClient = {
@@ -75,6 +78,15 @@ const mockMessages = [
 
 export default function MediaTestPage() {
   const [messages, setMessages] = useState(mockMessages);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return <div>Loading...</div>;
+  }
 
   const handleSendMessage = (content: string, attachments?: MediaUploadResult[]) => {
     const timestamp = new Date();

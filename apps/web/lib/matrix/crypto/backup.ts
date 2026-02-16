@@ -177,7 +177,7 @@ export class MatrixKeyBackupManager {
       // Check if backup already exists
       const existingBackup = await this.getBackupStatus();
       if (existingBackup.enabled) {
-        logger.warn('Backup already exists, will create new version');
+        console.warn('Backup already exists, will create new version');
       }
 
       this.notifyBackupProgress({ total: 100, backedUp: 20, stage: 'preparing' });

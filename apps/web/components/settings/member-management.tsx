@@ -161,7 +161,7 @@ export function MemberManagement({
           />
           <Select
             value={roleFilter}
-            onChange={(value) => setRoleFilter(value)}
+            onChange={(e) => setRoleFilter(e.target.value)}
             options={roleOptions}
             placeholder="Filter by role"
           />
@@ -173,27 +173,26 @@ export function MemberManagement({
       {/* Member List */}
       <FormSection 
         title={`Members — ${filteredMembers.length}`}
-        action={
-          canManageRoles ? (
-            <div className={memberStyles.bulkActions}>
-              <Button
-                variant="ghost"
-                size="small"
-                onClick={() => setShowBulkActions(!showBulkActions)}
-                disabled={selectedMembers.size === 0}
-              >
-                Bulk Actions ({selectedMembers.size})
-              </Button>
-            </div>
-          ) : undefined
-        }
+      
       >
+        {canManageRoles && (
+          <div className={memberStyles.bulkActions}>
+            <Button
+              variant="ghost"
+              size="small"
+              onClick={() => setShowBulkActions(!showBulkActions)}
+              disabled={selectedMembers.size === 0}
+            >
+              Bulk Actions ({selectedMembers.size})
+            </Button>
+          </div>
+        )}
+        
         {canManageRoles && (
           <div className={memberStyles.memberListHeader}>
             <Checkbox
               label="Select all members"
               checked={selectedMembers.size === filteredMembers.length && filteredMembers.length > 0}
-              indeterminate={selectedMembers.size > 0 && selectedMembers.size < filteredMembers.length}
               onChange={handleSelectAll}
             />
             <span className={memberStyles.headerLabel}>Member</span>
@@ -216,8 +215,8 @@ export function MemberManagement({
               <div className={memberStyles.memberInfo}>
                 <Avatar
                   src={member.avatarUrl}
-                  name={member.displayName}
-                  size="small"
+                  alt={member.displayName}
+                  size="sm"
                 />
                 <div className={memberStyles.memberDetails}>
                   <span className={memberStyles.memberName}>
@@ -361,13 +360,13 @@ function BulkRoleAssignmentForm({ roles, onAssign, isLoading }: BulkRoleAssignme
       <div className={memberStyles.formRow}>
         <Select
           value={selectedRole}
-          onChange={setSelectedRole}
+          onChange={(e) => setSelectedRole(e.target.value)}
           options={roles.map(role => ({ value: role.id, label: role.name }))}
           placeholder="Select a role"
         />
         <Select
           value={action}
-          onChange={(value) => setAction(value as 'add' | 'remove')}
+          onChange={(e) => setAction(e.target.value as 'add' | 'remove')}
           options={[
             { value: 'add', label: 'Add Role' },
             { value: 'remove', label: 'Remove Role' }

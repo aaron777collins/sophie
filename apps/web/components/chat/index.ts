@@ -16,6 +16,5 @@ export {
   isAudio,
   getMessageType,
   type MediaUploadResult,
-  type MediaUploadProgress,
-  MediaUploadError
-} from '@/lib/matrix/media';
+  type MediaUploadProgress
+} from '../../lib/matrix/media';

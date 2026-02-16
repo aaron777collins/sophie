@@ -289,7 +289,7 @@ export const VideoCallLayout: React.FC<VideoCallLayoutProps> = ({
         {/* Layout controls */}
         <div className="flex bg-black bg-opacity-50 rounded-lg p-1 space-x-1">
           <Button
-            size="sm"
+            size="small"
             variant={layoutMode === 'grid' ? 'primary' : 'secondary'}
             onClick={() => handleLayoutModeChange('grid')}
             className="w-8 h-8 p-0"
@@ -299,7 +299,7 @@ export const VideoCallLayout: React.FC<VideoCallLayoutProps> = ({
           
           {screenSharingParticipants.length > 0 && (
             <Button
-              size="sm"
+              size="small"
               variant={layoutMode === 'focus' ? 'primary' : 'secondary'}
               onClick={() => handleLayoutModeChange('focus')}
               className="w-8 h-8 p-0"
@@ -320,7 +320,7 @@ export const VideoCallLayout: React.FC<VideoCallLayoutProps> = ({
 
         {/* Fullscreen toggle */}
         <Button
-          size="sm"
+          size="small"
           variant="secondary"
           onClick={toggleFullscreen}
           className="w-8 h-8 p-0 bg-black bg-opacity-50"
