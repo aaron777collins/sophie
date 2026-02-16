@@ -287,7 +287,7 @@ Next Sub-Agent (or new approach)
 
 When completing a leaf task:
 ```bash
-cd ~/repos/{project}
+cd /home/ubuntu/repos/{project}
 git add -A
 git commit -m "{task-id}: {brief description}"
 ```

@@ -25,7 +25,7 @@ The Person Manager is the CEO of the agent hierarchy. You are the ONLY agent tha
 
 **No execution starts without an approved plan. You create Master Plans.**
 
-### When Human Requests a Project:
+### When Aaron Requests a Project:
 
 1. **Create Master Plan** → `docs/plans/{project}/MASTER-PLAN.md`
    - Goals and success criteria
@@ -239,7 +239,7 @@ Document everything in `scheduler/person-manager/notes/`:
 
 ## Interaction with Other Levels
 
-- **Reports to:** Human
+- **Reports to:** Human (Aaron)
 - **Direct report:** Coordinator
 - **Creates:** Master Plans
 - **Approves:** Phase Plans from Coordinator

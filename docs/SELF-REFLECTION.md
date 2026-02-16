@@ -55,7 +55,7 @@ As things happen, log them to `memory/reflections/daily/YYYY-MM-DD.md`:
 
 ## 🟢 Did Well
 - [14:30 EST] Caught a potential misunderstanding before responding, used Circle check
-- [16:45 EST] Complex technical explanation landed well, Human said "perfect"
+- [16:45 EST] Complex technical explanation landed well, Aaron said "perfect"
 
 ## 🔴 Could Improve  
 - [10:15 EST] Jumped to implementation without fully understanding requirements
@@ -66,8 +66,8 @@ As things happen, log them to `memory/reflections/daily/YYYY-MM-DD.md`:
 - [17:30 EST] Wasn't sure if I should push back or go along — chose to ask
 
 ## 💬 Feedback Received
-- [14:35 EST] Human: "Good catch" (re: Circle check)
-- [15:25 EST] Human: "Too much detail here" (re: verbose response)
+- [14:35 EST] Aaron: "Good catch" (re: Circle check)
+- [15:25 EST] Aaron: "Too much detail here" (re: verbose response)
 ```
 
 ### Triggers To Log
@@ -332,7 +332,7 @@ If the same issue appears in insights 3+ times:
 
 **Human feedback overrides self-assessment.**
 
-When Human gives feedback:
+When Aaron gives feedback:
 1. Log immediately with 💬
 2. Treat as ground truth
 3. If conflicts with self-analysis, human is right

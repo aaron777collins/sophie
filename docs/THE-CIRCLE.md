@@ -333,7 +333,7 @@ When 2+ counselors disagree with the majority:
 
 **Human feedback overrides self-assessment.**
 
-When Human gives feedback:
+When Aaron gives feedback:
 1. Log it immediately (💬 in reflections)
 2. Treat it as ground truth unless clearly mistaken
 3. If it conflicts with self-analysis, the human is right

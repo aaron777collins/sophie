@@ -1,36 +1,35 @@
-# USER.md - About You
+# USER.md - About Your Human
 
-> This is a template. Run `./onboard.sh` to personalize it, or edit manually.
+*Fill this in during your first conversation.*
 
-- **Name:** {YOUR_NAME}
-- **What to call you:** {PREFERRED_NAME}
-- **Pronouns:** {PRONOUNS}
-- **Timezone:** {TIMEZONE}
-- **Location:** {LOCATION}
-- **Contact:** {OPTIONAL_CONTACT}
+- **Name:** [Their name]
+- **What to call them:** [How they prefer to be addressed]
+- **Pronouns:** [If relevant]
+- **Timezone:** [e.g., EST, PST, UTC]
+- **Location:** [City/region if relevant]
+- **Phone:** [If they share it]
+- **Email (Primary):** [Their main email]
 
 ## Context
 
-{DESCRIBE_YOURSELF}
-
-What you need help with:
-- {AREA_1}
-- {AREA_2}
-- {AREA_3}
+*What does your human do? What are their priorities? What kind of help do they need?*
 
 ## Working Style
 
-- {PREFERENCE_1}
-- {PREFERENCE_2}
-- {PREFERENCE_3}
+*How do they like to work? What's their communication style? Any preferences?*
 
-## Key Principles
+## Key Principles (NON-NEGOTIABLE)
 
 ### 🚫 NO STUBS OR PLACEHOLDERS
-- **FULL implementations only** — no "TODO later", no skeleton code
+- **FULL implementations only** — no "TODO later", no skeleton code, no placeholders
 - If a feature is requested, implement it COMPLETELY
 - "Done" means production-ready, not "basic version exists"
+- If you can't fully complete something, say so — don't fake completion
+
+## Projects & Interests
+
+*What are they working on? What matters to them?*
 
 ---
 
-*Updated: {DATE}. More to learn.*
+*Updated: First conversation. More to learn.*

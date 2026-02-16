@@ -2,6 +2,64 @@
 
 > **"Employees can lie. Verify everything."**
 
+## Core Principle: Autonomous Work + Self-Validation + Upward Audit
+
+**Each level works AUTONOMOUSLY but SELF-VALIDATES before marking complete.**
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    AUTONOMOUS + SELF-VALIDATION PATTERN                  │
+└─────────────────────────────────────────────────────────────────────────┘
+
+WRONG: Wait for orders → Work → Claim done
+WRONG: Work → Claim done → Hope someone validates
+
+RIGHT: Work autonomously → SELF-VALIDATE (multi-perspective) → Mark complete
+       ↑ Person Manager audits after (spot-checks, not gatekeeping)
+```
+
+### The Flow
+
+```
+Coordinator: Works autonomously (doesn't wait for Person Manager)
+    ↓
+Workers complete tasks, claim done
+    ↓
+Coordinator SELF-VALIDATES before moving on:
+    1. Spawn verification sub-agent(s) — different perspectives
+    2. Check: Does build pass? Do tests pass? Does it work?
+    3. Review from multiple angles (skeptic, pragmatist, etc.)
+    ↓ ONLY if validation passes
+Mark phase/batch complete → Move to next
+    ↓
+Person Manager: Audits completed work (spot-checks, not blocking)
+```
+
+### Self-Validation Requirements (MANDATORY)
+
+**Before marking ANY batch/phase complete, Coordinator must:**
+
+1. **Spawn verification sub-agent(s)** — At least one, ideally with different perspectives
+2. **Run actual validation** — Build, tests, manual checks
+3. **Multi-perspective review** — Use Circle thinking:
+   - 🔧 Pragmatist: Does this actually work?
+   - 🔍 Skeptic: What could be wrong? What did we miss?
+   - 🛡️ Guardian: Any security/quality issues?
+4. **Document findings** — Note what was checked and results
+
+**Without self-validation, work is NOT complete. Period.**
+
+### Why Self-Validation Matters
+
+- Catches errors at the source (faster fixes)
+- Prevents cascading failures up the chain
+- Each level owns their quality
+- Person Manager can spot-check, not block on every item
+
+**Upward validation (Person Manager auditing Coordinator) is AFTER and for quality assurance, not gatekeeping.**
+
+---
+
 ## The Problem
 
 Sub-agents mark tasks "complete" without:
@@ -39,6 +97,16 @@ ACTUALLY COMPLETE ✅
 
 ## Verification Requirements by Level
 
+### 🧪 Testing Phase (NEW - MANDATORY)
+
+**Before verification, the TESTING phase must happen:**
+
+Every task must have:
+1. **Acceptance Criteria** — Defined before work starts
+2. **Validation Steps** — How to verify each criterion
+
+Worker must execute ALL validation steps before claiming complete.
+
 ### L4 Worker → L3 Task Manager Handoff
 
 **Worker must provide:**
@@ -46,15 +114,25 @@ ACTUALLY COMPLETE ✅
 ## Completion Report
 - **Task:** {task-id}
 - **Status:** claiming-complete
-- **Evidence:**
-  - Files created/modified: {list with paths}
-  - Build status: {pass/fail with command used}
-  - Tests run: {which tests, results}
-  - Git commit: {hash}
-- **Verification steps:** {how to verify this works}
+
+### Acceptance Criteria Verification
+- [x] Criterion 1: How it was verified
+- [x] Criterion 2: How it was verified
+- [x] Build passes: Command + result
+- [x] Tests pass: Command + result
+
+### Evidence
+- Files created/modified: {list with paths}
+- Build status: {pass/fail with command used}
+- Tests run: {which tests, results}
+- Git commit: {hash}
+
+### Verification Steps for Manager
+{How to verify this works}
 ```
 
 **Task Manager must verify:**
+- [ ] Acceptance criteria provided and checked
 - [ ] Files actually exist at claimed paths
 - [ ] Build actually passes (`pnpm build`, `npm test`, etc.)
 - [ ] Claimed tests actually pass

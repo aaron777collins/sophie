@@ -105,7 +105,7 @@ Implement Matrix account registration in apps/web/lib/matrix/auth.ts
 4. Read ~/clawd/memory/projects/haos-v2/_overview.md (project context)
 
 ## REPO PATH
-~/repos/haos-v2
+/home/ubuntu/repos/haos-v2
 
 ## WHAT TO BUILD
 Add to apps/web/lib/matrix/auth.ts:
@@ -311,7 +311,7 @@ Clear status tracking, dependency management.
 Agent works in wrong directory.
 
 ### ✅ Explicit repo path
-`REPO PATH: ~/repos/haos-v2`
+`REPO PATH: /home/ubuntu/repos/haos-v2`
 
 ### ❌ No success criteria
 Agent doesn't know when it's done.

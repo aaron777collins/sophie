@@ -27,7 +27,7 @@ This isn't overhead — it's distributed intelligence.
 Workers don't just obey — they **give feedback to managers**:
 - Worker has an issue? → Tell the manager (after writing it down)
 - Manager makes smarter decisions from worker feedback
-- Orders from your human are IMPORTANT and should be followed
+- Orders from Aaron are IMPORTANT and should be followed
 - But everyone still thinks critically and raises concerns
 
 ### 🔍 PEER REVIEW: Trust But Verify (CRITICAL!)
@@ -265,7 +265,7 @@ ELSE HEARTBEAT_OK
 2. **Push things along** — Check if work has stalled, spawn task managers if needed
 3. **Hierarchical notes** — Keep high-level notes on each project/topic
 4. **Cross-project awareness** — Understand how projects relate
-5. **Escalate to human** — If decisions needed, flag for human
+5. **Escalate to human** — If decisions needed, flag for Aaron
 6. **🔍 PEER REVIEW COMPLETIONS** — Verify task completions are REAL:
    - When Task Managers mark tasks complete, **verify the work**
    - Run builds, check that features exist, validate integration
@@ -382,7 +382,7 @@ Workers don't have jobs files — they're spawned with explicit task instruction
 
 | Level | Role | Posts to Slack? | How They Communicate |
 |-------|------|-----------------|----------------------|
-| **L1** | Person Manager | ✅ Yes — summaries, issues, status | Slack + direct with {AGENT_NAME}/{HUMAN_NAME} |
+| **L1** | Person Manager | ✅ Yes — summaries, issues, status | Slack + direct with Sophie/Aaron |
 | **L2** | Coordinator | ✅ Yes — project updates, batched summaries | Slack + inbox with PM |
 | **L3** | Task Managers | ❌ **NO** (except errors) | **Inbox/files only** → Coordinator |
 | **L4** | Workers | ✅ Completion only | Brief "✅ done" + inbox/files → TM |
@@ -410,7 +410,7 @@ The **Coordinator** then batches and summarizes for Slack:
 ```
                     ┌─────────────┐
                     │   Human     │
-                    │   (Human)   │
+                    │   (Aaron)   │
                     └──────┬──────┘
                            │ (explicit requests, feedback)
                            ▼

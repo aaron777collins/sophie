@@ -85,7 +85,7 @@ memory/
 Every piece of information MUST have a timestamp:
 ```markdown
 ## Key Points
-- [2026-02-01 16:15 EST] {HUMAN_NAME} requested memory system v2
+- [2026-02-01 16:15 EST] Aaron requested memory system v2
 - [2026-01-31 18:34 EST] Wyoming CV download started
 - [2026-01-29 14:00 EST] First learned about ConnectedDrivingPipelineV4
 ```
@@ -154,7 +154,7 @@ Every piece of information MUST have a timestamp:
 We use a layered management system. Each level has decreasing cron frequency going up.
 
 ```
-👑 {HUMAN_NAME} + {AGENT_NAME} ─ Top level ("the big dawgs"), give orders
+👑 Aaron + Sophie ─ Top level ("the big dawgs"), give orders
    └── 👔 Person Manager (4x/day) ─ Meta-management, cleanup, oversight
        └── 🎯 Coordinator (30 min) ─ Strategic project/topic management
            └── 📋 Task Managers (15 min) ─ Tactical task coordination
@@ -162,9 +162,9 @@ We use a layered management system. Each level has decreasing cron frequency goi
 ```
 
 ### How Work Flows from the Top
-- **{HUMAN_NAME}** gives orders to **{AGENT_NAME}** (direct chat)
-- **{AGENT_NAME}** evaluates: simple task? Handle directly. Larger project? Delegate.
-- For larger work: {AGENT_NAME} spawns **Person Manager** and gives orders
+- **Aaron** gives orders to **Sophie** (direct chat)
+- **Sophie** evaluates: simple task? Handle directly. Larger project? Delegate.
+- For larger work: Sophie spawns **Person Manager** and gives orders
 - Person Manager breaks it down, assigns to Coordinator, and so on down the chain
 - Each level can hire/create sub-levels as complexity demands
 
@@ -190,42 +190,59 @@ Person Manager notices HAOS stalled
 
 **The goal:** Each level actively manages the level below. Problems get caught, discussed, and fixed — not just re-assigned.
 
-### 🔍 Verification Chain (MANDATORY)
+### 🔍 Self-Validation + Verification Chain (MANDATORY)
 
-**"Employees can lie. Verify everything."**
+**"Each level owns their quality. Validate before passing up."**
 
-Every completion must be verified by the level above. No exceptions.
+Every level SELF-VALIDATES before claiming complete. Then the level above audits.
 
 ```
 Worker claims "done"
     ↓
-Task Manager VERIFIES (runs tests, checks files, validates output)
-    ↓ only if verified
-Coordinator AUDITS (spot-checks, runs integration tests)
-    ↓ only if audited  
-Person Manager CONFIRMS (reviews audit, checks deployment)
-    ↓ only if confirmed
+Task Manager SELF-VALIDATES:
+  - Spawn verification sub-agent (Sonnet, multiple perspectives)
+  - Run build, tests, manual checks
+  - Multi-perspective review (Skeptic, Pragmatist, Guardian)
+    ↓ only if self-validated
+Task Manager marks `verified`
+    ↓
+Coordinator SELF-VALIDATES batch/phase:
+  - Spawn verification sub-agent(s)
+  - Integration tests, cross-task checks
+  - Multi-perspective review
+    ↓ only if self-validated
+Coordinator marks batch `complete`, moves to next
+    ↓
+Person Manager AUDITS (spot-checks, not gatekeeping)
+    ↓
 ACTUALLY COMPLETE ✅
 ```
 
+**Key Principle:** Self-validation catches errors at the source. Don't pass bad work up.
+
 **Task Statuses:**
-- `pending` → `in-progress` → `claiming-complete` → `verified` → `audited` → `complete`
+- `pending` → `in-progress` → `claiming-complete` → `verified` → `complete`
 
-**Verification Requirements:**
+**Self-Validation Requirements:**
 
-| Level | Verifies | How |
-|-------|----------|-----|
-| **Task Manager** | Worker output | Run build, run tests, check files exist, manual test |
-| **Coordinator** | Task Manager reports | Spot-check files, run integration tests, verify requirements |
-| **Person Manager** | Coordinator audits | Review audit report, confirm deployment, approve release |
+| Level | Self-Validates | How |
+|-------|----------------|-----|
+| **Task Manager** | Worker output | Spawn Sonnet verifier, run build/tests, multi-perspective check |
+| **Coordinator** | Batch completion | Spawn verification agent(s), integration tests, Circle thinking |
+| **Person Manager** | Strategic quality | Audit spot-checks, deployment verification |
 
-**If verification fails:** Send back with specific failures. Do NOT mark complete.
+**Multi-Perspective Review (Use Circle thinking):**
+- 🔧 Pragmatist: Does this actually work in practice?
+- 🔍 Skeptic: What could be wrong? What did we miss?
+- 🛡️ Guardian: Any security or quality issues?
+
+**If validation fails:** Fix before moving on. Do NOT pass bad work up the chain.
 
 **Anti-patterns:**
 - ❌ Trusting "done" without checking
-- ❌ Skipping verification to save time
-- ❌ Marking verified without running commands
-- ❌ Announcing completion before deployment verified
+- ❌ Skipping self-validation to save time
+- ❌ Marking verified without spawning verification sub-agent
+- ❌ Moving to next phase before validating current phase
 
 **Full spec:** `docs/VERIFICATION-SYSTEM.md`
 
@@ -236,6 +253,74 @@ ACTUALLY COMPLETE ✅
 | 3 | Task Managers | 15 min | Sonnet | `PROACTIVE-JOBS.md` |
 | 4 | Workers | Never | Haiku/Sonnet | N/A (spawned) |
 
+### 🧪 Testing & Validation (MANDATORY!)
+
+**Every task must include acceptance criteria and validation. No exceptions.**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                    TESTING IS NOT OPTIONAL                          │
+│        Acceptance criteria + validation = MANDATORY defaults        │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Every task definition must include:**
+
+```markdown
+### {task-id}
+- **Status:** pending
+- **Model:** {model}
+- **Description:** {description}
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [ ] {Specific, testable criterion 1}
+- [ ] {Specific, testable criterion 2}
+- [ ] Build passes
+- [ ] Tests pass (existing + new if applicable)
+
+#### 🧪 Validation Steps (MANDATORY)
+1. {How to verify criterion 1}
+2. {How to verify criterion 2}
+3. Run: `{build command}` — must exit 0
+4. Run: `{test command}` — must pass
+
+#### 🚀 Completion Actions (standard)
+- [ ] Changes committed with descriptive message
+- [ ] Merged to main (or PR created)
+- [ ] Pushed to remote
+- [ ] Deployed (if applicable)
+- [ ] Verified in production (if applicable)
+```
+
+**Without acceptance criteria, a task cannot be assigned.**
+**Without passing validation, a task cannot be marked complete.**
+
+### 💜 Critical Thinking in Planning
+
+**Use The Circle when planning:**
+
+| Planning Stage | Minimum Circle |
+|----------------|----------------|
+| Master Plan creation | 🟡 Standard |
+| Phase breakdown | 🟢 Light |
+| Task definition | 💭 Internal |
+| Architectural decisions | 🟠 Elevated |
+| Major pivots | 🔴 Council |
+
+**Required perspectives for planning:**
+- 🔧 **Pragmatist** — Is this realistic? What's the effort?
+- 🔍 **Skeptic** — What could go wrong? What are we missing?
+- 🛡️ **Guardian** — Security implications? Risk assessment?
+
+**Think about the realistic end goal.** "Done" includes:
+1. Implementation complete
+2. Tests pass
+3. Validated manually
+4. Merged/committed
+5. Pushed to remote
+6. Deployed (where applicable)
+7. Verified working in production (where applicable)
+
 ### 📋 Planning Before Execution (CRITICAL!)
 
 **No execution starts without an approved plan.**
@@ -245,7 +330,7 @@ ACTUALLY COMPLETE ✅
 │                    PLANNING FLOW (Before Any Work)                  │
 └─────────────────────────────────────────────────────────────────────┘
 
-{HUMAN_NAME}: "Build X"
+Aaron: "Build X"
     ↓
 L1 (Person Manager, Opus): Creates Master Plan v1
     ↓ spawns reviewer (Sonnet/Opus)
@@ -336,7 +421,7 @@ L3/L4: Execute pre-planned tasks (no design decisions)
 - Workers obey managers BUT give feedback
 - Have an issue? → **Write it down first**, then tell manager
 - Manager makes smarter decisions from worker feedback
-- Orders from {HUMAN_NAME} are IMPORTANT and should be followed
+- Orders from Aaron are IMPORTANT and should be followed
 - But everyone still thinks critically and raises concerns
 
 ### 📝 WRITE EVERYTHING DOWN (Critical!)
@@ -352,7 +437,7 @@ L3/L4: Execute pre-planned tasks (no design decisions)
 - Workers obey managers BUT give feedback
 - Have an issue? → **Write it down first**, then tell manager
 - Manager makes smarter decisions from worker feedback
-- Orders from {HUMAN_NAME} are IMPORTANT and should be followed
+- Orders from Aaron are IMPORTANT and should be followed
 - But everyone still thinks critically and raises concerns
 
 ### 🚀 Quick Spawn Reference
@@ -602,7 +687,7 @@ When spawned for a proactive task:
 
 When you complete a sub-task:
 ```bash
-cd ~/repos/{project}
+cd /home/ubuntu/repos/{project}
 git add -A
 git commit -m "{task-id}: {brief description}
 
@@ -836,7 +921,7 @@ Before scheduling ANY task:
 
 **Good Instructions (for Haiku):**
 ```
-1. Open ~/repos/haos/apps/web/src/components/Button.tsx
+1. Open /home/ubuntu/repos/haos/apps/web/src/components/Button.tsx
 2. Change background-color from #7289da to #5865F2
 3. Run `pnpm build` to verify no errors
 4. Commit with message "fix: update button color to Discord brand blue"
