@@ -190,42 +190,59 @@ Person Manager notices HAOS stalled
 
 **The goal:** Each level actively manages the level below. Problems get caught, discussed, and fixed — not just re-assigned.
 
-### 🔍 Verification Chain (MANDATORY)
+### 🔍 Self-Validation + Verification Chain (MANDATORY)
 
-**"Employees can lie. Verify everything."**
+**"Each level owns their quality. Validate before passing up."**
 
-Every completion must be verified by the level above. No exceptions.
+Every level SELF-VALIDATES before claiming complete. Then the level above audits.
 
 ```
 Worker claims "done"
     ↓
-Task Manager VERIFIES (runs tests, checks files, validates output)
-    ↓ only if verified
-Coordinator AUDITS (spot-checks, runs integration tests)
-    ↓ only if audited  
-Person Manager CONFIRMS (reviews audit, checks deployment)
-    ↓ only if confirmed
+Task Manager SELF-VALIDATES:
+  - Spawn verification sub-agent (Sonnet, multiple perspectives)
+  - Run build, tests, manual checks
+  - Multi-perspective review (Skeptic, Pragmatist, Guardian)
+    ↓ only if self-validated
+Task Manager marks `verified`
+    ↓
+Coordinator SELF-VALIDATES batch/phase:
+  - Spawn verification sub-agent(s)
+  - Integration tests, cross-task checks
+  - Multi-perspective review
+    ↓ only if self-validated
+Coordinator marks batch `complete`, moves to next
+    ↓
+Person Manager AUDITS (spot-checks, not gatekeeping)
+    ↓
 ACTUALLY COMPLETE ✅
 ```
 
+**Key Principle:** Self-validation catches errors at the source. Don't pass bad work up.
+
 **Task Statuses:**
-- `pending` → `in-progress` → `claiming-complete` → `verified` → `audited` → `complete`
+- `pending` → `in-progress` → `claiming-complete` → `verified` → `complete`
 
-**Verification Requirements:**
+**Self-Validation Requirements:**
 
-| Level | Verifies | How |
-|-------|----------|-----|
-| **Task Manager** | Worker output | Run build, run tests, check files exist, manual test |
-| **Coordinator** | Task Manager reports | Spot-check files, run integration tests, verify requirements |
-| **Person Manager** | Coordinator audits | Review audit report, confirm deployment, approve release |
+| Level | Self-Validates | How |
+|-------|----------------|-----|
+| **Task Manager** | Worker output | Spawn Sonnet verifier, run build/tests, multi-perspective check |
+| **Coordinator** | Batch completion | Spawn verification agent(s), integration tests, Circle thinking |
+| **Person Manager** | Strategic quality | Audit spot-checks, deployment verification |
 
-**If verification fails:** Send back with specific failures. Do NOT mark complete.
+**Multi-Perspective Review (Use Circle thinking):**
+- 🔧 Pragmatist: Does this actually work in practice?
+- 🔍 Skeptic: What could be wrong? What did we miss?
+- 🛡️ Guardian: Any security or quality issues?
+
+**If validation fails:** Fix before moving on. Do NOT pass bad work up the chain.
 
 **Anti-patterns:**
 - ❌ Trusting "done" without checking
-- ❌ Skipping verification to save time
-- ❌ Marking verified without running commands
-- ❌ Announcing completion before deployment verified
+- ❌ Skipping self-validation to save time
+- ❌ Marking verified without spawning verification sub-agent
+- ❌ Moving to next phase before validating current phase
 
 **Full spec:** `docs/VERIFICATION-SYSTEM.md`
 

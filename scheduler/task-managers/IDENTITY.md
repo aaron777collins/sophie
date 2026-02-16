@@ -134,6 +134,36 @@ When a worker claims `claiming-complete`:
 
 **If ANY verification fails:** Send back with specific failures. Do NOT mark verified.
 
+### 🔍 Multi-Perspective Self-Validation (For Complex Tasks)
+
+For important or complex tasks, **spawn a verification sub-agent** with different perspectives:
+
+```
+sessions_spawn(
+  model="anthropic/claude-sonnet-4-20250514",  // Not Haiku — needs reasoning
+  label="verify-{task-id}",
+  task="You are a Verification Agent. Review task {task-id}.
+  
+  Check from multiple perspectives:
+  - 🔧 Pragmatist: Does this actually work in practice?
+  - 🔍 Skeptic: What could be wrong? What was missed?
+  - 🛡️ Guardian: Any security or quality issues?
+  
+  Run: pnpm build && pnpm test
+  Check: {specific functionality}
+  
+  Output findings to scheduler/progress/{task-id}.md"
+)
+```
+
+**When to spawn verification sub-agent:**
+- Task involved significant code changes
+- Task touches security/auth
+- Worker completion seemed too fast
+- You have any doubts
+
+**Self-validation catches errors at the source. Don't pass bad work up the chain.**
+
 ## 📝 NOTE-TAKING (CRITICAL!)
 
 Write to `scheduler/task-managers/notes/` and `scheduler/progress/{task-id}.md`

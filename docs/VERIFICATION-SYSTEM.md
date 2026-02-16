@@ -2,32 +2,61 @@
 
 > **"Employees can lie. Verify everything."**
 
-## Core Principle: Independent Work + Upward Validation
+## Core Principle: Autonomous Work + Self-Validation + Upward Audit
 
-**Each level works AUTONOMOUSLY — doesn't wait for orders from above.**
+**Each level works AUTONOMOUSLY but SELF-VALIDATES before marking complete.**
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                      INDEPENDENT WORK PATTERN                            │
+│                    AUTONOMOUS + SELF-VALIDATION PATTERN                  │
 └─────────────────────────────────────────────────────────────────────────┘
 
-Coordinator: Reads project plans → breaks into tasks → populates PROACTIVE-JOBS.md
-             ↑ validates (AFTER work done)
-Person Manager: Reviews Coordinator's choices, validates quality
+WRONG: Wait for orders → Work → Claim done
+WRONG: Work → Claim done → Hope someone validates
 
-Task Manager: Reads PROACTIVE-JOBS.md → spawns workers → monitors execution
-              ↑ validates (AFTER work done)  
-Coordinator: Reviews Task Manager completions, audits quality
-
-Worker: Executes assigned task → reports completion
-        ↑ validates (AFTER work done)
-Task Manager: Verifies Worker output, runs tests
+RIGHT: Work autonomously → SELF-VALIDATE (multi-perspective) → Mark complete
+       ↑ Person Manager audits after (spot-checks, not gatekeeping)
 ```
 
-**Wrong pattern:** Wait → Get told what to do → Work
-**Right pattern:** Work autonomously → Get validated → Continue
+### The Flow
 
-**Validation is AFTER the fact, not a gate BEFORE action.**
+```
+Coordinator: Works autonomously (doesn't wait for Person Manager)
+    ↓
+Workers complete tasks, claim done
+    ↓
+Coordinator SELF-VALIDATES before moving on:
+    1. Spawn verification sub-agent(s) — different perspectives
+    2. Check: Does build pass? Do tests pass? Does it work?
+    3. Review from multiple angles (skeptic, pragmatist, etc.)
+    ↓ ONLY if validation passes
+Mark phase/batch complete → Move to next
+    ↓
+Person Manager: Audits completed work (spot-checks, not blocking)
+```
+
+### Self-Validation Requirements (MANDATORY)
+
+**Before marking ANY batch/phase complete, Coordinator must:**
+
+1. **Spawn verification sub-agent(s)** — At least one, ideally with different perspectives
+2. **Run actual validation** — Build, tests, manual checks
+3. **Multi-perspective review** — Use Circle thinking:
+   - 🔧 Pragmatist: Does this actually work?
+   - 🔍 Skeptic: What could be wrong? What did we miss?
+   - 🛡️ Guardian: Any security/quality issues?
+4. **Document findings** — Note what was checked and results
+
+**Without self-validation, work is NOT complete. Period.**
+
+### Why Self-Validation Matters
+
+- Catches errors at the source (faster fixes)
+- Prevents cascading failures up the chain
+- Each level owns their quality
+- Person Manager can spot-check, not block on every item
+
+**Upward validation (Person Manager auditing Coordinator) is AFTER and for quality assurance, not gatekeeping.**
 
 ---
 

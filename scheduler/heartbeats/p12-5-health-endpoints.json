@@ -1,6 +1,7 @@
 {
   "taskId": "p12-5-health-endpoints",
-  "lastUpdate": "2025-01-11T23:07:00-05:00",
-  "status": "in-progress",
-  "message": "Started creating health endpoints for HAOS v2"
+  "status": "active",
+  "startedAt": "2025-01-12T19:47:00Z",
+  "lastUpdate": "2025-01-12T19:47:00Z",
+  "model": "anthropic/claude-sonnet-4-20250514"
 }
