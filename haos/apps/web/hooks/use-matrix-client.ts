@@ -35,8 +35,8 @@ export function useMatrixClient() {
       setLoading(true)
       setError(null)
 
-      // Check if we have an existing authenticated session
-      const existingSession = localStorage.getItem('haos-matrix-session')
+      // Check if we have an existing authenticated session (only on client side)
+      const existingSession = typeof window !== 'undefined' ? localStorage.getItem('haos-matrix-session') : null
       
       if (existingSession) {
         // Use existing authenticated session
@@ -74,14 +74,16 @@ export function useMatrixClient() {
         password: password,
       })
 
-      // Store session data
+      // Store session data (only on client side)
       const sessionData = {
         baseUrl: homeserver,
         accessToken: response.access_token,
         userId: response.user_id,
       }
       
-      localStorage.setItem('haos-matrix-session', JSON.stringify(sessionData))
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('haos-matrix-session', JSON.stringify(sessionData))
+      }
       
       // Update client with authentication
       const authenticatedClient = createClient({
@@ -106,9 +108,11 @@ export function useMatrixClient() {
     } catch (err) {
       console.error('Logout failed:', err)
     } finally {
-      // Clean up local session
-      localStorage.removeItem('haos-matrix-session')
-      localStorage.removeItem('haos-first-run-completed')
+      // Clean up local session (only on client side)
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('haos-matrix-session')
+        localStorage.removeItem('haos-first-run-completed')
+      }
       
       // Reset to guest client
       const guestClient = createClient({
@@ -165,6 +169,6 @@ export function useMatrixClient() {
     logout,
     joinRoom,
     getPublicRooms,
-    isAuthenticated: !!localStorage.getItem('haos-matrix-session'),
+    isAuthenticated: typeof window !== 'undefined' ? !!localStorage.getItem('haos-matrix-session') : false,
   }
 }

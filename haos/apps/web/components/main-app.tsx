@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Hash, Volume2, Settings, Plus, Users, ChevronDown, ChevronRight, UserIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Hash, Volume2, Settings, Plus, Users, ChevronDown, ChevronRight, UserIcon, ExternalLinkIcon } from 'lucide-react';
 import { ServerDiscoveryModal } from './server-discovery/server-discovery-modal';
 import { VoiceChannelList, VoiceChannelInfo } from './voice';
 import { VoiceChannelPanel, VoiceControls } from './voice';
@@ -65,6 +66,7 @@ const mockTextChannels = [
 ];
 
 export function MainApp() {
+  const router = useRouter();
   const [showServerDiscovery, setShowServerDiscovery] = useState(false);
   const [showVoicePanel, setShowVoicePanel] = useState(false);
   const [showUserProfile, setShowUserProfile] = useState(false);
@@ -345,10 +347,17 @@ export function MainApp() {
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <button
-                  onClick={() => setShowServerDiscovery(true)}
-                  className="discord-button px-6 py-2.5 bg-discord-accent hover:bg-[#4752c4] text-white font-medium rounded transition-colors"
+                  onClick={() => router.push('/servers/discover')}
+                  className="discord-button px-6 py-2.5 bg-discord-accent hover:bg-[#4752c4] text-white font-medium rounded transition-colors flex items-center justify-center gap-2"
                 >
+                  <ExternalLinkIcon className="w-4 h-4" />
                   Discover Servers
+                </button>
+                <button
+                  onClick={() => setShowServerDiscovery(true)}
+                  className="discord-button px-4 py-2.5 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded transition-colors text-sm"
+                >
+                  Quick Browse
                 </button>
                 <button
                   onClick={() => handleJoinVoiceChannel('vc-2')}
