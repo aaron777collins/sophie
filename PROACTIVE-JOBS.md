@@ -1,105 +1,87 @@
 ## Active Proactive Jobs
 
-> **Last Updated:** 2026-02-16 08:00 EST  
-> **Updated By:** Person Manager (L1)
+> **Last Updated:** 2026-02-16 11:02 EST  
+> **Updated By:** Sophie (fixing autonomous execution gap)
 
-### Current Priority Batch — Phase 10 Completion + Mobile UX
+### Current Priority Batch — Phase 11 & 12 Completion
 
-#### p10-12-invite-system-completion
-- **Status:** pending
+#### p11-4-privacy-settings
+- **Status:** in-progress
+- **Started:** 2026-02-16 11:02 EST
 - **Priority:** HIGH
 - **Model:** claude-sonnet-4-20250514
-- **Description:** Complete invite system: expiry management, tracking analytics, and revocation
-- **Parent Phase:** p10 (Server Features)
+- **Description:** Privacy settings page with DM controls, blocking, visibility
+- **Parent Phase:** p11 (User Experience)
 - **Dependencies:** None
 - **Acceptance Criteria:**
-  - [ ] Invite expiry countdown and auto-cleanup
-  - [ ] Invite usage tracking and analytics
-  - [ ] Invite revocation with confirmation
-  - [ ] Build passes: `pnpm build` exits 0
-- **Validation Steps:**
-  1. Test invite creation with expiry dates
-  2. Verify invite tracking displays usage count
-  3. Test invite revocation workflow
-  4. Run build to confirm no TypeScript errors
+  - [ ] Privacy settings page at /settings/privacy
+  - [ ] Block/unblock user management
+  - [ ] DM privacy controls
+  - [ ] Online status visibility toggle
+  - [ ] Matrix account data persistence
+  - [ ] Build passes
 
-#### p11-14-mobile-chat-ux
-- **Status:** pending
+#### p12-5-health-endpoints
+- **Status:** in-progress
+- **Started:** 2026-02-16 11:02 EST
 - **Priority:** HIGH
 - **Model:** claude-sonnet-4-20250514
-- **Description:** Optimize mobile chat experience with touch interactions and responsive design
-- **Parent Phase:** p11 (User Experience)
-- **Dependencies:** p11-13 (mobile navigation - completed)
-- **Acceptance Criteria:**
-  - [ ] Touch-friendly message interactions
-  - [ ] Swipe actions for common operations
-  - [ ] Responsive chat input area
-  - [ ] Mobile-optimized emoji/reaction picker
-  - [ ] Build passes: `pnpm build` exits 0
-- **Validation Steps:**
-  1. Test on mobile viewport sizes
-  2. Verify swipe gestures work smoothly
-  3. Check keyboard behavior on mobile
-  4. Run build to confirm no TypeScript errors
-
-#### p12-1-service-worker-foundation
-- **Status:** pending
-- **Priority:** MEDIUM
-- **Model:** claude-sonnet-4-20250514
-- **Description:** Implement service worker foundation for PWA and offline support
+- **Description:** Health check, readiness, and liveness endpoints for production
 - **Parent Phase:** p12 (Infrastructure)
 - **Dependencies:** None
 - **Acceptance Criteria:**
-  - [ ] Service worker registration
-  - [ ] Basic caching strategy
-  - [ ] Offline fallback page
-  - [ ] Build passes: `pnpm build` exits 0
-- **Validation Steps:**
-  1. Verify service worker registers successfully
-  2. Test offline mode displays fallback
-  3. Check cache works for static assets
-  4. Run build to confirm no errors
+  - [ ] /api/health endpoint with system info
+  - [ ] /api/ready endpoint checking Matrix connectivity
+  - [ ] /api/live liveness probe
+  - [ ] Proper error handling
+  - [ ] Build passes
 
-#### p9-7-emoji-autocomplete
-- **Status:** pending
-- **Priority:** MEDIUM
-- **Model:** claude-sonnet-4-20250514
-- **Description:** Implement emoji autocomplete when typing :emoji: in chat
-- **Parent Phase:** p9 (Chat Features)
-- **Dependencies:** None
-- **Acceptance Criteria:**
-  - [ ] Typing `:` triggers emoji picker/autocomplete
-  - [ ] Autocomplete filters as user types
-  - [ ] Arrow keys navigate, Enter selects
-  - [ ] Escape closes picker
-  - [ ] Build passes: `pnpm build` exits 0
-- **Validation Steps:**
-  1. Type `:sm` and verify suggestions appear
-  2. Test keyboard navigation
-  3. Confirm emoji inserts correctly
-  4. Run build to confirm no TypeScript errors
+## Task Queue (Next Up)
 
-## Task Queue Status
-- **Total Active:** 4 tasks (0 in-progress, 4 pending)
-- **Worker Slots:** 0/2 occupied (available for pickup)
-- **Previous Session:** p11-6-user-notification-system completed
+### Phase 10 Remaining (2 tasks)
+| Task ID | Description | Priority |
+|---------|-------------|----------|
+| p10-13-server-templates | Create server from templates | MEDIUM |
+| p10-14-server-discovery | Explore/search public servers | LOW |
 
-## Recently Completed
+### Phase 11 Remaining (5 tasks after p11-4)
+| Task ID | Description | Priority |
+|---------|-------------|----------|
+| p11-7-appearance-themes | Theme customization and presets | MEDIUM |
+| p11-9-data-export | Export user data (GDPR) | MEDIUM |
+| p11-10-account-deletion | Account deletion flow | MEDIUM |
+| p11-11-help-support | Help/support integration | LOW |
+| p11-15-onboarding | New user onboarding flow | MEDIUM |
 
-### p11-6-user-notification-system ✅
-- **Completed:** 2026-02-16 06:00 EST
-- **Description:** Comprehensive notification system with in-app center, email/push frameworks
+### Phase 12 Remaining (10 tasks after p12-5)
+| Task ID | Description | Priority |
+|---------|-------------|----------|
+| p12-2-background-jobs | Background job queue system | MEDIUM |
+| p12-3-monitoring | Performance monitoring | MEDIUM |
+| p12-6-logging | Structured logging infrastructure | MEDIUM |
+| p12-7-db-optimization | Database query optimization | LOW |
+| p12-8-cdn-assets | CDN and asset optimization | LOW |
+| p12-10-cicd | CI/CD pipeline | HIGH |
+| p12-11-docs-site | Documentation site | LOW |
+| p12-12-api-docs | API documentation | MEDIUM |
+| p12-14-load-testing | Load testing suite | LOW |
+| p12-15-disaster-recovery | Backup and recovery | MEDIUM |
 
-### Weekend Progress (Feb 15-16)
-- p10-7-channel-permissions ✅
-- p10-9-role-assignment ✅
-- p12-13-security-headers ✅
-- p12-1-rate-limiting ✅
-- p11-8-accessibility-improvements ✅
-- p11-1-settings-layout ✅
-- p11-13-mobile-navigation ✅
+## Worker Status
+- **Max Slots:** 2
+- **Current:** 2/2 occupied
+- **Running:** p11-4-privacy-settings, p12-5-health-endpoints
+
+## Phase Progress Summary
+| Phase | Status | Progress |
+|-------|--------|----------|
+| Phase 8 | ✅ COMPLETE | 3/3 |
+| Phase 9 | ✅ COMPLETE | 8/8 |
+| Phase 10 | 🔄 Near Complete | 12/14 (86%) |
+| Phase 11 | 🔄 In Progress | 9/15 (60%) |
+| Phase 12 | 🔄 In Progress | 5/16 (31%) |
+| **TOTAL** | | **37/56 (66%)** |
 
 ## Notes
-- [2026-02-16 08:00] Person Manager populated fresh task batch
-- [2026-02-16 08:00] Fixed build (eslint.ignoreDuringBuilds = true)
-- [2026-02-16 08:00] Status: Phase 8 ✅, Phase 9 ~88%, Phase 10 ~85%, Phase 11 ~47%, Phase 12 ~25%
+- [2026-02-16 11:02] Sophie manually spawned workers - fixing Coordinator passivity issue
+- [2026-02-16 11:02] Updated Coordinator IDENTITY.md with autonomous execution rules

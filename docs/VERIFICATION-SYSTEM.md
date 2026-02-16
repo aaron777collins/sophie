@@ -2,6 +2,35 @@
 
 > **"Employees can lie. Verify everything."**
 
+## Core Principle: Independent Work + Upward Validation
+
+**Each level works AUTONOMOUSLY — doesn't wait for orders from above.**
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      INDEPENDENT WORK PATTERN                            │
+└─────────────────────────────────────────────────────────────────────────┘
+
+Coordinator: Reads project plans → breaks into tasks → populates PROACTIVE-JOBS.md
+             ↑ validates (AFTER work done)
+Person Manager: Reviews Coordinator's choices, validates quality
+
+Task Manager: Reads PROACTIVE-JOBS.md → spawns workers → monitors execution
+              ↑ validates (AFTER work done)  
+Coordinator: Reviews Task Manager completions, audits quality
+
+Worker: Executes assigned task → reports completion
+        ↑ validates (AFTER work done)
+Task Manager: Verifies Worker output, runs tests
+```
+
+**Wrong pattern:** Wait → Get told what to do → Work
+**Right pattern:** Work autonomously → Get validated → Continue
+
+**Validation is AFTER the fact, not a gate BEFORE action.**
+
+---
+
 ## The Problem
 
 Sub-agents mark tasks "complete" without:
