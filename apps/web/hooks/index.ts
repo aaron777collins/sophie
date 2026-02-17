@@ -23,3 +23,11 @@ export type {
   UseNotificationsReturn,
   UseNotificationsOptions 
 } from './use-notifications';
+
+export { useKeyboardShortcuts, formatShortcutKeys, DEFAULT_SHORTCUTS } from './use-keyboard-shortcuts';
+export type { 
+  UseKeyboardShortcutsReturn,
+  UseKeyboardShortcutsOptions,
+  KeyboardShortcut,
+  ShortcutCategory 
+} from './use-keyboard-shortcuts';

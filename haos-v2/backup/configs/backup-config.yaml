@@ -1,0 +1,245 @@
+# HAOS-V2 Backup Configuration
+# This file defines all backup settings, schedules, and destinations
+
+version: "1.0"
+system: "haos-v2"
+environment: "${ENVIRONMENT:-production}"
+
+# Database Configuration
+database:
+  type: "postgresql"
+  connection:
+    host: "${DB_HOST:-localhost}"
+    port: "${DB_PORT:-5432}"
+    username: "${DB_USER:-postgres}"
+    database: "${DB_NAME:-haos_v2}"
+    ssl_mode: "${DB_SSL_MODE:-prefer}"
+  
+  # Backup settings
+  backup:
+    # Full database dump
+    full:
+      enabled: true
+      schedule: "0 2 * * *"  # Daily at 2 AM
+      compression: "gzip"
+      format: "custom"       # pg_dump custom format for parallel restore
+      options: "--no-owner --no-privileges"
+    
+    # Point-in-time recovery (WAL archiving)
+    wal:
+      enabled: true
+      archive_command: "/backup/scripts/archive-wal.sh %p %f"
+      archive_timeout: "60"  # Archive every 60 seconds
+      
+    # Incremental backups
+    incremental:
+      enabled: true
+      schedule: "0 */6 * * *"  # Every 6 hours
+      method: "logical"        # Logical replication based
+      
+# File Storage Configuration
+files:
+  # Application uploads and media
+  uploads:
+    source_paths:
+      - "/app/uploads"
+      - "/app/public/avatars"
+      - "/app/public/icons"
+    exclude_patterns:
+      - "*.tmp"
+      - "*.temp"
+      - ".DS_Store"
+      - "Thumbs.db"
+  
+  # Application logs
+  logs:
+    source_paths:
+      - "/app/logs"
+      - "/var/log/haos-v2"
+    exclude_patterns:
+      - "*.gz"  # Already compressed logs
+    retention_days: 30
+  
+  # Configuration files
+  config:
+    source_paths:
+      - "/app/.env.production"
+      - "/app/next.config.js"
+      - "/etc/nginx/sites-available/haos-v2"
+    sensitive: true  # Encrypt with additional key
+
+# Backup Destinations
+destinations:
+  # Local storage (primary)
+  local:
+    enabled: true
+    path: "/backup/storage/local"
+    max_size: "500GB"
+    retention:
+      daily: 30      # Keep daily backups for 30 days
+      weekly: 12     # Keep weekly backups for 12 weeks
+      monthly: 12    # Keep monthly backups for 12 months
+  
+  # AWS S3 (secondary/offsite)
+  s3:
+    enabled: true
+    bucket: "${BACKUP_S3_BUCKET}"
+    region: "${AWS_REGION:-us-east-1}"
+    storage_class: "STANDARD_IA"  # Infrequent Access
+    encryption: "AES256"
+    lifecycle:
+      transition_to_glacier: 90    # Move to Glacier after 90 days
+      permanent_delete: 2555       # Delete after 7 years
+  
+  # Remote SSH server (tertiary)
+  remote_ssh:
+    enabled: false  # Enable for additional redundancy
+    host: "${BACKUP_REMOTE_HOST}"
+    user: "${BACKUP_REMOTE_USER}"
+    path: "/backup/haos-v2"
+    ssh_key: "/backup/keys/backup-ssh-key"
+
+# Backup Schedules
+schedules:
+  # Critical data - high frequency
+  critical:
+    - name: "database-wal"
+      type: "wal"
+      interval: "continuous"
+      retention_hours: 168  # 7 days
+      
+    - name: "database-incremental"  
+      type: "database-incremental"
+      schedule: "0 */6 * * *"  # Every 6 hours
+      retention_days: 30
+  
+  # Standard data - daily
+  daily:
+    - name: "database-full"
+      type: "database-full"
+      schedule: "0 2 * * *"    # 2 AM daily
+      retention_days: 90
+      
+    - name: "files-incremental"
+      type: "files-incremental"
+      schedule: "0 3 * * *"    # 3 AM daily
+      retention_days: 30
+  
+  # Complete system - weekly
+  weekly:
+    - name: "full-system"
+      type: "full-system"
+      schedule: "0 1 * * 0"    # Sunday 1 AM
+      retention_weeks: 52      # 1 year
+
+# Security Settings
+security:
+  # Encryption at rest
+  encryption:
+    enabled: true
+    algorithm: "AES256"
+    key_rotation_days: 90
+    
+  # Access control
+  permissions:
+    backup_user: "haos-backup"
+    backup_group: "backup"
+    file_mode: "0600"
+    dir_mode: "0700"
+  
+  # Data sanitization (for non-production restores)
+  sanitization:
+    enabled: true
+    rules:
+      - table: "users"
+        columns: ["email", "password_hash"]
+        method: "hash"
+      - table: "user_sessions"
+        action: "truncate"
+
+# Monitoring and Alerting
+monitoring:
+  # Health checks
+  health_checks:
+    enabled: true
+    interval: "5m"
+    timeout: "30s"
+    
+  # Backup validation
+  validation:
+    enabled: true
+    test_restore: true
+    verify_checksum: true
+    validate_schema: true
+    
+  # Notifications
+  notifications:
+    slack:
+      enabled: true
+      webhook_url: "${SLACK_BACKUP_WEBHOOK}"
+      channels:
+        success: "#ops-success"
+        failure: "#ops-alerts"
+        warning: "#ops-warnings"
+    
+    email:
+      enabled: true
+      smtp_host: "${SMTP_HOST}"
+      from: "backup-system@haos.com"
+      to: ["devops@haos.com", "admin@haos.com"]
+
+# Performance Settings
+performance:
+  # Parallel processing
+  parallel_jobs: 4
+  max_bandwidth: "100MB/s"
+  
+  # Resource limits
+  max_memory: "2GB"
+  temp_dir: "/tmp/haos-backup"
+  
+  # Compression
+  compression:
+    algorithm: "zstd"  # Fast compression with good ratio
+    level: 3           # Balance of speed vs compression
+    
+# Recovery Settings
+recovery:
+  # Point-in-time recovery
+  pitr:
+    enabled: true
+    max_recovery_time: "7 days"
+    
+  # Test restore procedures
+  testing:
+    enabled: true
+    schedule: "0 4 * * 6"  # Saturday 4 AM
+    test_database: "haos_v2_test"
+    test_duration: "2h"
+    cleanup_after: true
+
+# Maintenance
+maintenance:
+  # Cleanup old backups
+  cleanup:
+    enabled: true
+    schedule: "0 5 * * *"  # Daily at 5 AM
+    
+  # Backup verification
+  verification:
+    schedule: "0 6 * * *"  # Daily at 6 AM
+    max_age_days: 1        # Verify backups created in last 24h
+    
+  # Backup optimization
+  optimization:
+    enabled: true
+    deduplicate: true
+    compress_old_backups: true
+    
+# Logging
+logging:
+  level: "INFO"
+  format: "json"
+  output: "/var/log/haos-backup/backup.log"
+  max_size: "100MB"
+  max_files: 10

@@ -4,6 +4,8 @@ import { MicOff, Video, VideoOff, Monitor, Crown, Shield } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { SpeakingIndicator } from './speaking-indicator';
 import { VoiceParticipant } from '@/stores/voice-store';
+import { useMatrixClient } from '@/hooks/use-matrix-client';
+import { getAvatarDisplayInfo } from '@/lib/utils/avatar-utils';
 
 interface ParticipantTileProps {
   participant: VoiceParticipant;
@@ -23,6 +25,8 @@ export function ParticipantTile({
   role = null,
   onClick,
 }: ParticipantTileProps) {
+  const { client: matrixClient } = useMatrixClient();
+  
   const sizeConfig = {
     sm: {
       avatar: 'w-8 h-8',
@@ -46,14 +50,14 @@ export function ParticipantTile({
 
   const config = sizeConfig[size];
 
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(word => word.charAt(0))
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
-  };
+  // TODO: Convert mxc:// avatar URLs to HTTP URLs using Matrix client mxcUrlToHttp()
+  const avatarInfo = getAvatarDisplayInfo(
+    matrixClient,
+    participant.avatar,
+    participant.name,
+    undefined,
+    size === 'sm' ? 32 : size === 'md' ? 40 : 56
+  );
 
   const getConnectionColor = () => {
     switch (participant.connectionQuality) {
@@ -191,16 +195,16 @@ export function ParticipantTile({
             getConnectionColor()
           )}
         >
-          {participant.avatar ? (
+          {avatarInfo.hasAvatar ? (
             <img
-              src={participant.avatar}
+              src={avatarInfo.httpUrl!}
               alt=""
               className="w-full h-full object-cover"
               aria-hidden="true"
             />
           ) : (
             <span className={config.text} aria-hidden="true">
-              {getInitials(participant.name)}
+              {avatarInfo.initials}
             </span>
           )}
         </div>

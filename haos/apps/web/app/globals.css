@@ -2,19 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Discord-style base styles */
+/* ===== MOBILE-FIRST BASE STYLES ===== */
 @layer base {
   * {
     @apply border-gray-700;
+    /* Ensure all elements are touch-friendly by default */
+    touch-action: manipulation;
+  }
+  
+  html {
+    /* Prevent horizontal scrolling on mobile */
+    overflow-x: hidden;
+    /* Smooth scrolling */
+    scroll-behavior: smooth;
+    /* Prevent zoom on input focus (iOS Safari) */
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
   }
   
   body {
     @apply bg-discord-dark text-gray-100 font-sans;
+    /* Prevent horizontal scrolling */
+    overflow-x: hidden;
+    /* Better font rendering on mobile */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Prevent pull-to-refresh on iOS */
+    overscroll-behavior-y: none;
+  }
+
+  /* ===== SAFE AREA SUPPORT FOR NOTCHED DEVICES ===== */
+  :root {
+    /* CSS custom properties for safe areas */
+    --safe-area-inset-top: env(safe-area-inset-top, 0px);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-inset-left: env(safe-area-inset-left, 0px);
+    --safe-area-inset-right: env(safe-area-inset-right, 0px);
+    
+    /* Mobile-specific heights */
+    --mobile-header-height: 56px;
+    --mobile-nav-height: 64px;
+    --mobile-input-height: 44px;
+    
+    /* Touch target minimum size (WCAG AA) */
+    --touch-target-min: 44px;
   }
   
-  /* Custom scrollbar for Discord feel */
+  /* Custom scrollbar for Discord feel - Mobile optimized */
   ::-webkit-scrollbar {
-    width: 14px;
+    width: 8px; /* Thinner on mobile */
   }
   
   ::-webkit-scrollbar-track {
@@ -24,28 +60,138 @@
   ::-webkit-scrollbar-thumb {
     background: #1e1f22;
     border-radius: 8px;
-    border: 2px solid #2b2d31;
+    border: 1px solid #2b2d31; /* Thinner border for mobile */
   }
   
   ::-webkit-scrollbar-thumb:hover {
     background: #4e4f56;
   }
+
+  /* Mobile-specific scrollbar */
+  @media (max-width: 768px) {
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+  }
 }
 
 @layer components {
+  /* ===== MOBILE-OPTIMIZED DISCORD-STYLE BUTTONS ===== */
   .discord-button {
     @apply bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+    /* Mobile touch-friendly sizing */
+    min-height: var(--touch-target-min);
+    touch-action: manipulation;
   }
   
   .discord-button-secondary {
     @apply bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded-lg font-medium transition-colors;
+    /* Mobile touch-friendly sizing */
+    min-height: var(--touch-target-min);
+    touch-action: manipulation;
   }
   
   .discord-input {
     @apply bg-discord-darker border border-gray-600 text-white px-3 py-2 rounded-lg focus:border-primary-500 focus:ring-1 focus:ring-primary-500 focus:outline-none;
+    /* Prevent zoom on iOS Safari */
+    font-size: 16px;
+    min-height: var(--touch-target-min);
+  }
+
+  /* ===== MOBILE-OPTIMIZED CHAT COMPONENTS ===== */
+  .chat-input-container {
+    @apply relative;
+    /* Safe area support */
+    padding-bottom: var(--safe-area-inset-bottom);
+  }
+
+  .chat-input {
+    @apply w-full p-4 bg-discord-darker border border-gray-600 text-white rounded-2xl;
+    @apply focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 focus:outline-none;
+    @apply resize-none transition-all duration-200;
+    /* Prevent zoom on iOS Safari */
+    font-size: 16px;
+    min-height: var(--touch-target-min);
+    /* Touch-friendly scrolling */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .send-message-btn {
+    @apply mt-3 px-6 py-3 bg-primary-600 hover:bg-primary-700 active:bg-primary-800;
+    @apply text-white font-medium rounded-xl transition-all duration-200;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+    min-height: var(--touch-target-min);
+    touch-action: manipulation;
+  }
+
+  /* ===== EMOJI AUTOCOMPLETE MOBILE OPTIMIZATIONS ===== */
+  .emoji-autocomplete-dropdown {
+    @apply absolute bottom-full left-0 w-full max-h-48 overflow-y-auto;
+    @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600;
+    @apply rounded-xl shadow-lg z-10;
+    /* Touch-friendly scrolling */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .emoji-autocomplete-item {
+    @apply flex items-center p-4 cursor-pointer transition-colors duration-200;
+    @apply hover:bg-gray-50 dark:hover:bg-gray-700;
+    @apply active:bg-gray-100 dark:active:bg-gray-600;
+    /* Touch-friendly sizing */
+    min-height: var(--touch-target-min);
+    touch-action: manipulation;
+  }
+
+  .emoji-autocomplete-item.selected {
+    @apply bg-gray-100 dark:bg-gray-700;
+  }
+
+  .emoji-autocomplete-item .emoji,
+  .emoji-autocomplete-item .custom-emoji {
+    @apply mr-3 w-8 h-8 flex-shrink-0;
+  }
+
+  .emoji-autocomplete-item .custom-emoji {
+    @apply object-contain;
+  }
+
+  .emoji-autocomplete-item .emoji-name {
+    @apply text-base text-gray-900 dark:text-gray-100 font-medium;
+  }
+
+  /* ===== SAFE AREA UTILITIES ===== */
+  .safe-area-top {
+    padding-top: var(--safe-area-inset-top);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: var(--safe-area-inset-bottom);
+  }
+
+  .safe-area-left {
+    padding-left: var(--safe-area-inset-left);
+  }
+
+  .safe-area-right {
+    padding-right: var(--safe-area-inset-right);
+  }
+
+  .pb-safe {
+    padding-bottom: calc(1rem + var(--safe-area-inset-bottom));
+  }
+
+  .pt-safe {
+    padding-top: calc(1rem + var(--safe-area-inset-top));
   }
   
   /* Text clamping utilities */
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
   .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -58,5 +204,37 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  /* ===== MOBILE-RESPONSIVE UTILITIES ===== */
+  /* Hide on mobile */
+  @media (max-width: 767px) {
+    .mobile-hidden {
+      @apply hidden;
+    }
+
+    .desktop-only {
+      @apply hidden;
+    }
+  }
+
+  /* Show only on mobile */
+  @media (min-width: 768px) {
+    .mobile-only {
+      @apply hidden;
+    }
+  }
+
+  /* Touch-friendly interactions */
+  .touch-target {
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
+    touch-action: manipulation;
+  }
+
+  /* Hardware acceleration for smooth animations */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform;
   }
 }

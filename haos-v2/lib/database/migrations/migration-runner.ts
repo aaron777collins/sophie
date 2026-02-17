@@ -274,7 +274,7 @@ export class MigrationRunner {
       await client.query('COMMIT');
     } catch (error) {
       await client.query('ROLLBACK');
-      throw new Error(`Migration ${migration.id}-${migration.name} failed: ${error.message}`);
+      throw new Error(`Migration ${migration.id}-${migration.name} failed: ${error instanceof Error ? error.message : String(error)}`);
     } finally {
       client.release();
     }

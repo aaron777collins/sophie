@@ -11,6 +11,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { usePins, PinnedMessage } from '@/hooks/use-pins';
+import { useMatrixClient } from '@/hooks/use-matrix-client';
+import { getAvatarDisplayInfo } from '@/lib/utils/avatar-utils';
 
 export interface PinnedMessagesModalProps {
   /** Whether the modal is open */
@@ -35,6 +37,7 @@ export function PinnedMessagesModal({
   onJumpToMessage,
 }: PinnedMessagesModalProps) {
   const { pinnedMessages, isLoading, error, unpinMessage } = usePins(roomId);
+  const { client: matrixClient } = useMatrixClient();
 
   const handleJumpToMessage = (eventId: string) => {
     if (onJumpToMessage) {
@@ -122,7 +125,30 @@ export function PinnedMessagesModal({
                       <div className="flex-1 min-w-0">
                         {/* Message header */}
                         <div className="flex items-center gap-2 mb-2">
-                          <User className="h-4 w-4 text-gray-400" />
+                          {(() => {
+                            // TODO: Get actual avatar URL from Matrix user profile
+                            const avatarInfo = getAvatarDisplayInfo(
+                              matrixClient,
+                              message.avatarUrl, // This should come from the message/user data
+                              formatSender(message.sender),
+                              undefined,
+                              16
+                            );
+                            
+                            return (
+                              <div className="w-4 h-4 rounded-full bg-discord-accent flex items-center justify-center text-xs font-semibold text-white overflow-hidden">
+                                {avatarInfo.hasAvatar ? (
+                                  <img 
+                                    src={avatarInfo.httpUrl!} 
+                                    alt={formatSender(message.sender)} 
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : (
+                                  <span>{avatarInfo.initials}</span>
+                                )}
+                              </div>
+                            );
+                          })()}
                           <span className="text-sm font-medium text-white">
                             {formatSender(message.sender)}
                           </span>

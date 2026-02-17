@@ -7,3 +7,6 @@ export type { KeyBackupModalProps } from './key-backup-modal';
 
 export { BulkRoleAssignmentModal } from './bulk-role-assignment-modal';
 export { PermissionPreviewModal } from './permission-preview-modal';
+
+export { ShortcutsHelpModal } from './shortcuts-help-modal';
+export type { ShortcutsHelpModalProps } from './shortcuts-help-modal';

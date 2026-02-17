@@ -69,7 +69,7 @@ async function validateConnection(pool: Pool): Promise<void> {
     client.release();
     console.log('✓ Database connection successful');
   } catch (error) {
-    console.error('✗ Database connection failed:', error.message);
+    console.error('✗ Database connection failed:', error instanceof Error ? error.message : String(error));
     console.error('\nPlease check your database configuration and ensure PostgreSQL is running.');
     process.exit(1);
   }
@@ -189,7 +189,7 @@ async function runMigration(): Promise<void> {
     }
 
   } catch (error) {
-    console.error('Migration failed:', error.message);
+    console.error('Migration failed:', error instanceof Error ? error.message : String(error));
     process.exit(1);
   } finally {
     await pool.end();

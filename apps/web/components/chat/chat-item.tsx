@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { MatrixClient } from 'matrix-js-sdk';
+import { getAvatarDisplayInfo } from '@/lib/utils/avatar-utils';
 // import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 // import { EmojiPicker } from '@/components/emoji/emoji-picker';
 
@@ -16,6 +17,8 @@ interface ChatItemProps {
     timestamp: number;
     roomId: string;
     reactions?: MatrixReaction[];
+    avatarUrl?: string; // mxc:// URL or HTTP URL
+    senderDisplayName?: string;
   };
   matrixClient: MatrixClient;
   currentUserId: string;
@@ -107,50 +110,87 @@ export const ChatItem: React.FC<ChatItemProps> = ({
     }));
   }, [localReactions, currentUserId]);
 
-  return (
-    <div className="chat-item">
-      <div className="message-content">{message.content}</div>
-      
-      {/* Reactions Display */}
-      <div className="message-reactions">
-        {reactionSummary.map(reaction => (
-          <div key={reaction.emoji}>
-            <button
-              className={`reaction ${reaction.userReacted ? 'user-reacted' : ''}`}
-              onClick={() => reaction.userReacted 
-                ? removeReaction(reaction.emoji) 
-                : addReaction(reaction.emoji)
-              }
-              title={`Reacted by: ${localReactions
-                .find(r => r.emoji === reaction.emoji)
-                ?.users.join(', ') || ''}`}
-            >
-              {reaction.emoji} {reaction.count > 1 ? reaction.count : ''}
-            </button>
-          </div>
-        ))}
-        
-        {/* Add Reaction Button */}
-        <button 
-          className="add-reaction-btn" 
-          onClick={() => setIsEmojiPickerOpen(!isEmojiPickerOpen)}
-        >
-          +
-        </button>
-      </div>
+  // TODO: Convert mxc:// avatar URLs to HTTP URLs using Matrix client mxcUrlToHttp()
+  const avatarInfo = useMemo(() => {
+    return getAvatarDisplayInfo(
+      matrixClient,
+      message.avatarUrl,
+      message.senderDisplayName || message.sender,
+      undefined,
+      32
+    );
+  }, [matrixClient, message.avatarUrl, message.senderDisplayName, message.sender]);
 
-      {/* Emoji Picker */}
-      {/* Temporarily commented out to allow build to complete
-      {isEmojiPickerOpen && (
-        <EmojiPicker 
-          onEmojiSelect={(emoji) => {
-            addReaction(emoji);
-            setIsEmojiPickerOpen(false);
-          }}
-          onClose={() => setIsEmojiPickerOpen(false)}
-        />
-      )}
-      */}
+  return (
+    <div className="chat-item flex gap-3 py-2">
+      {/* User avatar */}
+      <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-semibold overflow-hidden">
+        {avatarInfo.hasAvatar ? (
+          <img 
+            src={avatarInfo.httpUrl!} 
+            alt={message.senderDisplayName || message.sender} 
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <span>{avatarInfo.initials}</span>
+        )}
+      </div>
+      
+      <div className="flex-1">
+        {/* Message header */}
+        <div className="flex items-center gap-2 mb-1">
+          <span className="font-medium text-gray-900">
+            {message.senderDisplayName || message.sender}
+          </span>
+          <span className="text-xs text-gray-500">
+            {new Date(message.timestamp).toLocaleTimeString()}
+          </span>
+        </div>
+        
+        {/* Message content */}
+        <div className="message-content">{message.content}</div>
+      
+        {/* Reactions Display */}
+        <div className="message-reactions mt-2">
+          {reactionSummary.map(reaction => (
+            <div key={reaction.emoji}>
+              <button
+                className={`reaction ${reaction.userReacted ? 'user-reacted' : ''}`}
+                onClick={() => reaction.userReacted 
+                  ? removeReaction(reaction.emoji) 
+                  : addReaction(reaction.emoji)
+                }
+                title={`Reacted by: ${localReactions
+                  .find(r => r.emoji === reaction.emoji)
+                  ?.users.join(', ') || ''}`}
+              >
+                {reaction.emoji} {reaction.count > 1 ? reaction.count : ''}
+              </button>
+            </div>
+          ))}
+          
+          {/* Add Reaction Button */}
+          <button 
+            className="add-reaction-btn" 
+            onClick={() => setIsEmojiPickerOpen(!isEmojiPickerOpen)}
+          >
+            +
+          </button>
+        </div>
+
+        {/* Emoji Picker */}
+        {/* Temporarily commented out to allow build to complete
+        {isEmojiPickerOpen && (
+          <EmojiPicker 
+            onEmojiSelect={(emoji) => {
+              addReaction(emoji);
+              setIsEmojiPickerOpen(false);
+            }}
+            onClose={() => setIsEmojiPickerOpen(false)}
+          />
+        )}
+        */}
+      </div>
     </div>
   );
 };
