@@ -64,21 +64,34 @@ Implemented via `useRoomMessages` hook:
 - **MessageActions:** Hover actions for reply, edit, delete, reactions
 - **ChatInput:** Discord-style input with emoji picker, file attachments, markdown
 
-## Current State: FUNCTIONAL
-- ✅ Users can send and receive messages in real-time
-- ✅ Message history loads with pagination
-- ✅ Users can edit their own messages  
-- ✅ Users can delete their own messages
-- ✅ All operations respect Matrix permissions
+## Current State: CRITICAL ISSUES IDENTIFIED
+- ⚠️ **Authentication Flow Broken** - E2E tests reveal fundamental login issues
+- ⚠️ **2FA Completely Non-Functional** - All 2FA tests failed
+- ⚠️ **Form Validation Issues** - Empty field validation not working
+- ✅ Users can send and receive messages in real-time (untested due to auth failure)
+- ✅ Message history loads with pagination (untested due to auth failure)
+- ✅ Users can edit their own messages (untested due to auth failure)
+- ✅ Users can delete their own messages (untested due to auth failure)
+- ✅ All operations respect Matrix permissions (untested due to auth failure)
 - ✅ Discord-style UI with virtual scrolling performance
-- ✅ Real-time sync via Matrix timeline events
+- ✅ Real-time sync via Matrix timeline events (untested due to auth failure)
 
-## Remaining Work (Blocked → Ready for Next Phase)
-- **Phase 4:** User Experience (profiles, media, notifications)
-- **Phase 5:** Voice & Video (LiveKit integration) 
-- **Phase 6:** Polish & Deploy (quality, accessibility, deployment)
+## E2E Test Results (2026-02-17)
+- **Tests Run:** 23/144 (121 blocked by auth setup failure)
+- **Pass Rate:** 26.1% (6 passed, 17 failed)
+- **Critical Issues:** Authentication setup failed, preventing core functionality testing
+- **Test User:** `sophietest` credentials appear invalid or user doesn't exist
+- **Status:** 🔴 AUTHENTICATION BROKEN - Must fix before proceeding
+
+## Remaining Work (BLOCKED - Auth Issues Must Be Fixed)
+- **URGENT:** Fix authentication flow and test user provisioning
+- **URGENT:** Investigate and fix 2FA implementation
+- **Phase 4:** User Experience (profiles, media, notifications) - BLOCKED
+- **Phase 5:** Voice & Video (LiveKit integration) - BLOCKED
+- **Phase 6:** Polish & Deploy (quality, accessibility, deployment) - BLOCKED
 
 ## Notes
 - Build system has path resolution issues unrelated to messaging functionality
-- Core messaging features are fully implemented and functional
-- Ready to proceed to Phase 4 UX enhancements
+- Core messaging features are implemented but UNTESTABLE due to authentication failures
+- **NOT ready to proceed** - must resolve authentication issues first
+- E2E test suite infrastructure is solid and ready once auth is fixed
