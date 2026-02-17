@@ -4,7 +4,7 @@
 **Priority:** 🔴 CRITICAL
 **Description:** DM components are complete stubs showing "Feature in development". Need to implement real DM functionality.
 
-**Location:** /home/ubuntu/repos/haos-v2
+**Location:** /home/ubuntu/repos/melo-v2
 
 **Files to fix:**
 - `components/navigation/dm-list.tsx` — Currently shows placeholder
@@ -77,8 +77,8 @@
 
 ### Evidence
 - Files modified: 
-  - `/home/ubuntu/repos/haos-v2/components/navigation/dm-list.tsx` — Full implementation with Matrix SDK
-  - `/home/ubuntu/repos/haos-v2/components/chat/dm-chat-header.tsx` — Full implementation with user controls
+  - `/home/ubuntu/repos/melo-v2/components/navigation/dm-list.tsx` — Full implementation with Matrix SDK
+  - `/home/ubuntu/repos/melo-v2/components/chat/dm-chat-header.tsx` — Full implementation with user controls
 - Build output: ✅ Compiled successfully (No TypeScript errors)
 - Git commit: ✅ Changes committed to repository
 
@@ -102,7 +102,7 @@
 
 ### Verification Steps for Manager
 1. Check files exist and contain real implementations (not stubs)
-2. Run build: `cd /home/ubuntu/repos/haos-v2 && npm run build` — should succeed
+2. Run build: `cd /home/ubuntu/repos/melo-v2 && npm run build` — should succeed
 3. Verify Matrix SDK integration: Components use `client.getAccountData('m.direct')` and proper presence API
 4. Check navigation: DMList items should navigate to `/channels/@me/${roomId}`
 

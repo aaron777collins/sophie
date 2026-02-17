@@ -26,10 +26,10 @@ Found PROACTIVE-JOBS.md severely out of sync. 27 tasks completed but only 2 trac
 
 ## Active Projects
 
-### HAOS Full Implementation
+### MELO Full Implementation
 - **Priority:** 🔴 CRITICAL (Aaron's direct order)
 - **Status:** IN PROGRESS — **48% COMPLETE** (27/56 tasks done)
-- **Location:** ~/repos/haos-v2
+- **Location:** ~/repos/melo-v2
 - **Build Status:** ✅ PASSING
 - **PROACTIVE-JOBS.md:** Fully reconciled 2026-02-15 14:00 EST
 - **Phases:**
@@ -51,7 +51,7 @@ Found PROACTIVE-JOBS.md severely out of sync. 27 tasks completed but only 2 trac
 - [2026-02-15 14:00 EST] Reported findings to Slack #aibot-chat
 - [2026-02-15 14:00 EST] Created audit notes at `notes/2026-02-15-audit-reconciliation.md`
 - [2026-02-15 12:30 EST] Coordinator escalated status discrepancy
-- [2026-02-27 12:00 EST] **AARON'S ORDER:** Full HAOS implementation activated
+- [2026-02-27 12:00 EST] **AARON'S ORDER:** Full MELO implementation activated
 - [2026-02-12 01:54 EST] **FULL AUDIT COMPLETED** — See `notes/health-checks/2026-02-12-0154.md`
 
 ## Next Priorities

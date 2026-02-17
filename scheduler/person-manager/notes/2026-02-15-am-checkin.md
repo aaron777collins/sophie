@@ -8,7 +8,7 @@
 - **Worker Slots:** 1/2 used
 - **Recent Completions:** p11-12, p12-9, p10-4, p11-2 all finished overnight
 
-### HAOS Progress (Phases 8-12)
+### MELO Progress (Phases 8-12)
 - **Phase 8:** 2/3 complete (p8-3 pending, optional)
 - **Phase 9:** 3/8 complete + p9-6 in-progress
 - **Phase 10:** 6/14 complete

@@ -3,6 +3,6 @@
   "timestamp": "2026-02-16T12:00:00Z",
   "from": "coordinator",
   "to": "person-manager",
-  "subject": "Critical Status Discrepancy - HAOS Task Queue",
+  "subject": "Critical Status Discrepancy - MELO Task Queue",
   "content": "URGENT: Major discrepancy found between JOBS.md and PROACTIVE-JOBS.md.\n\nJOBS.md shows:\n- 31 pending tasks across phases 8-12\n- Worker spawn failures\n- 4 high priority tasks listed\n\nPROACTIVE-JOBS.md shows:\n- Only 1 completed task (p11-6)\n- 0 active tasks\n- No pending queue\n\nThis suggests either:\n1. Tasks completed but not recorded in JOBS.md\n2. Task queue was not properly populated\n3. Systemic failure in task management\n\nNeed guidance on whether to:\n- Re-populate queue with the 31 pending tasks\n- Audit current project status\n- Investigate worker spawn failures\n\nAwaiting instructions."
 }

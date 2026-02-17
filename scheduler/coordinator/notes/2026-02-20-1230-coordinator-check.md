@@ -4,23 +4,23 @@
 - ✅ No messages in coordinator inbox: `/scheduler/inboxes/coordinator/` is empty
 
 ## Active Jobs Check
-- ✅ **haos-v2 project** is active (high priority, Phase 1 complete)
+- ✅ **melo-v2 project** is active (high priority, Phase 1 complete)
 - **Current status:** Phase 2 (UI Reskin) in progress
 - **Progress:** Phase 2 significantly advanced, nearing completion
 
 ## Sessions Analysis
 Active sessions found:
-- Multiple `haos-v2-create-server-modal-p2-4-a` sessions (recently spawned)
+- Multiple `melo-v2-create-server-modal-p2-4-a` sessions (recently spawned)
 - General task-manager and coordinator cron sessions
 
 ## Task Status Investigation
-- **PROACTIVE-JOBS.md shows:** `haos-v2-create-channel-modal-p2-4-c` as "in-progress" 
+- **PROACTIVE-JOBS.md shows:** `melo-v2-create-channel-modal-p2-4-c` as "in-progress" 
 - **Progress file:** No progress file found for p2-4-c task
 - **Dependency:** p2-4-c depends on p2-4-a (Create Server Modal)
 - **p2-4-a Status:** Shows "completed" in PROACTIVE-JOBS.md
 
 ## Memory/Project State Analysis
-From `memory/projects/haos-v2/_overview.md`:
+From `memory/projects/melo-v2/_overview.md`:
 - ✅ Phase 1 (Core Integration) COMPLETE — All auth, sync, media, services done
 - 🚧 Phase 2 (UI Reskin) — Significantly advanced:
   - ✅ p2-1 (Server Sidebar) — All tasks complete (a-e)

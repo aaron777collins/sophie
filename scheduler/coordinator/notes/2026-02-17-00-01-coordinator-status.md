@@ -5,7 +5,7 @@
 ## Status Overview
 
 ### Active Projects
-- **HAOS-v2:** ✅ **COMPLETE** (all phases 100% verified)
+- **MELO-v2:** ✅ **COMPLETE** (all phases 100% verified)
 - **No additional active projects in jobs file**
 
 ### Inbox Check

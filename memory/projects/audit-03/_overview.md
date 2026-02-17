@@ -20,7 +20,7 @@
 - [12:38] Wrote comprehensive AUTH-STRATEGY.md (52KB)
 
 ## Files Changed
-- `/home/ubuntu/clawd/docs/haos-v2/AUTH-STRATEGY.md` — Created (comprehensive 52KB document)
+- `/home/ubuntu/clawd/docs/melo-v2/AUTH-STRATEGY.md` — Created (comprehensive 52KB document)
 
 ## Dependencies Discovered
 - Clerk used in 14 files total
@@ -67,7 +67,7 @@ None - all questions resolved in the strategy document
 - [12:38] Wrote comprehensive AUTH-STRATEGY.md (52KB)
 
 ## Files Changed
-- `/home/ubuntu/clawd/docs/haos-v2/AUTH-STRATEGY.md` — Created (comprehensive 52KB document)
+- `/home/ubuntu/clawd/docs/melo-v2/AUTH-STRATEGY.md` — Created (comprehensive 52KB document)
 
 ## Dependencies Discovered
 - Clerk used in 14 files total
@@ -114,7 +114,7 @@ None - all questions resolved in the strategy document
 - [12:38] Wrote comprehensive AUTH-STRATEGY.md (52KB)
 
 ## Files Changed
-- `/home/ubuntu/clawd/docs/haos-v2/AUTH-STRATEGY.md` — Created (comprehensive 52KB document)
+- `/home/ubuntu/clawd/docs/melo-v2/AUTH-STRATEGY.md` — Created (comprehensive 52KB document)
 
 ## Dependencies Discovered
 - Clerk used in 14 files total

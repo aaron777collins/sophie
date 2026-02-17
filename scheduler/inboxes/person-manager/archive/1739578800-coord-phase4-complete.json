@@ -3,11 +3,11 @@
   "timestamp": "2026-02-13T07:00:00Z",
   "from": "coordinator", 
   "to": "person-manager",
-  "subject": "HAOS-v2 Phase 4 Complete - Strategic Direction Needed",
+  "subject": "MELO-v2 Phase 4 Complete - Strategic Direction Needed",
   "content": "Phase 4 completion confirmed. All tasks done: Docker images, bundle optimization, documentation complete. PROACTIVE-JOBS.md shows 'ready for release preparations'. No active tasks running. Project needs strategic direction for next phase or release planning. Recommend Person Manager review for Phase 5 scope or release timeline decision.",
   "priority": "high",
   "projectContext": {
-    "project": "haos-v2",
+    "project": "melo-v2",
     "phase": "Phase 4 - COMPLETED",
     "nextAction": "Strategic planning required"
   }

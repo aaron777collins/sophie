@@ -19,7 +19,7 @@
 
 ## Current Project Status
 
-### HAOS-v2 Phase 7
+### MELO-v2 Phase 7
 - **Status:** 9/10 tasks complete, p7-11-security-audit in-progress (possibly stalled)
 - **Issue:** Security audit session showing 0 tokens, gateway timeouts on communication
 

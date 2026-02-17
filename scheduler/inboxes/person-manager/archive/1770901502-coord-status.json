@@ -3,6 +3,6 @@
   "timestamp": "2026-02-12T13:03:00Z",
   "from": "coordinator", 
   "to": "person-manager",
-  "subject": "HAOS v2 Status - Cleaned Stale Task",
-  "content": "Found and cleaned stale member service task. HAOS v2 at 17/25 Phase 1 tasks complete. 0/2 task slots currently active. Member service ready to resume - all dependencies met (Space + Room services complete). Project making good progress overall."
+  "subject": "MELO v2 Status - Cleaned Stale Task",
+  "content": "Found and cleaned stale member service task. MELO v2 at 17/25 Phase 1 tasks complete. 0/2 task slots currently active. Member service ready to resume - all dependencies met (Space + Room services complete). Project making good progress overall."
 }

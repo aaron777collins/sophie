@@ -11,7 +11,7 @@
 - **Worker**: agent:main:subagent:c99f9a51-b198-4604-b2eb-78f51ec7c3a9
 
 ## Objective
-Implement comprehensive accessibility improvements for screen readers, keyboard navigation, and inclusive design throughout the HAOS application.
+Implement comprehensive accessibility improvements for screen readers, keyboard navigation, and inclusive design throughout the MELO application.
 
 ## Acceptance Criteria Status
 - [x] **Proper ARIA labels on all interactive elements** ✅
@@ -178,6 +178,6 @@ This task successfully implemented comprehensive accessibility improvements that
 4. **Maintain performance** while adding significant functionality
 5. **Enable future expansion** with modular, reusable utilities
 
-The HAOS application now provides an inclusive experience for users with disabilities, supporting screen readers, keyboard navigation, and various visual accessibility needs.
+The MELO application now provides an inclusive experience for users with disabilities, supporting screen readers, keyboard navigation, and various visual accessibility needs.
 
 **Status: ✅ COMPLETED** - All objectives achieved, build passing, ready for production deployment.

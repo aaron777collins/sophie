@@ -4,7 +4,7 @@
 - **Messages:** 0 (inbox empty)
 
 ## Active Projects Review
-- **HAOS Full Implementation** (Phases 8-12) — 🔴 CRITICAL ACTIVE
+- **MELO Full Implementation** (Phases 8-12) — 🔴 CRITICAL ACTIVE
 - **Status:** Major progress across all phases
 - **Phase 8:** 2/3 complete (p8-3 pending - optional)
 - **Phase 9:** 3/8 complete (key chat features done)
@@ -18,13 +18,13 @@
 - **New Status:** 2/2 ACTIVE
 
 ## Workers Spawned
-1. **p10-8-message-moderation** (haos-p10-8-message-moderation)
+1. **p10-8-message-moderation** (melo-p10-8-message-moderation)
    - Model: Sonnet
    - Task: Implement moderator message deletion, bulk operations, logging
    - Session: f79d7f5b-0142-48b4-9fd3-28596077cd4a
    - Priority: 🟡 MEDIUM (Server Features - Phase 10)
 
-2. **p10-9-audit-log** (haos-p10-9-audit-log)  
+2. **p10-9-audit-log** (melo-p10-9-audit-log)  
    - Model: Sonnet
    - Task: Create audit log viewer in server settings with filtering
    - Session: 32f6251b-0c95-4e63-b5b9-fcf4d2f94ab6

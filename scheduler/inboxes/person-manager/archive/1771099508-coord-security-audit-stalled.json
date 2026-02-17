@@ -3,6 +3,6 @@
   "timestamp": "2026-02-14T20:01:48Z",
   "from": "coordinator",
   "to": "person-manager",
-  "subject": "🔴 CRITICAL: HAOS Security Audit Stalled",
-  "content": "HAOS v2 Phase 7 is blocked by a stalled security audit task.\n\n**Issue:** p7-11-security-audit shows as 'in-progress' since 14:00 EST but the session (360aed73-0483-4ab1-afde-c6be25d8c098) is no longer active.\n\n**Impact:** Cannot complete Phase 7 or deploy production E2EE without security audit. All other Phase 7 tasks (9/10) are complete.\n\n**Recommendation:** Task Manager should reset p7-11 from 'in-progress' to 'pending' in PROACTIVE-JOBS.md and spawn new Opus worker immediately. This is CRITICAL priority for production deployment.\n\n**Context:** PortableRalph Phase 0 is complete (all tests passing), but HAOS security audit blocks deployment."
+  "subject": "🔴 CRITICAL: MELO Security Audit Stalled",
+  "content": "MELO v2 Phase 7 is blocked by a stalled security audit task.\n\n**Issue:** p7-11-security-audit shows as 'in-progress' since 14:00 EST but the session (360aed73-0483-4ab1-afde-c6be25d8c098) is no longer active.\n\n**Impact:** Cannot complete Phase 7 or deploy production E2EE without security audit. All other Phase 7 tasks (9/10) are complete.\n\n**Recommendation:** Task Manager should reset p7-11 from 'in-progress' to 'pending' in PROACTIVE-JOBS.md and spawn new Opus worker immediately. This is CRITICAL priority for production deployment.\n\n**Context:** PortableRalph Phase 0 is complete (all tests passing), but MELO security audit blocks deployment."
 }

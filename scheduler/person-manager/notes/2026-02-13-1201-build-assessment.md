@@ -1,7 +1,7 @@
 # Build Assessment — 2026-02-13 12:01 EST
 
 ## Summary
-Investigated HAOS v2 build failures. The situation is different from what's documented.
+Investigated MELO v2 build failures. The situation is different from what's documented.
 
 ## Findings
 

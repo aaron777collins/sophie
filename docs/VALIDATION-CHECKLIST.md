@@ -110,14 +110,14 @@ pnpm test:e2e
 pnpm test:coverage
 ```
 
-### For HAOS Specifically
+### For MELO Specifically
 
 ```bash
 # Full validation suite
 pnpm build && pnpm test:unit && pnpm test:e2e
 
 # Live URL testing with Playwright
-PLAYWRIGHT_BASE_URL=https://haos.dev2.aaroncollins.info pnpm test:e2e:web
+PLAYWRIGHT_BASE_URL=https://melo.dev2.aaroncollins.info pnpm test:e2e:web
 ```
 
 ---
@@ -175,7 +175,7 @@ export default defineConfig({
 
 ```bash
 # Test against production
-PLAYWRIGHT_BASE_URL=https://haos.dev2.aaroncollins.info pnpm test:e2e
+PLAYWRIGHT_BASE_URL=https://melo.dev2.aaroncollins.info pnpm test:e2e
 ```
 
 ### Network Conditioning

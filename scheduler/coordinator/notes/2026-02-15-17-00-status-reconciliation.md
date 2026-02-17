@@ -14,7 +14,7 @@
   - p12-13-security-headers ✅ (completed 2026-02-15 14:42 EST)
   - p12-1-rate-limiting ✅ (completed 2026-02-15 20:30 EST)
 
-### HAOS Project Status
+### MELO Project Status
 - **Phase 8 (Security Polish):** ✅ 3/3 COMPLETE
 - **Phase 9 (Chat Features):** ✅ 8/8 COMPLETE
 - **Phase 10 (Server Features):** 🔄 High priority items complete, others pending

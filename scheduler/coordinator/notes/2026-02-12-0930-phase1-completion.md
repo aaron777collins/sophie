@@ -16,12 +16,12 @@
 | **p1-4: Services** | ✅ Complete | All Matrix service layers (6/6) |
 
 ### Final p1-4 Services Completions Verified
-1. **haos-v2-space-service-p1-4-a** ✅ (Space/server operations)
-2. **haos-v2-room-service-p1-4-b** ✅ (Channel operations)  
-3. **haos-v2-member-service-p1-4-c** ✅ (Membership management)
-4. **haos-v2-message-service-p1-4-d** ✅ (Message operations)
-5. **haos-v2-dm-service-p1-4-e** ✅ (Direct message handling) — **Just confirmed complete**
-6. **haos-v2-invite-service-p1-4-f** ✅ (Invite system) — **Just confirmed complete**
+1. **melo-v2-space-service-p1-4-a** ✅ (Space/server operations)
+2. **melo-v2-room-service-p1-4-b** ✅ (Channel operations)  
+3. **melo-v2-member-service-p1-4-c** ✅ (Membership management)
+4. **melo-v2-message-service-p1-4-d** ✅ (Message operations)
+5. **melo-v2-dm-service-p1-4-e** ✅ (Direct message handling) — **Just confirmed complete**
+6. **melo-v2-invite-service-p1-4-f** ✅ (Invite system) — **Just confirmed complete**
 
 ### Strategic Assessment
 
@@ -43,11 +43,11 @@
 - Can start multiple parallel UI tasks
 
 **Priority Phase 2 Tasks Available:**
-1. `haos-v2-quick-switcher-p2-1-e` — Ctrl+K command palette (pending, Sonnet)
-2. `haos-v2-channel-category-p2-2-c` — Collapsible categories (pending, Sonnet)  
-3. `haos-v2-channel-item-p2-2-d` — Channel list items (pending, Sonnet)
-4. `haos-v2-member-list-p2-2-e` — Member sidebar (pending, Sonnet)
-5. `haos-v2-message-input-p2-3-c` — Chat input composer (pending, Sonnet)
+1. `melo-v2-quick-switcher-p2-1-e` — Ctrl+K command palette (pending, Sonnet)
+2. `melo-v2-channel-category-p2-2-c` — Collapsible categories (pending, Sonnet)  
+3. `melo-v2-channel-item-p2-2-d` — Channel list items (pending, Sonnet)
+4. `melo-v2-member-list-p2-2-e` — Member sidebar (pending, Sonnet)
+5. `melo-v2-message-input-p2-3-c` — Chat input composer (pending, Sonnet)
 
 ### Coordinator Actions Taken
 1. **Updated PROACTIVE-JOBS.md** — Marked p1-4-e and p1-4-f as completed

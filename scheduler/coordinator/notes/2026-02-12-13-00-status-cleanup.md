@@ -11,10 +11,10 @@
 **PROACTIVE-JOBS.md Claims:**
 - Phase 1: ✅ Complete 
 - Phase 2: 🚧 "Navigation 1/5"
-- Shows `haos-v2-server-settings-modal-p2-4-b` as "in-progress"
-- Shows `haos-v2-sync-manager-p1-2` as "in-progress (manager)" 
+- Shows `melo-v2-server-settings-modal-p2-4-b` as "in-progress"
+- Shows `melo-v2-sync-manager-p1-2` as "in-progress (manager)" 
 
-**Actual Reality (from memory/projects/haos-v2/_overview.md):**
+**Actual Reality (from memory/projects/melo-v2/_overview.md):**
 - ✅ Phase 1: Fully complete (Auth, Sync, Media, Services)
 - ✅ Phase 2 Sections:
   - p2-1 (Navigation): Complete (a-e verified)
@@ -23,7 +23,7 @@
   - p2-4 (Modals): p2-4-a ✅, p2-4-c ✅ (per progress file)
 
 **Session Analysis:**
-- No active sessions for haos work 
+- No active sessions for melo work 
 - Last p2-4-c session ended ~18min ago (completed)
 - No p2-4-b (server settings) progress file exists
 - No p2-4-b active sessions found
@@ -40,7 +40,7 @@
 - Determine if this task was completed but not tracked
 
 ### 2. Clean Up PROACTIVE-JOBS.md
-- Update haos-v2-sync-manager-p1-2 to "completed" (all sub-tasks done)
+- Update melo-v2-sync-manager-p1-2 to "completed" (all sub-tasks done)
 - Update Phase 2 progress summary (likely 4/4 sections complete)
 - Fix p2-4-c completion status (already done per progress file)
 

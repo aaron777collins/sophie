@@ -8,7 +8,7 @@
 # Progress: p2-auth
 
 ## Task
-Implement complete Matrix authentication flows for HAOS v2.
+Implement complete Matrix authentication flows for MELO v2.
 
 **DELIVERABLES:**
 - Login form with homeserver input
@@ -17,11 +17,11 @@ Implement complete Matrix authentication flows for HAOS v2.
 - Logout with cleanup
 - Integration with Matrix client library
 
-**LOCATION:** ~/haos-v2/ (already deployed to dev2, PM2 running)
+**LOCATION:** ~/melo-v2/ (already deployed to dev2, PM2 running)
 
 ## Communication Log
 - [2025-01-28 15:30 EST] Received task from spawner
-- [2025-01-28 15:30 EST] Starting assessment of current HAOS v2 state
+- [2025-01-28 15:30 EST] Starting assessment of current MELO v2 state
 
 ## Attempts
 ### Attempt 1 — 2025-01-28 15:30
@@ -99,7 +99,7 @@ The authentication implementation is **functionally complete** and ready for tes
 # Progress: p2-auth
 
 ## Task
-Implement complete Matrix authentication flows for HAOS v2.
+Implement complete Matrix authentication flows for MELO v2.
 
 **DELIVERABLES:**
 - Login form with homeserver input
@@ -108,11 +108,11 @@ Implement complete Matrix authentication flows for HAOS v2.
 - Logout with cleanup
 - Integration with Matrix client library
 
-**LOCATION:** ~/haos-v2/ (already deployed to dev2, PM2 running)
+**LOCATION:** ~/melo-v2/ (already deployed to dev2, PM2 running)
 
 ## Communication Log
 - [2025-01-28 15:30 EST] Received task from spawner
-- [2025-01-28 15:30 EST] Starting assessment of current HAOS v2 state
+- [2025-01-28 15:30 EST] Starting assessment of current MELO v2 state
 
 ## Attempts
 ### Attempt 1 — 2025-01-28 15:30

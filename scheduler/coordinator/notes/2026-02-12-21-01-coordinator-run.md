@@ -1,8 +1,8 @@
 # Coordinator Run - 2026-02-12 21:01 EST
 
 ## Situation Found
-- **Task State Issue:** haos-v2-self-host-guide-p4-1-3 marked as "in-progress" in PROACTIVE-JOBS.md
-- **Missing Progress:** No progress file existed at `scheduler/progress/coordinator/haos-v2-self-host-guide-p4-1-3.md`
+- **Task State Issue:** melo-v2-self-host-guide-p4-1-3 marked as "in-progress" in PROACTIVE-JOBS.md
+- **Missing Progress:** No progress file existed at `scheduler/progress/coordinator/melo-v2-self-host-guide-p4-1-3.md`
 - **No Active Session:** No sessions found for this task
 - **Analysis:** Task was marked in-progress but never properly spawned
 
@@ -13,7 +13,7 @@
 - Ensures clean state for new worker
 
 ### 2. Worker Spawned ✅
-- **Task ID:** haos-v2-self-host-guide-p4-1-3
+- **Task ID:** melo-v2-self-host-guide-p4-1-3
 - **Model:** Sonnet (appropriate for content creation)
 - **Session:** agent:main:subagent:65a3c1d4-2462-431a-a775-77952cc14c38
 - **Instructions:** Used full WORKER-SPAWN-TEMPLATE.md
@@ -22,12 +22,12 @@
 ### 3. System Status
 - **Inbox:** Empty (no messages to process)
 - **Heartbeats:** Empty directory (no stale tasks to clean up)
-- **Active Tasks:** 1 slot used (haos-v2-self-host-guide-p4-1-3)
+- **Active Tasks:** 1 slot used (melo-v2-self-host-guide-p4-1-3)
 - **Available Slots:** 1 remaining
 
 ## Current Project State
 
-### haos-v2 Phase 4 Status
+### melo-v2 Phase 4 Status
 - **Overall Status:** ✅ Active, progressing
 - **Current Work:** Self-Hosting Guide (p4-1-3) in progress
 - **Next Tasks:** Can start 1 more task when current worker establishes heartbeat

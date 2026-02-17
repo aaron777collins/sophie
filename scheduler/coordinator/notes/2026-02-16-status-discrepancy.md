@@ -34,7 +34,7 @@
 ## Next Steps (Awaiting PM Direction)
 
 1. **Re-populate queue?** — Add the 31 pending tasks to PROACTIVE-JOBS.md
-2. **Audit project status?** — Check actual HAOS implementation status
+2. **Audit project status?** — Check actual MELO implementation status
 3. **Investigate spawn failures?** — Debug worker session spawn issues
 4. **Update JOBS.md?** — Correct the status based on reality
 

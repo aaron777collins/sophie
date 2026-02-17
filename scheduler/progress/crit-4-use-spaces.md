@@ -4,7 +4,7 @@
 **Priority:** 🔴 CRITICAL
 **Description:** use-spaces hook returns empty arrays, breaking space navigation and #channel mentions
 
-**Location:** /home/ubuntu/repos/haos-v2
+**Location:** /home/ubuntu/repos/melo-v2
 
 **Files to fix:**
 - `hooks/use-spaces.ts`
@@ -76,8 +76,8 @@ Commit your work.
 
 ### Evidence
 - Files modified: 
-  - `/home/ubuntu/repos/haos-v2/hooks/use-spaces.ts` (complete rewrite from stub)
-  - `/home/ubuntu/repos/haos-v2/hooks/use-mentions.ts` (updated to use new channels data)
+  - `/home/ubuntu/repos/melo-v2/hooks/use-spaces.ts` (complete rewrite from stub)
+  - `/home/ubuntu/repos/melo-v2/hooks/use-mentions.ts` (updated to use new channels data)
 - Git commit: 7d0c67d - "fix: implement useSpaces hook with Matrix client integration"
 - Implementation: Full Matrix client integration with reactive updates
 
@@ -92,7 +92,7 @@ Commit your work.
 8. **Error Handling**: Proper loading states and error management
 
 ### Verification Steps for Manager
-1. Check implementation: `cat /home/ubuntu/repos/haos-v2/hooks/use-spaces.ts`
-2. Check integration: `grep -A 10 "useSpaces" /home/ubuntu/repos/haos-v2/hooks/use-mentions.ts`
-3. Verify commit: `cd /home/ubuntu/repos/haos-v2 && git show --stat 7d0c67d`
+1. Check implementation: `cat /home/ubuntu/repos/melo-v2/hooks/use-spaces.ts`
+2. Check integration: `grep -A 10 "useSpaces" /home/ubuntu/repos/melo-v2/hooks/use-mentions.ts`
+3. Verify commit: `cd /home/ubuntu/repos/melo-v2 && git show --stat 7d0c67d`
 4. Manual test: Hook should return real Matrix spaces data when Matrix client is ready

@@ -3,7 +3,7 @@
 ## Inbox Check
 - **Messages:** 0 (no incoming communications)
 
-## Current Project Status: haos-v2
+## Current Project Status: melo-v2
 
 ### Phase 1 Status: ✅ COMPLETE
 Based on latest notes (09:30 status), Phase 1 is fully complete with all 37 tasks done:
@@ -16,23 +16,23 @@ Based on latest notes (09:30 status), Phase 1 is fully complete with all 37 task
 Currently transitioning from Phase 1 to Phase 2 (UI Reskin). Several active sessions detected:
 
 #### Active Tasks
-1. **haos-v2-channel-category-p2-2-c** - Channel category collapsible sections
+1. **melo-v2-channel-category-p2-2-c** - Channel category collapsible sections
    - Status: Running (session active)
    - Worker: Sub-agent (Sonnet)
    - Need to verify completion status vs PROACTIVE-JOBS.md discrepancy
 
-2. **haos-v2-quick-switcher-p2-1-e** - Ctrl+K command palette
+2. **melo-v2-quick-switcher-p2-1-e** - Ctrl+K command palette
    - Status: Recent activity detected
    - Worker: Sub-agent (Sonnet) 
    - Need to verify completion status
 
-3. **haos-v2-message-input-p2-3-c** - Chat input composer
+3. **melo-v2-message-input-p2-3-c** - Chat input composer
    - Status: Recent activity detected
    - Worker: Sub-agent (Sonnet)
    - Need to verify completion status
 
 ### Data Inconsistencies Found
-- **Stale heartbeat file:** `~/clawd/scheduler/heartbeats/haos-v2-channel-category-p2-2-c.json` shows future timestamp
+- **Stale heartbeat file:** `~/clawd/scheduler/heartbeats/melo-v2-channel-category-p2-2-c.json` shows future timestamp
 - **Task status mismatch:** PROACTIVE-JOBS.md shows some tasks as "completed" but sessions show recent activity
 - **Progress files outdated:** Several progress files still show "in-progress" for completed tasks
 
@@ -43,10 +43,10 @@ Currently transitioning from Phase 1 to Phase 2 (UI Reskin). Several active sess
 4. **Start new Phase 2 tasks** - If current tasks are done, spawn next available
 
 ### Recommended Next Phase 2 Tasks (If Current Complete)
-- `haos-v2-channel-item-p2-2-d` - Individual channel rows
-- `haos-v2-member-list-p2-2-e` - Member sidebar
-- `haos-v2-message-actions-p2-3-d` - Message hover actions
-- `haos-v2-chat-header-p2-3-e` - Chat header component
+- `melo-v2-channel-item-p2-2-d` - Individual channel rows
+- `melo-v2-member-list-p2-2-e` - Member sidebar
+- `melo-v2-message-actions-p2-3-d` - Message hover actions
+- `melo-v2-chat-header-p2-3-e` - Chat header component
 
 ### Current Capacity
 Based on session activity, may be at or near 2-task limit. Need verification before spawning additional work.

@@ -8,7 +8,7 @@
 ## Status: ✅ COMPLETED
 
 ## Work Log
-- [00:30] Started: Creating GitHub Actions build workflow for haos-v2
+- [00:30] Started: Creating GitHub Actions build workflow for melo-v2
 - [00:30] Analyzed repo structure:
   - Root: monorepo with workspaces (apps/*, packages/*)
   - apps/web: Element-based web app with lint, lint:types, build scripts
@@ -23,7 +23,7 @@
 - [00:31] Validated YAML syntax
 
 ## Files Created
-- `/home/ubuntu/repos/haos/.github/workflows/build.yml`
+- `/home/ubuntu/repos/melo/.github/workflows/build.yml`
 
 ## Notes
 - Repo currently has yarn.lock but task specified pnpm - workflow set up for pnpm

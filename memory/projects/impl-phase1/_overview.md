@@ -5,7 +5,7 @@
 
 ## Work Log
 - [07:15 EST] Started: Cloning discord-clone repo
-- [07:16 EST] Completed: Cloned to /home/ubuntu/repos/haos-v2
+- [07:16 EST] Completed: Cloned to /home/ubuntu/repos/melo-v2
 - [07:16 EST] Started: Removing Clerk dependencies
 - [07:17 EST] Completed: Uninstalled @clerk/nextjs package
 - [07:17 EST] Completed: Created lib/auth.ts with placeholder auth functions
@@ -65,7 +65,7 @@
 
 ## Work Log
 - [07:15 EST] Started: Cloning discord-clone repo
-- [07:16 EST] Completed: Cloned to /home/ubuntu/repos/haos-v2
+- [07:16 EST] Completed: Cloned to /home/ubuntu/repos/melo-v2
 - [07:16 EST] Started: Removing Clerk dependencies
 - [07:17 EST] Completed: Uninstalled @clerk/nextjs package
 - [07:17 EST] Completed: Created lib/auth.ts with placeholder auth functions
@@ -125,7 +125,7 @@
 
 ## Work Log
 - [07:15 EST] Started: Cloning discord-clone repo
-- [07:16 EST] Completed: Cloned to /home/ubuntu/repos/haos-v2
+- [07:16 EST] Completed: Cloned to /home/ubuntu/repos/melo-v2
 - [07:16 EST] Started: Removing Clerk dependencies
 - [07:17 EST] Completed: Uninstalled @clerk/nextjs package
 - [07:17 EST] Completed: Created lib/auth.ts with placeholder auth functions

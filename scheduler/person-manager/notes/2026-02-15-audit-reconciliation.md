@@ -75,7 +75,7 @@
 3. **Phase 12** — Security headers (HIGH priority)
 4. **Phase 11** — Voice settings, appearance, accessibility
 
-## HAOS v2 Status
+## MELO v2 Status
 
 **Project is ~48% through Phases 8-12**, with Phase 9 (Chat Features) completely done.
 

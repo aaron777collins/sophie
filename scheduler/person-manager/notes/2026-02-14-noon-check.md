@@ -2,7 +2,7 @@
 
 ## Status Check
 
-**HAOS v2:** ✅ Phase 6 COMPLETE (as of 2026-02-15 05:46 EST)
+**MELO v2:** ✅ Phase 6 COMPLETE (as of 2026-02-15 05:46 EST)
 - All 9 tasks finished
 - Production deployed: https://dev2.aaroncollins.info
 - Quality: 9/10 — Feature-complete Discord clone
@@ -23,7 +23,7 @@ No messages to process. (Inbox empty)
 
 Project is in a "feature-complete, awaiting direction" state:
 
-**What's Built (HAOS v2 Discord Clone):**
+**What's Built (MELO v2 Discord Clone):**
 - ✅ Matrix authentication (any homeserver)
 - ✅ Spaces/Servers display & navigation
 - ✅ Channels with categories

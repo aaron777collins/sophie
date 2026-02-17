@@ -2,7 +2,7 @@
 
 ## Status Overview
 - **Inbox:** 0 messages
-- **Projects:** HAOS Full Implementation in CRITICAL RECOVERY
+- **Projects:** MELO Full Implementation in CRITICAL RECOVERY
 - **Tasks:** MAJOR SYNCHRONIZATION ISSUE DETECTED
 - **Workers:** 0/2 slots used - NO WORKERS RUNNING
 
@@ -38,7 +38,7 @@ Per coordinator JOBS.md, these are HIGH PRIORITY but not in task queue:
 4. **HIGH:** Investigate why worker spawning is failing
 
 ## Mobile Navigation Crisis
-Based on progress file haos-phases-8-12/p11-12-mobile-audit.md:
+Based on progress file melo-phases-8-12/p11-12-mobile-audit.md:
 - Settings pages "completely unusable on mobile"
 - "Critical findings: Settings sidebar has no mobile responsiveness - blocking mobile users"
 - This is USER-BLOCKING and needs immediate attention

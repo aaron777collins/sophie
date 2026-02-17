@@ -48,7 +48,7 @@
 
 ## Open Questions / Blockers
 - [ ] Need to analyze current chat component mobile responsiveness
-- [ ] Need to understand existing mobile patterns in HAOS
+- [ ] Need to understand existing mobile patterns in MELO
 - [ ] Need to test current chat experience on mobile breakpoints
 
 ## Recommendations for Next Agent

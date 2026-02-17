@@ -3,7 +3,7 @@
 ## Status
 - **Inbox:** Empty (no messages)
 - **Jobs:** No active projects or topics
-- **PROACTIVE-JOBS.md:** All projects complete (HAOS Phase 7, PortableRalph Phase 0)
+- **PROACTIVE-JOBS.md:** All projects complete (MELO Phase 7, PortableRalph Phase 0)
 - **Heartbeats:** No stale heartbeat files
 
 ## Active Projects
@@ -13,7 +13,7 @@
 - None
 
 ## Completed Projects (Ready for Archive)
-- **haos-v2 Phase 7:** ✅ Complete — Full E2EE security + voice/video functionality
+- **melo-v2 Phase 7:** ✅ Complete — Full E2EE security + voice/video functionality
 - **portableralph Phase 0:** ✅ Complete — All test suites passing (10/10)
 
 ## Action Taken

@@ -11,7 +11,7 @@
 ## Files Changed
 - scheduler/heartbeats/impl-00-task-breakdown.json — created heartbeat
 - scheduler/progress/impl-00-task-breakdown.md — this file
-- docs/haos-v2/TASK-BREAKDOWN.md — created (49KB, 307 tasks)
+- docs/melo-v2/TASK-BREAKDOWN.md — created (49KB, 307 tasks)
 - PROACTIVE-JOBS.md — updated with Phase 0 tasks
 
 ## Dependencies Discovered

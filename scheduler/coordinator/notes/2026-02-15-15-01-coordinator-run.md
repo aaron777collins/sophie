@@ -2,11 +2,11 @@
 
 ## Context Check
 - **Inbox:** Empty (no messages from Person Manager or workers)
-- **Jobs File Status:** HAOS recovery in progress — ~50% complete (28/56 tasks)
+- **Jobs File Status:** MELO recovery in progress — ~50% complete (28/56 tasks)
 - **Worker Slots:** 0/2 used (no active workers)
 - **Heartbeats:** None (fresh start)
 
-## HAOS Status Summary
+## MELO Status Summary
 Based on Person Manager audit findings:
 - **Phase 8 (Security):** 2/3 complete (67%)
 - **Phase 9 (Chat):** 8/8 complete (100%) ✅ DONE

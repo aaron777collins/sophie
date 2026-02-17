@@ -1,7 +1,7 @@
 # Progress: p1-layout
 
 ## Task
-Build the Discord-style app layout structure for HAOS v2
+Build the Discord-style app layout structure for MELO v2
 - Server sidebar (left rail)
 - Channel sidebar  
 - Main content area
@@ -10,10 +10,10 @@ Build the Discord-style app layout structure for HAOS v2
 
 ## Communication Log
 - [2025-01-15 09:14 EST] Received task assignment
-- [2025-01-15 09:14 EST] Starting assessment of current HAOS v2 structure
+- [2025-01-15 09:14 EST] Starting assessment of current MELO v2 structure
 
 ## Current Assessment
-**Project Location:** `/home/ubuntu/repos/haos-v2`
+**Project Location:** `/home/ubuntu/repos/melo-v2`
 **Status:** Main layout components identified and member sidebar implemented
 
 ## Implementation Status

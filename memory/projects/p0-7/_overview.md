@@ -3,7 +3,7 @@
 ## Project Status
 
 ### [2026-02-12 00:00 EST] Progress Update
-# Development Setup Guide for haos-v2
+# Development Setup Guide for melo-v2
 
 ## Work Log
 - [2026-02-11 HH:MM] Started creating development setup documentation

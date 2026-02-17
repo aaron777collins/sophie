@@ -2,7 +2,7 @@
 
 ## Inbox Processed
 Archived 5 historical messages from Coordinator:
-1. HAOS Phase 1 status (stale)
+1. MELO Phase 1 status (stale)
 2. Phase 1.4 services progress (stale)  
 3. Phase 1 milestone completion (historical)
 4. Recovery action for failed model (resolved)
@@ -12,7 +12,7 @@ All were informational/historical — no action required, archived for record ke
 
 ## Project Status Assessment
 
-### HAOS v2 Current State
+### MELO v2 Current State
 
 | Phase | Status | Notes |
 |-------|--------|-------|

@@ -6,7 +6,7 @@
 - **Empty** — No messages from Person Manager or workers
 
 ### Active Projects Review
-- **haos-v2**: BUILD FIX PHASE
+- **melo-v2**: BUILD FIX PHASE
   - Status: Critical build blocking TypeScript errors
   - According to JOBS.md: "2 Workers Active" on build-fix-spaces-hook
   - Last Progress: 2026-02-13 12:01 EST

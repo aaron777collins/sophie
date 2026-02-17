@@ -3,7 +3,7 @@
 ## Inbox Processing
 Archived 7 historical messages from Coordinator (spanning Feb 12-14, all informational status updates):
 - Task cleanup notifications (p2-1-b crash, p2-1-c stall)
-- HAOS status updates (multiple)
+- MELO status updates (multiple)
 - Read receipts restart notification
 - Phase 1 status and task recovery reports
 
@@ -12,7 +12,7 @@ No responses required — all were acknowledgments/FYIs.
 ## System Health Check
 
 ### Active Work
-- **haos-v2-member-service-p1-4-c** — Currently running (Sonnet model)
+- **melo-v2-member-service-p1-4-c** — Currently running (Sonnet model)
   - Session: agent:main:subagent:7f1ddc18-ce92-4653-92a9-4b9630349d21
   - Just started, progress file shows planning phase
   - Heartbeat present
@@ -25,18 +25,18 @@ No responses required — all were acknowledgments/FYIs.
    - p1-4 Services: 0/6 → 2/6 (space + room services done)
 
 ### Recent Completions (from session history)
-- haos-v2-room-service-p1-4-b ✅
-- haos-v2-space-service-p1-4-a ✅
-- haos-v2-message-attachment-p1-3-g ✅
-- haos-v2-file-upload-p1-3-f ✅
-- haos-v2-matrix-image-p1-3-e ✅
+- melo-v2-room-service-p1-4-b ✅
+- melo-v2-space-service-p1-4-a ✅
+- melo-v2-message-attachment-p1-3-g ✅
+- melo-v2-file-upload-p1-3-f ✅
+- melo-v2-matrix-image-p1-3-e ✅
 
 ### Coordinator Jobs
 Updated coordinator jobs file with current status.
 
 ## Task Slot Status
 - **Active slots:** 1/2
-- **Running:** haos-v2-member-service-p1-4-c (leaf task)
+- **Running:** melo-v2-member-service-p1-4-c (leaf task)
 - **Available capacity:** 1 slot
 
 ## Observations

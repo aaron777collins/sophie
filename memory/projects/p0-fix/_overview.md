@@ -17,12 +17,12 @@ With yarn workspaces, dependencies are hoisted to the root `node_modules/` direc
 
 This pointed to `apps/web/node_modules/matrix-widget-api` which doesn't exist (package is hoisted to root). This caused doubled paths like:
 ```
-/home/ubuntu/repos/haos/apps/web/home/ubuntu/repos/haos/apps/web/node_modules/matrix-widget-api
+/home/ubuntu/repos/melo/apps/web/home/ubuntu/repos/melo/apps/web/node_modules/matrix-widget-api
 ```
 
 ## Fix Applied
 
-Changed webpack alias resolution in `/home/ubuntu/repos/haos/apps/web/webpack.config.cjs`:
+Changed webpack alias resolution in `/home/ubuntu/repos/melo/apps/web/webpack.config.cjs`:
 
 ```js
 // Before (broken with yarn workspaces):
@@ -52,8 +52,8 @@ Changed webpack alias resolution in `/home/ubuntu/repos/haos/apps/web/webpack.co
 
 ## Files Changed
 
-1. `/home/ubuntu/repos/haos/apps/web/webpack.config.cjs` - Fixed alias resolution to use require.resolve()
-2. `/home/ubuntu/repos/haos/apps/web/package.json` - Added lodash resolution for html-webpack-plugin
+1. `/home/ubuntu/repos/melo/apps/web/webpack.config.cjs` - Fixed alias resolution to use require.resolve()
+2. `/home/ubuntu/repos/melo/apps/web/package.json` - Added lodash resolution for html-webpack-plugin
 
 ## Status
 
@@ -75,7 +75,7 @@ Changed webpack alias resolution in `/home/ubuntu/repos/haos/apps/web/webpack.co
 source ~/.nvm/nvm.sh && nvm use 22
 
 # Install deps
-cd /home/ubuntu/repos/haos && yarn install
+cd /home/ubuntu/repos/melo && yarn install
 
 # Build
 cd apps/web && yarn build
@@ -99,12 +99,12 @@ With yarn workspaces, dependencies are hoisted to the root `node_modules/` direc
 
 This pointed to `apps/web/node_modules/matrix-widget-api` which doesn't exist (package is hoisted to root). This caused doubled paths like:
 ```
-/home/ubuntu/repos/haos/apps/web/home/ubuntu/repos/haos/apps/web/node_modules/matrix-widget-api
+/home/ubuntu/repos/melo/apps/web/home/ubuntu/repos/melo/apps/web/node_modules/matrix-widget-api
 ```
 
 ## Fix Applied
 
-Changed webpack alias resolution in `/home/ubuntu/repos/haos/apps/web/webpack.config.cjs`:
+Changed webpack alias resolution in `/home/ubuntu/repos/melo/apps/web/webpack.config.cjs`:
 
 ```js
 // Before (broken with yarn workspaces):
@@ -134,8 +134,8 @@ Changed webpack alias resolution in `/home/ubuntu/repos/haos/apps/web/webpack.co
 
 ## Files Changed
 
-1. `/home/ubuntu/repos/haos/apps/web/webpack.config.cjs` - Fixed alias resolution to use require.resolve()
-2. `/home/ubuntu/repos/haos/apps/web/package.json` - Added lodash resolution for html-webpack-plugin
+1. `/home/ubuntu/repos/melo/apps/web/webpack.config.cjs` - Fixed alias resolution to use require.resolve()
+2. `/home/ubuntu/repos/melo/apps/web/package.json` - Added lodash resolution for html-webpack-plugin
 
 ## Status
 
@@ -157,7 +157,7 @@ Changed webpack alias resolution in `/home/ubuntu/repos/haos/apps/web/webpack.co
 source ~/.nvm/nvm.sh && nvm use 22
 
 # Install deps
-cd /home/ubuntu/repos/haos && yarn install
+cd /home/ubuntu/repos/melo && yarn install
 
 # Build
 cd apps/web && yarn build
@@ -181,12 +181,12 @@ With yarn workspaces, dependencies are hoisted to the root `node_modules/` direc
 
 This pointed to `apps/web/node_modules/matrix-widget-api` which doesn't exist (package is hoisted to root). This caused doubled paths like:
 ```
-/home/ubuntu/repos/haos/apps/web/home/ubuntu/repos/haos/apps/web/node_modules/matrix-widget-api
+/home/ubuntu/repos/melo/apps/web/home/ubuntu/repos/melo/apps/web/node_modules/matrix-widget-api
 ```
 
 ## Fix Applied
 
-Changed webpack alias resolution in `/home/ubuntu/repos/haos/apps/web/webpack.config.cjs`:
+Changed webpack alias resolution in `/home/ubuntu/repos/melo/apps/web/webpack.config.cjs`:
 
 ```js
 // Before (broken with yarn workspaces):
@@ -216,8 +216,8 @@ Changed webpack alias resolution in `/home/ubuntu/repos/haos/apps/web/webpack.co
 
 ## Files Changed
 
-1. `/home/ubuntu/repos/haos/apps/web/webpack.config.cjs` - Fixed alias resolution to use require.resolve()
-2. `/home/ubuntu/repos/haos/apps/web/package.json` - Added lodash resolution for html-webpack-plugin
+1. `/home/ubuntu/repos/melo/apps/web/webpack.config.cjs` - Fixed alias resolution to use require.resolve()
+2. `/home/ubuntu/repos/melo/apps/web/package.json` - Added lodash resolution for html-webpack-plugin
 
 ## Status
 
@@ -239,7 +239,7 @@ Changed webpack alias resolution in `/home/ubuntu/repos/haos/apps/web/webpack.co
 source ~/.nvm/nvm.sh && nvm use 22
 
 # Install deps
-cd /home/ubuntu/repos/haos && yarn install
+cd /home/ubuntu/repos/melo && yarn install
 
 # Build
 cd apps/web && yarn build

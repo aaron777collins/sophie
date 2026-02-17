@@ -9,26 +9,26 @@ Build comprehensive voice and video call settings UI with device selection, qual
 
 **Created comprehensive voice & video settings system:**
 
-1. **Main Settings Page**: `~/repos/haos-v2/app/(main)/(routes)/settings/voice-video/page.tsx`
+1. **Main Settings Page**: `~/repos/melo-v2/app/(main)/(routes)/settings/voice-video/page.tsx`
    - Integrated with existing settings layout
    - Proper routing and authentication
    - Clean UI with icons and descriptions
 
-2. **Media Devices Hook**: `~/repos/haos-v2/hooks/use-media-devices.ts`
+2. **Media Devices Hook**: `~/repos/melo-v2/hooks/use-media-devices.ts`
    - Enumerate audio input/output and video input devices
    - Handle device permissions and selection
    - Auto-save/load device preferences from localStorage
    - React to device changes (plug/unplug)
    - Device selection with proper TypeScript types
 
-3. **Audio Testing Hook**: `~/repos/haos-v2/hooks/use-audio-testing.ts`
+3. **Audio Testing Hook**: `~/repos/melo-v2/hooks/use-audio-testing.ts`
    - Real-time microphone level monitoring with Web Audio API
    - Audio analyzer with frequency data for visual feedback
    - Speaker testing with generated test tones and audio files
    - Proper cleanup of audio resources
    - Error handling for permission and device issues
 
-4. **Comprehensive Settings Form**: `~/repos/haos-v2/components/settings/voice-video-form.tsx`
+4. **Comprehensive Settings Form**: `~/repos/melo-v2/components/settings/voice-video-form.tsx`
    - **Audio Device Selection**: Dropdowns for microphone and speakers
    - **Device Testing**: Real-time mic level meters and speaker test buttons
    - **Voice Activation Controls**: Toggle with sensitivity threshold slider

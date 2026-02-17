@@ -2,7 +2,7 @@
 
 ## Status Check
 
-**HAOS v2 Phase 6:** ✅ COMPLETE
+**MELO v2 Phase 6:** ✅ COMPLETE
 
 All 9 tasks finished:
 - p6-1-cleanup — Dead code removal ✅

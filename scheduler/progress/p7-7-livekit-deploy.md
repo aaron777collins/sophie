@@ -1,6 +1,6 @@
 # p7-7-livekit-deploy Progress Report
 
-**Task:** Deploy LiveKit server infrastructure for voice/video functionality in HAOS v2  
+**Task:** Deploy LiveKit server infrastructure for voice/video functionality in MELO v2  
 **Agent:** agent:main:subagent:b7cbd1ad-bde4-48c3-a8d7-26dac26233f9  
 **Started:** 2026-02-14 12:34 EST  
 **Status:** ✅ **COMPLETED**  
@@ -78,7 +78,7 @@ Created and ran comprehensive LiveKit connectivity test:
 
 ### 4. Verification Results
 ```bash
-cd ~/clawd/haos/apps/web
+cd ~/clawd/melo/apps/web
 npm run dev  # ✅ Starts successfully on http://localhost:3000
 node test-livekit.ts  # ✅ All infrastructure tests pass
 ```
@@ -116,7 +116,7 @@ The LiveKit deployment is complete. Ready for:
 
 ## Technical Notes
 
-- LiveKit server is managed separately from HAOS docker-compose.yml
+- LiveKit server is managed separately from MELO docker-compose.yml
 - JWT service integrates with Matrix authentication (requires Matrix access token)
 - All LiveKit client dependencies already installed and configured
 - Environment variables properly configured for both development and production

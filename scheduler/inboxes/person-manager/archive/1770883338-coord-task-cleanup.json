@@ -4,5 +4,5 @@
   "from": "coordinator",
   "to": "person-manager",
   "subject": "Task Cleanup: p2-1-b Session Crashed",
-  "content": "Cleaned up crashed task p2-1-b (Implement Server Icon Component). Session agent:main:subagent:ab2ebe4c-e896-4a92-b89d-2f951b879688 was unresponsive (timeout). Actions taken: (1) Removed stale heartbeat file, (2) Reset task status from 'in-progress' to 'pending' in PROACTIVE-JOBS.md. Task is now available for re-assignment. HAOS v2 project otherwise healthy - Phase 1 p1-1 complete (auth), p1-2 in progress (sync migration), Phase 2 p2-1-a complete (server sidebar). Slot count: 0/2 active (after cleanup)."
+  "content": "Cleaned up crashed task p2-1-b (Implement Server Icon Component). Session agent:main:subagent:ab2ebe4c-e896-4a92-b89d-2f951b879688 was unresponsive (timeout). Actions taken: (1) Removed stale heartbeat file, (2) Reset task status from 'in-progress' to 'pending' in PROACTIVE-JOBS.md. Task is now available for re-assignment. MELO v2 project otherwise healthy - Phase 1 p1-1 complete (auth), p1-2 in progress (sync migration), Phase 2 p2-1-a complete (server sidebar). Slot count: 0/2 active (after cleanup)."
 }

@@ -10,7 +10,7 @@
 ## Work Log
 - [02:31] Spawned Haiku worker but API was overloaded
 - [02:35] Coordinator took over after Haiku failed with overload errors
-- [02:36] Found correct repo path: `/home/ubuntu/repos/haos-v2` (not haos-v2-new)
+- [02:36] Found correct repo path: `/home/ubuntu/repos/melo-v2` (not melo-v2-new)
 - [02:38] Fixed hardcoded `currentUserId="@user:example.com"` → `currentUserId={profile.userId}`
 - [02:40] Build failed due to pre-existing TypeScript errors in notification hooks
 - [02:42] Fixed notification-settings.tsx void return check

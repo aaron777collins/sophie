@@ -30,7 +30,7 @@
 ## Work Log
 - [04:34] Started: Subagent spawned to implement pinning feature
 - [04:34] Read AGENTS.md, checked progress files, and explored project structure
-- [04:35] Found HAOS v2 project at ~/clawd/haos/apps/web/ (not haos-v2)
+- [04:35] Found MELO v2 project at ~/clawd/melo/apps/web/ (not melo-v2)
 - [04:35] Discovered pinning task previously marked completed but files not implemented
 - [04:36] Analyzed current project structure - early stage with basic components
 - [04:37] Implemented hooks/use-pins.ts with full Matrix protocol support
@@ -93,7 +93,7 @@
 ## Work Log
 - [04:34] Started: Subagent spawned to implement pinning feature
 - [04:34] Read AGENTS.md, checked progress files, and explored project structure
-- [04:35] Found HAOS v2 project at ~/clawd/haos/apps/web/ (not haos-v2)
+- [04:35] Found MELO v2 project at ~/clawd/melo/apps/web/ (not melo-v2)
 - [04:35] Discovered pinning task previously marked completed but files not implemented
 - [04:36] Analyzed current project structure - early stage with basic components
 - [04:37] Implemented hooks/use-pins.ts with full Matrix protocol support

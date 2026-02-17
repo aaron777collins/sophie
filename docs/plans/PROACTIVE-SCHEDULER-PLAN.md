@@ -25,7 +25,7 @@ A self-managing task execution system for **continuous project work**:
 
 | Use This System For | Use Regular Cron For |
 |---------------------|----------------------|
-| "Work on HAOS until complete" | "Check email at 9am daily" |
+| "Work on MELO until complete" | "Check email at 9am daily" |
 | "Fix the API bug" | "Send weekly summary every Monday" |
 | "Implement feature X" | "Run backup at midnight" |
 | "Research topic and compile report" | "Check calendar every morning" |
@@ -41,7 +41,7 @@ If your task has a schedule like "daily", "weekly", "every morning" — **use a 
 cron action=add job='{"schedule": "0 9 * * *", "text": "Check emails..."}'
 
 # RIGHT: Use proactive scheduler for project work
-# Add to PROACTIVE-JOBS.md: "Complete HAOS implementation"
+# Add to PROACTIVE-JOBS.md: "Complete MELO implementation"
 ```
 
 ---
@@ -182,11 +182,11 @@ In `PROACTIVE-JOBS.md`, track preferred starting model based on history:
 
 ## Active Tasks
 
-### haos-implementation
+### melo-implementation
 - **Type:** continuous
 - **Min Model:** sonnet  <!-- complex: multi-file TSX transforms -->
 - **Priority:** high
-- **Project:** haos
+- **Project:** melo
 - **Description:** Complete Discord-clone UI implementation
 - **Last Run:** 2026-02-09 22:30 EST
 - **Status:** in-progress
@@ -227,7 +227,7 @@ In `PROACTIVE-JOBS.md`, track preferred starting model based on history:
 
 ```json
 {
-  "taskId": "haos-implementation",
+  "taskId": "melo-implementation",
   "agentSessionKey": "agent:main:subagent:abc123",
   "model": "sonnet",
   "startedAt": "2026-02-09T22:30:00Z",
@@ -245,7 +245,7 @@ In `PROACTIVE-JOBS.md`, track preferred starting model based on history:
 ### Progress File Format (`scheduler/progress/{task-id}.md`)
 
 ```markdown
-# haos-implementation Progress
+# melo-implementation Progress
 
 **Last Updated:** 2026-02-09 22:45 EST
 **Status:** In Progress (45%)
@@ -484,14 +484,14 @@ Sub-agents CAN spawn their own children for parallel work (e.g., multiple TSX tr
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    TASK: haos-implementation                    │
+│                    TASK: melo-implementation                    │
 │                                                                 │
-│  scheduler/heartbeats/haos-implementation.json  ← SHARED FILE  │
+│  scheduler/heartbeats/melo-implementation.json  ← SHARED FILE  │
 │                           ▲                                     │
 │           ┌───────────────┼───────────────┐                     │
 │           │               │               │                     │
 │      Parent Agent    Child Agent 1   Child Agent 2              │
-│      (haos-impl)     (haos-voice)    (haos-react)              │
+│      (melo-impl)     (melo-voice)    (melo-react)              │
 │           │               │               │                     │
 │           └───────────────┴───────────────┘                     │
 │                    ALL update same heartbeat                    │
@@ -512,7 +512,7 @@ Sub-agents CAN spawn their own children for parallel work (e.g., multiple TSX tr
 
 3. **Child labels:** Use descriptive labels for easy identification
    - Pattern: `{task-id}-{subtask}`
-   - Example: `haos-implementation-voice-tsx`
+   - Example: `melo-implementation-voice-tsx`
 
 4. **Orphan recovery:** If parent dies while children work:
    - Orchestrator sees stale heartbeat, spawns new parent
@@ -701,7 +701,7 @@ I can work on **continuous project tasks** autonomously:
 
 7. **Test with a simple one-off task** to verify the pipeline
 
-8. **Add haos-implementation** as first real continuous task
+8. **Add melo-implementation** as first real continuous task
 
 ---
 
@@ -771,7 +771,7 @@ I can work on **continuous project tasks** autonomously:
 2. Discuss any changes/additions
 3. I implement the file structure + cron
 4. Update AGENTS.md and IDENTITY.md
-5. Add haos-implementation as first proactive task
+5. Add melo-implementation as first proactive task
 6. Monitor and iterate
 
 ---

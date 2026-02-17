@@ -2,7 +2,7 @@
 
 ## Current Status
 
-### Active Projects: haos-v2
+### Active Projects: melo-v2
 - **Status:** Near completion of Phase 1 (Core Integration)
 - **Priority:** High
 - **Current Phase:** p1-2 (Real-Time Sync Migration) - Final task
@@ -16,7 +16,7 @@
 - p1-4: Services ⏳ Pending
 
 **Current Active Work:**
-- **haos-v2-remove-socketio-p1-2-j** - Remove Socket.io Dependencies
+- **melo-v2-remove-socketio-p1-2-j** - Remove Socket.io Dependencies
   - Status: in-progress (running since session f79b4c45-fda9-48c0-845e-b4928aeb8e97)
   - Agent is currently searching for socket.io code references
   - This is the FINAL task to complete p1-2 (Real-Time Sync Migration)

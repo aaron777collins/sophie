@@ -19,11 +19,11 @@ Map Matrix rooms to Discord concepts (Spaces→Servers, Rooms→Channels) with c
 - Create room (channel) functionality
 - Create space (server) functionality
 
-**LOCATION:** /home/ubuntu/repos/haos-v2
+**LOCATION:** /home/ubuntu/repos/melo-v2
 
 ## Communication Log
 - [2025-01-28 16:45 EST] Received task from main agent
-- [2025-01-28 16:45 EST] Starting assessment of current HAOS v2 room infrastructure
+- [2025-01-28 16:45 EST] Starting assessment of current MELO v2 room infrastructure
 
 ## Attempts
 
@@ -149,11 +149,11 @@ Map Matrix rooms to Discord concepts (Spaces→Servers, Rooms→Channels) with c
 - Create room (channel) functionality
 - Create space (server) functionality
 
-**LOCATION:** /home/ubuntu/repos/haos-v2
+**LOCATION:** /home/ubuntu/repos/melo-v2
 
 ## Communication Log
 - [2025-01-28 16:45 EST] Received task from main agent
-- [2025-01-28 16:45 EST] Starting assessment of current HAOS v2 room infrastructure
+- [2025-01-28 16:45 EST] Starting assessment of current MELO v2 room infrastructure
 
 ## Attempts
 

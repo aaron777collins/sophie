@@ -20,7 +20,7 @@
 3. Spawn p10-11-invite-links to fill 2nd slot
 
 ### Project Status
-- **HAOS phases 8-12:** Active implementation continues
+- **MELO phases 8-12:** Active implementation continues
 - **Phase 8:** Mostly complete (2/3 tasks)
 - **Phase 9:** Good progress (3/8 complete)
 - **Phase 10:** Strong progress (6/14 complete)

@@ -239,7 +239,7 @@ When the file looks like this → **cron returns HEARTBEAT_OK immediately, no ag
 
 ## Recent Cleanups
 
-- [2026-02-11 20:00] Archived haos-v2 Phase 0 completed tasks
+- [2026-02-11 20:00] Archived melo-v2 Phase 0 completed tasks
 ```
 
 ### Spawn Condition
@@ -279,12 +279,12 @@ ELSE HEARTBEAT_OK
 
 ## Active Projects
 
-### haos-v2
+### melo-v2
 - **Status:** active
 - **Current Phase:** Phase 1 - Core Integration
 - **Priority:** high
 - **Last Progress:** 2026-02-12 00:32 EST
-- **Notes:** `notes/projects/haos-v2.md`
+- **Notes:** `notes/projects/melo-v2.md`
 - **Task Queue:** PROACTIVE-JOBS.md
 
 ### some-other-project
@@ -320,7 +320,7 @@ ELSE HEARTBEAT_OK
 ```
 scheduler/coordinator/notes/
 ├── projects/
-│   ├── haos-v2.md
+│   ├── melo-v2.md
 │   └── other-project.md
 ├── topics/
 │   ├── agent-management.md
@@ -520,7 +520,7 @@ ELSE:
 - [ ] Add Person Manager cron (4x/day)
 - [ ] Update existing proactive scheduler to match pattern
 - [ ] Document in AGENTS.md
-- [ ] Test with HAOS v2 project
+- [ ] Test with MELO v2 project
 
 ---
 

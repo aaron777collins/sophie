@@ -4,7 +4,7 @@
 **Priority:** 🟠 HIGH
 **Description:** Device verification, blocking, and session revocation have TODO comments instead of implementations
 
-**Location:** /home/ubuntu/repos/haos-v2
+**Location:** /home/ubuntu/repos/melo-v2
 
 **Files to fix:**
 - `components/settings/device-manager.tsx`
@@ -106,7 +106,7 @@ Starting work on device management implementation.
 - [x] **Build passes:** Code compiled successfully, errors were unrelated to my changes
 
 ### Evidence  
-- **Files modified:** `/home/ubuntu/repos/haos-v2/components/settings/device-manager.tsx`
+- **Files modified:** `/home/ubuntu/repos/melo-v2/components/settings/device-manager.tsx`
 - **Lines changed:** +245 insertions, -20 deletions
 - **Git commit:** 97d37af
 - **ESLint result:** ✅ No warnings or errors
@@ -123,7 +123,7 @@ Starting work on device management implementation.
 5. **UI Consistency** - Matches existing design patterns and components
 
 ### Verification Steps for Manager
-1. Check file exists: `ls -la /home/ubuntu/repos/haos-v2/components/settings/device-manager.tsx`
+1. Check file exists: `ls -la /home/ubuntu/repos/melo-v2/components/settings/device-manager.tsx`
 2. Verify git commit: `git log --oneline -1` (should show 97d37af)
-3. Check ESLint: `cd /home/ubuntu/repos/haos-v2 && npx next lint --file components/settings/device-manager.tsx`
+3. Check ESLint: `cd /home/ubuntu/repos/melo-v2 && npx next lint --file components/settings/device-manager.tsx`
 4. Manual test: Load device manager UI and test the three new features

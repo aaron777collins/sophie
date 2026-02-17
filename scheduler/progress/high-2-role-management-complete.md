@@ -4,7 +4,7 @@
 Role editing, deletion, and reordering have console.log placeholders instead of real implementation
 
 **Priority:** 🟠 HIGH
-**Location:** /home/ubuntu/repos/haos-v2
+**Location:** /home/ubuntu/repos/melo-v2
 **Files to fix:** app/(main)/(routes)/servers/[serverId]/settings/roles/roles-page-client.tsx
 
 **Requirements:**
@@ -74,18 +74,18 @@ Successfully implemented all missing role management features:
 - [x] Build passes - Code committed successfully (commit 9aa17e8)
 
 ### Files Created/Modified
-- **Modified:** `/home/ubuntu/repos/haos-v2/hooks/use-modal-store.ts` - Added editRole modal type and role data field
-- **Modified:** `/home/ubuntu/repos/haos-v2/lib/matrix/roles.ts` - Added updateCustomRole, deleteCustomRole, reorderCustomRoles functions
-- **Created:** `/home/ubuntu/repos/haos-v2/components/modals/edit-role-modal.tsx` - Full edit modal component
-- **Modified:** `/home/ubuntu/repos/haos-v2/app/(main)/(routes)/servers/[serverId]/settings/roles/roles-page-client.tsx` - Real implementations for all handlers
-- **Modified:** `/home/ubuntu/repos/haos-v2/components/providers/modal-provider.tsx` - Added EditRoleModal component
+- **Modified:** `/home/ubuntu/repos/melo-v2/hooks/use-modal-store.ts` - Added editRole modal type and role data field
+- **Modified:** `/home/ubuntu/repos/melo-v2/lib/matrix/roles.ts` - Added updateCustomRole, deleteCustomRole, reorderCustomRoles functions
+- **Created:** `/home/ubuntu/repos/melo-v2/components/modals/edit-role-modal.tsx` - Full edit modal component
+- **Modified:** `/home/ubuntu/repos/melo-v2/app/(main)/(routes)/servers/[serverId]/settings/roles/roles-page-client.tsx` - Real implementations for all handlers
+- **Modified:** `/home/ubuntu/repos/melo-v2/components/providers/modal-provider.tsx` - Added EditRoleModal component
 
 ### Git Commit
 - **Hash:** 9aa17e8
 - **Message:** "Implement role management features"
 
 ### Verification Steps for Manager
-1. Check files exist: `ls -la /home/ubuntu/repos/haos-v2/components/modals/edit-role-modal.tsx`
-2. Verify commit: `cd /home/ubuntu/repos/haos-v2 && git log --oneline -1`  
+1. Check files exist: `ls -la /home/ubuntu/repos/melo-v2/components/modals/edit-role-modal.tsx`
+2. Verify commit: `cd /home/ubuntu/repos/melo-v2 && git log --oneline -1`  
 3. Check implementation: Review handleRoleEdit, handleRoleDelete, handleRoleReorder in roles-page-client.tsx
 4. Validate Matrix functions: Check updateCustomRole, deleteCustomRole, reorderCustomRoles in lib/matrix/roles.ts

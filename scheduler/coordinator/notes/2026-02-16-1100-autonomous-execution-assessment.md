@@ -21,7 +21,7 @@ According to my identity, I should **DRIVE execution forward** and not wait pass
 ### 🔍 Challenge: Task Definition Sources
 
 **Searched extensively for remaining task definitions:**
-- ✅ Master Plan (`docs/haos-v2/HAOS-MASTER-PLAN.md`) - only goes to Phase 6
+- ✅ Master Plan (`docs/melo-v2/MELO-MASTER-PLAN.md`) - only goes to Phase 6
 - ✅ Memory files - extensive but fragmented task information
 - ✅ Repository docs - mobile audit and other specifics
 - ❌ Complete Phase 10-12 breakdown not found in standard locations

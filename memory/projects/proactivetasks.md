@@ -78,7 +78,7 @@ Sub-agents CAN spawn their own children for parallel work:
 
 **Child Labels:**
 - Use descriptive labels: `{task-id}-{subtask}`
-- Example: `haos-implementation-voice-tsx`
+- Example: `melo-implementation-voice-tsx`
 
 ### 4. Slack Notifications
 
@@ -86,7 +86,7 @@ Sub-agents CAN spawn their own children for parallel work:
 ```
 📋 *Proactive Tasks Status*
 
-• *haos-implementation* — 🟢 Running (sonnet) — TSX transforms 65%
+• *melo-implementation* — 🟢 Running (sonnet) — TSX transforms 65%
 • *fix-api-bug* — 🚀 Just spawned (haiku)
 
 _Next check: 15 min_
@@ -150,7 +150,7 @@ _Next check: 15 min_
 
 - [2026-02-09 22:57 EST] Aaron requested proactive task system
 - [2026-02-09 23:09 EST] Design approved, implementation started
-- [2026-02-09 23:12 EST] System live, HAOS queued as first task
+- [2026-02-09 23:12 EST] System live, MELO queued as first task
 - [2026-02-09 23:16 EST] Added early-exit optimization for empty queue
 - [2026-02-09 23:19 EST] Added status summary output to Slack each run
 - [2026-02-09 23:32 EST] Added nested sub-agent support with shared heartbeat

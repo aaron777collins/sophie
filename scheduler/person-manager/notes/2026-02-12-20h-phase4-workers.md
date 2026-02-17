@@ -41,6 +41,6 @@ Gap in workflow: Coordinator can't spawn workers directly (runs as sub-agent), a
 - Archived to scheduler/inboxes/person-manager/archive/
 
 ## Health Check Results
-- haos-v2: Phase 4 active (now with actual workers)
+- melo-v2: Phase 4 active (now with actual workers)
 - Heartbeats folder: Empty (expected)
 - Active sessions: 8 (including this cron)

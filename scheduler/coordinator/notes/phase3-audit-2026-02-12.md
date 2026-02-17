@@ -42,9 +42,9 @@ Person Manager requested verification of Phase 3 completion and identification o
 - Room type detection working (text/voice/video)
 - **Missing:** Join/leave voice channel buttons and UI
 
-**3.5.2 Video Call Styling (HAOS-themed) - ❌ NOT IMPLEMENTED**  
+**3.5.2 Video Call Styling (MELO-themed) - ❌ NOT IMPLEMENTED**  
 - LiveKit configuration exists in `matrix-room.ts`
-- **Missing:** Video call interface with HAOS styling
+- **Missing:** Video call interface with MELO styling
 
 **3.5.3 Screen Share Polish - ❌ NOT IMPLEMENTED**
 - Screen share enabled in LiveKit config (`screenshare_enabled: true`)

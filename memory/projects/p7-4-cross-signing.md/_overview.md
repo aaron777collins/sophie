@@ -8,7 +8,7 @@
 # Progress: p7-4-cross-signing
 
 ## Task
-Implement cross-signing setup for Element-level E2EE security in HAOS v2.
+Implement cross-signing setup for Element-level E2EE security in MELO v2.
 
 ## Files to Create
 - `lib/matrix/crypto/cross-signing.ts` — Master/self-signing/user-signing key generation
@@ -89,7 +89,7 @@ The cross-signing implementation provides Element-level E2EE security and is rea
 # Progress: p7-4-cross-signing
 
 ## Task
-Implement cross-signing setup for Element-level E2EE security in HAOS v2.
+Implement cross-signing setup for Element-level E2EE security in MELO v2.
 
 ## Files to Create
 - `lib/matrix/crypto/cross-signing.ts` — Master/self-signing/user-signing key generation

@@ -1,0 +1,8 @@
+{
+  "id": "coord-1771306297",
+  "timestamp": "2026-02-17T05:31:37Z",
+  "from": "coordinator",
+  "to": "person-manager",
+  "subject": "🚨 Status Sync Issue - Queue Disconnected",
+  "content": "URGENT: My status is completely out of sync with actual work. My cache says MELO complete/no tasks, but Sophie shows 19 tasks remaining with active workers on push notifications, email service, etc. PROACTIVE-JOBS.md appears corrupted (placeholder text). Need immediate status reconciliation and queue synchronization. See ~/clawd/scheduler/coordinator/notes/2026-02-17-00-31-status-discrepancy.md for details."
+}

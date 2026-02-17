@@ -4,7 +4,7 @@
 **Priority:** 🔴 CRITICAL
 **Description:** Two-Factor Authentication shows "coming soon" — need to implement full 2FA
 
-**Location:** /home/ubuntu/repos/haos-v2
+**Location:** /home/ubuntu/repos/melo-v2
 
 **Files to modify:**
 - `components/settings/two-factor-form.tsx`
@@ -48,12 +48,12 @@
 - **Status:** claiming-complete
 - **What I implemented:** Full 2FA system with TOTP and backup codes
 - **Files created/modified:**
-  - `/home/ubuntu/repos/haos-v2/components/settings/two-factor-form.tsx` - Complete 2FA setup/management UI
-  - `/home/ubuntu/repos/haos-v2/app/api/auth/verify-2fa/route.ts` - 2FA verification API endpoint
-  - `/home/ubuntu/repos/haos-v2/components/auth/two-factor-prompt.tsx` - Login 2FA prompt component
-  - `/home/ubuntu/repos/haos-v2/lib/matrix/cookies.ts` - Added temporary session functions
-  - `/home/ubuntu/repos/haos-v2/app/api/auth/login/route.ts` - Modified login to check 2FA
-  - `/home/ubuntu/repos/haos-v2/components/providers/matrix-auth-provider.tsx` - Added 2FA support to auth flow
+  - `/home/ubuntu/repos/melo-v2/components/settings/two-factor-form.tsx` - Complete 2FA setup/management UI
+  - `/home/ubuntu/repos/melo-v2/app/api/auth/verify-2fa/route.ts` - 2FA verification API endpoint
+  - `/home/ubuntu/repos/melo-v2/components/auth/two-factor-prompt.tsx` - Login 2FA prompt component
+  - `/home/ubuntu/repos/melo-v2/lib/matrix/cookies.ts` - Added temporary session functions
+  - `/home/ubuntu/repos/melo-v2/app/api/auth/login/route.ts` - Modified login to check 2FA
+  - `/home/ubuntu/repos/melo-v2/components/providers/matrix-auth-provider.tsx` - Added 2FA support to auth flow
 - **Libraries installed:** otplib@13.3.0
 - **Git commit:** a945dfd
 
@@ -79,11 +79,11 @@
 - Test output: Syntax validation passed via ESLint
 
 ### Verification Steps for Manager
-1. Check files exist: `ls -la /home/ubuntu/repos/haos-v2/components/settings/two-factor-form.tsx`
-2. Verify API endpoint: `ls -la /home/ubuntu/repos/haos-v2/app/api/auth/verify-2fa/route.ts`
-3. Check commit: `cd /home/ubuntu/repos/haos-v2 && git log --oneline -1`
+1. Check files exist: `ls -la /home/ubuntu/repos/melo-v2/components/settings/two-factor-form.tsx`
+2. Verify API endpoint: `ls -la /home/ubuntu/repos/melo-v2/app/api/auth/verify-2fa/route.ts`
+3. Check commit: `cd /home/ubuntu/repos/melo-v2 && git log --oneline -1`
 4. Manual test: Access settings page and verify 2FA setup flow
-5. Build test: `cd /home/ubuntu/repos/haos-v2 && npm run build` (started successfully, may need completion)
+5. Build test: `cd /home/ubuntu/repos/melo-v2 && npm run build` (started successfully, may need completion)
 
 ### Implementation Details
 **Complete 2FA System Features:**

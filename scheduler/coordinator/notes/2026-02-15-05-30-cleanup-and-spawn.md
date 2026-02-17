@@ -37,5 +37,5 @@
 
 ## 🚀 Actions Planned
 
-1. Spawn **haos-p10-2-role-creation** (Sonnet) - Role creation modal
-2. Spawn **haos-p10-7-user-ban** (Sonnet) - Ban functionality
+1. Spawn **melo-p10-2-role-creation** (Sonnet) - Role creation modal
+2. Spawn **melo-p10-7-user-ban** (Sonnet) - Ban functionality

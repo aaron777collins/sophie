@@ -5,13 +5,13 @@
 
 ## Active Projects Review
 
-### haos-v2 - HAOS v2 Discord Clone
+### melo-v2 - MELO v2 Discord Clone
 - **Status:** Active, Phase 1 near completion
 - **Priority:** High
 - **Current Focus:** Phase 1.3 (Media Upload Migration) + ongoing Phase 2 UI work
 
 ### Current Active Tasks
-- **haos-v2-use-media-upload-p1-3-c** 
+- **melo-v2-use-media-upload-p1-3-c** 
   - Status: Running (session 39633615-8632-4128-aac3-9ce1d1a977b7)
   - Started: 2026-02-15 22:05 EST
   - Phase: Reading dependency and creating progress file
@@ -38,7 +38,7 @@
 4. **UI Ahead of Schedule:** Many Phase 2 components already implemented
 
 ### Next Steps
-- Monitor completion of haos-v2-use-media-upload-p1-3-c 
+- Monitor completion of melo-v2-use-media-upload-p1-3-c 
 - Ready to spawn additional media migration tasks when slot available
 - Phase 1.4 (Services) ready to begin once media work progresses
 

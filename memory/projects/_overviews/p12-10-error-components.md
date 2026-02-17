@@ -5,7 +5,7 @@
 # p12-10-error-components — Error UI Components
 
 ## Task Description
-Create error display and retry components for graceful error handling in the HAOS project.
+Create error display and retry components for graceful error handling in the MELO project.
 
 ## Work Log
 - Task spawned: 2026-02-15 09:45 EST

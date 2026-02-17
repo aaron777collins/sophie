@@ -93,7 +93,7 @@ Use `sessions_spawn` with a **complete, explicit task description**:
 ```
 sessions_spawn(
   task = """
-You are sub-agent p1-1-c working on HAOS v2 Matrix authentication.
+You are sub-agent p1-1-c working on MELO v2 Matrix authentication.
 
 ## YOUR TASK
 Implement Matrix account registration in apps/web/lib/matrix/auth.ts
@@ -102,10 +102,10 @@ Implement Matrix account registration in apps/web/lib/matrix/auth.ts
 1. Read ~/clawd/AGENTS.md (full file - your instructions)
 2. Read ~/clawd/scheduler/progress/p1-1/_manager.md (manager's notes)
 3. Read ~/clawd/scheduler/progress/p1-1/p1-1-c.md (your progress file)
-4. Read ~/clawd/memory/projects/haos-v2/_overview.md (project context)
+4. Read ~/clawd/memory/projects/melo-v2/_overview.md (project context)
 
 ## REPO PATH
-/home/ubuntu/repos/haos-v2
+/home/ubuntu/repos/melo-v2
 
 ## WHAT TO BUILD
 Add to apps/web/lib/matrix/auth.ts:
@@ -120,7 +120,7 @@ Add to apps/web/lib/matrix/auth.ts:
 
 ## WHEN DONE
 1. Update scheduler/progress/p1-1/p1-1-c.md with full work log
-2. Update memory/projects/haos-v2/_overview.md
+2. Update memory/projects/melo-v2/_overview.md
 3. Add entry to memory/daily/YYYY-MM-DD.md
 4. Git commit your changes
 5. **🚨 UPDATE ~/clawd/PROACTIVE-JOBS.md** — CRITICAL!
@@ -211,7 +211,7 @@ for task in tasks:
 
 # BAD: Spawning everything at once without structure
 for task in tasks:
-    spawn(task)  # No monitoring, no progress files, chaos
+    spawn(task)  # No monitoring, no progress files, cmelo
 ```
 
 ---
@@ -311,7 +311,7 @@ Clear status tracking, dependency management.
 Agent works in wrong directory.
 
 ### ✅ Explicit repo path
-`REPO PATH: /home/ubuntu/repos/haos-v2`
+`REPO PATH: /home/ubuntu/repos/melo-v2`
 
 ### ❌ No success criteria
 Agent doesn't know when it's done.

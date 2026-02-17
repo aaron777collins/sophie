@@ -5,9 +5,9 @@
 # Progress: p1-4-f
 
 ## Task
-Create Invite Service for HAOS v2
+Create Invite Service for MELO v2
 
-**REPO:** `/home/ubuntu/repos/haos-v2`
+**REPO:** `/home/ubuntu/repos/melo-v2`
 **FILE TO CREATE:** `apps/web/services/matrix-invite.ts`
 
 **REQUIRED FUNCTIONS:**
@@ -17,7 +17,7 @@ Create Invite Service for HAOS v2
 4. `revokeInvite(inviteCode: string): Promise<void>` — Invalidate an invite
 
 **IMPLEMENTATION NOTES:**
-- Use custom state event `io.haos.invite` for invite metadata, OR use Matrix room aliases creatively
+- Use custom state event `io.melo.invite` for invite metadata, OR use Matrix room aliases creatively
 - Reference existing services: `matrix-space.ts`, `matrix-room.ts` for patterns
 - Use `getClient()` from `lib/matrix/client.ts`
 - Create proper TypeScript types and error handling like other services
@@ -47,7 +47,7 @@ Create Invite Service for HAOS v2
   - Custom error classes following existing patterns
   - Proper TypeScript interfaces (InviteInfo, InviteMetadata)
   - URL-safe invite code generation (8-char alphanumeric, collision-resistant)
-  - Custom state event `io.haos.invite` for metadata storage
+  - Custom state event `io.melo.invite` for metadata storage
   - All 4 required functions with proper error handling:
     - `createInviteLink()` - generates unique codes, checks permissions
     - `getInviteInfo()` - retrieves invite details with space metadata
@@ -63,7 +63,7 @@ Create Invite Service for HAOS v2
 
 ## Notes
 - Service follows consistent patterns from existing Matrix services
-- Uses custom state event `io.haos.invite` for invite metadata storage
+- Uses custom state event `io.melo.invite` for invite metadata storage
 - Invite codes are 8-character URL-safe strings
 - Permission system requires power level 50+ for invite management
 - Full error handling with custom InviteServiceError class
@@ -71,4 +71,4 @@ Create Invite Service for HAOS v2
 - Successfully validated TypeScript compilation (no file-specific errors)
 
 ## Summary
-**COMPLETED SUCCESSFULLY** - Full Matrix invite service implementation created at `apps/web/services/matrix-invite.ts` with all required functions, proper TypeScript types, error handling, and validation. Service is production-ready and follows existing HAOS v2 patterns.
+**COMPLETED SUCCESSFULLY** - Full Matrix invite service implementation created at `apps/web/services/matrix-invite.ts` with all required functions, proper TypeScript types, error handling, and validation. Service is production-ready and follows existing MELO v2 patterns.

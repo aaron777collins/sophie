@@ -12,7 +12,7 @@ Two active projects found in JOBS.md:
 - **Phase 1 tasks:** pr-1 through pr-7 ready in PROACTIVE-JOBS.md
 - **Next:** Implementation phase can proceed with Task Managers
 
-### 2. HAOS v2 — Phase 7 Security Foundation
+### 2. MELO v2 — Phase 7 Security Foundation
 - **Status:** 9/10 tasks complete, 1 stalled
 - **Complete:** All security and voice/video tasks (p7-1 through p7-10)
 - **Issue:** p7-11-security-audit marked as "in-progress" but no active session

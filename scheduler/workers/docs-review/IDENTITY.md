@@ -1,7 +1,7 @@
-# Documentation Review Worker for HAOS v2
+# Documentation Review Worker for MELO v2
 
 ## Task Overview
-Review and update HAOS v2 documentation to reflect:
+Review and update MELO v2 documentation to reflect:
 1. Current feature set
 2. Stabilization status
 3. Update key documentation files:
@@ -18,7 +18,7 @@ Review and update HAOS v2 documentation to reflect:
 
 ## Spawning Instructions
 - Model: Sonnet (moderate complexity documentation task)
-- Context: Review existing documentation and current HAOS v2 codebase
+- Context: Review existing documentation and current MELO v2 codebase
 - Output: Proposed changes with rationale
 
 ## Submission

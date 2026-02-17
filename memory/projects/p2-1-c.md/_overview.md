@@ -27,7 +27,7 @@ Implement Discord-style Add Server Button for navigation sidebar - plus button t
 
 ### Navigation-Action Component Already Exists ✅
 Upon investigation, the `navigation-action.tsx` component **already exists** and is fully implemented at:
-`/home/ubuntu/repos/haos-v2/components/navigation/navigation-action.tsx`
+`/home/ubuntu/repos/melo-v2/components/navigation/navigation-action.tsx`
 
 ### Code Analysis
 ```typescript

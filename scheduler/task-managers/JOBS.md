@@ -7,7 +7,7 @@
 
 ### PROACTIVE-JOBS.md
 - **Status:** active
-- **Current Project:** haos-v2
+- **Current Project:** melo-v2
 - **In-Progress Tasks:** (check PROACTIVE-JOBS.md)
 - **Last Checked:** 2026-02-12 00:57 EST
 

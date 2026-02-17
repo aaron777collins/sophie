@@ -4,7 +4,7 @@
 **Completed:** 2026-02-13 22:07 EST
 
 ## Summary
-LiveKit infrastructure was already running on dev2. Task focused on integrating LiveKit client into HAOS.
+LiveKit infrastructure was already running on dev2. Task focused on integrating LiveKit client into MELO.
 
 ## What Was Done
 
@@ -16,13 +16,13 @@ LiveKit infrastructure was already running on dev2. Task focused on integrating 
 - ✅ All containers running 4+ days
 
 ### 2. LiveKit Dependencies
-Added to `/home/ubuntu/clawd/haos/apps/web/package.json`:
+Added to `/home/ubuntu/clawd/melo/apps/web/package.json`:
 - `livekit-client@^2.0.0`
 - `@livekit/components-react@^2.0.0`
 - `@livekit/components-styles@^1.0.0`
 
 ### 3. LiveKit Service Created
-File: `/home/ubuntu/clawd/haos/apps/web/services/livekit.ts` (13KB)
+File: `/home/ubuntu/clawd/melo/apps/web/services/livekit.ts` (13KB)
 
 Features implemented:
 - Token requests via JWT service (server-side token generation)
@@ -36,7 +36,7 @@ Features implemented:
 - Singleton pattern for global access
 
 ### 4. Configuration
-Created: `/home/ubuntu/clawd/haos/docs/LIVEKIT-CONFIG.md`
+Created: `/home/ubuntu/clawd/melo/docs/LIVEKIT-CONFIG.md`
 
 Environment variables:
 - `NEXT_PUBLIC_LIVEKIT_URL=wss://livekit.dev2.aaroncollins.info`
@@ -53,14 +53,14 @@ Fixed TypeScript errors:
 ✅ Build passing as of 2026-02-13 22:05 EST
 
 ## Files Changed
-- `haos/apps/web/package.json` - Added LiveKit deps
-- `haos/apps/web/services/livekit.ts` - NEW - LiveKit service
-- `haos/docs/LIVEKIT-CONFIG.md` - NEW - Configuration docs
-- `haos/docs/PHASE5-VOICE-VIDEO-PLAN.md` - NEW - Implementation plan
-- `haos/apps/web/next.config.js` - Updated env vars
-- `haos/apps/web/hooks/use-matrix-client.ts` - Fixed types
-- `haos/apps/web/components/server-discovery/server-list.tsx` - Fixed Lucide usage
-- `haos/apps/web/components/server-discovery/server-discovery-modal.tsx` - Fixed types
+- `melo/apps/web/package.json` - Added LiveKit deps
+- `melo/apps/web/services/livekit.ts` - NEW - LiveKit service
+- `melo/docs/LIVEKIT-CONFIG.md` - NEW - Configuration docs
+- `melo/docs/PHASE5-VOICE-VIDEO-PLAN.md` - NEW - Implementation plan
+- `melo/apps/web/next.config.js` - Updated env vars
+- `melo/apps/web/hooks/use-matrix-client.ts` - Fixed types
+- `melo/apps/web/components/server-discovery/server-list.tsx` - Fixed Lucide usage
+- `melo/apps/web/components/server-discovery/server-discovery-modal.tsx` - Fixed types
 
 ## Next Steps
 - p5-2-voice-service: Voice channel hooks and store

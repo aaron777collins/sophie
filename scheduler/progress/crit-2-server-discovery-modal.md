@@ -6,7 +6,7 @@ Create ServerDiscoveryModal with search, filters, server cards, join button
 **Priority:** 🔴 CRITICAL
 **Description:** Server Discovery modal was never created. The "Explore Servers" button triggers a modal that doesn't exist.
 
-**Location:** /home/ubuntu/repos/haos-v2
+**Location:** /home/ubuntu/repos/melo-v2
 
 **Files to create/modify:**
 - CREATE: `components/modals/server-discovery-modal.tsx`
@@ -61,9 +61,9 @@ Create ServerDiscoveryModal with search, filters, server cards, join button
 
 ### Evidence
 - Files created/modified:
-  - CREATED: `/home/ubuntu/repos/haos-v2/components/modals/server-discovery-modal.tsx` (16,363 bytes)
-  - MODIFIED: `/home/ubuntu/repos/haos-v2/components/providers/modal-provider.tsx` (added import and component)
-  - FIXED: `/home/ubuntu/repos/haos-v2/components/chat/dm-chat-header.tsx` (getAvatarUrl arguments)
+  - CREATED: `/home/ubuntu/repos/melo-v2/components/modals/server-discovery-modal.tsx` (16,363 bytes)
+  - MODIFIED: `/home/ubuntu/repos/melo-v2/components/providers/modal-provider.tsx` (added import and component)
+  - FIXED: `/home/ubuntu/repos/melo-v2/components/chat/dm-chat-header.tsx` (getAvatarUrl arguments)
 - Git commit: 2560cc7
 - Component features implemented:
   - Browse tab with search and category filtering

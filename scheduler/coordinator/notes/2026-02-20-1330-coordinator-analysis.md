@@ -15,7 +15,7 @@
 - **p2-4**: Modals (3/6) — **3 TASKS REMAINING**
 
 ## Missing Tasks Analysis
-From `~/clawd/docs/haos-v2/TASK-BREAKDOWN.md` lines 1247-1279:
+From `~/clawd/docs/melo-v2/TASK-BREAKDOWN.md` lines 1247-1279:
 
 ### p2-4-d: Implement Invite Modal
 - **Files**: `components/modals/invite-modal.tsx`

@@ -12,7 +12,7 @@ The `build-fix-spaces-hook` task was marked as COMPLETED in progress files, but 
 > Export encountered errors on following paths:
 	/media-test/page: /media-test
 
-ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @haos/web@0.1.0 build: `next build`
+ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @melo/web@0.1.0 build: `next build`
 Exit status 1
 ```
 

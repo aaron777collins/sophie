@@ -1,7 +1,7 @@
 # Coordinator Check-in — 2026-02-13 15:30 EST
 
 ## Status Summary
-- **Project State:** HAOS-v2 Phases 1-4 complete, awaiting strategic direction
+- **Project State:** MELO-v2 Phases 1-4 complete, awaiting strategic direction
 - **Build Status:** ✅ Working (previous "BUILD BROKEN" status was stale)
 - **Active Tasks:** None (normal waiting state)
 - **Workers:** None running

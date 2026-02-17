@@ -3,7 +3,7 @@
 ## Task
 **Priority:** 🟠 HIGH
 **Description:** Bulk kick and bulk ban buttons have empty TODO handlers
-**Location:** /home/ubuntu/repos/haos-v2
+**Location:** /home/ubuntu/repos/melo-v2
 **Files to fix:**
 - `app/(main)/(routes)/servers/[serverId]/settings/members/members-settings-client.tsx`
   - Line 773: `onBulkKick={() => {/* TODO: Implement bulk kick */}}`
@@ -29,9 +29,9 @@
 - **Status:** claiming-complete
 - **What I accomplished:** Implemented bulk kick and ban functionality with confirmation dialogs and progress tracking
 - **Files created/modified:** 
-  - Updated modal store types: `~/repos/haos-v2/hooks/use-modal-store.ts`
-  - Updated modal provider: `~/repos/haos-v2/components/providers/modal-provider.tsx`
-  - Updated main component handlers: `~/repos/haos-v2/app/(main)/(routes)/servers/[serverId]/settings/members/members-settings-client.tsx`
+  - Updated modal store types: `~/repos/melo-v2/hooks/use-modal-store.ts`
+  - Updated modal provider: `~/repos/melo-v2/components/providers/modal-provider.tsx`
+  - Updated main component handlers: `~/repos/melo-v2/app/(main)/(routes)/servers/[serverId]/settings/members/members-settings-client.tsx`
   - Used existing bulk moderation modals: `bulk-kick-users-modal.tsx` and `bulk-ban-users-modal.tsx`
 - **Approach taken:** Leveraged existing bulk moderation modal components and integrated them with the TODO handlers
 

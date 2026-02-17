@@ -6,7 +6,7 @@
 - **Messages:** 0 (no pending messages from PM or workers)
 
 ### 📋 Active Projects
-- **haos-v2:** Build crisis resolved, moving toward real execution
+- **melo-v2:** Build crisis resolved, moving toward real execution
 
 ### 🔍 Critical Findings
 

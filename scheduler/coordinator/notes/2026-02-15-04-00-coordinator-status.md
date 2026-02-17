@@ -1,11 +1,11 @@
 # Coordinator Status - 2026-02-15 04:00 EST
 
 ## Session Status
-- **Active Projects:** HAOS Full Implementation (Phases 8-12)
+- **Active Projects:** MELO Full Implementation (Phases 8-12)
 - **Current Slots:** 2/2 OCCUPIED
 - **Active Workers:** 
-  - Slot 1: `haos-p9-1-edit` (p9-1-message-editing)
-  - Slot 2: `haos-p9-2-delete` (p9-2-message-deletion)
+  - Slot 1: `melo-p9-1-edit` (p9-1-message-editing)
+  - Slot 2: `melo-p9-2-delete` (p9-2-message-deletion)
 
 ## Tasks In Progress
 - **p9-1-message-editing** - Message editing UI (Sonnet)

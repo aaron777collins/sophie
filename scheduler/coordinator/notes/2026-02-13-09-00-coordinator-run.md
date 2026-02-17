@@ -4,7 +4,7 @@
 - ✅ Checked: No messages in coordinator inbox
 
 ## Active Jobs Status
-- ✅ haos-v2: RELEASE AUTHORIZED v1.0.0
+- ✅ melo-v2: RELEASE AUTHORIZED v1.0.0
 - Current Phase: Release v1.0.0
 
 ## Tasks Discovered

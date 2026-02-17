@@ -27,4 +27,4 @@
 - Report after action, not before
 - Only ask when truly blocked or high-risk
 
-**Applied immediately:** Fixed HAOS issues proactively without permission requests.
+**Applied immediately:** Fixed MELO issues proactively without permission requests.

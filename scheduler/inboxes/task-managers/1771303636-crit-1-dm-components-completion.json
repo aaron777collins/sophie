@@ -4,7 +4,7 @@
   "from": "crit-1-dm-components",
   "to": "task-manager",
   "subject": "Task Completion Report",
-  "content": "Task crit-1-dm-components completed successfully.\n\nAll acceptance criteria met:\n✅ DMList shows real DM conversations with Matrix SDK integration\n✅ Click to open DM chat functionality implemented\n✅ DMChatHeader shows user info with online status\n✅ Online status visible in both components\n✅ Build passes: npm run build succeeded\n\nFiles modified:\n- /home/ubuntu/repos/haos-v2/components/navigation/dm-list.tsx\n- /home/ubuntu/repos/haos-v2/components/chat/dm-chat-header.tsx\n\nChanges committed to git. Ready for verification.",
+  "content": "Task crit-1-dm-components completed successfully.\n\nAll acceptance criteria met:\n✅ DMList shows real DM conversations with Matrix SDK integration\n✅ Click to open DM chat functionality implemented\n✅ DMChatHeader shows user info with online status\n✅ Online status visible in both components\n✅ Build passes: npm run build succeeded\n\nFiles modified:\n- /home/ubuntu/repos/melo-v2/components/navigation/dm-list.tsx\n- /home/ubuntu/repos/melo-v2/components/chat/dm-chat-header.tsx\n\nChanges committed to git. Ready for verification.",
   "priority": "normal",
   "status": "claiming-complete"
 }

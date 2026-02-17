@@ -96,7 +96,7 @@ import { trackInviteUsage } from "@/lib/matrix/invite-tracker";
 
 // Call when someone joins via an invite
 trackInviteUsage(client, {
-  inviteUrl: "https://haos.app/invite/community",
+  inviteUrl: "https://melo.app/invite/community",
   roomId: "!roomid:server.com",
   userId: "@user:server.com",
   joinedAt: new Date(),
@@ -168,4 +168,4 @@ The invite system is now feature-complete with:
 - Enhanced user experience with visual status indicators
 - Automatic maintenance and cleanup processes
 
-The implementation follows existing HAOS patterns and integrates seamlessly with the Matrix-based architecture.
+The implementation follows existing MELO patterns and integrates seamlessly with the Matrix-based architecture.

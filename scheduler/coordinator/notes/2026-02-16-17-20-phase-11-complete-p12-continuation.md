@@ -53,7 +53,7 @@ Successfully operating per IDENTITY.md principles:
 
 ## Project Status Summary
 
-**HAOS v2 is approaching completion:**
+**MELO v2 is approaching completion:**
 - Full feature set implemented across Phases 8-11
 - Phase 12 infrastructure is ~75% complete
 - Estimated 2-4 tasks remaining to project completion

@@ -51,6 +51,6 @@ Phase 4 was the **FINAL PHASE** per the implementation plan. There is no Phase 5
 Sent message to Coordinator with release authorization and task breakdown.
 
 ## Notes
-- This is a major milestone for HAOS v2
+- This is a major milestone for MELO v2
 - Should inform Aaron of the release readiness
 - Post-release: Monitor for bugs, plan v1.1 roadmap

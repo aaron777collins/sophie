@@ -24,7 +24,7 @@
 
 ## Required Actions
 1. **Audit PROACTIVE-JOBS.md** - Update to reflect actual completed tasks
-2. **Queue next Phase 4 tasks** - Based on haos-v2 Implementation Plan
+2. **Queue next Phase 4 tasks** - Based on melo-v2 Implementation Plan
 3. **Update coordinator JOBS.md** - Reflect accurate current state
 
 ## Next Steps

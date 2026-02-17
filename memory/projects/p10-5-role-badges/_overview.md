@@ -1,7 +1,7 @@
 # Role Badge Component Implementation
 
 ## Overview
-Implemented a robust role badge system for HAOS v2 that supports:
+Implemented a robust role badge system for MELO v2 that supports:
 - Displaying roles based on Matrix power levels
 - Custom role colors
 - Fallback mechanisms

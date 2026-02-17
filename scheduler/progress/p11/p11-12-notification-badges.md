@@ -1,7 +1,7 @@
 # Task: p11-12-notification-badges
 
 ## Task Overview
-Implement unread message badges and notification indicators throughout the HAOS UI
+Implement unread message badges and notification indicators throughout the MELO UI
 
 ## Status
 - **Current Status:** Completed

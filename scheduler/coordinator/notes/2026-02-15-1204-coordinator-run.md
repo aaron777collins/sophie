@@ -5,12 +5,12 @@
 ### Worker Spawning
 Spawned 2 high-priority workers to fill both available slots:
 
-1. **haos-p11-13-mobile-navigation** (🔴 CRITICAL)
+1. **melo-p11-13-mobile-navigation** (🔴 CRITICAL)
    - Model: Sonnet 4
    - Task: Fix critical mobile navigation issues from audit
    - Session Key: agent:main:subagent:540294a4-177d-4aa7-aba9-d6b3d57d94b2 (timeout on spawn but likely working)
 
-2. **haos-p11-1-settings-layout** (🔴 HIGH) 
+2. **melo-p11-1-settings-layout** (🔴 HIGH) 
    - Model: Sonnet 4
    - Task: Improve settings page layout and organization
    - Session Key: agent:main:subagent:47cca87f-cc70-43de-845a-10d4acdc6f5e ✅
@@ -34,5 +34,5 @@ Spawned 2 high-priority workers to fill both available slots:
 
 ## Priority Queue for Next Spawns
 When slots free up, next highest priority pending tasks:
-1. **haos-p9-7-emoji-autocomplete** (🔴 HIGH)
-2. **haos-p8-3-encryption-ui** (🔴 HIGH)
+1. **melo-p9-7-emoji-autocomplete** (🔴 HIGH)
+2. **melo-p8-3-encryption-ui** (🔴 HIGH)

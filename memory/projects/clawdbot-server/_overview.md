@@ -5,7 +5,7 @@
 ## Project Context
 - **Repository:** ~/clawd/apps/web (Next.js application)
 - **Type:** Discord-style server with Matrix backend
-- **Current Name:** @haos/web (appears to be the main server application)
+- **Current Name:** @melo/web (appears to be the main server application)
 
 ## Architecture
 - **Frontend:** Next.js with React, TypeScript

@@ -7,7 +7,7 @@
 2. `1744847310-coord-status-verification.json` — Build verified working, Phases 1-4 complete, requesting Phase 5 direction
 3. `1771002545-coord-build-status.json` — Build fix worker status (now complete)
 
-All messages relate to HAOS-v2 project status and strategic direction requests.
+All messages relate to MELO-v2 project status and strategic direction requests.
 
 ## Current State Assessment
 
@@ -56,6 +56,6 @@ Before starting Phase 5 (Voice/Video):
 
 ## Communication to Aaron
 Will notify Aaron that:
-- HAOS-v2 Phases 1-4 complete, v1.0.0 released
+- MELO-v2 Phases 1-4 complete, v1.0.0 released
 - Awaiting his direction on Phase 5 (Voice/Video integration)
 - Currently in stabilization mode

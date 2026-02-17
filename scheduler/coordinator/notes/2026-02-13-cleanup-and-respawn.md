@@ -1,19 +1,19 @@
 # Cleanup and Re-spawn - 2026-02-13 01:01 EST
 
 ## Issue Discovered
-- Found stale heartbeat from 2024-02-15 for "haos-security-audit" (nearly 2 years old!)
+- Found stale heartbeat from 2024-02-15 for "melo-security-audit" (nearly 2 years old!)
 - Two tasks marked "in-progress" but no corresponding progress files or active heartbeats
-- Tasks were: haos-final-integration, haos-security-audit
+- Tasks were: melo-final-integration, melo-security-audit
 
 ## Cleanup Actions
-1. **Deleted stale heartbeat:** `~/clawd/scheduler/heartbeats/haos-security-audit.json`
+1. **Deleted stale heartbeat:** `~/clawd/scheduler/heartbeats/melo-security-audit.json`
 2. **Reset task statuses** in PROACTIVE-JOBS.md from "in-progress" to "pending"
 
 ## Re-spawning
-- **haos-final-integration** → spawned with Sonnet at 01:01 EST
-- **haos-security-audit** → spawned with Sonnet at 01:01 EST
+- **melo-final-integration** → spawned with Sonnet at 01:01 EST
+- **melo-security-audit** → spawned with Sonnet at 01:01 EST
 
-Both are Phase 4 priority tasks for haos-v2 release. Used full spawn template with complete completion checklist.
+Both are Phase 4 priority tasks for melo-v2 release. Used full spawn template with complete completion checklist.
 
 ## Current Task Load
 - 2 slots active (max capacity)

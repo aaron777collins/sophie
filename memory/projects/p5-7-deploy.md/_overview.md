@@ -5,12 +5,12 @@
 
 ## Status Update []
 ```
-# HAOS v2 Deployment to dev2 (Phase 5 Voice/Video)
+# MELO v2 Deployment to dev2 (Phase 5 Voice/Video)
 
 ## Deployment Status: INCOMPLETE
 
 ### Deployment Challenges
-- Docker container `haos-v2` failed to start
+- Docker container `melo-v2` failed to start
 - Potential issues with:
   1. Environment variables
   2. Docker configuration
@@ -34,7 +34,7 @@
 
 ## Recommended Actions
 1. SSH into dev2
-2. Navigate to ~/haos-v2
+2. Navigate to ~/melo-v2
 3. Run `docker-compose build` with verbose output
 4. Run `docker-compose up` and capture full logs
 5. Investigate any startup or configuration errors
@@ -46,12 +46,12 @@ Manual notification recommended.
 
 ## Status Update [2026-02-15 00:00 EST]
 ```
-# HAOS v2 Deployment to dev2 (Phase 5 Voice/Video)
+# MELO v2 Deployment to dev2 (Phase 5 Voice/Video)
 
 ## Deployment Status: INCOMPLETE
 
 ### Deployment Challenges
-- Docker container `haos-v2` failed to start
+- Docker container `melo-v2` failed to start
 - Potential issues with:
   1. Environment variables
   2. Docker configuration
@@ -75,7 +75,7 @@ Manual notification recommended.
 
 ## Recommended Actions
 1. SSH into dev2
-2. Navigate to ~/haos-v2
+2. Navigate to ~/melo-v2
 3. Run `docker-compose build` with verbose output
 4. Run `docker-compose up` and capture full logs
 5. Investigate any startup or configuration errors

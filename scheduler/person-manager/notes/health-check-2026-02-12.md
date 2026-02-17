@@ -5,7 +5,7 @@
 | Level | Agent | Status | Details |
 |-------|-------|--------|---------|
 | 1 | Person Manager (CEO) | ✅ Healthy | Newly initialized, first formal health check |
-| 2 | Coordinator | ✅ Healthy | 1 active project (haos-v2), notes current |
+| 2 | Coordinator | ✅ Healthy | 1 active project (melo-v2), notes current |
 | 3 | Task Managers | ✅ Healthy | Active task queue, work progressing |
 | 4 | Workers | ⚠️ Minor Issues | 1 active, 1 stale heartbeat |
 
@@ -14,14 +14,14 @@
 ## Coordinator Audit
 
 **Jobs File:** `scheduler/coordinator/JOBS.md`
-- **Active Projects:** 1 (haos-v2)
+- **Active Projects:** 1 (melo-v2)
 - **Active Topics:** 0
 - **Last Updated:** 2026-02-12 08:15 EST
 
 **Notes:** `scheduler/coordinator/notes/projects/`
-- `haos-v2.md` — Last modified Feb 12 01:04, actively maintained
+- `melo-v2.md` — Last modified Feb 12 01:04, actively maintained
 
-**Assessment:** Healthy. Coordinator is tracking haos-v2 properly, notes are current, status reflects reality.
+**Assessment:** Healthy. Coordinator is tracking melo-v2 properly, notes are current, status reflects reality.
 
 ---
 
@@ -57,15 +57,15 @@
 
 | File | Task | Started | Last Heartbeat | Status |
 |------|------|---------|----------------|--------|
-| `haos-v2-matrix-client-singleton-p1-2-a.json` | Matrix Client Singleton | 07:15 UTC | 07:15 UTC | ⚠️ Stale (no updates) |
+| `melo-v2-matrix-client-singleton-p1-2-a.json` | Matrix Client Singleton | 07:15 UTC | 07:15 UTC | ⚠️ Stale (no updates) |
 | `p2-1-a.json` | Server Sidebar | 01:00 UTC | 01:00 UTC | ❌ Orphaned (5h+ old) |
 
 ### Progress Folders
 
 | Folder | Files | Last Update |
 |--------|-------|-------------|
-| `haos-v2-auth-manager-p1-1/` | 6 files | Feb 12 00:46 |
-| `haos-v2-sync-manager-p1-2/` | 2 files | Feb 12 01:03 |
+| `melo-v2-auth-manager-p1-1/` | 6 files | Feb 12 00:46 |
+| `melo-v2-sync-manager-p1-2/` | 2 files | Feb 12 01:03 |
 
 ---
 
@@ -77,7 +77,7 @@
 - **Cause:** Likely a crashed or completed worker that didn't clean up
 - **Action:** Delete stale heartbeat file
 
-### 2. Stale Heartbeat: `haos-v2-matrix-client-singleton-p1-2-a.json` ⚠️
+### 2. Stale Heartbeat: `melo-v2-matrix-client-singleton-p1-2-a.json` ⚠️
 - **Severity:** Low
 - **Details:** Started 07:15 UTC but no heartbeat updates since
 - **Note:** Timestamp appears to be in the future (02:15 EST vs current 01:07 EST) — possible clock issue
@@ -103,7 +103,7 @@
 
 **Health: ✅ Good**
 
-The system is functioning well. The management hierarchy is properly structured, work is progressing on haos-v2, and Phase 1 is underway. Minor cleanup needed for stale heartbeat files. 
+The system is functioning well. The management hierarchy is properly structured, work is progressing on melo-v2, and Phase 1 is underway. Minor cleanup needed for stale heartbeat files. 
 
 The 2-slot worker limit is being respected (1 active slot currently), leaving room for parallelization once p1-2-a completes and unblocks other tasks.
 

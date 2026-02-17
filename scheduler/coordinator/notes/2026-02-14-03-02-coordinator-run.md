@@ -2,7 +2,7 @@
 
 ## Status Check
 - **Inbox:** Empty (no messages from Person Manager)
-- **Active Projects:** haos-v2 (Phase 6 in progress)
+- **Active Projects:** melo-v2 (Phase 6 in progress)
 - **Total Tasks:** 9 (4 completed, 5 pending)
 - **Progress:** Good momentum, 4 tasks completed already
 
@@ -50,4 +50,4 @@
 - Strong progress on Phase 6 — over half complete now
 - Gateway timeout on second spawn but session was created
 - Both workers have detailed completion checklists
-- HAOS v2 deployment remains live and functional at dev2.aaroncollins.info
+- MELO v2 deployment remains live and functional at dev2.aaroncollins.info

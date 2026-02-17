@@ -1,7 +1,7 @@
 # Progress: p12-14-build-optimization-fix
 
 ## Task
-Fix database-dependent build issues preventing production deployment in haos-v2
+Fix database-dependent build issues preventing production deployment in melo-v2
 
 **PROBLEM:** Next.js build fails during static generation because API routes like `/api/admin/jobs/stats/route.ts` require database access during build time. Error: "Can't reach database server at `localhost:5432`"
 
@@ -58,16 +58,16 @@ Fix database-dependent build issues preventing production deployment in haos-v2
 
 ### Evidence
 - Files created/modified: 
-  - NEW: `~/repos/haos-v2/lib/build-guards.ts` - Build-time detection utilities
-  - MODIFIED: `~/repos/haos-v2/app/api/admin/jobs/stats/route.ts` - Added build guards and error handling
+  - NEW: `~/repos/melo-v2/lib/build-guards.ts` - Build-time detection utilities
+  - MODIFIED: `~/repos/melo-v2/app/api/admin/jobs/stats/route.ts` - Added build guards and error handling
 - Build output: Successful with exit code 0, no database connection errors
 - Static generation: All 38 pages generated, API route shows as static
 - Runtime test: `curl http://localhost:3000/api/admin/jobs/stats` returns proper JSON data
 - Git commit: 10dfd49 "Fix database-dependent build issues preventing production deployment"
 
 ### Verification Steps for Manager
-1. Check build guards file exists: `ls -la ~/repos/haos-v2/lib/build-guards.ts`
-2. Run build: `cd ~/repos/haos-v2 && pnpm build` → Should complete with exit code 0
-3. Start dev server: `cd ~/repos/haos-v2 && pnpm dev`
+1. Check build guards file exists: `ls -la ~/repos/melo-v2/lib/build-guards.ts`
+2. Run build: `cd ~/repos/melo-v2 && pnpm build` → Should complete with exit code 0
+3. Start dev server: `cd ~/repos/melo-v2 && pnpm dev`
 4. Test API route: `curl http://localhost:3000/api/admin/jobs/stats` → Should return JSON data
 5. Check git commit: `git log --oneline -1` → Should show commit 10dfd49

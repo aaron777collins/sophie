@@ -52,26 +52,26 @@ Task 1 (Manager - runs continuously)
 ## Task Format in PROACTIVE-JOBS.md
 
 ```markdown
-### build-haos-auth
+### build-melo-auth
 - **Status:** in-progress (manager)
 - **Min Model:** opus
-- **Description:** Implement Matrix authentication for HAOS v2
+- **Description:** Implement Matrix authentication for MELO v2
 - **Manager Notes:**
   - [23:30] Hired 3 sub-agents: login-form, session-context, auth-middleware
   - [23:45] login-form completed, session-context in progress
 - **Sub-Tasks:**
-  - build-haos-auth-login-form: completed
-  - build-haos-auth-session-context: in-progress
-  - build-haos-auth-middleware: pending (blocked by session-context)
+  - build-melo-auth-login-form: completed
+  - build-melo-auth-session-context: in-progress
+  - build-melo-auth-middleware: pending (blocked by session-context)
 
-### build-haos-auth-session-context
+### build-melo-auth-session-context
 - **Status:** in-progress
-- **Parent:** build-haos-auth
+- **Parent:** build-melo-auth
 - **Min Model:** sonnet
 - **Description:** Create React context for Matrix session management
 - **Sub-Tasks:**
-  - build-haos-auth-session-context-storage: in-progress
-  - build-haos-auth-session-context-hooks: pending
+  - build-melo-auth-session-context-storage: in-progress
+  - build-melo-auth-session-context-hooks: pending
 ```
 
 ## Hierarchical Documentation
@@ -400,9 +400,9 @@ The cron scheduler needs to:
 
 ### Depth Calculation
 ```
-build-haos-auth                    → depth 0
-build-haos-auth-login              → depth 1
-build-haos-auth-login-validation   → depth 2
+build-melo-auth                    → depth 0
+build-melo-auth-login              → depth 1
+build-melo-auth-login-validation   → depth 2
 ```
 
 ### Selection Algorithm
@@ -421,36 +421,36 @@ def select_next_task(tasks):
     return []
 ```
 
-## Example: Building HAOS Auth
+## Example: Building MELO Auth
 
 ```
 [Manager spawns at 00:00]
-build-haos-auth (Manager)
+build-melo-auth (Manager)
 ├── Notes: "Breaking down auth into 4 components..."
 ├── Hires: login-page, register-page, session-context, middleware
 │
 [00:05 - Scheduler picks deepest pending]
-├── build-haos-auth-session-context (in-progress)
+├── build-melo-auth-session-context (in-progress)
 │   ├── Notes: "This is still complex, hiring sub-agents..."
 │   ├── Hires: storage, hooks, types
 │   │
 │   [00:10 - Even deeper now]
-│   ├── build-haos-auth-session-context-storage (in-progress)
+│   ├── build-melo-auth-session-context-storage (in-progress)
 │   │   └── Notes: "Implementing localStorage + cookie sync..."
 │   │   └── [00:20] COMPLETED ✓
 │   │
-│   ├── build-haos-auth-session-context-hooks (in-progress after storage)
+│   ├── build-melo-auth-session-context-hooks (in-progress after storage)
 │   │   └── Notes: "Creating useMatrixSession, useMatrixUser..."
 │   │   └── [00:35] COMPLETED ✓
 │   │
-│   └── build-haos-auth-session-context-types (in-progress)
+│   └── build-melo-auth-session-context-types (in-progress)
 │       └── [00:25] COMPLETED ✓
 │
 │   [00:40 - All children done, parent completes]
 │   └── COMPLETED ✓
 │
 [00:45 - Next sibling starts]
-├── build-haos-auth-login-page (in-progress)
+├── build-melo-auth-login-page (in-progress)
 ...
 ```
 

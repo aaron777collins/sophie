@@ -69,7 +69,7 @@ Sub-agents mark tasks "complete" without:
 - Testing in real environments
 
 **Examples of failures:**
-- HAOS "v1.0.0 release" announced but no git tag, no deployment
+- MELO "v1.0.0 release" announced but no git tag, no deployment
 - E2EE code "complete" but never pushed to production
 - Tests "passing" that weren't actually run
 

@@ -6,14 +6,14 @@
 ## Critical Issue Identified
 
 ### Failed Worker Session
-**Task:** haos-v2-channel-item-p2-2-d
+**Task:** melo-v2-channel-item-p2-2-d
 **Issue:** Model error "claude-3-5-sonnet-20241022 not found" 
 **Session:** agent:main:subagent:c0b637be-851c-48d0-a30b-79fb895ac50e
 **Status:** Failed immediately after spawn
 **Root Cause:** Model availability issue - task requested old model name
 
 ### Recently Completed
-- **haos-v2-channel-category-p2-2-c** ✅ Completed successfully
+- **melo-v2-channel-category-p2-2-c** ✅ Completed successfully
 
 ## Task Status Analysis
 
@@ -24,7 +24,7 @@ From PROACTIVE-JOBS.md review:
 
 ## Immediate Actions Required
 
-1. **Respawn Failed Task:** haos-v2-channel-item-p2-2-d with correct model (claude-sonnet-4-20250514)
+1. **Respawn Failed Task:** melo-v2-channel-item-p2-2-d with correct model (claude-sonnet-4-20250514)
 2. **Status Review:** Verify which tasks are actually running vs completed
 3. **Update Progress:** Ensure PROACTIVE-JOBS.md reflects current reality
 

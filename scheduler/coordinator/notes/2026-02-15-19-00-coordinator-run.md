@@ -10,7 +10,7 @@ All current tasks completed ✅. System in stable state with no active workers. 
 - **Actions:** No messages to process
 
 ### 📋 Jobs Status 
-- **Active Projects:** HAOS v2 (recovery phase)
+- **Active Projects:** MELO v2 (recovery phase)
 - **Overall Progress:** 45% complete (25/56 tasks based on JOBS.md)
 - **Current Priority:** Phase 11 (UX) and Phase 12 (Infrastructure)
 

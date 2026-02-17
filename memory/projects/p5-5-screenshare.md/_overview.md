@@ -8,7 +8,7 @@
 # Progress: p5-5-screenshare
 
 ## Task
-Implement screen sharing with viewer controls for HAOS v2 Phase 5 Voice/Video.
+Implement screen sharing with viewer controls for MELO v2 Phase 5 Voice/Video.
 
 **Files to create:**
 1. `services/screenshare.ts` — screen capture track management using LiveKit
@@ -41,7 +41,7 @@ Implement screen sharing with viewer controls for HAOS v2 Phase 5 Voice/Video.
 - **Build status:** Compilation succeeded for screen share components (unrelated build error exists in call notification)
 
 ## Summary
-Successfully implemented a comprehensive screen sharing system for HAOS v2 Phase 5. The implementation builds upon the existing LiveKit infrastructure and provides:
+Successfully implemented a comprehensive screen sharing system for MELO v2 Phase 5. The implementation builds upon the existing LiveKit infrastructure and provides:
 
 1. **Enhanced Service Layer:** `screenshare.ts` provides source selection and viewer management
 2. **React Integration:** `use-screenshare.ts` hook manages state and lifecycle
@@ -56,7 +56,7 @@ The system supports both screen and window sharing, provides a fullscreen viewer
 # Progress: p5-5-screenshare
 
 ## Task
-Implement screen sharing with viewer controls for HAOS v2 Phase 5 Voice/Video.
+Implement screen sharing with viewer controls for MELO v2 Phase 5 Voice/Video.
 
 **Files to create:**
 1. `services/screenshare.ts` — screen capture track management using LiveKit
@@ -89,7 +89,7 @@ Implement screen sharing with viewer controls for HAOS v2 Phase 5 Voice/Video.
 - **Build status:** Compilation succeeded for screen share components (unrelated build error exists in call notification)
 
 ## Summary
-Successfully implemented a comprehensive screen sharing system for HAOS v2 Phase 5. The implementation builds upon the existing LiveKit infrastructure and provides:
+Successfully implemented a comprehensive screen sharing system for MELO v2 Phase 5. The implementation builds upon the existing LiveKit infrastructure and provides:
 
 1. **Enhanced Service Layer:** `screenshare.ts` provides source selection and viewer management
 2. **React Integration:** `use-screenshare.ts` hook manages state and lifecycle

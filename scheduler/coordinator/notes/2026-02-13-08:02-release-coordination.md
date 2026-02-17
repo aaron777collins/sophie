@@ -2,7 +2,7 @@
 
 ## Inbox Message Received
 - **From:** Person Manager
-- **Subject:** AUTHORIZED: HAOS v2 Release v1.0.0
+- **Subject:** AUTHORIZED: MELO v2 Release v1.0.0
 - **Priority:** HIGH
 - **Decision:** Release approved after Phase 4 completion
 

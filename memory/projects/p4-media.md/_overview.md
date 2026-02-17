@@ -14,7 +14,7 @@ Implement file upload, image sharing, and media management for Matrix messages
 
 ### [2026-02-14 19:01 EST] Initial Assessment
 **Context:**
-- Project: HAOS v2 - Discord-style Matrix client
+- Project: MELO v2 - Discord-style Matrix client
 - Current state: Basic Next.js app with auth structure, but no chat/media components
 - Next.js build succeeds (exit code 0) despite lockfile warnings
 - Matrix auth service exists but matrix-js-sdk not in package.json
@@ -124,7 +124,7 @@ Implement file upload, image sharing, and media management for Matrix messages
 
 ### [2026-02-14 19:01 EST] Initial Assessment
 **Context:**
-- Project: HAOS v2 - Discord-style Matrix client
+- Project: MELO v2 - Discord-style Matrix client
 - Current state: Basic Next.js app with auth structure, but no chat/media components
 - Next.js build succeeds (exit code 0) despite lockfile warnings
 - Matrix auth service exists but matrix-js-sdk not in package.json

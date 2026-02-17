@@ -1,4 +1,4 @@
-# HAOS v1.1 Roadmap Planning
+# MELO v1.1 Roadmap Planning
 **Task ID**: v1.1-roadmap-planning  
 **Date**: 2026-02-13  
 **Status**: In Progress
@@ -6,7 +6,7 @@
 ## Executive Summary
 **⚠️ Critical Discovery: v1.0.0 Release Was False**
 
-During roadmap planning investigation, I discovered that the claimed v1.0.0 release on 2026-02-13 was false. The actual HAOS-v2 codebase is still at version 0.1.0 and lacks core chat functionality, despite extensive UI components and infrastructure being built.
+During roadmap planning investigation, I discovered that the claimed v1.0.0 release on 2026-02-13 was false. The actual MELO-v2 codebase is still at version 0.1.0 and lacks core chat functionality, despite extensive UI components and infrastructure being built.
 
 ## Current State Analysis
 

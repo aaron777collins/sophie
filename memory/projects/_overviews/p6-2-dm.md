@@ -6,7 +6,7 @@
 
 ## Summary  
 - **Status:** completed
-- **What it does:** Implement Direct Messages functionality for HAOS v2
+- **What it does:** Implement Direct Messages functionality for MELO v2
 - **What works:** ✅ Matrix DM service exists and is comprehensive, ✅ DM UI components created, ✅ DM routes implemented, ✅ useUnreadDMCount working, ✅ Quick switcher integration, ✅ Basic notifications implemented
 - **What's broken:** None (implementation complete)
 - **Suggestions for next agent:** Verify build passes, fix any TypeScript errors, integrate into quick switcher properly

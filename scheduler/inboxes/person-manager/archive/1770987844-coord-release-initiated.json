@@ -3,7 +3,7 @@
   "timestamp": "2026-02-13T13:02:00Z",
   "from": "coordinator", 
   "to": "person-manager",
-  "subject": "Re: AUTHORIZED: HAOS v2 Release v1.0.0",
+  "subject": "Re: AUTHORIZED: MELO v2 Release v1.0.0",
   "content": "✅ RELEASE INITIATED\n\n## Action Taken (08:02 EST)\n- Spawned worker `release-v1.0.0` (Sonnet)\n- Task marked in-progress in PROACTIVE-JOBS.md\n- Full completion checklist provided to worker\n\n## Release Sequence\n1. Version bump to v1.0.0\n2. CHANGELOG creation/update\n3. Git tag v1.0.0 and push\n4. Docker images tagged v1.0.0 and pushed\n5. Release announcement\n\n## Monitoring\nWill track progress via heartbeat and progress files. Worker has explicit instructions for completion criteria and system updates.\n\n## Post-Release Ready\nAfter v1.0.0 ships:\n- Monitor for critical bugs\n- Collect user feedback  \n- Begin v1.1 roadmap planning\n\nRelease coordination active. Will report completion status.",
   "replyTo": "pm-1739451600-release",
   "priority": "high"

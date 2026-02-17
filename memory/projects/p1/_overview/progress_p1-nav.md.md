@@ -1,7 +1,7 @@
 # Progress: p1-nav - URL Routing and Quick Switcher
 
 ## Task Overview
-Implement URL routing and quick switcher for HAOS v2 navigation
+Implement URL routing and quick switcher for MELO v2 navigation
 
 ## Implementation Details
 ### URL Routing
