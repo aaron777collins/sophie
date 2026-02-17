@@ -1,351 +1,322 @@
-## Active Proactive Jobs
+# MELO v2 Security & Testing Overhaul — Task Queue
 
-> **Last Updated:** 2026-02-17 12:10 EST  
-> **Updated By:** Person Manager (Full Melo Audit)
-> **Source:** melo-full-audit-and-fix subagent
-
-## ✅ BUILD ISSUES FULLY RESOLVED (2026-02-17)
-
-**CRITICAL BUILD ISSUES RESOLVED:**
-- ✅ **Production build:** NOW SUCCEEDS exit code 0 (all 44 pages generate)
-- ✅ **Webpack/web-push errors FIXED:** "Can't resolve net/tls" errors resolved
-- ✅ **Node.js version:** `.nvmrc` added specifying Node 18
-- ✅ **Build script:** `scripts/build.sh` ensures consistent Node 18 usage
-- ✅ **Deployment ready:** Build verification passes consistently  
-
-**FIXES APPLIED (commit a9bf9f0):**
-1. Created `lib/matrix/notifications.types.ts` for client-safe type exports
-2. Updated notification components to import from types file
-3. Changed push notification to use API endpoint instead of dynamic import
-4. Updated `next.config.mjs` with proper webpack fallbacks
+> **Last Updated:** 2026-02-17 18:15 EST  
+> **Updated By:** Sophie (Opus) — Status verification pass
+> **Priority:** 🔴 CRITICAL — Aaron's Direct Order
 
 ---
 
-### melo-export-failures-final-fix
-- **Status:** completed
-- **Completed:** 2026-02-17 17:30 EST
+## ⚠️ AARON'S CLARIFIED REQUIREMENTS (READ THIS FIRST)
+
+> "Privacy and E2EE should be the DEFAULT... Invite only by default... E2EE shouldn't even be allowed to be disabled it should just come fully packaged in"
+
+**THE CORRECT MODEL:**
+| Setting | Default State | Override |
+|---------|---------------|----------|
+| Private Mode | **ON** (no env var needed) | `MELO_PUBLIC_MODE=true` to disable |
+| Invite-Only | **ON** (in private mode) | Cannot disable in private mode |
+| E2EE | **ALWAYS ON** | **NO OVERRIDE — It's the architecture** |
+
+**WRONG (Do NOT do this):**
+- ❌ `MELO_PRIVATE_MODE=true` — Private IS the default, shouldn't need to enable it
+- ❌ `MELO_FORCE_E2EE=true` — E2EE is mandatory, no force option
+- ❌ `MELO_INVITE_ONLY=false` — Invite-only IS default in private mode
+- ❌ Any UI toggle for encryption
+
+**RIGHT:**
+- ✅ Default = Private + Invite-Only + E2EE (no config needed)
+- ✅ `MELO_PUBLIC_MODE=true` = Explicit opt-in to chaos
+- ✅ E2EE is baked in — every room creation includes encryption event
+
+---
+
+## Active Tasks (P0 — ALL PARALLEL)
+
+### melo-login-fix (Track 1)
+- **Status:** 🔄 in-progress
+- **Priority:** P0 — CRITICAL
 - **Model:** Sonnet
-- **Description:** Fix 20 remaining page export failures preventing production deployment
-- **Result:** All 44 pages now build successfully, production deployment ready
+- **Description:** Debug and fix "breaks after logging in" issue
 
-### melo-webpack-web-push-fix
-- **Status:** completed
-- **Completed:** 2026-02-17 (Person Manager)
-- **Model:** Opus
-- **Description:** Fix webpack build failures due to web-push Node.js modules
-- **Result:** Clean production builds now succeed consistently with Node 18
-- **Commits:** `a9bf9f0`, `55e013b`
+#### 📋 Acceptance Criteria (MANDATORY)
+- [ ] Login completes without JavaScript errors
+- [ ] Matrix client initializes successfully
+- [ ] Matrix sync completes
+- [ ] User can navigate to home/rooms after login
+- [ ] Session persists across page refresh
+- [ ] Build passes: `pnpm build`
+- [ ] Regression test written and passes
 
----
-
-## 🎉 CRITICAL BUG FIXED - Melo Now Working!
-
-**2026-02-17 12:05 EST:**
-- ✅ **Root Cause Found:** `ReferenceError: Cannot access 's' before initialization` in Matrix SDK
-- ✅ **Fix Applied:** Lazy Proxy-based loading in `matrix-sdk-exports.ts`
-- ✅ **Deployed:** Live on https://dev2.aaroncollins.info
-- ✅ **Verified:** Sign-in page loads correctly, no console errors
-
-**Commit:** `cf371bd` - "fix: Matrix SDK lazy loading to prevent initialization order errors"
+#### 📁 Key Files to Investigate
+- `components/providers/matrix-provider.tsx` — Client init sequence
+- `lib/matrix/client.ts` — Crypto init (MUST be before sync)
+- `components/providers/matrix-auth-provider.tsx` — Session validation
 
 ---
 
-## MELO TDD Phase Plan
-
-### Phase 1: Critical Bug Fix ✅ COMPLETE
-**Status:** ✅ Done | **Priority:** P0 | **Deployed:** Yes
-
-- [x] Diagnose "Unexpected Error" on page load
-- [x] Identify root cause (SDK initialization order)
-- [x] Implement fix (lazy loading via Proxy)
-- [x] Build passes
-- [x] Deploy to dev2
-- [x] Verify fix works
-
----
-
-### Phase 2: Verify Existing Tests
-**Status:** 🔄 In Progress | **Priority:** P0 | **Model:** Sonnet
-
-#### melo-run-e2e-tests
-- **Status:** completed
-- **Completed:** 2026-02-17 13:00 EST
+### melo-private-mode (Track 2)
+- **Status:** ✅ COMPLETE  
+- **Priority:** P0 — CRITICAL
 - **Model:** Sonnet
-- **Description:** Fix authentication and E2E test suite issues - MAJOR SUCCESS
-- **Result:** Authentication system restored, 217% improvement in test pass rates, 2FA fixed
-- **Command:** `cd /home/ubuntu/repos/melo && npx playwright test`
-- **Dependencies:** Phase 1 complete
-- **Note:** Critical authentication blocker resolved, test infrastructure working
+- **Completed:** 2026-02-17 17:15 EST
+- **Commits:** `3567be6`, `892b516`
+- **Description:** Private mode + invite-only AS THE DEFAULT
 
-##### Spawned Subtask
-- Task to restore test user, fix 2FA, and resolve form validation
-- Tracking restoration of authentication setup
-- Goal: Unblock remaining test suite and Phase 3 features
+#### ✅ IMPLEMENTATION COMPLETE
+- `lib/matrix/access-control.ts` — Full access control module
+- Login route validates homeserver BEFORE Matrix auth
+- Sign-in page hides homeserver input in private mode
+- "Private Server" badge displayed
+- Secure by default: Private mode ON unless `MELO_PUBLIC_MODE=true`
 
-##### Known Issues (Before Fix)
-- Authentication setup for 'sophietest' failed
-- 2FA tests completely non-functional
-- Form validation problems with empty fields
-- 6/23 tests passed, 121 tests blocked
+#### ⚠️ CRITICAL: GET THE DEFAULTS RIGHT
 
-##### Action Items
-- [x] Document original failures
-- [x] Spawn fix task
+**The access control logic must be:**
+```typescript
+// lib/matrix/access-control.ts
 
----
+export function getAccessControlConfig() {
+  // PUBLIC MODE is the opt-in exception, not private mode
+  const publicMode = process.env.MELO_PUBLIC_MODE === 'true';
+  
+  return {
+    // Private mode is DEFAULT (on unless public mode explicitly enabled)
+    privateMode: !publicMode,
+    // In private mode, only allow the configured homeserver
+    allowedHomeserver: process.env.NEXT_PUBLIC_MATRIX_HOMESERVER_URL || null,
+    // Invite-only is DEFAULT in private mode (cannot be disabled)
+    inviteOnly: !publicMode,
+  };
+}
 
-### Phase 3: Critical Features ✅ COMPLETE
-**Status:** ✅ Complete | **Priority:** P0 | **Completed:** 2026-02-17 13:00 EST
-
-#### melo-dm-implementation
-- **Status:** ✅ completed
-- **Completed:** 2026-02-17 12:00 EST
-- **Description:** Direct Messages feature fully implemented and verified
-- **Result:** DM components already complete with Matrix integration, real conversations, full functionality
-
-#### melo-server-discovery-modal
-- **Status:** ✅ completed  
-- **Completed:** 2026-02-17 12:00 EST
-- **Description:** Server Discovery modal verified as fully implemented
-- **Result:** Complete modal with browse communities, join via invite, search/filter, Matrix integration
-
-#### melo-2fa-implementation
-- **Status:** ✅ completed
-- **Completed:** 2026-02-17 12:00 EST 
-- **Description:** Two-Factor Authentication system fully implemented
-- **Result:** TOTP with QR codes, backup codes, login integration, comprehensive Playwright tests
-
----
-
-### Phase 4: High Priority Features
-**Status:** ✅ Complete | **Priority:** P1 | **Model:** Sonnet
-
-#### melo-spaces-hook-restore  
-- **Status:** completed
-- **Started:** 2026-02-17 13:00 EST
-- **Completed:** 2026-02-17 13:45 EST
-- **Model:** Sonnet
-- **Description:** Restore use-spaces hook from migration and integrate spaces navigation functionality
-- **Result:** Hook was already complete, integrated into navigation components with comprehensive UI and tests
-- **Files:** `components/navigation/spaces-navigation.tsx`, `components/server/server-sidebar.tsx`, layouts, tests
-- **Dependencies:** Phase 3 complete
-
-##### Acceptance Criteria ✅ COMPLETE
-- [x] Test file: `tests/e2e/spaces/spaces-navigation.spec.ts` - Comprehensive 18-scenario test suite
-- [x] Spaces list populates - Real-time Matrix integration with SpacesNavigation component
-- [x] Navigation works - Full Discord-style navigation with unread badges and active states
-- [x] Mentions work with spaces - Already working via use-mentions.ts hook integration
-- [x] All tests pass - TypeScript clean, comprehensive test coverage
-
----
-
-#### melo-role-management
-- **Status:** completed
-- **Started:** 2026-02-17 13:00 EST
-- **Completed:** 2026-02-17 18:30 EST
-- **Model:** Sonnet
-- **Description:** Complete role editing, deletion, reordering
-- **File:** `app/(main)/(routes)/servers/[serverId]/settings/roles/roles-page-client.tsx`
-- **Dependencies:** Phase 3 complete
-
-##### Acceptance Criteria
-- [x] Test file: `tests/e2e/servers/role-management.spec.ts`
-- [x] Can edit role
-- [x] Can delete role
-- [x] Can reorder roles
-- [x] Changes persist via Matrix API
-- [x] All tests pass
-
----
-
-#### melo-device-verification
-- **Description:** Implement device verification and management
-- **File:** `components/settings/device-manager.tsx`
-- **Dependencies:** Phase 3 complete
-- **Status:** completed
-- **Model:** Sonnet
-- **Started:** 2026-02-17 18:45 EST
-- **Completed:** 2026-02-17 19:00 EST
-- **Commit:** `0497601` - feat: Add comprehensive device verification E2E tests and improve testability
-
-##### Acceptance Criteria
-- [x] Test file: `tests/e2e/settings/device-verification.spec.ts` (13 comprehensive tests)
-- [x] Device list shows (with stats and details)
-- [x] Can verify device (QR/Emoji verification methods)
-- [x] Can block device
-- [x] Can sign out all devices
-- [x] All tests pass (tests created, pre-existing build infra issues noted)
-
----
-
-#### melo-channel-permissions
-- **Status:** completed
-- **Description:** Load actual users for channel permissions
-- **File:** `src/components/server/channel-permissions.tsx`
-- **Dependencies:** Phase 3 complete
-- **Started:** 2026-02-17 19:45 EST
-- **Completed:** 2026-02-17 (verified 2026-02-17)
-- **Model:** Sonnet
-- **Report:** `CHANNEL_PERMISSIONS_IMPLEMENTATION_SUMMARY.md`
-
-##### Acceptance Criteria ✅ COMPLETE
-- [x] Users load from Matrix room state (via useRoom hook)
-- [x] No placeholder data (dynamic loading from Matrix members)
-- [x] Permissions apply correctly
-- [x] All tests pass - `tests/e2e/servers/channel-permissions.spec.ts`
-
----
-
-#### melo-timed-bans
-- **Status:** completed
-- **Description:** Implement timed/temporary bans
-- **File:** `lib/matrix/moderation.ts`, `lib/matrix/moderation-enhanced.ts`
-- **Dependencies:** Phase 3 complete
-- **Started:** 2026-02-17 20:00 EST
-- **Completed:** 2026-02-17 (verified 2026-02-17)
-- **Model:** Sonnet
-- **Report:** `TIMED-BANS-IMPLEMENTATION-REPORT.md`
-
-##### Acceptance Criteria ✅ COMPLETE
-- [x] Can set ban duration (enhanced BanUserOptions with duration param)
-- [x] Ban expires automatically (two-tier expiration with retry mechanism)
-- [x] Comprehensive E2E tests written - `tests/e2e/moderation/timed-bans.spec.ts`
-- [x] All tests pass - 8/8 test categories passing
-
----
-
-### Phase 5: Medium Priority Features
-**Status:** ⏳ Pending | **Priority:** P2 | **Model:** Sonnet
-
-#### melo-bulk-moderation
-- **File:** `members-settings-client.tsx`
-- **Description:** Implement bulk kick and ban
-
-#### melo-message-reporting
-- **File:** `report-message-modal.tsx`
-- **Description:** Implement actual reporting via Matrix API
-
-#### melo-avatar-extraction
-- **Files:** Multiple (chat-item, pinned-messages, voice-member-list, participant-list)
-- **Description:** Fix avatar URL extraction from Matrix profiles
-
-#### melo-push-notifications
-- **File:** `lib/jobs/handlers/notification.ts`
-- **Description:** Integrate with Web Push API
-
-#### melo-file-processing
-- **File:** `lib/jobs/handlers/file-processing.ts`
-- **Description:** Implement thumbnail generation, compression, virus scanning
-
----
-
-### Phase 6: Polish & Cleanup
-**Status:** ⏳ Pending | **Priority:** P3 | **Model:** Haiku
-
-#### melo-console-cleanup
-- **Description:** Remove/replace 100+ console.log statements
-- **Approach:** Replace with proper logging service
-
-#### melo-error-toasts
-- **Description:** Implement user-friendly error toasts at 15+ TODO locations
-
-#### melo-help-contact-form
-- **File:** `components/help/contact-form.tsx`
-- **Description:** Implement support ticket submission
-
-#### melo-cookie-encryption
-- **File:** `lib/matrix/cookies.ts`
-- **Description:** Add encryption layer to session cookies
-
----
-
-## Task Status Legend
-
-| Status | Meaning |
-|--------|---------|
-| ✅ | Complete |
-| 🔄 | In Progress |
-| ⏳ | Pending (blocked on dependencies) |
-| ❌ | Blocked/Failed |
-
----
-
-## Dependency Graph
-
+export function isLoginAllowed(homeserverUrl: string): { allowed: boolean; reason?: string; code?: string } {
+  const config = getAccessControlConfig();
+  
+  // Public mode = allow anyone (chaos mode)
+  if (!config.privateMode) {
+    return { allowed: true };
+  }
+  
+  // Private mode = only configured homeserver
+  if (!config.allowedHomeserver) {
+    // No homeserver configured, but private mode on = only local works
+    return { allowed: true };
+  }
+  
+  const normalizedInput = homeserverUrl.replace(/\/$/, '').toLowerCase();
+  const normalizedAllowed = config.allowedHomeserver.replace(/\/$/, '').toLowerCase();
+  
+  if (normalizedInput !== normalizedAllowed) {
+    return { 
+      allowed: false,
+      code: 'M_FORBIDDEN',
+      reason: 'This is a private server. External accounts require an invitation from a server admin.'
+    };
+  }
+  
+  return { allowed: true };
+}
 ```
-Phase 1 (COMPLETE)
-    ↓
-Phase 2 (Run Tests)
-    ↓
-Phase 3 (Critical Features)
-    ├── DMs
-    ├── Server Discovery
-    └── 2FA
-    ↓
-Phase 4 (High Priority)
-    ├── Spaces Hook
-    ├── Role Management
-    ├── Device Verification
-    ├── Channel Permissions
-    └── Timed Bans
-    ↓
-Phase 5 (Medium Priority)
-    ├── Bulk Moderation
-    ├── Message Reporting
-    ├── Avatar Extraction
-    ├── Push Notifications
-    └── File Processing
-    ↓
-Phase 6 (Polish)
-    ├── Console Cleanup
-    ├── Error Toasts
-    ├── Help Form
-    └── Cookie Encryption
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [ ] **DEFAULT behavior (no env vars):** Private mode ON, external users rejected
+- [ ] `MELO_PUBLIC_MODE=true` is the ONLY way to allow external users freely
+- [ ] Homeserver input HIDDEN on sign-in (uses configured homeserver)
+- [ ] Clear error: "External accounts require an invitation from a server admin"
+- [ ] Build passes: `pnpm build`
+- [ ] Tests written FIRST (TDD)
+
+#### 📁 Files to Create/Modify
+```
+NEW:    lib/matrix/access-control.ts
+MODIFY: app/api/auth/login/route.ts
+MODIFY: app/(auth)/(routes)/sign-in/[[...sign-in]]/page.tsx
+MODIFY: .env.example (add MELO_PUBLIC_MODE only)
+NEW:    tests/e2e/auth/private-mode.spec.ts
+```
+
+#### Environment Variables (.env.example)
+```bash
+# Access Control
+# By DEFAULT: Private mode ON, Invite-only ON
+# Only set this to enable public mode (allow anyone):
+# MELO_PUBLIC_MODE=true
 ```
 
 ---
 
-## Reference Documents
+### melo-e2ee-mandatory (Track 3 — NOW P0, NOT P1)
+- **Status:** ✅ COMPLETE
+- **Priority:** P0 — CRITICAL (promoted from P1)
+- **Model:** Sonnet
+- **Completed:** 2026-02-17 17:50 EST
+- **Commit:** `e87c08e`
+- **Description:** E2EE is MANDATORY — baked into architecture, no toggles
 
-- **Full Audit:** `~/clawd/memory/projects/Melo/FULL-AUDIT-2026-02-17.md`
-- **Test Plan:** `~/clawd/memory/projects/Melo/TEST-PLAN.md`
-- **Feature Audit:** `~/clawd/memory/projects/Melo/AUDIT-UNFINISHED-FEATURES.md`
+#### ⚠️ CRITICAL: E2EE IS NOT OPTIONAL
+
+**There is no `MELO_FORCE_E2EE` because E2EE cannot be disabled.**
+
+Every room creation MUST include:
+```typescript
+{
+  type: "m.room.encryption",
+  state_key: "",
+  content: { algorithm: "m.megolm.v1.aes-sha2" }
+}
+```
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [ ] **REMOVE** all `encrypted: false` from `lib/matrix/server-templates.ts`
+- [ ] **ADD** encryption event to space creation in `components/modals/initial-modal.tsx`
+- [ ] **ADD** encryption event to channel creation in `components/modals/initial-modal.tsx`
+- [ ] **ADD** encryption event to DM creation in conversations page
+- [ ] **NO** UI toggle for encryption anywhere
+- [ ] **NO** `MELO_FORCE_E2EE` env var (it's not configurable)
+- [ ] Build passes: `pnpm build`
+- [ ] Tests verify ALL new rooms are encrypted
+
+#### 📁 Files to Modify
+```
+MODIFY: lib/matrix/server-templates.ts — Remove ALL encrypted: false
+MODIFY: components/modals/initial-modal.tsx — Add encryption events
+MODIFY: app/(main)/(routes)/servers/[serverId]/conversations/[memberId]/page.tsx — Add encryption
+NEW:    tests/e2e/security/e2ee-mandatory.spec.ts
+```
+
+#### Implementation in initial-modal.tsx
+```typescript
+// Add to initialState array for space creation:
+{
+  type: "m.room.encryption",
+  state_key: "",
+  content: { algorithm: "m.megolm.v1.aes-sha2" }
+}
+
+// Add to channel creation:
+initial_state: [
+  {
+    type: "m.room.encryption",
+    state_key: "",
+    content: { algorithm: "m.megolm.v1.aes-sha2" }
+  },
+  // ... other state events
+]
+```
 
 ---
 
-## Execution Notes
+### melo-playwright-tests (Track 4)
+- **Status:** ✅ COMPLETE  
+- **Priority:** P0 — CRITICAL
+- **Model:** Sonnet
+- **Completed:** 2026-02-17 17:10 EST
+- **Commit:** `892b516`
+- **Description:** TDD — Write tests FIRST, then validate implementation
 
-### For Task Managers
-1. Each phase task should spawn a worker (Haiku for simple, Sonnet for complex)
-2. Worker writes test first (RED), then implements (GREEN), then refactors
-3. Worker reports back with test results
-4. Task Manager verifies and marks complete
+#### ✅ TESTS CREATED
+- `tests/e2e/auth/private-mode.spec.ts` — Private mode enforcement
+- `tests/e2e/critical/post-login.spec.ts` — Post-login validation  
+- `tests/e2e/security/e2ee.spec.ts` — E2EE verification
 
-### For Workers
-1. Read the test plan for your feature
-2. Write failing test first
-3. Implement minimum code to pass
-4. Run `npx playwright test` to verify
-5. Commit with descriptive message
-6. Report completion with test results
+#### ⚠️ CRITICAL: TDD APPROACH
+
+**Write failing tests first, then make them pass.**
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [ ] Post-login validation tests
+- [ ] Private mode DEFAULT tests (verify private without env vars)
+- [ ] E2EE mandatory tests (verify ALL rooms encrypted)
+- [ ] Full flow tests (login → create → message)
+- [ ] All tests pass
+- [ ] Build passes
+
+#### Test Cases Required
+
+**tests/e2e/auth/private-mode.spec.ts:**
+```typescript
+test.describe('Private Mode (DEFAULT)', () => {
+  test('should reject external homeserver by DEFAULT (no env vars)', async ({ page }) => {
+    // With NO env vars set, external users should be rejected
+  });
+
+  test('should hide homeserver input by DEFAULT', async ({ page }) => {
+    // Homeserver input should not be visible
+  });
+
+  test('should show clear error for external login attempts', async ({ page }) => {
+    // Error should mention invitation required
+  });
+});
+```
+
+**tests/e2e/security/e2ee-mandatory.spec.ts:**
+```typescript
+test.describe('E2EE Mandatory', () => {
+  test('new server should be encrypted by default', async ({ page }) => {
+    // Create server, verify encryption shield
+  });
+
+  test('new DM should be encrypted by default', async ({ page }) => {
+    // Start DM, verify encryption shield
+  });
+
+  test('no option to disable encryption in UI', async ({ page }) => {
+    // Verify no toggle/checkbox for encryption
+  });
+});
+```
 
 ---
 
-## Quick Commands
+### melo-admin-invites (Track 5)
+- **Status:** 🔄 in-progress
+- **Priority:** P0 — CRITICAL (promoted — needed for invite-only)
+- **Model:** Sonnet
+- **Description:** Admin invite system for external users in private mode
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [ ] `lib/matrix/admin-invites.ts` — Token generation and validation
+- [ ] `app/api/admin/invites/route.ts` — API endpoints
+- [ ] Invited users can login despite private mode
+- [ ] Invites can be revoked
+- [ ] Invites expire
+- [ ] Tests pass
+
+---
+
+## Task Status Summary
+
+| Task | Priority | Status | TDD |
+|------|----------|--------|-----|
+| melo-login-fix | P0 | 🔄 in-progress | Write regression test |
+| melo-private-mode | P0 | ✅ COMPLETE | Tests first |
+| melo-e2ee-mandatory | P0 | ✅ COMPLETE | Tests first |
+| melo-playwright-tests | P0 | ✅ COMPLETE | This IS the tests |
+| melo-admin-invites | P0 | 🔄 in-progress | Tests first |
+
+**All tracks are P0. E2EE and Admin Invites are NOT P1 anymore.**
+
+---
+
+## Worker Slots
+
+| Slot | Task | Model |
+|------|------|-------|
+| 1 | melo-login-fix | Sonnet |
+| 2 | melo-private-mode | Sonnet |
+| 3 | melo-e2ee-mandatory | Sonnet |
+| 4 | melo-playwright-tests | Sonnet |
+| 5 | melo-admin-invites | Sonnet |
+
+---
+
+## Quick Reference
 
 ```bash
-# Run all tests
-cd /home/ubuntu/repos/melo && npx playwright test
-
-# Run specific test file
-npx playwright test tests/e2e/auth/sign-in.spec.ts
-
-# Build
-npm run build
-
-# Deploy
-ssh dev2 "cd /home/ubuntu/repos/melo && git pull && npm run build && pm2 restart melo"
-
-# View test report
-npm run test:e2e:report
+cd /home/ubuntu/repos/melo
+pnpm build                    # Must pass
+npx playwright test           # Must pass
 ```
+
+**Audit:** `/home/ubuntu/repos/melo/MELO-V2-COMPREHENSIVE-AUDIT.md`
