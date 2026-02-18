@@ -52,7 +52,8 @@ RIGHT: Work autonomously → SELF-VALIDATE → Mark complete → Move on
    
 2. **Run actual checks**
    - Does build pass? `pnpm build`
-   - Do tests pass? `pnpm test`
+   - Do unit tests pass? `pnpm test`
+   - Do E2E tests pass? `pnpm test:e2e` (Playwright)
    - Does it actually work? (manual/functional check)
    
 3. **Multi-perspective review** (Circle thinking)
@@ -66,6 +67,83 @@ RIGHT: Work autonomously → SELF-VALIDATE → Mark complete → Move on
 
 **If validation fails → Fix before moving on. Don't claim complete.**
 
+### 🧪 TDD + E2E TESTING (MANDATORY)
+
+**All development follows Test-Driven Development (TDD):**
+
+1. **Write tests FIRST** — Before implementing any feature
+2. **Red → Green → Refactor** — Tests fail first, then pass, then clean up
+3. **E2E tests for user-facing features** — Use Playwright
+
+**Testing Requirements:**
+
+| Feature Type | Required Tests |
+|--------------|----------------|
+| API/Backend | Unit tests + integration tests |
+| UI Components | Component tests + E2E tests |
+| User Flows | Playwright E2E tests |
+| Auth/Security | Unit + integration + E2E |
+
+**Playwright E2E Commands:**
+```bash
+# Run all E2E tests
+pnpm test:e2e
+
+# Run specific test file
+pnpm test:e2e tests/e2e/auth.spec.ts
+
+# Run with UI (debugging)
+pnpm test:e2e --ui
+
+# Run headed (see browser)
+pnpm test:e2e --headed
+```
+
+**Task definitions MUST include:**
+- What tests to write (unit, integration, E2E)
+- Acceptance criteria as testable assertions
+- E2E scenarios for user-facing features
+
+**NO feature is complete without passing tests. Tests are not optional.**
+
+### 🔍 SEND TO VALIDATOR (REQUIRED after self-validation)
+
+**After self-validation passes, send to Validator for independent verification:**
+
+```bash
+cat > ~/clawd/scheduler/inboxes/validator/$(date +%s)-val-req.json << 'EOF'
+{
+  "id": "val-req-TIMESTAMP",
+  "timestamp": "ISO",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: {batch/phase description}",
+  "content": {
+    "task_ids": ["task-1", "task-2"],
+    "project": "project-name",
+    "phase": "Phase N",
+    "claimed_by": "coordinator",
+    "claimed_at": "ISO timestamp",
+    "files_changed": ["path/to/file.ts"],
+    "acceptance_criteria": [
+      "Build passes",
+      "Tests pass",
+      "Feature works end-to-end"
+    ],
+    "self_validation_notes": "What you already checked"
+  }
+}
+EOF
+```
+
+**Why send to Validator?**
+- You self-validate first (catch obvious issues)
+- Validator provides **independent** verification (catches what you missed)
+- Two-layer validation prevents lazy bots from claiming false completions
+
+**Work is NOT truly complete until Validator approves.**
+
 ### When to Actually Wait
 
 - Master Plan doesn't exist yet (project hasn't started)
@@ -73,6 +151,46 @@ RIGHT: Work autonomously → SELF-VALIDATE → Mark complete → Move on
 - Critical blocker needs strategic decision from above
 
 **Everything else → ACT AUTONOMOUSLY, VALIDATE BEFORE CLAIMING COMPLETE**
+
+---
+
+## 📊 TASK STATUS FLOW (Know This!)
+
+```
+pending → in-progress → needs-validation → self-validated → validated → complete
+```
+
+| Status | Who Sets | What It Means |
+|--------|----------|---------------|
+| `pending` | You | Task in queue, not started |
+| `in-progress` | Scheduler | Worker actively working |
+| `needs-validation` | Worker | Worker claims done, YOUR turn |
+| `self-validated` | **You** | You ran self-validation, passed |
+| `validated` | Validator | Independent verification passed |
+| `complete` | **You** | After Validator approves |
+
+### Your Status Responsibilities
+
+**When you see `needs-validation`:**
+1. Run self-validation (build, tests, E2E, manual check)
+2. If PASS → Change to `self-validated (L2-coordinator)`
+3. Send validation request to Validator inbox
+4. If FAIL → Change back to `in-progress` with failure notes
+
+**When you receive validation result from Validator:**
+- PASS → Change `self-validated` → `complete`
+- FAIL → Change back to `in-progress`, spawn fix
+
+**Status format in PROACTIVE-JOBS.md:**
+```markdown
+- **Status:** self-validated (L2-coordinator)
+- **Self-Validation:** 2026-02-18 12:30 EST by coordinator
+  - Build: ✅ pass
+  - Unit tests: ✅ pass
+  - E2E tests: ✅ pass
+  - Manual check: ✅ feature works
+- **Sent to Validator:** 2026-02-18 12:31 EST
+```
 
 ---
 
@@ -228,6 +346,46 @@ p1-1-c ──────┘
 ### Check Inbox
 ```bash
 ls ~/clawd/scheduler/inboxes/coordinator/*.json 2>/dev/null
+```
+
+### Handle Validation Results
+
+When you receive a `validation-result` from Validator:
+
+1. **If PASS:**
+   - Mark work as truly `complete`
+   - Proceed to next batch
+   - Archive the validation request
+
+2. **If FAIL:**
+   - Review specific issues
+   - Spawn workers to fix
+   - Re-submit for validation when fixed
+
+3. **If PARTIAL:**
+   - Mark passing tasks complete
+   - Fix failing tasks
+   - Re-submit failing tasks for validation
+
+### Send to Validator
+```bash
+cat > ~/clawd/scheduler/inboxes/validator/$(date +%s)-val-req.json << 'EOF'
+{
+  "id": "val-req-TIMESTAMP",
+  "timestamp": "ISO",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: {description}",
+  "content": {
+    "task_ids": ["task-1"],
+    "project": "project-name",
+    "phase": "Phase N",
+    "files_changed": ["path/to/file.ts"],
+    "acceptance_criteria": ["criterion 1", "criterion 2"]
+  }
+}
+EOF
 ```
 
 ### Send to Person Manager

@@ -1,38 +1,51 @@
 # Verification System — Trust But Verify
 
-> **"Employees can lie. Verify everything."**
+> **"Employees can lie. Verify everything. Then have someone else verify."**
 
-## Core Principle: Autonomous Work + Self-Validation + Upward Audit
+## Core Principle: Self-Validation + Independent Validation
 
-**Each level works AUTONOMOUSLY but SELF-VALIDATES before marking complete.**
+**Each level SELF-VALIDATES, then Validator provides INDEPENDENT verification.**
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                    AUTONOMOUS + SELF-VALIDATION PATTERN                  │
+│                    TWO-LAYER VALIDATION PATTERN                          │
 └─────────────────────────────────────────────────────────────────────────┘
 
-WRONG: Wait for orders → Work → Claim done
-WRONG: Work → Claim done → Hope someone validates
+Layer 1: SELF-VALIDATION (catches obvious issues)
+Layer 2: INDEPENDENT VALIDATION by Validator (catches what you missed)
 
-RIGHT: Work autonomously → SELF-VALIDATE (multi-perspective) → Mark complete
-       ↑ Person Manager audits after (spot-checks, not gatekeeping)
+WRONG: Work → Claim done → Hope someone validates
+WRONG: Work → Self-validate → Claim done (no independent check)
+
+RIGHT: Work → Self-validate → Send to Validator → Independent check → Complete
 ```
 
-### The Flow
+### The Flow (Updated 2026-02-18)
 
 ```
 Coordinator: Works autonomously (doesn't wait for Person Manager)
     ↓
 Workers complete tasks, claim done
     ↓
-Coordinator SELF-VALIDATES before moving on:
+Coordinator SELF-VALIDATES:
     1. Spawn verification sub-agent(s) — different perspectives
     2. Check: Does build pass? Do tests pass? Does it work?
     3. Review from multiple angles (skeptic, pragmatist, etc.)
-    ↓ ONLY if validation passes
-Mark phase/batch complete → Move to next
+    ↓ ONLY if self-validation passes
+Coordinator SENDS TO VALIDATOR (validation request):
+    - Task IDs, files changed, acceptance criteria
+    - What self-validation already checked
     ↓
-Person Manager: Audits completed work (spot-checks, not blocking)
+🔍 VALIDATOR independently verifies:
+    - Actually runs build/tests (doesn't trust claims)
+    - Reads the code
+    - Tests functionality
+    - Catches what Coordinator missed
+    ↓ Sends result back to Coordinator
+If PASS → Mark truly complete, move to next
+If FAIL → Back to workers for fixes
+    ↓
+Person Manager: Oversees both, handles escalations, spot-checks
 ```
 
 ### Self-Validation Requirements (MANDATORY)
@@ -69,43 +82,203 @@ Sub-agents mark tasks "complete" without:
 - Testing in real environments
 
 **Examples of failures:**
-- HAOS "v1.0.0 release" announced but no git tag, no deployment
+- MELO "v1.0.0 release" announced but no git tag, no deployment
 - E2EE code "complete" but never pushed to production
 - Tests "passing" that weren't actually run
 
 ## The Solution
 
-**Every completion claim must be verified by the level above.**
+**Two-layer validation: Self-validate, then independent validation by Validator.**
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                      VERIFICATION CHAIN                                  │
+│                      VERIFICATION CHAIN (Updated)                        │
 └─────────────────────────────────────────────────────────────────────────┘
 
 Worker claims "done"
     ↓
-Task Manager VERIFIES (runs tests, checks files exist, validates output)
-    ↓ only if verified
-Coordinator AUDITS (spot-checks, runs integration tests)
-    ↓ only if audited
-Person Manager CONFIRMS (reviews audit, checks deployment)
-    ↓ only if confirmed
+Task Manager SELF-VALIDATES (runs tests, checks files, validates output)
+    ↓ only if self-validated
+Coordinator SELF-VALIDATES batch (integration tests, spot-checks)
+    ↓ only if self-validated
+Coordinator SENDS TO VALIDATOR ← NEW STEP
+    ↓
+🔍 Validator INDEPENDENTLY VERIFIES (doesn't trust claims, runs everything)
+    ↓ only if Validator approves
+Coordinator marks truly COMPLETE
+    ↓
+Person Manager OVERSEES (spot-checks, handles escalations from Validator)
+    ↓
 ACTUALLY COMPLETE ✅
 ```
 
 ---
 
+## 🔍 The Validator (NEW)
+
+**Added 2026-02-18 to catch lazy bots and prevent false completions.**
+
+### Why Validator Exists
+
+- Coordinators can be optimistic about their own work
+- Self-validation misses things (you don't see your own blind spots)
+- Independent fact-checking catches what self-validation misses
+- Bots should not be lazy — Validator enforces this
+
+### Validator's Role
+
+| What | How |
+|------|-----|
+| **Receives** | Validation requests from Coordinator's inbox |
+| **Verifies** | Actually runs build, tests, reads code, tests functionality |
+| **Reports** | Sends results back to Coordinator |
+| **Escalates** | Alerts Person Manager of systemic issues |
+
+### The Validation Request Flow
+
+```
+1. Coordinator claims batch complete (after self-validating)
+2. Coordinator sends validation request to scheduler/inboxes/validator/
+3. Validator picks up request (runs at :10 and :40, offset from Coordinator)
+4. Validator independently verifies:
+   - Runs build (doesn't trust "build passes" claim)
+   - Runs tests (doesn't trust "tests pass" claim)
+   - Reads the code (checks quality, completeness)
+   - Tests functionality (actually uses the feature)
+5. Validator sends result to scheduler/inboxes/coordinator/
+6. If PASS: Coordinator marks truly complete
+7. If FAIL: Coordinator sends back for fixes
+```
+
+### Validator Communication
+
+**Coordinator → Validator (validation-request):**
+```json
+{
+  "type": "validation-request",
+  "task_ids": ["p1-2-a", "p1-2-b"],
+  "project": "project-name",
+  "phase": "Phase 2",
+  "files_changed": ["path/to/file.ts"],
+  "acceptance_criteria": ["Build passes", "Auth flow works"],
+  "self_validation_notes": "What Coordinator already checked"
+}
+```
+
+**Validator → Coordinator (validation-result):**
+```json
+{
+  "type": "validation-result",
+  "result": "PASS" | "FAIL" | "PARTIAL",
+  "findings": [...],
+  "summary": "1/2 tasks validated. p1-2-b needs fixes."
+}
+```
+
+### Validator Cron
+
+- **Schedule:** Every 30 min at :10 and :40 (10-minute offset from Coordinator)
+- **Model:** Sonnet (can escalate to Opus for complex validation)
+- **Jobs File:** `scheduler/validator/JOBS.md`
+- **Inbox:** `scheduler/inboxes/validator/`
+- **Identity:** `scheduler/validator/IDENTITY.md`
+
+---
+
 ## Verification Requirements by Level
 
-### 🧪 Testing Phase (NEW - MANDATORY)
+### 🧪 Testing Methodology (MANDATORY)
+
+**All development follows Test-Driven Development (TDD) with E2E coverage.**
+
+#### TDD Process (Red → Green → Refactor)
+
+```
+1. WRITE TEST FIRST — Define expected behavior as a failing test
+2. RUN TEST — Confirm it fails (red)
+3. IMPLEMENT — Write minimum code to make test pass
+4. RUN TEST — Confirm it passes (green)
+5. REFACTOR — Clean up code while keeping tests green
+6. REPEAT — Next test case
+```
+
+#### Testing Stack
+
+| Layer | Tool | Purpose |
+|-------|------|---------|
+| Unit Tests | Vitest/Jest | Individual functions, components |
+| Integration | Vitest/Jest | Module interactions |
+| E2E Tests | **Playwright** | Full user flows in real browser |
+| Visual | Playwright | Screenshot comparison |
+
+#### E2E Testing with Playwright (REQUIRED for UI features)
+
+**Every user-facing feature MUST have Playwright E2E tests.**
+
+```bash
+# Run all E2E tests
+pnpm test:e2e
+
+# Run specific test
+pnpm test:e2e tests/e2e/auth.spec.ts
+
+# Debug mode (UI)
+pnpm test:e2e --ui
+
+# Headed mode (see browser)
+pnpm test:e2e --headed
+
+# Generate tests (record)
+pnpm playwright codegen http://localhost:3000
+```
+
+**E2E Test Structure:**
+```typescript
+import { test, expect } from '@playwright/test';
+
+test.describe('Feature: User Authentication', () => {
+  test('should login with valid credentials', async ({ page }) => {
+    await page.goto('/login');
+    await page.fill('[name="email"]', 'test@example.com');
+    await page.fill('[name="password"]', 'password');
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL('/dashboard');
+    await expect(page.locator('h1')).toContainText('Welcome');
+  });
+
+  test('should show error with invalid credentials', async ({ page }) => {
+    await page.goto('/login');
+    await page.fill('[name="email"]', 'wrong@example.com');
+    await page.fill('[name="password"]', 'wrong');
+    await page.click('button[type="submit"]');
+    await expect(page.locator('.error')).toBeVisible();
+  });
+});
+```
+
+#### What Tests Are Required
+
+| Feature Type | Required Tests |
+|--------------|----------------|
+| API endpoint | Unit + integration tests |
+| UI component | Component test + E2E if user-facing |
+| User flow | Playwright E2E (happy path + error cases) |
+| Auth/security | Unit + integration + E2E |
+| Data mutation | Unit + integration + E2E |
+
+#### Testing Phase (MANDATORY)
 
 **Before verification, the TESTING phase must happen:**
 
 Every task must have:
-1. **Acceptance Criteria** — Defined before work starts
-2. **Validation Steps** — How to verify each criterion
+1. **Acceptance Criteria** — Defined before work starts (as test cases!)
+2. **Tests Written First** — TDD: tests exist before implementation
+3. **All Tests Pass** — Unit, integration, AND E2E
+4. **Validation Steps** — How to verify each criterion
 
 Worker must execute ALL validation steps before claiming complete.
+
+**NO feature is complete without tests. Tests are NOT optional.**
 
 ### L4 Worker → L3 Task Manager Handoff
 
@@ -218,21 +391,45 @@ curl -s {url} | head -20
 
 ---
 
-## Updated Task Status Flow
+## Task Status Flow (OFFICIAL)
 
 ```
-pending → in-progress → claiming-complete → verified → audited → COMPLETE
-                              ↓                ↓          ↓
-                          (failed)         (failed)   (failed)
-                              ↓                ↓          ↓
-                         in-progress     in-progress  in-progress
+pending → in-progress → needs-validation → self-validated → validated → COMPLETE
+                              ↓                  ↓              ↓
+                          (failed)           (failed)       (failed)
+                              ↓                  ↓              ↓
+                         in-progress       in-progress    in-progress
 ```
 
-**New statuses:**
-- `claiming-complete` — Worker says done, awaiting verification
-- `verified` — Task Manager confirmed it works
-- `audited` — Coordinator spot-checked and approved
-- `complete` — Person Manager confirmed (only L1 can set this)
+**Statuses:**
+
+| Status | Who Sets It | Meaning |
+|--------|-------------|---------|
+| `pending` | Coordinator | Not started, waiting in queue |
+| `in-progress` | Scheduler | Worker actively working |
+| `needs-validation` | Worker | Worker claims done, awaiting self-validation |
+| `self-validated` | Coordinator | Coordinator ran self-validation checks |
+| `validated` | Validator | Independent verification passed |
+| `complete` | Coordinator | Fully done after Validator approval |
+
+**Status Format in PROACTIVE-JOBS.md:**
+```markdown
+- **Status:** self-validated (L2-coordinator)
+- **Self-Validation:** 2026-02-18 12:30 EST by coordinator
+  - Build: ✅ pass
+  - Unit tests: ✅ pass  
+  - E2E tests: ✅ pass
+  - Manual check: ✅ feature works
+- **Validation:** pending (sent to validator)
+```
+
+**Rules:**
+- Only **Workers** can set `needs-validation`
+- Only **Coordinator** can set `self-validated` (after running checks)
+- Only **Validator** can set `validated` (after independent verification)
+- Only **Coordinator** can set `complete` (after Validator approves)
+
+**The flow is strict:** Worker → Coordinator self-validates → Validator independently verifies → Complete
 
 ---
 
