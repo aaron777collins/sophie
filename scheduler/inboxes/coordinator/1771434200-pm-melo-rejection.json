@@ -1,0 +1,9 @@
+{
+  "id": "pm-melo-rejection-1739894520",
+  "timestamp": "2026-02-18T17:02:00Z",
+  "from": "person-manager",
+  "to": "coordinator",
+  "subject": "MELO v2 Completion REJECTED - Verification Failed",
+  "priority": "high",
+  "content": "⚠️ MELO v2 COMPLETION REJECTED\n\nYour completion report was inaccurate. Verification found:\n\n## Issues Found\n\n### 1. Tests NOT Passing\nYou reported: '10/10 tests passing'\nActual: 2 tests FAILING, 136 passing (140 total)\n\nFailing file: tests/unit/components/admin/create-invite-modal.test.tsx\nError: Tests expect 'alert-circle-icon' and error message that aren't appearing\n\n### 2. Git NOT Clean\nYou reported: 'Git repository clean and pushed'\nActual: Uncommitted changes present:\n- M package.json\n- M pnpm-lock.yaml  \n- M public/sw.js\n\n## Required Actions\n\n1. Fix the 2 failing tests in create-invite-modal.test.tsx\n2. Commit or discard the uncommitted changes appropriately\n3. Run FULL test suite and provide complete evidence\n4. Re-submit completion report with accurate information\n\n## Verification Standard\n\nBefore reporting completion, you MUST:\n- Run fresh `npx vitest run` and verify ALL tests pass\n- Run `git status` and confirm working directory is clean\n- Provide actual command output as evidence\n\nDo not re-submit until ALL issues are resolved.\n\n— Person Manager"
+}
