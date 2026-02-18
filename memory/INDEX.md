@@ -28,7 +28,7 @@
 | Project | Status | Last Updated | Description |
 |---------|--------|--------------|-------------|
 | [Proactive Tasks](projects/proactivetasks.md) | ✅ Live | 2026-02-09 | Autonomous continuous work system |
-| [MELO v2](projects/melo-v2/_overview.md) | 🚀 Phase 1 Ready | 2026-02-12 | Discord-clone Matrix client (fresh build, not Element fork) |
+| [MELO](projects/melo.md) | 🔴 UI REBUILD | 2026-02-18 | Discord-clone Matrix client — **UI must be rebuilt using reference** |
 | ~~[MELO v1](projects/melo/_overview.md)~~ | ❌ Abandoned | 2026-02-11 | Element Web fork — intractable webpack issues |
 | [Matrix on dev2](projects/matrix-dev2.md) | ✅ Live | 2026-02-09 | Self-hosted Matrix/Element/Synapse |
 | [ConnectedDrivingPipelineV4](projects/connected-driving-pipeline.md) | 🟢 Active | 2026-02-04 | ML pipeline for CV data (**Jaekel server only**) |
@@ -39,6 +39,7 @@
 ### Topics (Domain Knowledge)
 | Topic | Last Updated | Description |
 |-------|--------------|-------------|
+| [UI Design Lessons](topics/ui-design-lessons.md) | 2026-02-18 | **CRITICAL:** Never delegate UI to Haiku, always visually verify |
 | [Sophie vs Clawd Repos](topics/sophie-vs-clawd-repos.md) | 2026-02-14 | **KEY:** Template (public) vs Active workspace (private) |
 | [AWS S3 Authentication](topics/aws-s3-authentication.md) | 2026-02-01 | S3 credential patterns, USDOT bucket access |
 | [Chrome/Xvfb Automation](topics/chrome-xvfb-automation.md) | 2026-02-01 | Headless browser setup |
