@@ -120,7 +120,8 @@ describe('Email Notifications Integration Tests', () => {
           getJoinedMembers: () => [
             { userId: '@alice:test.com' },
             { userId: '@other:test.com' }
-          ]
+          ],
+          getJoinedMemberCount: () => 2
         },
         {
           roomId: '!room:test.com',
@@ -131,8 +132,10 @@ describe('Email Notifications Integration Tests', () => {
           getUnreadNotificationCount: (type?: string) => type === 'highlight' ? 2 : 5,
           getJoinedMembers: () => [
             { userId: '@alice:test.com' },
-            { userId: '@bob:test.com' }
-          ]
+            { userId: '@bob:test.com' },
+            { userId: '@other1:test.com' }
+          ],
+          getJoinedMemberCount: () => 3
         }
       ];
 
@@ -215,7 +218,8 @@ describe('Email Notifications Integration Tests', () => {
         isDmRoom: () => true,
         getMyMembership: () => 'join',
         getUnreadNotificationCount: () => 3,
-        getJoinedMembers: () => [{ userId: '@opted_out:test.com' }]
+        getJoinedMembers: () => [{ userId: '@opted_out:test.com' }],
+        getJoinedMemberCount: () => 1
       }] as any);
 
       // User should be detected as offline initially
@@ -282,7 +286,8 @@ describe('Email Notifications Integration Tests', () => {
         isDmRoom: () => true,
         getMyMembership: () => 'join',
         getUnreadNotificationCount: () => 1,
-        getJoinedMembers: () => [{ userId }]
+        getJoinedMembers: () => [{ userId }],
+        getJoinedMemberCount: () => 1
       }] as any);
 
       const offlineUsers = await offlineDetectionService.detectOfflineUsers([userPreferences]);
@@ -365,7 +370,8 @@ describe('Email Notifications Integration Tests', () => {
         isDmRoom: () => true,
         getMyMembership: () => 'join',
         getUnreadNotificationCount: () => 3,
-        getJoinedMembers: () => [{ userId: '@test:test.com' }]
+        getJoinedMembers: () => [{ userId: '@test:test.com' }],
+        getJoinedMemberCount: () => 1
       }] as any);
 
       const offlineUsers = await offlineDetectionService.detectOfflineUsers([userPreferences]);
@@ -460,7 +466,8 @@ describe('Email Notifications Integration Tests', () => {
         getJoinedMembers: () => [
           { userId: '@good_user:test.com' },
           { userId: '@bad_user:test.com' }
-        ]
+        ],
+        getJoinedMemberCount: () => 2
       }] as any);
 
       const offlineUsers = await offlineDetectionService.detectOfflineUsers(userPreferences);
@@ -537,7 +544,8 @@ describe('Email Notifications Integration Tests', () => {
         getJoinedMembers: () => [
           { userId: '@stats_user1:test.com' },
           { userId: '@stats_user2:test.com' }
-        ]
+        ],
+        getJoinedMemberCount: () => 2
       }] as any);
 
       const initialStats = await emailService.getStats();
@@ -599,7 +607,8 @@ describe('Email Notifications Integration Tests', () => {
         isDmRoom: () => true,
         getMyMembership: () => 'join',
         getUnreadNotificationCount: () => 1,
-        getJoinedMembers: () => userPreferences.map(u => ({ userId: u.userId }))
+        getJoinedMembers: () => userPreferences.map(u => ({ userId: u.userId })),
+        getJoinedMemberCount: () => userPreferences.length
       }];
 
       mockMatrixClient.getRooms.mockReturnValue(mockRooms as any);

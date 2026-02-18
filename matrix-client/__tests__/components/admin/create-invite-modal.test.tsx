@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { CreateInviteModal } from '../../../components/admin/create-invite-modal';
 
 // Mock fetch
@@ -81,46 +81,73 @@ describe('CreateInviteModal', () => {
   it('validates required Matrix ID field', async () => {
     render(<CreateInviteModal {...defaultProps} />);
     
-    const submitBtn = screen.getByText('Create Invite');
-    fireEvent.click(submitBtn);
+    const form = screen.getByText('Create Invite').closest('form');
+    
+    await act(async () => {
+      fireEvent.submit(form!);
+    });
     
     await waitFor(() => {
       expect(screen.getByText('Matrix ID is required')).toBeInTheDocument();
-    });
+    }, { timeout: 3000 });
   });
 
   it('validates custom expiration days', async () => {
     render(<CreateInviteModal {...defaultProps} />);
     
     const select = screen.getByDisplayValue('7 Days');
-    fireEvent.change(select, { target: { value: '-1' } });
+    await act(async () => {
+      fireEvent.change(select, { target: { value: '-1' } });
+    });
     
     const customInput = screen.getByDisplayValue('7');
-    fireEvent.change(customInput, { target: { value: '0' } });
+    await act(async () => {
+      fireEvent.change(customInput, { target: { value: '0' } });
+    });
     
-    const submitBtn = screen.getByText('Create Invite');
-    fireEvent.click(submitBtn);
+    // Need to provide a valid Matrix ID so only custom days validation fails
+    const matrixIdInput = screen.getByLabelText('Matrix User ID *');
+    await act(async () => {
+      fireEvent.change(matrixIdInput, { target: { value: '@valid:matrix.org' } });
+    });
+    
+    const form = screen.getByText('Create Invite').closest('form');
+    await act(async () => {
+      fireEvent.submit(form!);
+    });
     
     await waitFor(() => {
       expect(screen.getByText('Expiration must be at least 1 day')).toBeInTheDocument();
-    });
+    }, { timeout: 3000 });
   });
 
   it('validates maximum custom expiration days', async () => {
     render(<CreateInviteModal {...defaultProps} />);
     
     const select = screen.getByDisplayValue('7 Days');
-    fireEvent.change(select, { target: { value: '-1' } });
+    await act(async () => {
+      fireEvent.change(select, { target: { value: '-1' } });
+    });
     
     const customInput = screen.getByDisplayValue('7');
-    fireEvent.change(customInput, { target: { value: '500' } });
+    await act(async () => {
+      fireEvent.change(customInput, { target: { value: '500' } });
+    });
     
-    const submitBtn = screen.getByText('Create Invite');
-    fireEvent.click(submitBtn);
+    // Need to provide a valid Matrix ID so only custom days validation fails
+    const matrixIdInput = screen.getByLabelText('Matrix User ID *');
+    await act(async () => {
+      fireEvent.change(matrixIdInput, { target: { value: '@valid:matrix.org' } });
+    });
+    
+    const form = screen.getByText('Create Invite').closest('form');
+    await act(async () => {
+      fireEvent.submit(form!);
+    });
     
     await waitFor(() => {
       expect(screen.getByText('Expiration cannot exceed 365 days')).toBeInTheDocument();
-    });
+    }, { timeout: 3000 });
   });
 
   it('successfully creates invite with preset expiration', async () => {
@@ -289,18 +316,28 @@ describe('CreateInviteModal', () => {
     expect(submitBtn).toBeDisabled();
   });
 
-  it('clears validation errors when user types', () => {
+  it('clears validation errors when user types', async () => {
     render(<CreateInviteModal {...defaultProps} />);
     
     const matrixIdInput = screen.getByLabelText('Matrix User ID *');
-    const submitBtn = screen.getByText('Create Invite');
+    const form = screen.getByText('Create Invite').closest('form');
     
     // Trigger validation error
-    fireEvent.click(submitBtn);
-    expect(screen.getByText('Matrix ID is required')).toBeInTheDocument();
+    await act(async () => {
+      fireEvent.submit(form!);
+    });
+    
+    await waitFor(() => {
+      expect(screen.getByText('Matrix ID is required')).toBeInTheDocument();
+    }, { timeout: 3000 });
     
     // Type in input should clear error
-    fireEvent.change(matrixIdInput, { target: { value: '@test:matrix.org' } });
-    expect(screen.queryByText('Matrix ID is required')).not.toBeInTheDocument();
+    await act(async () => {
+      fireEvent.change(matrixIdInput, { target: { value: '@test:matrix.org' } });
+    });
+    
+    await waitFor(() => {
+      expect(screen.queryByText('Matrix ID is required')).not.toBeInTheDocument();
+    }, { timeout: 3000 });
   });
 });

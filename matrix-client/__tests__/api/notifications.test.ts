@@ -4,8 +4,50 @@ import { POST as processNotifications, GET as getStats } from '../../app/api/not
 import { GET as getLogs } from '../../app/api/notifications/logs/route';
 
 // Mock the services to avoid real Matrix client initialization
-jest.mock('../../lib/services/email-notification-service');
-jest.mock('../../lib/services/offline-user-detection-service');
+jest.mock('../../lib/services/email-notification-service', () => {
+  return {
+    EmailNotificationService: jest.fn().mockImplementation(() => ({
+      validateEmail: jest.fn().mockImplementation((email: string) => {
+        if (!email || !email.includes('@') || !email.includes('.')) {
+          return { isValid: false, error: 'Invalid email format' };
+        }
+        return { isValid: true };
+      }),
+      getUserPreferences: jest.fn().mockResolvedValue(null),
+      updateUserPreferences: jest.fn().mockImplementation((userId, prefs) => 
+        Promise.resolve({ userId, ...prefs, updatedAt: new Date().toISOString() })
+      ),
+      optOut: jest.fn().mockResolvedValue(undefined),
+      cancelPendingNotifications: jest.fn().mockResolvedValue(0),
+      getStats: jest.fn().mockResolvedValue({
+        totalSent: 5,
+        totalFailed: 1,
+        totalPending: 2,
+        averageDeliveryTimeMs: 1500,
+        usersWithNotificationsEnabled: 10,
+        usersOptedOut: 2,
+        lastProcessedAt: new Date().toISOString()
+      }),
+      getUserLogs: jest.fn().mockResolvedValue([])
+    }))
+  };
+});
+jest.mock('../../lib/services/offline-user-detection-service', () => {
+  return {
+    OfflineUserDetectionService: jest.fn().mockImplementation(() => ({
+      getOfflineStats: jest.fn().mockReturnValue({
+        totalTrackedUsers: 15,
+        onlineUsers: 10,
+        offlineUsers: 5,
+        unknownUsers: 0,
+        lastDetectionRun: new Date().toISOString()
+      }),
+      markUserOffline: jest.fn(),
+      markUserOnline: jest.fn(),
+      detectOfflineUsers: jest.fn().mockResolvedValue([])
+    }))
+  };
+});
 
 // Helper function to create mock NextRequest
 const createMockRequest = (url: string, method: 'GET' | 'POST' | 'DELETE' = 'GET', body?: any) => {

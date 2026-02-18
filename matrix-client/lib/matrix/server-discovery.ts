@@ -124,18 +124,17 @@ export class ServerDiscoveryService {
   async getServerPreview(roomId: string): Promise<ServerPreview | null> {
     try {
       // Get room state and information
-      // TODO: Fix getRoomStateEvents method call - using placeholder for now
       const [roomState, roomSummary] = await Promise.all([
-        Promise.resolve([]), // Placeholder until Matrix.js SDK method is fixed
-        this.getPublicRoom(roomId)
+        this.client.getRoomStateEvents(roomId, ''),
+        this.client.getRoomSummary(roomId)
       ]);
 
-      // TODO: Fix these when roomState API is implemented correctly
-      const nameEvent: any = null; // roomState.find((e: any) => e.type === 'm.room.name');
-      const topicEvent: any = null; // roomState.find((e: any) => e.type === 'm.room.topic');
-      const avatarEvent: any = null; // roomState.find((e: any) => e.type === 'm.room.avatar');
-      const encryptionEvent: any = null; // roomState.find((e: any) => e.type === 'm.room.encryption');
-      const canonicalAliasEvent: any = null; // roomState.find((e: any) => e.type === 'm.room.canonical_alias');
+      // Extract state events
+      const nameEvent: any = roomState.find((e: any) => e.type === 'm.room.name');
+      const topicEvent: any = roomState.find((e: any) => e.type === 'm.room.topic');
+      const avatarEvent: any = roomState.find((e: any) => e.type === 'm.room.avatar');
+      const encryptionEvent: any = roomState.find((e: any) => e.type === 'm.room.encryption');
+      const canonicalAliasEvent: any = roomState.find((e: any) => e.type === 'm.room.canonical_alias');
 
       // Get member count
       const memberCount = await this.getRoomMemberCount(roomId);
@@ -276,8 +275,7 @@ export class ServerDiscoveryService {
     } catch (error) {
       // Fallback to state events
       try {
-        // TODO: Fix getRoomStateEvents method call
-        const memberEvents: any[] = []; // await this.client.getRoomStateEvents(roomId, 'm.room.member');
+        const memberEvents: any[] = await this.client.getRoomStateEvents(roomId, 'm.room.member');
         return memberEvents.filter((event: any) => event.content?.membership === 'join').length;
       } catch (fallbackError) {
         console.error('Error getting member count:', fallbackError);

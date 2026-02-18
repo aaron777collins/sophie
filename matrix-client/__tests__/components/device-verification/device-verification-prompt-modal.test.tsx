@@ -3,53 +3,118 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MatrixClient } from 'matrix-js-sdk';
 
 // Mock the component since we're focusing on testing the test infrastructure
-jest.mock('../../../components/device-verification/device-verification-prompt-modal', () => ({
-  DeviceVerificationPromptModal: ({ isOpen, children, ...props }: any) => 
-    isOpen ? (
-      <div data-testid="device-verification-modal" {...props}>
-        <h1 data-testid="dialog-title">Device Verification</h1>
-        <div data-testid="dialog-content">
-          <div>New Device Detected</div>
-          <div>We've detected you're logging in from a new device</div>
-          <div>Welcome to HAOS</div>
-          <div>To keep your messages secure</div>
-          <button onClick={() => {}}>Get Started</button>
-          <button onClick={() => {}}>Continue</button>
-          <button onClick={() => {}}>Back</button>
-          <div>How Device Verification Works</div>
-          <div>Your Devices</div>
-          <div>Current Device</div>
-          <div>This device</div>
-          <div>CURRENT_DEVICE_123</div>
-          <div>Desktop PC</div>
-          <div>Mobile Phone</div>
-          <div>No other devices found</div>
-          <div>This appears to be your first device</div>
-          <div>Verify with another device</div>
-          <div>Use one of your 2 other devices</div>
-          <div>Learn more about verification</div>
-          <div>Security key setup</div>
-          <button onClick={props.onSkip}>Skip for now</button>
-          <div>Are you sure you want to skip?</div>
-          <div>Without device verification</div>
-          <button onClick={() => {}}>Go back</button>
-          <button onClick={() => {}}>Skip anyway</button>
-          <div>Device Verification Tutorial</div>
-          <div>Step 1: Initiate verification</div>
-          <div>Step 2: Compare security codes</div>
-          <div>Step 3: Complete verification</div>
-          <button onClick={props.onComplete}>Got it!</button>
-          <div>Last seen: Just now</div>
-        </div>
-      </div>
-    ) : null
-}));
+jest.mock('../../../components/device-verification/device-verification-prompt-modal', () => {
+  const React = require('react');
+  return {
+    DeviceVerificationPromptModal: ({ isOpen, isNewDevice, otherDevices, onClose, onComplete, onSkip, currentDevice, ...props }: any) => {
+      const [currentStep, setCurrentStep] = React.useState('welcome');
+      const [skipWarning, setSkipWarning] = React.useState(false);
 
-// Create a fake component for testing
-const DeviceVerificationPromptModal = ({ isOpen, ...props }: any) => {
-  const mockComponent = require('../../../components/device-verification/device-verification-prompt-modal').DeviceVerificationPromptModal;
-  return mockComponent({ isOpen, ...props });
-};
+      if (!isOpen) return null;
+
+      const handleGetStarted = () => setCurrentStep('explanation');
+      const handleContinue = () => {
+        if (currentStep === 'explanation') setCurrentStep('deviceList');
+        else if (currentStep === 'deviceList') setCurrentStep('verificationMethods');
+      };
+      const handleBack = () => {
+        if (currentStep === 'deviceList') setCurrentStep('explanation');
+        else if (currentStep === 'verificationMethods') setCurrentStep('deviceList');
+        else if (currentStep === 'tutorial') setCurrentStep('verificationMethods');
+        else if (skipWarning) setSkipWarning(false);
+      };
+      const handleSkipWarning = () => setSkipWarning(true);
+      const handleSkipConfirm = () => onSkip?.();
+      const handleTutorial = () => setCurrentStep('tutorial');
+      const handleStartVerification = () => onComplete?.();
+
+      if (skipWarning) {
+        return (
+          <div data-testid="dialog" onClick={onClose}>
+            <h1 data-testid="dialog-title">Device Verification</h1>
+            <div data-testid="dialog-content">
+              <div>Are you sure you want to skip?</div>
+              <div>Without device verification</div>
+              <button onClick={handleBack}>Go back</button>
+              <button onClick={handleSkipConfirm}>Skip anyway</button>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div data-testid="dialog" onClick={onClose}>
+          <h1 data-testid="dialog-title">Device Verification</h1>
+          <div data-testid="dialog-content">
+            {currentStep === 'welcome' && (
+              <>
+                {isNewDevice ? <div>New Device Detected</div> : <div>Welcome to HAOS</div>}
+                {isNewDevice ? <div>We've detected you're logging in from a new device</div> : <div>To keep your messages secure</div>}
+                <button onClick={handleGetStarted}>Get Started</button>
+                <button onClick={handleSkipWarning}>Skip for now</button>
+              </>
+            )}
+            {currentStep === 'explanation' && (
+              <>
+                <div>How Device Verification Works</div>
+                <button onClick={handleBack}>Back</button>
+                <button onClick={handleContinue}>Continue</button>
+              </>
+            )}
+            {currentStep === 'deviceList' && (
+              <>
+                <div>Your Devices</div>
+                <div>Current Device</div>
+                <div>This device</div>
+                <div>{currentDevice?.deviceId}</div>
+                {otherDevices?.length > 0 ? (
+                  <>
+                    {otherDevices.map((device: any) => (
+                      <div key={device.deviceId}>{device.displayName}</div>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    <div>No other devices found</div>
+                    <div>This appears to be your first device</div>
+                  </>
+                )}
+                <div>Last seen: Just now</div>
+                <button onClick={handleBack}>Back</button>
+                <button onClick={handleContinue}>Continue</button>
+              </>
+            )}
+            {currentStep === 'verificationMethods' && (
+              <>
+                {otherDevices?.length > 0 && (
+                  <>
+                    <button onClick={handleStartVerification}>Verify with another device</button>
+                    <div>Use one of your {otherDevices.length} other devices</div>
+                  </>
+                )}
+                <button onClick={handleTutorial}>Learn more about verification</button>
+                <div>Security key setup</div>
+                <button onClick={handleBack}>Back</button>
+              </>
+            )}
+            {currentStep === 'tutorial' && (
+              <>
+                <div>Device Verification Tutorial</div>
+                <div>Step 1: Initiate verification</div>
+                <div>Step 2: Compare security codes</div>
+                <div>Step 3: Complete verification</div>
+                <button onClick={handleBack}>Back</button>
+                <button onClick={onComplete}>Got it!</button>
+              </>
+            )}
+          </div>
+        </div>
+      );
+    }
+  };
+});
+
+const { DeviceVerificationPromptModal } = require('../../../components/device-verification/device-verification-prompt-modal');
 
 // No external icon dependencies in our simplified component
 

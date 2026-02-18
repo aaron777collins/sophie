@@ -13,6 +13,7 @@ interface UnreadMessageSummary {
   directMessages: number;
   mentions: number;
   invites: number;
+  roomActivity: number;
   totalUnread: number;
   rooms: Array<{
     roomId: string;
@@ -297,8 +298,7 @@ export class OfflineUserDetectionService {
         const hasRelevantUnread = 
           (preferences.notificationTypes.directMessages && unreadMessages.directMessages > 0) ||
           (preferences.notificationTypes.mentions && unreadMessages.mentions > 0) ||
-          (preferences.notificationTypes.roomActivity && 
-           (unreadMessages.totalUnread - unreadMessages.directMessages - unreadMessages.mentions) > 0);
+          (preferences.notificationTypes.roomActivity && unreadMessages.roomActivity > 0);
 
         if (!hasRelevantUnread) {
           continue;
@@ -337,6 +337,7 @@ export class OfflineUserDetectionService {
       directMessages: 0,
       mentions: 0,
       invites: 0,
+      roomActivity: 0,
       totalUnread: 0,
       rooms: []
     };
@@ -357,7 +358,7 @@ export class OfflineUserDetectionService {
 
         // Get unread count for this room
         const unreadCount = room.getUnreadNotificationCount();
-        const highlightCount = room.getUnreadNotificationCount() || 0;
+        const highlightCount = (room as any).getUnreadNotificationCount('highlight') || 0;
         
         if (unreadCount > 0) {
           const isDirect = room.getJoinedMemberCount() === 2;
@@ -375,11 +376,11 @@ export class OfflineUserDetectionService {
           // Categorize the unread messages
           if (isDirect) {
             summary.directMessages += unreadCount;
-          } else if (highlightCount > 0) {
+          } else {
+            // For group rooms, separate mentions from room activity
             summary.mentions += highlightCount;
-            // The remaining unread messages in this room are regular room activity
-            const roomActivity = unreadCount - highlightCount;
-            // Note: This is counted in totalUnread but not separately tracked
+            const roomActivityCount = unreadCount - highlightCount;
+            summary.roomActivity += roomActivityCount;
           }
         }
       }

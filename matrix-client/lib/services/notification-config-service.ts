@@ -26,7 +26,10 @@ export class NotificationConfigService {
     // Helper function to parse boolean environment variables
     const parseBoolean = (value: string | undefined, defaultValue: boolean): boolean => {
       if (!value) return defaultValue;
-      return value.toLowerCase() === 'true';
+      const lowerValue = value.toLowerCase();
+      if (lowerValue === 'true') return true;
+      if (lowerValue === 'false') return false;
+      return defaultValue; // For invalid values, use default
     };
 
     // Helper function to parse integer environment variables

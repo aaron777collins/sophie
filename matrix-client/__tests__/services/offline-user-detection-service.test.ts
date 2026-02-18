@@ -19,6 +19,7 @@ const mockRoom = {
   isDmRoom: jest.fn().mockReturnValue(false),
   getMyMembership: jest.fn().mockReturnValue('join'),
   getUnreadNotificationCount: jest.fn().mockReturnValue(5),
+  getJoinedMemberCount: jest.fn().mockReturnValue(3),
   getJoinedMembers: jest.fn().mockReturnValue([
     { userId: '@user1:test.com' },
     { userId: '@user2:test.com' }
@@ -34,6 +35,7 @@ const mockDirectRoom = {
   getUnreadNotificationCount: jest.fn().mockImplementation((type) => 
     type === 'highlight' ? 0 : 3
   ),
+  getJoinedMemberCount: jest.fn().mockReturnValue(2),
   getJoinedMembers: jest.fn().mockReturnValue([
     { userId: '@user1:test.com' },
     { userId: '@other:test.com' }
@@ -137,6 +139,12 @@ describe('OfflineUserDetectionService', () => {
 
     beforeEach(() => {
       service.initialize(mockMatrixClient);
+
+      // Reset mock return values for unread counts (they may have been changed by previous tests)
+      (mockRoom.getUnreadNotificationCount as jest.Mock).mockReturnValue(5);
+      (mockDirectRoom.getUnreadNotificationCount as jest.Mock).mockImplementation((type) => 
+        type === 'highlight' ? 0 : 3
+      );
 
       mockUserPreferences = [
         {
@@ -274,6 +282,12 @@ describe('OfflineUserDetectionService', () => {
   describe('Unread Message Summary', () => {
     beforeEach(() => {
       service.initialize(mockMatrixClient);
+
+      // Reset mock return values for unread counts
+      (mockRoom.getUnreadNotificationCount as jest.Mock).mockReturnValue(5);
+      (mockDirectRoom.getUnreadNotificationCount as jest.Mock).mockImplementation((type) => 
+        type === 'highlight' ? 0 : 3
+      );
     });
 
     it('should categorize unread messages correctly', async () => {

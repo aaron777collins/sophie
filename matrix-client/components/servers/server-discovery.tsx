@@ -89,6 +89,36 @@ export function ServerDiscovery() {
     }
   }, [discoveryService, searchTerm, selectedTopic, selectedLanguage, minMembers, maxMembers, sortBy, sortDirection, pageSize]);
 
+  const performSearchWithSort = useCallback(async (page = 1, newSortBy?: typeof sortBy, newSortDirection?: typeof sortDirection) => {
+    if (!discoveryService) return;
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const searchOptions: SearchOptions = {
+        searchTerm: searchTerm.trim() || undefined,
+        topic: selectedTopic || undefined,
+        language: selectedLanguage || undefined,
+        minMemberCount: minMembers || undefined,
+        maxMemberCount: maxMembers || undefined,
+        sortBy: newSortBy || sortBy,
+        sortDirection: newSortDirection || sortDirection,
+        page,
+        limit: pageSize
+      };
+
+      const results = await discoveryService.searchServers(searchOptions);
+      setSearchResults(results);
+      setCurrentPage(page);
+    } catch (err: any) {
+      setError('Failed to search servers. Please try again.');
+      console.error('Search error:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [discoveryService, searchTerm, selectedTopic, selectedLanguage, minMembers, maxMembers, sortBy, sortDirection, pageSize]);
+
   const handleSearch = () => {
     setCurrentPage(1);
     performSearch(1);
@@ -101,14 +131,19 @@ export function ServerDiscovery() {
   };
 
   const handleSortChange = (newSortBy: typeof sortBy) => {
+    let newSortDirection = 'desc';
+    
     if (newSortBy === sortBy) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      newSortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+      setSortDirection(newSortDirection);
     } else {
       setSortBy(newSortBy);
-      setSortDirection('desc');
+      setSortDirection(newSortDirection);
     }
     setCurrentPage(1);
-    performSearch(1);
+    
+    // Call performSearch with the new values directly since state updates are async
+    performSearchWithSort(1, newSortBy, newSortDirection);
   };
 
   const clearFilters = () => {

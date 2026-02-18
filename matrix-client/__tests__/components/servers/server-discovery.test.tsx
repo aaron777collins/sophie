@@ -101,6 +101,11 @@ describe('ServerDiscovery', () => {
     const user = userEvent.setup();
     render(<ServerDiscovery />);
 
+    // Wait for initial loading to complete
+    await waitFor(() => {
+      expect(screen.getByText('Search')).toBeInTheDocument();
+    }, { timeout: 3000 });
+
     const searchInput = screen.getByPlaceholderText('Search servers by name, topic, or alias...');
     const searchButton = screen.getByText('Search');
 
@@ -173,17 +178,21 @@ describe('ServerDiscovery', () => {
     const user = userEvent.setup();
     render(<ServerDiscovery />);
 
-    // Wait for initial load
+    // Wait for initial load and Search button to be ready
     await waitFor(() => {
+      expect(screen.getByText('Search')).toBeInTheDocument();
       expect(screen.getByText('Gaming Community')).toBeInTheDocument();
     });
+
+    // Clear the mock to start fresh
+    mockDiscoveryService.searchServers.mockClear();
 
     // Click name sort button
     const nameSortButton = screen.getByText('Name');
     await user.click(nameSortButton);
 
     await waitFor(() => {
-      expect(mockDiscoveryService.searchServers).toHaveBeenCalledWith(
+      expect(mockDiscoveryService.searchServers).toHaveBeenLastCalledWith(
         expect.objectContaining({
           sortBy: 'name',
           sortDirection: 'desc'

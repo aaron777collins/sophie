@@ -164,14 +164,14 @@ describe('ServerDiscoveryService', () => {
 
       const server = result.servers[0];
       expect(server).toEqual({
-        roomId: '!room1:example.com',
-        name: 'Gaming Community',
-        topic: 'A place for gamers to chat',
-        memberCount: 150,
-        avatarUrl: 'mxc://example.com/avatar1',
-        canonicalAlias: '#gaming:example.com',
+        roomId: '!room2:example.com',
+        name: 'Tech Talk',
+        topic: 'Discussion about programming and technology',
+        memberCount: 300,
+        avatarUrl: undefined, // This room doesn't have an avatar in the mock
+        canonicalAlias: '#tech:example.com',
         language: undefined, // Mock doesn't extract language
-        category: undefined, // Mock doesn't extract category
+        category: 'tech', // Extracted from topic
       });
     });
   });

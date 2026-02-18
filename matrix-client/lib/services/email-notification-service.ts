@@ -119,7 +119,19 @@ export class EmailNotificationService {
       return { isValid: false, error: 'Email address is required' };
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Check for basic email format and common invalid patterns
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    
+    // Check for consecutive dots
+    if (email.includes('..')) {
+      return { isValid: false, error: 'Consecutive dots are not allowed in email addresses' };
+    }
+    
+    // Check for dots at start or end of local part
+    if (email.includes('.@') || email.startsWith('.')) {
+      return { isValid: false, error: 'Email cannot start with a dot or have a dot before @' };
+    }
+
     if (!emailRegex.test(email)) {
       return { isValid: false, error: 'Invalid email format' };
     }
@@ -154,15 +166,23 @@ export class EmailNotificationService {
       throw new Error(`No template found for notification type: ${notificationType}`);
     }
 
+    // Add automatic template data for certain notification types
+    const enrichedTemplateData = { ...templateData };
+    
+    // For mention notifications, add mentionText if not provided
+    if (notificationType === 'mention' && !enrichedTemplateData.mentionText && enrichedTemplateData.mentionCount) {
+      enrichedTemplateData.mentionText = enrichedTemplateData.mentionCount === 1 ? 'time' : 'times';
+    }
+
     // Create notification
     const notification: EmailNotificationData = {
       id: `notif_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       userId,
       emailAddress,
       notificationType,
-      subject: this.processTemplate(template.subject, templateData),
+      subject: this.processTemplate(template.subject, enrichedTemplateData),
       templateId: template.id,
-      templateData,
+      templateData: enrichedTemplateData,
       status: 'pending',
       attemptCount: 0,
       maxAttempts: this.config.maxAttemptsPerNotification,
@@ -258,6 +278,7 @@ export class EmailNotificationService {
         {
           userName: userId.split(':')[0].replace('@', ''),
           mentionCount: unreadMessages.mentions,
+          mentionText: unreadMessages.mentions === 1 ? 'time' : 'times',
           totalUnread: unreadMessages.totalUnread,
           offlineDuration: this.formatDuration(offlineUser.offlineDurationMinutes)
         }
@@ -531,7 +552,7 @@ Privacy Policy: {{privacyPolicyUrl}}`,
         id: 'mention_template',
         name: 'Mention Notification',
         type: 'mention',
-        subject: 'You were mentioned {{mentionCount}} time{{mentionCount === 1 ? "" : "s"}} on Matrix',
+        subject: 'You were mentioned {{mentionCount}} {{mentionText}} on Matrix',
         htmlTemplate: `
 <!DOCTYPE html>
 <html>
@@ -555,7 +576,7 @@ Privacy Policy: {{privacyPolicyUrl}}`,
     </div>
     <div class="content">
       <p>Hi {{userName}},</p>
-      <p>You've been offline for {{offlineDuration}} and were mentioned <strong>{{mentionCount}} time{{mentionCount === 1 ? "" : "s"}}</strong> in Matrix conversations.</p>
+      <p>You've been offline for {{offlineDuration}} and were mentioned <strong>{{mentionCount}} {{mentionText}}</strong> in Matrix conversations.</p>
       <p>Total unread messages: <strong>{{totalUnread}}</strong></p>
       <p><a href="{{matrixClientUrl}}" class="button">Check Mentions</a></p>
     </div>
@@ -568,7 +589,7 @@ Privacy Policy: {{privacyPolicyUrl}}`,
 </html>`,
         textTemplate: `Hi {{userName}},
 
-You've been offline for {{offlineDuration}} and were mentioned {{mentionCount}} time{{mentionCount === 1 ? "" : "s"}} in Matrix conversations.
+You've been offline for {{offlineDuration}} and were mentioned {{mentionCount}} {{mentionText}} in Matrix conversations.
 
 Total unread messages: {{totalUnread}}
 
@@ -577,7 +598,7 @@ Check your mentions: {{matrixClientUrl}}
 You received this email because you have email notifications enabled for Matrix.
 To unsubscribe: {{unsubscribeUrl}}
 Privacy Policy: {{privacyPolicyUrl}}`,
-        variables: ['userName', 'mentionCount', 'totalUnread', 'offlineDuration', 'matrixClientUrl', 'unsubscribeUrl', 'privacyPolicyUrl'],
+        variables: ['userName', 'mentionCount', 'mentionText', 'totalUnread', 'offlineDuration', 'matrixClientUrl', 'unsubscribeUrl', 'privacyPolicyUrl'],
         isActive: true,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()

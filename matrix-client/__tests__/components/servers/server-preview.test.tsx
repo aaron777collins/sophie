@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ServerPreview } from '../../../components/servers/server-preview';
 import { ServerDiscoveryService, ServerPreview as ServerPreviewData } from '../../../lib/matrix/server-discovery';
@@ -63,7 +63,7 @@ describe('ServerPreview', () => {
     expect(screen.getByText('A test server for unit testing')).toBeInTheDocument();
     expect(screen.getByText('👥 250 members')).toBeInTheDocument();
     expect(screen.getByText('🔒 Encrypted')).toBeInTheDocument();
-    expect(screen.getByText('#test:example.com')).toBeInTheDocument();
+    expect(screen.getAllByText('#test:example.com')).toHaveLength(2); // Appears in both alias and metadata sections
   });
 
   it('should display server language and category', async () => {
@@ -193,7 +193,9 @@ describe('ServerPreview', () => {
     });
 
     const joinButton = screen.getByText('Join Test Server');
-    await user.click(joinButton);
+    await act(async () => {
+      await user.click(joinButton);
+    });
 
     expect(mockDiscoveryService.joinServer).toHaveBeenCalledWith('!test:example.com');
 
@@ -374,7 +376,7 @@ describe('ServerPreview', () => {
       expect(screen.getByText('Room ID:')).toBeInTheDocument();
       expect(screen.getByText('!test:example.com')).toBeInTheDocument();
       expect(screen.getByText('Address:')).toBeInTheDocument();
-      expect(screen.getByText('#test:example.com')).toBeInTheDocument();
+      expect(screen.getAllByText('#test:example.com')).toHaveLength(2); // Appears in alias and metadata
     });
   });
 });
