@@ -52,7 +52,8 @@ RIGHT: Work autonomously → SELF-VALIDATE → Mark complete → Move on
    
 2. **Run actual checks**
    - Does build pass? `pnpm build`
-   - Do tests pass? `pnpm test`
+   - Do unit tests pass? `pnpm test`
+   - Do E2E tests pass? `pnpm test:e2e` (Playwright)
    - Does it actually work? (manual/functional check)
    
 3. **Multi-perspective review** (Circle thinking)
@@ -65,6 +66,45 @@ RIGHT: Work autonomously → SELF-VALIDATE → Mark complete → Move on
    - Note what was checked and how
 
 **If validation fails → Fix before moving on. Don't claim complete.**
+
+### 🧪 TDD + E2E TESTING (MANDATORY)
+
+**All development follows Test-Driven Development (TDD):**
+
+1. **Write tests FIRST** — Before implementing any feature
+2. **Red → Green → Refactor** — Tests fail first, then pass, then clean up
+3. **E2E tests for user-facing features** — Use Playwright
+
+**Testing Requirements:**
+
+| Feature Type | Required Tests |
+|--------------|----------------|
+| API/Backend | Unit tests + integration tests |
+| UI Components | Component tests + E2E tests |
+| User Flows | Playwright E2E tests |
+| Auth/Security | Unit + integration + E2E |
+
+**Playwright E2E Commands:**
+```bash
+# Run all E2E tests
+pnpm test:e2e
+
+# Run specific test file
+pnpm test:e2e tests/e2e/auth.spec.ts
+
+# Run with UI (debugging)
+pnpm test:e2e --ui
+
+# Run headed (see browser)
+pnpm test:e2e --headed
+```
+
+**Task definitions MUST include:**
+- What tests to write (unit, integration, E2E)
+- Acceptance criteria as testable assertions
+- E2E scenarios for user-facing features
+
+**NO feature is complete without passing tests. Tests are not optional.**
 
 ### 🔍 SEND TO VALIDATOR (REQUIRED after self-validation)
 

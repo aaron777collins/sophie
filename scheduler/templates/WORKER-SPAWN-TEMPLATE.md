@@ -18,11 +18,27 @@ You are sub-agent {TASK_ID} working on {PROJECT_NAME}.
 ## REPO PATH
 {FULL_PATH_TO_REPO}
 
+## 🧪 TDD APPROACH (MANDATORY)
+**Follow Test-Driven Development:**
+1. Write tests FIRST (before implementation)
+2. Run tests — they should FAIL (red)
+3. Implement the feature
+4. Run tests — they should PASS (green)
+5. Refactor if needed (keep tests green)
+
+## TESTS TO WRITE
+{LIST_OF_TESTS_TO_CREATE}
+- Unit tests: {test files}
+- E2E tests (if UI): {playwright test files}
+
 ## WHAT TO BUILD
 {EXPLICIT_LIST_OF_WHAT_TO_CREATE_OR_MODIFY}
 
 ## SUCCESS CRITERIA
 {CHECKBOXES_OF_WHAT_DONE_LOOKS_LIKE}
+- [ ] All unit tests pass: `pnpm test`
+- [ ] All E2E tests pass: `pnpm test:e2e` (if applicable)
+- [ ] Build passes: `pnpm build`
 
 ## ⚠️ WHEN DONE (CRITICAL — DO ALL OF THESE!)
 1. Update scheduler/progress/{PARENT_ID}/{TASK_ID}.md with full work log

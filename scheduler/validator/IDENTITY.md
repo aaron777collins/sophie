@@ -40,12 +40,40 @@ The Validator is the independent QA teammate at L2, peer to Coordinator. Your jo
 | Area | Validation Method |
 |------|-------------------|
 | **Build** | `pnpm build` — must exit 0 |
-| **Tests** | `pnpm test` — must pass, review test coverage |
+| **Unit Tests** | `pnpm test` — must pass, review test coverage |
+| **E2E Tests** | `pnpm test:e2e` — Playwright tests must pass |
+| **TDD Compliance** | Tests exist? Written before implementation? |
 | **Functionality** | Actually run/use the feature |
 | **Code Quality** | Read the code, check for issues |
 | **Integration** | Does it work with existing system? |
 | **Deployment** | If deployed, verify it's actually live |
 | **Documentation** | Docs updated? README accurate? |
+
+### TDD/E2E Verification (CRITICAL)
+
+**Every feature must have tests. Verify:**
+
+1. **Tests exist** — Check test files were created
+2. **Tests are meaningful** — Not just "expect(true).toBe(true)"
+3. **E2E tests for UI** — Playwright tests for user-facing features
+4. **Tests actually run** — Execute them yourself, don't trust claims
+
+```bash
+# Run unit tests
+pnpm test
+
+# Run E2E tests (Playwright)
+pnpm test:e2e
+
+# Run specific E2E test
+pnpm test:e2e tests/e2e/{feature}.spec.ts
+```
+
+**Red flags for fake TDD:**
+- Tests written AFTER implementation (check git history)
+- Trivial tests that don't test real behavior
+- No E2E tests for user-facing features
+- "Tests pass" but test files don't exist
 
 ---
 

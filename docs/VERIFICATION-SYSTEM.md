@@ -187,15 +187,98 @@ ACTUALLY COMPLETE ✅
 
 ## Verification Requirements by Level
 
-### 🧪 Testing Phase (NEW - MANDATORY)
+### 🧪 Testing Methodology (MANDATORY)
+
+**All development follows Test-Driven Development (TDD) with E2E coverage.**
+
+#### TDD Process (Red → Green → Refactor)
+
+```
+1. WRITE TEST FIRST — Define expected behavior as a failing test
+2. RUN TEST — Confirm it fails (red)
+3. IMPLEMENT — Write minimum code to make test pass
+4. RUN TEST — Confirm it passes (green)
+5. REFACTOR — Clean up code while keeping tests green
+6. REPEAT — Next test case
+```
+
+#### Testing Stack
+
+| Layer | Tool | Purpose |
+|-------|------|---------|
+| Unit Tests | Vitest/Jest | Individual functions, components |
+| Integration | Vitest/Jest | Module interactions |
+| E2E Tests | **Playwright** | Full user flows in real browser |
+| Visual | Playwright | Screenshot comparison |
+
+#### E2E Testing with Playwright (REQUIRED for UI features)
+
+**Every user-facing feature MUST have Playwright E2E tests.**
+
+```bash
+# Run all E2E tests
+pnpm test:e2e
+
+# Run specific test
+pnpm test:e2e tests/e2e/auth.spec.ts
+
+# Debug mode (UI)
+pnpm test:e2e --ui
+
+# Headed mode (see browser)
+pnpm test:e2e --headed
+
+# Generate tests (record)
+pnpm playwright codegen http://localhost:3000
+```
+
+**E2E Test Structure:**
+```typescript
+import { test, expect } from '@playwright/test';
+
+test.describe('Feature: User Authentication', () => {
+  test('should login with valid credentials', async ({ page }) => {
+    await page.goto('/login');
+    await page.fill('[name="email"]', 'test@example.com');
+    await page.fill('[name="password"]', 'password');
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL('/dashboard');
+    await expect(page.locator('h1')).toContainText('Welcome');
+  });
+
+  test('should show error with invalid credentials', async ({ page }) => {
+    await page.goto('/login');
+    await page.fill('[name="email"]', 'wrong@example.com');
+    await page.fill('[name="password"]', 'wrong');
+    await page.click('button[type="submit"]');
+    await expect(page.locator('.error')).toBeVisible();
+  });
+});
+```
+
+#### What Tests Are Required
+
+| Feature Type | Required Tests |
+|--------------|----------------|
+| API endpoint | Unit + integration tests |
+| UI component | Component test + E2E if user-facing |
+| User flow | Playwright E2E (happy path + error cases) |
+| Auth/security | Unit + integration + E2E |
+| Data mutation | Unit + integration + E2E |
+
+#### Testing Phase (MANDATORY)
 
 **Before verification, the TESTING phase must happen:**
 
 Every task must have:
-1. **Acceptance Criteria** — Defined before work starts
-2. **Validation Steps** — How to verify each criterion
+1. **Acceptance Criteria** — Defined before work starts (as test cases!)
+2. **Tests Written First** — TDD: tests exist before implementation
+3. **All Tests Pass** — Unit, integration, AND E2E
+4. **Validation Steps** — How to verify each criterion
 
 Worker must execute ALL validation steps before claiming complete.
+
+**NO feature is complete without tests. Tests are NOT optional.**
 
 ### L4 Worker → L3 Task Manager Handoff
 
