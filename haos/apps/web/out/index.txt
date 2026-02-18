@@ -1,0 +1,23 @@
+1:"$Sreact.fragment"
+2:I[79101,["796","static/chunks/c0409be3-35489a19ca1d7e2b.js","475","static/chunks/475-1fa9a3361a104125.js","341","static/chunks/341-a66c6f43ee0702f7.js","572","static/chunks/572-0b18ff29f1367d34.js","177","static/chunks/app/layout-1bcdae592e28695a.js"],"PerformanceTrackingProvider"]
+3:I[74573,["796","static/chunks/c0409be3-35489a19ca1d7e2b.js","475","static/chunks/475-1fa9a3361a104125.js","341","static/chunks/341-a66c6f43ee0702f7.js","572","static/chunks/572-0b18ff29f1367d34.js","177","static/chunks/app/layout-1bcdae592e28695a.js"],"MatrixProvider"]
+4:I[90890,["796","static/chunks/c0409be3-35489a19ca1d7e2b.js","475","static/chunks/475-1fa9a3361a104125.js","341","static/chunks/341-a66c6f43ee0702f7.js","572","static/chunks/572-0b18ff29f1367d34.js","177","static/chunks/app/layout-1bcdae592e28695a.js"],"FirstRunExperienceProvider"]
+5:I[70571,[],""]
+6:I[15159,[],""]
+7:I[13190,[],"ClientPageRoot"]
+8:I[13462,["796","static/chunks/c0409be3-35489a19ca1d7e2b.js","731","static/chunks/4220a8f1-6d8227a928747b77.js","475","static/chunks/475-1fa9a3361a104125.js","357","static/chunks/357-459faabdb9bc0b14.js","341","static/chunks/341-a66c6f43ee0702f7.js","812","static/chunks/812-a206152d19c45129.js","572","static/chunks/572-0b18ff29f1367d34.js","42","static/chunks/42-22b772e67bf72a80.js","974","static/chunks/app/page-c509dc496cbcec12.js"],"default"]
+b:I[41954,[],"OutletBoundary"]
+d:I[57111,[],"AsyncMetadataOutlet"]
+f:I[41954,[],"ViewportBoundary"]
+11:I[41954,[],"MetadataBoundary"]
+12:"$Sreact.suspense"
+14:I[18129,[],""]
+:HL["/_next/static/media/e4af272ccee01ff0-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/css/d65e4b572fe79095.css","style"]
+0:{"P":null,"b":"lgBv-IGHt8OehL13-FBKk","p":"","c":["",""],"i":false,"f":[[["",{"children":["__PAGE__",{}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/d65e4b572fe79095.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],["$","html",null,{"lang":"en","className":"dark","children":["$","body",null,{"className":"__className_f367f3 bg-discord-dark text-white","children":["$","$L2",null,{"children":["$","$L3",null,{"children":["$","$L4",null,{"children":["$","$L5",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L6",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}]}]}]}]}]]}],{"children":["__PAGE__",["$","$1","c",{"children":[["$","$L7",null,{"Component":"$8","searchParams":{},"params":{},"promises":["$@9","$@a"]}],null,["$","$Lb",null,{"children":["$Lc",["$","$Ld",null,{"promise":"$@e"}]]}]]}],{},null,false]},null,false],["$","$1","h",{"children":[null,[["$","$Lf",null,{"children":"$L10"}],["$","meta",null,{"name":"next-size-adjust","content":""}]],["$","$L11",null,{"children":["$","div",null,{"hidden":true,"children":["$","$12",null,{"fallback":null,"children":"$L13"}]}]}]]}],false]],"m":"$undefined","G":["$14",[]],"s":false,"S":true}
+9:{}
+a:"$0:f:0:1:2:children:1:props:children:0:props:params"
+10:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+c:null
+e:{"metadata":[["$","title","0",{"children":"HAOS - Discord for Matrix"}],["$","meta","1",{"name":"description","content":"A Discord-style Matrix client for decentralized communication"}]],"error":null,"digest":"$undefined"}
+13:"$e:metadata"

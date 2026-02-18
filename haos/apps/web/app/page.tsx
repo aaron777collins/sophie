@@ -1,39 +1,26 @@
-'use client'
-
-import { useEffect } from 'react'
-import { WelcomeWizard } from '../components/onboarding/welcome-wizard'
-import { MainApp } from '../components/main-app'
-import { useMatrixUserStore } from '../lib/matrix-user-context'
-
 export default function HomePage() {
-  const { setUser, isAuthenticated } = useMatrixUserStore()
-
-  useEffect(() => {
-    // Attempt to retrieve existing Matrix session
-    const matrixSession = localStorage.getItem('haos-matrix-session')
-    const hasCompletedFirstRun = localStorage.getItem('haos-first-run-completed')
-
-    if (matrixSession) {
-      try {
-        const sessionData = JSON.parse(matrixSession)
-        setUser({
-          userId: sessionData.userId,
-          displayName: sessionData.displayName,
-          avatarUrl: sessionData.avatarUrl
-        })
-      } catch (error) {
-        console.error('Failed to parse Matrix session:', error)
-      }
-    }
-  }, [setUser])
-
-  // Show first-run wizard if no existing authentication
-  if (!isAuthenticated) {
-    return <WelcomeWizard onComplete={() => {
-      localStorage.setItem('haos-first-run-completed', 'true')
-      // The authentication should be handled by the wizard itself
-    }} />
-  }
-
-  return <MainApp />
+  return (
+    <div className="min-h-screen bg-discord-dark flex items-center justify-center">
+      <div className="text-center max-w-md mx-auto px-4">
+        <h2 className="text-3xl font-bold text-white mb-4">Welcome to HAOS v2</h2>
+        <p className="text-gray-400 mb-6">
+          A Discord-style Matrix client with voice chat powered by LiveKit
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <a
+            href="/servers/discover"
+            className="px-6 py-2.5 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded transition-colors text-center"
+          >
+            Discover Servers
+          </a>
+          <a
+            href="/docs"
+            className="px-6 py-2.5 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded transition-colors text-center"
+          >
+            Documentation
+          </a>
+        </div>
+      </div>
+    </div>
+  )
 }

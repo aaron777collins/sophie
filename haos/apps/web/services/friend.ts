@@ -254,6 +254,11 @@ export class FriendService extends EventEmitter {
    */
   private loadFriendsFromStorage(): void {
     try {
+      // Skip if not in browser environment (e.g., during SSG)
+      if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+        return;
+      }
+      
       const stored = localStorage.getItem('haos-friends');
       if (stored) {
         const data = JSON.parse(stored);
@@ -298,6 +303,11 @@ export class FriendService extends EventEmitter {
    */
   private saveFriendsToStorage(): void {
     try {
+      // Skip if not in browser environment (e.g., during SSG)
+      if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+        return;
+      }
+      
       const data = {
         friends: Array.from(this.friends.values()),
         incomingRequests: Array.from(this.incomingRequests.values()),

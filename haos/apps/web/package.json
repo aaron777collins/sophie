@@ -5,9 +5,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:export": "NEXT_OUTPUT_MODE=export next build",
+    "build:standalone": "NEXT_OUTPUT_MODE=standalone next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "export": "npm run build:export",
+    "validate-export": "npm run build:export && echo 'Static export validation completed'"
   },
   "dependencies": {
     "@livekit/components-react": "^2.0.0",

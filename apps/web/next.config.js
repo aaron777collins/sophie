@@ -2,9 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ["@haos/ui"],
-  turbopack: {
-    root: '/home/ubuntu/clawd/apps/web'
-  }
+  // Remove turbopack.root to let Next.js auto-detect workspace
 };
 
 module.exports = nextConfig;
