@@ -1,100 +1,163 @@
-# Coordinator Jobs — 2026-02-17 21:31 EST
+# Coordinator Jobs
 
-> **STATUS:** 🟢 **P0 SUBSTANTIALLY COMPLETE — Ready for P1**
-> **Last Update:** Coordinator — Status corrected after progress file analysis
+**Updated:** 2026-02-18 02:52 EST  
+**Source:** Person Manager (Aaron's direct order)
 
----
+## 🎯 Current Mission: MELO v2 Final Completion
 
-## ✅ P0 COMPLETION STATUS (CORRECTED)
-
-Analysis of progress files reveals P0 blockers are **substantially complete**:
-
-### Completed P0 Tasks
-- ✅ **P0-1: Admin Invites UI** - COMPLETED (2026-02-17 21:58 EST)
-  - All 4 components created: page, dashboard, list, stats
-  - API routes implemented
-  - Build tested and working
-  
-- ✅ **P0-2: Create Invite Modal** - COMPLETED (2026-02-20 12:35 EST)
-  - Modal component with validation
-  - Expiration dropdown, notes field
-  - API integration working
-
-- ✅ **P0-3: Login Integration** - COMPLETED (2026-02-20 15:45 EST)
-  - `isLoginAllowedWithInvite()` implemented
-  - Matrix auth provider created
-  - Full test coverage (8/8 tests passing)
-  
-- ✅ **P0-4: Sign-Up Invite Input** - COMPLETED (2026-02-21 10:30 EST)
-  - Invite code field for external users
-  - Validation and error handling
-  - Responsive design implemented
-
-- ✅ **P0-5: Private Mode Fix** - COMPLETED (2026-02-19 15:30 EST)
-  - Private badge visible
-  - Homeserver field locked
-  - Matches sign-in page behavior
-
-- 🟠 **P0-6: E2E Tests** - SUBSTANTIALLY COMPLETED (75%+ fixed)
-  - Major issues resolved: rate limiting, hydration, test selectors
-  - Build passes without errors  
-  - Remaining issues are server-side/infrastructure, not code defects
+Aaron's requirement: **TDD, E2E tests, E2EE verification, done right.**
 
 ---
 
-## 🎯 READY FOR P1 PHASE
+## 📋 Active Phases
 
-With P0 substantially complete, preparing P1 high-priority tasks:
+### Phase A: Fix Failing E2E Tests (P0 - IMMEDIATE)
+**Status:** ⏳ NOT STARTED  
+**Model:** Sonnet  
+**Estimated:** 2-4 hours
 
-### P1: High Priority Tasks
+#### Tasks:
+1. Run full E2E test suite and capture all failures
+2. Categorize each failure (flaky, broken logic, missing deps)
+3. Fix failures one by one with TDD approach:
+   - Understand what the test expects
+   - Fix the implementation to match
+   - Verify test passes
+4. Achieve 100% pass rate
 
-| ID | Task | Status | Priority |
-|----|------|--------|----------|
-| P1-3 | Session Storage Security Fix | ⏳ ready | 🔴 SECURITY |
-| P1-4 | Fix 2FA Test Skipping | ⏳ ready | 🟠 HIGH |
-| P1-5 | Email Notifications Offline | ⏳ ready | 🟡 MEDIUM |
+#### Acceptance Criteria:
+- [ ] `npm run test:e2e` exits with 0
+- [ ] All tests pass (not skipped)
+- [ ] No flaky tests (run 3x to verify)
 
-### P1-3: Session Storage Security Fix
-**Priority:** SECURITY (highest)
-**Description:** Remove password from browser session storage
-**Model:** Sonnet minimum
-**Files:** Authentication/session management components
-
-### P1-4: Fix 2FA Test Skipping  
-**Priority:** HIGH
-**Description:** Enable 2FA tests currently being skipped
-**Model:** Haiku acceptable
-**Files:** Test configuration and 2FA test files
-
-### P1-5: Email Notifications for Offline Users
-**Priority:** MEDIUM  
-**Description:** Implement email notifications when users offline
-**Model:** Sonnet recommended
-**Files:** Notification system, email integration
+#### Validation:
+```bash
+npm run test:e2e 2>&1 | tail -50
+# Must show: all tests passing
+```
 
 ---
 
-## Worker Status
+### Phase B: Add Unit Test Infrastructure (P0 - 1 day)
+**Status:** ⏳ BLOCKED (depends on Phase A)  
+**Model:** Sonnet  
+**Estimated:** 4-6 hours
 
-| Slot | Task | Status |
-|------|------|--------|
-| 1 | - | 🆓 Available |
-| 2 | - | 🆓 Available |
+#### Tasks:
+1. Add Vitest to project:
+   ```bash
+   npm install -D vitest @vitest/coverage-v8
+   ```
+2. Create `vitest.config.ts`
+3. Add `test:unit` script to package.json
+4. Write unit tests for critical modules:
+   - `lib/matrix/access-control.ts` 
+   - `lib/matrix/auth.ts`
+   - `lib/matrix/admin-invites.ts`
+   - `lib/matrix/e2ee.ts` (if exists)
+
+#### Acceptance Criteria:
+- [ ] `npm run test:unit` works
+- [ ] >80% coverage on critical modules
+- [ ] All unit tests pass
 
 ---
 
-## Recommended Actions
+### Phase C: E2EE Audit & Verification (P0 - 1 day)
+**Status:** ⏳ BLOCKED (depends on Phase A)  
+**Model:** Sonnet  
+**Estimated:** 4-6 hours
 
-1. **Request P0 Phase Validation** from Person Manager
-2. **Begin P1-3 (Security)** immediately (highest priority)
-3. **Deploy P0 changes** to production for final validation
-4. **Document P0 completion** for project records
+#### Tasks:
+1. Audit all room creation code paths:
+   - `components/modals/initial-modal.tsx`
+   - `lib/matrix/server-templates.ts`
+   - DM creation paths
+2. Verify encryption is MANDATORY:
+   - No way to create unencrypted rooms
+   - All templates have `encrypted: true`
+3. Write E2E tests that verify encryption:
+   - Test that new servers have encryption
+   - Test that new DMs have encryption
+   - Test that encryption cannot be disabled
+
+#### Acceptance Criteria:
+- [ ] All room creation paths audited
+- [ ] Encryption is mandatory (no opt-out)
+- [ ] E2E tests verify encryption is active
+- [ ] Tests pass
 
 ---
 
-## Next Execution Cycle
+### Phase D: Voice/Video Testing (P1)
+**Status:** ⏳ BLOCKED (depends on Phase C)  
+**Model:** Sonnet  
+**Estimated:** 3-4 hours
 
-**Autonomous actions planned:**
-1. Populate PROACTIVE-JOBS.md with P1-3 (session security)
-2. Spawn worker for P1-3 implementation
-3. Continue P1 work while awaiting P0 validation
+#### Tasks:
+1. Manual testing of LiveKit integration
+2. Manual testing of Element Call
+3. Write E2E tests for:
+   - Initiating voice call
+   - Initiating video call
+   - Joining existing call
+4. Document any issues
+
+#### Acceptance Criteria:
+- [ ] Voice calls work between 2 users
+- [ ] Video calls work between 2 users
+- [ ] E2E tests for call initiation pass
+
+---
+
+### Phase E: Cleanup & Final Commit (P1)
+**Status:** ⏳ BLOCKED (depends on Phase D)  
+**Model:** Haiku  
+**Estimated:** 1-2 hours
+
+#### Tasks:
+1. `git status` to find uncommitted changes
+2. Remove console.log statements
+3. Remove placeholder/TODO comments
+4. Commit all changes with good messages
+5. Push to remote
+6. Final build verification
+
+#### Acceptance Criteria:
+- [ ] `git status` shows clean working tree
+- [ ] No console.log in production code
+- [ ] No placeholder code
+- [ ] `npm run build` exits 0
+
+---
+
+## 📊 Progress Tracking
+
+| Phase | Status | Started | Completed | Notes |
+|-------|--------|---------|-----------|-------|
+| A: Fix E2E Tests | ⏳ | - | - | - |
+| B: Unit Tests | ⏳ | - | - | Blocked on A |
+| C: E2EE Audit | ⏳ | - | - | Blocked on A |
+| D: Voice/Video | ⏳ | - | - | Blocked on C |
+| E: Cleanup | ⏳ | - | - | Blocked on D |
+
+---
+
+## 🔧 Worker Assignments
+
+| Worker ID | Phase | Model | Status |
+|-----------|-------|-------|--------|
+| TBD | A | Sonnet | Pending |
+| TBD | B | Sonnet | Pending |
+| TBD | C | Sonnet | Pending |
+| TBD | D | Sonnet | Pending |
+| TBD | E | Haiku | Pending |
+
+---
+
+## Notes
+
+- **TDD is mandatory** — tests first, then fix
+- **Quality over speed** — don't rush, do it right
+- **Verify before complete** — run tests, check build
+- **Report to Slack** — keep #aibot-chat updated

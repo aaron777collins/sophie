@@ -2,119 +2,170 @@
 
 > **CEO Role:** This agent ALWAYS runs. Check system health every time.
 
-## 🔴 CRITICAL: MELO v2 Security & Testing Overhaul
+## 🔴 CRITICAL: MELO v2 Final Completion & Quality Assurance
 
-**[2026-02-17 16:18 EST] Aaron's Direct Order:**
-> "I can't even seem to login when using the site.. it just kinda breaks after logging in. Make playwright tests to actually validate everything works (end to end flows). Also for our system if we are self hosting and intending on using it in private mode (like we are) we probably want to ensure only accounts hosted from our home server (the same server we are running) are allowed to login to it. In fact, the private mode should be by default! We can maybe allow folks from other servers if we invite them in, but it should be invite only you feel me? What I meant is that I don't want randoms logging into my home server, only those that are invited by admins in private mode. Of course that should be configurable. Go audit this. Also go audit if everything is e2ee. I want you to audit the whole thing, identify what is missing, and make a plan to fix it all (DETAILED). Then queue it all up and spawn the person manager to get it going."
+**[2026-02-18 02:52 EST] Aaron's Direct Order:**
+> "Make sure everything gets done right, queue it all up, make sure it follows TDD, e2e tests, e2ee, etc"
 
-**Audit Complete:** `/home/ubuntu/repos/melo/MELO-V2-COMPREHENSIVE-AUDIT.md`
+### Current State (~85% Complete)
 
-### Critical Issues Identified
+| Phase | Status |
+|-------|--------|
+| P0: Critical Blockers | ✅ 6/6 complete |
+| P1: High Priority | ✅ 5/5 complete |
+| P2: Voice/Video | ✅ 4/4 complete |
+| Build | ✅ 50 pages, production ready |
+| E2E Tests | ⚠️ Need completion |
+| Unit Tests | ❌ Infrastructure missing |
 
-| Issue | Priority | Status |
-|-------|----------|--------|
-| Login breaks after authentication | P0 | ❌ NOT STARTED |
-| No private mode (anyone can login) | P0 | ❌ NOT STARTED |
-| E2E Playwright tests missing for critical flows | P0 | ❌ NOT STARTED |
-| E2EE not default for all rooms | P1 | ❌ NOT STARTED |
-| Admin invite system missing | P1 | ❌ NOT STARTED |
+### ⚠️ Remaining Issues
 
-### Implementation Phases
-
-#### Phase A: Login Fix & Investigation (P0) — 1-2 days
-- [ ] Reproduce and debug "breaks after login" issue
-- [ ] Add detailed logging for login flow
-- [ ] Identify root cause
-- [ ] Implement fix
-- [ ] Add error boundary for graceful degradation
-
-#### Phase B: Private Mode Implementation (P0) — 2-3 days
-- [ ] Create `lib/matrix/access-control.ts` module
-- [ ] Add environment variables (MELO_PRIVATE_MODE, MELO_ALLOWED_HOMESERVER)
-- [ ] Modify `app/api/auth/login/route.ts` for access control
-- [ ] Update sign-in page UI for private mode
-- [ ] Add private mode indicator
-
-#### Phase C: E2E Playwright Tests (P0) — 2-3 days
-- [ ] Create test fixtures for authenticated state
-- [ ] Write post-login validation tests
-- [ ] Write private mode enforcement tests
-- [ ] Write E2EE verification tests
-- [ ] Write full flow tests (login → create server → send message)
-
-#### Phase D: E2EE Default Enforcement (P1) — 1-2 days
-- [ ] Update `components/modals/initial-modal.tsx` for encryption
-- [ ] Update all server templates to `encrypted: true`
-- [ ] Update DM creation for encryption
-- [ ] Add FORCE_E2EE environment variable
-
-#### Phase E: Admin Invite System (P1) — 1-2 days
-- [ ] Create `lib/matrix/admin-invites.ts`
-- [ ] Create `app/api/admin/invites/route.ts`
-- [ ] Create admin invite management UI
-
-**Total Estimated Effort:** 8-12 days
+1. **34 test failures** (79% pass rate) — MUST FIX
+2. **Some P2-4 files uncommitted** — MUST COMMIT
+3. **Voice/video needs real-world testing**
+4. **Unit test infrastructure missing** — MUST ADD
 
 ---
 
-## Managed Agents
+## 📋 AARON'S REQUIREMENTS (NON-NEGOTIABLE)
+
+### 1. TDD Approach
+- **Tests FIRST, then implementation** for any new work
+- No "implement first, test later" — that's backwards
+- If fixing a bug, write a failing test that reproduces it FIRST
+
+### 2. E2E Test Coverage (Playwright)
+- All critical user flows must have E2E tests
+- Tests must PASS, not just exist
+- Fix the 34 failing tests before adding new ones
+
+### 3. E2EE Verification
+- E2EE is MANDATORY for all rooms (not optional)
+- Audit and verify E2EE is properly enforced
+- Add E2E tests that verify encryption is active
+
+### 4. Quality Standards
+- No stubs or placeholders
+- No "TODO later" comments
+- If a feature exists, it must be COMPLETE and TESTED
+- Build must pass, tests must pass
+
+---
+
+## 🎯 IMMEDIATE ACTIONS
+
+### Phase A: Fix Failing Tests (P0 - TODAY)
+**Assignee:** Coordinator → Worker (Sonnet)
+
+- [ ] Run `npm run test:e2e` and capture all failures
+- [ ] Categorize failures (flaky, broken, missing deps)
+- [ ] Fix each failure with proper implementation
+- [ ] Verify 100% pass rate before moving on
+
+### Phase B: Add Unit Test Infrastructure (P0 - 1 day)
+**Assignee:** Coordinator → Worker (Sonnet)
+
+- [ ] Add Vitest or Jest to package.json
+- [ ] Create test setup file
+- [ ] Add `test:unit` script
+- [ ] Write unit tests for critical modules:
+  - `lib/matrix/access-control.ts`
+  - `lib/matrix/auth.ts`
+  - `lib/matrix/admin-invites.ts`
+  - `lib/matrix/e2ee.ts`
+
+### Phase C: E2EE Audit & Verification (P0 - 1 day)
+**Assignee:** Coordinator → Worker (Sonnet)
+
+- [ ] Audit all room creation paths
+- [ ] Verify encryption is mandatory (not optional)
+- [ ] Add E2E tests that verify:
+  - New servers have encryption enabled
+  - New DMs have encryption enabled
+  - Cannot create unencrypted rooms
+- [ ] Fix any paths that allow unencrypted rooms
+
+### Phase D: Voice/Video Testing (P1 - 1 day)
+**Assignee:** Coordinator → Worker (Sonnet)
+
+- [ ] Test LiveKit integration manually
+- [ ] Test Element Call integration
+- [ ] Write E2E tests for voice/video initiation
+- [ ] Document any issues found
+
+### Phase E: Cleanup & Commit (P1 - 0.5 day)
+**Assignee:** Coordinator → Worker (Haiku)
+
+- [ ] Find and commit all uncommitted changes
+- [ ] Remove any console.log statements
+- [ ] Remove any placeholder code
+- [ ] Final build verification
+
+---
+
+## 📊 Definition of Done
+
+### For Each Phase:
+1. ✅ All acceptance criteria met
+2. ✅ All tests pass (E2E + Unit)
+3. ✅ Build succeeds (`npm run build` exit 0)
+4. ✅ Code committed with descriptive message
+5. ✅ Pushed to remote
+6. ✅ Progress reported to Slack
+
+### For MELO v2 Overall:
+1. ✅ 100% E2E test pass rate
+2. ✅ Unit test infrastructure with >80% coverage on critical modules
+3. ✅ E2EE verified as mandatory
+4. ✅ Voice/video tested and working
+5. ✅ All code committed and pushed
+6. ✅ No console.log or placeholder code
+7. ✅ Build passes
+8. ✅ Ready for production use
+
+---
+
+## 🏗️ Managed Agents
 
 ### Coordinator
 - **Jobs File:** `scheduler/coordinator/JOBS.md`
 - **Identity:** `scheduler/coordinator/IDENTITY.md`
-- **Status:** ✅ ACTIVE — Needs new tasks from audit
-- **Last Checked:** 2026-02-17 16:18 EST
-- **Note:** Full security/testing overhaul required per Aaron's order
+- **Status:** ⏳ NEEDS UPDATED TASKS from above phases
+- **Last Checked:** 2026-02-18 02:52 EST
 
 ### Task Managers (Proactive Scheduler)
 - **Jobs File:** `PROACTIVE-JOBS.md`
 - **Identity:** `scheduler/task-managers/IDENTITY.md`
-- **Status:** ⚠️ NEEDS UPDATE with new audit tasks
-- **Last Checked:** 2026-02-17 16:18 EST
+- **Status:** ⏳ NEEDS UPDATED with Phase A-E tasks
 
 ---
 
-## Active Projects
+## 📁 Key Files
 
-### MELO v2 Security & Testing Overhaul (NEW - CRITICAL)
-- **Priority:** 🔴 CRITICAL (Aaron's direct order)
-- **Status:** AUDIT COMPLETE, IMPLEMENTATION NEEDED
-- **Audit Document:** `/home/ubuntu/repos/melo/MELO-V2-COMPREHENSIVE-AUDIT.md`
-- **Location:** ~/repos/melo
-- **Build Status:** ✅ PASSING (44 pages, exit 0)
-- **Deployment:** Live at dev2.aaroncollins.info
-
-### MELO Original Phase Work (PAUSED)
-- **Status:** PAUSED — Security/testing takes priority
-- **Previous Progress:** 48% complete
-- **Note:** Resume after critical security work complete
-
----
-
-## Immediate Actions Required
-
-1. **Update Coordinator Jobs** with Phase A-E breakdown
-2. **Update PROACTIVE-JOBS.md** with detailed tasks
-3. **Spawn workers** for parallel tracks:
-   - Track 1: Login fix investigation (Sonnet)
-   - Track 2: Private mode implementation (Sonnet)
-   - Track 3: Playwright test creation (Sonnet)
+| File | Purpose |
+|------|---------|
+| `/home/ubuntu/repos/melo/MELO-V2-COMPREHENSIVE-AUDIT.md` | Full security/testing audit |
+| `/home/ubuntu/repos/melo/tests/e2e/` | E2E test directory |
+| `scheduler/coordinator/JOBS.md` | Coordinator tasks |
+| `PROACTIVE-JOBS.md` | Task Manager tasks |
 
 ---
 
 ## Recent Actions
 
-- [2026-02-17 16:20 EST] **COMPREHENSIVE AUDIT COMPLETED** by Sophie
-- [2026-02-17 16:18 EST] **AARON'S CRITICAL ORDER** — Security/testing overhaul
-- [2026-02-17 16:13 EST] Prior status reported: Phase 5-6 in progress
-- [2026-02-15 14:00 EST] Previous reconciliation completed
+- [2026-02-18 02:52 EST] **AARON'S ORDER** — Ensure TDD, E2E, E2EE, complete properly
+- [2026-02-18 02:51 EST] Progress report: ~85% complete, 34 test failures remain
+- [2026-02-17 16:20 EST] Comprehensive audit completed
 
 ---
 
-## Next Steps
+## Next Steps (Person Manager)
 
-1. Person Manager reviews audit and confirms approach
-2. Update Coordinator JOBS.md with phase breakdown
-3. Update PROACTIVE-JOBS.md with detailed tasks
-4. Begin parallel execution of P0 items
-5. Report progress to Slack #aibot-chat
+1. **READ** this jobs file thoroughly
+2. **UPDATE** Coordinator JOBS.md with Phase A-E breakdown
+3. **UPDATE** PROACTIVE-JOBS.md with detailed task definitions
+4. **SPAWN** workers to begin Phase A immediately
+5. **REPORT** progress to Slack #aibot-chat
+6. **VERIFY** each phase before marking complete
+
+**Critical:** Do NOT mark anything complete until tests pass and code is committed. Quality over speed.
