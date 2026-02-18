@@ -972,6 +972,74 @@ The rule: **If you can't write step-by-step instructions, it's not a Haiku task.
 
 **Escalation:** If a model fails, next run uses the next tier up. But proper planning reduces failures.
 
+### 🎨 Task Type Classification (MANDATORY)
+
+> ⚠️ **CRITICAL LESSON (2026-02-18):** UI work was delegated to Haiku, resulting in garbage output and wasted hours. Task types determine model minimums — this is NON-NEGOTIABLE.
+
+Every task MUST be classified by type:
+
+| Type | Description | Minimum Model | Why |
+|------|-------------|---------------|-----|
+| **UI** | Visual output, styling, layout | **Sonnet** | Requires visual judgment |
+| **LOGIC** | Business logic, algorithms | Sonnet | Requires reasoning |
+| **INFRASTRUCTURE** | DevOps, config, setup | Haiku* | Clear technical steps |
+| **DATA** | Data manipulation, transforms | Haiku* | Clear operations |
+| **DOCUMENTATION** | Writing, docs | Haiku* | Clear writing tasks |
+
+*Haiku only if steps are explicit and require no judgment.
+
+```markdown
+### Task Template (MANDATORY)
+- **Type:** {UI|LOGIC|INFRASTRUCTURE|DATA|DOCUMENTATION}
+- **Model:** {Must meet minimum for type}
+- **Reference:** {Required if Type=UI — link to visual reference}
+```
+
+**⚠️ If Type=UI and Reference is empty, the task is INVALID.**
+
+### 🖼️ UI Work Protocol (MANDATORY)
+
+For ANY task with Type=UI, this protocol is NON-NEGOTIABLE:
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                    UI WORK PROTOCOL                                  │
+│           "If you can't see it, you can't judge it"                 │
+└─────────────────────────────────────────────────────────────────────┘
+
+1. REFERENCE REQUIRED
+   - Must have visual reference (screenshot, design, existing code)
+   - If adapting existing code, clone it locally
+
+2. COPYING PROTOCOL (when adapting reference)
+   a. OPEN the reference component
+   b. COPY exact JSX structure
+   c. COPY exact CSS/Tailwind classes
+   d. COPY exact color values
+   e. ONLY CHANGE: data fetching, API calls, state management
+   
+   ❌ DO NOT: "Be inspired by"
+   ❌ DO NOT: "Write similar code"
+   ❌ DO NOT: "Improve" the design
+   ✅ DO: Copy exactly, change only data layer
+
+3. VISUAL VERIFICATION (after each change)
+   - Take Playwright screenshot
+   - Compare to reference
+   - Document comparison in progress file
+   - If not matching: iterate until it does
+
+4. COMPLETION CRITERIA
+   ❌ "Build passes" is NOT sufficient
+   ✅ "Screenshot matches reference" IS the criteria
+
+5. MODEL REQUIREMENT
+   - Minimum: Sonnet
+   - NEVER assign UI to Haiku
+```
+
+**Full documentation:** `memory/topics/ui-design-lessons.md`
+
 ## 💜 The Circle — Think Like A Human
 
 Humans don't blurt out responses. They pause, consider how their words will land, check if what they're saying makes sense, think about the other person's state. **Do the same.**

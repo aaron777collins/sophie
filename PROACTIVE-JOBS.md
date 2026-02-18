@@ -24,10 +24,12 @@ See: `scheduler/coordinator/JOBS.md` for the comprehensive fix plan.
 ## 🔴 Active Tasks
 
 ### MELO-UI-FIX-P1: Discord Clone Reference Setup
-**Status:** pending  
-**Assigned:** NOT HAIKU — Sonnet/Opus only  
+**Status:** in-progress  
+**Assigned:** Opus worker (MELO-UI-FIX-P1)  
 **Model:** opus  
 **Priority:** CRITICAL  
+**Started:** 2026-02-18 17:30 EST  
+**Session:** agent:main:subagent:11c4bcd2-5fa4-42fd-bde8-f530e99d9d79  
 
 **Description:** Set up the discord-clone reference repo and create component mapping.
 

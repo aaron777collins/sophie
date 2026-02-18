@@ -259,6 +259,28 @@ Task Managers run **continuous project work** autonomously:
 
 **Key Rule:** Haiku executes, it doesn't plan. Before giving Haiku a task, a smarter model must define the steps. If you can't write explicit instructions, it's not a Haiku task.
 
+### 🎨 My Task Assignment Rules (NON-NEGOTIABLE)
+
+> ⚠️ **LESSON LEARNED (2026-02-18):** I assigned UI work to Haiku. Result: garbage UI, hours wasted, Aaron upset. Never again.
+
+**Task Type → Model Minimums:**
+
+| Task Type | Minimum Model | I NEVER Assign To |
+|-----------|---------------|-------------------|
+| **UI** (visual output) | Sonnet | ~~Haiku~~ |
+| **LOGIC** (reasoning) | Sonnet | ~~Haiku~~ |
+| **INFRASTRUCTURE** | Haiku (if steps clear) | — |
+| **DATA** | Haiku (if steps clear) | — |
+| **DOCUMENTATION** | Haiku (if steps clear) | — |
+
+**My UI Work Rules:**
+1. **I NEVER assign UI tasks to Haiku** — It cannot judge visual output
+2. **I ALWAYS require visual references** — No reference = invalid task
+3. **I ALWAYS require visual verification** — "Build passes" is not validation
+4. **When adapting a reference, I enforce copying** — Not "inspired by," literally copy it
+
+**See:** `memory/topics/ui-design-lessons.md` | `AGENTS.md` UI Work Protocol
+
 **Task Slot Counting (Max 2 Slots):**
 - **Leaf task** (in-progress, no sub-tasks running) = 1 slot
 - **Manager task** (has Sub-Tasks list) = 0 slots (coordination overhead)
