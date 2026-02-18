@@ -1,7 +1,12 @@
 'use client';
 
 import React from 'react';
-import { SettingsInterface } from '../../../../components/settings/settings-interface';
+import dynamic from 'next/dynamic';
+
+const SettingsInterface = dynamic(
+  () => import('../../../../components/settings/settings-interface').then(mod => mod.SettingsInterface),
+  { ssr: false }
+);
 
 export default function SettingsPage() {
   return (

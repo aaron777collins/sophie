@@ -117,7 +117,7 @@ export function NotificationSettingsPanel() {
               <div className="setting-info">
                 <span className="setting-title">Mentions</span>
                 <span className="setting-description">
-                  Notify when you're mentioned in a room
+                  Notify when you&apos;re mentioned in a room
                 </span>
               </div>
               <input
@@ -147,7 +147,7 @@ export function NotificationSettingsPanel() {
               <div className="setting-info">
                 <span className="setting-title">Room Invites</span>
                 <span className="setting-description">
-                  Notify when you're invited to join a room
+                  Notify when you&apos;re invited to join a room
                 </span>
               </div>
               <input

@@ -90,7 +90,7 @@ export function AdvancedSettingsPanel() {
               <div className="setting-info">
                 <span className="setting-title">Homeserver</span>
                 <span className="setting-description">
-                  The Matrix homeserver you're connected to
+                  The Matrix homeserver you&apos;re connected to
                 </span>
               </div>
               <div className="server-input-group">

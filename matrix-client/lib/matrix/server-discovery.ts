@@ -123,32 +123,62 @@ export class ServerDiscoveryService {
 
   async getServerPreview(roomId: string): Promise<ServerPreview | null> {
     try {
-      // Get room state and information
-      const [roomState, roomSummary] = await Promise.all([
-        this.client.getRoomStateEvents(roomId, ''),
-        this.client.getRoomSummary(roomId)
-      ]);
+      // Get the room from the client's store
+      const room = this.client.getRoom(roomId);
+      
+      if (room) {
+        // Room is already in the client's store - use local state
+        const currentState = room.currentState;
+        
+        const nameEvent = currentState.getStateEvents('m.room.name', '');
+        const topicEvent = currentState.getStateEvents('m.room.topic', '');
+        const avatarEvent = currentState.getStateEvents('m.room.avatar', '');
+        const encryptionEvent = currentState.getStateEvents('m.room.encryption', '');
+        const canonicalAliasEvent = currentState.getStateEvents('m.room.canonical_alias', '');
+        
+        const memberCount = room.getJoinedMemberCount() || 0;
 
-      // Extract state events
-      const nameEvent: any = roomState.find((e: any) => e.type === 'm.room.name');
-      const topicEvent: any = roomState.find((e: any) => e.type === 'm.room.topic');
-      const avatarEvent: any = roomState.find((e: any) => e.type === 'm.room.avatar');
-      const encryptionEvent: any = roomState.find((e: any) => e.type === 'm.room.encryption');
-      const canonicalAliasEvent: any = roomState.find((e: any) => e.type === 'm.room.canonical_alias');
+        return {
+          roomId,
+          name: nameEvent?.getContent()?.name || room.name || 'Unnamed Server',
+          topic: topicEvent?.getContent()?.topic || '',
+          memberCount,
+          avatarUrl: avatarEvent?.getContent()?.url,
+          isEncrypted: !!encryptionEvent,
+          canonicalAlias: canonicalAliasEvent?.getContent()?.alias,
+          description: topicEvent?.getContent()?.topic || '',
+        };
+      }
 
-      // Get member count
-      const memberCount = await this.getRoomMemberCount(roomId);
+      // Room not in store - try to get basic info from public rooms API
+      try {
+        const publicRooms = await this.client.publicRooms({
+          limit: 1,
+          filter: { generic_search_term: roomId }
+        });
+        
+        const roomInfo = publicRooms.chunk.find(r => r.room_id === roomId);
+        if (roomInfo) {
+          return {
+            roomId,
+            name: roomInfo.name || 'Unnamed Server',
+            topic: roomInfo.topic || '',
+            memberCount: roomInfo.num_joined_members || 0,
+            avatarUrl: roomInfo.avatar_url,
+            description: roomInfo.topic || '',
+          };
+        }
+      } catch (publicRoomError) {
+        console.warn('Could not fetch public room info:', publicRoomError);
+      }
 
+      // Fallback - return minimal info
       return {
         roomId,
-        name: nameEvent?.content?.name || roomSummary?.name || 'Unnamed Server',
-        topic: topicEvent?.content?.topic || roomSummary?.topic || '',
-        memberCount,
-        avatarUrl: avatarEvent?.content?.url,
-        isEncrypted: !!encryptionEvent,
-        canonicalAlias: canonicalAliasEvent?.content?.alias,
-        description: topicEvent?.content?.topic || '',
-        // TODO: Fetch recent messages and member list if permissions allow
+        name: 'Server Preview',
+        topic: 'Unable to load full preview',
+        memberCount: 0,
+        description: '',
       };
     } catch (error) {
       console.error('Error getting server preview:', error);
@@ -270,17 +300,30 @@ export class ServerDiscoveryService {
 
   private async getRoomMemberCount(roomId: string): Promise<number> {
     try {
-      const roomSummary = await this.client.getRoomSummary(roomId);
-      return (roomSummary as any)?.['m.joined_member_count'] || 0;
-    } catch (error) {
-      // Fallback to state events
-      try {
-        const memberEvents: any[] = await this.client.getRoomStateEvents(roomId, 'm.room.member');
-        return memberEvents.filter((event: any) => event.content?.membership === 'join').length;
-      } catch (fallbackError) {
-        console.error('Error getting member count:', fallbackError);
-        return 0;
+      // First try to get from room in store
+      const room = this.client.getRoom(roomId);
+      if (room) {
+        return room.getJoinedMemberCount() || 0;
       }
+      
+      // Fallback: try public rooms API
+      try {
+        const publicRooms = await this.client.publicRooms({
+          limit: 1,
+          filter: { generic_search_term: roomId }
+        });
+        const roomInfo = publicRooms.chunk.find(r => r.room_id === roomId);
+        if (roomInfo) {
+          return roomInfo.num_joined_members || 0;
+        }
+      } catch (publicRoomError) {
+        console.warn('Could not fetch public room info for member count:', publicRoomError);
+      }
+      
+      return 0;
+    } catch (error) {
+      console.error('Error getting member count:', error);
+      return 0;
     }
   }
 

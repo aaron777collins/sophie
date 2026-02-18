@@ -131,7 +131,7 @@ export function ServerDiscovery() {
   };
 
   const handleSortChange = (newSortBy: typeof sortBy) => {
-    let newSortDirection = 'desc';
+    let newSortDirection: 'asc' | 'desc' = 'desc';
     
     if (newSortBy === sortBy) {
       newSortDirection = sortDirection === 'asc' ? 'desc' : 'asc';

@@ -1,10 +1,11 @@
-import { ServerDiscovery } from '@/components/servers/server-discovery';
-import { Metadata } from 'next';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Explore Servers - Matrix Client',
-  description: 'Discover and join public Matrix servers that match your interests'
-};
+import dynamic from 'next/dynamic';
+
+const ServerDiscovery = dynamic(
+  () => import('@/components/servers/server-discovery').then(mod => mod.ServerDiscovery),
+  { ssr: false }
+);
 
 export default function ExploreServersPage() {
   return (

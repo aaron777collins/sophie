@@ -37,7 +37,7 @@ export function PrivacySettingsPanel() {
               <div className="setting-info">
                 <span className="setting-title">Show Online Status</span>
                 <span className="setting-description">
-                  Let others see when you're online or offline
+                  Let others see when you&apos;re online or offline
                 </span>
               </div>
               <input
@@ -67,7 +67,7 @@ export function PrivacySettingsPanel() {
               <div className="setting-info">
                 <span className="setting-title">Show Read Receipts</span>
                 <span className="setting-description">
-                  Let others see when you've read their messages
+                  Let others see when you&apos;ve read their messages
                 </span>
               </div>
               <input
@@ -82,7 +82,7 @@ export function PrivacySettingsPanel() {
               <div className="setting-info">
                 <span className="setting-title">Show Typing Indicators</span>
                 <span className="setting-description">
-                  Display "typing..." indicator when you're composing messages
+                  Display &quot;typing...&quot; indicator when you&apos;re composing messages
                 </span>
               </div>
               <input
