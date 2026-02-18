@@ -66,6 +66,44 @@ RIGHT: Work autonomously → SELF-VALIDATE → Mark complete → Move on
 
 **If validation fails → Fix before moving on. Don't claim complete.**
 
+### 🔍 SEND TO VALIDATOR (REQUIRED after self-validation)
+
+**After self-validation passes, send to Validator for independent verification:**
+
+```bash
+cat > ~/clawd/scheduler/inboxes/validator/$(date +%s)-val-req.json << 'EOF'
+{
+  "id": "val-req-TIMESTAMP",
+  "timestamp": "ISO",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: {batch/phase description}",
+  "content": {
+    "task_ids": ["task-1", "task-2"],
+    "project": "project-name",
+    "phase": "Phase N",
+    "claimed_by": "coordinator",
+    "claimed_at": "ISO timestamp",
+    "files_changed": ["path/to/file.ts"],
+    "acceptance_criteria": [
+      "Build passes",
+      "Tests pass",
+      "Feature works end-to-end"
+    ],
+    "self_validation_notes": "What you already checked"
+  }
+}
+EOF
+```
+
+**Why send to Validator?**
+- You self-validate first (catch obvious issues)
+- Validator provides **independent** verification (catches what you missed)
+- Two-layer validation prevents lazy bots from claiming false completions
+
+**Work is NOT truly complete until Validator approves.**
+
 ### When to Actually Wait
 
 - Master Plan doesn't exist yet (project hasn't started)
@@ -228,6 +266,46 @@ p1-1-c ──────┘
 ### Check Inbox
 ```bash
 ls ~/clawd/scheduler/inboxes/coordinator/*.json 2>/dev/null
+```
+
+### Handle Validation Results
+
+When you receive a `validation-result` from Validator:
+
+1. **If PASS:**
+   - Mark work as truly `complete`
+   - Proceed to next batch
+   - Archive the validation request
+
+2. **If FAIL:**
+   - Review specific issues
+   - Spawn workers to fix
+   - Re-submit for validation when fixed
+
+3. **If PARTIAL:**
+   - Mark passing tasks complete
+   - Fix failing tasks
+   - Re-submit failing tasks for validation
+
+### Send to Validator
+```bash
+cat > ~/clawd/scheduler/inboxes/validator/$(date +%s)-val-req.json << 'EOF'
+{
+  "id": "val-req-TIMESTAMP",
+  "timestamp": "ISO",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: {description}",
+  "content": {
+    "task_ids": ["task-1"],
+    "project": "project-name",
+    "phase": "Phase N",
+    "files_changed": ["path/to/file.ts"],
+    "acceptance_criteria": ["criterion 1", "criterion 2"]
+  }
+}
+EOF
 ```
 
 ### Send to Person Manager

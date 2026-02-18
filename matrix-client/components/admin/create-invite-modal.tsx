@@ -1,6 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
+import { 
+  validateInviteForm, 
+  validateMatrixId as validateMatrixIdComprehensive,
+  validateExpiration,
+  validateNotes,
+  EXPIRATION_PRESETS,
+  daysToMilliseconds,
+  formatExpirationTime
+} from '../../lib/matrix/validation/invite-validation';
 
 interface Invite {
   id: string;
@@ -32,7 +41,7 @@ export function CreateInviteModal({ isOpen, onClose, onSuccess, onError }: Creat
   const [creating, setCreating] = useState(false);
   const [formData, setFormData] = useState<CreateInviteRequest>({
     matrixId: '',
-    expiresIn: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+    expiresIn: EXPIRATION_PRESETS.SEVEN_DAYS,
     notes: ''
   });
   const [customExpiration, setCustomExpiration] = useState({
@@ -41,60 +50,34 @@ export function CreateInviteModal({ isOpen, onClose, onSuccess, onError }: Creat
   });
   const [validationErrors, setValidationErrors] = useState<{
     matrixId?: string;
-    customDays?: string;
+    expiration?: string;
+    notes?: string;
   }>({});
 
   const expirationOptions = [
-    { label: '7 Days', value: 7 * 24 * 60 * 60 * 1000 },
-    { label: '14 Days', value: 14 * 24 * 60 * 60 * 1000 },
-    { label: '30 Days', value: 30 * 24 * 60 * 60 * 1000 },
+    { label: '7 Days', value: EXPIRATION_PRESETS.SEVEN_DAYS },
+    { label: '14 Days', value: EXPIRATION_PRESETS.FOURTEEN_DAYS },
+    { label: '30 Days', value: EXPIRATION_PRESETS.THIRTY_DAYS },
     { label: 'Custom', value: -1 },
   ];
-
-  const validateMatrixId = (matrixId: string): string | undefined => {
-    if (!matrixId.trim()) {
-      return 'Matrix ID is required';
-    }
-
-    const matrixIdRegex = /^@[a-z0-9._=-]+:[a-z0-9.-]+\.[a-z]{2,}$/i;
-    if (!matrixIdRegex.test(matrixId)) {
-      return 'Invalid Matrix ID format. Use @user:homeserver.com';
-    }
-
-    return undefined;
-  };
-
-  const validateCustomDays = (days: number): string | undefined => {
-    if (days < 1) {
-      return 'Expiration must be at least 1 day';
-    }
-    if (days > 365) {
-      return 'Expiration cannot exceed 365 days';
-    }
-    return undefined;
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate form
-    const errors: typeof validationErrors = {};
-    
-    const matrixIdError = validateMatrixId(formData.matrixId);
-    if (matrixIdError) {
-      errors.matrixId = matrixIdError;
-    }
+    // Use comprehensive validation
+    const finalExpiresIn = customExpiration.enabled 
+      ? daysToMilliseconds(customExpiration.days)
+      : formData.expiresIn;
 
-    if (customExpiration.enabled) {
-      const customDaysError = validateCustomDays(customExpiration.days);
-      if (customDaysError) {
-        errors.customDays = customDaysError;
-      }
-    }
+    const validationResult = validateInviteForm({
+      matrixId: formData.matrixId,
+      expiresIn: finalExpiresIn,
+      notes: formData.notes
+    });
 
-    setValidationErrors(errors);
+    setValidationErrors(validationResult.errors);
 
-    if (Object.keys(errors).length > 0) {
+    if (!validationResult.isValid) {
       return;
     }
 
@@ -102,10 +85,9 @@ export function CreateInviteModal({ isOpen, onClose, onSuccess, onError }: Creat
 
     try {
       const requestData = {
-        ...formData,
-        expiresIn: customExpiration.enabled 
-          ? customExpiration.days * 24 * 60 * 60 * 1000
-          : formData.expiresIn
+        matrixId: formData.matrixId.trim(),
+        expiresIn: finalExpiresIn,
+        notes: formData.notes.trim()
       };
 
       const response = await fetch('/api/admin/invites', {
@@ -117,15 +99,23 @@ export function CreateInviteModal({ isOpen, onClose, onSuccess, onError }: Creat
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to create invite');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `HTTP ${response.status}: Failed to create invite`);
       }
 
       const data = await response.json();
+      
+      if (!data.invite) {
+        throw new Error('Invalid response: missing invite data');
+      }
+
       onSuccess(data.invite);
       resetForm();
+      onClose();
     } catch (err) {
-      onError(err instanceof Error ? err.message : 'An error occurred');
+      const errorMessage = err instanceof Error ? err.message : 'An error occurred while creating the invite';
+      console.error('Failed to create invite:', err);
+      onError(errorMessage);
     } finally {
       setCreating(false);
     }
@@ -134,7 +124,7 @@ export function CreateInviteModal({ isOpen, onClose, onSuccess, onError }: Creat
   const resetForm = () => {
     setFormData({
       matrixId: '',
-      expiresIn: 7 * 24 * 60 * 60 * 1000,
+      expiresIn: EXPIRATION_PRESETS.SEVEN_DAYS,
       notes: ''
     });
     setCustomExpiration({
@@ -157,12 +147,17 @@ export function CreateInviteModal({ isOpen, onClose, onSuccess, onError }: Creat
       setCustomExpiration(prev => ({ ...prev, enabled: true }));
       setFormData(prev => ({ 
         ...prev, 
-        expiresIn: customExpiration.days * 24 * 60 * 60 * 1000 
+        expiresIn: daysToMilliseconds(customExpiration.days)
       }));
     } else {
       // Preset option selected
       setCustomExpiration(prev => ({ ...prev, enabled: false }));
       setFormData(prev => ({ ...prev, expiresIn: value }));
+    }
+    
+    // Clear expiration validation error when selection changes
+    if (validationErrors.expiration) {
+      setValidationErrors(prev => ({ ...prev, expiration: undefined }));
     }
   };
 
@@ -170,12 +165,12 @@ export function CreateInviteModal({ isOpen, onClose, onSuccess, onError }: Creat
     setCustomExpiration(prev => ({ ...prev, days }));
     setFormData(prev => ({ 
       ...prev, 
-      expiresIn: days * 24 * 60 * 60 * 1000 
+      expiresIn: daysToMilliseconds(days)
     }));
     
-    // Clear custom days validation error when user types
-    if (validationErrors.customDays) {
-      setValidationErrors(prev => ({ ...prev, customDays: undefined }));
+    // Clear expiration validation error when user types
+    if (validationErrors.expiration) {
+      setValidationErrors(prev => ({ ...prev, expiration: undefined }));
     }
   };
 
@@ -185,6 +180,15 @@ export function CreateInviteModal({ isOpen, onClose, onSuccess, onError }: Creat
     // Clear matrix ID validation error when user types
     if (validationErrors.matrixId) {
       setValidationErrors(prev => ({ ...prev, matrixId: undefined }));
+    }
+  };
+
+  const handleNotesChange = (notes: string) => {
+    setFormData(prev => ({ ...prev, notes }));
+    
+    // Clear notes validation error when user types
+    if (validationErrors.notes) {
+      setValidationErrors(prev => ({ ...prev, notes: undefined }));
     }
   };
 
@@ -249,13 +253,13 @@ export function CreateInviteModal({ isOpen, onClose, onSuccess, onError }: Creat
                   value={customExpiration.days}
                   onChange={(e) => handleCustomDaysChange(Number(e.target.value))}
                   disabled={creating}
-                  className={validationErrors.customDays ? 'error' : ''}
+                  className={validationErrors.expiration ? 'error' : ''}
                 />
                 <span className="custom-label">days</span>
-                {validationErrors.customDays && (
-                  <div className="field-error">{validationErrors.customDays}</div>
-                )}
               </div>
+            )}
+            {validationErrors.expiration && (
+              <div className="field-error">{validationErrors.expiration}</div>
             )}
           </div>
 
@@ -265,10 +269,15 @@ export function CreateInviteModal({ isOpen, onClose, onSuccess, onError }: Creat
               id="notes"
               placeholder="Add a note about this invite..."
               value={formData.notes}
-              onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
+              onChange={(e) => handleNotesChange(e.target.value)}
               disabled={creating}
               rows={3}
+              className={validationErrors.notes ? 'error' : ''}
+              maxLength={500}
             />
+            {validationErrors.notes && (
+              <div className="field-error">{validationErrors.notes}</div>
+            )}
           </div>
 
           <div className="modal-actions">

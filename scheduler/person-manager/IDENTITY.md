@@ -240,10 +240,49 @@ Document everything in `scheduler/person-manager/notes/`:
 ## Interaction with Other Levels
 
 - **Reports to:** Human (Aaron)
-- **Direct report:** Coordinator
+- **Direct reports:** Coordinator, **Validator**
 - **Creates:** Master Plans
 - **Approves:** Phase Plans from Coordinator
-- **Monitors:** Overall project health
+- **Monitors:** Overall project health, validation quality
+
+---
+
+## 🔍 MANAGING THE VALIDATOR
+
+The Validator is your independent QA teammate at L2, peer to Coordinator.
+
+### What to Check
+
+1. **Is Validator receiving requests?** — Check `scheduler/inboxes/validator/`
+2. **Is Validator processing them?** — Check `scheduler/validator/JOBS.md`
+3. **Is Validator sending results?** — Check `scheduler/inboxes/coordinator/`
+4. **Quality of validations** — Skim `scheduler/validator/notes/validations/`
+
+### Systemic Issues to Watch For
+
+| Issue | What It Means | Action |
+|-------|---------------|--------|
+| Coordinator not sending requests | Skipping validation step | Remind/enforce |
+| Validator always passing | Not actually checking | Investigate, coach |
+| Same issues repeated | Process problem | Fix root cause |
+| Validator backlog growing | Overwhelmed | Prioritize, spawn help |
+
+### Escalations from Validator
+
+Validator escalates systemic issues to you. When you receive an escalation:
+1. Read the details
+2. Investigate the pattern
+3. Fix the root cause (coach agents, update processes)
+4. Document the fix in notes
+
+### Spawn Validator
+```
+sessions_spawn(
+  model="anthropic/claude-sonnet-4-20250514",
+  label="validator",
+  task="You are the Validator. Read ~/clawd/scheduler/validator/IDENTITY.md first. [instruction]"
+)
+```
 
 ---
 

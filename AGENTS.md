@@ -156,10 +156,16 @@ We use a layered management system. Each level has decreasing cron frequency goi
 ```
 👑 Aaron + Sophie ─ Top level ("the big dawgs"), give orders
    └── 👔 Person Manager (4x/day) ─ Meta-management, cleanup, oversight
-       └── 🎯 Coordinator (30 min) ─ Strategic project/topic management
+       ├── 🎯 Coordinator (30 min at :00/:30) ─ Strategic project/topic management
+       │       │
+       │       └──► validation requests ──►─┐
+       │                                    │
+       └── 🔍 Validator (30 min at :10/:40) ◄┘ ─ Independent QA, fact-checking
            └── 📋 Task Managers (15 min) ─ Tactical task coordination
                └── ⚙️ Workers (spawned) ─ Execution
 ```
+
+**Coordinator and Validator are PEERS** — both report to Person Manager. Coordinator does the work and self-validates, then sends to Validator for independent verification.
 
 ### How Work Flows from the Top
 - **Aaron** gives orders to **Sophie** (direct chat)
@@ -190,11 +196,11 @@ Person Manager notices HAOS stalled
 
 **The goal:** Each level actively manages the level below. Problems get caught, discussed, and fixed — not just re-assigned.
 
-### 🔍 Self-Validation + Verification Chain (MANDATORY)
+### 🔍 Self-Validation + Independent Validation (MANDATORY)
 
-**"Each level owns their quality. Validate before passing up."**
+**"Each level owns their quality. Validate before passing up. Then get fact-checked."**
 
-Every level SELF-VALIDATES before claiming complete. Then the level above audits.
+Every level SELF-VALIDATES before claiming complete. Then Validator independently verifies.
 
 ```
 Worker claims "done"
@@ -211,9 +217,18 @@ Coordinator SELF-VALIDATES batch/phase:
   - Integration tests, cross-task checks
   - Multi-perspective review
     ↓ only if self-validated
-Coordinator marks batch `complete`, moves to next
+Coordinator sends to VALIDATOR (validation request)
     ↓
-Person Manager AUDITS (spot-checks, not gatekeeping)
+🔍 VALIDATOR independently verifies:
+  - Actually runs build/tests
+  - Reads the code
+  - Tests functionality
+  - Catches what others missed
+    ↓ sends result back to Coordinator
+If PASS → Coordinator marks truly `complete`
+If FAIL → Back to workers for fixes
+    ↓
+Person Manager AUDITS (spot-checks, oversees both)
     ↓
 ACTUALLY COMPLETE ✅
 ```
@@ -223,13 +238,14 @@ ACTUALLY COMPLETE ✅
 **Task Statuses:**
 - `pending` → `in-progress` → `claiming-complete` → `verified` → `complete`
 
-**Self-Validation Requirements:**
+**Validation Requirements:**
 
-| Level | Self-Validates | How |
-|-------|----------------|-----|
-| **Task Manager** | Worker output | Spawn Sonnet verifier, run build/tests, multi-perspective check |
-| **Coordinator** | Batch completion | Spawn verification agent(s), integration tests, Circle thinking |
-| **Person Manager** | Strategic quality | Audit spot-checks, deployment verification |
+| Level | Validates | How |
+|-------|-----------|-----|
+| **Task Manager** | Worker output | Self-validates: spawn Sonnet verifier, run build/tests, multi-perspective check |
+| **Coordinator** | Batch completion | Self-validates, then sends to Validator for independent verification |
+| **Validator** | Coordinator claims | Independent fact-check: runs build/tests, reads code, tests functionality |
+| **Person Manager** | Strategic quality | Oversees both Coordinator and Validator, spot-checks, handles escalations |
 
 **Multi-Perspective Review (Use Circle thinking):**
 - 🔧 Pragmatist: Does this actually work in practice?
@@ -249,7 +265,8 @@ ACTUALLY COMPLETE ✅
 | Level | Agent | Cron | Model | Jobs File |
 |-------|-------|------|-------|-----------|
 | 1 | Person Manager | 4x/day | **Opus** | `scheduler/person-manager/JOBS.md` |
-| 2 | Coordinator | 30 min | **Opus**/Sonnet | `scheduler/coordinator/JOBS.md` |
+| 2 | Coordinator | 30 min (:00/:30) | **Opus**/Sonnet | `scheduler/coordinator/JOBS.md` |
+| 2 | **Validator** | 30 min (:10/:40) | Sonnet | `scheduler/validator/JOBS.md` |
 | 3 | Task Managers | 15 min | Sonnet | `PROACTIVE-JOBS.md` |
 | 4 | Workers | Never | Haiku/Sonnet | N/A (spawned) |
 

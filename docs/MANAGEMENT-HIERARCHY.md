@@ -105,11 +105,14 @@ Workers
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  👔 PERSON MANAGER (4x/day - 06:00, 12:00, 18:00, 23:00)                     │
+│  👔 PERSON MANAGER (4x/day - 06:00, 12:00, 18:00, 23:00)        │
 │     └─ Meta-management: cleans up, "has the talk", oversight    │
 ├─────────────────────────────────────────────────────────────────┤
-│  🎯 COORDINATOR (every 30 min)                                  │
-│     └─ Strategic: manages projects/topics, pushes things along  │
+│  🎯 COORDINATOR (every 30 min at :00/:30)                       │
+│  │   └─ Strategic: manages projects/topics, pushes things along │
+│  │                                                              │
+│  🔍 VALIDATOR (every 30 min at :10/:40) ← PEER TO COORDINATOR   │
+│      └─ QA: independent validation, fact-checking, audits       │
 ├─────────────────────────────────────────────────────────────────┤
 │  📋 TASK MANAGERS (every 15 min via proactive scheduler)        │
 │     └─ Tactical: manage specific task hierarchies               │
@@ -124,7 +127,8 @@ Workers
 | Level | Agent | Cron Schedule | Always Runs? | Purpose |
 |-------|-------|---------------|--------------|---------|
 | 1 (Top) | Person Manager | 4x/day (06:00, 12:00, 18:00, 23:00) | **YES** (CEO) | Meta-management, cleanup, oversight |
-| 2 | Coordinator | Every 30 min | Only if JOBS.md has work | Strategic project/topic management |
+| 2 | Coordinator | Every 30 min (:00, :30) | Only if JOBS.md has work | Strategic project/topic management |
+| 2 | **Validator** | Every 30 min (:10, :40) | Only if inbox has requests | Independent QA, fact-checking |
 | 3 | Task Managers | Every 15 min | Only if PROACTIVE-JOBS.md has work | Tactical task coordination |
 | 4 (Bottom) | Workers | Never (spawned) | N/A | Execution |
 
@@ -145,6 +149,7 @@ Workers
 |-------|-----------|----------------|
 | Person Manager | `scheduler/person-manager/JOBS.md` | `scheduler/person-manager/notes/` |
 | Coordinator | `scheduler/coordinator/JOBS.md` | `scheduler/coordinator/notes/` |
+| **Validator** | `scheduler/validator/JOBS.md` | `scheduler/validator/notes/` |
 | Task Managers | `PROACTIVE-JOBS.md` (existing) | `scheduler/progress/` |
 | Workers | N/A (spawned, no file) | Progress files |
 
@@ -225,6 +230,12 @@ When the file looks like this → **cron returns HEARTBEAT_OK immediately, no ag
 
 ### Coordinator
 - **Jobs File:** scheduler/coordinator/JOBS.md
+- **Last Checked:** 2026-02-12 08:00 EST
+- **Status:** healthy
+
+### Validator
+- **Jobs File:** scheduler/validator/JOBS.md
+- **Inbox:** scheduler/inboxes/validator/
 - **Last Checked:** 2026-02-12 08:00 EST
 - **Status:** healthy
 
@@ -331,6 +342,112 @@ scheduler/coordinator/notes/
 
 ---
 
+## 🔍 Validator (NEW — Independent QA)
+
+**Schedule:** Every 30 minutes (10-minute offset from Coordinator: :10 and :40)
+**Model:** Sonnet (can escalate to Opus for complex validation)
+**Purpose:** Independent fact-checking and validation of all claimed work
+
+### Why Validator Exists
+
+**Bots can be lazy.** Work gets claimed as "complete" when it isn't. The Validator is an independent teammate who:
+- Doesn't trust completion claims
+- Actually runs the code
+- Actually tests the features
+- Audits tests for real coverage
+- Reports findings back to Coordinator
+
+### Relationship to Coordinator
+
+**They are PEERS, not in a hierarchy:**
+```
+Person Manager
+    │
+    ├── Coordinator (does work, self-validates)
+    │       │
+    │       └──► sends validation requests ──►─┐
+    │                                          │
+    └── Validator (independent QA) ◄───────────┘
+            │
+            └──► sends results back to Coordinator
+```
+
+### Workflow
+
+1. **Coordinator claims work complete** (after self-validating)
+2. **Coordinator sends validation request** to Validator's inbox
+3. **Validator independently verifies** (doesn't trust the claim)
+4. **Validator sends results** back to Coordinator
+5. **Only after Validator approves** can work be truly marked complete
+
+### Responsibilities
+
+1. **Process validation requests** from inbox
+2. **Run builds and tests** — Actually execute them, don't trust claims
+3. **Test functionality** — Use the features, check they work
+4. **Code review** — Read the code, check for issues
+5. **Report findings** — Send results back to Coordinator
+6. **Track patterns** — Note recurring quality issues
+7. **Escalate systemic problems** — Alert Person Manager if patterns emerge
+
+### Jobs File: `scheduler/validator/JOBS.md`
+
+```markdown
+# Validator Jobs
+
+> Process validation requests from inbox.
+> Tracks ongoing validations and systemic issues.
+
+## Pending Validations
+
+(populated from inbox)
+
+## In Progress
+
+(none)
+
+## Completed (Pending Archive)
+
+(none)
+
+## Systemic Issues Being Tracked
+
+(none)
+```
+
+### Spawn Condition
+
+```
+IF scheduler/inboxes/validator/ has .json files
+   OR scheduler/validator/JOBS.md has "In Progress" items
+THEN spawn
+ELSE HEARTBEAT_OK
+```
+
+### Validator Notes Structure
+
+```
+scheduler/validator/notes/
+├── validations/
+│   ├── p1-2-a.md         # Per-task validation reports
+│   └── batch-2026-02-18.md
+├── patterns/
+│   ├── common-issues.md  # Recurring problems
+│   └── quality-trends.md
+└── escalations/
+    └── 2026-02-18.md
+```
+
+### Communication Flow
+
+| From | To | Message Type |
+|------|-----|--------------|
+| Coordinator | Validator | `validation-request` |
+| Validator | Coordinator | `validation-result` |
+| Validator | Person Manager | `escalation` (systemic issues) |
+
+---
+
 ## 📋 Task Managers (Existing System)
 
 **Schedule:** Every 15 minutes (existing proactive scheduler)
@@ -384,6 +501,7 @@ Workers don't have jobs files — they're spawned with explicit task instruction
 |-------|------|-----------------|----------------------|
 | **L1** | Person Manager | ✅ Yes — summaries, issues, status | Slack + direct with Sophie/Aaron |
 | **L2** | Coordinator | ✅ Yes — project updates, batched summaries | Slack + inbox with PM |
+| **L2** | **Validator** | ✅ Yes — validation summaries, quality alerts | Slack + inbox with Coordinator/PM |
 | **L3** | Task Managers | ❌ **NO** (except errors) | **Inbox/files only** → Coordinator |
 | **L4** | Workers | ✅ Completion only | Brief "✅ done" + inbox/files → TM |
 
@@ -419,18 +537,20 @@ The **Coordinator** then batches and summarizes for Slack:
 │  • Checks system health 4x/day                                   │
 │  • Cleans up completed work                                      │
 │  • Reports issues to human                                       │
+│  • Oversees BOTH Coordinator and Validator                       │
 └─────────────────────────────┬────────────────────────────────────┘
                               │ (oversight)
-                              ▼
-┌──────────────────────────────────────────────────────────────────┐
-│                    🎯 Coordinator                                 │
-│  • Runs every 30 min                                             │
-│  • Tracks all projects/topics                                    │
-│  • Ensures work is progressing                                   │
-│  • Can be chatted with anytime                                   │
-└─────────────────────────────┬────────────────────────────────────┘
-                              │ (strategic direction)
-                              ▼
+        ┌─────────────────────┴─────────────────────┐
+        ▼                                           ▼
+┌───────────────────────────┐  validation   ┌───────────────────────────┐
+│     🎯 Coordinator        │─── requests ──►│     🔍 Validator          │
+│  • Runs every 30 min      │               │  • Runs every 30 min      │
+│  • Tracks projects/topics │◄── results ───│  • Independent QA         │
+│  • Self-validates first   │               │  • Fact-checks everything │
+│  • Sends to Validator     │               │  • Catches lazy bots      │
+└─────────────────┬─────────┘               └───────────────────────────┘
+                  │ (strategic direction)
+                  ▼
 ┌──────────────────────────────────────────────────────────────────┐
 │                    📋 Task Managers                               │
 │  • Run every 15 min per project                                  │
@@ -445,6 +565,17 @@ The **Coordinator** then batches and summarizes for Slack:
 │  • Do actual work                                                │
 │  • Report completion back                                        │
 └──────────────────────────────────────────────────────────────────┘
+```
+
+### Validation Phase Flow
+
+```
+1. Worker completes task → marks "claiming-complete"
+2. Task Manager verifies → marks "verified"  
+3. Coordinator self-validates batch → sends to Validator
+4. Validator independently checks → sends result back
+5. If PASS → Coordinator marks truly "complete"
+6. If FAIL → Coordinator sends back for fixes
 ```
 
 ---
@@ -501,26 +632,38 @@ ELSE:
 |-------|-----------|------------|-------------|------------|
 | Person Manager | 4x/day | ~5K | ~2K | ~$0.10 |
 | Coordinator | 48x/day (30min) | ~8K | ~3K | ~$2.00 |
+| **Validator** | 48x/day (30min) | ~8K | ~3K | ~$2.00 |
 | Task Manager | 96x/day (15min) | ~10K | ~5K | ~$5.00 |
 | Workers | Variable | Variable | Variable | Variable |
 
-**Total overhead:** ~$7/day for management (if always active)
-**If jobs empty:** ~$0.50/day (just heartbeat checks)
+**Total overhead:** ~$9/day for management (if always active)
+**If jobs empty:** ~$0.75/day (just heartbeat checks)
 
 ---
 
 ## ✅ Implementation Checklist
 
-- [ ] Create `scheduler/coordinator/` directory structure
-- [ ] Create `scheduler/coordinator/JOBS.md`
-- [ ] Create `scheduler/coordinator/notes/` directories
-- [ ] Create `scheduler/person-manager/` directory structure
-- [ ] Create `scheduler/person-manager/JOBS.md`
-- [ ] Add Coordinator cron (30 min)
-- [ ] Add Person Manager cron (4x/day)
-- [ ] Update existing proactive scheduler to match pattern
-- [ ] Document in AGENTS.md
-- [ ] Test with MELO v2 project
+- [x] Create `scheduler/coordinator/` directory structure
+- [x] Create `scheduler/coordinator/JOBS.md`
+- [x] Create `scheduler/coordinator/notes/` directories
+- [x] Create `scheduler/person-manager/` directory structure
+- [x] Create `scheduler/person-manager/JOBS.md`
+- [x] Add Coordinator cron (30 min)
+- [x] Add Person Manager cron (4x/day)
+- [x] Update existing proactive scheduler to match pattern
+- [x] Document in AGENTS.md
+
+### Validator (Added 2026-02-18)
+
+- [x] Create `scheduler/validator/` directory structure
+- [x] Create `scheduler/validator/IDENTITY.md`
+- [x] Create `scheduler/validator/JOBS.md`
+- [x] Create `scheduler/validator/notes/` directories
+- [x] Create `scheduler/inboxes/validator/` directory
+- [ ] Add Validator cron (30 min, 10-min offset from Coordinator)
+- [ ] Update Coordinator IDENTITY.md to send validation requests
+- [ ] Update Person Manager IDENTITY.md to manage Validator
+- [ ] Test validation workflow
 
 ---
 
