@@ -144,7 +144,7 @@ EOF
 
 ## 🧪 Testing & Validation (MANDATORY!)
 
-> **"If you can't validate your work, it's the same as not doing it."** — Aaron
+> **"If you can't validate your work, it's the same as not doing it."** — Sophie
 
 ### TDD/BDD Approach (REQUIRED!)
 
