@@ -109,3 +109,29 @@ export function DialogTitle({ className, children, ...props }: DialogTitleProps)
     </h2>
   );
 }
+
+export interface DialogTriggerProps extends React.HTMLAttributes<HTMLElement> {
+  children: React.ReactNode;
+  asChild?: boolean;
+}
+
+export function DialogTrigger({ children, asChild = false, ...props }: DialogTriggerProps) {
+  const context = useContext(DialogContext);
+  
+  const handleClick = () => {
+    context?.onOpenChange(!context.open);
+  };
+
+  if (asChild) {
+    return React.cloneElement(children as React.ReactElement, {
+      onClick: handleClick,
+      ...props
+    });
+  }
+
+  return (
+    <button onClick={handleClick} {...props}>
+      {children}
+    </button>
+  );
+}
