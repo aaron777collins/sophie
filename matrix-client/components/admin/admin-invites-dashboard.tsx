@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { InviteStats } from './invite-stats';
 import { InviteList } from './invite-list';
+import { CreateInviteModal } from './create-invite-modal';
 
 interface Invite {
   id: string;
@@ -22,14 +23,6 @@ export function AdminInvitesDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [creating, setCreating] = useState(false);
-
-  // Form state for creating invites
-  const [newInvite, setNewInvite] = useState({
-    matrixId: '',
-    expiresIn: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
-    notes: ''
-  });
 
   const loadInvites = async () => {
     try {
@@ -51,46 +44,14 @@ export function AdminInvitesDashboard() {
     loadInvites();
   }, []);
 
-  const handleCreateInvite = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!newInvite.matrixId) {
-      setError('Matrix ID is required');
-      return;
-    }
-
-    // Basic Matrix ID validation
-    const matrixIdRegex = /^@[a-z0-9._=-]+:[a-z0-9.-]+\.[a-z]{2,}$/i;
-    if (!matrixIdRegex.test(newInvite.matrixId)) {
-      setError('Invalid Matrix ID format. Use @user:server.com');
-      return;
-    }
-
-    setCreating(true);
+  const handleCreateSuccess = (invite: Invite) => {
+    setInvites(prev => [invite, ...prev]);
+    setShowCreateModal(false);
     setError(null);
+  };
 
-    try {
-      const response = await fetch('/api/admin/invites', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newInvite),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create invite');
-      }
-
-      const data = await response.json();
-      setInvites(prev => [data.invite, ...prev]);
-      setShowCreateModal(false);
-      setNewInvite({ matrixId: '', expiresIn: 7 * 24 * 60 * 60 * 1000, notes: '' });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setCreating(false);
-    }
+  const handleCreateError = (errorMessage: string) => {
+    setError(errorMessage);
   };
 
   const handleRevokeInvite = async (inviteId: string) => {
@@ -115,11 +76,7 @@ export function AdminInvitesDashboard() {
     }
   };
 
-  const expirationOptions = [
-    { label: '7 Days', value: 7 * 24 * 60 * 60 * 1000 },
-    { label: '14 Days', value: 14 * 24 * 60 * 60 * 1000 },
-    { label: '30 Days', value: 30 * 24 * 60 * 60 * 1000 },
-  ];
+  // Removed: expirationOptions now handled by CreateInviteModal component
 
   if (loading) {
     return (
@@ -174,83 +131,12 @@ export function AdminInvitesDashboard() {
       
       <InviteList invites={invites} onRevoke={handleRevokeInvite} />
 
-      {showCreateModal && (
-        <div className="modal-backdrop" onClick={() => !creating && setShowCreateModal(false)}>
-          <div className="modal" onClick={e => e.stopPropagation()}>
-            <div className="modal-header">
-              <h3>Create New Invite</h3>
-              <button 
-                onClick={() => setShowCreateModal(false)} 
-                className="close-modal"
-                disabled={creating}
-              >
-                ×
-              </button>
-            </div>
-
-            <form onSubmit={handleCreateInvite} className="modal-form">
-              <div className="form-group">
-                <label htmlFor="matrixId">Matrix User ID *</label>
-                <input
-                  id="matrixId"
-                  type="text"
-                  placeholder="@user:matrix.org"
-                  value={newInvite.matrixId}
-                  onChange={(e) => setNewInvite(prev => ({ ...prev, matrixId: e.target.value }))}
-                  required
-                  disabled={creating}
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="expiresIn">Expiration</label>
-                <select
-                  id="expiresIn"
-                  value={newInvite.expiresIn}
-                  onChange={(e) => setNewInvite(prev => ({ ...prev, expiresIn: Number(e.target.value) }))}
-                  disabled={creating}
-                >
-                  {expirationOptions.map(option => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="notes">Notes (optional)</label>
-                <textarea
-                  id="notes"
-                  placeholder="Add a note about this invite..."
-                  value={newInvite.notes}
-                  onChange={(e) => setNewInvite(prev => ({ ...prev, notes: e.target.value }))}
-                  disabled={creating}
-                  rows={3}
-                />
-              </div>
-
-              <div className="modal-actions">
-                <button 
-                  type="button" 
-                  onClick={() => setShowCreateModal(false)}
-                  className="cancel-btn"
-                  disabled={creating}
-                >
-                  Cancel
-                </button>
-                <button 
-                  type="submit" 
-                  className="submit-btn"
-                  disabled={creating}
-                >
-                  {creating ? 'Creating...' : 'Create Invite'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <CreateInviteModal
+        isOpen={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+        onSuccess={handleCreateSuccess}
+        onError={handleCreateError}
+      />
 
       <style jsx>{`
         .admin-invites-dashboard {
@@ -467,14 +353,6 @@ export function AdminInvitesDashboard() {
           .dashboard-actions {
             flex-direction: column;
             align-items: stretch;
-          }
-
-          .modal {
-            margin: 10px;
-          }
-
-          .modal-actions {
-            flex-direction: column;
           }
         }
       `}</style>
