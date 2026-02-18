@@ -75,6 +75,7 @@ export class OfflineUserDetectionService {
     if (!this.matrixClient) return;
 
     // Track presence updates
+    // @ts-ignore - Event type may not be in current definitions
     this.matrixClient.on('User.presence', (event: any, user: any) => {
       if (user && user.userId) {
         this.updateUserPresence(user.userId, {
@@ -85,6 +86,7 @@ export class OfflineUserDetectionService {
     });
 
     // Track room timeline events to detect activity
+    // @ts-ignore - Event type may not be in current definitions
     this.matrixClient.on('Room.timeline', (event: MatrixEvent, room: Room | undefined) => {
       if (event.getSender() && room) {
         const userId = event.getSender()!;
@@ -93,6 +95,7 @@ export class OfflineUserDetectionService {
     });
 
     // Track typing events
+    // @ts-ignore - Event type may not be in current definitions
     this.matrixClient.on('RoomMember.typing', (event: any, member: any) => {
       if (member && member.userId) {
         this.updateUserActivity(member.userId);
@@ -100,6 +103,7 @@ export class OfflineUserDetectionService {
     });
 
     // Track receipt events (read receipts)
+    // @ts-ignore - Event type may not be in current definitions
     this.matrixClient.on('Room.receipt', (event: MatrixEvent, room: Room) => {
       const content = event.getContent();
       if (content) {
@@ -353,10 +357,10 @@ export class OfflineUserDetectionService {
 
         // Get unread count for this room
         const unreadCount = room.getUnreadNotificationCount();
-        const highlightCount = room.getUnreadNotificationCount('highlight');
+        const highlightCount = room.getUnreadNotificationCount() || 0;
         
         if (unreadCount > 0) {
-          const isDirect = room.isDmRoom();
+          const isDirect = room.getJoinedMemberCount() === 2;
           const roomSummary = {
             roomId: room.roomId,
             roomName: room.name || room.getCanonicalAlias() || 'Unknown Room',
@@ -475,7 +479,7 @@ export class OfflineUserDetectionService {
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
     let removedCount = 0;
 
-    for (const [userId, presence] of this.userPresence.entries()) {
+    for (const [userId, presence] of Array.from(this.userPresence.entries())) {
       if (presence.lastSeenAt < thirtyDaysAgo) {
         this.userPresence.delete(userId);
         removedCount++;

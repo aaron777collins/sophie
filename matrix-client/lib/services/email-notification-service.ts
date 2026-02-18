@@ -725,7 +725,7 @@ Privacy Policy: {{privacyPolicyUrl}}`,
   async cancelPendingNotifications(userId: string): Promise<number> {
     let cancelledCount = 0;
     
-    for (const notification of this.notifications.values()) {
+    for (const notification of Array.from(this.notifications.values())) {
       if (notification.userId === userId && (notification.status === 'pending' || notification.status === 'sending')) {
         notification.status = 'cancelled';
         notification.updatedAt = new Date().toISOString();
