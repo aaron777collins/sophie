@@ -107,6 +107,42 @@ export async function POST(request: NextRequest) {
   }
 }
 
+export async function PATCH(request: NextRequest) {
+  try {
+    const { inviteId, status, usedBy, usedAt } = await request.json();
+
+    if (!inviteId) {
+      return NextResponse.json({ error: 'Invite ID is required' }, { status: 400 });
+    }
+
+    const inviteIndex = invites.findIndex(invite => invite.id === inviteId);
+    if (inviteIndex === -1) {
+      return NextResponse.json({ error: 'Invite not found' }, { status: 404 });
+    }
+
+    const invite = invites[inviteIndex];
+
+    // Update status if provided
+    if (status) {
+      invite.status = status;
+    }
+
+    // If marking as used, set the used fields
+    if (status === 'used' && usedBy) {
+      invite.usedBy = usedBy;
+      invite.usedAt = usedAt || new Date().toISOString();
+    }
+
+    return NextResponse.json({ 
+      success: true,
+      invite: invite
+    });
+  } catch (error) {
+    console.error('Error updating invite:', error);
+    return NextResponse.json({ error: 'Failed to update invite' }, { status: 500 });
+  }
+}
+
 export async function DELETE(request: NextRequest) {
   try {
     // TODO: Add admin authentication check
