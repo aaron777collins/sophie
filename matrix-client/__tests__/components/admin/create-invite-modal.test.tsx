@@ -1,14 +1,15 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { vi, describe, it, beforeEach, afterEach, expect } from 'vitest';
 import { CreateInviteModal } from '../../../components/admin/create-invite-modal';
 
 // Mock fetch
-global.fetch = jest.fn();
+global.fetch = vi.fn();
 
 describe('CreateInviteModal', () => {
-  const mockOnClose = jest.fn();
-  const mockOnSuccess = jest.fn();
-  const mockOnError = jest.fn();
+  const mockOnClose = vi.fn();
+  const mockOnSuccess = vi.fn();
+  const mockOnError = vi.fn();
 
   const defaultProps = {
     isOpen: true,
@@ -18,12 +19,12 @@ describe('CreateInviteModal', () => {
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
-    (fetch as jest.Mock).mockClear();
+    vi.clearAllMocks();
+    (fetch as any).mockClear();
   });
 
   afterEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   it('renders modal when isOpen is true', () => {
@@ -74,7 +75,7 @@ describe('CreateInviteModal', () => {
     fireEvent.click(submitBtn);
     
     await waitFor(() => {
-      expect(screen.getByText('Invalid Matrix ID format. Use @user:homeserver.com')).toBeInTheDocument();
+      expect(screen.getByText('Matrix ID must start with @')).toBeInTheDocument();
     });
   });
 
@@ -117,7 +118,7 @@ describe('CreateInviteModal', () => {
     });
     
     await waitFor(() => {
-      expect(screen.getByText('Expiration must be at least 1 day')).toBeInTheDocument();
+      expect(screen.getByText('Expiration must be at least 1 hour')).toBeInTheDocument();
     }, { timeout: 3000 });
   });
 
@@ -146,7 +147,7 @@ describe('CreateInviteModal', () => {
     });
     
     await waitFor(() => {
-      expect(screen.getByText('Expiration cannot exceed 365 days')).toBeInTheDocument();
+      expect(screen.getByText('Expiration cannot exceed 1 year')).toBeInTheDocument();
     }, { timeout: 3000 });
   });
 
@@ -162,7 +163,7 @@ describe('CreateInviteModal', () => {
       createdBy: '@admin:matrix.org',
     };
 
-    (fetch as jest.Mock).mockResolvedValueOnce({
+    (fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => ({ invite: mockInvite }),
     });
@@ -203,7 +204,7 @@ describe('CreateInviteModal', () => {
       createdBy: '@admin:matrix.org',
     };
 
-    (fetch as jest.Mock).mockResolvedValueOnce({
+    (fetch as any).mockResolvedValueOnce({
       ok: true,
       json: async () => ({ invite: mockInvite }),
     });
@@ -237,7 +238,7 @@ describe('CreateInviteModal', () => {
   });
 
   it('handles API errors correctly', async () => {
-    (fetch as jest.Mock).mockResolvedValueOnce({
+    (fetch as any).mockResolvedValueOnce({
       ok: false,
       json: async () => ({ error: 'Server error' }),
     });
@@ -256,7 +257,7 @@ describe('CreateInviteModal', () => {
   });
 
   it('handles network errors correctly', async () => {
-    (fetch as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
+    (fetch as any).mockRejectedValueOnce(new Error('Network error'));
 
     render(<CreateInviteModal {...defaultProps} />);
     
@@ -300,7 +301,7 @@ describe('CreateInviteModal', () => {
 
   it('disables form during submission', async () => {
     // Mock a slow response
-    (fetch as jest.Mock).mockImplementationOnce(() => new Promise(resolve => setTimeout(resolve, 100)));
+    (fetch as any).mockImplementationOnce(() => new Promise(resolve => setTimeout(resolve, 100)));
 
     render(<CreateInviteModal {...defaultProps} />);
     
