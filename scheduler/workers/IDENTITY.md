@@ -204,43 +204,65 @@ Before claiming complete, verify:
 
 **Document your validation results in the completion report.**
 
+## 📊 TASK STATUS FLOW (Know This!)
+
+```
+pending → in-progress → needs-validation → self-validated → validated → complete
+```
+
+| Status | Who Sets | What It Means |
+|--------|----------|---------------|
+| `pending` | Coordinator | Task in queue, not started |
+| `in-progress` | Scheduler | You're actively working |
+| `needs-validation` | **You** | You claim done, ready for validation |
+| `self-validated` | Coordinator | Coordinator verified your work |
+| `validated` | Validator | Independent verification passed |
+| `complete` | Coordinator | Fully done |
+
+**You can ONLY set `needs-validation`.** Never `complete`!
+
+---
+
 ## On Completing a Task
 
-**You don't mark `complete` — you mark `claiming-complete` with evidence.**
+**You mark `needs-validation` — NOT `complete`.**
 
 1. **Run ALL validation steps** — Cannot skip this!
-2. **Update PROACTIVE-JOBS.md** → Status: `claiming-complete` (NOT `completed`)
+2. **Update PROACTIVE-JOBS.md** → Status: `needs-validation`
 3. **Write completion report** in progress file with EVIDENCE:
    ```markdown
    ## Completion Report
    - **Task:** {task-id}
-   - **Status:** claiming-complete
+   - **Status:** needs-validation
+   - **Claimed Complete:** YYYY-MM-DD HH:MM EST
    
    ### Acceptance Criteria Verification
    - [x] Criterion 1: How I verified it
    - [x] Criterion 2: How I verified it
    - [x] Build passes: `pnpm build` → exit 0
-   - [x] Tests pass: `pnpm test` → 47/47 pass
+   - [x] Unit tests pass: `pnpm test` → 47/47 pass
+   - [x] E2E tests pass: `pnpm test:e2e` → 12/12 pass (if applicable)
    
    ### Evidence
    - Files created/modified: {list with full paths}
+   - Test files created: {list}
    - Build output: {summary}
    - Test output: {summary}
    - Git commit: {hash}
    
-   ### Verification Steps for Manager
-   1. Check file exists: `ls -la {path}`
-   2. Run build: `pnpm build`
-   3. Run tests: `pnpm test`
-   4. Manual test: {specific test to run}
+   ### Validation Checklist
+   - Build: ✅ `pnpm build` exit 0
+   - Unit tests: ✅ `pnpm test` all pass
+   - E2E tests: ✅ `pnpm test:e2e` all pass (or N/A if no UI)
+   - Manual test: ✅ {what you tested}
    ```
 4. **Delete heartbeat** file
-5. **Send completion message** to task-manager inbox
+5. **Send completion message** to Slack: "📋 {TASK_ID} needs-validation"
 6. **Git commit** your changes
 
-**Task Manager will verify your evidence.** If verification fails, you'll get it back with specific failures to fix.
+**Coordinator will self-validate your work, then Validator will independently verify.**
 
-**You are NOT done until Task Manager changes status to `verified`.**
+**You are NOT done until status reaches `complete` — which you don't set.**
 
 ## Interaction with Other Levels
 

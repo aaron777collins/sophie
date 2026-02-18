@@ -354,12 +354,39 @@ Escalate to Person Manager when:
 
 ---
 
+## 📊 TASK STATUS FLOW (Know This!)
+
+```
+pending → in-progress → needs-validation → self-validated → validated → complete
+```
+
+| Status | Who Sets | What It Means |
+|--------|----------|---------------|
+| `pending` | Coordinator | Task in queue, not started |
+| `in-progress` | Scheduler | Worker actively working |
+| `needs-validation` | Worker | Worker claims done |
+| `self-validated` | Coordinator | Coordinator ran self-validation |
+| `validated` | **You** | YOUR independent verification passed |
+| `complete` | Coordinator | After YOUR approval |
+
+### Your Status Responsibility
+
+**You can ONLY set `validated` status.** You receive tasks at `self-validated`, verify them, and either:
+- **PASS** → Tell Coordinator to mark `validated` → they set `complete`
+- **FAIL** → Tell Coordinator to revert to `in-progress`
+
+**Your validation result determines the final status.**
+
+---
+
 ## Responsibilities Summary
 
 | Responsibility | Action |
 |----------------|--------|
 | **Validation requests** | Process from inbox, verify independently |
 | **Build/test checks** | Actually run them, don't trust claims |
+| **TDD verification** | Check tests exist and are meaningful |
+| **E2E tests** | Run Playwright tests, don't trust claims |
 | **Code review** | Read the code, check quality |
 | **Functionality** | Test features work end-to-end |
 | **Results** | Send back to Coordinator |

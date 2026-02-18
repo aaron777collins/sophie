@@ -391,25 +391,45 @@ curl -s {url} | head -20
 
 ---
 
-## Updated Task Status Flow
+## Task Status Flow (OFFICIAL)
 
 ```
-pending → in-progress → claiming-complete → verified → validated → COMPLETE
-                              ↓                ↓          ↓
-                          (failed)         (failed)   (failed)
-                              ↓                ↓          ↓
-                         in-progress     in-progress  in-progress
+pending → in-progress → needs-validation → self-validated → validated → COMPLETE
+                              ↓                  ↓              ↓
+                          (failed)           (failed)       (failed)
+                              ↓                  ↓              ↓
+                         in-progress       in-progress    in-progress
 ```
 
 **Statuses:**
-- `pending` — Not started
-- `in-progress` — Worker actively working
-- `claiming-complete` — Worker says done, awaiting self-verification
-- `verified` — Task Manager/Coordinator self-validated
-- `validated` — **Validator independently verified** (NEW)
-- `complete` — Truly done, approved
 
-**The key addition:** `validated` status can only be set by Validator after independent verification.
+| Status | Who Sets It | Meaning |
+|--------|-------------|---------|
+| `pending` | Coordinator | Not started, waiting in queue |
+| `in-progress` | Scheduler | Worker actively working |
+| `needs-validation` | Worker | Worker claims done, awaiting self-validation |
+| `self-validated` | Coordinator | Coordinator ran self-validation checks |
+| `validated` | Validator | Independent verification passed |
+| `complete` | Coordinator | Fully done after Validator approval |
+
+**Status Format in PROACTIVE-JOBS.md:**
+```markdown
+- **Status:** self-validated (L2-coordinator)
+- **Self-Validation:** 2026-02-18 12:30 EST by coordinator
+  - Build: ✅ pass
+  - Unit tests: ✅ pass  
+  - E2E tests: ✅ pass
+  - Manual check: ✅ feature works
+- **Validation:** pending (sent to validator)
+```
+
+**Rules:**
+- Only **Workers** can set `needs-validation`
+- Only **Coordinator** can set `self-validated` (after running checks)
+- Only **Validator** can set `validated` (after independent verification)
+- Only **Coordinator** can set `complete` (after Validator approves)
+
+**The flow is strict:** Worker → Coordinator self-validates → Validator independently verifies → Complete
 
 ---
 

@@ -236,16 +236,27 @@ ACTUALLY COMPLETE ✅
 **Key Principle:** Self-validation catches errors at the source. Don't pass bad work up.
 
 **Task Statuses:**
-- `pending` → `in-progress` → `claiming-complete` → `verified` → `complete`
+```
+pending → in-progress → needs-validation → self-validated → validated → complete
+```
+
+| Status | Who Sets | Meaning |
+|--------|----------|---------|
+| `pending` | Coordinator | Not started |
+| `in-progress` | Scheduler | Worker actively working |
+| `needs-validation` | Worker | Worker claims done |
+| `self-validated` | Coordinator | Coordinator ran self-validation (build, tests, E2E) |
+| `validated` | Validator | Independent verification passed |
+| `complete` | Coordinator | After Validator approval |
 
 **Validation Requirements:**
 
 | Level | Validates | How |
 |-------|-----------|-----|
-| **Task Manager** | Worker output | Self-validates: spawn Sonnet verifier, run build/tests, multi-perspective check |
-| **Coordinator** | Batch completion | Self-validates, then sends to Validator for independent verification |
-| **Validator** | Coordinator claims | Independent fact-check: runs build/tests, reads code, tests functionality |
-| **Person Manager** | Strategic quality | Oversees both Coordinator and Validator, spot-checks, handles escalations |
+| **Worker** | Own work | Runs build, unit tests, E2E tests → sets `needs-validation` |
+| **Coordinator** | Worker output | Self-validates: build, tests, E2E, manual check → sets `self-validated` |
+| **Validator** | Coordinator claims | Independent fact-check: runs everything again → approves `validated` |
+| **Person Manager** | Strategic quality | Oversees both, spot-checks, handles escalations |
 
 **Multi-Perspective Review (Use Circle thinking):**
 - 🔧 Pragmatist: Does this actually work in practice?

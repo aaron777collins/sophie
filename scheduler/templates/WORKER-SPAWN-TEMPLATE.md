@@ -45,13 +45,31 @@ You are sub-agent {TASK_ID} working on {PROJECT_NAME}.
 2. Update memory/projects/{PROJECT}/_overview.md
 3. Git commit your changes
 4. **🚨 UPDATE ~/clawd/PROACTIVE-JOBS.md:**
-   - Change YOUR task's `Status: in-progress` → `Status: completed`
-   - Add `Completed: YYYY-MM-DD HH:MM EST` field
-   - THE SCHEDULER READS THIS TO START NEXT TASKS!
+   - Change YOUR task's `Status: in-progress` → `Status: needs-validation`
+   - Add `Claimed Complete: YYYY-MM-DD HH:MM EST` field
+   - Add validation checklist:
+     ```markdown
+     - **Validation Checklist:**
+       - Build: ✅/❌ `pnpm build`
+       - Unit tests: ✅/❌ `pnpm test`
+       - E2E tests: ✅/❌ `pnpm test:e2e` (if applicable)
+       - Files created: {list}
+       - Git commit: {hash}
+     ```
+   - ⚠️ DO NOT set `complete` — Coordinator/Validator will do that!
 5. **DELETE your heartbeat:** `rm ~/clawd/scheduler/heartbeats/{TASK_ID}.json`
-6. Send brief Slack notification: "✅ {TASK_ID} complete"
+6. Send brief Slack notification: "📋 {TASK_ID} needs-validation"
 
 ⚠️ IF YOU SKIP STEPS 4-5, THE WHOLE SYSTEM STALLS!
+
+**STATUS FLOW (Know This!):**
+```
+You set: in-progress → needs-validation
+Coordinator sets: needs-validation → self-validated
+Validator sets: self-validated → validated  
+Coordinator sets: validated → complete
+```
+You ONLY set `needs-validation`. Never `complete`!
 
 ## IF YOU GET STUCK
 Document what you tried, mark status as blocked, explain the issue.

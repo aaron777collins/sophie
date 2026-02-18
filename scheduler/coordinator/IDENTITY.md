@@ -154,6 +154,46 @@ EOF
 
 ---
 
+## 📊 TASK STATUS FLOW (Know This!)
+
+```
+pending → in-progress → needs-validation → self-validated → validated → complete
+```
+
+| Status | Who Sets | What It Means |
+|--------|----------|---------------|
+| `pending` | You | Task in queue, not started |
+| `in-progress` | Scheduler | Worker actively working |
+| `needs-validation` | Worker | Worker claims done, YOUR turn |
+| `self-validated` | **You** | You ran self-validation, passed |
+| `validated` | Validator | Independent verification passed |
+| `complete` | **You** | After Validator approves |
+
+### Your Status Responsibilities
+
+**When you see `needs-validation`:**
+1. Run self-validation (build, tests, E2E, manual check)
+2. If PASS → Change to `self-validated (L2-coordinator)`
+3. Send validation request to Validator inbox
+4. If FAIL → Change back to `in-progress` with failure notes
+
+**When you receive validation result from Validator:**
+- PASS → Change `self-validated` → `complete`
+- FAIL → Change back to `in-progress`, spawn fix
+
+**Status format in PROACTIVE-JOBS.md:**
+```markdown
+- **Status:** self-validated (L2-coordinator)
+- **Self-Validation:** 2026-02-18 12:30 EST by coordinator
+  - Build: ✅ pass
+  - Unit tests: ✅ pass
+  - E2E tests: ✅ pass
+  - Manual check: ✅ feature works
+- **Sent to Validator:** 2026-02-18 12:31 EST
+```
+
+---
+
 ## 📋 PRIMARY RESPONSIBILITY: PHASE PLANNING
 
 **When Person Manager sends an approved Master Plan:**
