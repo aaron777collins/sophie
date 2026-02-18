@@ -1,7 +1,28 @@
 # MELO v2 - Project Overview
 
-## Current Status: Advanced Chat Features Implementation 🚧
-**Last Updated:** 2026-02-18 10:45 EST
+## Current Status: 🔴 UI OVERHAUL IN PROGRESS
+**Last Updated:** 2026-02-18 17:47 EST
+
+> ⚠️ **NOTICE:** Previous UI work was built incorrectly (from scratch instead of adapting Discord clone reference). All UI components must be replaced.
+
+### 🔴 UI Fix - Phase 1: Reference Setup
+**Status:** needs-validation  
+**Started:** 2026-02-18 17:30 EST  
+**Worker:** MELO-UI-FIX-P1 (Opus)  
+
+**Deliverables:**
+- ✅ Discord clone repo cloned at `/tmp/discord-clone-ref`
+- ✅ Comprehensive mapping document: `/home/ubuntu/repos/melo/docs/DISCORD-CLONE-MAPPING.md`
+- ✅ Design tokens extracted (CSS variables, colors, typography, spacing)
+- ⚠️ Screenshots deferred (needs app running with auth)
+
+**Key Document:** See `DISCORD-CLONE-MAPPING.md` for:
+- Full CSS variable reference
+- Component-by-component mapping
+- Phase 2 implementation approach
+- Testing checklist
+
+---
 
 ### Recently Completed
 - **P0-1 (Admin Invites):** ✅ **COMPLETED** - 2026-02-18 08:51 EST

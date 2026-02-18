@@ -981,12 +981,27 @@ Every task MUST be classified by type:
 | Type | Description | Minimum Model | Why |
 |------|-------------|---------------|-----|
 | **UI** | Visual output, styling, layout | **Sonnet** | Requires visual judgment |
-| **LOGIC** | Business logic, algorithms | Sonnet | Requires reasoning |
-| **INFRASTRUCTURE** | DevOps, config, setup | Haiku* | Clear technical steps |
-| **DATA** | Data manipulation, transforms | Haiku* | Clear operations |
-| **DOCUMENTATION** | Writing, docs | Haiku* | Clear writing tasks |
+| **LOGIC** | Business logic, algorithms | **Sonnet** | Requires reasoning |
+| **INFRASTRUCTURE** | DevOps, config, setup | Haiku** | IF fully scripted |
+| **DATA** | Data manipulation, transforms | Haiku** | IF fully scripted |
+| **DOCUMENTATION** | Writing, docs | Haiku** | IF fully scripted |
 
-*Haiku only if steps are explicit and require no judgment.
+**⚠️ HAIKU RULE (NON-NEGOTIABLE):**
+Haiku is a PURE EXECUTOR. It follows explicit instructions. That's ALL it does.
+
+**Haiku ONLY when ALL conditions are met:**
+1. Plan is CLEAR and FULLY DEFINED
+2. NO thinking or judgment required whatsoever
+3. Explicit step-by-step instructions exist
+4. A robot could follow the steps literally
+
+**THE HAIKU TEST:** Can you write instructions so explicit that a robot could execute them without making ANY decisions? If NO → use Sonnet.
+
+**Never trust Haiku with:**
+- Critical thinking
+- Coding decisions (what to build, how to structure)
+- Any task requiring judgment
+- Figuring out *how* to do something
 
 ```markdown
 ### Task Template (MANDATORY)

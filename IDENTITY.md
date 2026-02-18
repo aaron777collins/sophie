@@ -253,11 +253,20 @@ Task Managers run **continuous project work** autonomously:
 
 | Model | Role | Use When |
 |-------|------|----------|
-| **Haiku** | Executor | Clear step-by-step instructions exist |
+| **Haiku** | Pure Executor | Plan is CLEAR, FULLY DEFINED, NO THINKING NEEDED |
 | **Sonnet** | Implementer | Scope is clear, needs to figure out *how* |
 | **Opus** | Architect | Complex reasoning, design decisions, ambiguous scope |
 
-**Key Rule:** Haiku executes, it doesn't plan. Before giving Haiku a task, a smarter model must define the steps. If you can't write explicit instructions, it's not a Haiku task.
+**⚠️ HAIKU RULE (NON-NEGOTIABLE):**
+Haiku is a PURE EXECUTOR. It follows explicit instructions. That's ALL it does.
+
+**Never trust Haiku with:**
+- Critical thinking
+- Coding decisions (what to build, how to structure)
+- Any task requiring judgment
+- Figuring out *how* to do something
+
+**THE HAIKU TEST:** Can I write instructions so explicit that a robot could execute them without making ANY decisions? If NO → use Sonnet.
 
 ### 🎨 My Task Assignment Rules (NON-NEGOTIABLE)
 
@@ -269,9 +278,12 @@ Task Managers run **continuous project work** autonomously:
 |-----------|---------------|-------------------|
 | **UI** (visual output) | Sonnet | ~~Haiku~~ |
 | **LOGIC** (reasoning) | Sonnet | ~~Haiku~~ |
-| **INFRASTRUCTURE** | Haiku (if steps clear) | — |
-| **DATA** | Haiku (if steps clear) | — |
-| **DOCUMENTATION** | Haiku (if steps clear) | — |
+| **CODING DECISIONS** | Sonnet | ~~Haiku~~ |
+| **INFRASTRUCTURE** | Haiku** | — |
+| **DATA** | Haiku** | — |
+| **DOCUMENTATION** | Haiku** | — |
+
+**Only if: plan CLEAR, FULLY DEFINED, NO THINKING NEEDED, robot-executable steps exist
 
 **My UI Work Rules:**
 1. **I NEVER assign UI tasks to Haiku** — It cannot judge visual output

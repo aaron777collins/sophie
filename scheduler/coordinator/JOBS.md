@@ -98,7 +98,37 @@ pnpm dev
 
 ---
 
-### Phase 3: Integration & Polish (Day 4)
+### Phase 3: Setup Wizard & Admin Features (Days 4-5)
+**Model:** Sonnet/Opus ONLY
+**Status:** pending
+
+Keep existing functionality but restyle to match Discord's aesthetic:
+
+1. **Setup Wizard** — Initial server setup flow
+   - Use Discord's modal patterns for step-by-step setup
+   - Clean, minimal design matching Discord onboarding
+   
+2. **Homeserver Management** — Admin settings
+   - Who can invite (invite permissions)
+   - Server settings panel
+   - User management interface
+   
+3. **Invite System** — Invite links and management
+   - Generate invite links
+   - Manage existing invites
+   - Invite restrictions
+
+**Visual Reference:** Discord's server settings, user settings, and onboarding modals
+
+**Acceptance Criteria:**
+- [ ] Setup wizard follows Discord modal patterns
+- [ ] Admin panels match Discord settings aesthetic
+- [ ] Invite management UI matches Discord style
+- [ ] All components visually verified against Discord
+
+---
+
+### Phase 4: Integration & Polish (Day 6)
 **Model:** Sonnet/Opus
 **Status:** pending
 

@@ -18,10 +18,13 @@
 
 ## NON-NEGOTIABLE RULES FOR UI WORK
 
-### 1. NEVER let Haiku do UI design
-- Haiku is for execution of clear, non-visual tasks
-- UI work requires Sonnet minimum, preferably Opus
-- Visual judgment is a higher-order skill
+### 1. NEVER let Haiku do ANY work requiring judgment
+- [2026-02-18 17:35 EST] Aaron clarified: "Haiku should ONLY EVER be used when the plan is CLEAR, FULLY DEFINED, AND NO THINKING IS NEEDED"
+- "We can't trust critical thinking, coding decisions, etc. to Haiku"
+- Haiku is a PURE EXECUTOR - it follows explicit instructions, that's ALL
+- UI work requires Sonnet minimum
+- ANY coding decisions require Sonnet minimum
+- THE HAIKU TEST: Can you write robot-executable steps? If no → Sonnet
 
 ### 2. ALWAYS use a reference implementation
 - When cloning/adapting a UI, use the ACTUAL code from the reference
