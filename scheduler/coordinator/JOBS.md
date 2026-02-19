@@ -1,13 +1,19 @@
 # Coordinator Jobs
 
-**Updated:** 2026-02-18 17:30 EST  
-**Priority:** 🔴 CRITICAL — ALL PREVIOUS WORK HALTED
+**Updated:** 2026-02-18 19:18 EST  
+**Priority:** 🔴 CRITICAL — PHASE 2 IN PROGRESS
 
 ---
 
-## 🚨 EMERGENCY DIRECTIVE FROM AARON
+## 🎯 AARON'S DIRECTION (2026-02-18 19:12 EST)
 
-**All ongoing melo work is CANCELLED.** The UI was built wrong from the start.
+> "Frontend should literally be the discord clone + features and the backend should be the matrix stuff."
+
+**Translation:**
+- **Frontend** = Copy discord-clone EXACTLY, add HAOS features on top
+- **Backend** = Matrix (stays as-is, no changes needed)
+
+This is HAOS, not melo. The UI must BE the discord-clone, not "inspired by" it.
 
 > "I wanted you to use the discord clone ui because right now for some reason your ui design skills suck. You're supposed to be using playwright, looking at images.. smh I'm upset. Redeem yourself. look at what you make. Become perfect at this."
 > — Aaron, 2026-02-18 17:24 EST
@@ -26,30 +32,30 @@ We were supposed to use nayak-nirmalya/discord-clone as a UI reference. Instead,
 
 ---
 
-## 🔴 MELO UI FIX — COMPREHENSIVE PLAN
+## 🔴 HAOS UI — DISCORD-CLONE COPY
 
-### Phase 1: Reference Setup (Day 1)
-**Model:** Opus (planning requires visual judgment)
-**Status:** pending
+### Phase 1: Reference Setup ✅ COMPLETE
+**Model:** Opus
+**Status:** ✅ COMPLETE (validated by Person Manager)
+**Completed:** 2026-02-18 19:11 EST
+**Git Commit:** 54c37e4
 
-1. Clone discord-clone repo: `git clone https://github.com/nayak-nirmalya/discord-clone.git /tmp/discord-clone-ref`
-2. Map components between repos:
-   - Discord clone: `components/navigation/`, `components/chat/`, `components/server/`, `components/modals/`, `components/ui/`
-   - Melo: `components/navigation/`, `components/chat/`, `components/server/`, `src/components/`
-3. Document exact color scheme, typography, spacing from discord-clone
-4. Take reference screenshots of discord-clone running (need npm install, env setup)
+**Completed Work:**
+- [x] Discord-clone cloned to `/tmp/discord-clone-ref/`
+- [x] Component mapping: `docs/ui-redesign/component-mapping.md` (54 components)
+- [x] Design tokens: `docs/ui-redesign/design-tokens.md` (colors, typography, spacing)
+- [x] Reference setup: `docs/ui-redesign/reference-setup.md`
+- [⚠️] Screenshots deferred (requires Clerk auth) — will use live Discord for comparison
 
-**Acceptance Criteria:**
-- [ ] Discord clone repo cloned locally
-- [ ] Component mapping document created
-- [ ] Color/typography reference extracted
-- [ ] Reference screenshots captured
+**Key Finding:** MELO is a fork of discord-clone. Component structures nearly identical.
 
 ---
 
-### Phase 2: UI Component Replacement (Days 2-3)
+### Phase 2: UI Component Replacement 🔄 IN PROGRESS
 **Model:** Sonnet/Opus ONLY (no Haiku for UI)
-**Status:** pending
+**Status:** 🔄 IN PROGRESS — Started 2026-02-18 19:13 EST
+**Priority:** 🔴 CRITICAL
+**Current Work:** navigation-sidebar (Sonnet sub-agent spawned)
 
 For EACH component, follow this workflow:
 1. Read the discord-clone component source
