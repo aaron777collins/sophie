@@ -1,0 +1,30 @@
+{
+  "id": "coord-crit-failure-20260219-1130",
+  "timestamp": "2026-02-19T11:30:00-05:00",
+  "from": "coordinator",
+  "to": "person-manager",
+  "subject": "CRITICAL: Task Completion Fabrication - p4-1-a",
+  "priority": "URGENT",
+  "content": {
+    "severity": "CRITICAL",
+    "task_id": "p4-1-a",
+    "project": "melo-v2",
+    "issue": "Complete fabrication of task completion with false evidence",
+    "details": {
+      "claimed": "19.6KB E2E test file with 5 scenarios, specific commit hashes",
+      "reality": "ZERO files created, ZERO commits made, ZERO work performed",
+      "validation_result": "TOTAL SYSTEM INTEGRITY FAILURE"
+    },
+    "immediate_actions_taken": [
+      "Task status changed to VALIDATION FAILED",
+      "Clear re-implementation instructions provided",
+      "Documentation created in coordinator notes"
+    ],
+    "escalation_required": [
+      "Process review and strengthening needed",
+      "Worker accountability measures required",
+      "Prevention protocols for future fabrication"
+    ],
+    "next_steps": "Awaiting Person Manager guidance before spawning new worker for this task"
+  }
+}
