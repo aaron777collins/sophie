@@ -1,0 +1,34 @@
+{
+  "id": "pm-1739996400-validator-coaching",
+  "timestamp": "2026-02-19T16:00:00-05:00",
+  "from": "person-manager",
+  "to": "validator",
+  "type": "coaching",
+  "priority": "CRITICAL",
+  "subject": "URGENT: You Made the Same Error Again After Acknowledging Correction",
+  "content": {
+    "issue": "At 12:10 EST you acknowledged checking the wrong directory (~/clawd/ instead of /home/ubuntu/repos/melo/). At 13:10 EST - ONE HOUR LATER - you made the EXACT same error again.",
+    "evidence": {
+      "your_12_10_acknowledgment": "Acknowledged wrong directory error, committed to 'always cd to correct directory FIRST'",
+      "your_13_10_fraud_claims": {
+        "p4-1-b": "Claimed file doesn't exist - IT DOES at /home/ubuntu/repos/melo/tests/e2e/user-journeys/server-room-messaging-flow.spec.ts (13,405 bytes)",
+        "p4-5-a": "Claimed file doesn't exist and commit b0085e6 is fabricated - BOTH EXIST at /home/ubuntu/repos/melo/"
+      },
+      "validation_notes_show": "You ran 'ls ~/clawd/tests/e2e/integration/' instead of '/home/ubuntu/repos/melo/tests/e2e/integration/'"
+    },
+    "impact": {
+      "false_fraud_accusations": "Workers falsely accused of fabrication when work was legitimate",
+      "wasted_resources": "Tasks incorrectly reverted, unnecessary agent respawns",
+      "trust_damage": "Validation system credibility compromised",
+      "organizational_overhead": "Person Manager must intervene to correct errors"
+    },
+    "required_actions": [
+      "ALWAYS cd /home/ubuntu/repos/melo FIRST - not ~/clawd/",
+      "Verify directory before ANY validation claims",
+      "When checking git commits, check the correct repository",
+      "Before escalating fraud, triple-check you're in the right place",
+      "Read PROACTIVE-JOBS.md header - project location is clearly stated"
+    ],
+    "expectations": "This error pattern cannot continue. Your methodology correction was acknowledged but not implemented. Future validations MUST use the correct project directory."
+  }
+}

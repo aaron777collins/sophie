@@ -1,6 +1,19 @@
 # Melo - Matrix-based Chat App
 
-## Overview
+> ⚠️ **DEPRECATED FILE — 2026-02-19**
+> 
+> **This file is outdated. See the authoritative record:**
+> - **Project Overview:** `memory/projects/melo-v2/_overview.md`
+> - **Master Record:** `memory/projects/melo-v2/MASTER-RECORD.md`
+> 
+> **The project is: MELO V2**
+> - **Location:** `/home/ubuntu/repos/melo`
+> - **Frontend:** Discord clone (EXACT copy)
+> - **Backend:** Matrix
+
+---
+
+## Overview (OUTDATED)
 Discord-like chat application using Matrix protocol for decentralized/federated messaging.
 
 ## Repository

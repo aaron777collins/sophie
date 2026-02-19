@@ -28,7 +28,8 @@
 | Project | Status | Last Updated | Description |
 |---------|--------|--------------|-------------|
 | [Proactive Tasks](projects/proactivetasks.md) | ✅ Live | 2026-02-09 | Autonomous continuous work system |
-| [MELO](projects/melo.md) | 🔴 UI REBUILD | 2026-02-18 | Discord-clone Matrix client — **UI must be rebuilt using reference** |
+| [MELO V2](projects/melo-v2/_overview.md) | 🟢 Active | 2026-02-19 | Discord clone frontend + Matrix backend — **LIVE at dev2.aaroncollins.info** |
+| ~~[MELO](projects/melo.md)~~ | ⚠️ See melo-v2 | 2026-02-18 | **Use melo-v2/_overview.md instead** |
 | ~~[MELO v1](projects/melo/_overview.md)~~ | ❌ Abandoned | 2026-02-11 | Element Web fork — intractable webpack issues |
 | [Matrix on dev2](projects/matrix-dev2.md) | ✅ Live | 2026-02-09 | Self-hosted Matrix/Element/Synapse |
 | [ConnectedDrivingPipelineV4](projects/connected-driving-pipeline.md) | 🟢 Active | 2026-02-04 | ML pipeline for CV data (**Jaekel server only**) |
