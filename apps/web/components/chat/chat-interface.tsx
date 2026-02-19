@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ChatInput } from './chat-input';
+import { ChatItem, shouldGroupMessages } from './chat-item';
 import { MediaMessage } from './media-message';
 import { MediaViewer } from './media-viewer';
 import { MediaUploadResult, getMessageType } from '@/lib/matrix/media';
@@ -11,7 +12,22 @@ interface Message {
   sender: string;
   content: string;
   timestamp: Date;
+  roomId: string;
   type: 'text' | 'media';
+  reactions?: Array<{
+    emoji: string;
+    users: string[];
+  }>;
+  avatarUrl?: string;
+  senderDisplayName?: string;
+  editedAt?: Date;
+  pinned?: boolean;
+  replyTo?: {
+    id: string;
+    content: string;
+    sender: string;
+    senderDisplayName?: string;
+  };
   mediaAttachment?: {
     contentUri: string;
     filename: string;
@@ -95,59 +111,57 @@ export function ChatInterface({
     setMediaViewer({ isOpen: false });
   };
 
+  // Group messages for Discord-style display
+  const groupedMessages = messages.map((message, index) => {
+    const previousMessage = index > 0 ? messages[index - 1] : undefined;
+    const isGrouped = shouldGroupMessages(
+      { sender: message.sender, timestamp: message.timestamp.getTime() },
+      previousMessage ? { sender: previousMessage.sender, timestamp: previousMessage.timestamp.getTime() } : undefined
+    );
+    
+    // Check if this is the first message in a group (for avatar display)
+    const isFirstInGroup = !isGrouped;
+    
+    return {
+      ...message,
+      isGrouped,
+      showAvatar: isFirstInGroup,
+      isFirstInGroup
+    };
+  });
+
   return (
-    <div className={`flex flex-col h-full ${className}`}>
+    <div className={`flex flex-col h-full discord-chat-container ${className}`}>
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto discord-messages-area">
         {messages.length === 0 ? (
-          <div className="text-center text-gray-500 dark:text-gray-400 mt-8">
-            <div className="text-4xl mb-2">💬</div>
-            <p>No messages yet. Start the conversation!</p>
+          <div className="discord-empty-state">
+            <div className="discord-empty-icon">💬</div>
+            <p className="discord-empty-text">No messages yet. Start the conversation!</p>
           </div>
         ) : (
-          messages.map((message) => (
-            <div key={message.id} className="flex gap-3">
-              {/* Avatar */}
-              <div className="flex-shrink-0">
-                <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">
-                  {message.sender.charAt(0).toUpperCase()}
-                </div>
-              </div>
-
-              {/* Message Content */}
-              <div className="flex-1 min-w-0">
-                {/* Header */}
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="font-medium text-gray-900 dark:text-gray-100">
-                    {message.sender}
-                  </span>
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
-                    {message.timestamp.toLocaleTimeString()}
-                  </span>
-                </div>
-
-                {/* Text Content */}
-                {message.content && (
-                  <div className="text-gray-800 dark:text-gray-200 whitespace-pre-wrap">
-                    {message.content}
-                  </div>
-                )}
-
-                {/* Media Content */}
-                {message.type === 'media' && message.mediaAttachment && (
-                  <div className="mt-2">
-                    <MediaMessage
-                      contentUri={message.mediaAttachment.contentUri}
-                      filename={message.mediaAttachment.filename}
-                      mimetype={message.mediaAttachment.mimetype}
-                      size={message.mediaAttachment.size}
-                      matrixClient={matrixClient}
-                      onMediaClick={handleMediaClick}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
+          groupedMessages.map((message) => (
+            <ChatItem
+              key={message.id}
+              message={{
+                id: message.id,
+                content: message.content,
+                sender: message.sender,
+                timestamp: message.timestamp.getTime(),
+                roomId: message.roomId,
+                reactions: message.reactions,
+                avatarUrl: message.avatarUrl,
+                senderDisplayName: message.senderDisplayName,
+                editedAt: message.editedAt?.getTime(),
+                pinned: message.pinned,
+                replyTo: message.replyTo
+              }}
+              matrixClient={matrixClient}
+              currentUserId={matrixClient?.getUserId() || ''}
+              isGrouped={message.isGrouped}
+              showAvatar={message.showAvatar}
+              isFirstInGroup={message.isFirstInGroup}
+            />
           ))
         )}
         <div ref={messagesEndRef} />

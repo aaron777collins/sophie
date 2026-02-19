@@ -1,14 +1,13 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { MatrixClient } from 'matrix-js-sdk';
 import { getAvatarDisplayInfo } from '@/lib/utils/avatar-utils';
-import './discord-chat-item.css';
 
 interface MatrixReaction {
   emoji: string;
   users: string[]; // Matrix user IDs who reacted
 }
 
-interface ChatItemProps {
+interface DiscordChatItemProps {
   message: {
     id: string;
     content: string;
@@ -34,7 +33,7 @@ interface ChatItemProps {
   isFirstInGroup?: boolean; // Whether this is the first message in a group
 }
 
-export const ChatItem: React.FC<ChatItemProps> = ({ 
+export const DiscordChatItem: React.FC<DiscordChatItemProps> = ({ 
   message, 
   matrixClient, 
   currentUserId,

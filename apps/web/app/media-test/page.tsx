@@ -18,6 +18,7 @@ const mockMessages = [
     id: '1',
     sender: 'Alice',
     content: 'Hey everyone! Check out this image I found:',
+    roomId: '!test-room:example.com',
     timestamp: new Date(Date.now() - 1000 * 60 * 5),
     type: 'text' as const
   },
@@ -25,6 +26,7 @@ const mockMessages = [
     id: '2',
     sender: 'Alice',
     content: '',
+    roomId: '!test-room:example.com',
     timestamp: new Date(Date.now() - 1000 * 60 * 4),
     type: 'media' as const,
     mediaAttachment: {
@@ -38,6 +40,7 @@ const mockMessages = [
     id: '3',
     sender: 'Bob',
     content: 'Nice! Here\'s a video I recorded yesterday:',
+    roomId: '!test-room:example.com',
     timestamp: new Date(Date.now() - 1000 * 60 * 3),
     type: 'text' as const
   },
@@ -45,6 +48,7 @@ const mockMessages = [
     id: '4',
     sender: 'Bob',
     content: '',
+    roomId: '!test-room:example.com',
     timestamp: new Date(Date.now() - 1000 * 60 * 2),
     type: 'media' as const,
     mediaAttachment: {
@@ -58,6 +62,7 @@ const mockMessages = [
     id: '5',
     sender: 'Charlie',
     content: 'And here\'s a document with some important info:',
+    roomId: '!test-room:example.com',
     timestamp: new Date(Date.now() - 1000 * 60 * 1),
     type: 'text' as const
   },
@@ -65,6 +70,7 @@ const mockMessages = [
     id: '6',
     sender: 'Charlie',
     content: '',
+    roomId: '!test-room:example.com',
     timestamp: new Date(Date.now() - 1000 * 30),
     type: 'media' as const,
     mediaAttachment: {
@@ -97,6 +103,7 @@ export default function MediaTestPage() {
         id: Date.now().toString(),
         sender: 'You',
         content: content.trim(),
+        roomId: '!test-room:example.com',
         timestamp,
         type: 'text' as const
       };
@@ -109,6 +116,7 @@ export default function MediaTestPage() {
         id: `${Date.now()}-${index}`,
         sender: 'You',
         content: '',
+        roomId: '!test-room:example.com',
         timestamp: new Date(timestamp.getTime() + index * 100), // Slight offset for ordering
         type: 'media' as const,
         mediaAttachment: {
