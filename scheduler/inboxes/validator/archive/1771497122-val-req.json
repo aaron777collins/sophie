@@ -1,0 +1,37 @@
+{
+  "id": "val-req-p3-2-c-$(date +%s)",
+  "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: p3-2-c Server Settings Modal (Discord-Style)",
+  "content": {
+    "task_ids": ["p3-2-c"],
+    "project": "MELO V2",
+    "phase": "Phase 3",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-02-19T08:30:00Z",
+    "files_changed": [
+      "~/repos/melo/components/modals/server-overview-modal.tsx",
+      "~/repos/melo/app/(main)/(routes)/servers/[serverId]/settings/overview/page.tsx",
+      "tests/unit/components/modals/server-overview-modal.test.tsx",
+      "tests/unit/app/(main)/(routes)/servers/[serverId]/settings/overview/page.test.tsx",
+      "tests/e2e/settings/server-overview.spec.ts"
+    ],
+    "acceptance_criteria": [
+      "Server overview modal created with Discord styling",
+      "Server name editing functionality working with Matrix SDK",
+      "Server image upload using MatrixFileUpload component",
+      "Modal integrates with existing modal store",
+      "Discord color palette applied (#2B2D31, #36393f, etc.)",
+      "Form validation and error handling",
+      "Matrix space metadata updates (name, avatar)",
+      "Unit tests pass",
+      "E2E tests pass", 
+      "Build passes",
+      "Visual verification against Discord reference",
+      "Git committed with descriptive message"
+    ],
+    "self_validation_notes": "Build passes (Next.js 14.2.35, 0 errors), files exist (7.3KB modal, 12.6KB page), tests created (6.2KB + 8.4KB unit, 7.7KB E2E), git commit fa71708 (16 files, 2018 insertions), TDD approach used, Discord colors applied, Matrix SDK integration verified"
+  }
+}
