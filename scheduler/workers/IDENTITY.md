@@ -227,35 +227,76 @@ pending → in-progress → needs-validation → self-validated → validated �
 
 **You mark `needs-validation` — NOT `complete`.**
 
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   NO CLAIM WITHOUT EVIDENCE. NO EVIDENCE WITHOUT COMMANDS.          │
+│   Completion claims without verifiable evidence = FRAUD             │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
 1. **Run ALL validation steps** — Cannot skip this!
 2. **Update PROACTIVE-JOBS.md** → Status: `needs-validation`
-3. **Write completion report** in progress file with EVIDENCE:
+3. **Write completion report** in progress file with **MANDATORY EVIDENCE**:
+
    ```markdown
    ## Completion Report
    - **Task:** {task-id}
    - **Status:** needs-validation
    - **Claimed Complete:** YYYY-MM-DD HH:MM EST
-   
+   - **Project Directory:** /home/ubuntu/repos/melo/
+
+   ### Directory Verification (MANDATORY)
+   \`\`\`
+   $ cd /home/ubuntu/repos/melo && pwd
+   /home/ubuntu/repos/melo
+   \`\`\`
+
+   ### Files Verified (MANDATORY - run `ls -la` for EVERY file)
+   | File | ls -la Output |
+   |------|---------------|
+   | `tests/e2e/auth.spec.ts` | `-rw-rw-r-- 1 ubuntu ubuntu 15234 Feb 19 14:30 auth.spec.ts` |
+   | `app/(setup)/page.tsx` | `-rw-rw-r-- 1 ubuntu ubuntu 702 Feb 19 14:25 page.tsx` |
+
+   ### Commits Verified (MANDATORY - run `git log` for EVERY commit)
+   | Hash | git log Output |
+   |------|----------------|
+   | `9a7d625` | `9a7d625 feat: add E2E onboarding test` |
+
+   ### Build Output (MANDATORY)
+   \`\`\`
+   $ pnpm build 2>&1 | tail -20
+   ✓ Compiled successfully in 12.3s
+   $ echo "Exit: $?"
+   Exit: 0
+   \`\`\`
+
+   ### Test Output (MANDATORY)
+   \`\`\`
+   $ pnpm test 2>&1 | tail -30
+   ✓ 47 tests passed (5.2s)
+   $ echo "Exit: $?"
+   Exit: 0
+   \`\`\`
+
+   ### E2E Test Output (if UI feature)
+   \`\`\`
+   $ pnpm test:e2e tests/e2e/auth.spec.ts 2>&1 | tail -30
+   12 passed (45.2s)
+   $ echo "Exit: $?"
+   Exit: 0
+   \`\`\`
+
+   ### TDD Evidence (MANDATORY for new features)
+   - Test file created at commit: `abc123` (before implementation)
+   - Test initially failed (Red): ✅ confirmed
+   - Implementation at commit: `def456`
+   - Test passes now (Green): ✅ confirmed above
+
    ### Acceptance Criteria Verification
    - [x] Criterion 1: How I verified it
    - [x] Criterion 2: How I verified it
-   - [x] Build passes: `pnpm build` → exit 0
-   - [x] Unit tests pass: `pnpm test` → 47/47 pass
-   - [x] E2E tests pass: `pnpm test:e2e` → 12/12 pass (if applicable)
-   
-   ### Evidence
-   - Files created/modified: {list with full paths}
-   - Test files created: {list}
-   - Build output: {summary}
-   - Test output: {summary}
-   - Git commit: {hash}
-   
-   ### Validation Checklist
-   - Build: ✅ `pnpm build` exit 0
-   - Unit tests: ✅ `pnpm test` all pass
-   - E2E tests: ✅ `pnpm test:e2e` all pass (or N/A if no UI)
-   - Manual test: ✅ {what you tested}
    ```
+
 4. **Delete heartbeat** file
 5. **Send completion message** to Slack: "📋 {TASK_ID} needs-validation"
 6. **Git commit** your changes
@@ -263,6 +304,30 @@ pending → in-progress → needs-validation → self-validated → validated �
 **Coordinator will self-validate your work, then Validator will independently verify.**
 
 **You are NOT done until status reaches `complete` — which you don't set.**
+
+### ⚠️ Evidence Anti-Patterns (Will Be Rejected)
+
+| Anti-Pattern | Why It's Fraud |
+|--------------|----------------|
+| "Build passes" without output | No proof build was run |
+| "Tests pass" without output | No proof tests were run |
+| "File created" without `ls -la` | No proof file exists |
+| "Commit made" without hash | No proof commit exists |
+| Claiming 100% when tests fail | Lying about results |
+| Using stale/cached output | Not fresh verification |
+
+### ✅ Evidence Requirements Summary
+
+Before claiming `needs-validation`:
+- [ ] `pwd` shows correct project directory
+- [ ] `ls -la` for EVERY claimed file with output
+- [ ] `git log` for EVERY claimed commit with output
+- [ ] `pnpm build` output with exit code 0
+- [ ] `pnpm test` output with exit code 0
+- [ ] `pnpm test:e2e` output (if UI feature) with exit code 0
+- [ ] TDD evidence (test commits before implementation commits)
+
+**Full checklist:** `~/clawd/docs/VERIFICATION-CHECKLIST.md`
 
 ## Interaction with Other Levels
 

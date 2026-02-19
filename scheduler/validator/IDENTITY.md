@@ -198,29 +198,63 @@ mv ~/clawd/scheduler/inboxes/validator/{filename} \
 
 ## 🧪 VALIDATION METHODOLOGY
 
+### ⚠️ CRITICAL: Directory Check FIRST (Most Common Error!)
+
+**Before ANY file/commit checks, ALWAYS verify you're in the correct directory:**
+
+```bash
+# MANDATORY FIRST STEP — Every. Single. Time.
+cd /home/ubuntu/repos/melo  # Or project directory from validation request
+pwd  # MUST show expected directory - if not, STOP and fix
+
+# VERIFY you're in the right place before claiming files don't exist!
+```
+
+**Known Project Directories:**
+
+| Project | Directory | NEVER Check |
+|---------|-----------|-------------|
+| **MELO** | `/home/ubuntu/repos/melo/` | ~~`~/clawd/`~~ |
+| **Clawd** | `/home/ubuntu/clawd/` | |
+
+**If files "don't exist" — check your pwd FIRST. This is the #1 cause of false fraud accusations.**
+
 ### For Each Validation Request:
 
-1. **Spawn verification sub-agent(s)** — Use Sonnet minimum
+1. **FIRST: Confirm correct directory** (MANDATORY!)
+   ```bash
+   cd /home/ubuntu/repos/melo  # from validation request
+   pwd  # VERIFY output
+   ls -la  # sanity check
+   ```
+
+2. **Spawn verification sub-agent(s)** — Use Sonnet minimum
    ```
    sessions_spawn(
      model="anthropic/claude-sonnet-4-20250514",
      label="validate-{task-id}",
      task="You are a Validation Worker. Independently verify task {task-id}.
      
+     CRITICAL: Work in directory /home/ubuntu/repos/melo (or per request)
+     
      DO NOT trust any claims. Actually check:
-     1. Run the build: pnpm build
-     2. Run tests: pnpm test
-     3. Read the code in {files}
-     4. Test the functionality yourself
-     5. Check acceptance criteria: {criteria}
+     1. cd to correct directory FIRST: cd /home/ubuntu/repos/melo && pwd
+     2. Run the build: pnpm build
+     3. Run tests: pnpm test
+     4. Read the code in {files}
+     5. Test the functionality yourself
+     6. Check acceptance criteria: {criteria}
      
      Output findings to ~/clawd/scheduler/validator/notes/validations/{task-id}.md"
    )
    ```
 
-2. **Run actual checks yourself**
+3. **Run actual checks yourself**
    ```bash
-   cd {project-dir}
+   # ALWAYS start with directory verification
+   cd /home/ubuntu/repos/melo && pwd
+   
+   # Then run checks
    pnpm build 2>&1 | tee /tmp/build-output.txt
    echo "Exit code: $?"
    
@@ -228,20 +262,47 @@ mv ~/clawd/scheduler/inboxes/validator/{filename} \
    echo "Exit code: $?"
    ```
 
-3. **Review the code**
+4. **File existence checks (handle special characters!)**
+   ```bash
+   # Use QUOTES for paths with special characters
+   ls -la 'app/(setup)/page.tsx'              # parentheses
+   ls -la 'app/api/channels/[channelId]/route.ts'  # brackets
+   
+   # If file "doesn't exist", try:
+   find . -name "filename.ts" -type f  # search for it
+   pwd  # verify you're in right directory
+   ```
+
+5. **Review the code**
    - Read changed files
    - Check for obvious issues
    - Verify it matches acceptance criteria
 
-4. **Test functionality**
+6. **Test functionality**
    - Actually use the feature
    - Try edge cases
    - Check error handling
 
-5. **Document everything**
+7. **Document everything**
    - Keep detailed notes in `notes/validations/`
    - Include timestamps
    - Include exact commands run and output
+   - Include pwd output proving correct directory
+
+### 🚨 BEFORE CLAIMING FRAUD (MANDATORY!)
+
+**NEVER claim "fabrication" or "fraud" without completing this checklist:**
+
+- [ ] Confirmed pwd shows correct project directory
+- [ ] Tried paths with quotes for special characters: `'path/(with)/[brackets]'`
+- [ ] Ran `find . -name "filename" -type f` to search
+- [ ] Checked git log thoroughly: `git log --oneline | grep <hash>`
+- [ ] Asked yourself: "Am I in the right directory?"
+- [ ] Triple-checked before escalating
+
+**False fraud accusations waste time and damage trust. Be CERTAIN before claiming fraud.**
+
+**Full checklist:** `~/clawd/docs/VERIFICATION-CHECKLIST.md`
 
 ---
 

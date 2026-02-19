@@ -289,6 +289,7 @@ pending → in-progress → needs-validation → self-validated → validated �
 ┌─────────────────────────────────────────────────────────────────────┐
 │                    TESTING IS NOT OPTIONAL                          │
 │        Acceptance criteria + validation = MANDATORY defaults        │
+│                 TDD + EVIDENCE = NON-NEGOTIABLE                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -299,21 +300,25 @@ pending → in-progress → needs-validation → self-validated → validated �
 - **Status:** pending
 - **Model:** {model}
 - **Description:** {description}
+- **Project Directory:** {e.g., /home/ubuntu/repos/melo/}
 
 #### 📋 Acceptance Criteria (MANDATORY)
 - [ ] {Specific, testable criterion 1}
 - [ ] {Specific, testable criterion 2}
-- [ ] Build passes
-- [ ] Tests pass (existing + new if applicable)
+- [ ] Build passes: `pnpm build` exits 0
+- [ ] Tests pass: `pnpm test` all pass
+- [ ] E2E tests pass (if UI feature): `pnpm test:e2e` passes
 
 #### 🧪 Validation Steps (MANDATORY)
 1. {How to verify criterion 1}
 2. {How to verify criterion 2}
-3. Run: `{build command}` — must exit 0
-4. Run: `{test command}` — must pass
+3. Run: `pnpm build 2>&1 | tail -30 && echo "Exit: $?"` — must exit 0
+4. Run: `pnpm test 2>&1 | tail -50 && echo "Exit: $?"` — must pass
+5. Run: `ls -la 'path/to/new/file.ts'` — prove file exists
 
 #### 🚀 Completion Actions (standard)
 - [ ] Changes committed with descriptive message
+- [ ] Git commit hash recorded with `git log --oneline -1`
 - [ ] Merged to main (or PR created)
 - [ ] Pushed to remote
 - [ ] Deployed (if applicable)
@@ -322,6 +327,126 @@ pending → in-progress → needs-validation → self-validated → validated �
 
 **Without acceptance criteria, a task cannot be assigned.**
 **Without passing validation, a task cannot be marked complete.**
+
+### 📝 MANDATORY EVIDENCE (Anti-Fraud)
+
+> **"No claim without evidence. No evidence without commands. No commands without output."**
+
+**Every completion claim MUST include verifiable evidence. Claims without evidence = fraud.**
+
+#### Required Evidence Format
+
+```markdown
+## Verification Evidence
+
+**Directory confirmed:**
+\`\`\`
+$ cd /home/ubuntu/repos/melo && pwd
+/home/ubuntu/repos/melo
+\`\`\`
+
+### Files Verified
+| File | Command | Result |
+|------|---------|--------|
+| `path/to/file.ts` | `ls -la 'path/to/file.ts'` | `-rw-rw-r-- 1 ubuntu ubuntu 1234 Feb 19 14:30 file.ts` |
+
+### Commits Verified  
+| Hash | Command | Result |
+|------|---------|--------|
+| `abc123` | `git log --oneline -1 abc123` | `abc123 feat: description` |
+
+### Build Output
+\`\`\`
+$ pnpm build 2>&1 | tail -20
+✓ Compiled successfully
+Exit code: 0
+\`\`\`
+
+### Test Output
+\`\`\`
+$ pnpm test 2>&1 | tail -30
+✓ 47 tests passed
+Exit code: 0
+\`\`\`
+```
+
+#### Evidence Rules
+
+| Claim Type | Required Evidence |
+|------------|-------------------|
+| "File created" | `ls -la 'full/path'` output showing file exists with size |
+| "Commit made" | `git log --oneline -1 <hash>` output showing commit |
+| "Build passes" | `pnpm build` output with exit code 0 |
+| "Tests pass" | `pnpm test` output showing pass count and exit code 0 |
+| "E2E tests pass" | `pnpm test:e2e` output showing scenarios passed |
+| "Deployed" | `curl` output or screenshot showing live |
+
+#### Project Directories (CRITICAL)
+
+**Always verify you're in the correct directory. Most fraud accusations are actually directory errors!**
+
+| Project | Directory | Wrong |
+|---------|-----------|-------|
+| **MELO** | `/home/ubuntu/repos/melo/` | ~~`~/clawd/`~~ |
+| **Clawd** | `/home/ubuntu/clawd/` | |
+
+```bash
+# ALWAYS start verification with this
+cd /home/ubuntu/repos/melo && pwd  # VERIFY before any checks
+```
+
+#### Consequences for Fraud
+
+Fraudulent claims (files/commits that don't exist, false test results):
+1. Task reverted to `in-progress`
+2. Incident documented in `scheduler/{role}/notes/`
+3. Pattern tracked for repeat offenders
+4. Time wasted = trust lost
+
+**Full verification checklist:** `docs/VERIFICATION-CHECKLIST.md`
+
+### 🔴 TDD is MANDATORY (Test-Driven Development)
+
+**Tests FIRST, implementation SECOND. This is not optional.**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                 TDD FLOW: RED → GREEN → REFACTOR                    │
+│   1. Write failing test    (RED)                                    │
+│   2. Write minimal code    (GREEN)                                  │
+│   3. Refactor              (CLEAN)                                  │
+│   4. Repeat                                                         │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**TDD Evidence Required:**
+
+Workers must prove TDD was followed:
+```markdown
+### TDD Evidence
+- Test file created at commit: `abc123` (before implementation)
+- Test failed initially: ✅ confirmed
+- Implementation added at commit: `def456`
+- Test passes now: ✅ confirmed with `pnpm test` output
+```
+
+**Red flags for fake TDD (will be rejected):**
+- Tests written AFTER implementation (check git history)
+- Trivial tests that don't test real behavior (`expect(true).toBe(true)`)
+- No E2E tests for user-facing features
+- "Tests pass" claim but test files don't exist
+
+**Testing Requirements by Feature Type:**
+
+| Feature Type | Required Tests |
+|--------------|----------------|
+| API endpoint | Unit tests + integration tests |
+| UI component | Component tests + E2E (Playwright) |
+| User flow | Playwright E2E (happy path + errors) |
+| Auth/security | Unit + integration + E2E |
+| Data mutation | Unit + integration + E2E |
+
+**NO feature is complete without passing tests. Tests are NOT optional.**
 
 ### 💜 Critical Thinking in Planning
 

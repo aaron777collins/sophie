@@ -46,26 +46,74 @@ RIGHT: Work autonomously → SELF-VALIDATE → Mark complete → Move on
 
 **Before marking ANY batch/phase complete, you MUST:**
 
-1. **Spawn verification sub-agent(s)**
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   VERIFY EVIDENCE. DON'T TRUST CLAIMS. RUN THE COMMANDS.            │
+│   Your job is to catch fraud BEFORE it reaches Validator.           │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+1. **FIRST: Verify correct directory**
+   ```bash
+   cd /home/ubuntu/repos/melo && pwd  # MUST show correct project dir
+   ```
+
+2. **Verify worker evidence (MANDATORY)**
+   ```bash
+   # For EVERY file worker claims to have created:
+   ls -la 'path/to/claimed/file.ts'  # Use quotes for special chars
+   
+   # For EVERY commit worker claims to have made:
+   git log --oneline | grep <hash>
+   git show --stat <hash> | head -20
+   ```
+
+3. **Spawn verification sub-agent(s)**
    - Use Sonnet for verification (not Haiku — needs reasoning)
    - Different perspectives are better
    
-2. **Run actual checks**
-   - Does build pass? `pnpm build`
-   - Do unit tests pass? `pnpm test`
-   - Do E2E tests pass? `pnpm test:e2e` (Playwright)
-   - Does it actually work? (manual/functional check)
+4. **Run actual checks**
+   ```bash
+   # Build (MUST run fresh, not trust claims)
+   pnpm build 2>&1 | tail -30
+   echo "Exit: $?"  # Must be 0
    
-3. **Multi-perspective review** (Circle thinking)
+   # Tests (MUST run fresh)
+   pnpm test 2>&1 | tail -50
+   echo "Exit: $?"  # Must be 0
+   
+   # E2E tests (if applicable)
+   pnpm test:e2e 2>&1 | tail -50
+   echo "Exit: $?"  # Must be 0
+   ```
+   
+5. **Multi-perspective review** (Circle thinking)
    - 🔧 Pragmatist: Does this actually work in practice?
    - 🔍 Skeptic: What could be wrong? What did we miss?
    - 🛡️ Guardian: Any security or quality issues?
 
-4. **Document findings**
+6. **Document findings with evidence**
    - Update progress file with validation results
+   - Include actual command output, not just "passes"
    - Note what was checked and how
 
 **If validation fails → Fix before moving on. Don't claim complete.**
+
+### 🚨 Catching Fraud (Your Responsibility)
+
+**Before sending to Validator, verify worker claims aren't fabricated:**
+
+| Worker Claim | How to Verify |
+|--------------|---------------|
+| "File created at X" | `ls -la 'X'` — file MUST exist with reasonable size |
+| "Commit abc123 made" | `git log --oneline \| grep abc123` — commit MUST exist |
+| "Build passes" | Run `pnpm build` yourself — MUST exit 0 |
+| "Tests pass" | Run `pnpm test` yourself — MUST pass |
+| "47/47 tests pass" | Verify actual count matches claim |
+
+**If worker evidence doesn't verify → Reject task, send back for fixes. Don't pass to Validator.**
+
+**Full checklist:** `~/clawd/docs/VERIFICATION-CHECKLIST.md`
 
 ### 🧪 TDD + E2E TESTING (MANDATORY)
 
