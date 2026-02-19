@@ -1,106 +1,128 @@
 # Proactive Jobs
 
-**🚨 EMERGENCY DIRECTIVE UPDATED:** 2026-02-18 19:00 EST
+**Updated:** 2026-02-18 19:19 EST
 
 ---
 
-## 🔴 MELO UI FIX — All Previous Work CANCELLED
+## 🎯 AARON'S DIRECTION (2026-02-18 19:12 EST)
 
-**Context:** Aaron issued emergency directive at 17:24 EST. All previous Matrix migration work is CANCELLED. UI was built wrong from the start - need to copy discord-clone exactly.
+> "Frontend should literally be the discord clone + features and the backend should be the matrix stuff."
 
-**Repository:** `~/repos/melo/`
-**Branch:** `discord-ui-migration` (will be reset/cleaned)
-**Reference:** `https://github.com/nayak-nirmalya/discord-clone`
-
----
-
-## Phase 1: Reference Setup & Planning ✅ COMPLETE
-
-**Status:** ✅ COMPLETE
-**Model:** opus
-**Validated By:** Person Manager
-**Completed:** 2026-02-18 19:11 EST
-
-### P1-Setup: Clone Discord Reference & Setup
-**Status:** ✅ COMPLETE (validated)
-**Git Commit:** 54c37e4
-
-#### Completed Work
-1. ✅ Discord-clone cloned at `/tmp/discord-clone-ref/`
-2. ✅ Dependencies installed (npm install)
-3. ✅ `docs/ui-redesign/reference-setup.md` created (120 lines)
-4. ✅ `docs/ui-redesign/component-mapping.md` created (189 lines, 54 components)
-5. ✅ `docs/ui-redesign/design-tokens.md` created (299 lines)
-
-#### Validation Notes
-- Screenshots deferred (discord-clone requires Clerk auth)
-- Will use live Discord app for visual comparison during Phase 2
-- **MELO is fork of discord-clone** — can copy exact code styling
+**Translation:**
+- **Frontend** = Copy discord-clone EXACTLY, add HAOS features on top
+- **Backend** = Matrix (stays as-is, no changes needed)
 
 ---
 
-## Phase 2: UI Component Replacement 🟢 READY
+## 🔴 HAOS UI — Phase 2: Component Replacement
 
-**Status:** 🟢 READY TO START (Phase 1 complete)
-**Model:** sonnet/opus ONLY (NO Haiku for UI work)
-**Priority:** 🔴 CRITICAL
+**Status:** 🔄 IN PROGRESS
+**Started:** 2026-02-18 19:13 EST
+**Model:** Sonnet/Opus ONLY (NO Haiku for UI)
 
-### Component Priority Order
+### Component Progress
 
-| Component | Status | Model | Worker |
-|-----------|--------|-------|--------|
-| navigation-sidebar | attempted-spawn | sonnet | Unable to spawn - gateway timeout |
-| navigation-item | pending | sonnet | — |
-| navigation-action | pending | sonnet | — |
-| server-sidebar | pending | sonnet | — |
-| chat components | pending | sonnet | — |
-| modals | pending | sonnet | — |
+| Component | Status | Model | Notes |
+|-----------|--------|-------|-------|
+| navigation-sidebar | 🔄 IN PROGRESS | sonnet | Sub-agent spawned 19:13 EST |
+| navigation-item | ⏳ pending | sonnet | — |
+| navigation-action | ⏳ pending | sonnet | — |
+| server-sidebar | ⏳ pending | sonnet | — |
+| server-header | ⏳ pending | sonnet | — |
+| server-channel | ⏳ pending | sonnet | — |
+| chat-header | ⏳ pending | sonnet | — |
+| chat-input | ⏳ pending | sonnet | — |
+| chat-messages | ⏳ pending | sonnet | — |
+| chat-item | ⏳ pending | sonnet | — |
+| modals (all) | ⏳ pending | sonnet | — |
 
-Each component task will be added after Phase 1 completion.
+### Per-Component Workflow
+
+For EACH component:
+
+1. **Read discord-clone source** — `~/repos/discord-clone/components/`
+2. **Copy EXACT structure** — JSX, Tailwind classes, everything
+3. **Replace data layer only** — Prisma queries → Matrix hooks
+4. **Visual verification** — Playwright screenshot, compare to reference
+5. **Fix until identical** — No differences allowed
+6. **Commit** — `git commit -m "feat(ui): replace {component} with discord-clone copy"`
+7. **Update progress** — Mark complete, start next component
+
+### Acceptance Criteria (Per Component)
+
+- [ ] Visually identical to discord-clone equivalent
+- [ ] Same JSX structure
+- [ ] Same Tailwind classes
+- [ ] Only data layer changed (Prisma → Matrix)
+- [ ] Screenshot comparison verified
+- [ ] Build passes
+- [ ] Committed to git
 
 ---
 
-## Phase 3: Admin Features Restyling (PENDING Phase 2)
+## 📋 NON-NEGOTIABLE RULES
 
-**Status:** pending (blocked by Phase 2)
-**Model:** sonnet/opus
+### 1. NO HAIKU FOR UI WORK
+Haiku cannot judge visual design. All UI work uses:
+- **Sonnet** — implementation
+- **Opus** — complex decisions
 
-- Setup wizard
-- Homeserver management  
-- Invite system
+### 2. COPY, DON'T CREATE
+- ✅ Copy exact JSX structure
+- ✅ Copy exact Tailwind classes  
+- ✅ Copy exact color values
+- ❌ Don't "improve" the UI
+- ❌ Don't "simplify" components
+- ❌ Don't invent new styling
+
+### 3. ALWAYS VISUALLY VERIFY
+```
+Change code → Run app → Screenshot → Compare → Fix → Repeat
+```
+
+### 4. MAX 2 CONCURRENT TASKS
+- Quality over speed
+- Each component fully verified before moving on
+
+---
+
+## 📁 Key References
+
+| Location | Purpose |
+|----------|---------|
+| `~/repos/discord-clone/` | THE source — copy from here |
+| `~/repos/haos/frontend/` | HAOS frontend — replace here |
+| `scheduler/coordinator/notes/haos-ui-phase1/component-mapping.md` | Component mapping |
+| `scheduler/coordinator/notes/haos-ui-phase1/design-tokens.md` | Design tokens |
+| `scheduler/progress/haos-ui-phase2.md` | Progress tracking |
+
+---
+
+## Phase 3: Admin Features (PENDING Phase 2)
+
+**Status:** ⏳ PENDING
+**Blocked by:** Phase 2 completion
+
+- Setup wizard (Discord modal patterns)
+- Homeserver management (Discord settings aesthetic)
+- Invite system (Discord invite UI)
 
 ---
 
 ## Phase 4: Integration & Polish (PENDING Phase 3)
 
-**Status:** pending (blocked by Phase 3)
-**Model:** sonnet/opus
+**Status:** ⏳ PENDING
+**Blocked by:** Phase 3 completion
 
-- Full app verification
+- Full app visual verification
 - Responsive testing
-- Final visual comparison
+- Dark/light mode verification
+- Final screenshot comparison
 
 ---
 
-## 🚫 CANCELLED WORK (Reference Only)
+## Execution Notes
 
-The following work was cancelled per Aaron's directive:
-
-- ~~Matrix migration (Phases 1-4)~~
-- ~~Type system fixes~~
-- ~~SDK integration~~
-- ~~Legacy dependency removal~~
-
-These phases were abandoned. UI must be rebuilt using discord-clone as exact reference.
-
----
-
-## Execution Rules
-
-1. **NO HAIKU FOR UI WORK** — Sonnet/Opus only for visual components
-2. **ALWAYS VISUALLY VERIFY** — Playwright screenshots mandatory for each component
-3. **COPY, DON'T CREATE** — Exact visual replication of discord-clone
-4. **REFERENCE FIRST** — Phase 1 must complete before any UI work
-5. **Report progress** — Updates to coordinator every component completion
-
-**Reference Document:** `memory/topics/ui-design-lessons.md`
+- **Report progress** to Slack #aibot-chat after each component
+- **Escalate** to Aaron if blocked
+- **Reference:** `memory/topics/ui-design-lessons.md`
