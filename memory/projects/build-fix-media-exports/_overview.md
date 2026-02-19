@@ -167,4 +167,5 @@ Route (app)
 ## Next Steps
 - Monitor for any regression issues with Next.js 16
 - Consider removing extra lockfile `/apps/web/package-lock.json` as noted in warnings
-- Optional: Configure `turbopack.root` to silence workspace root detection warnings
+- Optional: Configure `turbopack.root` to silence workspace root detection warnings- [2026-02-18 21:00 EST] Build Fix: Media Exports and Lockfile Issues
+## Task
