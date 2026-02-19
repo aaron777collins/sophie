@@ -20,7 +20,7 @@ export function UserButton() {
       <ActionTooltip side="right" align="center" label="Not signed in">
         <Button
           variant="ghost"
-          size="icon"
+          size="sm"
           className="h-[48px] w-[48px] bg-background dark:bg-neutral-700 rounded-full"
         >
           <User className="h-6 w-6" />
@@ -34,7 +34,7 @@ export function UserButton() {
       <Button
         onClick={handleUserClick}
         variant="ghost"
-        size="icon"
+        size="sm"
         className="h-[48px] w-[48px] p-0 rounded-full overflow-hidden"
       >
         {avatarUrl ? (

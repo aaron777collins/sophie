@@ -8,16 +8,16 @@ import '@testing-library/jest-dom';
 
 import { NavigationAction } from '@/components/navigation/navigation-action';
 
-// Mock the modal hook
-jest.mock('@/hooks/use-modal-store', () => ({
-  useModal: jest.fn(() => ({
-    onOpen: jest.fn(),
-  })),
-}));
+// Mock console.log for the onClick handler
+const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
 
 describe('NavigationAction', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    consoleLogSpy.mockClear();
+  });
+  
+  afterAll(() => {
+    consoleLogSpy.mockRestore();
   });
 
   it('renders without crashing', () => {

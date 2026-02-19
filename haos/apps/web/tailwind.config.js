@@ -8,19 +8,50 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Discord-style color scheme
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         primary: {
-          50: '#f0f3ff',
-          100: '#e0e6ff',
-          200: '#c7d2fe',
-          300: '#a5b4fc',
-          400: '#818cf8',
-          500: '#5865f2', // Discord blurple
-          600: '#4c51bf',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        // Discord-style primary color scheme  
+        "primary-50": '#f0f3ff',
+        "primary-100": '#e0e6ff',
+        "primary-200": '#c7d2fe',
+        "primary-300": '#a5b4fc',
+        "primary-400": '#818cf8',
+        "primary-500": '#5865f2', // Discord blurple
+        "primary-600": '#4c51bf',
+        "primary-700": '#4338ca',
+        "primary-800": '#3730a3',
+        "primary-900": '#312e81',
         gray: {
           50: '#f9fafb',
           100: '#f3f4f6',
@@ -43,6 +74,11 @@ module.exports = {
           red: '#f23f42', // Discord red (offline/error)
           yellow: '#f0b132', // Discord yellow (away)
         }
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

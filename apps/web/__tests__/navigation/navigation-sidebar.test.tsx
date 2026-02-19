@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { NavigationSidebarClient } from '@/components/navigation/navigation-sidebar';
@@ -69,13 +69,17 @@ describe('NavigationSidebarClient', () => {
   });
 
   it('renders loading state initially', () => {
-    render(<NavigationSidebarClient session={mockSession} />);
+    act(() => {
+      render(<NavigationSidebarClient session={mockSession} />);
+    });
     
     expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 
   it('renders the main sidebar structure after loading', async () => {
-    render(<NavigationSidebarClient session={mockSession} />);
+    await act(async () => {
+      render(<NavigationSidebarClient session={mockSession} />);
+    });
     
     await waitFor(() => {
       expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
@@ -85,16 +89,18 @@ describe('NavigationSidebarClient', () => {
     expect(screen.getByTestId('navigation-action')).toBeInTheDocument();
     
     // Check for theme toggle (emoji)
-    const themeButton = screen.getByRole('button', { name: /🌙|☀️/ });
+    const themeButton = screen.getByText('🌙').closest('button');
     expect(themeButton).toBeInTheDocument();
     
-    // Check for user button
-    const userButton = screen.getByRole('button');
+    // Check for user button (with avatar)
+    const userButton = screen.getByAltText('Test User').closest('button');
     expect(userButton).toBeInTheDocument();
   });
 
   it('has correct CSS classes and structure', async () => {
-    render(<NavigationSidebarClient session={mockSession} />);
+    await act(async () => {
+      render(<NavigationSidebarClient session={mockSession} />);
+    });
     
     await waitFor(() => {
       expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
@@ -116,7 +122,9 @@ describe('NavigationSidebarClient', () => {
   });
 
   it('renders separator with correct styling', async () => {
-    render(<NavigationSidebarClient session={mockSession} />);
+    await act(async () => {
+      render(<NavigationSidebarClient session={mockSession} />);
+    });
     
     await waitFor(() => {
       expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
@@ -127,7 +135,9 @@ describe('NavigationSidebarClient', () => {
   });
 
   it('renders scroll area for servers', async () => {
-    render(<NavigationSidebarClient session={mockSession} />);
+    await act(async () => {
+      render(<NavigationSidebarClient session={mockSession} />);
+    });
     
     await waitFor(() => {
       expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
@@ -138,7 +148,9 @@ describe('NavigationSidebarClient', () => {
   });
 
   it('renders user button with correct styling', async () => {
-    render(<NavigationSidebarClient session={mockSession} />);
+    await act(async () => {
+      render(<NavigationSidebarClient session={mockSession} />);
+    });
     
     await waitFor(() => {
       expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
@@ -152,7 +164,9 @@ describe('NavigationSidebarClient', () => {
     const profileWithoutAvatar = { ...mockProfile, avatarUrl: undefined };
     mockGetMatrixProfile.mockResolvedValue(profileWithoutAvatar);
     
-    render(<NavigationSidebarClient session={mockSession} />);
+    await act(async () => {
+      render(<NavigationSidebarClient session={mockSession} />);
+    });
     
     await waitFor(() => {
       expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
@@ -162,7 +176,9 @@ describe('NavigationSidebarClient', () => {
   });
 
   it('displays avatar image when available', async () => {
-    render(<NavigationSidebarClient session={mockSession} />);
+    await act(async () => {
+      render(<NavigationSidebarClient session={mockSession} />);
+    });
     
     await waitFor(() => {
       expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
@@ -179,7 +195,9 @@ describe('NavigationSidebarClient', () => {
     // Mock console.error to avoid test output noise
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation();
     
-    render(<NavigationSidebarClient session={mockSession} />);
+    await act(async () => {
+      render(<NavigationSidebarClient session={mockSession} />);
+    });
     
     await waitFor(() => {
       expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
@@ -192,7 +210,9 @@ describe('NavigationSidebarClient', () => {
   });
 
   it('renders theme toggle button with correct styling', async () => {
-    render(<NavigationSidebarClient session={mockSession} />);
+    await act(async () => {
+      render(<NavigationSidebarClient session={mockSession} />);
+    });
     
     await waitFor(() => {
       expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
@@ -204,7 +224,9 @@ describe('NavigationSidebarClient', () => {
   });
 
   it('has correct bottom section layout', async () => {
-    render(<NavigationSidebarClient session={mockSession} />);
+    await act(async () => {
+      render(<NavigationSidebarClient session={mockSession} />);
+    });
     
     await waitFor(() => {
       expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
