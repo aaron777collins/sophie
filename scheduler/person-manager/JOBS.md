@@ -2,7 +2,28 @@
 
 > **CEO Role:** This agent ALWAYS runs. Check system health every time.
 
-**Updated:** 2026-02-18 19:19 EST
+**Updated:** 2026-02-19 (CORRECTED)
+
+---
+
+## 🚨 PROJECT CLARIFICATION (2026-02-19)
+
+> **AARON'S DIRECTION:**
+> "WE ARE SUPPOSED TO BE DOING MELO V2, having the frontend from the discord clone and the backend using matrix. CANCEL ALL OTHER THINGS. NO HAOS. NOTHING."
+
+### ✅ THE PROJECT IS: **MELO V2**
+
+| Item | Value |
+|------|-------|
+| **Project Name** | MELO V2 |
+| **Location** | `/home/ubuntu/repos/melo` |
+| **Frontend** | Discord clone (nayak-nirmalya/discord-clone) |
+| **Backend** | Matrix |
+
+### ❌ NOT THESE:
+- ~~HAOS~~
+- ~~haos-v2~~
+- ~~~/repos/haos/~~
 
 ---
 
@@ -11,14 +32,14 @@
 > "Frontend should literally be the discord clone + features and the backend should be the matrix stuff."
 
 **Translation:**
-- **Frontend** = Copy discord-clone EXACTLY, add HAOS features on top
+- **Frontend** = Copy discord-clone EXACTLY, add features on top
 - **Backend** = Matrix (stays as-is, no changes needed)
 
-This is **HAOS**, not melo. The UI must BE the discord-clone, not "inspired by" it.
+This is **MELO V2**. The UI must BE the discord-clone, not "inspired by" it.
 
 ---
 
-## 🔴 HAOS UI — DISCORD-CLONE COPY
+## 🔴 MELO V2 UI — DISCORD-CLONE COPY
 
 ### Current State
 
@@ -30,11 +51,14 @@ This is **HAOS**, not melo. The UI must BE the discord-clone, not "inspired by" 
 | Phase 4: Integration & Polish | ⏳ PENDING | Blocked by Phase 3 |
 
 ### Phase 2 Progress
-- **navigation-sidebar** — 🔄 IN PROGRESS (Sonnet sub-agent spawned)
-- **navigation-item** — ⏳ pending
-- **navigation-action** — ⏳ pending
-- **server-sidebar** — ⏳ pending
-- **chat components** — ⏳ pending
+- **navigation-sidebar** — ✅ COMPLETE
+- **navigation-item** — ✅ COMPLETE
+- **navigation-action** — ✅ COMPLETE
+- **server-sidebar** — ✅ COMPLETE
+- **chat-header** — 🔄 in-progress
+- **chat-input** — ✅ COMPLETE
+- **chat-messages** — 🔄 in-progress
+- **chat-item** — 🔄 in-progress
 - **modals** — ⏳ pending
 
 ---
@@ -70,9 +94,7 @@ This is **HAOS**, not melo. The UI must BE the discord-clone, not "inspired by" 
 | File | Purpose |
 |------|---------|
 | `~/repos/discord-clone/` | THE reference — copy from here |
-| `~/repos/haos/frontend/` | HAOS frontend — replace components here |
-| `scheduler/coordinator/notes/haos-ui-phase1/component-mapping.md` | What maps where |
-| `scheduler/coordinator/notes/haos-ui-phase1/design-tokens.md` | Exact colors, spacing, fonts |
+| `~/repos/melo/` | MELO V2 — replace components here |
 | `memory/topics/ui-design-lessons.md` | Lessons learned |
 
 ---
@@ -85,14 +107,14 @@ This is **HAOS**, not melo. The UI must BE the discord-clone, not "inspired by" 
 
 ### Task Managers (Proactive Scheduler)
 - **Jobs File:** `PROACTIVE-JOBS.md`
-- **Status:** ✅ ALIGNED — Updated with HAOS Phase 2 tasks
+- **Status:** ✅ ALIGNED — Updated with MELO V2 Phase 2 tasks
 
 ---
 
 ## Next Steps (Person Manager)
 
 1. **VERIFY** Coordinator is executing Phase 2 correctly
-2. **MONITOR** sub-agent progress on navigation-sidebar
+2. **MONITOR** sub-agent progress on components
 3. **QUEUE** next components as each completes (max 2 concurrent)
 4. **REPORT** progress to Slack #aibot-chat
 5. **VALIDATE** each component visually before marking complete

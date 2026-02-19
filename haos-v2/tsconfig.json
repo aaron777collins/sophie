@@ -26,19 +26,22 @@
     "baseUrl": ".",
     "paths": {
       "@/*": [
-        "apps/web/*"
+        "./*"
       ],
       "@/components/*": [
-        "apps/web/components/*"
+        "components/*"
       ],
       "@/hooks/*": [
-        "apps/web/hooks/*"
+        "hooks/*"
       ],
       "@/lib/*": [
         "lib/*"
       ],
+      "@/types": [
+        "types"
+      ],
       "@/app/*": [
-        "apps/web/app/*"
+        "app/*"
       ]
     }
   },

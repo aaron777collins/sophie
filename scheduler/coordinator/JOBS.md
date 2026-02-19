@@ -1,7 +1,27 @@
 # Coordinator Jobs
 
-**Updated:** 2026-02-18 19:18 EST  
-**Priority:** 🔴 CRITICAL — PHASE 2 IN PROGRESS
+**Updated:** 2026-02-19 (CORRECTED)
+
+---
+
+## 🚨 PROJECT CLARIFICATION (2026-02-19)
+
+> **AARON'S DIRECTION:**
+> "WE ARE SUPPOSED TO BE DOING MELO V2, having the frontend from the discord clone and the backend using matrix. CANCEL ALL OTHER THINGS. NO HAOS. NOTHING."
+
+### ✅ THE PROJECT IS: **MELO V2**
+
+| Item | Value |
+|------|-------|
+| **Project Name** | MELO V2 |
+| **Location** | `/home/ubuntu/repos/melo` |
+| **Frontend** | Discord clone (nayak-nirmalya/discord-clone) |
+| **Backend** | Matrix |
+
+### ❌ NOT THESE:
+- ~~HAOS~~
+- ~~haos-v2~~
+- ~~~/repos/haos/~~
 
 ---
 
@@ -10,42 +30,33 @@
 > "Frontend should literally be the discord clone + features and the backend should be the matrix stuff."
 
 **Translation:**
-- **Frontend** = Copy discord-clone EXACTLY, add HAOS features on top
+- **Frontend** = Copy discord-clone EXACTLY, add features on top
 - **Backend** = Matrix (stays as-is, no changes needed)
 
-This is HAOS, not melo. The UI must BE the discord-clone, not "inspired by" it.
-
-> "I wanted you to use the discord clone ui because right now for some reason your ui design skills suck. You're supposed to be using playwright, looking at images.. smh I'm upset. Redeem yourself. look at what you make. Become perfect at this."
-> — Aaron, 2026-02-18 17:24 EST
+This is **MELO V2**. The UI must BE the discord-clone, not "inspired by" it.
 
 ---
 
-## The Problem
+## The Previous Problem (Now Fixed)
 
-We were supposed to use nayak-nirmalya/discord-clone as a UI reference. Instead, we built custom components from scratch that look terrible. The styling, colors, layout — all wrong.
-
-**Root causes:**
-1. Delegated UI work to Haiku (cannot do visual design)
-2. Never visually verified output with Playwright/screenshots
-3. "Inspired by" instead of "copied from" the reference
-4. Built components from scratch instead of adapting existing ones
+We were incorrectly calling this "HAOS" in job files. The project is MELO V2.
+- ❌ Wrong path: `~/repos/haos/frontend/` (doesn't exist)
+- ✅ Correct path: `~/repos/melo/`
 
 ---
 
-## 🔴 HAOS UI — DISCORD-CLONE COPY
+## 🔴 MELO V2 UI — DISCORD-CLONE COPY
 
 ### Phase 1: Reference Setup ✅ COMPLETE
 **Model:** Opus
-**Status:** ✅ COMPLETE (validated by Person Manager)
+**Status:** ✅ COMPLETE
 **Completed:** 2026-02-18 19:11 EST
-**Git Commit:** 54c37e4
 
 **Completed Work:**
 - [x] Discord-clone cloned to `/tmp/discord-clone-ref/`
-- [x] Component mapping: `docs/ui-redesign/component-mapping.md` (54 components)
-- [x] Design tokens: `docs/ui-redesign/design-tokens.md` (colors, typography, spacing)
-- [x] Reference setup: `docs/ui-redesign/reference-setup.md`
-- [⚠️] Screenshots deferred (requires Clerk auth) — will use live Discord for comparison
+- [x] Component mapping completed (54 components)
+- [x] Design tokens extracted (colors, typography, spacing)
+- [x] Reference setup complete
 
 **Key Finding:** MELO is a fork of discord-clone. Component structures nearly identical.
 
@@ -53,9 +64,8 @@ We were supposed to use nayak-nirmalya/discord-clone as a UI reference. Instead,
 
 ### Phase 2: UI Component Replacement 🔄 IN PROGRESS
 **Model:** Sonnet/Opus ONLY (no Haiku for UI)
-**Status:** 🔄 IN PROGRESS — Started 2026-02-18 19:13 EST
+**Status:** 🔄 IN PROGRESS
 **Priority:** 🔴 CRITICAL
-**Current Work:** navigation-sidebar (Sonnet sub-agent spawned)
 
 For EACH component, follow this workflow:
 1. Read the discord-clone component source
@@ -68,8 +78,8 @@ For EACH component, follow this workflow:
 
 **Components to replace (priority order):**
 
-| Discord Clone Component | Melo Equivalent | Priority |
-|-------------------------|-----------------|----------|
+| Discord Clone Component | Melo V2 Equivalent | Priority |
+|-------------------------|-------------------|----------|
 | `navigation/navigation-sidebar.tsx` | `components/navigation/navigation-sidebar.tsx` | P0 |
 | `navigation/navigation-item.tsx` | `components/navigation/navigation-item.tsx` | P0 |
 | `navigation/navigation-action.tsx` | `components/navigation/navigation-action.tsx` | P0 |
@@ -89,8 +99,6 @@ For EACH component, follow this workflow:
 pnpm dev
 
 # 2. Take screenshot with Playwright
-# (Use browser automation to capture)
-
 # 3. Compare to reference
 # 4. Fix any visual differences
 # 5. ONLY mark done when visually verified
@@ -104,37 +112,19 @@ pnpm dev
 
 ---
 
-### Phase 3: Setup Wizard & Admin Features (Days 4-5)
+### Phase 3: Setup Wizard & Admin Features
 **Model:** Sonnet/Opus ONLY
 **Status:** pending
 
 Keep existing functionality but restyle to match Discord's aesthetic:
 
 1. **Setup Wizard** — Initial server setup flow
-   - Use Discord's modal patterns for step-by-step setup
-   - Clean, minimal design matching Discord onboarding
-   
 2. **Homeserver Management** — Admin settings
-   - Who can invite (invite permissions)
-   - Server settings panel
-   - User management interface
-   
 3. **Invite System** — Invite links and management
-   - Generate invite links
-   - Manage existing invites
-   - Invite restrictions
-
-**Visual Reference:** Discord's server settings, user settings, and onboarding modals
-
-**Acceptance Criteria:**
-- [ ] Setup wizard follows Discord modal patterns
-- [ ] Admin panels match Discord settings aesthetic
-- [ ] Invite management UI matches Discord style
-- [ ] All components visually verified against Discord
 
 ---
 
-### Phase 4: Integration & Polish (Day 6)
+### Phase 4: Integration & Polish
 **Model:** Sonnet/Opus
 **Status:** pending
 
@@ -142,13 +132,6 @@ Keep existing functionality but restyle to match Discord's aesthetic:
 2. Check responsive behavior matches
 3. Verify dark/light mode toggle works
 4. Final screenshot comparison of full application
-5. Fix any remaining visual discrepancies
-
-**Acceptance Criteria:**
-- [ ] Full app screenshot matches discord-clone
-- [ ] All pages/routes visually verified
-- [ ] Responsive design verified (mobile, tablet, desktop)
-- [ ] Dark/light mode both verified
 
 ---
 
@@ -160,13 +143,9 @@ Haiku cannot judge visual design. All UI work must use:
 - **Opus** — for planning and complex decisions
 
 ### 2. ALWAYS VISUALLY VERIFY
-Every UI change must be verified with Playwright screenshots:
-```
-Change code → Run app → Screenshot → Compare to reference → Fix → Repeat
-```
+Every UI change must be verified with Playwright screenshots.
 
 ### 3. COPY, DON'T CREATE
-When adapting the discord-clone:
 - ✅ Copy exact JSX structure
 - ✅ Copy exact Tailwind classes
 - ✅ Copy exact color values
@@ -175,26 +154,19 @@ When adapting the discord-clone:
 - ❌ Don't "simplify" components
 - ❌ Don't invent new styling
 
-### 4. REFERENCE DOCUMENT
-See: `memory/topics/ui-design-lessons.md` — READ BEFORE ANY UI WORK
-
 ---
 
-## Completed Phases (Reference — ARCHIVED)
+## 📁 Key References
 
-> ⚠️ Previous work is archived. UI must be redone correctly.
-
-| Phase | Status | Notes |
-|-------|--------|-------|
-| Phase A-E (Tests) | ✅ Keep | Test infrastructure stays |
-| P0-P3 (Features) | ⚠️ Redo UI | Features work, UI must be replaced |
+| File | Purpose |
+|------|---------|
+| `~/repos/discord-clone/` | THE reference — copy from here |
+| `~/repos/melo/` | MELO V2 — replace components here |
+| `memory/topics/ui-design-lessons.md` | Lessons learned |
 
 ---
 
 ## Notes
-
-This is a course correction. The functionality exists but looks wrong.
-The goal is to preserve Matrix integration while adopting Discord's visual design exactly.
 
 **Report to:** Person Manager
 **Escalate to:** Aaron if blocked

@@ -1,5 +1,24 @@
 # MELO v2 Deployment
 
+## ⚠️ CRITICAL: DEPLOYMENT TARGET
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  DEPLOY TO: https://dev2.aaroncollins.info                      │
+│  HOST: dev2 (EC2 instance via SSH)                              │
+│  METHOD: Build locally → rsync → PM2 restart                    │
+│                                                                 │
+│  ❌ NOT VERCEL                                                  │
+│  ❌ NOT any other platform                                      │
+│  ✅ ONLY dev2.aaroncollins.info                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+## Architecture
+- **Backend:** Matrix/Synapse (on dev2)
+- **Frontend:** Discord clone (Next.js standalone, on dev2)
+- **Voice/Video:** LiveKit (on dev2)
+- **Everything runs on dev2** — no external platforms
+
 ## Current Status: ✅ FULLY WORKING - E2E TESTED
 - **Date:** 2026-02-14 19:15 EST
 - **URL:** https://dev2.aaroncollins.info

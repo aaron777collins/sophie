@@ -45,6 +45,7 @@ Software engineer in Amherstburg, Ontario (EST). Builds agentic systems, does AI
 - [2026-02-12] **Self-hosted** — All services run on Aaron's servers, not third-party
 - [2026-02-12] **Federation** — Matrix federation enabled but **INVITE-ONLY by default**
 - [2026-02-12] **HAOS Media** — Self-hosted LiveKit with E2EE, video rooms by default, P2P direct calls, full audio/video/screensharing
+- [2026-02-18] **MELO V2 → dev2 ONLY** — Deploy to dev2.aaroncollins.info. NOT Vercel. NOT any other platform. Backend=Matrix/Synapse, Frontend=Discord clone (Next.js). Everything on dev2.
 
 **Key Wisdom (REMEMBER THIS):**
 - [2026-02-12] **"Many hands make light work"** — The organization is smarter than the individual
