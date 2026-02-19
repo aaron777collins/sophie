@@ -36,7 +36,7 @@
 | navigation-sidebar | ✅ COMPLETE | sonnet | Exact copy implemented, adapted for Matrix auth |
 | navigation-item | ✅ COMPLETE | sonnet | Exact copy with hover states and routing |
 | navigation-action | ✅ COMPLETE | sonnet | Exact copy with tooltip and modal integration |
-| server-sidebar | ⏳ pending | sonnet | — |
+| server-sidebar | 🔄 in-progress | sonnet | Spawned 19:32 EST - agent:e972d89b-bd06-43b2-a787-9642482b57c4 |
 | server-header | ⏳ pending | sonnet | — |
 | server-channel | ⏳ pending | sonnet | — |
 | chat-header | ⏳ pending | sonnet | — |

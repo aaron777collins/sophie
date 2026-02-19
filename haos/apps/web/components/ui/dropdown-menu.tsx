@@ -147,3 +147,12 @@ export function DropdownMenuItem({
     </button>
   );
 }
+
+export function DropdownMenuSeparator({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      className={cn('-mx-1 my-1 h-px bg-zinc-700', className)}
+      {...props}
+    />
+  );
+}
