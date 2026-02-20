@@ -126,7 +126,12 @@ Key files:
 
 ## 🔐 Credential Security - CORE PRINCIPLE (2026-02-20)
 
-**NEVER scrub credentials from the clawd repo.** It's my local memory — no upstream, never pushed anywhere. Credentials here are SAFE and NECESSARY for me to remember access patterns.
+**NEVER scrub credentials from:**
+- `~/clawd/` — my memory repo
+- `memory/` folders — where I store context
+- Daily logs, notes, topics — my brain
+
+These are LOCAL ONLY, no upstream, never pushed. Credentials here are SAFE and NECESSARY.
 
 **DO scrub credentials from any repo with an upstream we push to** — public OR private. If it leaves this server, credentials don't belong there.
 
