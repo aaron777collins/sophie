@@ -4,7 +4,7 @@
 
 ---
 
-## 🚨🔴 CRITICAL: MELO V2 BUILD FIX (TOP PRIORITY)
+## 🚨🔴 CRITICAL: MELO V2 VERIFICATION (TOP PRIORITY)
 
 > **AARON'S DIRECT ORDER (2026-02-20 12:10 EST):** Auditing, fixing, and finishing Melo v2 is TOP PRIORITY. Don't stop.
 
@@ -13,62 +13,58 @@
 | **Project** | MELO V2 |
 | **Location** | `/home/ubuntu/repos/melo` |
 | **Live Site** | https://dev2.aaroncollins.info |
-| **Status** | 🔴 BUILD BROKEN |
+| **Status** | 🟡 BUILD FIXED - NEEDS VERIFICATION |
 | **Priority** | 🔴 TOP (above all else) |
 
-### Current Errors
-```
-TypeError: Cannot read properties of undefined (reading 'clientModules')
-TypeError: Cannot read properties of undefined (reading 'entryCSSFiles')
-```
+### MELO-FIX-1: Build Errors ✅ FIXED
+- **Status:** ✅ complete
+- **Fixed by:** Sophie (main session) 2026-02-20 12:17 EST
+- **Root Cause:** Corrupted .next build cache from previous deploys
+- **Solution:** `pm2 stop melo && rm -rf .next && NODE_OPTIONS='' pnpm build && pm2 restart melo`
+- **Evidence:** 
+  - Sign-in page now renders: "Welcome to Melo" + username/password form
+  - pm2 logs clean - no errors
+  - HTTP 200 on /sign-in with full HTML content
 
-### MELO-FIX-1: Diagnose and Fix Build Errors
-- **Status:** 🔴 pending (URGENT)
+> ⚠️ **LESSON:** Previous "fix" was NOT verified - sub-agent claimed success without testing. Always verify with actual HTTP request to production site.
+
+### MELO-FIX-2: Full Site Verification (Browser Testing)
+- **Status:** 🔴 pending (URGENT - START IMMEDIATELY)
 - **Model:** sonnet
-- **Priority:** CRITICAL - Start immediately
-- **Description:** Fix the clientModules/entryCSSFiles build errors blocking Melo v2
-- **Project Directory:** /home/ubuntu/repos/melo/
-
-#### 📋 Acceptance Criteria (MANDATORY)
-- [ ] Root cause of `clientModules` error identified
-- [ ] Root cause of `entryCSSFiles` error identified
-- [ ] Build errors fixed
-- [ ] `pnpm build` exits 0
-- [ ] Dev server starts without errors
-- [ ] All functionality verified working
-
-#### 🧪 Validation Steps (MANDATORY)
-1. Run: `cd /home/ubuntu/repos/melo && pwd`
-2. Check error details: `NODE_OPTIONS="" pnpm build 2>&1 | head -100`
-3. Identify problematic files/dependencies
-4. Fix root cause
-5. Verify: `NODE_OPTIONS="" pnpm build` exits 0
-6. Verify: `NODE_OPTIONS="" npx next dev` starts cleanly
-
-### MELO-FIX-2: Full Audit of All Functionality
-- **Status:** pending
-- **Model:** sonnet
-- **Priority:** HIGH - After build fix
-- **Description:** Comprehensive audit of all Melo v2 functionality
+- **Priority:** CRITICAL
+- **Description:** Use browser automation to verify ALL key flows work on PRODUCTION
 - **Project Directory:** /home/ubuntu/repos/melo/
 - **Dependencies:** MELO-FIX-1 ✅
 
 #### 📋 Acceptance Criteria (MANDATORY)
-- [ ] All pages load without errors
-- [ ] Authentication flow works
-- [ ] Server/room creation works
-- [ ] Messaging works
-- [ ] All modals function correctly
-- [ ] Theme switching works
-- [ ] Responsive design works
+- [ ] Sign-in page renders fully (not "Loading...")
+- [ ] Sign-in form accepts input
+- [ ] Sign-up page works
+- [ ] After sign-in, redirect works
+- [ ] Main app UI loads (not blank/loading)
+- [ ] Server sidebar renders
+- [ ] Chat area renders
+- [ ] NO JavaScript console errors
+- [ ] NO pm2 error logs during testing
 
-### MELO-FIX-3: Complete Any Remaining Work
+#### 🧪 Validation Steps (MANDATORY - USE BROWSER TOOL)
+1. Navigate to https://dev2.aaroncollins.info/sign-in
+2. Take screenshot and verify form renders
+3. Enter test credentials (username: test, password: test123)
+4. Check for error handling
+5. Navigate to /sign-up and screenshot
+6. Check pm2 logs: `ssh dev2 "pm2 logs melo --lines 20 --nostream"`
+7. Document ALL findings with screenshots
+
+> ⚠️ **CRITICAL:** You MUST use browser tool for real verification. web_fetch alone is NOT sufficient - it doesn't execute JavaScript.
+
+### MELO-FIX-3: Fix Any Issues Found in Verification
 - **Status:** pending
 - **Model:** sonnet
-- **Priority:** HIGH - After audit
-- **Description:** Complete any outstanding work identified in audit
+- **Priority:** HIGH - After verification
+- **Description:** Fix issues found during browser testing
 - **Project Directory:** /home/ubuntu/repos/melo/
-- **Dependencies:** MELO-FIX-2 ✅
+- **Dependencies:** MELO-FIX-2
 
 ---
 
