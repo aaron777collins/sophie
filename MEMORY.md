@@ -128,15 +128,17 @@ Key files:
 
 **NEVER scrub credentials from the clawd repo.** It's my local memory — no upstream, never pushed anywhere. Credentials here are SAFE and NECESSARY for me to remember access patterns.
 
-**DO scrub credentials from repos with public upstreams** (GitHub, etc.) — like melo, PortableRalph, etc.
+**DO scrub credentials from any repo with an upstream we push to** — public OR private. If it leaves this server, credentials don't belong there.
 
 | Repo | Has Upstream? | Credentials OK? |
 |------|---------------|-----------------|
-| `~/clawd/` | ❌ No | ✅ YES - my memory |
-| `~/repos/melo/` | ✅ GitHub | ❌ NO - public |
-| `~/repos/*` | Check first | Depends on upstream |
+| `~/clawd/` | ❌ No (local only) | ✅ YES - my memory |
+| `~/repos/melo/` | ✅ GitHub | ❌ NO - has upstream |
+| `~/repos/*` | Check `git remote -v` | If upstream exists → NO |
+
+**The rule:** Does it have an upstream we push to? → Don't put real credentials there.
 
 **Test credentials** (like `sophietest`) in test files are fine — they're dedicated test accounts.
-**Real credentials** (Aaron's actual passwords) should NEVER be in public repos.
+**Real credentials** (Aaron's actual passwords) should NEVER be in repos with upstreams.
 
 This is inherent knowledge. Don't forget.

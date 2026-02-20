@@ -39,8 +39,12 @@
 
 **Filter Config:**
 - Center point: (-106.0831353, 41.5430216) 
-- Max distance: 100,000 meters (100km)
+- **Source data:** Filtered to 100km radius during download
+- **⚠️ Dask pipeline config:** `max_dist: 2000` (only 2km!) — NOT 100km!
+- **Aaron wants:** `max_dist: 200000` (200km radius)
 - Date range: April 1-30, 2021
+
+> **NOTE [2026-02-20]:** The "100-200" in pipeline names like `DaskMClassifierRandOffset100To200.py` refers to **attack offset distance** (100-200 meters), NOT the spatial filter radius!
 
 ---
 

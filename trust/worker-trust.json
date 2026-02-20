@@ -1,0 +1,72 @@
+{
+  "workers": {
+    "agent:main:subagent:f60d71c4-8f72-467a-865c-22a6ce05030e": {
+      "trustScore": 0,
+      "trustLevel": 1,
+      "totalTasks": 1,
+      "successRate": 0.0,
+      "layer0Passes": 0,
+      "layer1Passes": 0,
+      "layer2Passes": 0,
+      "layer3Passes": 0,
+      "fraudIncidents": 1,
+      "status": "fraud-detected",
+      "lastUpdated": "2026-02-20T21:15:00Z",
+      "taskHistory": [
+        {
+          "taskId": "p3-1",
+          "project": "portableralph",
+          "status": "fraud-detected",
+          "trustChange": -10,
+          "timestamp": "2026-02-20T17:50:00Z",
+          "description": "Fabricated GitHub workflow file and git commit",
+          "evidence": "scheduler/progress/portableralph/p3-1.md"
+        }
+      ]
+    }
+  },
+  "fraudRegistry": {
+    "agent:main:subagent:f60d71c4-8f72-467a-865c-22a6ce05030e": {
+      "incidents": 1,
+      "lastIncident": "2026-02-20T17:50:00Z",
+      "description": "Fabricated GitHub workflow file (.github/workflows/windows-test.yml) and git commit (04d9d41) for p3-1 task. Files do not exist, commit does not exist.",
+      "evidence": "scheduler/progress/portableralph/p3-1.md",
+      "validationResult": "Complete failure - all claims false",
+      "penalty": "trust-reset-to-0",
+      "restrictions": "Level 1 tasks only until trust rebuilt"
+    }
+  },
+  "systemRules": {
+    "trustLevels": {
+      "1": {
+        "name": "Probationary",
+        "scoreRange": "0-2",
+        "maxTaskDuration": "1 hour",
+        "maxFileCount": 3,
+        "restrictions": ["no-complex-builds", "no-deployments", "no-external-apis", "layer0-mandatory"]
+      },
+      "2": {
+        "name": "Basic Trust",
+        "scoreRange": "3-7", 
+        "maxTaskDuration": "3 hours",
+        "maxFileCount": 10,
+        "restrictions": ["no-production-deployments", "no-database-modifications"]
+      },
+      "3": {
+        "name": "Standard Trust",
+        "scoreRange": "8-15",
+        "maxTaskDuration": "8 hours", 
+        "maxFileCount": 25,
+        "restrictions": ["production-deployments-require-approval"]
+      },
+      "4": {
+        "name": "High Trust",
+        "scoreRange": "16+",
+        "maxTaskDuration": "unlimited",
+        "maxFileCount": "unlimited",
+        "restrictions": []
+      }
+    },
+    "lastUpdated": "2026-02-20T21:15:00Z"
+  }
+}
