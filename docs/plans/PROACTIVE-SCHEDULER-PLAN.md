@@ -345,7 +345,7 @@ Consolidates progress files into long-term memory.
 {
   "id": "memory-sync",
   "schedule": "0 * * * *",  // Every hour
-  "model": "anthropic/claude-3-5-haiku-latest",
+  "model": "anthropic/claude-3-5-haiku-20241022",
   "text": `You are the Memory Sync agent.
   
   1. Read ~/clawd/AGENTS.md (memory system section)
@@ -371,7 +371,7 @@ Consolidates progress files into long-term memory.
 {
   "id": "proactive-scheduler",
   "schedule": "*/15 * * * *",  // Every 15 minutes
-  "model": "anthropic/claude-3-5-haiku-latest",
+  "model": "anthropic/claude-3-5-haiku-20241022",
   "text": `You are the Proactive Scheduler orchestrator.
 
 Read ~/clawd/PROACTIVE-JOBS.md and ~/clawd/scheduler/heartbeats/.

@@ -79,6 +79,66 @@ python3 template_validator.py
 python3 configurable_pipeline_template.py --config <config_file>
 ```
 
+## ⚠️ CRITICAL: Caching Requirements (Added 2026-02-20)
+
+**[2026-02-20 23:30 EST] MANDATORY** - Following cache key audit that revealed critical issues
+
+### **Cache Key Collision Fix - COMPLETED ✅**
+**Issue**: Different configurations (attack ratios, spatial radii, feature sets) were generating identical cache keys, causing:
+- Silent data corruption (wrong cached results used)
+- Non-reproducible analysis results  
+- 0% cache hit rate indicating cache invalidation issues
+
+**Resolution**: Enhanced cache key generation in `Decorators/FileCache.py` to include:
+- Complete configuration snapshots from GeneratorContextProvider
+- All attack parameters (ratios, distance ranges)
+- All spatial parameters (radii, coordinates)
+- All feature set specifications
+- Full context parameter sets
+
+### **Validation Requirements**
+**Before running ANY simulation matrix configurations:**
+
+1. **✅ COMPLETED**: Cache key uniqueness validation
+   ```bash
+   cd ~/repos/ConnectedDrivingPipelineV4/
+   python3 test_snapshot_approach.py  # Must show "SUCCESS" 
+   ```
+
+2. **✅ COMPLETED**: Cleared corrupted cache files
+   - All potentially affected cache directories cleared
+   - Cache metadata reset for fresh monitoring
+
+3. **🔄 REQUIRED**: Re-run any prior configurations that may have used corrupted cache
+   - **DaskMClassifierConstOffsetPerID100To200.py**
+   - **DaskMClassifierConstOffsetPerIDExtFeatures100To200.py**  
+   - Any runs with different attack ratios (10% vs 30%)
+   - Any runs with different spatial radii
+
+### **Cache Monitoring**
+**Target Metrics**: 
+- Cache hit rate >85% for repeated identical configurations
+- 0 cache key collisions detected
+- Unique cache keys for all 18 matrix combinations
+
+**Monitoring Command**:
+```bash
+# Check cache performance
+cat ~/repos/ConnectedDrivingPipelineV4/cache/cache_metadata.json
+
+# Validate cache key uniqueness for current configs
+python3 test_snapshot_approach.py
+```
+
+### **Configuration Matrix Cache Requirements**
+**Each of the 18 combinations MUST generate unique cache keys:**
+- 3 spatial radii (2km, 100km, 200km) × 6 feature sets = 18 unique cache patterns
+- Attack parameters MUST be included in cache keys
+- Spatial parameters MUST be included in cache keys  
+- Feature set selections MUST be included in cache keys
+
+**Critical**: If any two configurations generate the same cache key, **STOP IMMEDIATELY** and escalate for cache key debugging.
+
 ## Next Steps
 - **Phase 3 (cdp-1-3)**: Generate 18 production configurations for simulation matrix
 - **Phase 4 (cdp-2-x)**: Execute full simulation matrix across all combinations

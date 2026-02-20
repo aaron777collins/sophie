@@ -2,7 +2,7 @@
 
 *Master navigation for Sophie's self-scaling hierarchical memory system (v2).*
 
-**Last Updated:** [2026-02-14 18:24 EST]
+**Last Updated:** [2026-02-20 23:45 EST]
 
 ---
 
@@ -40,6 +40,7 @@
 ### Topics (Domain Knowledge)
 | Topic | Last Updated | Description |
 |-------|--------------|-------------|
+| [Caching Best Practices](topics/caching-best-practices.md) | 2026-02-20 | **CRITICAL:** Cache key collisions cause silent data corruption |
 | [UI Design Lessons](topics/ui-design-lessons.md) | 2026-02-18 | **CRITICAL:** Never delegate UI to Haiku, always visually verify |
 | [Sophie vs Clawd Repos](topics/sophie-vs-clawd-repos.md) | 2026-02-14 | **KEY:** Template (public) vs Active workspace (private) |
 | [AWS S3 Authentication](topics/aws-s3-authentication.md) | 2026-02-01 | S3 credential patterns, USDOT bucket access |
@@ -103,8 +104,8 @@ Recent decisions:
 |--------|-------|---------|
 | daily/ | 7 | 0 |
 | projects/ | 5 | 0 |
-| topics/ | 8 | 0 |
+| topics/ | 9 | 0 |
 | people/ | 1 | 0 |
-| **Total** | **21** | **0** |
+| **Total** | **22** | **0** |
 
 *No files at scaling threshold yet (all < 200 lines)*

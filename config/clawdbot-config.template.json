@@ -17,7 +17,7 @@
       },
       "models": {
         "anthropic/claude-opus-4-5": { "alias": "opus" },
-        "anthropic/claude-3-5-haiku-latest": { "alias": "haiku" },
+        "anthropic/claude-3-5-haiku-20241022": { "alias": "haiku" },
         "anthropic/claude-sonnet-4-20250514": { "alias": "sonnet" }
       },
       "workspace": "/path/to/your/sophie/workspace",

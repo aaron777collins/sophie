@@ -188,7 +188,7 @@ For task-specific workers that don't need their own identity:
 sessions_spawn(
   agentId="main",
   label="task-id-here",
-  model="anthropic/claude-3-5-haiku-latest",
+  model="anthropic/claude-3-5-haiku-20241022",
   task="You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md first.
 
   YOUR TASK:
