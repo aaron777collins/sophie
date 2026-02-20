@@ -15,17 +15,15 @@
 | **Location** | `/home/ubuntu/repos/ConnectedDrivingPipelineV4/` |
 | **Full Plan** | `scheduler/coordinator/notes/wydot-apr2021-attack-plan.md` |
 
-### Current Status: Phase 1 - Data Download IN PROGRESS
-- **PID:** 460811 (curl under nohup)
-- **Started:** 2026-02-19 21:27 EST
-- **Expected:** 13,318,200 rows (~11-12GB, ~2-3 hours)
+### Phase Progress
+- ✅ **Phase 1:** Data Download COMPLETE (13.3M rows)
+- ✅ **Phase 2:** Parquet Conversion COMPLETE (27 files)
+- 🔄 **Phase 3:** Attack Execution IN PROGRESS (PID 466915)
 
-### Monitoring (Delegate to Coordinator)
-Coordinator monitors every 30 min. When download completes:
-1. Verify row count = 13,318,201 (header + data)
-2. Convert CSV → Parquet
-3. Run attack pipeline
-4. Post results to Slack
+### What's Running
+Sophie is directly monitoring the attack pipeline. When complete:
+1. Collect classification metrics
+2. Post results to Slack #aibot-chat
 
 ---
 

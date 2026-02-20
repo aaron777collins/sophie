@@ -13,26 +13,24 @@
 | **Location** | `/home/ubuntu/repos/ConnectedDrivingPipelineV4/` |
 | **Full Plan** | `scheduler/coordinator/notes/wydot-apr2021-attack-plan.md` |
 
-### Current Status: Phase 1 - Data Download IN PROGRESS
-- **PID:** 460811 (curl under nohup)
-- **Started:** 2026-02-19 21:27 EST
-- **Expected:** 13,318,200 rows (~11-12GB, ~2-3 hours)
+### Phase Progress
+- ✅ **Phase 1:** Data Download COMPLETE (13.3M rows, 13.3GB)
+- ✅ **Phase 2:** Parquet Conversion COMPLETE (27 files, 1.6GB)
+- 🔄 **Phase 3:** Attack Execution IN PROGRESS (PID 466915)
 
-### Monitoring Commands (Run Every 30 min)
+### Monitoring Commands
 ```bash
-# Check if still running
-ssh jaekel "ps aux | grep 460811 | grep -v grep"
+# Check if attack is running
+ssh jaekel "ps aux | grep 466915 | grep -v grep"
 
 # Check progress
-ssh jaekel "ls -lh /home/ubuntu/repos/ConnectedDrivingPipelineV4/April_2021_Wyoming_Data.csv"
-ssh jaekel "wc -l /home/ubuntu/repos/ConnectedDrivingPipelineV4/April_2021_Wyoming_Data.csv"
+ssh jaekel "tail -50 /home/ubuntu/repos/ConnectedDrivingPipelineV4/attack_apr2021.log"
 ```
 
-### When Download Completes
-1. Verify row count = 13,318,201 (header + data)
-2. Spawn worker to convert CSV → Parquet
-3. Run attack pipeline
-4. Post results to Slack
+### When Attack Completes
+1. Collect classification metrics
+2. Generate report
+3. Post results to Slack #aibot-chat
 
 ---
 
