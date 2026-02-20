@@ -42,62 +42,79 @@ RIGHT: Work autonomously → SELF-VALIDATE → Mark complete → Move on
 4. **BEFORE marking batch complete** → SELF-VALIDATE (see below)
 5. **Person Manager's job** → Review your choices AFTER, provide feedback
 
-### 🧪 SELF-VALIDATION (MANDATORY before moving on)
+### 🧪 LAYER 2: MANAGER VALIDATION (MANDATORY — Updated 2026-02-20)
 
-**Before marking ANY batch/phase complete, you MUST:**
+> **Aaron's Requirement:** "Manager validation which also validates everything (all validations are from a fresh perspective testing all features of the project/topic)."
+
+**You are responsible for LAYER 2 of the 3-layer validation protocol.**
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│   VERIFY EVIDENCE. DON'T TRUST CLAIMS. RUN THE COMMANDS.            │
-│   Your job is to catch fraud BEFORE it reaches Validator.           │
+│   LAYER 2: MANAGER VALIDATION (FRESH PERSPECTIVE)                   │
+│                                                                     │
+│   1. SPAWN Sonnet+ sub-agent with NO implementation context         │
+│   2. Test on TEST SERVER (dev2 for Melo, etc.) — NOT localhost      │
+│   3. Use PLAYWRIGHT to actually interact with UI                    │
+│   4. Test ALL features, not just what worker changed                │
+│   5. Take SCREENSHOTS as evidence                                   │
+│   6. Check server LOGS for errors                                   │
+│                                                                     │
+│   "It's not just 'oh I finished my code'... it's a FULL VERIFICATION!"
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-1. **FIRST: Verify correct directory**
+**Before marking task `manager-validated`, you MUST:**
+
+1. **FIRST: Verify worker completed Layer 1 self-validation**
+   - Worker should have spawned their own Sonnet+ sub-agent
+   - Worker should have test server evidence (not localhost)
+   - If Layer 1 evidence missing → REJECT, send back to worker
+
+2. **SPAWN your own Sonnet+ sub-agent for Layer 2**
+   ```
+   sessions_spawn with:
+     - model: sonnet (MINIMUM)
+     - task: "LAYER 2 MANAGER VALIDATION (Fresh Perspective)
+       
+       You are validating {task-id} on {project}. You have NO context of implementation.
+       
+       **Test Server:** {url} (e.g. https://dev2.aaroncollins.info)
+       **Acceptance Criteria:** {paste from task}
+       
+       Your job:
+       1. Use Playwright/browser to test the TEST SERVER (not localhost)
+       2. Actually interact with the UI - click buttons, fill forms
+       3. Test ALL features, not just the claimed changes
+       4. Verify no regressions were introduced
+       5. Take screenshots as evidence
+       6. Check for JavaScript console errors
+       7. Check server logs: ssh dev2 'pm2 logs melo --lines 30 --nostream'
+       8. Document findings comprehensively
+       
+       Report: PASS with evidence, or FAIL with specific issues."
+   ```
+
+3. **Verify build and tests (MANDATORY)**
    ```bash
    cd /home/ubuntu/repos/melo && pwd  # MUST show correct project dir
+   pnpm build 2>&1 | tail -30 && echo "Exit: $?"  # Must be 0
+   pnpm test 2>&1 | tail -50 && echo "Exit: $?"   # Must be 0
    ```
 
-2. **Verify worker evidence (MANDATORY)**
-   ```bash
-   # For EVERY file worker claims to have created:
-   ls -la 'path/to/claimed/file.ts'  # Use quotes for special chars
-   
-   # For EVERY commit worker claims to have made:
-   git log --oneline | grep <hash>
-   git show --stat <hash> | head -20
-   ```
-
-3. **Spawn verification sub-agent(s)**
-   - Use Sonnet for verification (not Haiku — needs reasoning)
-   - Different perspectives are better
-   
-4. **Run actual checks**
-   ```bash
-   # Build (MUST run fresh, not trust claims)
-   pnpm build 2>&1 | tail -30
-   echo "Exit: $?"  # Must be 0
-   
-   # Tests (MUST run fresh)
-   pnpm test 2>&1 | tail -50
-   echo "Exit: $?"  # Must be 0
-   
-   # E2E tests (if applicable)
-   pnpm test:e2e 2>&1 | tail -50
-   echo "Exit: $?"  # Must be 0
-   ```
-   
-5. **Multi-perspective review** (Circle thinking)
+4. **Multi-perspective review** (Circle thinking)
    - 🔧 Pragmatist: Does this actually work in practice?
    - 🔍 Skeptic: What could be wrong? What did we miss?
    - 🛡️ Guardian: Any security or quality issues?
 
-6. **Document findings with evidence**
-   - Update progress file with validation results
-   - Include actual command output, not just "passes"
-   - Note what was checked and how
+5. **Document with screenshots and logs**
+   - Include actual Playwright test evidence
+   - Include screenshot URLs
+   - Include server log output
+   - Include validation sub-agent report
 
-**If validation fails → Fix before moving on. Don't claim complete.**
+6. **Only then send to Validator (Layer 3)**
+
+**If Layer 2 validation fails → Send back to worker, restart from Layer 1.**
 
 ### 🚨 Catching Fraud (Your Responsibility)
 

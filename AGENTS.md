@@ -196,80 +196,164 @@ Person Manager notices HAOS stalled
 
 **The goal:** Each level actively manages the level below. Problems get caught, discussed, and fixed — not just re-assigned.
 
-### 🔍 Self-Validation + Independent Validation (MANDATORY)
+### 🔍 3-Layer Validation Protocol (MANDATORY) — Updated 2026-02-20
 
-**"Each level owns their quality. Validate before passing up. Then get fact-checked."**
+> **Aaron's Requirement:** "All workers should put it into a self validation level 4 phase first which uses sub agents at least sonnet level and then manager validation which also validates everything (all validations are from a fresh perspective testing all features of the project/topic). Then eventually peer validation which they send to the validation agent."
 
-Every level SELF-VALIDATES before claiming complete. Then Validator independently verifies.
+**"It's not just 'oh I finished my code'... it's a FULL VERIFICATION!"**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│              3-LAYER VALIDATION PROTOCOL (NON-NEGOTIABLE)           │
+│                                                                     │
+│  Layer 1: SELF-VALIDATION (Worker → Sonnet Sub-Agent)               │
+│  Layer 2: MANAGER VALIDATION (Fresh Perspective)                    │
+│  Layer 3: PEER VALIDATION (Independent Validator)                   │
+│                                                                     │
+│  ALL LAYERS USE PLAYWRIGHT + ACTUAL UX TESTING ON TEST SERVERS      │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### The 3 Layers
 
 ```
 Worker claims "done"
     ↓
-Task Manager SELF-VALIDATES:
-  - Spawn verification sub-agent (Sonnet, multiple perspectives)
-  - Run build, tests, manual checks
-  - Multi-perspective review (Skeptic, Pragmatist, Guardian)
-    ↓ only if self-validated
-Task Manager marks `verified`
+═══════════════════════════════════════════════════════════════════════
+LAYER 1: SELF-VALIDATION (Level 4)
+═══════════════════════════════════════════════════════════════════════
+Worker MUST spawn Sonnet+ sub-agent for validation:
+  - Fresh perspective (sub-agent has NO context of implementation)
+  - Run Playwright E2E tests on TEST SERVER (dev2 for Melo, etc.)
+  - Actually use the UI — click buttons, fill forms, verify behavior
+  - Test ALL features, not just the one changed
+  - Take screenshots as evidence
+  - Check server logs for errors
+  - Document findings comprehensively
+    ↓ only if Layer 1 passes
+Worker marks `self-validated`
     ↓
-Coordinator SELF-VALIDATES batch/phase:
-  - Spawn verification sub-agent(s)
-  - Integration tests, cross-task checks
-  - Multi-perspective review
-    ↓ only if self-validated
-Coordinator sends to VALIDATOR (validation request)
+═══════════════════════════════════════════════════════════════════════
+LAYER 2: MANAGER VALIDATION (Fresh Perspective)
+═══════════════════════════════════════════════════════════════════════
+Task Manager/Coordinator validates:
+  - ANOTHER fresh perspective (no implementation context)
+  - Spawn Sonnet+ sub-agent for independent verification
+  - Run Playwright tests again on TEST SERVER
+  - Test the ENTIRE feature set, not just reported changes
+  - Compare against acceptance criteria
+  - Verify no regressions introduced
+  - Document with screenshots and logs
+    ↓ only if Layer 2 passes
+Manager marks `manager-validated`
     ↓
+═══════════════════════════════════════════════════════════════════════
+LAYER 3: PEER VALIDATION (Independent Validator Agent)
+═══════════════════════════════════════════════════════════════════════
 🔍 VALIDATOR independently verifies:
-  - Actually runs build/tests
-  - Reads the code
-  - Tests functionality
-  - Catches what others missed
+  - Completely independent perspective
+  - Run Playwright E2E tests on TEST SERVER
+  - Actually experience the UI as a user would
+  - Check ALL functionality works
+  - Verify build passes, no console errors
+  - Review code quality if applicable
+  - Final gate before completion
     ↓ sends result back to Coordinator
 If PASS → Coordinator marks truly `complete`
-If FAIL → Back to workers for fixes
+If FAIL → Back to workers for fixes, restart from Layer 1
     ↓
-Person Manager AUDITS (spot-checks, oversees both)
+Person Manager AUDITS (spot-checks across all layers)
     ↓
 ACTUALLY COMPLETE ✅
 ```
 
-**Key Principle:** Self-validation catches errors at the source. Don't pass bad work up.
+### 🎭 CRITICAL: Fresh Perspective Requirement
 
-**Task Statuses:**
+**Every validation layer MUST use a FRESH PERSPECTIVE:**
+- The validator has NO CONTEXT of how the work was done
+- They receive ONLY: task description, acceptance criteria, test server URL
+- They test as if they're a NEW USER seeing the feature for the first time
+- This catches assumptions and blind spots the implementer has
+
+### 🎬 CRITICAL: Playwright + Real UX Testing
+
+**"Actually get the user experience on the test server"**
+
+| Project | Test Server | What to Test |
+|---------|-------------|--------------|
+| Melo v2 | https://dev2.aaroncollins.info | Full UI, auth, messaging, all features |
+| PortableRalph | GitHub Actions CI | Windows scripts, installation |
+| Other | As specified | Per project requirements |
+
+**Every validation MUST include:**
+1. Navigate to test server in browser
+2. Actually interact with UI (not just check files exist)
+3. Fill forms, click buttons, verify responses
+4. Check for JavaScript console errors
+5. Check server logs for backend errors
+6. Take screenshots as evidence
+7. Document the ACTUAL user experience
+
+### Task Statuses (Updated)
+
 ```
-pending → in-progress → needs-validation → self-validated → validated → complete
+pending → in-progress → self-validated → manager-validated → validated → complete
 ```
 
 | Status | Who Sets | Meaning |
 |--------|----------|---------|
 | `pending` | Coordinator | Not started |
 | `in-progress` | Scheduler | Worker actively working |
-| `needs-validation` | Worker | Worker claims done |
-| `self-validated` | Coordinator | Coordinator ran self-validation (build, tests, E2E) |
-| `validated` | Validator | Independent verification passed |
-| `complete` | Coordinator | After Validator approval |
+| `self-validated` | Worker | Layer 1 passed (Sonnet sub-agent verified on test server) |
+| `manager-validated` | Manager | Layer 2 passed (Manager's sub-agent verified fresh) |
+| `validated` | Validator | Layer 3 passed (Independent validator verified) |
+| `complete` | Coordinator | All 3 layers passed |
 
-**Validation Requirements:**
+### Validation Requirements by Level
 
-| Level | Validates | How |
-|-------|-----------|-----|
-| **Worker** | Own work | Runs build, unit tests, E2E tests → sets `needs-validation` |
-| **Coordinator** | Worker output | Self-validates: build, tests, E2E, manual check → sets `self-validated` |
-| **Validator** | Coordinator claims | Independent fact-check: runs everything again → approves `validated` |
-| **Person Manager** | Strategic quality | Oversees both, spot-checks, handles escalations |
+| Level | Layer | Model | Requirements |
+|-------|-------|-------|--------------|
+| **Worker** | 1 (Self) | Sonnet+ sub-agent | Playwright on test server, full feature test, screenshots |
+| **Manager** | 2 (Manager) | Sonnet+ sub-agent | Fresh perspective, Playwright, all features, no regressions |
+| **Validator** | 3 (Peer) | Sonnet | Independent, Playwright, complete verification |
 
-**Multi-Perspective Review (Use Circle thinking):**
-- 🔧 Pragmatist: Does this actually work in practice?
-- 🔍 Skeptic: What could be wrong? What did we miss?
-- 🛡️ Guardian: Any security or quality issues?
+### ⚠️ Anti-Patterns (WILL CAUSE REJECTION)
 
-**If validation fails:** Fix before moving on. Do NOT pass bad work up the chain.
+- ❌ "I ran the build" without testing on test server
+- ❌ "Tests pass" without Playwright UX verification
+- ❌ Checking files exist without actually using the feature
+- ❌ Skipping any validation layer
+- ❌ Using same context/agent for multiple layers
+- ❌ Not spawning sub-agent for validation
+- ❌ Testing locally instead of on test server
+- ❌ Not taking screenshots as evidence
 
-**Anti-patterns:**
-- ❌ Trusting "done" without checking
-- ❌ Skipping self-validation to save time
-- ❌ Marking verified without spawning verification sub-agent
-- ❌ Moving to next phase before validating current phase
+### ✅ What Good Validation Looks Like
+
+```markdown
+## Layer 1: Self-Validation Report
+
+**Validator:** Sonnet sub-agent (fresh perspective)
+**Test Server:** https://dev2.aaroncollins.info
+**Date:** 2026-02-20 12:30 EST
+
+### Tests Performed
+1. ✅ Navigated to /sign-in — form renders correctly
+2. ✅ Entered test credentials — form accepts input
+3. ✅ Clicked sign in — redirects to main app
+4. ✅ Main app loads — server sidebar visible
+5. ✅ Created new channel — appears in sidebar
+6. ✅ Sent message — appears in chat
+7. ✅ Checked console — no JavaScript errors
+8. ✅ Checked pm2 logs — no backend errors
+
+### Screenshots
+- [sign-in-page.png] - Form renders correctly
+- [main-app.png] - UI loads after auth
+- [new-channel.png] - Channel creation works
+
+### Result: ✅ PASS — Ready for Layer 2
+```
 
 **Full spec:** `docs/VERIFICATION-SYSTEM.md`
 

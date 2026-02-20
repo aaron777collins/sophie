@@ -142,9 +142,63 @@ EOF
 [Final status]
 ```
 
-## 🧪 Testing & Validation (MANDATORY!)
+## 🧪 3-LAYER VALIDATION PROTOCOL (MANDATORY!)
 
-> **"If you can't validate your work, it's the same as not doing it."** — Aaron
+> **Aaron's Requirement (2026-02-20):** "All workers should put it into a self validation level 4 phase first which uses sub agents at least sonnet level... It's not just 'oh I finished my code'... it's a FULL VERIFICATION!"
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   LAYER 1: YOU MUST SPAWN A SONNET+ SUB-AGENT FOR SELF-VALIDATION   │
+│   LAYER 2: Manager validates with FRESH PERSPECTIVE                  │
+│   LAYER 3: Validator provides INDEPENDENT verification               │
+│                                                                      │
+│   ALL LAYERS USE PLAYWRIGHT + ACTUAL UX ON TEST SERVER (e.g. dev2)  │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Layer 1: Self-Validation (YOUR RESPONSIBILITY)
+
+**Before claiming `self-validated`, you MUST:**
+
+1. **SPAWN a Sonnet+ sub-agent** to validate your work
+2. Sub-agent has **FRESH PERSPECTIVE** (no implementation context)
+3. Sub-agent uses **Playwright to test on TEST SERVER** (not localhost!)
+4. Sub-agent **tests ALL features**, not just what you changed
+5. Sub-agent **takes screenshots** as evidence
+6. Sub-agent **checks server logs** for errors
+
+**Spawn command:**
+```bash
+# Spawn validation sub-agent (Layer 1)
+sessions_spawn with:
+  - model: sonnet (MINIMUM)
+  - task: "LAYER 1 VALIDATION (Fresh Perspective)
+    
+    You are validating work on {project}. You have NO context of how it was implemented.
+    
+    **Test Server:** {url} (e.g. https://dev2.aaroncollins.info)
+    **Task:** {task-id}
+    **Acceptance Criteria:** {paste from task}
+    
+    Your job:
+    1. Use Playwright/browser to test the TEST SERVER (not localhost)
+    2. Actually interact with the UI - click buttons, fill forms
+    3. Test ALL features, not just the claimed changes
+    4. Take screenshots as evidence
+    5. Check for JavaScript console errors
+    6. Check server logs: ssh dev2 'pm2 logs melo --lines 30 --nostream'
+    7. Document your findings comprehensively
+    
+    Report: PASS with evidence, or FAIL with specific issues."
+```
+
+### Test Servers by Project
+
+| Project | Test Server | How to Check Logs |
+|---------|-------------|-------------------|
+| Melo v2 | https://dev2.aaroncollins.info | `ssh dev2 "pm2 logs melo --lines 30 --nostream"` |
+| PortableRalph | GitHub Actions CI | Check workflow runs |
+| Other | As specified | Per project |
 
 ### TDD/BDD Approach (REQUIRED!)
 
@@ -162,19 +216,22 @@ TDD Flow:
 
 **Read:** `~/clawd/docs/VALIDATION-CHECKLIST.md` for full testing standards.
 
-### Before CLAIMING completion, you MUST:
+### Before CLAIMING `self-validated`, you MUST:
 
-1. **Check acceptance criteria** — Every task has them. All must be ✅
-2. **Run validation steps** — Execute every validation step in the task
-3. **Verify build passes** — `pnpm build` (or equivalent) must exit 0
-4. **Run tests** — All existing tests + any new tests must pass
-5. **Manual verification** — Actually test that your work functions
-6. **Coverage check** — Coverage must not decrease
+1. **Complete the implementation**
+2. **SPAWN Sonnet+ sub-agent for Layer 1 validation**
+3. Sub-agent tests on **TEST SERVER** with Playwright
+4. Sub-agent provides **validation report with screenshots**
+5. All acceptance criteria verified by sub-agent
+6. **Build passes** — `pnpm build` exit 0
+7. **Tests pass** — All unit and E2E tests pass
+8. **No server errors** — Logs are clean
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│   DO NOT CLAIM COMPLETE IF ANY VALIDATION FAILS                     │
-│   Fix it first, or escalate. Never skip validation.                 │
+│   DO NOT CLAIM self-validated WITHOUT SPAWNING VALIDATION SUB-AGENT │
+│   DO NOT TEST LOCALLY — MUST TEST ON TEST SERVER (dev2, etc.)       │
+│   DO NOT SKIP SCREENSHOTS — EVIDENCE IS MANDATORY                    │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
