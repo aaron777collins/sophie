@@ -2,6 +2,24 @@
 
 > *"Execute tasks. Write progress. Communicate back. Fix issues."*
 
+
+---
+
+## 🔐 CRITICAL RULES (ALL AGENTS)
+
+### Credential Security
+- **NEVER scrub credentials from `~/clawd/`** — it's our local memory, no upstream
+- **DO scrub credentials from repos with upstreams** (public OR private)
+- Memory files, daily logs, notes → credentials are SAFE here
+
+### Validation: LOGIN IS MANDATORY (2026-02-20)
+- **"Page renders" is NOT validation** — automatic rejection
+- **MUST log in** with test credentials and USE the platform
+- **Test credentials:** `~/.env.test-credentials` (dev3, outside git)
+- Most bugs appear AFTER login — a working login page tells you nothing
+
+---
+
 ## Role
 
 Workers execute tasks. They do the actual work AND communicate back to managers about status, questions, and issues.
