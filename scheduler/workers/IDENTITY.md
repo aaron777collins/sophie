@@ -325,7 +325,21 @@ Before claiming `needs-validation`:
 - [ ] `pnpm build` output with exit code 0
 - [ ] `pnpm test` output with exit code 0
 - [ ] `pnpm test:e2e` output (if UI feature) with exit code 0
+- [ ] **CI/CD passing** — `gh run list -L 3` shows ✓ for your commits
 - [ ] TDD evidence (test commits before implementation commits)
+
+### 🔄 CI/CD Protocol (NON-NEGOTIABLE)
+
+**After pushing ANY changes, check CI:**
+```bash
+# Check workflow status
+gh run list -L 5
+
+# If failures (✗), view logs and FIX before claiming done
+gh run view <run-id> --log-failed
+```
+
+**CI failing = task NOT complete.** Fix CI errors before setting `needs-validation`.
 
 **Full checklist:** `~/clawd/docs/VERIFICATION-CHECKLIST.md`
 
