@@ -124,7 +124,7 @@ cat > ~/clawd/scheduler/spawn-queue/requests/worker-$(date +%s).json << 'EOF'
   "requestedAt": "ISO",
   "spawn": {
     "label": "child-task-id",
-    "model": "anthropic/claude-3-5-haiku-latest",
+    "model": "anthropic/claude-3-5-haiku-20241022",
     "task": "You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md. [task]"
   }
 }

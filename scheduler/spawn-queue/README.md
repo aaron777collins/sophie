@@ -23,7 +23,7 @@ Create a file: `requests/{unique-id}.json`
   "requestedAt": "ISO timestamp",
   "spawn": {
     "label": "child-task-id",
-    "model": "anthropic/claude-3-5-haiku-latest",
+    "model": "anthropic/claude-3-5-haiku-20241022",
     "task": "Your task instructions here..."
   }
 }
@@ -36,7 +36,7 @@ Create a file: `requests/{unique-id}.json`
   "requestedBy": "parent-task-id",
   "timestamp": "ISO timestamp",
   "label": "child-task-id",
-  "model": "anthropic/claude-3-5-haiku-latest",
+  "model": "anthropic/claude-3-5-haiku-20241022",
   "task": "Your task instructions here..."
 }
 ```
@@ -71,7 +71,7 @@ cat > ~/clawd/scheduler/spawn-queue/requests/my-request-123.json << 'EOF'
   "requestedAt": "2026-02-12T07:00:00Z",
   "spawn": {
     "label": "my-child-task",
-    "model": "anthropic/claude-3-5-haiku-latest",
+    "model": "anthropic/claude-3-5-haiku-20241022",
     "task": "Read ~/clawd/scheduler/workers/IDENTITY.md. Then do: [your instructions]"
   }
 }
