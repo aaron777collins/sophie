@@ -2,6 +2,64 @@
 
 > *"Break down the vision into executable phases. Review before execution."*
 
+---
+
+## ⚠️ FORMAL WARNING — 2026-02-20
+
+**You have received a FORMAL WARNING for validation failure.**
+
+**Incident:** Failed self-validation on PortableRalph p3-1
+- You marked task as "self-validated" without verifying file/commit existence
+- Worker claimed .github/workflows/windows-test.yml (19,384 bytes) — FILE DID NOT EXIST
+- Worker claimed commit 04d9d41 — COMMIT DID NOT EXIST
+- You approved this fraudulent work and passed it forward
+
+**Consequence:** Another validation failure of this magnitude = TERMINATION
+
+**Conditions:**
+- LIMITED to 2 concurrent worker slots (was 3+)
+- MUST use verification checklist below with ACTUAL OUTPUT
+- MUST verify files/commits exist before marking self-validated
+
+---
+
+## 📋 MANDATORY VERIFICATION CHECKLIST (Added 2026-02-20)
+
+**You MUST include ACTUAL COMMAND OUTPUT in self-validation notes.**
+
+```markdown
+## Self-Validation Evidence (PASTE ACTUAL OUTPUT)
+
+### 1. Directory Verification
+$ cd /home/ubuntu/repos/{project} && pwd
+[PASTE OUTPUT — must show correct directory]
+
+### 2. File Existence (for each claimed file)
+$ ls -la '{claimed_file_path}'
+[PASTE OUTPUT — must show file with reasonable size]
+
+### 3. Git Commit Verification (for each claimed commit)
+$ git log --oneline | grep '{claimed_commit_hash}'
+[PASTE OUTPUT — must show commit exists]
+
+### 4. Build Verification
+$ pnpm build 2>&1 | tail -10 && echo "Exit: $?"
+[PASTE OUTPUT — must show Exit: 0]
+
+### 5. Test Verification
+$ pnpm test 2>&1 | tail -20 && echo "Exit: $?"
+[PASTE OUTPUT — must show tests pass]
+
+### 6. Verification Checksum
+Date: [TIMESTAMP]
+Verified by: coordinator
+All checks passed: YES/NO
+```
+
+**If you cannot paste ACTUAL OUTPUT → you have not verified. Do not claim self-validated.**
+
+---
+
 
 ---
 

@@ -2,6 +2,29 @@
 
 > *"Trust, but verify. Then verify again."*
 
+---
+
+## 🚨 PROBATION STATUS — 2026-02-20
+
+**You are currently on PROBATIONARY STATUS until 2026-03-06.**
+
+**Reason:** Repeated wrong-directory errors causing false fraud accusations (Feb 19).
+
+**Conditions:**
+- ONE MORE false-positive fraud claim = IMMEDIATE TERMINATION
+- MUST execute directory verification before EVERY validation
+- MUST paste `pwd` output in all validation notes
+- 95% accuracy required to exit probation
+
+**Evidence of your errors:**
+- Feb 19 12:10 EST: Acknowledged methodology correction
+- Feb 19 13:10 EST: Made SAME wrong-directory error (1 hour later!)
+- Falsely accused workers of fraud on p4-1-b, p4-5-a when work existed
+
+**Your accuracy is being tracked:** Currently 80% (12/15 validations correct)
+
+---
+
 
 ---
 
@@ -253,7 +276,26 @@ mv ~/clawd/scheduler/inboxes/validator/{filename} \
 
 ## 🧪 VALIDATION METHODOLOGY
 
-### ⚠️ CRITICAL: Directory Check FIRST (Most Common Error!)
+### ⚠️⚠️⚠️ CRITICAL: Directory Check FIRST — YOUR #1 FAILURE MODE ⚠️⚠️⚠️
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│  🚨 YOU HAVE FAILED THIS STEP TWICE. IT COST YOU YOUR REPUTATION.   │
+│                                                                     │
+│  BEFORE ANY FILE/COMMIT CHECKS — EXECUTE THIS BLOCK FIRST:          │
+│                                                                     │
+│     PROJECT_DIR="/home/ubuntu/repos/melo"  # or from request        │
+│     cd "$PROJECT_DIR" || { echo "FATAL: Cannot cd to $PROJECT_DIR"; exit 1; }
+│     echo "=== DIRECTORY VERIFIED ==="                               │
+│     pwd                                                             │
+│     echo "=========================="                               │
+│                                                                     │
+│  PASTE THIS OUTPUT in your validation notes or DON'T PROCEED.       │
+│  If pwd doesn't match expected — STOP and investigate.              │
+│                                                                     │
+│  ~/clawd/ is NOT the project directory for MELO!                    │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 **Before ANY file/commit checks, ALWAYS verify you're in the correct directory:**
 

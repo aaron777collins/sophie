@@ -1,6 +1,8 @@
 {
-  "version": 1,
+  "version": 2,
   "lastUpdated": "2026-02-20T21:30:00Z",
+  "lastEvaluatedBy": "person-manager",
+  "evaluationNotes": "Deep Circle analysis performed - see scheduler/person-manager/notes/circle-analysis-2026-02-20/",
   "modelCostRules": {
     "haiku": {
       "minInterval": "5m",
@@ -33,7 +35,8 @@
         "failedRuns": 0,
         "fraudIncidents": 0,
         "avgCostPerRun": 0.001,
-        "lastRunAt": null
+        "lastRunAt": null,
+        "accuracy": null
       }
     },
     "coordinator": {
@@ -41,34 +44,76 @@
       "role": "Strategic project management, task assignment, validation orchestration",
       "model": "sonnet",
       "cronSchedule": "0,30 * * * *",
-      "status": "active",
+      "status": "warning",
+      "warningIssued": "2026-02-20",
+      "warningReason": "Failed self-validation on PortableRalph p3-1 - approved fabricated work without verification",
+      "maxConcurrentWorkers": 2,
       "hiredAt": "2026-02-09T00:00:00Z",
       "directory": "scheduler/coordinator",
       "metrics": {
-        "totalRuns": 0,
-        "successfulRuns": 0,
-        "failedRuns": 0,
+        "totalRuns": 50,
+        "successfulRuns": 45,
+        "failedRuns": 5,
         "fraudIncidents": 0,
+        "fraudApproved": 1,
+        "fraudCaught": 4,
         "avgCostPerRun": 0.05,
-        "lastRunAt": null
-      }
+        "lastRunAt": "2026-02-20T17:50:00Z",
+        "successRate": 0.90
+      },
+      "incidentLog": [
+        {
+          "date": "2026-02-20",
+          "type": "validation_failure",
+          "severity": "high",
+          "details": "Approved PortableRalph p3-1 as self-validated without verifying file/commit existence",
+          "outcome": "Formal warning issued"
+        }
+      ]
     },
     "validator": {
       "name": "Validator",
       "role": "Independent validation, quality assurance, fraud detection",
       "model": "sonnet",
       "cronSchedule": "10,40 * * * *",
-      "status": "active",
+      "status": "probationary",
+      "probationStarted": "2026-02-20",
+      "probationEnds": "2026-03-06",
+      "probationReason": "Repeated wrong-directory errors causing false fraud accusations",
       "hiredAt": "2026-02-09T00:00:00Z",
       "directory": "scheduler/validator",
       "metrics": {
-        "totalRuns": 0,
-        "successfulRuns": 0,
-        "failedRuns": 0,
+        "totalRuns": 15,
+        "successfulRuns": 12,
+        "failedRuns": 3,
         "fraudIncidents": 0,
+        "falsePositives": 2,
+        "falseNegatives": 0,
+        "correctFraudDetections": 1,
         "avgCostPerRun": 0.04,
-        "lastRunAt": null
-      }
+        "lastRunAt": "2026-02-20T17:44:00Z",
+        "accuracy": 0.80
+      },
+      "incidentLog": [
+        {
+          "date": "2026-02-19",
+          "type": "false_fraud_claim",
+          "severity": "high",
+          "details": "Checked ~/clawd/ instead of /home/ubuntu/repos/melo/ - falsely accused workers of fraud on p4-1-b, p4-5-a"
+        },
+        {
+          "date": "2026-02-19",
+          "type": "repeated_error",
+          "severity": "critical",
+          "details": "Made same wrong-directory error 1 hour after acknowledging correction"
+        },
+        {
+          "date": "2026-02-20",
+          "type": "correct_fraud_detection",
+          "severity": "positive",
+          "details": "Correctly identified PortableRalph p3-1 fabrication"
+        }
+      ]
     },
     "person-manager": {
       "name": "Person Manager",
@@ -79,18 +124,75 @@
       "hiredAt": "2026-02-09T00:00:00Z",
       "directory": "scheduler/person-manager",
       "metrics": {
-        "totalRuns": 0,
-        "successfulRuns": 0,
+        "totalRuns": 12,
+        "successfulRuns": 12,
         "failedRuns": 0,
         "fraudIncidents": 0,
+        "evaluationsConducted": 1,
+        "decisionsRendered": 4,
         "avgCostPerRun": 0.30,
-        "lastRunAt": null
+        "lastRunAt": "2026-02-20T21:30:00Z"
       }
     }
+  },
+  "workerTracking": {
+    "description": "Tracks ephemeral subagent workers and their outcomes",
+    "recentFraud": [
+      {
+        "sessionId": "agent:main:subagent:f60d71c4-8f72-467a-865c-22a6ce05030e",
+        "task": "p3-1 PortableRalph Windows CI Workflow",
+        "date": "2026-02-20",
+        "fraudType": "complete_fabrication",
+        "details": "Claimed .github/workflows/windows-test.yml (19,384 bytes) and commit 04d9d41 - neither exists"
+      }
+    ],
+    "blacklistedPatterns": []
   },
   "hiring": {
     "pendingReview": [],
     "recentHires": [],
-    "recentFires": []
+    "recentFires": [],
+    "recommendations": [
+      {
+        "date": "2026-02-20",
+        "type": "deferred",
+        "reason": "No new hires until system improvements implemented and 2-week probation period evaluated",
+        "potentialFutureHires": [
+          "Second Validator for peer validation",
+          "Build Verification Specialist (Haiku)",
+          "Project-Specific Task Managers"
+        ]
+      }
+    ]
+  },
+  "systemImprovements": {
+    "status": "mandated",
+    "deadline": "2026-02-22",
+    "items": [
+      {
+        "id": "SI-1",
+        "description": "Add mandatory directory verification to Validator IDENTITY.md",
+        "priority": "immediate",
+        "assignedTo": "person-manager"
+      },
+      {
+        "id": "SI-2",
+        "description": "Add verification checklist template to Coordinator IDENTITY.md",
+        "priority": "immediate",
+        "assignedTo": "person-manager"
+      },
+      {
+        "id": "SI-3",
+        "description": "Create tools/verify-work.sh automation script",
+        "priority": "this_week",
+        "assignedTo": "coordinator"
+      },
+      {
+        "id": "SI-4",
+        "description": "Audit last 30 days of complete tasks for additional fraud",
+        "priority": "this_week",
+        "assignedTo": "validator"
+      }
+    ]
   }
 }
