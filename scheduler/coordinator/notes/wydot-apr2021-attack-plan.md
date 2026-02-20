@@ -142,31 +142,27 @@ print(f'Total rows in parquet: {total_rows}')
 - Direction range: 0-360 degrees
 - Malicious ratio: 30%
 
-### Existing Code Reference
+### Code References
 - **Main Script:** `DaskMClassifierConstOffsetPerID100To200.py`
-- **Config:** `configs/wyoming_apr2021_constoffset_v1.json`
+- **Config (NEW):** `configs/wyoming_apr2021_socrata_constoffset.json` ← USE THIS
+- **Config (OLD):** `configs/wyoming_apr2021_constoffset_v1.json` (references wrong data file)
 
 ### Tasks
 
-#### 3.1 Update Config for April 2021 Data
-```json
-{
-  "data": {
-    "source_file": "April_2021_Wyoming_Data.parquet/",
-    "source_type": "parquet",
-    "date_range": {
-      "start": "2021-04-01",
-      "end": "2021-04-30"
-    }
-  }
-}
-```
+#### 3.1 Config Already Created ✅
+**File:** `configs/wyoming_apr2021_socrata_constoffset.json`
+
+Key settings:
+- `source_file`: `April_2021_Wyoming_Data.parquet/`
+- Uses correct lowercase Socrata column names
+- `results_dir`: `results/apr2021-socrata/`
+- Attack: 100-200m offset, 30% malicious, seed 42
 
 #### 3.2 Run Attack Pipeline
 ```bash
 ssh jaekel "cd /home/ubuntu/repos/ConnectedDrivingPipelineV4 && source .venv/bin/activate && \
   nohup python3 DaskMClassifierConstOffsetPerID100To200.py \
-    --config configs/wyoming_apr2021_constoffset_v1.json \
+    --config configs/wyoming_apr2021_socrata_constoffset.json \
     > attack_run.log 2>&1 &"
 ```
 
