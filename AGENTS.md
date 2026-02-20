@@ -294,6 +294,64 @@ ACTUALLY COMPLETE ✅
 6. Take screenshots as evidence
 7. Document the ACTUAL user experience
 
+### 🔐 CRITICAL: LOGIN IS MANDATORY (Added 2026-02-20)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   ⚠️  "PAGE RENDERS" IS NOT VALIDATION. LOGIN IS MANDATORY.  ⚠️    │
+│                                                                     │
+│   Seeing a login page tells you NOTHING about whether the app      │
+│   actually works. MOST BUGS ARE FOUND AFTER LOGIN.                  │
+│                                                                     │
+│   Every validation for web apps MUST:                               │
+│   1. Navigate to the app                                            │
+│   2. LOG IN with test credentials                                   │
+│   3. USE the platform (navigate, create, interact)                  │
+│   4. Test the ACTUAL FUNCTIONALITY being validated                  │
+│                                                                     │
+│   "Login page renders" = AUTOMATIC REJECTION                        │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Test Credentials by Project:**
+
+| Project | Test Server | Username | Password Location |
+|---------|-------------|----------|-------------------|
+| Melo v2 | https://dev2.aaroncollins.info | `sophietest` | `~/clawd/.env.test-credentials` |
+| Other | As specified | As specified | As specified |
+
+**⚠️ CREDENTIAL SECURITY:**
+- Test credentials are stored in `~/.env.test-credentials` on dev3 (NOT in git)
+- NEVER commit passwords to git — use environment variables or local files
+- Each project should have dedicated test accounts (not Aaron's personal accounts)
+
+**What Validators MUST Do (Web Apps):**
+
+```
+MINIMUM VALIDATION CHECKLIST (WEB APPS):
+─────────────────────────────────────────
+□ 1. Navigate to URL
+□ 2. Screenshot: Login page renders
+□ 3. Enter test credentials  
+□ 4. Click login button
+□ 5. Screenshot: AFTER login — main app view
+□ 6. Verify: User is authenticated (can see user-only content)
+□ 7. Perform at least ONE action (create something, navigate somewhere)
+□ 8. Screenshot: Action completed successfully
+□ 9. Check: No console errors
+□ 10. Check: No server errors (pm2 logs, etc.)
+
+If steps 3-7 CANNOT be completed → VALIDATION FAILS
+"I saw the login page" is NOT a pass.
+```
+
+**Why This Matters:**
+- Most bugs appear AFTER authentication
+- Server errors often only trigger on authenticated requests  
+- UI issues frequently hide behind the login wall
+- A blank page after login ≠ working app
+- Session handling bugs only appear when logged in
+
 ### Task Statuses (Updated)
 
 ```
@@ -327,6 +385,10 @@ pending → in-progress → self-validated → manager-validated → validated �
 - ❌ Not spawning sub-agent for validation
 - ❌ Testing locally instead of on test server
 - ❌ Not taking screenshots as evidence
+- ❌ **"Login page renders" as validation** ← THIS IS NOT VALIDATION
+- ❌ **Not actually logging in** with test credentials
+- ❌ **Not using the platform** after login
+- ❌ **Validating only the changed feature** without testing auth flow first
 
 ### ✅ What Good Validation Looks Like
 

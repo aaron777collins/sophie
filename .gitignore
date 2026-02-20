@@ -1,23 +1,22 @@
-# Data files - sensitive/large datasets
-data/
-*.csv
 
-# Environment and secrets
+*.credentials
+*.csv
+data/
+# Data files - sensitive/large datasets
+.DS_Store
 .env
 .env.*
+# Environment and secrets
+.env.test-credentials
 *.key
-*.pem
-secrets/
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Logs
 *.log
 logs/
-
-# Temporary files
-*.tmp
+# Logs
+# OS files
+*.pem
+secrets/
 *.temp
+# Temporary files
+Thumbs.db
+*.tmp
 /tmp/
