@@ -13,24 +13,20 @@
 | **Location** | `/home/ubuntu/repos/ConnectedDrivingPipelineV4/` |
 | **Full Plan** | `scheduler/coordinator/notes/wydot-apr2021-attack-plan.md` |
 
-### Phase Progress
-- ✅ **Phase 1:** Data Download COMPLETE (13.3M rows, 13.3GB)
-- ✅ **Phase 2:** Parquet Conversion COMPLETE (27 files, 1.6GB)
-- 🔄 **Phase 3:** Attack Execution IN PROGRESS (PID 466915)
+### Status: ✅ COMPLETE
+- ✅ **Phase 1:** Data Download (13.3M rows)
+- ✅ **Phase 2:** Parquet Conversion (27 files)
+- ✅ **Phase 3:** Attack Execution 
+- ✅ **Phase 4:** Results Posted to Slack
 
-### Monitoring Commands
-```bash
-# Check if attack is running
-ssh jaekel "ps aux | grep 466915 | grep -v grep"
+### Results
+| Classifier | Test Accuracy | Test F1 |
+|------------|---------------|---------|
+| RandomForest | 49.9% | 41.7% |
+| DecisionTree | 50.7% | 42.5% |
+| KNeighbors | 34.0% | 7.0% |
 
-# Check progress
-ssh jaekel "tail -50 /home/ubuntu/repos/ConnectedDrivingPipelineV4/attack_apr2021.log"
-```
-
-### When Attack Completes
-1. Collect classification metrics
-2. Generate report
-3. Post results to Slack #aibot-chat
+**Key Finding:** Constant offset attack difficult to detect (~50% = random chance)
 
 ---
 

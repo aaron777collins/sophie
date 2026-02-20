@@ -4,59 +4,41 @@
 
 ---
 
-## 🎯 PROJECT: WYDOT APRIL 2021 ATTACK
+## ✅ PROJECT: WYDOT APRIL 2021 ATTACK — COMPLETE
 
 | Item | Value |
 |------|-------|
 | **Project Name** | WYDOT Constant Offset Attack |
 | **Location** | `/home/ubuntu/repos/ConnectedDrivingPipelineV4/` (Jaekel server) |
 | **Priority** | HIGH |
-| **Status** | Phase 3 - Attack Execution IN PROGRESS |
+| **Status** | ✅ COMPLETE |
 | **Comprehensive Plan** | `scheduler/coordinator/notes/wydot-apr2021-attack-plan.md` |
 
 ### Overview
 Run the constant position offset attack on Wyoming CV Pilot BSM data for April 2021.
 
-### Completed Phases
+### All Phases Complete
 
-#### Phase 1: Data Download ✅ COMPLETE
-- **Completed:** 2026-02-19 22:12 EST
-- **Rows:** 13,318,200
-- **Size:** 13.3 GB
-- **Web Download:** http://65.108.237.46/wyoming-cv-bsm-2021-04.csv
+| Phase | Status | Completed |
+|-------|--------|-----------|
+| 1. Data Download | ✅ | 22:12 EST |
+| 2. Data Conversion | ✅ | 22:19 EST |
+| 3. Attack Execution | ✅ | 22:26 EST |
+| 4. Results Posted | ✅ | 22:27 EST |
 
-#### Phase 2: Data Conversion ✅ COMPLETE
-- **Completed:** 2026-02-19 22:19 EST
-- **Parquet Files:** 27
-- **Total Size:** 1.6 GB
+### Results Summary
 
-### Current Phase: Attack Execution 🔄 IN PROGRESS
-- **Status:** IN PROGRESS
-- **PID:** 466915
-- **Started:** 2026-02-19 22:21 EST
-- **Config:** `configs/wyoming_apr2021_socrata_constoffset.json`
-- **Log:** `attack_apr2021.log`
+| Classifier | Test Accuracy | Test F1 |
+|------------|---------------|---------|
+| RandomForest | 49.9% | 41.7% |
+| DecisionTree | 50.7% | 42.5% |
+| KNeighbors | 34.0% | 7.0% |
 
-### Monitoring Commands
-```bash
-# Check if attack is running
-ssh jaekel "ps aux | grep 466915 | grep -v grep"
+**Key Finding:** 100-200m constant offset attack is difficult to detect (~50% accuracy = random chance). Models overfit on training data (100% train accuracy) but fail to generalize.
 
-# Check progress
-ssh jaekel "tail -50 /home/ubuntu/repos/ConnectedDrivingPipelineV4/attack_apr2021.log"
-```
-
-### Phases
-1. ✅ **Data Download** — COMPLETE (13.3M rows)
-2. ✅ **Data Conversion** — COMPLETE (27 parquet files)
-3. 🔄 **Attack Execution** — IN PROGRESS (PID 466915)
-4. ⏸️ **Results Analysis** — PENDING
-
-### Completion Criteria
-- [x] Download complete (13,318,201 lines including header)
-- [x] Parquet conversion complete
-- [ ] Attack pipeline runs successfully
-- [ ] Results posted to Slack
+### Web Resources
+- **Data:** http://65.108.237.46/wyoming-cv-bsm-2021-04.csv
+- **Results:** http://65.108.237.46/pipeline-results/apr2021-constoffset/
 
 ---
 
