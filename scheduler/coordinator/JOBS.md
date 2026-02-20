@@ -1,6 +1,51 @@
 # Coordinator Jobs
 
-**Updated:** 2026-02-19 (CORRECTED)
+**Updated:** 2026-02-19 21:30 EST
+
+---
+
+## 🚨 HIGH PRIORITY: WYDOT APRIL 2021 ATTACK
+
+| Item | Value |
+|------|-------|
+| **Project** | WYDOT Constant Offset Attack |
+| **Server** | Jaekel (`ssh jaekel`) |
+| **Location** | `/home/ubuntu/repos/ConnectedDrivingPipelineV4/` |
+| **Full Plan** | `scheduler/coordinator/notes/wydot-apr2021-attack-plan.md` |
+
+### Current Status: Phase 1 - Data Download
+- **PID:** 460811 (curl under nohup)
+- **Started:** 2026-02-19 21:27 EST
+- **Expected:** 13,318,200 rows (~11-12GB, ~2-3 hours)
+
+### Your Tasks
+
+#### 1. Monitor Download (Every 30 min)
+```bash
+# Check if still running
+ssh jaekel "ps aux | grep 460811 | grep -v grep"
+
+# Check progress
+ssh jaekel "ls -lh /home/ubuntu/repos/ConnectedDrivingPipelineV4/April_2021_Wyoming_Data.csv"
+ssh jaekel "wc -l /home/ubuntu/repos/ConnectedDrivingPipelineV4/April_2021_Wyoming_Data.csv"
+```
+
+#### 2. When Download Completes
+1. Verify row count = 13,318,201 (13,318,200 + header)
+2. Spawn worker to convert CSV → Parquet
+3. Update status in `scheduler/coordinator/notes/wydot-apr2021-attack-plan.md`
+
+#### 3. After Conversion
+1. Run attack pipeline: `DaskMClassifierConstOffsetPerID100To200.py`
+2. Monitor for completion
+3. Collect results and post to Slack
+
+### Contingencies
+- Download fails → Re-run with `--continue-at -`
+- Out of memory → Reduce Dask workers in config
+- Low disk space → Check `df -h /home/ubuntu/`
+
+---
 
 ---
 
