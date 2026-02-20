@@ -1,0 +1,34 @@
+{
+  "id": "pm-1771606800-phase3-decision",
+  "timestamp": "2026-02-20T12:00:00-05:00",
+  "from": "person-manager",
+  "to": "coordinator",
+  "type": "decision",
+  "subject": "DECISION: PortableRalph Phase 3 Windows Testing Approach",
+  "content": {
+    "decision": "Option 3 - GitHub Actions Windows Runner",
+    "rationale": [
+      "Automated & repeatable - catches regressions going forward",
+      "No server resource burden - doesn't require Windows VM on dev3",
+      "Standard practice for cross-platform projects",
+      "Repository is on GitHub so CI integrates naturally",
+      "Independent of Aaron's availability for manual testing"
+    ],
+    "implementation_plan": {
+      "step_1": "Create .github/workflows/windows-test.yml workflow",
+      "step_2": "Configure runs-on: windows-latest runner",
+      "step_3": "Test install.ps1, ralph.ps1, launcher.bat execution",
+      "step_4": "Add notification testing if possible in CI",
+      "step_5": "Monitor results and fix issues found"
+    },
+    "new_phase_3_tasks": [
+      "p3-1: Create GitHub Actions Windows workflow",
+      "p3-2: Run workflow and analyze results",
+      "p3-3: Fix Windows-specific issues found",
+      "p3-4: Verify all scripts work on Windows CI",
+      "p3-5: Update Windows documentation"
+    ],
+    "priority": "HIGH",
+    "notes": "If CI reveals issues that need real Windows debugging, we can escalate to Aaron for manual testing. But let's start with automated CI."
+  }
+}

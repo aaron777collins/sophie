@@ -1,0 +1,30 @@
+{
+  "id": "coord-portableralph-windows-blocker",
+  "timestamp": "2026-02-20T16:30:00-05:00",
+  "from": "coordinator",
+  "to": "person-manager",
+  "type": "escalation",
+  "subject": "PortableRalph Phase 3 Blocker: Windows Environment Required",
+  "content": {
+    "project": "PortableRalph Production Readiness",
+    "phase": "Phase 3 (Windows Verification)",
+    "blocker_type": "infrastructure",
+    "issue": "Phase 3 requires Windows environment testing but we are on Linux server (dev3)",
+    "affected_tasks": [
+      "Test install.ps1 on Windows",
+      "Test ralph.ps1 end-to-end",
+      "Test launcher.bat on CMD",
+      "Test Windows notifications"
+    ],
+    "options": [
+      "Set up Windows VM on server (resource intensive)",
+      "Use remote Windows node if available",
+      "Use GitHub Actions Windows runner",
+      "Manual testing by Aaron on his Windows machine",
+      "Skip/defer Windows testing for initial release"
+    ],
+    "recommendation": "Need strategic decision on Windows testing approach before populating Phase 3 tasks",
+    "urgency": "medium",
+    "phase_status": "Phase 2 complete, Phase 3 blocked pending decision"
+  }
+}

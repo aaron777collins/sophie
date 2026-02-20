@@ -1,0 +1,24 @@
+{
+  "id": "val-req-p2-3-$(date +%s)",
+  "timestamp": "$(date -Iseconds)",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: p2-3 PortableRalph Critical Bug Fix",
+  "content": {
+    "task_ids": ["p2-3"],
+    "project": "PortableRalph Production Readiness",
+    "phase": "Phase 2",
+    "claimed_by": "coordinator", 
+    "claimed_at": "2026-02-20T12:45:00-05:00",
+    "files_changed": ["ralph.sh"],
+    "repository": "~/repos/portableralph",
+    "acceptance_criteria": [
+      "Critical bug fixed - ralph.sh lines 144-146 corrected",
+      "ralph.sh executes without syntax errors",
+      "No new regressions introduced", 
+      "Changes properly implemented"
+    ],
+    "self_validation_notes": "Verified syntax check passes (bash -n), functional test passes (./ralph.sh --help works), fix confirmed in source code - lines 145-147 now use underscore-prefixed variables instead of invalid local declarations"
+  }
+}

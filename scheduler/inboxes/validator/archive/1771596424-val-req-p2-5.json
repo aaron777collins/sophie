@@ -1,0 +1,21 @@
+{
+  "id": "val-req-p2-5-1771596400",
+  "timestamp": "2026-02-20T14:06:30Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: p2-5 Merge PR #3",
+  "content": {
+    "task_ids": ["p2-5"],
+    "project": "PortableRalph Production Readiness",
+    "phase": "Phase 2",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-02-20T14:06:30Z",
+    "verification_command": "gh pr view 3 --repo aaron777collins/portableralph --json state,mergedAt",
+    "acceptance_criteria": [
+      "PR #3 merged to main branch",
+      "Merge documented in progress file"
+    ],
+    "self_validation_notes": "Verified via gh CLI: state=MERGED, mergedAt=2026-02-20T14:06:20Z"
+  }
+}
