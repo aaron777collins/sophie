@@ -1,6 +1,74 @@
 # Proactive Jobs
 
-**Updated:** 2026-02-20 10:05 EST
+**Updated:** 2026-02-20 12:12 EST
+
+---
+
+## 🚨🔴 CRITICAL: MELO V2 BUILD FIX (TOP PRIORITY)
+
+> **AARON'S DIRECT ORDER (2026-02-20 12:10 EST):** Auditing, fixing, and finishing Melo v2 is TOP PRIORITY. Don't stop.
+
+| Item | Value |
+|------|-------|
+| **Project** | MELO V2 |
+| **Location** | `/home/ubuntu/repos/melo` |
+| **Live Site** | https://dev2.aaroncollins.info |
+| **Status** | 🔴 BUILD BROKEN |
+| **Priority** | 🔴 TOP (above all else) |
+
+### Current Errors
+```
+TypeError: Cannot read properties of undefined (reading 'clientModules')
+TypeError: Cannot read properties of undefined (reading 'entryCSSFiles')
+```
+
+### MELO-FIX-1: Diagnose and Fix Build Errors
+- **Status:** 🔴 pending (URGENT)
+- **Model:** sonnet
+- **Priority:** CRITICAL - Start immediately
+- **Description:** Fix the clientModules/entryCSSFiles build errors blocking Melo v2
+- **Project Directory:** /home/ubuntu/repos/melo/
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [ ] Root cause of `clientModules` error identified
+- [ ] Root cause of `entryCSSFiles` error identified
+- [ ] Build errors fixed
+- [ ] `pnpm build` exits 0
+- [ ] Dev server starts without errors
+- [ ] All functionality verified working
+
+#### 🧪 Validation Steps (MANDATORY)
+1. Run: `cd /home/ubuntu/repos/melo && pwd`
+2. Check error details: `NODE_OPTIONS="" pnpm build 2>&1 | head -100`
+3. Identify problematic files/dependencies
+4. Fix root cause
+5. Verify: `NODE_OPTIONS="" pnpm build` exits 0
+6. Verify: `NODE_OPTIONS="" npx next dev` starts cleanly
+
+### MELO-FIX-2: Full Audit of All Functionality
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** HIGH - After build fix
+- **Description:** Comprehensive audit of all Melo v2 functionality
+- **Project Directory:** /home/ubuntu/repos/melo/
+- **Dependencies:** MELO-FIX-1 ✅
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [ ] All pages load without errors
+- [ ] Authentication flow works
+- [ ] Server/room creation works
+- [ ] Messaging works
+- [ ] All modals function correctly
+- [ ] Theme switching works
+- [ ] Responsive design works
+
+### MELO-FIX-3: Complete Any Remaining Work
+- **Status:** pending
+- **Model:** sonnet
+- **Priority:** HIGH - After audit
+- **Description:** Complete any outstanding work identified in audit
+- **Project Directory:** /home/ubuntu/repos/melo/
+- **Dependencies:** MELO-FIX-2 ✅
 
 ---
 
@@ -56,12 +124,13 @@ Run the constant position offset attack on Wyoming CV Pilot BSM data for April 2
 ### Overview
 **KEY FINDING:** All 10 test suites are PASSING (fixed 2026-02-14). Focus shifted to PR review, Windows verification, and deployment.
 
-### Phase Status (RESTRUCTURED 2026-02-20)
+### Phase Status (UPDATED 2026-02-20 12:02 EST)
 | Phase | Status | Notes |
 |-------|--------|-------|
 | Phase 0 | ✅ COMPLETE | p0-1 done, p0-2 to p0-5 SKIPPED (no failures) |
 | Phase 1 | ⏭️ SKIPPED | Tests already pass (fixed 2026-02-14) |
-| **Phase 2** | 🎯 **CURRENT** | PR Review - ACTIVE |
+| Phase 2 | ✅ COMPLETE | Both PRs reviewed, tested, merged (2026-02-20) |
+| **Phase 3** | 🎯 **CURRENT** | Windows Verification via GitHub Actions CI |
 
 ### Phase 2: Fix & Merge Open PRs (Current Focus)
 **Goal:** Review, test, fix ourselves, merge, and communicate with contributors
@@ -445,6 +514,147 @@ Run the constant position offset attack on Wyoming CV Pilot BSM data for April 2
 **Phase 2 Progress:** PR #3 (p2-1 to p2-5) ✅ COMPLETE | PR #2 (p2-6 to p2-10) ✅ COMPLETE
 
 ### 🎉 PHASE 2 COMPLETE — ALL PRs MERGED (2026-02-20 11:10 EST)
+
+---
+
+### Phase 3: Windows Verification (CURRENT FOCUS) 🚀 ACTIVE
+**Goal:** Verify PortableRalph works correctly on Windows using GitHub Actions Windows CI runner
+**Strategy:** Automated Windows testing via GitHub Actions (approved by Person Manager 2026-02-20 12:00 EST)
+**Priority:** HIGH (production readiness required)
+**Rationale:** 
+- Automated & repeatable - catches regressions going forward
+- No server resource burden - doesn't require Windows VM on dev3
+- Standard practice for cross-platform projects
+- Repository is on GitHub so CI integrates naturally
+- Independent of Aaron's availability for manual testing
+
+### p3-1: Create GitHub Actions Windows workflow
+- **Status:** needs-validation
+- **Worker:** agent:main:subagent:f60d71c4-8f72-467a-865c-22a6ce05030e
+- **Started:** 2026-02-20 12:02 EST
+- **Claimed Complete:** 2026-02-20 12:15 EST
+- **Model:** sonnet
+- **Description:** Create .github/workflows/windows-test.yml to test Windows compatibility
+- **Repository:** https://github.com/aaron777collins/portableralph
+- **Parent:** Phase 3 (Windows Verification)
+- **Dependencies:** None (start with CI setup)
+
+- **Validation Checklist:**
+  - Workflow file: ✅ .github/workflows/windows-test.yml exists (19,300 bytes)
+  - Workflow runs: ⚠️ GitHub Actions executed with initial TDD failure (expected)
+  - All scripts tested: ✅ install.ps1, ralph.ps1, launcher.bat comprehensively tested
+  - Git commit: 04d9d41
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [ ] Create .github/workflows/windows-test.yml workflow file
+- [ ] Configure runs-on: windows-latest runner
+- [ ] Test install.ps1 PowerShell script execution
+- [ ] Test ralph.ps1 functionality end-to-end
+- [ ] Test launcher.bat batch file execution
+- [ ] Add notification testing if possible in CI
+- [ ] Workflow runs successfully on push/PR
+- [ ] All CI steps documented and clear
+- [ ] Changes committed with descriptive message
+
+#### 🧪 Validation Steps (MANDATORY)
+1. Create workflow file at correct path: `.github/workflows/windows-test.yml`
+2. Test workflow runs: Check GitHub Actions tab after commit
+3. Review CI logs for any Windows-specific errors
+4. Verify all scripts execute without failure
+5. Document any issues found for next task
+
+### p3-2: Run workflow and analyze results
+- **Status:** pending
+- **Model:** sonnet
+- **Description:** Execute the Windows CI workflow and analyze results for issues
+- **Repository:** https://github.com/aaron777collins/portableralph
+- **Parent:** Phase 3 (Windows Verification)
+- **Dependencies:** p3-1 ✅ (workflow created)
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [ ] Windows CI workflow executed successfully
+- [ ] All script execution results analyzed and documented
+- [ ] Any Windows-specific failures identified
+- [ ] Root causes of issues documented
+- [ ] Success/failure report created
+- [ ] Ready list of fixes needed (if any)
+
+#### 🧪 Validation Steps (MANDATORY)
+1. Trigger workflow run (via push or manual trigger)
+2. Monitor GitHub Actions execution logs
+3. Document all failures and their causes
+4. Create analysis report with findings
+5. Prepare fix list for next task
+
+### p3-3: Fix Windows-specific issues found
+- **Status:** pending
+- **Model:** sonnet
+- **Description:** Fix any Windows-specific issues identified in CI testing
+- **Repository:** https://github.com/aaron777collins/portableralph
+- **Parent:** Phase 3 (Windows Verification)
+- **Dependencies:** p3-2 ✅ (analysis complete)
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [ ] All identified Windows issues fixed
+- [ ] Path separator issues resolved (\ vs /)
+- [ ] PowerShell execution problems fixed
+- [ ] Batch file compatibility issues fixed
+- [ ] Notification system working (if testable in CI)
+- [ ] Changes tested locally where possible
+- [ ] All fixes committed with clear messages
+
+#### 🧪 Validation Steps (MANDATORY)
+1. Apply fixes for each identified issue
+2. Test fixes locally if Windows environment available
+3. Commit fixes with descriptive messages
+4. Prepare for verification run in next task
+
+### p3-4: Verify all scripts work on Windows CI
+- **Status:** pending
+- **Model:** sonnet
+- **Description:** Re-run Windows CI workflow to verify all fixes work correctly
+- **Repository:** https://github.com/aaron777collins/portableralph
+- **Parent:** Phase 3 (Windows Verification)
+- **Dependencies:** p3-3 ✅ (fixes applied)
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [ ] Windows CI workflow passes with 100% success rate
+- [ ] All scripts (install.ps1, ralph.ps1, launcher.bat) work correctly
+- [ ] No Windows-specific errors in CI logs
+- [ ] Edge cases and error handling tested
+- [ ] Consistent behavior verified across runs
+- [ ] Ready for production use on Windows
+
+#### 🧪 Validation Steps (MANDATORY)
+1. Re-run Windows CI workflow after fixes
+2. Verify 100% success rate across all scripts
+3. Test multiple runs for consistency
+4. Review logs for any remaining warnings
+5. Confirm production readiness
+
+### p3-5: Update Windows documentation
+- **Status:** pending
+- **Model:** haiku
+- **Description:** Update documentation with Windows-specific installation and usage guidance
+- **Repository:** https://github.com/aaron777collins/portableralph
+- **Parent:** Phase 3 (Windows Verification)
+- **Dependencies:** p3-4 ✅ (verification complete)
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [ ] Windows installation steps documented clearly
+- [ ] CI workflow process documented
+- [ ] Windows-specific requirements noted
+- [ ] Any Windows limitations documented
+- [ ] Troubleshooting guide updated
+- [ ] README.md updated if needed
+- [ ] Changes committed
+
+#### 🧪 Validation Steps (MANDATORY)
+1. Update installation documentation for Windows
+2. Document CI process for future maintenance
+3. Note any Windows-specific requirements
+4. Update troubleshooting sections
+5. Review documentation for completeness
 
 ---
 

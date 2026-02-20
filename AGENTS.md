@@ -321,8 +321,45 @@ pending → in-progress → needs-validation → self-validated → validated �
 - [ ] Git commit hash recorded with `git log --oneline -1`
 - [ ] Merged to main (or PR created)
 - [ ] Pushed to remote
+- [ ] **CI/CD passing** — `gh run list -L 3` shows ✓ (see CI/CD Protocol below)
 - [ ] Deployed (if applicable)
 - [ ] Verified in production (if applicable)
+
+### 🔄 CI/CD Protocol (NON-NEGOTIABLE)
+
+> **"If CI fails, you're not done. Period."**
+
+After pushing ANY code changes, you MUST check CI/CD status:
+
+```bash
+# Check recent workflow runs
+gh run list -L 5
+
+# If any show ✗ failure, view the logs
+gh run view <run-id> --log-failed
+
+# Fix the issue before claiming completion
+```
+
+**CI/CD Checking is MANDATORY when:**
+- Pushing to any branch
+- Creating or updating PRs  
+- Claiming a task is complete
+- Before deploying to production
+
+**Common CI failures to watch for:**
+- TypeScript/ESLint errors that pass locally but fail in CI
+- Missing dependencies or version mismatches
+- Test failures in CI environment
+- Build timeouts or memory issues
+
+**If CI fails:**
+1. Read the failed logs: `gh run view <id> --log-failed`
+2. Fix the issue locally
+3. Push the fix
+4. Verify CI passes before continuing
+
+**Never claim "complete" with failing CI.**
 ```
 
 **Without acceptance criteria, a task cannot be assigned.**

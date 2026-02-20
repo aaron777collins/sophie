@@ -2,11 +2,42 @@
 
 > **CEO Role:** This agent ALWAYS runs. Check system health every time.
 
-**Updated:** 2026-02-19 22:05 EST
+**Updated:** 2026-02-20 12:12 EST
 
 ---
 
-## 🚨 HIGH PRIORITY: WYDOT APRIL 2021 ATTACK
+## 🚨🔴 TOP PRIORITY: MELO V2 AUDIT, FIX & FINISH
+
+> **DIRECT ORDER FROM AARON (2026-02-20 12:10 EST):** Auditing, fixing, and finishing Melo v2 is TOP PRIORITY. Don't stop until it's done. Make sure all persons know.
+
+| Item | Value |
+|------|-------|
+| **Project** | MELO V2 |
+| **Location** | `/home/ubuntu/repos/melo` |
+| **Live Site** | https://dev2.aaroncollins.info |
+| **Status** | 🔴 BUILD BROKEN - CRITICAL |
+
+### Current Errors (2026-02-20)
+```
+TypeError: Cannot read properties of undefined (reading 'clientModules')
+TypeError: Cannot read properties of undefined (reading 'entryCSSFiles')
+```
+
+### DIRECTIVES
+1. **ALL RESOURCES ON MELO** - This is the priority until fixed and finished
+2. **COORDINATOR:** Focus exclusively on Melo v2 fix tasks
+3. **TASK MANAGERS:** Spawn workers for Melo fixes immediately
+4. **VALIDATOR:** Fast-track any Melo validations
+5. **DO NOT STOP** - Work continuously until complete
+
+### Priority Order
+1. 🔴 **MELO V2** - TOP PRIORITY (Aaron's direct order)
+2. 🟡 PortableRalph - Paused until Melo is done
+3. ✅ WYDOT - Complete (no further action)
+
+---
+
+## ✅ COMPLETE: WYDOT APRIL 2021 ATTACK
 
 | Item | Value |
 |------|-------|

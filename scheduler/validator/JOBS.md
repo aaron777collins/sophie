@@ -3,7 +3,13 @@
 > If this file has no active items, the agent should NOT be spawned.
 > Process validation requests from inbox even when this file is empty.
 
-**Updated:** 2026-02-19 22:05 EST
+**Updated:** 2026-02-20 12:12 EST
+
+---
+
+## 🚨 PRIORITY NOTICE
+
+> **AARON'S DIRECT ORDER (2026-02-20 12:10 EST):** Melo v2 is TOP PRIORITY. Fast-track any Melo v2 validation requests.
 
 ---
 

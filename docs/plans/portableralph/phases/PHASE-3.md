@@ -4,63 +4,91 @@
 **Parent:** MASTER-PLAN.md
 **Created:** 2026-02-20
 **Author:** Coordinator
-**Version:** 1
-**Status:** draft
+**Version:** 2
+**Status:** approved
 
 ## Phase Goals
-Verify PortableRalph works correctly on Windows environments, including:
-- PowerShell scripts (install.ps1, ralph.ps1)
-- Batch launcher (launcher.bat)
-- Windows-specific path handling
-- Notification system on Windows
+Verify PortableRalph works correctly on Windows environments using GitHub Actions Windows CI runner for automated and repeatable testing.
 
-## ⚠️ BLOCKER: Windows Environment Required
+## ✅ SOLUTION: GitHub Actions Windows Runner
 
-**Problem:** We are running on a Linux server (dev3). Phase 3 requires testing on actual Windows to verify:
-- PowerShell execution
-- Windows path separators (\ vs /)
-- UAC/permission handling
-- Windows notification system
+**Decision:** Use GitHub Actions Windows runner for automated Windows testing
+**Rationale:**
+- Automated & repeatable - catches regressions going forward
+- No server resource burden - doesn't require Windows VM on dev3
+- Standard practice for cross-platform projects
+- Repository is on GitHub so CI integrates naturally
+- Independent of Aaron's availability for manual testing
 
-**Options to consider:**
-1. **Windows VM** — Set up Windows VM on the server (resource intensive)
-2. **Remote Windows machine** — Use a Windows node if available
-3. **GitHub Actions Windows runner** — Use CI/CD for Windows testing
-4. **Manual testing by Aaron** — Have Aaron test on his Windows machine
-5. **Skip/defer** — If Windows support is not critical for initial release
-
-**Recommendation:** Escalate to Person Manager for decision on testing approach.
+**Implementation Plan:**
+1. Create .github/workflows/windows-test.yml workflow
+2. Configure runs-on: windows-latest runner
+3. Test install.ps1, ralph.ps1, launcher.bat execution
+4. Add notification testing if possible in CI
+5. Monitor results and fix issues found
 
 ## Prerequisites
-- [ ] Decision on Windows testing approach
-- [ ] Access to Windows environment (VM, remote, or CI)
+- [x] Decision on Windows testing approach (APPROVED: GitHub Actions)
+- [x] Repository access for workflow creation
 
 ## Task Categories
 
-### Windows Script Testing
-| Task ID | Description | Model | Notes |
-|---------|-------------|-------|-------|
-| p3-1 | Test install.ps1 on Windows | Sonnet | Requires Windows |
-| p3-2 | Test ralph.ps1 end-to-end | Sonnet | Requires Windows |
-| p3-3 | Test launcher.bat on CMD | Sonnet | Requires Windows |
-| p3-4 | Test notifications on Windows | Sonnet | Requires Windows |
+### Windows CI Implementation
+| Task ID | Description | Model | Dependencies |
+|---------|-------------|-------|--------------|
+| p3-1 | Create GitHub Actions Windows workflow | Sonnet | - |
+| p3-2 | Run workflow and analyze results | Sonnet | p3-1 |
+| p3-3 | Fix Windows-specific issues found | Sonnet | p3-2 |
+| p3-4 | Verify all scripts work on Windows CI | Sonnet | p3-3 |
+| p3-5 | Update Windows documentation | Haiku | p3-4 |
 
-### Fixes and Documentation
-| Task ID | Description | Model | Notes |
-|---------|-------------|-------|-------|
-| p3-5 | Fix Windows-specific issues | Sonnet | If issues found |
-| p3-6 | Update Windows docs | Haiku | After testing |
+## Task Details
+
+### p3-1: Create GitHub Actions Windows workflow
+- Create `.github/workflows/windows-test.yml`
+- Test install.ps1 PowerShell script execution
+- Test ralph.ps1 functionality
+- Test launcher.bat batch file
+- Add notification testing if possible in CI environment
+
+### p3-2: Run workflow and analyze results
+- Execute the workflow
+- Monitor Windows CI runner behavior
+- Document any failures or issues
+- Identify root causes of Windows-specific problems
+
+### p3-3: Fix Windows-specific issues found
+- Address path separator issues (\ vs /)
+- Fix PowerShell execution problems
+- Resolve batch file compatibility issues
+- Fix notification system if needed
+
+### p3-4: Verify all scripts work on Windows CI
+- Re-run workflow after fixes
+- Verify 100% success rate
+- Test edge cases and error handling
+- Ensure consistent behavior
+
+### p3-5: Update Windows documentation
+- Document Windows-specific installation steps
+- Update CI workflow documentation
+- Note any Windows limitations or requirements
 
 ## Deliverables
-- [ ] Windows install script verified working
-- [ ] Windows ralph.ps1 verified working
-- [ ] Batch launcher verified working
-- [ ] Windows notifications verified working
-- [ ] Any issues fixed
-- [ ] Documentation updated
+- [ ] GitHub Actions Windows workflow created
+- [ ] Windows compatibility verified via CI
+- [ ] All Windows-specific issues fixed
+- [ ] Documentation updated with Windows guidance
+- [ ] CI pipeline passing consistently
+
+## Dependency Graph
+```
+p3-1 ──► p3-2 ──► p3-3 ──► p3-4 ──► p3-5
+```
 
 ## Estimated Duration
-0.5 days (assuming Windows environment is available)
+1 day (automated CI testing approach)
 
 ## Review History
 - v1: 2026-02-20 - Initial creation, blocker identified
+- v2: 2026-02-20 12:02 EST - Updated with Person Manager decision (GitHub Actions approach)

@@ -1,10 +1,40 @@
 # Coordinator Jobs
 
-**Updated:** 2026-02-19 22:05 EST
+**Updated:** 2026-02-20 12:12 EST
 
 ---
 
-## 🚨 HIGH PRIORITY: WYDOT APRIL 2021 ATTACK
+## 🚨🔴 TOP PRIORITY: MELO V2 AUDIT, FIX & FINISH
+
+> **DIRECT ORDER FROM AARON (2026-02-20 12:10 EST):** Auditing, fixing, and finishing Melo v2 is TOP PRIORITY. Don't stop until it's done.
+
+| Item | Value |
+|------|-------|
+| **Project** | MELO V2 |
+| **Location** | `/home/ubuntu/repos/melo` |
+| **Live Site** | https://dev2.aaroncollins.info |
+| **Status** | 🔴 BUILD BROKEN - CRITICAL |
+
+### Current Error
+```
+TypeError: Cannot read properties of undefined (reading 'clientModules')
+TypeError: Cannot read properties of undefined (reading 'entryCSSFiles')
+```
+
+### IMMEDIATE ACTIONS REQUIRED
+1. **FIX BUILD ERRORS** - This is blocking everything
+2. **AUDIT ALL FUNCTIONALITY** - Verify everything works
+3. **FINISH REMAINING WORK** - Complete all outstanding items
+4. **DO NOT STOP** - This takes priority over all other work
+
+### Priority Order
+1. 🔴 Melo v2 (THIS - TOP PRIORITY)
+2. 🟡 PortableRalph (lower priority until Melo is done)
+3. ✅ WYDOT (complete)
+
+---
+
+## ✅ COMPLETE: WYDOT APRIL 2021 ATTACK
 
 | Item | Value |
 |------|-------|
@@ -107,11 +137,11 @@
 
 **All 10 tasks completed successfully. Both contributors received thank-you comments.**
 
-### Phase 3: Windows Verification (CURRENT FOCUS)
-**Goal:** Verify PortableRalph works correctly on Windows environments
-**Tasks to define:** Need to create Phase 3 task breakdown
-
-**Priority:** HIGH (7 of 10 test suites failing, production readiness needed)
+### Phase 3: Windows Verification (CURRENT FOCUS) 🚀 ACTIVE
+**Goal:** Verify PortableRalph works correctly on Windows using GitHub Actions Windows CI runner
+**Decision:** GitHub Actions Windows runner approach (approved by Person Manager 2026-02-20 12:00 EST)
+**Tasks:** Phase 3 tasks populated in PROACTIVE-JOBS.md (p3-1 through p3-5)
+**Priority:** HIGH (production readiness required)
 
 ---
 
