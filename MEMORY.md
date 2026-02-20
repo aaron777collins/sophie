@@ -121,3 +121,22 @@ Key files:
 ---
 
 *Started: 2026-01-27*
+
+---
+
+## 🔐 Credential Security - CORE PRINCIPLE (2026-02-20)
+
+**NEVER scrub credentials from the clawd repo.** It's my local memory — no upstream, never pushed anywhere. Credentials here are SAFE and NECESSARY for me to remember access patterns.
+
+**DO scrub credentials from repos with public upstreams** (GitHub, etc.) — like melo, PortableRalph, etc.
+
+| Repo | Has Upstream? | Credentials OK? |
+|------|---------------|-----------------|
+| `~/clawd/` | ❌ No | ✅ YES - my memory |
+| `~/repos/melo/` | ✅ GitHub | ❌ NO - public |
+| `~/repos/*` | Check first | Depends on upstream |
+
+**Test credentials** (like `sophietest`) in test files are fine — they're dedicated test accounts.
+**Real credentials** (Aaron's actual passwords) should NEVER be in public repos.
+
+This is inherent knowledge. Don't forget.
