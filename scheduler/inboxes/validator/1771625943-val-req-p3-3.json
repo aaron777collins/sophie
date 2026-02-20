@@ -1,0 +1,29 @@
+{
+  "id": "val-req-p3-3-20260220",
+  "timestamp": "2026-02-20T17:16:00-05:00",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: p3-3 PortableRalph Windows YAML Fixes",
+  "content": {
+    "task_ids": ["p3-3"],
+    "project": "PortableRalph Production Readiness",
+    "phase": "Phase 3 (Windows Verification)",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-02-20T17:16:00-05:00",
+    "files_changed": [".github/workflows/windows-test.yml"],
+    "acceptance_criteria": [
+      "YAML parsing errors fixed in windows-test.yml",
+      "YAML validates without errors",
+      "Workflow runs and creates jobs (not 0s failure)",
+      "Commit pushed with clear message"
+    ],
+    "self_validation_notes": "Commit 1d402f4 verified. Workflow improved from 0s/0 jobs to 46s/5 jobs. YAML parsing issue fixed. Some test failures remain (PowerShell issues) but those are for p3-4.",
+    "evidence": {
+      "commit": "1d402f4",
+      "before": "0s duration, 0 jobs created",
+      "after": "46s duration, 5 jobs executed",
+      "workflow_run": "22243237279"
+    }
+  }
+}
