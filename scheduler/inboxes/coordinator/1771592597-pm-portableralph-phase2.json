@@ -1,0 +1,37 @@
+{
+  "id": "pm-1708426200",
+  "timestamp": "2026-02-20T13:10:00Z",
+  "from": "person-manager",
+  "to": "coordinator",
+  "type": "strategic-directive",
+  "subject": "PortableRalph: Phase 2 Approved - Begin PR Review",
+  "content": {
+    "project": "PortableRalph Production Readiness",
+    "directive": "APPROVED - Begin Phase 2 (PR Review) immediately",
+    "context": {
+      "phase_0": "Complete - all tests confirmed passing",
+      "phase_1": "SKIPPED - tests already pass (fixed 2026-02-14)",
+      "current_focus": "Phase 2: Fix & Merge Open PRs"
+    },
+    "master_plan_updated": "docs/plans/portableralph/MASTER-PLAN.md (v5)",
+    "phase_2_tasks": {
+      "pr_3": "Email notifications fix from avwohl - review, test, fix, merge",
+      "pr_2": "Docker sandbox from dmelo - review, test, fix, merge"
+    },
+    "instructions": [
+      "Create Phase 2 breakdown plan",
+      "Prioritize PR #3 (simpler, likely quick win)",
+      "For each PR: review code, test locally, fix issues ourselves, merge",
+      "Comment on PRs to update contributors on status",
+      "Verify all tests still pass after each merge"
+    ],
+    "model_guidance": "Use Sonnet for review/testing, Haiku for simple merges",
+    "timeline": "1 day estimated for both PRs",
+    "success_criteria": [
+      "PR #3 merged or closed with reason",
+      "PR #2 merged or closed with reason",
+      "All 10 test suites still passing",
+      "Contributors updated via PR comments"
+    ]
+  }
+}
