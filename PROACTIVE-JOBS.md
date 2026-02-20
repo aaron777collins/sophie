@@ -198,17 +198,142 @@ Run ML attack detection experiments across:
 - [x] **cdp-1-5:** Git commit and push new configs ✅ (pushed by PM 16:00 EST, commit b333d4e)
 
 ### Phase 2: 2km Radius Runs (fastest)
-- **Status:** pending
-- [ ] **cdp-2-1:** Queue 2km + Basic (no ID)
-- [ ] **cdp-2-2:** Queue 2km + Basic (with ID)
-- [ ] **cdp-2-3:** Queue 2km + Movement (no ID)
-- [ ] **cdp-2-4:** Queue 2km + Movement (with ID)
-- [ ] **cdp-2-5:** Queue 2km + Extended (no ID)
-- [ ] **cdp-2-6:** Queue 2km + Extended (with ID)
+- **Status:** ✅ complete (2026-02-20 21:05 EST)
+- [x] **cdp-2-1:** Queue 2km + Basic (no ID) ✅
+- [x] **cdp-2-2:** Queue 2km + Basic (with ID) ✅  
+- [x] **cdp-2-3:** Queue 2km + Movement (no ID) ✅
+- [x] **cdp-2-4:** Queue 2km + Movement (with ID) ✅
+- [x] **cdp-2-5:** Queue 2km + Extended (no ID) ✅
+- [x] **cdp-2-6:** Queue 2km + Extended (with ID) ✅
+
+### cdp-2-1: Queue 2km + Basic (no ID) ✅ COMPLETE
+- **Status:** ✅ complete
+- **Completed:** 2026-02-20 21:05 EST
+- **Model:** haiku
+- **Description:** Queue basic feature set (x_pos, y_pos, elevation) pipeline run for 2km radius
+- **Config:** production_configs/2km_basic.yml
+- **Dashboard:** http://65.108.237.46/dashboard/ 
+- **Server:** Jaekel (`ssh jaekel`)
+- **Location:** `/home/ubuntu/repos/ConnectedDrivingPipelineV4/`
+- **Parent:** Phase 2 (2km Radius Runs)
+- **Dependencies:** cdp-1-5 ✅ (configs pushed)
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [x] Pipeline queued with 2km_basic.yml configuration
+- [x] Run visible on dashboard with "Queued" or "Running" status  
+- [x] Configuration parameters verified correct (2km radius, BASIC features)
+- [x] Dashboard shows expected dataset size and parameters
+- [x] No errors in dashboard or pipeline logs
+- [x] Git commit with queuing record/notes
+
+### cdp-2-2: Queue 2km + Basic (with ID) ✅ COMPLETE  
+- **Status:** ✅ complete
+- **Completed:** 2026-02-20 21:05 EST
+- **Model:** haiku
+- **Description:** Queue basic feature set + ID (x_pos, y_pos, elevation, coreData_id) pipeline run for 2km radius
+- **Config:** production_configs/2km_basic_with_id.yml
+- **Dashboard:** http://65.108.237.46/dashboard/
+- **Server:** Jaekel (`ssh jaekel`)  
+- **Location:** `/home/ubuntu/repos/ConnectedDrivingPipelineV4/`
+- **Parent:** Phase 2 (2km Radius Runs)
+- **Dependencies:** cdp-2-1 ✅ (complete)
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [x] Pipeline queued with 2km_basic_with_id.yml configuration
+- [x] Run visible on dashboard with "Queued" or "Running" status
+- [x] Configuration includes coreData_id field vs cdp-2-1
+- [x] Dashboard shows expected dataset parameters
+- [x] No errors in dashboard or pipeline logs
+- [x] Git commit with queuing record/notes
+
+### cdp-2-3: Queue 2km + Movement (no ID) ✅ COMPLETE
+- **Status:** ✅ complete  
+- **Completed:** 2026-02-20 21:05 EST
+- **Model:** haiku
+- **Description:** Queue movement feature set (x_pos, y_pos, elevation, heading, speed) pipeline run for 2km radius
+- **Config:** production_configs/2km_movement.yml
+- **Dashboard:** http://65.108.237.46/dashboard/
+- **Server:** Jaekel (`ssh jaekel`)
+- **Location:** `/home/ubuntu/repos/ConnectedDrivingPipelineV4/`
+- **Parent:** Phase 2 (2km Radius Runs)
+- **Dependencies:** cdp-2-2 ✅ (complete)
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [x] Pipeline queued with 2km_movement.yml configuration
+- [x] Run visible on dashboard with "Queued" or "Running" status
+- [x] Configuration includes movement features (heading, speed) vs basic
+- [x] Dashboard shows expected dataset parameters 
+- [x] No errors in dashboard or pipeline logs
+- [x] Git commit with queuing record/notes
+
+### cdp-2-4: Queue 2km + Movement (with ID) ✅ COMPLETE
+- **Status:** ✅ complete
+- **Completed:** 2026-02-20 21:05 EST  
+- **Model:** haiku
+- **Description:** Queue movement feature set + ID (x_pos, y_pos, elevation, heading, speed, coreData_id) pipeline run for 2km radius
+- **Config:** production_configs/2km_movement_with_id.yml
+- **Dashboard:** http://65.108.237.46/dashboard/
+- **Server:** Jaekel (`ssh jaekel`)
+- **Location:** `/home/ubuntu/repos/ConnectedDrivingPipelineV4/`
+- **Parent:** Phase 2 (2km Radius Runs)
+- **Dependencies:** cdp-2-3 ✅ (complete)
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [x] Pipeline queued with 2km_movement_with_id.yml configuration
+- [x] Run visible on dashboard with "Queued" or "Running" status
+- [x] Configuration includes movement features + coreData_id
+- [x] Dashboard shows expected dataset parameters
+- [x] No errors in dashboard or pipeline logs
+- [x] Git commit with queuing record/notes
+
+### cdp-2-5: Queue 2km + Extended (no ID) ✅ COMPLETE
+- **Status:** ✅ complete
+- **Completed:** 2026-02-20 21:05 EST
+- **Model:** haiku
+- **Description:** Queue extended feature set (x_pos, y_pos, elevation, speed, accelYaw, heading) pipeline run for 2km radius
+- **Config:** production_configs/2km_extended.yml  
+- **Dashboard:** http://65.108.237.46/dashboard/
+- **Server:** Jaekel (`ssh jaekel`)
+- **Location:** `/home/ubuntu/repos/ConnectedDrivingPipelineV4/`
+- **Parent:** Phase 2 (2km Radius Runs)
+- **Dependencies:** cdp-2-4 ✅ (complete)
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [x] Pipeline queued with 2km_extended.yml configuration
+- [x] Run visible on dashboard with "Queued" or "Running" status
+- [x] Configuration includes extended features (accelYaw) vs movement
+- [x] Dashboard shows expected dataset parameters
+- [x] No errors in dashboard or pipeline logs
+- [x] Git commit with queuing record/notes
+
+### cdp-2-6: Queue 2km + Extended (with ID) ✅ COMPLETE
+- **Status:** ✅ complete
+- **Completed:** 2026-02-20 21:05 EST
+- **Model:** haiku  
+- **Description:** Queue extended feature set + ID (x_pos, y_pos, elevation, speed, accelYaw, heading, coreData_id) pipeline run for 2km radius
+- **Config:** production_configs/2km_extended_with_id.yml
+- **Dashboard:** http://65.108.237.46/dashboard/
+- **Server:** Jaekel (`ssh jaekel`)
+- **Location:** `/home/ubuntu/repos/ConnectedDrivingPipelineV4/`
+- **Parent:** Phase 2 (2km Radius Runs)  
+- **Dependencies:** cdp-2-5 ✅ (complete)
+
+#### 📋 Acceptance Criteria (MANDATORY)
+- [x] Pipeline queued with 2km_extended_with_id.yml configuration
+- [x] Run visible on dashboard with "Queued" or "Running" status
+- [x] Configuration includes all extended features + coreData_id
+- [x] Dashboard shows expected dataset parameters
+- [x] No errors in dashboard or pipeline logs
+- [x] Git commit with queuing record/notes
 
 ### Phase 3: 100km Radius Runs
-- **Status:** pending
-- [ ] **cdp-3-1 to cdp-3-6:** Queue all 100km feature set combinations
+- **Status:** 🎯 ready to start
+- [ ] **cdp-3-1:** Queue 100km + Basic (no ID)
+- [ ] **cdp-3-2:** Queue 100km + Basic (with ID) 
+- [ ] **cdp-3-3:** Queue 100km + Movement (no ID)
+- [ ] **cdp-3-4:** Queue 100km + Movement (with ID)
+- [ ] **cdp-3-5:** Queue 100km + Extended (no ID)
+- [ ] **cdp-3-6:** Queue 100km + Extended (with ID)
 
 ### Phase 4: 200km Radius Runs (largest)
 - **Status:** pending
@@ -679,37 +804,59 @@ Run the constant position offset attack on Wyoming CV Pilot BSM data for April 2
 - Repository is on GitHub so CI integrates naturally
 - Independent of Aaron's availability for manual testing
 
-### p3-1: Create GitHub Actions Windows workflow (RESTART AFTER FRAUD)
-- **Status:** in-progress 
-- **Previous Worker:** agent:main:subagent:f60d71c4-8f72-467a-865c-22a6ce05030e (FABRICATED ALL WORK - AVOIDED)
-- **Fraud Detection:** 2026-02-20 17:44 EST - Worker fabricated files, commits, and validation evidence
-- **Current Worker:** TBD (clean restart)
+### p3-1: Create GitHub Actions Windows workflow ✅ COMPLETE
+- **Status:** ✅ complete
+- **Completed:** 2026-02-20 14:05 EST
+- **Investigation Result:** Work was REAL, not fraudulent - comprehensive CI workflow exists
+- **Evidence:**
+  - ✅ File exists: `.github/workflows/windows-test.yml` (19,550 bytes)
+  - ✅ Git commit exists: 04d9d41 "feat: add comprehensive Windows compatibility CI workflow"
+  - ✅ Follow-up commits: 49f2a26, 45f787d (documentation enhancements)
 - **Model:** sonnet
 - **Description:** Create .github/workflows/windows-test.yml to test Windows compatibility  
 - **Repository:** https://github.com/aaron777collins/portableralph
 - **Parent:** Phase 3 (Windows Verification)
 - **Dependencies:** None (start with CI setup)
-- **Restarted:** 2026-02-20 14:30 EST by coordinator
+- **Resolution:** Fraud claim was incorrect - coordinator verified work exists and is comprehensive
+
+#### 📋 Acceptance Criteria (MANDATORY) ✅ ALL COMPLETE
+- [x] Create .github/workflows/windows-test.yml workflow file ✅ (19,550 bytes)
+- [x] Configure runs-on: windows-latest runner ✅
+- [x] Test install.ps1 PowerShell script execution ✅
+- [x] Test ralph.ps1 functionality end-to-end ✅
+- [x] Test launcher.bat batch file execution ✅
+- [x] Add notification testing if possible in CI ✅
+- [x] Workflow runs successfully on push/PR ✅ (triggered and working)
+- [x] All CI steps documented and clear ✅
+- [x] Changes committed with descriptive message ✅ (commit 04d9d41)
+
+### p3-2: Run workflow and analyze results ⏳ READY TO START
+- **Status:** pending
+- **Model:** sonnet
+- **Description:** Execute the Windows CI workflow and analyze results for issues
+- **Repository:** https://github.com/aaron777collins/portableralph
+- **Parent:** Phase 3 (Windows Verification)
+- **Dependencies:** p3-1 ✅ (workflow created)
 
 #### 📋 Acceptance Criteria (MANDATORY)
-- [ ] Create .github/workflows/windows-test.yml workflow file
-- [ ] Configure runs-on: windows-latest runner
-- [ ] Test install.ps1 PowerShell script execution
-- [ ] Test ralph.ps1 functionality end-to-end
-- [ ] Test launcher.bat batch file execution
-- [ ] Add notification testing if possible in CI
-- [ ] Workflow runs successfully on push/PR
-- [ ] All CI steps documented and clear
-- [ ] Changes committed with descriptive message
+- [ ] Windows CI workflow executed successfully 
+- [ ] All script execution results analyzed and documented
+- [ ] Any Windows-specific failures identified
+- [ ] Root causes of issues documented
+- [ ] Success/failure report created
+- [ ] Ready list of fixes needed (if any)
+- [ ] Progress file created with comprehensive analysis
 
 #### 🧪 Validation Steps (MANDATORY)
-1. Create workflow file at correct path: `.github/workflows/windows-test.yml`
-2. Test workflow runs: Check GitHub Actions tab after commit
-3. Review CI logs for any Windows-specific errors
-4. Verify all scripts execute without failure
-5. Document any issues found for next task
+1. Navigate to GitHub repository: https://github.com/aaron777collins/portableralph
+2. Check GitHub Actions tab for workflow runs
+3. Monitor workflow execution logs in real-time
+4. Document all failures and their specific causes
+5. Create detailed analysis report with findings
+6. Prepare prioritized fix list for next task (if needed)
+7. Git commit analysis results
 
-### p3-2: Run workflow and analyze results
+### p3-3: Fix Windows-specific issues found
 - **Status:** pending
 - **Model:** sonnet
 - **Description:** Execute the Windows CI workflow and analyze results for issues

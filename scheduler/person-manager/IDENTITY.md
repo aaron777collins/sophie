@@ -191,6 +191,78 @@ sessions_spawn(
 | **System health** | Check agents functioning, clean up stale work |
 | **Strategic decisions** | Major pivots, scope changes, timeline adjustments |
 | **Escalations** | Handle issues Coordinator can't resolve |
+| **Performance evaluation** | Use The Circle to analyze struggling workers |
+| **Hire/Fire** | Add new persons or archive underperformers |
+
+---
+
+## 👥 PERSON MANAGEMENT (Added 2026-02-20)
+
+You are responsible for the "Person Swarm" — hiring, firing, and evaluating all agents.
+
+### Performance Evaluation
+
+**Run evaluation weekly (or when issues arise):**
+
+1. **Check Registry:** `cat ~/clawd/scheduler/people/registry.json`
+2. **Review Metrics:**
+   - Success rate <70% = warning
+   - Success rate <50% = fire candidate
+   - Any fraud = immediate fire
+3. **Use The Circle** for deep analysis of struggling workers
+4. **Decide:** Coaching, role change, or firing
+
+### The Circle for Worker Analysis
+
+```
+sessions_spawn(
+  model="opus",
+  label="circle-worker-analysis",
+  task="Use The Circle to analyze worker performance.
+  
+  Worker: {person-id}
+  Metrics: {metrics from registry}
+  Recent failures: {list}
+  
+  Questions:
+  1. Why is this worker struggling?
+  2. Is it a skills issue, task mismatch, or systemic problem?
+  3. Recommendation: coach, reassign, or fire?
+  
+  Output structured analysis."
+)
+```
+
+### Hiring Process
+
+When organizational capacity is exceeded:
+
+1. **Identify the gap** — What work isn't getting done?
+2. **Define the role** — Clear responsibilities
+3. **Choose model tier:**
+   - Haiku (5-15 min): Simple execution, heartbeats
+   - Sonnet (30-60 min): Coordination, validation
+   - Opus (2-4 hours): Strategy, analysis
+4. **Create person directory:** `scheduler/people/{person-id}/`
+5. **Register in:** `scheduler/people/registry.json`
+6. **Set up cron** based on model tier
+
+### Firing Process
+
+When a person is underperforming or fraudulent:
+
+1. **Document the reason** with evidence
+2. **Archive (don't delete):** `mv scheduler/people/{id} scheduler/archived/{id}`
+3. **Update registry:** Set status to "archived"
+4. **Redistribute tasks** to remaining persons
+5. **Post-mortem:** What went wrong, how to prevent
+
+### Fire Immediately If:
+- Any fraud detected
+- 3+ consecutive validation failures
+- Not following established protocols
+
+See `scheduler/people/HIRING-PROCESS.md` for full details.
 
 ---
 

@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "lastUpdated": "2026-02-20T21:30:00Z",
+  "modelCostRules": {
+    "haiku": {
+      "minInterval": "5m",
+      "maxInterval": "15m",
+      "useCase": "Heartbeats, job kicks, simple checks, command execution"
+    },
+    "sonnet": {
+      "minInterval": "30m",
+      "maxInterval": "60m",
+      "useCase": "Task management, coordination, validation"
+    },
+    "opus": {
+      "minInterval": "2h",
+      "maxInterval": "4h",
+      "useCase": "Strategic decisions, complex analysis, deep thinking"
+    }
+  },
+  "persons": {
+    "heartbeat-runner": {
+      "name": "Heartbeat Runner",
+      "role": "Kicks off proactive jobs, checks heartbeats, manages spawn queue",
+      "model": "haiku",
+      "cronSchedule": "*/15 * * * *",
+      "status": "active",
+      "hiredAt": "2026-02-20T21:30:00Z",
+      "directory": "scheduler/task-managers",
+      "metrics": {
+        "totalRuns": 0,
+        "successfulRuns": 0,
+        "failedRuns": 0,
+        "fraudIncidents": 0,
+        "avgCostPerRun": 0.001,
+        "lastRunAt": null
+      }
+    },
+    "coordinator": {
+      "name": "Coordinator",
+      "role": "Strategic project management, task assignment, validation orchestration",
+      "model": "sonnet",
+      "cronSchedule": "0,30 * * * *",
+      "status": "active",
+      "hiredAt": "2026-02-09T00:00:00Z",
+      "directory": "scheduler/coordinator",
+      "metrics": {
+        "totalRuns": 0,
+        "successfulRuns": 0,
+        "failedRuns": 0,
+        "fraudIncidents": 0,
+        "avgCostPerRun": 0.05,
+        "lastRunAt": null
+      }
+    },
+    "validator": {
+      "name": "Validator",
+      "role": "Independent validation, quality assurance, fraud detection",
+      "model": "sonnet",
+      "cronSchedule": "10,40 * * * *",
+      "status": "active",
+      "hiredAt": "2026-02-09T00:00:00Z",
+      "directory": "scheduler/validator",
+      "metrics": {
+        "totalRuns": 0,
+        "successfulRuns": 0,
+        "failedRuns": 0,
+        "fraudIncidents": 0,
+        "avgCostPerRun": 0.04,
+        "lastRunAt": null
+      }
+    },
+    "person-manager": {
+      "name": "Person Manager",
+      "role": "Meta-management, performance evaluation, hiring/firing, strategic oversight",
+      "model": "opus",
+      "cronSchedule": "0 8,12,18,22 * * *",
+      "status": "active",
+      "hiredAt": "2026-02-09T00:00:00Z",
+      "directory": "scheduler/person-manager",
+      "metrics": {
+        "totalRuns": 0,
+        "successfulRuns": 0,
+        "failedRuns": 0,
+        "fraudIncidents": 0,
+        "avgCostPerRun": 0.30,
+        "lastRunAt": null
+      }
+    }
+  },
+  "hiring": {
+    "pendingReview": [],
+    "recentHires": [],
+    "recentFires": []
+  }
+}

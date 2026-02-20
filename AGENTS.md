@@ -328,21 +328,50 @@ ACTUALLY COMPLETE ✅
 **What Validators MUST Do (Web Apps):**
 
 ```
-MINIMUM VALIDATION CHECKLIST (WEB APPS):
+┌─────────────────────────────────────────────────────────────────────┐
+│   REAL VALIDATION CHECKLIST — CLICK AROUND, NOT JUST RENDER        │
+└─────────────────────────────────────────────────────────────────────┘
+
+PHASE 1: ACCESS (Required)
 ─────────────────────────────────────────
 □ 1. Navigate to URL
 □ 2. Screenshot: Login page renders
 □ 3. Enter test credentials  
 □ 4. Click login button
 □ 5. Screenshot: AFTER login — main app view
-□ 6. Verify: User is authenticated (can see user-only content)
-□ 7. Perform at least ONE action (create something, navigate somewhere)
-□ 8. Screenshot: Action completed successfully
-□ 9. Check: No console errors
-□ 10. Check: No server errors (pm2 logs, etc.)
 
-If steps 3-7 CANNOT be completed → VALIDATION FAILS
-"I saw the login page" is NOT a pass.
+PHASE 2: CLICK AROUND (Required — minimum 3 sections)
+─────────────────────────────────────────
+□ 6. Navigate to Section A (e.g., settings)
+□ 7. Screenshot: Section A works
+□ 8. Navigate to Section B (e.g., create/new)
+□ 9. Screenshot: Section B works
+□ 10. Navigate to Section C (e.g., list/browse)
+□ 11. Screenshot: Section C works
+
+PHASE 3: INTERACT (Required — minimum 1 action)
+─────────────────────────────────────────
+□ 12. Perform a CREATE or UPDATE action
+□ 13. Verify action persisted (refresh, check)
+□ 14. Screenshot: Action completed successfully
+
+PHASE 4: ERROR CHECK (Required)
+─────────────────────────────────────────
+□ 15. Check browser console: No JS errors
+□ 16. Check network tab: No failed requests (4xx/5xx)
+□ 17. Check server logs: No backend errors
+
+════════════════════════════════════════════════════════════════════════
+FAILURE CONDITIONS — ANY OF THESE = VALIDATION FAILS:
+────────────────────────────────────────────────────────────────────────
+✗ Cannot login (stuck, error, redirect issue)
+✗ Blank page after login
+✗ Less than 3 sections navigated
+✗ No interaction performed
+✗ Console errors present
+✗ Server errors in logs
+✗ "Login page renders" with no further testing
+════════════════════════════════════════════════════════════════════════
 ```
 
 **Why This Matters:**

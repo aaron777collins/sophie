@@ -277,6 +277,46 @@ Before claiming complete, verify:
 - [ ] No conflicts with other changes
 - [ ] Dependent code still works
 
+### 🔴 REAL VALIDATION FOR WEB APPS (MANDATORY)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│  "PAGE RENDERS" IS NOT VALIDATION. YOU MUST CLICK AROUND.          │
+└─────────────────────────────────────────────────────────────────────┘
+
+PHASE 1: LOGIN (Required)
+─────────────────────────────────────────
+□ Navigate to the app URL
+□ Screenshot: Login page
+□ Enter test credentials
+□ Click login button
+□ Screenshot: AFTER login (main app view)
+
+PHASE 2: CLICK AROUND (Required — minimum 3 sections)
+─────────────────────────────────────────
+□ Navigate to 3+ different sections
+□ Screenshot each section
+□ Verify each section loads properly
+
+PHASE 3: INTERACT (Required — minimum 1 action)
+─────────────────────────────────────────
+□ Perform at least 1 create/update action
+□ Verify the action persisted
+□ Screenshot the completed action
+
+PHASE 4: ERROR CHECK (Required)
+─────────────────────────────────────────
+□ Check browser console: No JS errors
+□ Check server logs (pm2): No backend errors
+
+FAILURE = REJECTION:
+✗ Cannot login
+✗ Blank page after login
+✗ Less than 3 sections tested
+✗ No interaction performed
+✗ Console/server errors present
+```
+
 **Document your validation results in the completion report.**
 
 ## 📊 TASK STATUS FLOW (Know This!)
