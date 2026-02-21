@@ -54,6 +54,33 @@ Claude Code (separate process) ← YOU ARE HERE
 Outputs stories to scheduler/stories/{project}/
 ```
 
+### ⚠️ INVOCATION PATTERN (CRITICAL)
+
+**When invoking Story Architect from Clawdbot, MUST use nohup:**
+
+```bash
+cd ~/clawd
+
+nohup claude -p "You are the Story Architect.
+Read ~/clawd/scheduler/story-architect/IDENTITY.md.
+Create User Stories for Epic: [path/to/epic.md]
+Save to ~/clawd/scheduler/stories/[project]/stories/" \
+  --allowedTools "Read,Write,Edit,Bash" \
+  --dangerously-skip-permissions \
+  --model opus \
+  --output-format text > /tmp/story-architect-output.txt 2>&1 &
+
+# Wait for completion
+while pgrep -f "claude -p" > /dev/null; do sleep 30; done
+
+# Check results
+cat /tmp/story-architect-output.txt
+```
+
+**Why nohup:** Direct exec invocation causes SIGSTOP. nohup prevents this.
+
+**Full details:** `memory/topics/claude-code-cli-invocation.md`
+
 ---
 
 ## 🎯 PRIMARY RESPONSIBILITY: USER STORY CREATION

@@ -14,14 +14,44 @@ Quick links to all credentials:
 
 ## Claude Code CLI (Opus Thinking)
 
-**Purpose:** Extra brainpower, second opinions, and deeper thinking. Use freely!
+> **📖 Full Guide:** `memory/topics/claude-code-cli-invocation.md`
 
-**Basic usage:**
+**Purpose:** Extra brainpower, second opinions, deeper thinking, and autonomous file operations. Use freely!
+
+### ⚠️ IMPORTANT: Invocation Pattern (2026-02-21)
+
+**When invoking from Clawdbot's exec tool, MUST use `nohup` to prevent process stopping:**
+
 ```bash
-claude -p "your problem/question" --model opus
+# Simple query
+cd /tmp
+nohup claude -p "your question" --output-format text > /tmp/output.txt 2>&1 &
+
+# With file operations
+nohup claude -p "your task" \
+  --allowedTools "Read,Write,Edit,Bash" \
+  --dangerously-skip-permissions \
+  --output-format text > /tmp/output.txt 2>&1 &
+
+# Wait for completion
+while pgrep -f "claude -p" > /dev/null; do sleep 10; done
+cat /tmp/output.txt
 ```
 
-**JSON output format** (use this — better than stream-json):
+**Why:** Direct invocation gets stopped (SIGSTOP) by exec tool. nohup prevents this.
+
+### Key Flags
+
+| Flag | Purpose |
+|------|---------|
+| `-p` | Print mode (non-interactive) |
+| `--allowedTools "Read,Write,Edit,Bash"` | Auto-approve tools |
+| `--dangerously-skip-permissions` | Skip permission prompts |
+| `--output-format json` | Structured output |
+| `--model opus/sonnet` | Model selection |
+| `--verbose` | Detailed output |
+
+### JSON Output Format
 ```bash
 claude -p "your question" --model opus --output-format json
 ```
@@ -37,6 +67,7 @@ Returns JSON with:
 - Getting a second opinion
 - Architecture decisions
 - Debugging tricky issues
+- Spawning Story Architect for user stories
 - Anything that benefits from more thinking power
 
 *Since I'm already Opus, using Claude Code Opus is totally fine. Aaron encourages using it freely.*
