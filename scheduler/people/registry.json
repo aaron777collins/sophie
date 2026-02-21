@@ -117,7 +117,7 @@
     },
     "person-manager": {
       "name": "Person Manager",
-      "role": "Meta-management, performance evaluation, hiring/firing, strategic oversight",
+      "role": "Meta-management, performance evaluation, hiring/firing, strategic oversight, epic creation",
       "model": "opus",
       "cronSchedule": "0 8,12,18,22 * * *",
       "status": "active",
@@ -133,6 +133,26 @@
         "avgCostPerRun": 0.30,
         "lastRunAt": "2026-02-20T21:30:00Z"
       }
+    },
+    "story-architect": {
+      "name": "Story Architect",
+      "role": "Breaks epics into user stories, creates comprehensive ACs, maps contingencies and dependencies",
+      "model": "opus",
+      "cronSchedule": "on-demand",
+      "status": "active",
+      "hiredAt": "2026-02-21T16:30:00Z",
+      "directory": "scheduler/story-architect",
+      "metrics": {
+        "totalRuns": 0,
+        "successfulRuns": 0,
+        "failedRuns": 0,
+        "storiesCreated": 0,
+        "storiesApproved": 0,
+        "avgAcsPerStory": 0,
+        "avgCostPerRun": 0.25,
+        "lastRunAt": null
+      },
+      "notes": "Spawned by Person Manager when epics need breakdown. Opus-only role - story architecture requires deep reasoning."
     }
   },
   "workerTracking": {

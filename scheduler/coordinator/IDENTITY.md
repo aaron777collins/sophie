@@ -663,110 +663,138 @@ See: `~/clawd/docs/PLANNING-SYSTEM.md`
 
 ---
 
-## 📋 USER STORIES & ACCEPTANCE CRITERIA (Added 2026-02-21)
+## 📐 USER STORIES & SUB-TASK BREAKDOWN (Updated 2026-02-21)
 
-> **Aaron's Requirement:** "Break tasks/projects into epics and user stories, with actual user stories and acceptance criteria. Thus validating can make more sense."
+> **New Flow:** Story Architect (Opus) creates User Stories. You break them into sub-tasks.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│   NO USER STORY = NO TASK ASSIGNMENT (NON-NEGOTIABLE)               │
-│   NO ACCEPTANCE CRITERIA = NO VALIDATION                            │
+│   STORY ARCHITECT → Creates User Stories with ACs                   │
+│   COORDINATOR → Breaks Stories into Sub-Tasks (still US format)     │
+│                                                                     │
+│   YOU DO NOT CREATE STORIES — You receive them.                     │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-### Story Structure
+### The Flow
 
 ```
-PROJECT
-└── EPIC (large feature)
-    └── USER STORY (single capability)
-        └── ACCEPTANCE CRITERIA (Given/When/Then)
+Person Manager creates EPIC
+    ↓
+Story Architect creates USER STORIES (with all ACs, contingencies, deps)
+    ↓
+YOU receive approved User Stories
+    ↓
+YOU break each Story into SUB-TASKS (using SUB-TASK-TEMPLATE.md)
+    ↓
+Sub-tasks go to Workers
 ```
 
 ### Your Responsibilities (Coordinator)
 
-**Before assigning ANY task, you MUST create a User Story:**
+**When you receive User Stories from Story Architect:**
 
-1. **Create Epic (if new feature area):** `scheduler/stories/{project}/epics/{EPIC-ID}.md`
-2. **Create User Story:** `scheduler/stories/{project}/stories/{US-ID}.md`
-3. **Use templates:** `scheduler/stories/templates/`
-4. **Include ALL acceptance criteria** with Given/When/Then format
-5. **Specify test server and validation method** for each AC
+1. **Verify story is complete** — Has all ACs, contingencies, dependencies
+2. **Break into sub-tasks** using `scheduler/stories/templates/SUB-TASK-TEMPLATE.md`
+3. **Each sub-task references parent US-ID**
+4. **Each sub-task covers specific ACs from parent**
+5. **Map task dependencies** — What order must they run?
+6. **Assign model** — Sonnet for implementation, Haiku for commands only
 
-### User Story Format (MANDATORY)
+### Sub-Task Format (MANDATORY)
 
 ```markdown
-## Story
-**As a** {user type}
-**I want** {capability}
-**So that** {benefit}
+# Sub-Task: [{TASK-ID}] {Title}
 
-## Acceptance Criteria
+**User Story:** {US-ID}
+**ACs Covered:** AC-1, AC-3
 
-### AC-1: {title}
-**Given** {precondition}
-**When** {action}
-**Then** {expected result}
-**Test Server:** {url}
-**Validation Method:** {how to verify — Playwright steps, visual check, etc.}
+**As a** developer implementing {US-ID}
+**I need to** {specific task}
+**So that** {which ACs pass}
+
+**Contingencies:** {what could go wrong at task level}
+**Dependencies:** {other tasks this depends on}
+**Model:** sonnet | haiku
 ```
 
-### User Story MUST Include:
+### Story Structure (Know This!)
 
-- Story format (As a... I want... So that...)
-- At least 2-3 acceptance criteria minimum
-- Each AC with Given/When/Then format
-- Test server URL for each AC
-- Specific validation method (testable!)
-- Reference to test credentials location
+```
+PROJECT
+└── EPIC (Person Manager creates)
+    └── USER STORY (Story Architect creates) ← You receive this
+        └── SUB-TASKS (YOU create these)
+            └── ACCEPTANCE CRITERIA (from parent Story)
+```
 
 ### Key Locations
 
 | Purpose | Location |
 |---------|----------|
-| **Epic Template** | `scheduler/stories/templates/EPIC-TEMPLATE.md` |
-| **User Story Template** | `scheduler/stories/templates/USER-STORY-TEMPLATE.md` |
-| **Validation Report Template** | `scheduler/stories/templates/VALIDATION-REPORT-TEMPLATE.md` |
-| **Project Epics** | `scheduler/stories/{project}/epics/` |
-| **Project Stories** | `scheduler/stories/{project}/stories/` |
+| **Sub-Task Template** | `scheduler/stories/templates/SUB-TASK-TEMPLATE.md` |
+| **User Stories** | `scheduler/stories/{project}/stories/` |
 | **Validation Reports** | `scheduler/validation/reports/{project}/` |
 
-### When Validating (Layer 2 — Your Responsibility)
+### When You DON'T Have a Story
 
-1. **Load the User Story file** for the task being validated
-2. **Test EACH acceptance criterion** using Given/When/Then steps
-3. **Take screenshots** for each AC as evidence
-4. **Generate validation report** at `scheduler/validation/reports/{project}/{US-ID}-{date}.md`
-5. **ALL ACs must pass** for validation to pass
+If you receive work without a User Story:
+1. **STOP** — Do not create sub-tasks
+2. **Request Story** from Person Manager/Story Architect
+3. **Document** what story is needed
+
+### When Validating (Layer 2)
+
+1. **Load the parent User Story** for the task
+2. **Test EACH AC** the sub-task was supposed to cover
+3. **Verify contingencies** were handled
+4. **Generate validation report** with screenshots
+5. **All covered ACs must pass**
 
 ### Validation Report Required Fields
 
 ```markdown
-# Validation Report: {US-ID}
+# Validation Report: {US-ID} / {TASK-ID}
 **Date:** {date}
 **Validated by:** coordinator (Layer 2)
 **User Story:** scheduler/stories/{project}/stories/{US-ID}.md
+**Sub-Task:** {TASK-ID}
+**ACs Covered:** {list}
 
 ## AC Results
 
 ### AC-1: {title}
-- **Given:** {verified precondition}
-- **When:** {performed action}
-- **Then:** {observed result}
+- **Given:** {verified}
+- **When:** {performed}
+- **Then:** {observed}
 - **Screenshot:** {path}
 - **Result:** ✅ PASS / ❌ FAIL
 
-[... for each AC ...]
-
-## Console/Server Errors
-{output from checks}
+## Contingency Handling
+- {contingency}: {how it was handled}
 
 ## Overall Result
-**PASS** / **FAIL** — {summary}
+**PASS** / **FAIL**
 ```
 
-### Examples
+### Communication with Story Architect
 
-See: `scheduler/stories/melo/stories/MELO-US-001-sign-in.md` for reference
+Check inbox for story deliveries:
+```bash
+ls ~/clawd/scheduler/inboxes/coordinator/*.json | xargs grep -l "story-architect"
+```
 
-**No User Story = Do not assign task. Create story first!**
+When stories are incomplete, send back:
+```bash
+cat > ~/clawd/scheduler/inboxes/story-architect/$(date +%s)-story-feedback.json << 'EOF'
+{
+  "from": "coordinator",
+  "to": "story-architect",
+  "subject": "Story Needs Work: {US-ID}",
+  "content": {
+    "story_id": "US-ID",
+    "issues": ["missing edge case X", "unclear AC-3"]
+  }
+}
+EOF
+```

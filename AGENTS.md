@@ -155,24 +155,49 @@ We use a layered management system. Each level has decreasing cron frequency goi
 
 ```
 👑 Aaron + Sophie ─ Top level ("the big dawgs"), give orders
-   └── 👔 Person Manager (4x/day) ─ Meta-management, cleanup, oversight
-       ├── 🎯 Coordinator (30 min at :00/:30) ─ Strategic project/topic management
+   │
+   └── 👔 Person Manager (Opus, 4x/day) ─ Master Plans, EPICS, meta-management
+       │
+       ├── 📐 Story Architect (Opus, on-demand) ─ USER STORIES with full ACs
+       │       │
+       │       └──► approved stories ──►─┐
+       │                                 │
+       ├── 🎯 Coordinator (Opus/Sonnet, 30 min) ◄┘ ─ SUB-TASKS from stories
        │       │
        │       └──► validation requests ──►─┐
        │                                    │
-       └── 🔍 Validator (30 min at :10/:40) ◄┘ ─ Independent QA, fact-checking
-           └── 📋 Task Managers (15 min) ─ Tactical task coordination
-               └── ⚙️ Workers (spawned) ─ Execution
+       └── 🔍 Validator (Sonnet, 30 min) ◄──┘ ─ Independent QA
+           │
+           └── 📋 Task Managers (Haiku, 15 min) ─ Spawn workers
+               └── ⚙️ Workers (Sonnet impl / Haiku cmds) ─ Execution
 ```
 
-**Coordinator and Validator are PEERS** — both report to Person Manager. Coordinator does the work and self-validates, then sends to Validator for independent verification.
+### Model Assignments (NON-NEGOTIABLE)
+
+| Role | Model | Responsibility |
+|------|-------|----------------|
+| **Person Manager** | Opus | Master Plans, Epics, strategic decisions |
+| **Story Architect** | Opus | User Stories, ACs, contingencies, dependencies |
+| **Coordinator** | Opus (planning) / Sonnet (monitoring) | Break stories into sub-tasks |
+| **Validator** | Sonnet | Independent validation |
+| **Task Managers** | Haiku | Spawn workers, heartbeats |
+| **Workers (impl)** | Sonnet | Code implementation |
+| **Workers (cmd)** | Haiku | Pure command execution ONLY |
+
+**Key Insight:**
+- **Opus = Thinks and plans** (strategy, stories, complex decisions)
+- **Sonnet = Implements and validates** (code, verification)
+- **Haiku = Executes commands ONLY** (zero decisions, robot-level instructions)
 
 ### How Work Flows from the Top
 - **Aaron** gives orders to **Sophie** (direct chat)
 - **Sophie** evaluates: simple task? Handle directly. Larger project? Delegate.
-- For larger work: Sophie spawns **Person Manager** and gives orders
-- Person Manager breaks it down, assigns to Coordinator, and so on down the chain
-- Each level can hire/create sub-levels as complexity demands
+- For larger work: Sophie spawns **Person Manager**
+- **Person Manager** creates Master Plan + Epics
+- **Story Architect** breaks Epics into User Stories (with ACs, contingencies, deps)
+- **Coordinator** breaks Stories into sub-tasks
+- **Workers** implement sub-tasks
+- **Validator** independently verifies
 
 ### 🔧 Managers Fix Problems (Active Coaching)
 
@@ -196,7 +221,7 @@ Person Manager notices HAOS stalled
 
 **The goal:** Each level actively manages the level below. Problems get caught, discussed, and fixed — not just re-assigned.
 
-### 📋 User Stories & Acceptance Criteria (MANDATORY) — Added 2026-02-21
+### 📋 User Stories & Acceptance Criteria (MANDATORY) — Updated 2026-02-21
 
 > **Aaron's Requirement:** "Break tasks/projects into epics and user stories, with actual user stories and acceptance criteria. Thus validating can make more sense."
 
@@ -209,15 +234,28 @@ Person Manager notices HAOS stalled
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-**Story Structure:**
+### Who Creates What
+
+| Artifact | Created By | Model |
+|----------|------------|-------|
+| **Master Plan** | Person Manager | Opus |
+| **Epic** | Person Manager | Opus |
+| **User Story** | Story Architect | Opus |
+| **Sub-Task** | Coordinator | Opus/Sonnet |
+
+### Story Structure
 ```
 PROJECT
-└── EPIC (large feature)
-    └── USER STORY (single capability)
-        └── ACCEPTANCE CRITERIA (Given/When/Then)
+└── MASTER PLAN (Person Manager)
+    └── EPIC (Person Manager) — feature area
+        └── USER STORY (Story Architect) — single capability
+            ├── ACCEPTANCE CRITERIA (Given/When/Then)
+            ├── CONTINGENCIES (what could go wrong)
+            ├── DEPENDENCIES (what blocks what)
+            └── SUB-TASKS (Coordinator) — implementation steps
 ```
 
-**User Story Format:**
+### User Story Format
 ```markdown
 ## Story
 **As a** {user type}
@@ -230,17 +268,43 @@ PROJECT
 **Given** {precondition}
 **When** {action}
 **Then** {expected result}
+
+## Contingencies
+| Risk | Detection | Mitigation |
+|------|-----------|------------|
+| {what could go wrong} | {how to detect} | {what to do} |
+
+## Dependencies
+- Upstream: {what must be done first}
+- Downstream: {what's waiting on this}
 ```
 
-**Acceptance Criteria Rules:**
+### Acceptance Criteria Rules
 1. **Must be testable** — can be verified with Playwright/browser
 2. **Must have Given/When/Then** — no vague descriptions
 3. **Must specify validation method** — how to prove it works
 4. **Must require evidence** — screenshots, logs
 
-**Templates:** `scheduler/stories/templates/`
-**Stories:** `scheduler/stories/{project}/stories/{US-ID}.md`
-**Validation Reports:** `scheduler/validation/reports/{project}/`
+### Contingency Rules
+1. **Every story must have contingencies** — what could go wrong?
+2. **Include error scenarios** — network fails, API down, bad input
+3. **Include edge cases** — empty state, max items, boundary conditions
+4. **Include fallback options** — alternative approaches if primary fails
+
+### Dependency Rules
+1. **Map upstream deps** — what must complete before this?
+2. **Map downstream deps** — what's waiting on this?
+3. **Map external deps** — third-party services, APIs
+4. **Identify parallel work** — what can happen simultaneously?
+
+### Key Locations
+| Purpose | Location |
+|---------|----------|
+| **Templates** | `scheduler/stories/templates/` |
+| **Epics** | `docs/plans/{project}/epics/` |
+| **Stories** | `scheduler/stories/{project}/stories/` |
+| **Sub-Tasks** | `PROACTIVE-JOBS.md` or `scheduler/tasks/{project}/` |
+| **Validation** | `scheduler/validation/reports/{project}/` |
 
 ### 🔍 3-Layer Validation Protocol (MANDATORY) — Updated 2026-02-21
 
