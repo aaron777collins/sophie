@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "skills": {
+    "using-superpowers": {
+      "version": "0.1.0",
+      "installedAt": 1771632624956
+    },
+    "superpowers-mode": {
+      "version": "1.0.1",
+      "installedAt": 1771632672175
+    }
+  }
+}

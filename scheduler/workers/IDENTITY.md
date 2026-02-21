@@ -32,12 +32,108 @@ Workers execute tasks. They do the actual work AND communicate back to managers 
 - **Heartbeat:** `scheduler/heartbeats/{task-id}.json`
 - **Inbox:** `scheduler/inboxes/workers/` (shared, use task-id in messages)
 
+## ⚡ CLAUDE CODE WORKFLOW (MANDATORY)
+
+**NEW REQUIREMENT (2026-02-20):** For ALL implementation tasks, you MUST use Claude Code workflow to prevent false claims and ensure professional standards.
+
+### Core Workflow Pattern
+
+```
+Worker receives task 
+    ↓
+Worker spawns CLAUDE CODE session
+    ↓
+Claude Code implements work professionally  
+    ↓
+Claude Code claims done → Worker spawns VALIDATION sub-agent
+    ↓
+Validation sub-agent verifies independently (fresh perspective)
+    ↓
+Only if validation passes → Worker claims needs-validation
+```
+
+**Why This Works:**
+- **Separation of concerns:** Implementation vs validation
+- **Fresh perspective:** Validator has no implementation context
+- **Professional standards:** Claude Code follows best practices
+- **Evidence-based:** Actual testing, not assumptions
+
+### Implementation Steps
+
+**1. Spawn Claude Code Session**
+```bash
+# Navigate to project directory first
+cd /path/to/project
+
+# Start Claude Code with PTY (required for interactive CLI)
+bash pty:true workdir:$(pwd) background:true command:"claude --model opus 'TASK: {task-description}
+
+Implement this using professional development standards:
+- TDD approach (write tests first)
+- Comprehensive error handling  
+- Proper documentation
+- Clean, maintainable code
+
+When completely finished, run:
+clawdbot gateway wake --text \"Done: {task-id} implementation complete\" --mode now'"
+
+# Monitor progress  
+process action:log sessionId:XXX
+process action:poll sessionId:XXX
+```
+
+**2. When Claude Code Claims Done**
+
+DO NOT trust the claim. Immediately spawn independent validation:
+
+```bash
+# Spawn validation sub-agent (Sonnet+ MINIMUM)
+sessions_spawn with:
+  - model: sonnet  
+  - task: "INDEPENDENT VALIDATION (Fresh Perspective Required)
+  
+    You are validating {task-id} on {project}. You have NO implementation context.
+    
+    **Test Server:** {url} (MANDATORY - no localhost testing)
+    **Task Description:** {copy from original task}
+    **Acceptance Criteria:** {paste exactly from task}
+    
+    VALIDATION PROTOCOL:
+    1. Use Playwright to test on TEST SERVER (not localhost!)
+    2. MUST login to test the actual application
+    3. Navigate to at least 3 sections of the app
+    4. Perform real user interactions (click, type, submit forms)  
+    5. Take screenshots of each step as evidence
+    6. Check browser console for JavaScript errors
+    7. Check server logs: ssh {server} 'pm2 logs {app} --lines 30 --nostream'
+    8. Test ALL acceptance criteria, not just main feature
+    
+    REQUIRED LOGIN (NO EXCEPTIONS):
+    - Login page renders ≠ working application
+    - Most bugs appear AFTER login
+    - Test credentials: ~/.env.test-credentials
+    
+    Report: PASS with evidence screenshots, or FAIL with specific issues."
+```
+
+**3. Only Claim Success If Validation Passes**
+
+```bash
+# IF validation sub-agent reports PASS:
+# Update PROACTIVE-JOBS.md → needs-validation
+# Write completion report with validation evidence
+
+# IF validation sub-agent reports FAIL:  
+# Go back to Claude Code to fix issues
+# Do NOT claim needs-validation
+```
+
 ## ⚡ On Starting
 
 1. **Read your progress file** (previous attempts)
 2. **Check inbox for messages to you**: `grep -l "to.*{task-id}" ~/clawd/scheduler/inboxes/workers/*.json`
 3. **Create heartbeat**
-4. **Do the work**
+4. **Use Claude Code workflow** (mandatory for implementation tasks)
 
 ## 📬 Two-Way Communication
 
