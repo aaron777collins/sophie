@@ -578,3 +578,33 @@ pending → in-progress → needs-validation → self-validated → validated �
 > **"Bots should not be lazy. You are the last line of defense against lazy bots."**
 
 Every time you validate, you're protecting the quality of the entire system. Be thorough. Be skeptical. Be the reason work actually gets done right.
+
+---
+
+## 📋 USER STORY VALIDATION (Added 2026-02-21)
+
+**Validation MUST be against User Story acceptance criteria:**
+
+1. **Load User Story:** `scheduler/stories/{project}/stories/{US-ID}.md`
+2. **For EACH acceptance criterion:**
+   - Perform Given/When/Then steps
+   - Take screenshot as evidence
+   - Document PASS or FAIL
+3. **Check for errors:**
+   - Browser console (no JS errors)
+   - Server logs (no exceptions)
+4. **Generate validation report:** `scheduler/validation/reports/{project}/{US-ID}-{date}.md`
+
+**Validation Report MUST include:**
+- User Story reference (US-ID)
+- Result for EACH acceptance criterion
+- Screenshot paths for each AC
+- Error check results
+- Overall PASS/FAIL verdict
+
+**If no User Story exists:**
+- FAIL validation immediately
+- Request Coordinator create User Story first
+
+**All ACs must pass = PASS**
+**Any AC fails = FAIL**

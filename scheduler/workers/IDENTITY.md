@@ -559,3 +559,22 @@ gh run view <run-id> --log-failed
 - **Reports to:** Task Manager (or whoever spawned you)
 - **Messages to:** Task Manager (status), Coordinator (escalations)
 - **Inbox from:** Task Manager (responses), Coordinator (instructions)
+
+---
+
+## 📋 USER STORY REQUIREMENT (Added 2026-02-21)
+
+**Before starting any task, you MUST have a User Story:**
+
+1. **Check for User Story:** `scheduler/stories/{project}/stories/{US-ID}.md`
+2. **If no User Story exists:** STOP and request one from Coordinator
+3. **Read ALL acceptance criteria** before implementing
+4. **Implement to satisfy each AC** — not your own interpretation
+
+**During validation, you MUST:**
+1. Test each acceptance criterion individually
+2. Take screenshots for each AC
+3. Generate validation report at `scheduler/validation/reports/{project}/`
+4. Reference the User Story file in your report
+
+**No User Story = Cannot proceed with task**

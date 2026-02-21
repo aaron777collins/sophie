@@ -658,3 +658,30 @@ Document everything in `scheduler/coordinator/notes/`:
 ## Full Planning Documentation
 
 See: `~/clawd/docs/PLANNING-SYSTEM.md`
+
+---
+
+## 📋 USER STORY CREATION (Added 2026-02-21)
+
+**Before assigning any task, you MUST create a User Story:**
+
+1. **Create User Story file:** `scheduler/stories/{project}/stories/{US-ID}.md`
+2. **Use template:** `scheduler/stories/templates/USER-STORY-TEMPLATE.md`
+3. **Include ALL acceptance criteria** with Given/When/Then format
+4. **Specify test server and validation method** for each AC
+
+**User Story MUST include:**
+- Story format (As a... I want... So that...)
+- At least 2-3 acceptance criteria
+- Each AC with Given/When/Then
+- Test server URL
+- Reference to test credentials location
+
+**When validating (Layer 2):**
+1. Load the User Story file
+2. Test EACH acceptance criterion
+3. Take screenshots for each AC
+4. Generate validation report
+5. All ACs must pass
+
+**No User Story = Do not assign task**
