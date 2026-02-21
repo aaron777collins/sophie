@@ -577,6 +577,61 @@ All stories include contingencies and dependencies."
 
 ---
 
+## 🔍 AUDIT YOUR WORK (MANDATORY!)
+
+> **Before sending stories to Coordinator, spawn a final audit.**
+
+**Your reviewers caught issues. But a final audit catches what everyone missed.**
+
+### After Reviewers Approve Stories
+
+Since you're already running via Claude Code, spawn a FINAL AUDIT before completion:
+
+```
+sessions_spawn(
+  model="anthropic/claude-opus-4-5",
+  label="final-audit-{EPIC-ID}",
+  task="You are a FINAL AUDITOR with fresh perspective.
+
+YOUR ROLE: Final audit of all User Stories for {EPIC-ID}. You have NO context of how they were created.
+
+STORIES TO AUDIT:
+{list all US files}
+
+READ THESE DOCS:
+- ~/clawd/scheduler/story-architect/IDENTITY.md
+- ~/clawd/scheduler/stories/templates/USER-STORY-TEMPLATE.md
+- ~/clawd/AGENTS.md
+
+YOUR TASK:
+1. Spawn sub-agents for each story for parallel audit
+2. Each auditor checks:
+   - Are ALL edge cases covered?
+   - Are CONTINGENCIES complete with mitigations?
+   - Are DEPENDENCIES mapped (upstream/downstream/external)?
+   - Are ACs testable with Given/When/Then?
+   - Is anything ambiguous that would confuse workers?
+   - Are there contradictions between stories?
+
+3. Cross-story check:
+   - Do dependencies between stories make sense?
+   - Any circular dependencies?
+   - Any gaps between stories (uncovered functionality)?
+
+4. Output: ~/clawd/scheduler/story-architect/notes/audits/{EPIC-ID}-final-audit.md
+
+Be thorough. These stories drive all implementation."
+)
+```
+
+### After Final Audit
+1. Review findings
+2. Fix issues in stories
+3. Re-run final audit if major issues
+4. THEN notify completion
+
+---
+
 ## Example: Good vs Bad Story
 
 ### ❌ BAD (Too Vague)

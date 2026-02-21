@@ -355,6 +355,99 @@ Multiple Reviewers
 Stories to inbox → Coordinator (cron)
 ```
 
+### 🔍 AUDIT YOUR WORK (MANDATORY FOR ALL AGENTS) — Added 2026-02-21
+
+> **Aaron's Requirement:** "All AI outputs tend to be mostly good but not perfect. Have every agent after finishing something spawn a Claude Code instance to audit their work. Only sub-agents have fresh perspectives."
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   EVERY AGENT MUST AUDIT THEIR WORK BEFORE CLAIMING COMPLETE        │
+│                                                                     │
+│   1. Finish your work                                               │
+│   2. Spawn Claude Code at YOUR intelligence level                   │
+│   3. Claude Code spawns sub-agents for fresh-perspective audit      │
+│   4. Review audit findings                                          │
+│   5. Fix issues found                                               │
+│   6. THEN claim complete                                            │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Why Claude Code for auditing?**
+- **Separate process** — not limited by sub-agent constraints
+- **Can spawn unlimited auditors** — multiple fresh perspectives
+- **Fresh context** — auditors have no implementation bias
+- **Same intelligence** — auditors can fully understand your work
+
+### Audit Spawn Template (USE THIS!)
+
+```bash
+# Navigate to workspace
+cd ~/clawd
+
+# Spawn Claude Code auditor at YOUR level
+claude --model {opus|sonnet} -p "You are an AUDITOR with fresh perspective.
+
+YOUR ROLE: Audit the work just completed. You have NO context of how it was done.
+
+WHAT TO AUDIT:
+- File(s): {list of files created/modified}
+- Purpose: {what the work was supposed to accomplish}
+- Acceptance Criteria: {paste ACs if applicable}
+
+READ THESE DOCS:
+- ~/clawd/AGENTS.md (understand the system)
+- ~/clawd/{relevant identity file}
+- {any other relevant docs}
+
+YOUR TASK:
+1. Spawn sub-agents for different audit perspectives:
+   - Completeness Auditor: Is anything missing?
+   - Quality Auditor: Are there bugs, issues, anti-patterns?
+   - Edge Case Auditor: What scenarios weren't handled?
+   - Dependency Auditor: Are contingencies and dependencies complete?
+
+2. Compile findings from all auditors
+
+3. Output audit report to: ~/clawd/scheduler/{role}/notes/audits/{date}-{work-id}.md
+
+4. Wake gateway with findings:
+   clawdbot gateway wake --text 'Audit complete for {work}: N issues found' --mode now
+
+Be thorough. Be skeptical. Find the gaps."
+```
+
+### Model Matching (CRITICAL!)
+
+| Agent Role | Audit Model | Why |
+|------------|-------------|-----|
+| Person Manager | `--model opus` | Strategic work needs Opus review |
+| Story Architect | `--model opus` | Story architecture needs Opus review |
+| Coordinator | `--model opus` | Planning work needs Opus review |
+| Validator | `--model sonnet` | Validation work needs Sonnet review |
+| Workers (Sonnet) | `--model sonnet` | Implementation needs Sonnet review |
+| Workers (Haiku) | `--model sonnet` | Even Haiku work gets Sonnet audit |
+
+**Never audit with LESS intelligence than the original work.**
+
+### What Auditors Should Check
+
+| Perspective | Questions |
+|-------------|-----------|
+| **Completeness** | Is anything missing? All requirements met? |
+| **Quality** | Any bugs? Anti-patterns? Could this be better? |
+| **Edge Cases** | What scenarios weren't handled? |
+| **Contingencies** | What could go wrong? Are mitigations documented? |
+| **Dependencies** | What blocks what? Are they mapped? |
+| **Consistency** | Does this match existing patterns? |
+| **Security** | Any vulnerabilities introduced? |
+
+### After Audit
+
+1. **Review findings** — Read the audit report
+2. **Fix issues** — Address what was found
+3. **Re-audit if major issues** — Don't skip this
+4. **Then claim complete** — Only after audit passes
+
 ### 🔍 3-Layer Validation Protocol (MANDATORY) — Updated 2026-02-21
 
 > **Adjusted for sub-agent constraint:** Workers validate themselves (no sub-agent). Coordinator spawns Layer 2 validation.

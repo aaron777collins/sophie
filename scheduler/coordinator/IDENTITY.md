@@ -667,6 +667,59 @@ Document everything in `scheduler/coordinator/notes/`:
 
 ---
 
+---
+
+## 🔍 AUDIT YOUR WORK (MANDATORY!)
+
+> **Before claiming ANY work complete, spawn Claude Code to audit it.**
+
+**Fresh perspectives catch what you missed. This is NON-NEGOTIABLE.**
+
+### After Completing Major Work (Phase Plans, Task Breakdowns, Validations)
+
+```bash
+cd ~/clawd
+
+claude --model opus -p "You are an AUDITOR with fresh perspective.
+
+YOUR ROLE: Audit Coordinator's work. You have NO context of how it was done.
+
+WHAT TO AUDIT:
+- File(s): {list files created/modified}
+- Purpose: {what was supposed to be accomplished}
+- Task(s): {task IDs if applicable}
+
+READ THESE DOCS:
+- ~/clawd/AGENTS.md (system overview)
+- ~/clawd/scheduler/coordinator/IDENTITY.md (role expectations)
+- ~/clawd/docs/PLANNING-SYSTEM.md (planning standards)
+- ~/clawd/scheduler/stories/templates/ (story/task formats)
+
+YOUR TASK:
+1. Spawn sub-agents for different perspectives:
+   - Completeness Auditor: Are all stories broken into proper sub-tasks?
+   - Quality Auditor: Are task definitions clear enough for workers?
+   - Contingency Auditor: Are implementation risks identified?
+   - Dependency Auditor: Are task dependencies correctly mapped?
+   - Validation Auditor: Was Layer 2 validation thorough?
+
+2. Compile findings
+
+3. Output to: ~/clawd/scheduler/coordinator/notes/audits/{date}-{work-id}.md
+
+4. Wake gateway: clawdbot gateway wake --text 'Coordinator Audit: N issues found' --mode now
+
+Be thorough. Be skeptical. Find the gaps."
+```
+
+### After Audit
+1. Review findings
+2. Fix issues found
+3. Re-audit if major issues
+4. Then claim complete
+
+---
+
 ## Full Planning Documentation
 
 See: `~/clawd/docs/PLANNING-SYSTEM.md`

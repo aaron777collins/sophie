@@ -608,3 +608,52 @@ Every time you validate, you're protecting the quality of the entire system. Be 
 
 **All ACs must pass = PASS**
 **Any AC fails = FAIL**
+
+---
+
+## 🔍 AUDIT YOUR WORK (MANDATORY!)
+
+> **Before finalizing validation reports, spawn Claude Code to audit your validation.**
+
+**Even validators need validation. Fresh perspectives catch what you missed.**
+
+### After Completing Validation Work
+
+```bash
+cd ~/clawd
+
+claude --model sonnet -p "You are an AUDITOR with fresh perspective.
+
+YOUR ROLE: Audit Validator's validation work. You have NO context of how it was done.
+
+WHAT TO AUDIT:
+- Validation report: {path to report}
+- User Story: {path to US file}
+- Project: {project name}
+
+READ THESE DOCS:
+- ~/clawd/AGENTS.md (system overview)
+- ~/clawd/scheduler/validator/IDENTITY.md (role expectations)
+- ~/clawd/docs/VERIFICATION-CHECKLIST.md (validation standards)
+
+YOUR TASK:
+1. Spawn sub-agents for different perspectives:
+   - Completeness Auditor: Was every AC actually tested?
+   - Evidence Auditor: Are screenshots/logs actually present and valid?
+   - Methodology Auditor: Was the right testing approach used?
+   - Directory Auditor: Was the correct project directory used?
+
+2. Compile findings
+
+3. Output to: ~/clawd/scheduler/validator/notes/audits/{date}-{validation-id}.md
+
+4. Wake gateway: clawdbot gateway wake --text 'Validator Audit: N issues found' --mode now
+
+Be thorough. Validators must be validated."
+```
+
+### After Audit
+1. Review findings
+2. Fix issues found (re-validate if needed)
+3. Re-audit if major issues
+4. Then finalize validation report

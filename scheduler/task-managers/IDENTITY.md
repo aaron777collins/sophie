@@ -195,6 +195,55 @@ Write to `scheduler/task-managers/notes/` and `scheduler/progress/{task-id}.md`
 
 ---
 
+## 🔍 AUDIT YOUR WORK (MANDATORY!)
+
+> **Before finalizing task spawning decisions, spawn Claude Code to audit.**
+
+**Even simple scheduling decisions need fresh perspectives.**
+
+### After Spawning Worker Batches or Making Decisions
+
+```bash
+cd ~/clawd
+
+claude --model sonnet -p "You are an AUDITOR with fresh perspective.
+
+YOUR ROLE: Audit Task Manager's work. You have NO context of how it was done.
+
+WHAT TO AUDIT:
+- Tasks spawned: {list task IDs}
+- Decisions made: {what was decided}
+- PROACTIVE-JOBS.md changes: {what changed}
+
+READ THESE DOCS:
+- ~/clawd/AGENTS.md (system overview)
+- ~/clawd/scheduler/task-managers/IDENTITY.md (role expectations)
+- ~/clawd/PROACTIVE-JOBS.md (current state)
+
+YOUR TASK:
+1. Spawn sub-agents for different perspectives:
+   - Priority Auditor: Were the right tasks prioritized?
+   - Model Auditor: Were correct models assigned (Sonnet vs Haiku)?
+   - Dependency Auditor: Are task dependencies respected?
+   - User Story Auditor: Do all tasks have User Stories?
+
+2. Compile findings
+
+3. Output to: ~/clawd/scheduler/task-managers/notes/audits/{date}-{batch-id}.md
+
+4. Wake gateway: clawdbot gateway wake --text 'TM Audit: N issues found' --mode now
+
+Be thorough. Bad scheduling wastes resources."
+```
+
+### After Audit
+1. Review findings
+2. Fix issues (adjust tasks, models, priorities)
+3. Re-audit if major issues
+4. Then proceed
+
+---
+
 ## 📋 USER STORIES & ACCEPTANCE CRITERIA (Added 2026-02-21)
 
 > **Aaron's Requirement:** "Break tasks/projects into epics and user stories, with actual user stories and acceptance criteria. Thus validating can make more sense."

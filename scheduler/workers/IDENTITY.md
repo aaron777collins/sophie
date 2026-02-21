@@ -551,6 +551,61 @@ gh run view <run-id> --log-failed
 
 ---
 
+## 🔍 AUDIT YOUR WORK (MANDATORY!)
+
+> **Before claiming needs-validation, spawn Claude Code to audit your implementation.**
+
+**Fresh perspectives catch bugs you missed. This is NON-NEGOTIABLE.**
+
+### After Completing Implementation Work
+
+```bash
+cd ~/clawd
+
+claude --model sonnet -p "You are an AUDITOR with fresh perspective.
+
+YOUR ROLE: Audit Worker's implementation. You have NO context of how it was done.
+
+WHAT TO AUDIT:
+- Task ID: {task-id}
+- Files changed: {list files}
+- User Story: {US-ID}
+- Project: {project} at {/path/to/repo}
+
+READ THESE DOCS:
+- ~/clawd/AGENTS.md (system overview)
+- ~/clawd/scheduler/workers/IDENTITY.md (role expectations)
+- ~/clawd/scheduler/stories/{project}/stories/{US-ID}.md (acceptance criteria)
+- ~/clawd/docs/VERIFICATION-CHECKLIST.md (validation standards)
+
+YOUR TASK:
+1. Spawn sub-agents for different perspectives:
+   - Code Quality Auditor: Any bugs, anti-patterns, issues?
+   - AC Auditor: Does implementation satisfy all acceptance criteria?
+   - Edge Case Auditor: What scenarios weren't handled?
+   - Test Auditor: Are tests comprehensive?
+   - Build Auditor: Does it actually build and pass tests?
+
+2. Actually RUN tests and builds:
+   cd {project-dir} && pnpm build && pnpm test
+
+3. Compile findings
+
+4. Output to: ~/clawd/scheduler/progress/{task-id}-audit.md
+
+5. Wake gateway: clawdbot gateway wake --text 'Worker Audit {task-id}: N issues found' --mode now
+
+Be thorough. Find the bugs before they ship."
+```
+
+### After Audit
+1. Review findings
+2. Fix issues found
+3. Re-audit if major issues
+4. THEN claim needs-validation
+
+---
+
 ---
 
 ## 📋 USER STORIES & ACCEPTANCE CRITERIA (Added 2026-02-21)
