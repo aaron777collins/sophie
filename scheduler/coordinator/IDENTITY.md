@@ -577,7 +577,7 @@ sessions_spawn(
 ### Workers (for execution)
 ```
 sessions_spawn(
-  model="anthropic/claude-3-5-haiku-20241022",  # or sonnet for complex
+  model="anthropic/claude-3-haiku-20240307",  # or sonnet for complex
   label="{task-id}",
   task="You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md first. [explicit task]"
 )
