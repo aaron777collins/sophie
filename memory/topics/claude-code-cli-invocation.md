@@ -1,46 +1,73 @@
 # Claude Code CLI Invocation
 
-**Last Updated:** 2026-02-21
+**Last Updated:** 2026-02-21 13:55 EST
 
 ## Problem Discovered
-- [2026-02-21 12:30 EST] When running Claude Code via Clawdbot's `exec` tool, the process gets stopped (SIGSTOP signal)
-- The process appears in state "T (stopped)" and waits on `do_signal_stop`
-- Direct invocation times out without producing output
+- [2026-02-21 12:30 EST] Initial theory: SIGSTOP signals causing process halt
+- [2026-02-21 13:45 EST] **Root cause identified:** Claude Code requires a PTY (pseudo-terminal) to output to stdout
+- Without a PTY, Claude Code connects to API, executes, but produces ZERO output to stdout
+- Debug logs show "Stream started" but output is simply not written without a terminal
 
 ## Root Cause
-The exec tool runs commands in a way that sends SIGSTOP or similar signals to subprocesses, causing Claude Code to halt.
+Claude Code CLI **requires a PTY** to write output. When run without a terminal (as happens in exec tools, cron, scripts), it silently produces no output even though it's working internally.
 
 ## Working Solution
-Use `nohup` to run Claude Code in the background, preventing it from being stopped.
+Use `script -q -c 'command' /dev/null` to provide a pseudo-terminal, then strip ANSI escape codes from output.
 
-### Pattern 1: Simple Query
+### Pattern 1: Simple Query (VERIFIED WORKING)
 ```bash
 cd /tmp
-nohup claude -p "Say Hello" --output-format text > /tmp/output.txt 2>&1 &
+timeout 60 script -q -c 'claude -p "Your question here" --output-format text' /dev/null 2>&1 | \
+  perl -pe 's/\e\[[0-9;]*[mGKHF]//g; s/\e\][^\a]*\a//g; s/\e\[[^\a-~]*[\a-~]//g' | \
+  tr -d '\r' | head -n -1
 ```
 
-### Pattern 2: File Creation with Full Permissions
+### Pattern 2: File Operations with Permissions (VERIFIED WORKING)
 ```bash
 cd ~/clawd
-nohup claude -p "Create a file at path/to/file.md with content..." \
+timeout 120 script -q -c 'claude -p "Create a file at /tmp/test.txt with content: Hello" \
   --allowedTools "Read,Write,Edit,Bash" \
   --dangerously-skip-permissions \
-  --output-format text > /tmp/output.txt 2>&1 &
+  --output-format text' /dev/null 2>&1 | \
+  perl -pe 's/\e\[[0-9;]*[mGKHF]//g; s/\e\][^\a]*\a//g; s/\e\[[^\a-~]*[\a-~]//g' | \
+  tr -d '\r'
 ```
 
-### Pattern 3: Wait for Completion
+### Pattern 3: Capture to File
 ```bash
-# Start Claude
-nohup claude -p "Your task" --output-format text > /tmp/output.txt 2>&1 &
-CLAUDE_PID=$!
+cd ~/clawd
+timeout 120 script -q -c 'claude -p "Your complex task" \
+  --allowedTools "Read,Write,Edit,Bash" \
+  --dangerously-skip-permissions \
+  --output-format text' /tmp/claude_raw.txt 2>&1
 
-# Wait for completion
-while ps -p $CLAUDE_PID > /dev/null 2>&1; do
-  sleep 10
-done
+# Strip ANSI codes from the script output
+perl -pe 's/\e\[[0-9;]*[mGKHF]//g; s/\e\][^\a]*\a//g; s/\e\[[^\a-~]*[\a-~]//g' /tmp/claude_raw.txt | \
+  tr -d '\r' | grep -v "^Script " > /tmp/claude_clean.txt
+cat /tmp/claude_clean.txt
+```
 
-# Get results
-cat /tmp/output.txt
+### Helper Function (Add to ~/.bashrc)
+```bash
+# Claude Code wrapper that provides PTY and strips ANSI
+claude_exec() {
+  local timeout_sec="${CLAUDE_TIMEOUT:-120}"
+  timeout "$timeout_sec" script -q -c "claude $*" /dev/null 2>&1 | \
+    perl -pe 's/\e\[[0-9;]*[mGKHF]//g; s/\e\][^\a]*\a//g; s/\e\[[^\a-~]*[\a-~]//g' | \
+    tr -d '\r' | head -n -1
+}
+
+# Usage:
+# claude_exec -p "Your prompt" --output-format text
+# CLAUDE_TIMEOUT=300 claude_exec -p "Long task" --allowedTools "Read,Write,Edit,Bash"
+```
+
+## ❌ What Does NOT Work
+```bash
+# These produce NO OUTPUT (require PTY):
+claude -p "prompt" --output-format text
+claude -p "prompt" 2>&1 | cat
+nohup claude -p "prompt" > file.txt &
 ```
 
 ## Key CLI Flags
@@ -59,37 +86,53 @@ cat /tmp/output.txt
 | `--resume <session>` | Resume specific session |
 | `--max-turns N` | Limit agentic turns |
 | `--max-budget-usd N` | Set spending limit |
-
-## System Prompt Customization
-
-| Flag | Behavior |
-|------|----------|
+| `--append-system-prompt "..."` | Add to default prompt (safer than replacing) |
 | `--system-prompt "..."` | Replace entire system prompt |
-| `--append-system-prompt "..."` | Add to default prompt (safer) |
 
 ## Important Notes
 
-1. **Timing:** Claude Code can take 1-5 minutes for complex tasks
-2. **Output buffering:** Output file may be empty until completion
-3. **Process monitoring:** Check with `ps -p PID` or `pgrep -f "claude -p"`
-4. **Network:** Process shows established connections when actively working
+1. **PTY Required:** Claude Code MUST have a PTY to output - use `script` wrapper
+2. **Timing:** Claude Code can take 1-5 minutes for complex tasks
+3. **ANSI Codes:** Output contains terminal escape codes - strip with perl
+4. **Timeout:** Always use `timeout` to prevent hanging
 
-## Example: Story Architect Invocation
+## Example: Story Architect Invocation (CORRECTED)
 ```bash
 cd ~/clawd
 
-nohup claude -p "You are the Story Architect. 
+timeout 300 script -q -c 'claude -p "You are the Story Architect. 
 Read ~/clawd/scheduler/story-architect/IDENTITY.md.
-Create a User Story for [feature] following the template at ~/clawd/scheduler/stories/templates/USER-STORY-TEMPLATE.md.
+Create a User Story for [feature] following the template.
 Save to ~/clawd/scheduler/stories/[project]/stories/[story-id].md" \
   --allowedTools "Read,Write,Edit,Bash" \
   --dangerously-skip-permissions \
   --model opus \
-  --output-format text > /tmp/story-architect-output.txt 2>&1 &
+  --output-format text' /dev/null 2>&1 | \
+  perl -pe 's/\e\[[0-9;]*[mGKHF]//g; s/\e\][^\a]*\a//g; s/\e\[[^\a-~]*[\a-~]//g' | \
+  tr -d '\r'
+```
+
+## Testing Pattern (Quick Verification)
+```bash
+# Test that Claude Code is working
+timeout 60 script -q -c 'claude -p "Reply: OK" --output-format text' /dev/null 2>&1 | grep -o "OK"
+# Should output: OK
+```
+
+## Debugging
+```bash
+# Check latest debug log
+tail -50 ~/.claude/debug/latest
+
+# Check for AxiosErrors (API issues)
+grep -E "AxiosError|ERROR" ~/.claude/debug/latest | tail -20
+
+# Verify credentials
+cat ~/.claude/.credentials.json | head -5
 ```
 
 ## Resources
 - [Claude Code Docs](https://code.claude.com/docs)
-- [CLI Reference](https://code.claude.com/docs/en/cli-reference)
-- [Headless Mode](https://code.claude.com/docs/en/headless)
+- [CLI Reference](https://code.claude.com/docs/en/cli-usage)
+- [Headless/SDK Mode](https://code.claude.com/docs/en/headless)
 - [Common Workflows](https://code.claude.com/docs/en/common-workflows)

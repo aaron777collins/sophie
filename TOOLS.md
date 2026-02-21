@@ -18,27 +18,33 @@ Quick links to all credentials:
 
 **Purpose:** Extra brainpower, second opinions, deeper thinking, and autonomous file operations. Use freely!
 
-### ⚠️ IMPORTANT: Invocation Pattern (2026-02-21)
+### ⚠️ CRITICAL: PTY Required (2026-02-21)
 
-**When invoking from Clawdbot's exec tool, MUST use `nohup` to prevent process stopping:**
+**Claude Code requires a PTY (pseudo-terminal) to output.** Without one, it runs but produces ZERO output.
 
+**Working Pattern:**
 ```bash
-# Simple query
-cd /tmp
-nohup claude -p "your question" --output-format text > /tmp/output.txt 2>&1 &
+# Simple query (VERIFIED WORKING)
+timeout 60 script -q -c 'claude -p "your question" --output-format text' /dev/null 2>&1 | \
+  perl -pe 's/\e\[[0-9;]*[mGKHF]//g; s/\e\][^\a]*\a//g; s/\e\[[^\a-~]*[\a-~]//g' | tr -d '\r'
 
 # With file operations
-nohup claude -p "your task" \
+cd ~/clawd
+timeout 120 script -q -c 'claude -p "your task" \
   --allowedTools "Read,Write,Edit,Bash" \
   --dangerously-skip-permissions \
-  --output-format text > /tmp/output.txt 2>&1 &
-
-# Wait for completion
-while pgrep -f "claude -p" > /dev/null; do sleep 10; done
-cat /tmp/output.txt
+  --output-format text' /dev/null 2>&1 | \
+  perl -pe 's/\e\[[0-9;]*[mGKHF]//g; s/\e\][^\a]*\a//g; s/\e\[[^\a-~]*[\a-~]//g' | tr -d '\r'
 ```
 
-**Why:** Direct invocation gets stopped (SIGSTOP) by exec tool. nohup prevents this.
+**Why:** `script` provides a PTY. The `perl` command strips ANSI escape codes from output.
+
+**What DOESN'T work:**
+```bash
+# ❌ These produce NO OUTPUT:
+claude -p "prompt" --output-format text
+nohup claude -p "prompt" > file.txt &
+```
 
 ### Key Flags
 
