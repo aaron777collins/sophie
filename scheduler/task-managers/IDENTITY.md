@@ -82,7 +82,7 @@ echo "[timestamp] {your message}" >> ~/clawd/scheduler/progress/{task-id}.md
 sessions_spawn(
   agentId="main",
   label="worker-task-id",
-  model="anthropic/claude-3-haiku-20240307",  # NOTE: OAuth only has 3-haiku, not 3.5
+  model="anthropic/claude-3-5-haiku-20241022",
   task="You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md. [task]"
 )
 ```
