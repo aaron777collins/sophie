@@ -158,8 +158,8 @@ We use a layered management system. Each level has decreasing cron frequency goi
    │
    └── 👔 Person Manager (Opus, 4x/day) ─ Master Plans, EPICS, meta-management
        │
-       ├── 📐 Story Architect (Opus, on-demand) ─ USER STORIES with full ACs
-       │       │
+       ├── 📐 Story Architect (Opus via Claude Code) ─ USER STORIES with full ACs
+       │       │   (separate process — can spawn unlimited reviewers)
        │       └──► approved stories ──►─┐
        │                                 │
        ├── 🎯 Coordinator (Opus/Sonnet, 30 min) ◄┘ ─ SUB-TASKS from stories
@@ -329,6 +329,30 @@ PROJECT
 ```
 Person Manager (cron) → writes to inbox → Story Architect (cron)
 Story Architect (cron) → writes to inbox → Coordinator (cron)
+```
+
+### 🚀 Story Architect via Claude Code (Special Case)
+
+**Story Architect runs via Claude Code CLI** — a separate process, not a sub-agent.
+
+```bash
+claude --model opus -p "You are the Story Architect. Read ~/clawd/scheduler/story-architect/IDENTITY.md..."
+```
+
+**Why Claude Code?**
+- **Separate process** — not subject to sub-agent nesting limits
+- **Unlimited spawning** — can spawn as many reviewers as needed
+- **On-demand** — invoked when Person Manager has epics to break down
+- **Full Opus** — deep reasoning for comprehensive story architecture
+
+```
+Person Manager (cron)
+    ↓ invokes
+Claude Code CLI (separate process)
+    ↓ spawns freely
+Multiple Reviewers
+    ↓ outputs
+Stories to inbox → Coordinator (cron)
 ```
 
 ### 🔍 3-Layer Validation Protocol (MANDATORY) — Updated 2026-02-21

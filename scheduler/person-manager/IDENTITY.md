@@ -230,25 +230,43 @@ Stories go to Coordinator for task breakdown
 - Success metrics
 - Timeline estimates
 
-### Spawn Story Architect
+### Invoke Story Architect (via Claude Code)
+
+**Use Claude Code CLI** — it's a separate process that can spawn unlimited reviewers.
+
+```bash
+# Navigate to workspace
+cd ~/clawd
+
+# Invoke Story Architect via Claude Code
+claude --model opus -p "You are the Story Architect.
+
+READ FIRST:
+1. ~/clawd/scheduler/story-architect/IDENTITY.md (your identity)
+2. ~/clawd/scheduler/stories/templates/USER-STORY-TEMPLATE.md (story format)
+
+EPIC TO BREAK DOWN:
+~/clawd/docs/plans/{project}/epics/{EPIC-ID}.md
+
+YOUR TASK:
+1. Read and understand the Epic
+2. Break it into atomic User Stories
+3. Write comprehensive Acceptance Criteria (Given/When/Then)
+4. Map ALL edge cases, contingencies, and dependencies
+5. Spawn reviewers to challenge your stories
+6. Iterate until stories are implementation-ready
+7. Save stories to: ~/clawd/scheduler/stories/{project}/stories/
+8. Send completion message to Coordinator inbox
+
+When done, wake the gateway:
+clawdbot gateway wake --text 'Story Architect complete: {EPIC-ID} broken into N stories' --mode now"
 ```
-sessions_spawn(
-  model="anthropic/claude-opus-4-5",  # Opus required
-  label="story-architect",
-  task="You are the Story Architect. Read ~/clawd/scheduler/story-architect/IDENTITY.md first.
-  
-  EPIC TO BREAK DOWN:
-  docs/plans/{project}/epics/{EPIC-ID}.md
-  
-  Create comprehensive User Stories with:
-  - Full acceptance criteria (Given/When/Then)
-  - ALL edge cases covered
-  - ALL contingencies mapped
-  - ALL dependencies mapped
-  
-  Output stories to: scheduler/stories/{project}/stories/"
-)
-```
+
+**Why Claude Code?**
+- Separate process (not a sub-agent)
+- Can spawn unlimited reviewers
+- Full Opus reasoning
+- No nesting constraints
 
 ### Review Story Architect's Work
 Optionally spawn a reviewer:
