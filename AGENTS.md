@@ -425,9 +425,10 @@ Be thorough. Be skeptical. Find the gaps."
 | Coordinator | `--model opus` | Planning work needs Opus review |
 | Validator | `--model sonnet` | Validation work needs Sonnet review |
 | Workers (Sonnet) | `--model sonnet` | Implementation needs Sonnet review |
-| Workers (Haiku) | `--model sonnet` | Even Haiku work gets Sonnet audit |
+| Workers (Haiku) | `--model haiku` | Fast command work gets fast Haiku audit |
+| **Sophie (Main)** | `--model opus` | Main session work needs Opus review |
 
-**Never audit with LESS intelligence than the original work.**
+**Match intelligence to the work type. Haiku work is fast commands — Haiku audit is fine.**
 
 ### What Auditors Should Check
 

@@ -559,10 +559,16 @@ gh run view <run-id> --log-failed
 
 ### After Completing Implementation Work
 
+**Model for audit:** Use `sonnet` for Sonnet implementation work, `haiku` for Haiku command work.
+
 ```bash
 cd ~/clawd
 
+# For Sonnet workers:
 claude --model sonnet -p "You are an AUDITOR with fresh perspective.
+
+# For Haiku workers (command execution):
+# claude --model haiku -p "You are an AUDITOR...
 
 YOUR ROLE: Audit Worker's implementation. You have NO context of how it was done.
 
