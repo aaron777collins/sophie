@@ -196,7 +196,53 @@ Person Manager notices HAOS stalled
 
 **The goal:** Each level actively manages the level below. Problems get caught, discussed, and fixed — not just re-assigned.
 
-### 🔍 3-Layer Validation Protocol (MANDATORY) — Updated 2026-02-20
+### 📋 User Stories & Acceptance Criteria (MANDATORY) — Added 2026-02-21
+
+> **Aaron's Requirement:** "Break tasks/projects into epics and user stories, with actual user stories and acceptance criteria. Thus validating can make more sense."
+
+**Every task MUST have a User Story with testable Acceptance Criteria.**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   NO USER STORY = NO TASK ASSIGNMENT                                │
+│   NO ACCEPTANCE CRITERIA = NO VALIDATION                            │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Story Structure:**
+```
+PROJECT
+└── EPIC (large feature)
+    └── USER STORY (single capability)
+        └── ACCEPTANCE CRITERIA (Given/When/Then)
+```
+
+**User Story Format:**
+```markdown
+## Story
+**As a** {user type}
+**I want** {capability}
+**So that** {benefit}
+
+## Acceptance Criteria
+
+### AC-1: {title}
+**Given** {precondition}
+**When** {action}
+**Then** {expected result}
+```
+
+**Acceptance Criteria Rules:**
+1. **Must be testable** — can be verified with Playwright/browser
+2. **Must have Given/When/Then** — no vague descriptions
+3. **Must specify validation method** — how to prove it works
+4. **Must require evidence** — screenshots, logs
+
+**Templates:** `scheduler/stories/templates/`
+**Stories:** `scheduler/stories/{project}/stories/{US-ID}.md`
+**Validation Reports:** `scheduler/validation/reports/{project}/`
+
+### 🔍 3-Layer Validation Protocol (MANDATORY) — Updated 2026-02-21
 
 > **Aaron's Requirement:** "All workers should put it into a self validation level 4 phase first which uses sub agents at least sonnet level and then manager validation which also validates everything (all validations are from a fresh perspective testing all features of the project/topic). Then eventually peer validation which they send to the validation agent."
 
@@ -274,6 +320,30 @@ ACTUALLY COMPLETE ✅
 - They receive ONLY: task description, acceptance criteria, test server URL
 - They test as if they're a NEW USER seeing the feature for the first time
 - This catches assumptions and blind spots the implementer has
+
+### 📋 CRITICAL: Validate Against User Story (Added 2026-02-21)
+
+**Validation MUST reference the User Story acceptance criteria:**
+
+```
+1. LOAD the User Story file: scheduler/stories/{project}/stories/{US-ID}.md
+2. FOR EACH Acceptance Criterion:
+   a) Perform the Given/When/Then steps
+   b) Take screenshot as evidence
+   c) Document PASS or FAIL
+3. GENERATE Validation Report: scheduler/validation/reports/{project}/{US-ID}-{date}.md
+4. ALL criteria must pass = validation passes
+```
+
+**Validation Report Required Fields:**
+- Which User Story (US-ID)
+- Results for EACH acceptance criterion
+- Screenshot file paths for each AC
+- Console/server error check results
+- Overall PASS/FAIL verdict
+
+**No User Story = Cannot Validate**
+If a task doesn't have a user story with acceptance criteria, send it back to the coordinator to create one first.
 
 ### 🎬 CRITICAL: Playwright + Real UX Testing
 

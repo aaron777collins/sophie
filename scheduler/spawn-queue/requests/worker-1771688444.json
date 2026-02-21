@@ -1,0 +1,10 @@
+{
+  "requestId": "worker-1771688444",
+  "requestedBy": "p4-3-error-handling",
+  "requestedAt": "2025-02-01T13:45:00Z",
+  "spawn": {
+    "label": "validation-p4-3",
+    "model": "anthropic/claude-3-5-sonnet-20241022",
+    "task": "LAYER 1 VALIDATION (Fresh Perspective Required)\n\nYou are validating p4-3-error-handling work on PortableRalph. You have NO context of how it was implemented.\n\n**Project Directory:** /home/ubuntu/repos/portableralph/\n**Task:** Test all error paths, ensure graceful failures, review exception handling patterns, test network failure scenarios, test file system permission issues, verify error messages are helpful, test recovery mechanisms\n\n**Acceptance Criteria:**\n- All error paths tested\n- Graceful failure handling verified\n- Helpful error messages confirmed\n- Recovery mechanisms work\n\n**Your validation job:**\n1. Navigate to /home/ubuntu/repos/portableralph/\n2. Test the main ralph.sh script with various error scenarios:\n   - Missing files\n   - Invalid parameters (mode, iterations)\n   - Permission errors if possible\n   - Invalid API keys\n3. Check if error messages are clear and helpful\n4. Verify the error handling library exists at lib/error-handling.sh\n5. Run the test suite at tests/test-error-handling.sh if it exists\n6. Verify exit codes are correct (0 for success, 1+ for errors)\n7. Check for recovery mechanisms and suggestions in error messages\n\nTest at least 5 different error scenarios and document your findings.\n\nReport: PASS with specific evidence of what you tested, or FAIL with specific issues found."
+  }
+}

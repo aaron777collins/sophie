@@ -1,0 +1,26 @@
+{
+  "id": "val-req-pr3-3-$(date +%s)",
+  "timestamp": "$(date -Iseconds)",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate pr3-3: Windows PowerShell Quote Fix",
+  "content": {
+    "task_ids": ["pr3-3"],
+    "project": "PortableRalph",
+    "phase": "Phase 3: Windows Verification",
+    "claimed_by": "worker",
+    "claimed_at": "2026-02-22T13:30:00Z",
+    "files_changed": ["ralph.ps1"],
+    "git_commit": "471e5ea",
+    "acceptance_criteria": [
+      "PowerShell quote balance fixed (even number of quotes)",
+      "Git commit exists with fix",
+      "All previous fixes intact",
+      "Quote count: 384 (even - valid)"
+    ],
+    "person_manager_verification": "2026-02-21 08:01 EST - Quote balance verified: 384 (even), commit 471e5ea confirmed",
+    "validation_method": "Person Manager pre-verified + Windows CI validation via pr3-4",
+    "priority": "HIGH - blocking Phase 3 completion"
+  }
+}
