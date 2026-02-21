@@ -1,0 +1,32 @@
+{
+  "id": "val-req-p4-3-v2-20260221-0900",
+  "timestamp": "2026-02-21T14:00:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request", 
+  "subject": "Validate: p4-3 Error handling (RESUBMISSION after fixes)",
+  "content": {
+    "task_ids": ["p4-3"],
+    "project": "portableralph",
+    "phase": "Phase 4",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-02-21T14:00:00Z",
+    "files_changed": [
+      "ralph.sh",
+      "install.sh",
+      "notify.sh"
+    ],
+    "commits": ["844bfa7 (original)", "dcd6d2a (fixes)"],
+    "acceptance_criteria": [
+      "Invalid mode gives specific error: 'Error: Invalid mode X. Valid modes are: plan, build'",
+      "install.sh handles invalid options gracefully without crashing",
+      "notify.sh responds to --help with usage information"
+    ],
+    "self_validation_notes": "Layer 2 re-validation PASS. All 3 critical issues from first validation now fixed. Tested each scenario manually with verified output.",
+    "test_evidence": {
+      "test1_invalid_mode": "Error: Invalid mode 'invalid_mode'. Valid modes are: plan, build",
+      "test2_install_invalid": "✖ Unknown option: --invalid-option",
+      "test3_notify_help": "notify.sh - Multi-platform notifications for Ralph"
+    }
+  }
+}
