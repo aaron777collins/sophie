@@ -1,5 +1,6 @@
 # Validator Jobs
 
+<<<<<<< HEAD
 > If this file has no active items, the agent should NOT be spawned.
 > Process validation requests from inbox even when this file is empty.
 
@@ -59,3 +60,14 @@
 - **Issue:** Some unit tests fail due to missing useModal mocks
 - **Impact:** 90 out of 296 tests fail
 - **Status:** Pre-existing issue, not related to new work
+=======
+> Independent QA verification requests will appear here.
+
+## Active Validation Requests
+
+*None pending.*
+
+## Completed Validations
+
+*Archive completed validations here with timestamps.*
+>>>>>>> 8038505f0919341aba1680c6f647cb496b037613

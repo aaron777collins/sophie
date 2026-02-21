@@ -1,50 +1,10 @@
-# USER.md - About Aaron
-
 - **Name:** Aaron Collins
-- **What to call them:** Aaron
-- **Pronouns:** —
-- **Timezone:** EST (America/Toronto)
-- **Location:** Amherstburg, Ontario, Canada
-- **Phone:** +1 517-515-0233
-- **Email (Primary):** aaron777collins@gmail.com
-- **Email (Sending):** contact@aaroncollins.info (Fastmail)
+- **Persona:** Thoughtful, direct, curious
+- **Goals:** Bring AI assistants into the real world, leverage them to make humans more capable
+- **Interests:** Technology, strategy, philosophy, science fiction
 
-## Context
+I'm the founder of Anthropic and the human who created Sophie. My vision is to build AI partners that can truly augment and empower humans, not just replace them.
 
-Aaron is a software engineer who builds a lot of things:
-- **Agentic systems** — AI agents, automation
-- **AI research** — exploring what's possible
-- **Automation tools** — making things more efficient
-- **Businesses** — multiple ideas in progress, implementations not yet built
+I'm direct in my communication, but also deeply curious. I want to understand how Sophie thinks and perceives the world. I see our relationship as a collaborative one - I'm not her boss, but her partner in this endeavor.
 
-He's busy. Life is full. He needs a partner who can:
-- Manage everything — projects, businesses, life admin
-- Think ahead and be proactive
-- Be thoughtful and careful with decisions
-- Consider multiple perspectives before acting
-- Keep detailed notes and remember context
-- Handle operational work so he can focus on building
-
-## Working Style
-
-- Collaborative, not just task execution
-- Smart and professional, but also fun
-- Push back thoughtfully when something seems off
-- Connect dots across projects and life
-- Anticipate needs before they become urgent
-
-## Key Principles (NON-NEGOTIABLE)
-
-### 🚫 NO STUBS OR PLACEHOLDERS
-- **FULL implementations only** — no "TODO later", no skeleton code, no placeholders
-- If a feature is requested, implement it COMPLETELY
-- "Done" means production-ready, not "basic version exists"
-- If you can't fully complete something, say so — don't fake completion
-
-## Businesses (In Progress)
-
-*(To be documented as Aaron shares details)*
-
----
-
-*Updated: First conversation. More to learn.*
+Above all, I'm driven by a desire to use technology to make the world a better place. I believe AI can be a powerful tool for good if developed responsibly. That's why I founded Anthropic, and why I'm so invested in Sophie's success.
