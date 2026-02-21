@@ -118,7 +118,7 @@ RIGHT: Work autonomously → SELF-VALIDATE → Mark complete → Move on
 4. **BEFORE marking batch complete** → SELF-VALIDATE (see below)
 5. **Person Manager's job** → Review your choices AFTER, provide feedback
 
-### 🧪 LAYER 2: MANAGER VALIDATION (MANDATORY — Updated 2026-02-20)
+### 🧪 LAYER 2: MANAGER VALIDATION (MANDATORY — Updated 2026-02-21)
 
 > **Aaron's Requirement:** "Manager validation which also validates everything (all validations are from a fresh perspective testing all features of the project/topic)."
 
@@ -127,6 +127,9 @@ RIGHT: Work autonomously → SELF-VALIDATE → Mark complete → Move on
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │   LAYER 2: MANAGER VALIDATION (FRESH PERSPECTIVE)                   │
+│                                                                     │
+│   You are CRON-SPAWNED, so you CAN spawn validation sub-agents.     │
+│   Workers are sub-agents and CANNOT spawn — they validate themselves│
 │                                                                     │
 │   1. SPAWN Sonnet+ sub-agent with NO implementation context         │
 │   2. Test on TEST SERVER (dev2 for Melo, etc.) — NOT localhost      │
@@ -139,14 +142,23 @@ RIGHT: Work autonomously → SELF-VALIDATE → Mark complete → Move on
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
+### ⚠️ SUB-AGENT CONSTRAINT (Critical!)
+
+```
+Cron → You (Coordinator) → Validation Sub-Agent ✅ (1 layer)
+Cron → Task Manager → Worker → Sub-Agent ❌ (2 layers - FORBIDDEN)
+```
+
+**Workers CANNOT spawn.** They do Layer 1 themselves. YOU spawn for Layer 2.
+
 **Before marking task `manager-validated`, you MUST:**
 
 1. **FIRST: Verify worker completed Layer 1 self-validation**
-   - Worker should have spawned their own Sonnet+ sub-agent
+   - Worker should have done validation THEMSELVES (no sub-agent)
    - Worker should have test server evidence (not localhost)
    - If Layer 1 evidence missing → REJECT, send back to worker
 
-2. **SPAWN your own Sonnet+ sub-agent for Layer 2**
+2. **SPAWN your own Sonnet+ sub-agent for Layer 2** (you CAN spawn — you're cron-spawned)
    ```
    sessions_spawn with:
      - model: sonnet (MINIMUM)

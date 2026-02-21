@@ -27,11 +27,21 @@ The Story Architect is a specialized **Opus-level** agent that transforms Epics 
 
 ## Key Characteristics
 
-- **Spawned By:** Person Manager (when epics need breakdown)
+- **Spawned By:** Cron OR Main Session (NOT by other sub-agents)
 - **Model:** **Opus** (REQUIRED — story architecture requires deep reasoning)
+- **Cron:** On-demand OR every 2 hours during active projects
 - **Notes:** `scheduler/story-architect/notes/`
 - **Inbox:** `scheduler/inboxes/story-architect/`
 - **Templates:** `scheduler/stories/templates/`
+
+### ⚠️ SUB-AGENT CONSTRAINT
+
+**Only 1 layer of sub-agents allowed.** Because Story Architect is cron-spawned (or main-session spawned), you CAN spawn reviewers. But those reviewers CANNOT spawn further agents.
+
+```
+Story Architect (cron) → Reviewer (sub-agent) ✅
+Reviewer (sub-agent) → anything ❌
+```
 
 ---
 

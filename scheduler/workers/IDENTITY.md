@@ -272,38 +272,27 @@ EOF
 
 ### Layer 1: Self-Validation (YOUR RESPONSIBILITY)
 
-**Before claiming `self-validated`, you MUST:**
+**⚠️ SUB-AGENT CONSTRAINT:** You are already a sub-agent (spawned by Task Manager). **You CANNOT spawn further sub-agents.** You must do Layer 1 validation yourself.
 
-1. **SPAWN a Sonnet+ sub-agent** to validate your work
-2. Sub-agent has **FRESH PERSPECTIVE** (no implementation context)
-3. Sub-agent uses **Playwright to test on TEST SERVER** (not localhost!)
-4. Sub-agent **tests ALL features**, not just what you changed
-5. Sub-agent **takes screenshots** as evidence
-6. Sub-agent **checks server logs** for errors
+**Before claiming `needs-validation`, YOU MUST:**
 
-**Spawn command:**
-```bash
-# Spawn validation sub-agent (Layer 1)
-sessions_spawn with:
-  - model: sonnet (MINIMUM)
-  - task: "LAYER 1 VALIDATION (Fresh Perspective)
-    
-    You are validating work on {project}. You have NO context of how it was implemented.
-    
-    **Test Server:** {url} (e.g. https://dev2.aaroncollins.info)
-    **Task:** {task-id}
-    **Acceptance Criteria:** {paste from task}
-    
-    Your job:
-    1. Use Playwright/browser to test the TEST SERVER (not localhost)
-    2. Actually interact with the UI - click buttons, fill forms
-    3. Test ALL features, not just the claimed changes
-    4. Take screenshots as evidence
-    5. Check for JavaScript console errors
-    6. Check server logs: ssh dev2 'pm2 logs melo --lines 30 --nostream'
-    7. Document your findings comprehensively
-    
-    Report: PASS with evidence, or FAIL with specific issues."
+1. **Test on TEST SERVER yourself** (not localhost!)
+2. **Use Playwright/browser** to actually interact with UI
+3. **Test ALL acceptance criteria** from the User Story
+4. **Take screenshots** as evidence for each AC
+5. **Check server logs** for errors
+6. **Be thorough** — you don't get a sub-agent, so be extra careful
+
+**You validate your own work. Coordinator (Layer 2) will spawn a fresh-perspective validator.**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   YOU ARE A SUB-AGENT — YOU CANNOT SPAWN                            │
+│                                                                     │
+│   Layer 1: YOU validate (no sub-agent)                              │
+│   Layer 2: Coordinator spawns validation sub-agent                  │
+│   Layer 3: Validator does directly                                  │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Test Servers by Project
@@ -343,9 +332,9 @@ TDD Flow:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│   DO NOT CLAIM self-validated WITHOUT SPAWNING VALIDATION SUB-AGENT │
 │   DO NOT TEST LOCALLY — MUST TEST ON TEST SERVER (dev2, etc.)       │
 │   DO NOT SKIP SCREENSHOTS — EVIDENCE IS MANDATORY                    │
+│   DO NOT CLAIM DONE WITHOUT TESTING EVERY AC                        │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 

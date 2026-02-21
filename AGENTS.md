@@ -306,9 +306,34 @@ PROJECT
 | **Sub-Tasks** | `PROACTIVE-JOBS.md` or `scheduler/tasks/{project}/` |
 | **Validation** | `scheduler/validation/reports/{project}/` |
 
+### ⚠️ Sub-Agent Spawning Constraint (CRITICAL)
+
+**Only 1 layer of sub-agents allowed.** Sub-agents CANNOT spawn further sub-agents.
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   CAN SPAWN (cron-spawned or main session):                         │
+│   • Person Manager → plan reviewers                                 │
+│   • Story Architect → story reviewers                               │
+│   • Coordinator → validation sub-agents (Layer 2)                   │
+│   • Task Managers → workers                                         │
+│                                                                     │
+│   CANNOT SPAWN (already sub-agents):                                │
+│   • Workers (spawned by Task Manager)                               │
+│   • Reviewers (spawned by PM/Story Architect)                       │
+│   • Validation sub-agents (spawned by Coordinator)                  │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Communication between agents uses INBOXES, not nested spawning:**
+```
+Person Manager (cron) → writes to inbox → Story Architect (cron)
+Story Architect (cron) → writes to inbox → Coordinator (cron)
+```
+
 ### 🔍 3-Layer Validation Protocol (MANDATORY) — Updated 2026-02-21
 
-> **Aaron's Requirement:** "All workers should put it into a self validation level 4 phase first which uses sub agents at least sonnet level and then manager validation which also validates everything (all validations are from a fresh perspective testing all features of the project/topic). Then eventually peer validation which they send to the validation agent."
+> **Adjusted for sub-agent constraint:** Workers validate themselves (no sub-agent). Coordinator spawns Layer 2 validation.
 
 **"It's not just 'oh I finished my code'... it's a FULL VERIFICATION!"**
 
@@ -316,9 +341,9 @@ PROJECT
 ┌─────────────────────────────────────────────────────────────────────┐
 │              3-LAYER VALIDATION PROTOCOL (NON-NEGOTIABLE)           │
 │                                                                     │
-│  Layer 1: SELF-VALIDATION (Worker → Sonnet Sub-Agent)               │
-│  Layer 2: MANAGER VALIDATION (Fresh Perspective)                    │
-│  Layer 3: PEER VALIDATION (Independent Validator)                   │
+│  Layer 1: SELF-VALIDATION (Worker does it themselves — no spawn)   │
+│  Layer 2: MANAGER VALIDATION (Coordinator spawns sub-agent)         │
+│  Layer 3: PEER VALIDATION (Validator does directly)                 │
 │                                                                     │
 │  ALL LAYERS USE PLAYWRIGHT + ACTUAL UX TESTING ON TEST SERVERS      │
 └─────────────────────────────────────────────────────────────────────┘
