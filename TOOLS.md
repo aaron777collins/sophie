@@ -58,6 +58,14 @@ Spawn sub-agents freely for parallel work or isolated tasks:
 
 Size the model to the task. Use `sessions_spawn` to spin them up.
 
+### ⚠️ Haiku Model Limitation (CRITICAL)
+**OAuth tokens only have access to `claude-3-haiku-20240307`** — NOT 3.5 versions.
+- ✅ `claude-3-haiku-20240307` — WORKS
+- ❌ `claude-3-5-haiku-20241022` — 404 error
+- ❌ `claude-3-5-haiku-latest` — 404 error
+
+**Current config uses:** `claude-3-haiku-20240307` for all Haiku sub-agents.
+
 ### Brain/Body Model
 I'm the brain (Opus) — thinking, planning, deciding. Use smaller/faster models as my "body" for executing actions and tasks. Sonnet has specific limits, so Opus + Haiku is often the practical split, but Sonnet can still be used when moderate complexity makes sense.
 

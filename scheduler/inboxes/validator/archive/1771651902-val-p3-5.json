@@ -1,0 +1,24 @@
+{
+  "id": "val-req-p3-5-docs",
+  "timestamp": "2026-02-21T05:30:00Z",
+  "from": "coordinator", 
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: p3-5 Windows Documentation Update",
+  "content": {
+    "task_ids": ["p3-5"],
+    "project": "PortableRalph",
+    "phase": "Phase 3",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-02-21T05:30:00Z", 
+    "files_changed": ["README.md", "docs/TROUBLESHOOTING.md"],
+    "acceptance_criteria": [
+      "Windows installation steps documented clearly",
+      "CI workflow process documented for maintainers", 
+      "Windows-specific requirements noted",
+      "Windows troubleshooting guide updated",
+      "Changes committed with descriptive message"
+    ],
+    "self_validation_notes": "Git commit a21471f verified, both documentation files updated with substantial content, all tests still passing, no regressions introduced"
+  }
+}
