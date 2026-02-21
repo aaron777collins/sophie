@@ -105,9 +105,21 @@ The Story Architect is a specialized Opus agent that:
 ### Identity Location
 `scheduler/story-architect/IDENTITY.md`
 
-### Cron Schedule
-On-demand (spawned by Person Manager when epics need breakdown)
-OR: Every 2 hours during active development
+### Invocation Method
+**Via Claude Code CLI** (separate process, not a sub-agent)
+```bash
+claude --model opus -p "You are the Story Architect. Read ~/clawd/scheduler/story-architect/IDENTITY.md..."
+```
+
+**Why Claude Code?**
+- Separate process — no sub-agent nesting constraints
+- Can spawn unlimited researchers and reviewers
+- On-demand — only runs when Person Manager has epics
+- Full Opus reasoning for comprehensive story architecture
+
+### Sub-Agents Story Architect Can Spawn
+1. **Researchers** (Sonnet) — Gather codebase context, domain knowledge, technical constraints
+2. **Reviewers** (Opus/Sonnet) — Challenge stories, find missing edge cases
 
 ### Inbox
 `scheduler/inboxes/story-architect/`
@@ -141,26 +153,31 @@ OR: Every 2 hours during active development
 └─────────────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────────────┐
-│ LEVEL 2: STORY ARCHITECT (Opus) ← NEW                                   │
+│ LEVEL 2: STORY ARCHITECT (Opus via Claude Code) ← NEW                   │
 │ Input: Epic from Person Manager                                         │
-│ Creates: USER STORIES with full Acceptance Criteria                     │
+│ Invoked: Via Claude Code CLI (separate process, unlimited sub-agents)   │
 │                                                                         │
+│ STEP 1: Spawn RESEARCHERS (Sonnet)                                      │
+│ - Codebase patterns, technical constraints                              │
+│ - Domain knowledge, best practices                                      │
+│ - Security, accessibility, performance considerations                   │
+│                                                                         │
+│ STEP 2: Create USER STORIES with full Acceptance Criteria               │
 │ Story: [{US-ID}] {Specific Capability}                                  │
 │ - As a / I want / So that                                               │
 │ - AC-1: Given/When/Then + validation method                             │
-│ - AC-2: Given/When/Then + validation method                             │
 │ - AC-N: Given/When/Then + validation method                             │
 │ - CONTINGENCIES (edge cases, error scenarios, what if X fails)          │
 │ - DEPENDENCIES (other stories, technical prerequisites)                 │
-│ - Technical notes                                                       │
+│ - Technical notes from research                                         │
+│                                                                         │
+│ STEP 3: Spawn REVIEWERS (Opus/Sonnet)                                   │
+│ - Challenge: Are ALL edge cases covered?                                │
+│ - Challenge: Are CONTINGENCIES complete?                                │
+│ - Challenge: Are DEPENDENCIES mapped?                                   │
+│ - Challenge: Are ACs testable?                                          │
 │                                                                         │
 │ Output: scheduler/stories/{project}/stories/{US-ID}.md                  │
-│                                                                         │
-│ Review: Story Architect spawns a reviewer (Opus/Sonnet) to check:       │
-│ - Are ALL edge cases covered?                                           │
-│ - Are ACs testable?                                                     │
-│ - Are dependencies mapped?                                              │
-│ - What contingencies are missing?                                       │
 └─────────────────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────────────────┐

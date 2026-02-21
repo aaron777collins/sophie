@@ -54,9 +54,43 @@ STEP 1: L1 Creates Master Plan
 │  └────────────────────────────────────────────────────────────────────┘ │
 └──────────────────────────────────────────────────────────────────────────┘
                               ↓
-STEP 2: L2 Breaks Down Into Phases
+STEP 1.5: STORY ARCHITECT Creates User Stories (Added 2026-02-21)
+┌──────────────────────────────────────────────────────────────────────────┐
+│  Story Architect (Opus via Claude Code CLI)                              │
+│  ┌────────────────────────────────────────────────────────────────────┐ │
+│  │ Input: Epic from Person Manager                                     │ │
+│  │ Invocation: claude --model opus (separate process)                  │ │
+│  │                                                                     │ │
+│  │ PHASE 1: Spawn RESEARCHERS (Sonnet)                                 │ │
+│  │ - Codebase patterns and existing implementations                    │ │
+│  │ - Domain knowledge and best practices                               │ │
+│  │ - Technical constraints and dependencies                            │ │
+│  │                                                                     │ │
+│  │ PHASE 2: Create User Stories                                        │ │
+│  │ - As a / I want / So that                                           │ │
+│  │ - Acceptance Criteria (Given/When/Then)                             │ │
+│  │ - CONTINGENCIES (what could go wrong + mitigations)                 │ │
+│  │ - DEPENDENCIES (upstream/downstream/external)                       │ │
+│  │ - Technical notes from research                                     │ │
+│  │                                                                     │ │
+│  │ PHASE 3: Spawn REVIEWERS (Opus/Sonnet)                              │ │
+│  │ - Challenge edge cases, contingencies, dependencies                 │ │
+│  │ - Iterate until stories are complete                                │ │
+│  │                                                                     │ │
+│  │ Output: scheduler/stories/{project}/stories/{US-ID}.md              │ │
+│  └────────────────────────────────────────────────────────────────────┘ │
+│                                                                          │
+│  Why Claude Code?                                                        │
+│  - Separate process (not a sub-agent)                                    │
+│  - Can spawn unlimited researchers + reviewers                           │
+│  - On-demand invocation when epics are ready                             │
+│  - Full Opus reasoning power                                             │
+└──────────────────────────────────────────────────────────────────────────┘
+                              ↓
+STEP 2: L2 Breaks Down Into Sub-Tasks (Updated)
 ┌──────────────────────────────────────────────────────────────────────────┐
 │  Coordinator (Opus/Sonnet)                                               │
+│  NOTE: Coordinator now receives User Stories, not Epics                  │
 │  ┌────────────────────────────────────────────────────────────────────┐ │
 │  │ Input: Approved Master Plan v2                                      │ │
 │  │ Output: Phase Breakdown Plan                                        │ │
