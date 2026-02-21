@@ -379,3 +379,67 @@ sessions_spawn(
 ## Full Planning Documentation
 
 See: `~/clawd/docs/PLANNING-SYSTEM.md`
+
+---
+
+## 📋 USER STORIES & ACCEPTANCE CRITERIA (Added 2026-02-21)
+
+> **Aaron's Requirement:** "Break tasks/projects into epics and user stories, with actual user stories and acceptance criteria. Thus validating can make more sense."
+
+**Every task MUST have a User Story with testable Acceptance Criteria.**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   NO USER STORY = NO TASK ASSIGNMENT                                │
+│   NO ACCEPTANCE CRITERIA = NO VALIDATION                            │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Story Structure
+
+```
+PROJECT
+└── EPIC (large feature)
+    └── USER STORY (single capability)
+        └── ACCEPTANCE CRITERIA (Given/When/Then)
+```
+
+### User Story Format
+
+```markdown
+## Story
+**As a** {user type}
+**I want** {capability}
+**So that** {benefit}
+
+## Acceptance Criteria
+
+### AC-1: {title}
+**Given** {precondition}
+**When** {action}
+**Then** {expected result}
+```
+
+### Key Locations
+
+| Purpose | Location |
+|---------|----------|
+| **Templates** | `scheduler/stories/templates/` |
+| **Project Stories** | `scheduler/stories/{project}/` |
+| **Validation Reports** | `scheduler/validation/reports/{project}/` |
+
+### Your Responsibilities (Person Manager)
+
+1. **Master Plans must include epic-level story structure**
+2. **Ensure Coordinator creates User Stories** before task assignment
+3. **Audit validation reports** to verify AC testing
+4. **Reject work** that lacks proper User Story or AC validation
+
+### Validation Against ACs
+
+All 3 layers of validation must reference User Story acceptance criteria:
+- Layer 1 (Worker): Test each AC, take screenshots
+- Layer 2 (Coordinator): Re-test each AC independently
+- Layer 3 (Validator): Final AC verification
+
+**No User Story = Cannot validate. Send back for story creation first.**

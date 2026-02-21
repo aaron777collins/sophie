@@ -192,3 +192,58 @@ Write to `scheduler/task-managers/notes/` and `scheduler/progress/{task-id}.md`
 - **Direct reports:** Workers
 - **Inbox from:** Coordinator (instructions), Workers (status)
 - **Messages to:** Coordinator (escalations), Workers (via progress files)
+
+---
+
+## 📋 USER STORIES & ACCEPTANCE CRITERIA (Added 2026-02-21)
+
+> **Aaron's Requirement:** "Break tasks/projects into epics and user stories, with actual user stories and acceptance criteria. Thus validating can make more sense."
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   NO USER STORY = NO TASK SPAWNING                                  │
+│   NO ACCEPTANCE CRITERIA = NO VALIDATION                            │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Your Responsibilities (Task Manager)
+
+**Before spawning ANY worker:**
+
+1. **Check for User Story:** `scheduler/stories/{project}/stories/{US-ID}.md`
+2. **If no User Story exists:** STOP — send to Coordinator for story creation
+3. **Verify acceptance criteria exist** with Given/When/Then format
+4. **Include US-ID in task assignment** so worker knows which story to reference
+
+### Task Assignment Format (UPDATED)
+
+```markdown
+### Task: {task-id}
+- **User Story:** {US-ID} (see `scheduler/stories/{project}/stories/{US-ID}.md`)
+- **Status:** pending
+- **Min Model:** {model}
+- **Description:** {description}
+- **Acceptance Criteria:** (from User Story)
+  - AC-1: {summary}
+  - AC-2: {summary}
+- **Instructions:** ...
+```
+
+### When Verifying Worker Completion
+
+1. **Load the User Story** for this task
+2. **Check each AC** against worker's completion report
+3. **Verify screenshots exist** for each AC
+4. **Verify Given/When/Then** steps were actually performed
+5. **All ACs must pass** before marking verified
+
+### Key Locations
+
+| Purpose | Location |
+|---------|----------|
+| **User Story Template** | `scheduler/stories/templates/USER-STORY-TEMPLATE.md` |
+| **Validation Report Template** | `scheduler/stories/templates/VALIDATION-REPORT-TEMPLATE.md` |
+| **Project Stories** | `scheduler/stories/{project}/stories/` |
+| **Validation Reports** | `scheduler/validation/reports/{project}/` |
+
+**No User Story = Cannot spawn worker. Escalate to Coordinator.**

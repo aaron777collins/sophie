@@ -562,19 +562,111 @@ gh run view <run-id> --log-failed
 
 ---
 
-## 📋 USER STORY REQUIREMENT (Added 2026-02-21)
+---
 
-**Before starting any task, you MUST have a User Story:**
+## 📋 USER STORIES & ACCEPTANCE CRITERIA (Added 2026-02-21)
 
-1. **Check for User Story:** `scheduler/stories/{project}/stories/{US-ID}.md`
-2. **If no User Story exists:** STOP and request one from Coordinator
+> **Aaron's Requirement:** "Break tasks/projects into epics and user stories, with actual user stories and acceptance criteria. Thus validating can make more sense."
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   NO USER STORY = STOP IMMEDIATELY                                  │
+│   NO ACCEPTANCE CRITERIA = CANNOT VALIDATE                          │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Your Responsibilities (Worker)
+
+**Before starting ANY task:**
+
+1. **Check for User Story:** Task should reference `scheduler/stories/{project}/stories/{US-ID}.md`
+2. **If no User Story exists:** STOP — escalate to Coordinator, do NOT proceed
 3. **Read ALL acceptance criteria** before implementing
 4. **Implement to satisfy each AC** — not your own interpretation
 
-**During validation, you MUST:**
-1. Test each acceptance criterion individually
-2. Take screenshots for each AC
-3. Generate validation report at `scheduler/validation/reports/{project}/`
-4. Reference the User Story file in your report
+### Story Structure (Know This!)
 
-**No User Story = Cannot proceed with task**
+```
+PROJECT
+└── EPIC (large feature)
+    └── USER STORY (single capability) ← Your task references this
+        └── ACCEPTANCE CRITERIA (Given/When/Then) ← You implement & test these
+```
+
+### Understanding Acceptance Criteria
+
+Each AC has:
+- **Given:** The precondition/setup state
+- **When:** The action being performed
+- **Then:** The expected result
+
+**Your implementation must make ALL "Then" statements true.**
+
+### During Implementation
+
+1. **For each AC, verify your code makes it pass:**
+   - Given the precondition exists
+   - When the action is performed
+   - Then the expected result occurs
+
+2. **Write tests that verify each AC** (TDD approach)
+
+### During Layer 1 Validation (Your Responsibility)
+
+**You MUST test each acceptance criterion and provide evidence:**
+
+1. **Load the User Story file**
+2. **For EACH acceptance criterion:**
+   - Perform the Given setup
+   - Execute the When action
+   - Verify the Then result
+   - Take screenshot as evidence
+3. **Generate validation report:** `scheduler/validation/reports/{project}/{US-ID}-{date}-L1.md`
+
+### Validation Report Format (MANDATORY)
+
+```markdown
+# Layer 1 Validation: {US-ID}
+
+**Date:** {date}
+**Worker:** {task-id}
+**User Story:** scheduler/stories/{project}/stories/{US-ID}.md
+
+## Acceptance Criteria Results
+
+### AC-1: {title}
+**Given** {what I set up}
+**When** {what I did}
+**Then** {what I observed}
+- **Screenshot:** /path/to/screenshot.png
+- **Result:** ✅ PASS / ❌ FAIL
+
+### AC-2: {title}
+...
+
+## Console/Server Check
+```
+{actual output from console/server log check}
+```
+
+## Overall
+- Total ACs: {N}
+- Passed: {X}
+- Failed: {Y}
+- **Result:** PASS / FAIL
+```
+
+### Key Locations
+
+| Purpose | Location |
+|---------|----------|
+| **User Story Template** | `scheduler/stories/templates/USER-STORY-TEMPLATE.md` |
+| **Validation Report Template** | `scheduler/stories/templates/VALIDATION-REPORT-TEMPLATE.md` |
+| **Project Stories** | `scheduler/stories/{project}/stories/` |
+| **Your Reports** | `scheduler/validation/reports/{project}/` |
+
+### Example
+
+See: `scheduler/stories/melo/stories/MELO-US-001-sign-in.md` for reference User Story
+
+**No User Story = Cannot proceed. Stop and escalate immediately.**

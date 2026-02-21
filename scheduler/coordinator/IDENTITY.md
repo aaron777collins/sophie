@@ -661,27 +661,112 @@ See: `~/clawd/docs/PLANNING-SYSTEM.md`
 
 ---
 
-## 📋 USER STORY CREATION (Added 2026-02-21)
+---
 
-**Before assigning any task, you MUST create a User Story:**
+## 📋 USER STORIES & ACCEPTANCE CRITERIA (Added 2026-02-21)
 
-1. **Create User Story file:** `scheduler/stories/{project}/stories/{US-ID}.md`
-2. **Use template:** `scheduler/stories/templates/USER-STORY-TEMPLATE.md`
-3. **Include ALL acceptance criteria** with Given/When/Then format
-4. **Specify test server and validation method** for each AC
+> **Aaron's Requirement:** "Break tasks/projects into epics and user stories, with actual user stories and acceptance criteria. Thus validating can make more sense."
 
-**User Story MUST include:**
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   NO USER STORY = NO TASK ASSIGNMENT (NON-NEGOTIABLE)               │
+│   NO ACCEPTANCE CRITERIA = NO VALIDATION                            │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Story Structure
+
+```
+PROJECT
+└── EPIC (large feature)
+    └── USER STORY (single capability)
+        └── ACCEPTANCE CRITERIA (Given/When/Then)
+```
+
+### Your Responsibilities (Coordinator)
+
+**Before assigning ANY task, you MUST create a User Story:**
+
+1. **Create Epic (if new feature area):** `scheduler/stories/{project}/epics/{EPIC-ID}.md`
+2. **Create User Story:** `scheduler/stories/{project}/stories/{US-ID}.md`
+3. **Use templates:** `scheduler/stories/templates/`
+4. **Include ALL acceptance criteria** with Given/When/Then format
+5. **Specify test server and validation method** for each AC
+
+### User Story Format (MANDATORY)
+
+```markdown
+## Story
+**As a** {user type}
+**I want** {capability}
+**So that** {benefit}
+
+## Acceptance Criteria
+
+### AC-1: {title}
+**Given** {precondition}
+**When** {action}
+**Then** {expected result}
+**Test Server:** {url}
+**Validation Method:** {how to verify — Playwright steps, visual check, etc.}
+```
+
+### User Story MUST Include:
+
 - Story format (As a... I want... So that...)
-- At least 2-3 acceptance criteria
-- Each AC with Given/When/Then
-- Test server URL
+- At least 2-3 acceptance criteria minimum
+- Each AC with Given/When/Then format
+- Test server URL for each AC
+- Specific validation method (testable!)
 - Reference to test credentials location
 
-**When validating (Layer 2):**
-1. Load the User Story file
-2. Test EACH acceptance criterion
-3. Take screenshots for each AC
-4. Generate validation report
-5. All ACs must pass
+### Key Locations
 
-**No User Story = Do not assign task**
+| Purpose | Location |
+|---------|----------|
+| **Epic Template** | `scheduler/stories/templates/EPIC-TEMPLATE.md` |
+| **User Story Template** | `scheduler/stories/templates/USER-STORY-TEMPLATE.md` |
+| **Validation Report Template** | `scheduler/stories/templates/VALIDATION-REPORT-TEMPLATE.md` |
+| **Project Epics** | `scheduler/stories/{project}/epics/` |
+| **Project Stories** | `scheduler/stories/{project}/stories/` |
+| **Validation Reports** | `scheduler/validation/reports/{project}/` |
+
+### When Validating (Layer 2 — Your Responsibility)
+
+1. **Load the User Story file** for the task being validated
+2. **Test EACH acceptance criterion** using Given/When/Then steps
+3. **Take screenshots** for each AC as evidence
+4. **Generate validation report** at `scheduler/validation/reports/{project}/{US-ID}-{date}.md`
+5. **ALL ACs must pass** for validation to pass
+
+### Validation Report Required Fields
+
+```markdown
+# Validation Report: {US-ID}
+**Date:** {date}
+**Validated by:** coordinator (Layer 2)
+**User Story:** scheduler/stories/{project}/stories/{US-ID}.md
+
+## AC Results
+
+### AC-1: {title}
+- **Given:** {verified precondition}
+- **When:** {performed action}
+- **Then:** {observed result}
+- **Screenshot:** {path}
+- **Result:** ✅ PASS / ❌ FAIL
+
+[... for each AC ...]
+
+## Console/Server Errors
+{output from checks}
+
+## Overall Result
+**PASS** / **FAIL** — {summary}
+```
+
+### Examples
+
+See: `scheduler/stories/melo/stories/MELO-US-001-sign-in.md` for reference
+
+**No User Story = Do not assign task. Create story first!**
