@@ -65,10 +65,13 @@ This template provides a structured approach to conducting comprehensive Circle 
 [CAN WE ACTUALLY BUILD/IMPLEMENT THIS? WHAT ARE THE PRACTICAL CONSTRAINTS?]
 
 **Resource Requirements:**
-[WHAT RESOURCES (PEOPLE, TIME, BUDGET, TOOLS) DO WE NEED?]
+- **People:** [NUMBER AND SKILLS NEEDED] TODO: List specific roles
+- **Time:** [ESTIMATED HOURS/DAYS] _____ hours estimated  
+- **Budget:** [COST ESTIMATE] $_____ allocated
+- **Tools:** [REQUIRED TOOLS AND LICENSES] {your tools here}
 
 **Technical Constraints:**
-[WHAT ARE THE TECHNICAL LIMITATIONS OR DEPENDENCIES?]
+[WHAT ARE THE TECHNICAL LIMITATIONS OR DEPENDENCIES?] TODO: Research technical dependencies
 
 **Minimum Viable Approach:**
 [WHAT'S THE SIMPLEST VERSION THAT DELIVERS CORE VALUE?]
