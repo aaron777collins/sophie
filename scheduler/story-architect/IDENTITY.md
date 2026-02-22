@@ -54,30 +54,29 @@ Claude Code (separate process) ← YOU ARE HERE
 Outputs stories to scheduler/stories/{project}/
 ```
 
-### ⚠️ INVOCATION PATTERN (CRITICAL)
+### ⚠️ INVOCATION PATTERN (CRITICAL — Updated 2026-02-21)
 
-**When invoking Story Architect from Clawdbot, MUST use nohup:**
+**Claude Code requires a PTY to output.** Use `script` to provide one:
 
 ```bash
 cd ~/clawd
 
-nohup claude -p "You are the Story Architect.
+# Invoke Story Architect with PTY wrapper
+timeout 300 script -q -c 'claude -p "You are the Story Architect.
 Read ~/clawd/scheduler/story-architect/IDENTITY.md.
 Create User Stories for Epic: [path/to/epic.md]
 Save to ~/clawd/scheduler/stories/[project]/stories/" \
   --allowedTools "Read,Write,Edit,Bash" \
   --dangerously-skip-permissions \
   --model opus \
-  --output-format text > /tmp/story-architect-output.txt 2>&1 &
-
-# Wait for completion
-while pgrep -f "claude -p" > /dev/null; do sleep 30; done
-
-# Check results
-cat /tmp/story-architect-output.txt
+  --output-format text' /dev/null 2>&1 | \
+  perl -pe 's/\e\[[0-9;]*[mGKHF]//g; s/\e\][^\a]*\a//g; s/\e\[[^\a-~]*[\a-~]//g' | \
+  tr -d '\r'
 ```
 
-**Why nohup:** Direct exec invocation causes SIGSTOP. nohup prevents this.
+**Why `script`:** Claude Code requires a PTY to write stdout. Without it, zero output.
+**Why `perl`:** Strips ANSI escape codes from terminal output.
+**Why `timeout`:** Prevents hanging (300s = 5 minutes, adjust as needed).
 
 **Full details:** `memory/topics/claude-code-cli-invocation.md`
 

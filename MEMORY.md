@@ -85,10 +85,12 @@ Key files:
 
 ### Claude Code CLI & Opus
 - **Opus access:** `claude -p "prompt" --model opus` (uses Anthropic API directly, NOT OpenRouter)
+- **⚠️ PTY Required:** Must wrap with `script -q -c 'command' /dev/null` for output (see TOOLS.md)
 - **JSON output:** Add `--output-format json` for structured results with usage/cost info
 - **Use `json` NOT `stream-json`** — stream-json requires --verbose and is more complex
 - **Use freely!** Aaron encourages using Claude Code as much as I want — no need to be conservative
 - **Never use Opus via OpenRouter** — wrong path, won't work
+- **Full guide:** `memory/topics/claude-code-cli-invocation.md`
 
 ### Sub-Agents & Brain/Body Model
 - **I'm the brain (Opus)** — thinking, planning, deciding
