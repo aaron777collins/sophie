@@ -3,12 +3,17 @@
   "version": "1.0.0",
   "description": "Test suite for proactive job system template validation",
   "scripts": {
-    "test": "node proactive-jobs-template-validation.js && node template-format-validation.js",
+    "test": "node proactive-jobs-template-validation.js && node template-format-validation.js && node planning-system-validation.js && node user-story-format-validation.js",
     "test:template": "node proactive-jobs-template-validation.js",
     "test:format": "node template-format-validation.js",
+    "test:planning": "node planning-system-validation.js",
+    "test:userstory": "node user-story-format-validation.js",
     "test:integration": "echo 'Integration tests placeholder - implement when template ready'"
   },
-  "keywords": ["template", "validation", "proactive-jobs", "TDD"],
-  "author": "Sophie (sub-agent p1-2-a)",
-  "license": "MIT"
+  "keywords": ["template", "validation", "proactive-jobs", "TDD", "planning-system"],
+  "author": "Sophie (sub-agent p1-2-a, p1-2-b)",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
 }
