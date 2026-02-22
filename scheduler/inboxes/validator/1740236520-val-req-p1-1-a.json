@@ -1,0 +1,35 @@
+{
+  "id": "val-req-1740236520",
+  "timestamp": "2026-02-22T13:12:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: p1-1-a - AGENTS.md mandatory testing requirements",
+  "content": {
+    "task_ids": ["p1-1-a"],
+    "project": "proactive-job-system-enhancement",
+    "phase": "Phase 1",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-02-22T13:12:00Z",
+    "files_changed": [
+      "AGENTS.md",
+      "tests/agents-md-validation.js",
+      "tests/package.json"
+    ],
+    "git_commit": "8c2e77a9d",
+    "acceptance_criteria": [
+      "AGENTS.md updated with new testing requirements section",
+      "All task management sections reference mandatory testing",
+      "Validation workflow updated to require test evidence",
+      "Changes consistent with existing document structure",
+      "Validation tests pass (17/17)",
+      "Git commit created with descriptive message"
+    ],
+    "self_validation_notes": "Layer 2 coordinator validation: Git commit verified, validation tests pass 17/17, content review shows TDD section, testing frameworks table, enhanced 3-layer validation workflow, and 'No Task Without Tests' policy added. Changes are well-integrated with existing AGENTS.md structure.",
+    "test_evidence": {
+      "command": "node tests/agents-md-validation.js",
+      "result": "17/17 passed",
+      "output_sample": "All tests passed! AGENTS.md meets validation requirements."
+    }
+  }
+}

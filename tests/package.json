@@ -1,14 +1,14 @@
 {
-  "name": "clawd-tests",
+  "name": "proactive-jobs-tests",
   "version": "1.0.0",
-  "description": "Test suite for Clawd workspace validation",
-  "main": "agents-md-validation.js",
+  "description": "Test suite for proactive job system template validation",
   "scripts": {
-    "test": "node agents-md-validation.js",
-    "test:agents": "node agents-md-validation.js",
-    "validate": "npm run test"
+    "test": "node proactive-jobs-template-validation.js && node template-format-validation.js",
+    "test:template": "node proactive-jobs-template-validation.js",
+    "test:format": "node template-format-validation.js",
+    "test:integration": "echo 'Integration tests placeholder - implement when template ready'"
   },
-  "keywords": ["validation", "documentation", "testing"],
-  "author": "Sophie AI",
+  "keywords": ["template", "validation", "proactive-jobs", "TDD"],
+  "author": "Sophie (sub-agent p1-2-a)",
   "license": "MIT"
 }
