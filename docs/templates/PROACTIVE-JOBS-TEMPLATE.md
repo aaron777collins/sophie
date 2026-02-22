@@ -20,7 +20,7 @@ This template establishes the standard structure for all proactive job tasks, in
 2. **Fill in all required fields** (marked with `{placeholder}`)
 3. **Define acceptance criteria** using Given-When-Then format
 4. **Specify testing requirements** including frameworks and validation methods
-5. **Follow TDD approach**: Write tests first, then implement
+5. **Follow Test-Driven Development approach**: Write tests first, then implement
 6. **Update status progression** as work progresses through validation layers
 
 ### Integration with Existing Workflow
@@ -35,7 +35,7 @@ This template establishes the standard structure for all proactive job tasks, in
 
 ```markdown
 ## TASK: {task-id} - {brief-description}
-**Status:** {pending|in-progress|self-validated|needs-validation|validated|complete}
+**Status:** {pending|working|needs-validation|complete}
 **Started:** {YYYY-MM-DD HH:MM EST}
 **Claimed Complete:** {YYYY-MM-DD HH:MM EST} _(when worker claims done)_
 **L2 Validated:** {YYYY-MM-DD HH:MM EST} _(when coordinator approves)_
@@ -86,7 +86,7 @@ This template establishes the standard structure for all proactive job tasks, in
 
 ## Testing Requirements (MANDATORY)
 
-### TDD Approach
+### Test-Driven Development Approach
 - **RED:** Write tests FIRST (before implementation)
 - **GREEN:** Implement just enough to make tests pass
 - **REFACTOR:** Improve code while keeping tests green
@@ -105,8 +105,8 @@ This template establishes the standard structure for all proactive job tasks, in
 ## Validation Checklist
 
 ### Layer 1: Self-Validation (Worker) ✅/❌
-- [ ] Tests written BEFORE implementation (TDD RED phase)
-- [ ] All tests pass (TDD GREEN phase)
+- [ ] Tests written BEFORE implementation (Test-Driven Development RED phase)
+- [ ] All tests pass (Test-Driven Development GREEN phase)
 - [ ] Code/content meets all acceptance criteria
 - [ ] Test evidence collected and documented
 - [ ] Testing framework properly implemented
@@ -161,7 +161,7 @@ This template establishes the standard structure for all proactive job tasks, in
 - [ ] Task structure follows template format
 - [ ] All acceptance criteria defined with Given-When-Then format
 - [ ] Testing requirements specified with appropriate frameworks
-- [ ] TDD approach documented (Red → Green → Refactor)
+- [ ] Test-Driven Development approach documented (Red → Green → Refactor)
 - [ ] 3-layer validation workflow included
 - [ ] Test evidence sections prepared
 - [ ] Status progression includes all validation states
@@ -229,7 +229,7 @@ Tasks progress through these states with mandatory validation at each layer:
 ### AC-1: Documentation Update Validation
 **Given** the AGENTS.md file exists and contains task management sections
 **When** testing requirements are added to the document structure
-**Then** the document should include TDD methodology, testing frameworks, and 3-layer validation
+**Then** the document should include Test-Driven Development methodology, testing frameworks, and 3-layer validation
 **Test Method:** validation script checking for required sections and content
 **Evidence Required:** test output showing all validation checks pass
 
@@ -246,7 +246,7 @@ Tasks progress through these states with mandatory validation at each layer:
 ```markdown
 ## Testing Requirements (MANDATORY)
 
-### TDD Approach
+### Test-Driven Development Approach
 - **RED:** Write validation script that checks for required sections (should fail initially)
 - **GREEN:** Add required sections to make validation script pass
 - **REFACTOR:** Improve section clarity and consistency while keeping tests green

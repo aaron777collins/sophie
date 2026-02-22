@@ -346,6 +346,171 @@ Proceed with implementation, but require:
 - Testing strategy
 - Deployment planning
 
+## Implementation Guide
+
+This section provides step-by-step guidance for implementing the enhanced proactive job system in your environment.
+
+### Prerequisites
+
+Before implementing the enhanced system, ensure you have:
+
+1. **Agent Infrastructure**
+   - Multi-model agent capability (Opus, Sonnet, Haiku)
+   - File system access for memory and progress tracking
+   - Git integration for version control
+   - Testing framework support (Jest, Playwright, Cypress as needed)
+
+2. **Documentation Foundation**
+   - Existing AGENTS.md file
+   - Basic memory/ folder structure
+   - scheduler/ directory for progress tracking
+
+3. **Team Understanding**
+   - Familiarity with Test-Driven Development (TDD)
+   - Understanding of 3-layer validation concepts
+   - Basic knowledge of Circle critical thinking framework
+
+### Implementation Steps
+
+#### Step 1: Foundation Setup (Week 1)
+
+1. **Update Core Agent Documentation**
+   ```bash
+   # Apply enhanced AGENTS.md template
+   cp docs/templates/AGENTS-ENHANCED.md AGENTS.md
+   
+   # Verify testing requirements section exists
+   grep -A 10 "Testing & Validation Requirements" AGENTS.md
+   ```
+
+2. **Configure Agent Identity Files**
+   ```bash
+   # Update worker identity with validation requirements
+   cp scheduler/workers/IDENTITY-ENHANCED.md scheduler/workers/IDENTITY.md
+   
+   # Update task manager identity
+   cp scheduler/task-managers/IDENTITY-ENHANCED.md scheduler/task-managers/IDENTITY.md
+   ```
+
+3. **Setup Testing Infrastructure**
+   ```bash
+   # Create tests directory if not exists
+   mkdir -p tests
+   
+   # Initialize testing configuration
+   npm init -y
+   npm install --save-dev jest playwright
+   ```
+
+#### Step 2: Template Integration (Week 2)
+
+1. **Deploy Enhanced Templates**
+   ```bash
+   # Copy proactive job template
+   cp docs/templates/PROACTIVE-JOBS-TEMPLATE.md scheduler/templates/
+   
+   # Copy critical thinking checkpoint template
+   cp scheduler/templates/CRITICAL-THINKING-CHECKPOINT-TEMPLATE.md scheduler/templates/
+   ```
+
+2. **Configure Planning System**
+   ```bash
+   # Update planning documentation
+   cp docs/PLANNING-SYSTEM-ENHANCED.md docs/PLANNING-SYSTEM.md
+   
+   # Update verification system
+   cp docs/VERIFICATION-SYSTEM-ENHANCED.md docs/VERIFICATION-SYSTEM.md
+   ```
+
+#### Step 3: Validation Workflow Implementation (Week 3)
+
+1. **Establish 3-Layer Validation**
+   - **Layer 1 (Workers):** Self-validation with test evidence
+   - **Layer 2 (Managers):** Test verification and approval
+   - **Layer 3 (Validators):** Independent test execution
+
+2. **Configure Status Progression**
+   ```
+   pending → working → needs-validation → complete
+   ```
+
+3. **Setup Progress Tracking**
+   ```bash
+   mkdir -p scheduler/progress/
+   mkdir -p scheduler/heartbeats/
+   ```
+
+#### Step 4: Circle Framework Integration (Week 4)
+
+1. **Deploy Circle Templates**
+   ```bash
+   cp docs/templates/CIRCLE-ANALYSIS-TEMPLATE.md docs/templates/
+   cp docs/workflows/CIRCLE-INTEGRATED-PLANNING.md docs/workflows/
+   ```
+
+2. **Train Team on Circle Perspectives**
+   - **Pragmatist:** Resources, timeline, feasibility
+   - **Skeptic:** Risks, assumptions, edge cases
+   - **Guardian:** Security, compliance, stability
+   - **Dreamer:** Innovation, future potential, vision alignment
+
+### Validation Testing
+
+After implementation, validate the system with this test suite:
+
+```bash
+# Run comprehensive system validation
+node tests/system-integration-validation.js
+
+# Test individual components
+node tests/agents-md-validation.js
+node tests/template-compliance-validation.js
+node tests/circle-integration-validation.js
+```
+
+Expected results:
+- All core validation tests pass (100%)
+- Template compliance verified
+- Circle integration functional
+- 3-layer validation workflow operational
+
+### Rollback Procedures
+
+If issues arise during implementation:
+
+1. **Immediate Rollback**
+   ```bash
+   git checkout HEAD~1 AGENTS.md
+   git checkout HEAD~1 scheduler/workers/IDENTITY.md
+   git checkout HEAD~1 scheduler/task-managers/IDENTITY.md
+   ```
+
+2. **Gradual Rollback**
+   - Disable testing requirements temporarily
+   - Revert to basic validation workflow
+   - Maintain existing templates until issues resolved
+
+### Monitoring and Metrics
+
+Track these key performance indicators:
+
+- **Test Coverage:** Percentage of tasks with comprehensive tests
+- **Validation Success Rate:** Layer 2/3 approval rate
+- **Rework Reduction:** Decrease in task failures post-validation
+- **Circle Usage:** Frequency of critical thinking checkpoints
+- **Time to Completion:** Task completion time (may initially increase)
+
+### Success Criteria
+
+Implementation is successful when:
+
+- [ ] All tasks require acceptance criteria and tests
+- [ ] 3-layer validation workflow is operational
+- [ ] Test evidence is provided for all completions
+- [ ] Circle analysis is used for planning decisions
+- [ ] Rework rates decrease over 4-week period
+- [ ] Team adoption rate exceeds 80%
+
 ## Architecture Changes
 
 ### Management Hierarchy Enhancements

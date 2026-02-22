@@ -1197,7 +1197,7 @@ It orchestrates **continuous project work** defined in `PROACTIVE-JOBS.md`.
 > 
 > | Task Type | How to Identify | Counts As |
 > |-----------|-----------------|-----------|
-> | **Leaf task** | `Status: in-progress` + no sub-tasks running | 1 slot |
+> | **Leaf task** | `Status: working` + no sub-tasks running | 1 slot |
 > | **Manager task** | Has `Sub-Tasks:` list, coordinates work | 0 slots (coordination only) |
 > 
 > **Count the actual running agents, not the hierarchy.**
@@ -1211,7 +1211,7 @@ It orchestrates **continuous project work** defined in `PROACTIVE-JOBS.md`.
 **BEFORE spawning any sub-agent, read:** `~/clawd/docs/SPAWNING-GUIDE.md`
 
 That guide has the complete template and checklist. The short version:
-1. Add task to PROACTIVE-JOBS.md (Status: in-progress, Parent: {parent})
+1. Add task to PROACTIVE-JOBS.md (Status: working, Parent: {parent})
 2. Create progress file at `scheduler/progress/{parent-id}/{task-id}.md`
 3. Spawn with EXPLICIT instructions (use the template in the guide)
 4. Monitor via heartbeats and progress files
@@ -1319,7 +1319,7 @@ When spawned for a proactive task:
    # Task: {task-id}
    
    ## Summary
-   - **Status:** in-progress | completed | blocked
+   - **Status:** pending | working | needs-validation | complete | blocked
    - **What it does:** Brief description
    - **What works:** ✅ List of working parts
    - **What's broken:** ❌ List of issues
@@ -1420,7 +1420,7 @@ When spawned for a proactive task:
    - ✅ Include validation summary: "Validated: build ✓, tests ✓, deps ✓"
    - ✅ **Git commit** your changes (see Git Workflow below)
    - ✅ **UPDATE PROACTIVE-JOBS.md** — This is CRITICAL! Edit the file:
-     - Change your task's `Status: in-progress` → `Status: completed`
+     - Change your task's `Status: working` → `Status: needs-validation`
      - Add `Completed: YYYY-MM-DD HH:MM EST` field
      - Update parent's Sub-Tasks list (your task: ✅ completed)
      - **The scheduler reads this file to know what's done!**
