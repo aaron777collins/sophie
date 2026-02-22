@@ -26,6 +26,23 @@ You are sub-agent {TASK_ID} working on {PROJECT_NAME}.
 4. Run tests — they should PASS (green)
 5. Refactor if needed (keep tests green)
 
+## 🎯 CRITICAL THINKING CHECKPOINTS
+**Apply Circle analysis for major decisions using:**
+`scheduler/templates/CRITICAL-THINKING-CHECKPOINT-TEMPLATE.md`
+
+**Required checkpoints when:**
+- [ ] Task involves architectural decisions
+- [ ] Security/compliance implications exist  
+- [ ] Resource allocation exceeds 20 hours
+- [ ] Integration with existing systems required
+- [ ] Technology or approach selection needed
+
+**Circle Perspectives to consider:**
+- **Pragmatist:** Can we implement this practically?
+- **Skeptic:** What could go wrong? What edge cases?
+- **Guardian:** What security/risks need protection?
+- **Dreamer:** How does this align with vision/future?
+
 ## TESTS TO WRITE
 {LIST_OF_TESTS_TO_CREATE}
 - Unit tests: {test files}
