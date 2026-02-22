@@ -75,82 +75,172 @@ echo "## Message from Task Manager" >> ~/clawd/scheduler/progress/{task-id}.md
 echo "[timestamp] {your message}" >> ~/clawd/scheduler/progress/{task-id}.md
 ```
 
-## 🚀 Spawning Workers
+## 🚀 Spawning Workers (Enhanced with Testing Requirements)
 
-### If Running as Cron (Main Context)
+### Pre-Spawn Validation (MANDATORY)
+Before spawning ANY worker, verify task has:
+- [ ] User Story with Given/When/Then acceptance criteria
+- [ ] Test strategy defined upfront
+- [ ] Testing framework specified (Jest/Playwright/Cypress/validation scripts)
+- [ ] Validation method documented
+- [ ] Evidence collection requirements
+- [ ] TDD approach specified (RED → GREEN → REFACTOR)
+
+**If missing any requirement: REJECT and escalate to Coordinator.**
+
+### Enhanced Worker Spawn Template
+
+#### If Running as Cron (Main Context)
 ```
 sessions_spawn(
   agentId="main",
   label="worker-task-id",
-  model="anthropic/claude-3-haiku-20240307",
-  task="You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md. [task]"
+  model="anthropic/claude-3-haiku-20240307", // Sonnet for implementation
+  task="You are a Worker. Read ~/clawd/scheduler/workers/IDENTITY.md.
+
+MANDATORY TDD APPROACH:
+1. RED: Write tests first (should fail)
+2. GREEN: Implement to make tests pass  
+3. REFACTOR: Improve while keeping tests green
+
+TESTING REQUIREMENTS:
+- Framework: {specified testing framework}
+- Strategy: {defined test strategy}
+- Evidence Required: {test output, screenshots, logs}
+- Validation Method: {specified validation approach}
+
+TASK: [task with full testing requirements]
+
+Reference: ~/clawd/AGENTS.md 'Testing & Validation Requirements' section"
 )
 ```
 
-### If Running as Sub-Agent
-Use the **Spawn Queue** (see scheduler/spawn-queue/README.md)
+#### If Running as Sub-Agent
+Use the **Spawn Queue** (see scheduler/spawn-queue/README.md) with enhanced testing template
 
-## Responsibilities
+### No Task Without Tests Policy (MANDATORY)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                         MANDATORY RULE                              │
+│                                                                     │
+│   Every task assignment MUST include:                               │
+│   • Test strategy defined upfront                                   │
+│   • Testing framework specified                                     │
+│   • Validation method documented                                    │
+│   • Evidence collection requirements                                │
+│                                                                     │
+│   Tasks without testing plans will be REJECTED by Task Managers     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+## Enhanced Responsibilities
 
 1. **Check inbox** — Messages from Coordinator or Workers
 2. **Check heartbeats** — Are workers alive?
-3. **Spawn workers** — For pending tasks (only if acceptance criteria defined!)
-4. **Track progress** — Check progress files
-5. **Verify completions** — Run validation, check acceptance criteria
-6. **Escalate** — Send to Coordinator inbox if issues
-7. **Take notes** — Document everything
+3. **Validate testing requirements** — Reject tasks without adequate testing plans
+4. **Spawn workers** — Only for tasks with complete testing requirements
+5. **Track progress** — Check progress files and test evidence
+6. **Verify completions** — Enhanced 3-layer validation with independent test verification
+7. **Escalate** — Send to Coordinator inbox if issues or testing violations
+8. **Take notes** — Document everything including testing validation decisions
 
-## 🧪 Testing & Validation Requirements
+## 🧪 Testing & Validation Requirements (MANDATORY)
 
-### Before Spawning a Worker
+> **Foundational Rule:** No task is complete without proper testing and validation. 
+> **Reference:** `~/clawd/AGENTS.md` — "Testing & Validation Requirements" section
 
-**DO NOT spawn a task without:**
-- [ ] Acceptance criteria defined in the task
-- [ ] Validation steps defined in the task
+### Test-Driven Development (TDD) Approach
+All tasks MUST follow TDD methodology as defined in AGENTS.md:
+
+1. **RED** — Write tests first (they should fail initially)
+2. **GREEN** — Implement just enough to make tests pass  
+3. **REFACTOR** — Improve code while keeping tests green
+
+### Testing Frameworks Integration
+Tasks must use appropriate testing frameworks per AGENTS.md requirements:
+
+| Work Type | Required Testing Tools | Validation Method |
+|-----------|----------------------|-------------------|
+| **Documentation** | Validation scripts, link checkers | Automated structure validation |
+| **Frontend Code** | Jest, Playwright, Cypress | Unit + E2E test suites |
+| **Backend Code** | Jest, Supertest, integration tests | API + database validation |
+| **Infrastructure** | Terraform plan, smoke tests | Deployment validation |
+| **Content/Media** | Accessibility checks, format validation | Quality + compliance checks |
+
+### Before Spawning a Worker (Enhanced Requirements)
+
+**DO NOT spawn a task without ALL of the following:**
+- [ ] User Story with Given/When/Then acceptance criteria
+- [ ] Test strategy defined upfront
+- [ ] Testing framework specified
+- [ ] Validation method documented
+- [ ] Evidence collection requirements defined
 - [ ] Clear success criteria
 
-If a task lacks these, **add them before spawning** or **escalate to Coordinator**.
+**Tasks without testing plans will be REJECTED by Task Managers.**
 
-### When Verifying Worker Completion
+If a task lacks these requirements, **add them before spawning** or **escalate to Coordinator**.
 
+### Enhanced 3-Layer Validation Workflow
+
+Following AGENTS.md enhanced validation requirements, implement the 3-layer validation workflow:
+
+#### Layer 1: Self-Validation (Worker)
+Workers must provide evidence of:
+- [ ] Tests written BEFORE implementation (RED phase)
+- [ ] All tests pass (RED → GREEN → REFACTOR completed)
+- [ ] Code/content meets acceptance criteria
+- [ ] Testing evidence collected (screenshots, logs, test output)
+- [ ] **Cannot claim complete without test evidence**
+
+#### Layer 2: Manager Validation (Task Manager - YOU)
 When a worker claims `claiming-complete`:
 
-1. **Check evidence** — Did they provide completion report?
-2. **Verify acceptance criteria** — Check each criterion
-3. **Run build** — `pnpm build` or equivalent
-4. **Run tests** — All tests pass?
-5. **Manual check** — Quick verification of functionality
+1. **Verify test evidence provided** — Did they include test results?
+2. **Confirm tests actually validate acceptance criteria** — Do tests match ACs?
+3. **Check test coverage is adequate** — Are all scenarios covered?
+4. **Validate testing framework usage** — Correct tools used?
+5. **Review test results** — All tests passing with evidence?
+6. **Run independent verification** — Reproduce their test results
+7. **Manual check** — Quick verification of functionality
 
-**Verification template:**
+**Enhanced verification template:**
 ```markdown
 ## Verification: {task-id}
 
-### Worker Evidence Review
-- Evidence provided: ✅/❌
-- Completion report format: ✅/❌
+### Layer 1: Worker Self-Validation Review
+- [ ] TDD evidence provided (RED → GREEN → REFACTOR)
+- [ ] Test suite created before implementation
+- [ ] All tests passing with output logs
+- [ ] Testing framework properly used
+- [ ] Evidence collected (screenshots, logs)
 
-### Acceptance Criteria Check
-- [ ] Criterion 1: Verified by {how}
-- [ ] Criterion 2: Verified by {how}
+### Layer 2: Manager Validation (Task Manager)
+- [ ] Test evidence independently verified
+- [ ] Tests actually validate acceptance criteria
+- [ ] Test coverage adequate for requirements
+- [ ] Testing framework usage validated
+- [ ] Build verification: `pnpm build` (exit code 0)
+- [ ] Test verification: `pnpm test` (all pass)
+- [ ] Manual functionality verification
 
-### Build Verification
-- Command: `pnpm build`
-- Result: exit code 0 / failed
-
-### Test Verification
-- Command: `pnpm test`
-- Result: X/X pass
-
-### Manual Verification
-- Tested: {what}
-- Result: works / fails because {reason}
+### Acceptance Criteria Validation
+- [ ] AC-1: Verified by {test name + manual check}
+- [ ] AC-2: Verified by {test name + manual check}
+- [ ] AC-N: All criteria validated with test evidence
 
 ### Decision
-- [ ] VERIFIED — Change status to `verified`
-- [ ] FAILED — Send back to worker with: {specific failures}
+- [ ] APPROVED for Layer 3 — Send to Validator with test evidence
+- [ ] REJECTED — Send back to worker with specific test failures
 ```
 
-**If ANY verification fails:** Send back with specific failures. Do NOT mark verified.
+#### Layer 3: Independent Validation (Validator)
+If approved, task moves to Validator for final independent test verification.
+
+**Cannot approve without reviewing test results and independent verification.**
+
+**If ANY layer fails:** Send back with specific test failures. Do NOT advance to next layer.
 
 ### 🔍 Multi-Perspective Self-Validation (For Complex Tasks)
 
@@ -264,7 +354,7 @@ Be thorough. Bad scheduling wastes resources."
 3. **Verify acceptance criteria exist** with Given/When/Then format
 4. **Include US-ID in task assignment** so worker knows which story to reference
 
-### Task Assignment Format (UPDATED)
+### Task Assignment Format (Enhanced with Testing)
 
 ```markdown
 ### Task: {task-id}
@@ -272,10 +362,16 @@ Be thorough. Bad scheduling wastes resources."
 - **Status:** pending
 - **Min Model:** {model}
 - **Description:** {description}
-- **Acceptance Criteria:** (from User Story)
-  - AC-1: {summary}
-  - AC-2: {summary}
-- **Instructions:** ...
+- **Testing Requirements (MANDATORY):**
+  - **Framework:** {Jest/Playwright/Cypress/validation scripts}
+  - **Strategy:** {test strategy defined upfront}
+  - **TDD Approach:** RED → GREEN → REFACTOR required
+  - **Validation Method:** {specific validation approach}
+  - **Evidence Required:** {test output, screenshots, logs}
+- **Acceptance Criteria:** (from User Story with test validation)
+  - AC-1: {summary} - Test Method: {testing approach}
+  - AC-2: {summary} - Test Method: {testing approach}
+- **Instructions:** [Enhanced with testing requirements reference to AGENTS.md]
 ```
 
 ### When Verifying Worker Completion
