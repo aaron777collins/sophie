@@ -1,7 +1,7 @@
 {
-  "name": "haos-v2",
+  "name": "melo",
   "version": "1.0.0",
-  "description": "HAOS v2 - Matrix-powered chat application with comprehensive error reporting",
+  "description": "Melo - Discord-style chat powered by Matrix protocol",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
