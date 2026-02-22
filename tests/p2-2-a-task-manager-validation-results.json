@@ -1,0 +1,203 @@
+{
+  "summary": {
+    "passed": 37,
+    "failed": 1,
+    "total": 38,
+    "compliancePercentage": 97
+  },
+  "tests": [
+    {
+      "name": "Task Manager IDENTITY.md exists",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "AGENTS.md exists for reference validation",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Has dedicated Testing & Validation Requirements section",
+      "status": "PASS",
+      "details": "Dedicated section with emoji and MANDATORY designation"
+    },
+    {
+      "name": "References AGENTS.md foundational rule",
+      "status": "FAIL",
+      "details": "Must reference the foundational rule from AGENTS.md"
+    },
+    {
+      "name": "Includes AGENTS.md reference in testing section",
+      "status": "PASS",
+      "details": "Must reference AGENTS.md for testing standards"
+    },
+    {
+      "name": "Specifies TDD methodology (RED-GREEN-REFACTOR)",
+      "status": "PASS",
+      "details": "Must include all three TDD phases"
+    },
+    {
+      "name": "TDD methodology properly explained",
+      "status": "PASS",
+      "details": "TDD phases must be properly explained"
+    },
+    {
+      "name": "Includes testing frameworks table",
+      "status": "PASS",
+      "details": "Must document required testing frameworks"
+    },
+    {
+      "name": "Specifies Jest for backend testing",
+      "status": "PASS",
+      "details": "Must include Jest as testing framework option"
+    },
+    {
+      "name": "Specifies Playwright/Cypress for frontend testing",
+      "status": "PASS",
+      "details": "Must include frontend testing frameworks"
+    },
+    {
+      "name": "Has \"No Task Without Tests\" policy section",
+      "status": "PASS",
+      "details": "Must have dedicated policy section"
+    },
+    {
+      "name": "Policy is marked as MANDATORY",
+      "status": "PASS",
+      "details": "Policy must be marked as mandatory"
+    },
+    {
+      "name": "Policy includes rejection clause",
+      "status": "PASS",
+      "details": "Must specify rejection of tasks without tests"
+    },
+    {
+      "name": "Has pre-spawn validation checklist",
+      "status": "PASS",
+      "details": "Must have mandatory pre-spawn validation"
+    },
+    {
+      "name": "Pre-spawn checklist includes User Story requirement",
+      "status": "PASS",
+      "details": "Must verify User Story exists before spawning"
+    },
+    {
+      "name": "Pre-spawn checklist includes test strategy requirement",
+      "status": "PASS",
+      "details": "Must verify test strategy exists"
+    },
+    {
+      "name": "Pre-spawn checklist includes testing framework specification",
+      "status": "PASS",
+      "details": "Must verify testing framework is specified"
+    },
+    {
+      "name": "Pre-spawn checklist includes validation method requirement",
+      "status": "PASS",
+      "details": "Must verify validation method is documented"
+    },
+    {
+      "name": "Pre-spawn checklist includes evidence collection requirement",
+      "status": "PASS",
+      "details": "Must verify evidence collection is planned"
+    },
+    {
+      "name": "Has enhanced worker spawn template section",
+      "status": "PASS",
+      "details": "Must document enhanced spawning process"
+    },
+    {
+      "name": "Worker spawn template includes TDD approach",
+      "status": "PASS",
+      "details": "Worker spawn must include TDD methodology"
+    },
+    {
+      "name": "Worker spawn template includes testing requirements section",
+      "status": "PASS",
+      "details": "Worker spawn must include testing requirements"
+    },
+    {
+      "name": "Worker spawn template references AGENTS.md",
+      "status": "PASS",
+      "details": "Worker spawn must reference AGENTS.md testing section"
+    },
+    {
+      "name": "3-Layer validation workflow documented",
+      "status": "PASS",
+      "details": "Must document 3-layer validation process"
+    },
+    {
+      "name": "Layer 1 (Self-Validation) defined",
+      "status": "PASS",
+      "details": "Must define worker self-validation layer"
+    },
+    {
+      "name": "Layer 2 (Manager Validation) defined",
+      "status": "PASS",
+      "details": "Must define manager validation layer"
+    },
+    {
+      "name": "Layer 3 (Independent Validation) defined",
+      "status": "PASS",
+      "details": "Must define independent validation layer"
+    },
+    {
+      "name": "Specifies test evidence requirements",
+      "status": "PASS",
+      "details": "Must specify evidence requirements"
+    },
+    {
+      "name": "Cannot claim complete without test evidence",
+      "status": "PASS",
+      "details": "Must specify completion depends on test evidence"
+    },
+    {
+      "name": "Cannot approve without reviewing test results",
+      "status": "PASS",
+      "details": "Must specify approval depends on test review"
+    },
+    {
+      "name": "Includes enhanced verification template",
+      "status": "PASS",
+      "details": "Must provide verification template for managers"
+    },
+    {
+      "name": "Verification template includes test evidence review",
+      "status": "PASS",
+      "details": "Verification must check test evidence"
+    },
+    {
+      "name": "Includes multi-perspective self-validation guidance",
+      "status": "PASS",
+      "details": "Must provide guidance for spawning verification sub-agents"
+    },
+    {
+      "name": "Self-validation includes different perspectives",
+      "status": "PASS",
+      "details": "Must include multiple validation perspectives"
+    },
+    {
+      "name": "Documents when to spawn verification sub-agent",
+      "status": "PASS",
+      "details": "Must guide when additional verification is needed"
+    },
+    {
+      "name": "Includes specific testing framework requirements in task assignment",
+      "status": "PASS",
+      "details": "Task assignment must specify testing frameworks"
+    },
+    {
+      "name": "References User Stories requirement from AGENTS.md",
+      "status": "PASS",
+      "details": "Must enforce user story requirements"
+    },
+    {
+      "name": "Task assignment format includes testing requirements",
+      "status": "PASS",
+      "details": "Task assignments must include mandatory testing section"
+    }
+  ],
+  "timestamp": "2026-02-22T18:00:09.974Z",
+  "taskId": "p2-2-a",
+  "component": "Task Manager IDENTITY.md"
+}
