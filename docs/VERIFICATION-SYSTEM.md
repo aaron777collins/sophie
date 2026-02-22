@@ -185,7 +185,130 @@ ACTUALLY COMPLETE ✅
 
 ---
 
+## Testing Phase (MANDATORY)
+
+> **CRITICAL POLICY:** Every task must complete a comprehensive testing phase before claiming completion. The testing phase must happen after implementation but before any validation layer approval.
+
+**Foundation:** All testing requirements build upon the comprehensive testing foundation established in `AGENTS.md` and align with the `PROACTIVE-JOBS-TEMPLATE.md` structure.
+
+### Testing Phase Requirements
+
+Before any task can move from implementation to validation, the following testing phase must be completed:
+
+1. **Tests Written First** — TDD approach requires tests before implementation
+2. **Test Framework Integration** — Appropriate testing framework properly configured  
+3. **Test Evidence Collection** — Screenshots, test output, coverage reports documented
+4. **Test Validation Protocols** — All validation layers must verify test evidence
+5. **Comprehensive Test Coverage** — Unit, integration, and E2E tests as applicable
+
+**NO task may claim completion without completing the testing phase with documented evidence.**
+
+### Testing Framework Integration Requirements
+
+All tasks must specify and use appropriate testing frameworks based on work type:
+
+| Work Type | Required Testing Tools | Validation Method |
+|-----------|----------------------|-------------------|
+| **Code Implementation** | Jest, Playwright, Cypress | Unit + E2E test suites |
+| **Documentation** | Validation scripts, link checkers | Automated structure validation |
+| **Infrastructure** | Terraform plan, smoke tests | Deployment validation |
+| **Content/Media** | Accessibility checks, format validation | Quality + compliance checks |
+
+### Test Evidence Collection Protocols
+
+Each validation layer requires specific test evidence:
+
+- **Test Results** — Complete test output with pass/fail status
+- **Screenshots** — Visual evidence for UI changes and test execution  
+- **Test Output** — Full command output and exit codes with comprehensive test output inclusion
+- **Coverage Reports** — Code coverage percentage and detailed reports
+- **Performance Metrics** — Response times and load test results (when applicable)
+
+### Test Result Documentation Format
+
+All test evidence must follow standardized test result documentation format:
+- **Complete test execution logs** with timestamps
+- **Exit codes and status indicators** for all test suites
+- **Test Results Screenshots Logs** as visual evidence
+- **Failure analysis** if any tests fail during execution
+
+### Test Validation Protocols
+
+All validation protocols must include comprehensive test verification at every layer.
+
+---
+
 ## Verification Requirements by Level
+
+### Enhanced 3-Layer Validation Protocol with Testing Integration
+
+> **"It's not just 'oh I finished my code'... it's a FULL VERIFICATION!"** — Enhanced with mandatory testing verification at each layer.
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│              3-LAYER VALIDATION PROTOCOL (TESTING ENHANCED)          │
+│                                                                     │
+│  Layer 1: SELF-VALIDATION with Test Evidence (Worker)               │
+│  Layer 2: MANAGER VALIDATION with Test Quality Review (Coordinator) │
+│  Layer 3: INDEPENDENT VALIDATION with Test Verification (Validator) │
+│                                                                     │
+│  ALL LAYERS REQUIRE COMPREHENSIVE TESTING VERIFICATION              │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+#### Layer 1: Self-Validation (Worker) — Testing Requirements
+
+Worker MUST complete ALL testing requirements before claiming completion:
+
+- [ ] **Tests Written BEFORE Implementation** (TDD RED phase)
+- [ ] **All Tests Pass** (TDD GREEN phase) 
+- [ ] **Test Evidence Collected and Documented** (screenshots, logs, coverage)
+- [ ] **Testing Evidence Documented** (comprehensive test output inclusion required)
+- [ ] **Testing Framework Properly Implemented** (Jest/Playwright/Cypress)
+- [ ] **Performance Criteria Met** (if applicable)
+- [ ] **Cannot Claim Complete Without Test Evidence**
+
+#### Layer 2: Manager Validation (Coordinator) — Testing Verification
+
+Coordinator MUST verify test quality before approving:
+
+- [ ] **Verify Test Evidence Provided and Valid**
+- [ ] **Confirm Tests Actually Validate Acceptance Criteria**
+- [ ] **Check Test Coverage is Adequate**  
+- [ ] **Validate Testing Framework Usage**
+- [ ] **Cannot Approve Without Reviewing Test Results**
+
+#### Layer 3: Independent Validation (Validator) — Test Verification
+
+Validator MUST run independent test verification:
+
+- [ ] **Run Tests Independently to Confirm Results**
+- [ ] **Verify Test Quality and Comprehensiveness**
+- [ ] **Check for Missed Edge Cases** 
+- [ ] **Validate End-to-End Functionality**
+- [ ] **Final Approval Requires Independent Test Verification**
+
+### Policy Integration: "No Task Without Tests"
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                         MANDATORY RULE                              │
+│                                                                     │
+│   Every task assignment MUST include:                               │
+│   • Test strategy defined upfront                                   │
+│   • Testing framework specified                                     │
+│   • Validation method documented                                    │
+│   • Evidence collection requirements                                │
+│                                                                     │
+│   Tasks without testing plans will be REJECTED by managers          │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Policy Enforcement:**
+- **Testing Plans Mandatory** — No task scheduling without comprehensive testing plan
+- **Test Evidence Required** — Cannot claim completion without test evidence
+- **Test Validation Approval Process** — Each validation layer must verify test quality
+- **Task Rejection Criteria** — Tasks missing tests will be rejected without testing plans
 
 ### 🧪 Testing Methodology (MANDATORY)
 
@@ -391,15 +514,19 @@ curl -s {url} | head -20
 
 ---
 
-## Task Status Flow (OFFICIAL)
+## Task Status Flow (OFFICIAL) — Enhanced with Testing Phase
 
 ```
-pending → in-progress → needs-validation → self-validated → validated → COMPLETE
-                              ↓                  ↓              ↓
-                          (failed)           (failed)       (failed)
-                              ↓                  ↓              ↓
-                         in-progress       in-progress    in-progress
+pending → in-progress → testing-phase → needs-validation → self-validated → validated → COMPLETE
+                             ↓               ↓                  ↓              ↓
+                        (tests fail)    (validation fail)  (validation fail) (validation fail)
+                             ↓               ↓                  ↓              ↓
+                        in-progress → in-progress       in-progress    in-progress
 ```
+
+**Testing Phase Integration:** All tasks must complete comprehensive testing phase before validation begins. Cannot claim completion without test evidence.
+
+**Test Validation Before Status Changes:** All status progression requires test validation before status changes can be approved. No task may advance through validation layers without comprehensive test verification.
 
 **Statuses:**
 
@@ -412,15 +539,22 @@ pending → in-progress → needs-validation → self-validated → validated �
 | `validated` | Validator | Independent verification passed |
 | `complete` | Coordinator | Fully done after Validator approval |
 
-**Status Format in PROACTIVE-JOBS.md:**
+**Enhanced Status Format with Testing Validation in PROACTIVE-JOBS.md:**
 ```markdown
 - **Status:** self-validated (L2-coordinator)
+- **Testing Phase:** 2026-02-18 12:00 EST - COMPLETED
+  - Testing Framework: Jest + Playwright
+  - TDD Evidence: Tests written first ✅
+  - Test Results: All tests pass ✅
+  - Test Coverage: 95% ✅
+  - Test Evidence: Screenshots and logs collected ✅
 - **Self-Validation:** 2026-02-18 12:30 EST by coordinator
   - Build: ✅ pass
-  - Unit tests: ✅ pass  
-  - E2E tests: ✅ pass
+  - Unit tests: ✅ pass (verified independently)
+  - E2E tests: ✅ pass (verified independently)
+  - Test Quality: ✅ comprehensive
   - Manual check: ✅ feature works
-- **Validation:** pending (sent to validator)
+- **Validation:** pending (sent to validator with test evidence)
 ```
 
 **Rules:**
@@ -510,6 +644,31 @@ pending → in-progress → needs-validation → self-validated → validated �
 1. Escalate to Person Manager
 2. Review all completions from that worker
 3. Consider re-doing affected work
+
+---
+
+## Integration with System Requirements
+
+### Foundation Reference: AGENTS.md Testing Requirements
+This verification system builds upon and enforces the comprehensive testing requirements established in `AGENTS.md`:
+- **Testing & Validation Requirements (MANDATORY)** section
+- **TDD methodology** (Red → Green → Refactor)
+- **"No Task Without Tests" policy**
+- **3-layer validation workflow** with testing verification
+
+### Template Alignment: PROACTIVE-JOBS-TEMPLATE.md
+All verification workflows align with the standardized template structure:
+- **Testing Requirements (MANDATORY)** section in all tasks
+- **Acceptance Criteria** with Given-When-Then format including test methods
+- **Evidence Required** specifications for each validation layer
+- **Status progression** including testing phase validation
+
+### Planning System Integration: PLANNING-SYSTEM.md
+Verification system integrates with the testing-first methodology:
+- **Quality gates for planning approval** include test validation
+- **User stories** cannot be approved without testing plans
+- **Testing framework integration** planning requirements
+- **Test environment setup** requirements in phase planning
 
 ---
 

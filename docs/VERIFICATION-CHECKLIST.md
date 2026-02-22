@@ -26,9 +26,96 @@ pwd  # VERIFY output matches expected directory
 
 ---
 
+## 📋 Test Validation Checklist (MANDATORY)
+
+**ALL tasks must complete comprehensive test validation before any completion claims.**
+
+### Test Execution Verification (MANDATORY)
+
+For EVERY test suite you claim to have run:
+
+```bash
+# Run tests and INCLUDE OUTPUT in your completion report
+npm test # or pnpm test, jest, etc.
+echo "Exit code: $?"
+
+# For Playwright tests
+npx playwright test
+echo "Exit code: $?"
+
+# For Cypress tests
+npx cypress run
+echo "Exit code: $?"
+```
+
+**Test Evidence Format:**
+```markdown
+### Tests Verified
+- **Jest Unit Tests:**
+  ```
+  ✓ 47 tests passed (5.2s)
+  Exit code: 0
+  ```
+- **Playwright E2E Tests:**
+  ```
+  Running 12 tests using 4 workers
+  ✓ 12 passed (45.2s)
+  Exit code: 0
+  ```
+```
+
+## 📋 TDD Evidence Verification (MANDATORY)
+
+Before claiming completion, you MUST provide evidence of Test-Driven Development approach:
+
+### TDD Progression Evidence
+
+```bash
+# Show test file was created/modified before implementation
+git log --oneline --follow tests/feature.test.js | head -5
+
+# Show initial test failures (Red phase)
+git show <test-commit-hash>:tests/feature.test.js
+
+# Show implementation commits after tests
+git log --oneline --since="<test-date>" --grep="feat\|impl"
+```
+
+**TDD Evidence Format:**
+```markdown
+### TDD Evidence
+- **Test File Created:** `tests/auth.test.js` at commit abc123
+- **Test Initially Failed (Red Phase):** Confirmed at commit abc123
+- **Implementation Added:** commit def456 
+- **Tests Now Pass (Green Phase):** Confirmed above
+- **Refactor Phase:** commit ghi789 (optional)
+```
+
 ## 📋 Worker Completion Checklist
 
 Before setting status to `needs-validation`, you MUST complete ALL of these:
+
+### 0. Test Verification (MANDATORY FIRST)
+
+**MUST complete test validation before ANY other checks:**
+
+```bash
+# Run all test suites and INCLUDE OUTPUT
+cd /correct/project/directory
+npm test 2>&1 | tail -50
+echo "Exit code: $?"
+
+# For specific test frameworks
+npx jest 2>&1 | tail -30
+npx playwright test 2>&1 | tail-30
+npx cypress run 2>&1 | tail -30
+```
+
+**Test Coverage Evidence (if applicable):**
+```bash
+npm run test:coverage
+# Include coverage percentage and report
+```
 
 ### 1. File Existence Verification (MANDATORY)
 
@@ -162,11 +249,45 @@ git log --oneline --follow tests/e2e/feature.spec.ts | head -5
 
 ---
 
-## 📋 Coordinator Self-Validation Checklist
+## 📋 Enhanced Coordinator Self-Validation Checklist
 
 Before sending to Validator, you MUST verify:
 
-### 1. Re-run Worker Verifications
+### 1. Test Framework Validation (MANDATORY FIRST)
+
+Don't trust test claims. Verify test quality and framework usage:
+
+```bash
+cd /home/ubuntu/repos/melo  # CORRECT DIRECTORY
+pwd  # verify
+
+# Verify testing framework usage
+ls -la tests/ package.json
+grep -i "jest\|playwright\|cypress" package.json
+
+# Verify test files exist and are comprehensive
+find . -name "*.test.js" -o -name "*.spec.js" -o -name "*.e2e.js"
+wc -l tests/**/*.{test,spec}.{js,ts}
+```
+
+### 2. Independent Test Execution (MANDATORY)
+
+Run tests yourself - don't trust claims:
+
+```bash
+# Run all tests independently
+pnpm test 2>&1 | tee coordinator-test-results.log
+echo "Exit code: $?"
+
+# Run E2E tests if applicable  
+pnpm test:e2e 2>&1 | tee coordinator-e2e-results.log
+echo "Exit code: $?"
+
+# Verify test coverage
+pnpm test:coverage 2>&1 | tee coordinator-coverage.log
+```
+
+### 3. Re-run Worker Verifications
 
 Don't trust claims. Run the commands yourself:
 
@@ -183,9 +304,9 @@ git log --oneline | grep <hash>
 # Run build
 pnpm build
 
-# Run tests
-pnpm test
-pnpm test:e2e  # if applicable
+# Verify tests pass (already done above)
+# Verify integration tests
+pnpm test:integration  # if applicable
 ```
 
 ### 2. Integration Check
@@ -211,7 +332,7 @@ Include in validation request:
 
 ---
 
-## 📋 Validator Verification Checklist
+## 📋 Enhanced Validator Verification Checklist
 
 **You are independent QA. Trust nothing. Verify everything.**
 
@@ -255,11 +376,37 @@ pnpm build 2>&1 | tail -30
 echo "Exit code: $?"
 ```
 
-### 5. Test Verification
+### 5. Comprehensive Test Validation (MANDATORY)
+
+**Run tests independently to confirm results - verify test quality and comprehensiveness:**
 
 ```bash
-pnpm test 2>&1 | tail -50
-pnpm test:e2e 2>&1 | tail -50  # if applicable
+# Run all test suites independently - don't trust previous results
+pnpm test 2>&1 | tee validator-test-results.log
+echo "Exit code: $?"
+
+# Run E2E tests independently
+pnpm test:e2e 2>&1 | tee validator-e2e-results.log  
+echo "Exit code: $?"
+
+# Verify test quality and comprehensiveness
+find tests/ -name "*.test.*" -o -name "*.spec.*" | wc -l
+grep -r "describe\|it\|test(" tests/ | wc -l
+
+# Check for missed edge cases
+grep -r "edge case\|boundary\|error" tests/
+```
+
+**Test Framework Validation Commands:**
+```bash
+# Verify Jest configuration
+cat package.json | grep -A10 '"jest"'
+
+# Verify Playwright configuration  
+cat playwright.config.js || cat playwright.config.ts
+
+# Verify Cypress configuration
+cat cypress.config.js || cat cypress.json
 ```
 
 ### 6. Before Claiming Fraud
@@ -276,7 +423,7 @@ pnpm test:e2e 2>&1 | tail -50  # if applicable
 
 ---
 
-## 📋 Evidence Template
+## 📋 Enhanced Evidence Template with Testing Sections
 
 Copy this into every completion/validation report:
 
@@ -288,6 +435,26 @@ Copy this into every completion/validation report:
 $ pwd
 /home/ubuntu/repos/melo
 ```
+
+### Testing Framework Integration Verified
+| Framework | Config File | Status |
+|-----------|-------------|--------|
+| Jest | `package.json` | ✅ Configured |
+| Playwright | `playwright.config.js` | ✅ Configured |
+| Cypress | `cypress.config.js` | ✅ Configured |
+
+### Test Results Verified
+| Test Suite | Command | Result | Coverage |
+|------------|---------|--------|----------|
+| Unit Tests | `pnpm test` | `47 tests passed (5.2s), Exit code: 0` | 95% |
+| E2E Tests | `pnpm test:e2e` | `12 tests passed (45.2s), Exit code: 0` | N/A |
+| Integration | `pnpm test:integration` | `8 tests passed (12.1s), Exit code: 0` | 87% |
+
+### Test Evidence and Screenshots
+- **Test Output:** Complete test execution logs saved
+- **Coverage Report:** Detailed coverage percentages documented
+- **Screenshots:** UI test execution screenshots captured
+- **Performance Metrics:** Response times and load test results (if applicable)
 
 ### Files Verified
 | File | Command | Result |
@@ -306,23 +473,36 @@ $ pnpm build
 Exit code: 0
 ```
 
-### Tests
+### Tests Verified
 ```
 $ pnpm test
-[output]
+✓ 47 tests passed (5.2s)
 Exit code: 0
 ```
 
-### E2E Tests (if applicable)
+### E2E Tests Verified
 ```
 $ pnpm test:e2e
-[output]
+Running 12 tests using 4 workers
+✓ 12 passed (45.2s)
 Exit code: 0
+```
+
+### Test Coverage
+```
+$ pnpm test:coverage
+Test Coverage: 95%
+Lines: 342/360
+Functions: 45/48
+Branches: 23/25
 ```
 
 ### TDD Evidence
-- Tests written at commit: `abc123`
-- Tests pass at commit: `def456`
+- **Tests Written at commit:** `abc123`
+- **Test Initially Failed (Red Phase):** Confirmed at commit abc123
+- **Implementation Added:** commit def456
+- **Tests Now Pass (Green Phase):** Confirmed above
+- **Refactor Phase:** commit ghi789 (if applicable)
 ```
 
 ---
@@ -333,12 +513,19 @@ Exit code: 0
 |--------------|----------------|
 | "Build passes" without output | No evidence |
 | "Tests pass" without output | No evidence |
+| **"All tests pass" without test framework output** | **No test evidence** |
+| **"Test coverage good" without coverage report** | **No test evidence** |
+| **"Tests written first" without TDD evidence** | **No TDD proof** |
+| **Skipping test execution before claiming complete** | **Missing test validation** |
+| **"Testing framework integrated" without config files** | **No framework evidence** |
 | "Files created" without `ls -la` | No evidence |
 | "Commits made" without hash | No evidence |
 | Checking `~/clawd/` for MELO work | Wrong directory |
 | Using unquoted paths with `[]` or `()` | Shell escaping error |
 | "All tests pass" when some fail | Lying |
 | Rounding "136/138" to "all pass" | Lying |
+| **Claiming "comprehensive tests" with minimal test files** | **Inadequate test coverage** |
+| **No test evidence collection before validation** | **Missing test validation** |
 | Claiming fraud without directory check | False accusation |
 
 ---
@@ -348,12 +535,39 @@ Exit code: 0
 | Pattern | Why It's Right |
 |---------|----------------|
 | `pwd` before any file checks | Confirms correct directory |
+| **`pnpm test` with complete test output and exit code** | **Proves tests actually ran and passed** |
+| **Test coverage reports with percentages** | **Proper test evidence** |
+| **TDD git commit progression evidence** | **Proves test-driven development** |
+| **Testing framework config file verification** | **Proves framework integration** |
+| **Independent test execution at each validation layer** | **Test validation best practices** |
+| **Test evidence screenshots and logs collection** | **Comprehensive test documentation** |
 | `ls -la` with full output | Proves file exists with size/timestamp |
 | `git log --oneline` output | Proves commit exists |
 | `pnpm build` with exit code | Proves build actually ran and passed |
-| `pnpm test` with test count | Proves tests actually ran and passed |
 | Quoted paths for special chars | Handles `[]`, `()` correctly |
 | Screenshots for UI work | Visual evidence |
+
+---
+
+## Integration with System Requirements
+
+### Foundation: AGENTS.md Testing Requirements
+This verification checklist enforces the comprehensive testing requirements from `AGENTS.md`:
+- **Testing & Validation Requirements** mandate test evidence collection
+- **3-layer validation workflow** requiring testing verification at each layer
+- **TDD methodology** evidence requirements throughout validation process
+
+### Template Alignment: PROACTIVE-JOBS-TEMPLATE.md
+All validation checklists align with the standardized template:
+- **Testing Requirements section** validation in every task
+- **Evidence Required** specifications match template requirements
+- **3-layer validation checklist** integration with template structure
+
+### Policy Enforcement: "No Task Without Tests"
+This checklist enforces the mandatory testing policies:
+- **Testing plans mandatory** — tasks rejected without testing plans
+- **Test evidence required** — cannot claim completion without test validation
+- **Test validation approval process** — each layer must verify test quality
 
 ---
 
