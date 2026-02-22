@@ -1,0 +1,27 @@
+{
+  "id": "val-req-$(date +%s)",
+  "timestamp": "$(date -Iseconds)",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: p1-2-b planning system documentation with testing requirements",
+  "content": {
+    "task_ids": ["p1-2-b"],
+    "project": "proactive-job-system-enhancement",
+    "phase": "Phase 1",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-02-22T09:00:00-05:00",
+    "files_changed": ["docs/PLANNING-SYSTEM.md", "tests/planning-system-validation.js", "tests/user-story-format-validation.js"],
+    "acceptance_criteria": [
+      "PLANNING-SYSTEM.md updated with acceptance criteria requirements",
+      "User story format includes mandatory AC sections",
+      "Task breakdown requires testing plans",
+      "Planning workflow includes validation checkpoints",
+      "Quality gates documented for approvals",
+      "Git commit created with descriptive message",
+      "All validation tests pass",
+      "Changes align with PROACTIVE-JOBS-TEMPLATE.md"
+    ],
+    "self_validation_notes": "Verified all worker claims: git commit 3b9cfa3ff exists, file size matches (36,092 bytes), all 41 tests pass (20 planning system + 21 user story format), heartbeat properly deleted, TDD methodology followed."
+  }
+}
