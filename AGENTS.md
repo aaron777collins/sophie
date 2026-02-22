@@ -221,16 +221,78 @@ Person Manager notices HAOS stalled
 
 **The goal:** Each level actively manages the level below. Problems get caught, discussed, and fixed — not just re-assigned.
 
-### 📋 User Stories & Acceptance Criteria (MANDATORY) — Updated 2026-02-21
+### 📋 User Stories & Acceptance Criteria (MANDATORY) — Enhanced 2026-02-22
 
 > **Aaron's Requirement:** "Break tasks/projects into epics and user stories, with actual user stories and acceptance criteria. Thus validating can make more sense."
 
-**Every task MUST have a User Story with testable Acceptance Criteria.**
+**Every task MUST have a User Story with testable Acceptance Criteria and mandatory testing requirements.**
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │   NO USER STORY = NO TASK ASSIGNMENT                                │
 │   NO ACCEPTANCE CRITERIA = NO VALIDATION                            │
+│   NO TESTS = NO COMPLETION                                          │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+## 🧪 Testing & Validation Requirements (MANDATORY)
+
+**FOUNDATIONAL RULE: No task is complete without proper testing and validation.**
+
+### Test-Driven Development (TDD) Approach
+All implementation work MUST follow TDD methodology:
+
+1. **RED** — Write tests first (they should fail initially)
+2. **GREEN** — Implement just enough to make tests pass  
+3. **REFACTOR** — Improve code while keeping tests green
+
+### Testing Frameworks Integration
+Tasks must use appropriate testing frameworks:
+
+| Work Type | Required Testing Tools | Validation Method |
+|-----------|----------------------|-------------------|
+| **Documentation** | Validation scripts, link checkers | Automated structure validation |
+| **Frontend Code** | Jest, Playwright, Cypress | Unit + E2E test suites |
+| **Backend Code** | Jest, Supertest, integration tests | API + database validation |
+| **Infrastructure** | Terraform plan, smoke tests | Deployment validation |
+| **Content/Media** | Accessibility checks, format validation | Quality + compliance checks |
+
+### Validation Workflow (3-Layer Enhancement)
+Every task follows enhanced 3-layer validation:
+
+#### Layer 1: Self-Validation (Worker)
+- [ ] Tests written BEFORE implementation
+- [ ] All tests pass (RED → GREEN → REFACTOR)
+- [ ] Code/content meets acceptance criteria
+- [ ] Testing evidence collected (screenshots, logs)
+- [ ] **Cannot claim complete without test evidence**
+
+#### Layer 2: Manager Validation (Coordinator)  
+- [ ] Verify test evidence provided
+- [ ] Confirm tests actually validate acceptance criteria
+- [ ] Check test coverage is adequate
+- [ ] Validate testing framework usage
+- [ ] **Cannot approve without reviewing test results**
+
+#### Layer 3: Independent Validation (Validator)
+- [ ] Run tests independently to confirm results
+- [ ] Verify test quality and comprehensiveness  
+- [ ] Check for missed edge cases
+- [ ] Validate end-to-end functionality
+- [ ] **Final approval requires independent test verification**
+
+### No Task Without Tests Policy
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                         MANDATORY RULE                              │
+│                                                                     │
+│   Every task assignment MUST include:                               │
+│   • Test strategy defined upfront                                   │
+│   • Testing framework specified                                     │
+│   • Validation method documented                                    │
+│   • Evidence collection requirements                                │
+│                                                                     │
+│   Tasks without testing plans will be REJECTED by managers          │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -255,7 +317,7 @@ PROJECT
             └── SUB-TASKS (Coordinator) — implementation steps
 ```
 
-### User Story Format
+### User Story Format (Enhanced with Testing)
 ```markdown
 ## Story
 **As a** {user type}
@@ -268,22 +330,43 @@ PROJECT
 **Given** {precondition}
 **When** {action}
 **Then** {expected result}
+**Test Method:** {testing framework + specific validation approach}
+**Evidence Required:** {screenshots, test output, logs}
+
+### AC-2: {additional criteria as needed...}
+
+## Testing Requirements (MANDATORY)
+- **Testing Framework:** {Jest/Playwright/Cypress/other}
+- **Test Strategy:** {unit/integration/e2e/validation scripts}
+- **TDD Approach:** Red → Green → Refactor methodology required
+- **Coverage Requirements:** {minimum % if applicable}
+- **Performance Criteria:** {response times, load requirements}
+- **Accessibility Requirements:** {WCAG level if applicable}
 
 ## Contingencies
 | Risk | Detection | Mitigation |
 |------|-----------|------------|
 | {what could go wrong} | {how to detect} | {what to do} |
+| Tests fail in production | Automated monitoring | Rollback + fix procedure |
+| Testing framework issues | CI/CD pipeline alerts | Backup testing approach |
 
 ## Dependencies
 - Upstream: {what must be done first}
 - Downstream: {what's waiting on this}
+- Testing Dependencies: {test data, environments, tools required}
 ```
 
-### Acceptance Criteria Rules
-1. **Must be testable** — can be verified with Playwright/browser
-2. **Must have Given/When/Then** — no vague descriptions
-3. **Must specify validation method** — how to prove it works
-4. **Must require evidence** — screenshots, logs
+### Mandatory Acceptance Criteria Rules (Enhanced)
+1. **Must be testable** — can be verified with specific testing frameworks (Jest, Playwright, etc.)
+2. **Must have Given/When/Then** — no vague descriptions, specific scenarios
+3. **Must specify validation method** — exact testing approach and tools required
+4. **Must require evidence** — screenshots, test reports, logs, coverage reports
+5. **Must include test strategy** — which testing frameworks will be used
+6. **Must define failure conditions** — what constitutes test failure
+7. **Must specify test data requirements** — any setup, fixtures, or data needed
+8. **Must include performance criteria** — if applicable (load times, response times)
+9. **Must consider accessibility** — WCAG compliance where relevant
+10. **Must validate edge cases** — boundary conditions, error scenarios
 
 ### Contingency Rules
 1. **Every story must have contingencies** — what could go wrong?
@@ -305,6 +388,10 @@ PROJECT
 | **Stories** | `scheduler/stories/{project}/stories/` |
 | **Sub-Tasks** | `PROACTIVE-JOBS.md` or `scheduler/tasks/{project}/` |
 | **Validation** | `scheduler/validation/reports/{project}/` |
+| **Test Suites** | `tests/` (root level) or `{project}/tests/` |
+| **Test Reports** | `tests/reports/{project}/` |
+| **Test Evidence** | `scheduler/validation/evidence/{task-id}/` |
+| **Testing Templates** | `tests/templates/` |
 
 ### ⚠️ Sub-Agent Spawning Constraint (CRITICAL)
 
@@ -1177,6 +1264,16 @@ When spawned for a proactive task:
 > - If you can't fully complete something, **DON'T claim it's done**
 > - Be HONEST about what's actually working vs what still needs work
 
+> 🧪 **MANDATORY TESTING REQUIREMENTS FOR SUB-AGENTS**
+> - EVERY task must follow Test-Driven Development (TDD)
+> - Write tests BEFORE implementing (Red → Green → Refactor)
+> - All acceptance criteria must have corresponding tests
+> - Collect test evidence: screenshots, test output, coverage reports
+> - Use appropriate testing frameworks (Jest, Playwright, validation scripts)
+> - NO claiming complete without test evidence in progress files
+> - Include testing summary in final status updates
+> - Test failures = task incomplete (fix tests OR implementation)
+
 > 📂 **HIERARCHICAL DOCUMENTATION (Self-Scaling)**
 > 
 > When a markdown file exceeds ~500 lines or has 3+ major sections:
@@ -1196,6 +1293,7 @@ When spawned for a proactive task:
    - `memory/projects/{project}/_overview.md` — project state and context
    - If neither exists, you're starting fresh — create them as you go
    - **Understand what's been tried, what works, what's broken**
+   - **Review acceptance criteria** and define your testing approach
 
 1. **Claim the task:** Update your heartbeat file immediately
    - Write to `scheduler/heartbeats/{task-id}.json`
@@ -1227,14 +1325,31 @@ When spawned for a proactive task:
    - **What's broken:** ❌ List of issues
    - **Suggestions for next agent:** If you die, what should they try?
    
+   ## Testing Status (MANDATORY)
+   - **Testing Framework:** {Jest/Playwright/validation scripts}
+   - **TDD Phase:** RED (tests written) → GREEN (implementation) → REFACTOR
+   - **Tests Written:** ✅/❌ {number} test cases created
+   - **Tests Passing:** ✅/❌ {number passed}/{number total}
+   - **Test Evidence:** Links to screenshots, logs, reports
+   - **Coverage:** {percentage if applicable}
+   
    ## Work Log
    - [HH:MM] Started: what you're doing
-   - [HH:MM] Completed: specific file/component
+   - [HH:MM] Tests written: {test description} (RED phase)
+   - [HH:MM] Implementation: {what was implemented} (GREEN phase)
+   - [HH:MM] Tests passing: {results}
+   - [HH:MM] Refactored: {improvements made}
    - [HH:MM] Issue found: description
    - [HH:MM] Decision: why you chose X over Y
    
    ## Files Changed
    - path/to/file.tsx — what was done
+   - tests/file.test.js — test cases added
+   
+   ## Testing Approach
+   - Strategy: {unit/integration/e2e/validation}
+   - Tools used: {specific frameworks and commands}
+   - Validation method: {how acceptance criteria were tested}
    
    ## What I Tried
    - Approach A: Result (worked/failed because...)
@@ -1248,6 +1363,7 @@ When spawned for a proactive task:
    - Try X instead of Y
    - Don't waste time on Z, it's a dead end
    - The real issue might be...
+   - Test failures indicate: {analysis of what tests revealed}
    ```
    
    **B. Project Memory** (`memory/projects/{project}/_overview.md`):
@@ -1524,13 +1640,18 @@ When significant changes happen (rename, deprecate, pivot, restructure):
 
 **This prevents future agents from wasting time on stale information.**
 
-#### Sub-Agent Responsibilities
+#### Sub-Agent Responsibilities (Enhanced with Testing)
 
 1. **Read parent's notes** for context
-2. **Do focused work** on your piece
-3. **Take detailed notes** in your progress file
-4. **Hire your own sub-agents** if still too complex
-5. **Report completion** (status update + Slack)
+2. **Define testing approach** before starting work (TDD mandatory)
+3. **Write tests FIRST** (Red phase - they should fail)
+4. **Do focused work** implementing just enough to pass tests (Green phase)
+5. **Refactor while keeping tests green** (Refactor phase)
+6. **Collect test evidence** (screenshots, reports, logs)
+7. **Take detailed notes** in your progress file including test results
+8. **Verify all acceptance criteria** with proper testing validation
+9. **Cannot claim complete** without test evidence
+10. **Report completion** (status update + Slack) with testing summary
 
 ### Spawning Child Sub-Agents (Legacy)
 

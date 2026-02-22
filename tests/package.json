@@ -1,0 +1,14 @@
+{
+  "name": "clawd-tests",
+  "version": "1.0.0",
+  "description": "Test suite for Clawd workspace validation",
+  "main": "agents-md-validation.js",
+  "scripts": {
+    "test": "node agents-md-validation.js",
+    "test:agents": "node agents-md-validation.js",
+    "validate": "npm run test"
+  },
+  "keywords": ["validation", "documentation", "testing"],
+  "author": "Sophie AI",
+  "license": "MIT"
+}
