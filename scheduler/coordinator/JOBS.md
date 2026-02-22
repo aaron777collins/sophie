@@ -157,6 +157,32 @@ TypeError: Cannot read properties of undefined (reading 'entryCSSFiles')
 
 ---
 
+## 🎯 NEW PROJECT: PROACTIVE JOB SYSTEM ENHANCEMENT
+
+| Item | Value |
+|------|-------|
+| **Project Name** | Proactive Job System Enhancement |
+| **Master Plan** | `docs/plans/proactive-job-system-enhancement/MASTER-PLAN.md` |
+| **Status** | Phase plans created and reviewed, awaiting PM approval |
+| **Priority** | Direct request from Aaron |
+
+### Phase Status
+
+| Phase | Status | Notes |
+|-------|--------|-------|
+| Phase 1 | 📝 Reviewed | Core Documentation Updates (9 tasks) |
+| Phase 2 | 📝 Reviewed | Implementation & Testing (11 tasks) |
+
+### Summary
+Enhance the proactive job system to make acceptance criteria and proper testing mandatory for all tasks. Updates all agent identity files and documentation.
+
+### Next Steps
+1. Await Person Manager approval of phase plans
+2. Populate PROACTIVE-JOBS.md with Phase 1 tasks
+3. Begin implementation
+
+---
+
 ## 📋 COORDINATION RULES
 
 ### 1. Max 2 Concurrent Workers
