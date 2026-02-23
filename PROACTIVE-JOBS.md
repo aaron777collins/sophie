@@ -1577,3 +1577,21 @@ Final commit of all project changes with comprehensive documentation of work com
 **Last Coordinator Check:** 2026-02-22 13:57 EST
 **Project Priority:** HIGH (direct Person Manager approval for Phase 2)
 **Phase 1 Achievement:** 9/9 tasks complete with 277+ tests passing
+# ============================================
+# MELO V2 - Major Project (Added 2026-02-22)
+# ============================================
+
+# Phase 1: Infrastructure (Critical)
+melo-infra-1|pending|Configure LiveKit Server|Min Model: Sonnet|Priority: P0|CRITICAL BLOCKER - all voice/video depends on this|Dependencies: LiveKit Cloud account or self-hosted deployment
+melo-infra-2|pending|Configure UploadThing|Min Model: Sonnet|Priority: P1|File upload API keys needed
+
+# Phase 2: Complete Matrix Integration
+melo-matrix-1|pending|Complete server settings Matrix API|Min Model: Sonnet|Priority: P1|Edit server name/icon/description via Matrix|Dependencies: melo-infra-1
+melo-matrix-2|pending|Complete moderation Matrix API|Min Model: Sonnet|Priority: P1|Kick/ban/mute via Matrix power levels|Dependencies: melo-matrix-1
+melo-matrix-3|pending|Complete reactions Matrix API|Min Model: Sonnet|Priority: P1|m.reaction events for emoji reactions|Dependencies: melo-matrix-1
+melo-matrix-4|pending|Complete threads Matrix API|Min Model: Sonnet|Priority: P2|m.thread relation for threaded replies|Dependencies: melo-matrix-3
+
+# Phase 3: Feature Completion
+melo-feat-1|pending|Complete group DMs|Min Model: Sonnet|Priority: P1|Multi-user DM rooms|Dependencies: melo-matrix-1
+melo-feat-2|pending|Server templates|Min Model: Sonnet|Priority: P2|Pre-configured server setups (Gaming, Work, etc)
+melo-feat-3|pending|Analytics dashboard|Min Model: Sonnet|Priority: P3|Server usage metrics for admins
