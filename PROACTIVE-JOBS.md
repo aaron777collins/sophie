@@ -118,6 +118,10 @@ Test Files  1 passed (1)
   - `tests/unit/setup.ts` - Updated mock exports
   - `tests/unit/components/chat/chat-input.test.tsx` - Updated mock imports
 - Git commit: 5925bc8
+- **Screenshot Evidence (MANDATORY):**
+  - Desktop 1920x1080: ✅ `scheduler/validation/screenshots/melo-v2/melo-p0-1-fix/admin-invites-desktop-1920x1080.png`
+  - Tablet 768x1024: ✅ `scheduler/validation/screenshots/melo-v2/melo-p0-1-fix/admin-invites-tablet-768x1024.png`
+  - Mobile 375x667: ✅ `scheduler/validation/screenshots/melo-v2/melo-p0-1-fix/admin-invites-mobile-375x667.png`
 
 **Note on remaining unit test failures (84/619):**
 These are PRE-EXISTING infrastructure issues unrelated to admin invites:

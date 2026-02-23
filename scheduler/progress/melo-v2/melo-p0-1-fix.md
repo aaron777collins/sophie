@@ -100,6 +100,18 @@ These are infrastructure/test issues, not admin invites functionality issues.
 - [x] API endpoints working: ✅ Verified (were already working)
 - [x] Git commit: 5925bc8
 
+## Screenshot Evidence (MANDATORY)
+
+Screenshots captured at ALL 3 viewports as per VALIDATION-REQUIREMENTS.md:
+
+| Viewport | File | Size |
+|----------|------|------|
+| Desktop 1920x1080 | `admin-invites-desktop-1920x1080.png` | 69KB |
+| Tablet 768x1024 | `admin-invites-tablet-768x1024.png` | 65KB |
+| Mobile 375x667 | `admin-invites-mobile-375x667.png` | 27KB |
+
+**Location:** `scheduler/validation/screenshots/melo-v2/melo-p0-1-fix/`
+
 ## Conclusion
 
 **The admin invites API was never broken.** The L3 validator's diagnosis was incorrect - the API endpoints were fully implemented and functional. The failures were caused by:
