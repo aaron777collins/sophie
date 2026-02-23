@@ -7,7 +7,7 @@ This file contains attribution notices for third-party software and resources us
 The user interface design patterns in this project were inspired by and adapted from:
 
 - **Discord Clone Tutorial** by [Antonio Erdeljac](https://github.com/AntonioErdeljac) (CodeWithAntonio)
-- **Reference Implementation:** [nayak-nirmalya/discord-clone](https://github.com/nayak-nirmalya/discord-clone)
+- **Reference Implementation:** [nayak-nirmalya/discord-clone](https://github.com/nayak-nirmalya/discord-clone) — MIT License
 
 The original codebase used Prisma ORM, Clerk authentication, and Socket.io. We have substantially rewritten and modified the code to use the Matrix protocol for all backend functionality, replacing the entire data layer and real-time communication stack.
 
