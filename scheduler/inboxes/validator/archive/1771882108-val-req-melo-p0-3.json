@@ -1,0 +1,28 @@
+{
+  "id": "val-req-1740340586",
+  "timestamp": "2026-02-23T21:26:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: melo-p0-3 Wire Invite Validation into Login Flow",
+  "content": {
+    "task_ids": ["melo-p0-3"],
+    "project": "MELO V2 Admin Invite System",
+    "phase": "P0 Blockers",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-02-23T21:26:00Z",
+    "files_changed": [
+      "lib/matrix/server-invites.ts (6.9KB - new implementation)",
+      "tests/integration/admin-invite-login-flow.test.ts (12.2KB - integration tests)"
+    ],
+    "git_commit": "6b6b9eb",
+    "acceptance_criteria": [
+      "AC-1: Login flow calls isLoginAllowedWithInvite() - ✅ Already wired, now with real storage",
+      "AC-2: External users with valid invite can log in - ✅ Tested",
+      "AC-3: External users without invite get clear error - ✅ INVITE_REQUIRED error",
+      "AC-4: markInviteUsed() called on successful login - ✅ Implemented and tested"
+    ],
+    "self_validation_notes": "Worker found invite validation was wired but storage was placeholder. Implemented real file-based storage. 15+ integration test scenarios. Sonnet retry after Haiku failed with empty file.",
+    "retry_note": "Previous Haiku worker created empty file (0 bytes). Sonnet produced real implementation."
+  }
+}
