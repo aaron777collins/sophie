@@ -1,69 +1,104 @@
-# Epic: [MELO-E001] Core Authentication
+# Epic: [MELO-E001] Authentication & Session Management
 
-**Project:** Melo v2
-**Status:** in-progress
-**Priority:** P0 (Critical)
-**Created:** 2026-02-21
+**Project:** Melo V2
+**Status:** needs-audit
+**Priority:** P0 (Critical - Foundational)
+**Created:** 2026-02-22
 **Test Server:** https://dev2.aaroncollins.info
 
 ---
 
 ## Description
 
-Ensure users can reliably sign in, sign up, and maintain authenticated sessions in Melo v2. This is foundational - nothing else works without auth.
+Complete authentication system for Melo v2, enabling users to sign up, sign in, manage sessions, and secure their accounts with 2FA. This is foundational - nothing else works without authentication.
 
 ---
 
 ## Business Value
 
-- **Critical Path:** Users can't use the app without authentication
-- **Trust:** Reliable auth builds user confidence
+- **Critical Path:** Users cannot use any feature without authentication
 - **Security:** Proper auth prevents unauthorized access
+- **Trust:** Reliable auth builds user confidence
+- **Compliance:** Session management for privacy regulations
 
 ---
 
 ## User Stories
 
-| Story ID | Title | Status | Priority |
-|----------|-------|--------|----------|
-| MELO-US-001 | User can sign in | ✅ validating | P0 |
-| MELO-US-002 | User can sign up | ⏳ pending | P0 |
-| MELO-US-003 | Session persists across refreshes | ⏳ pending | P0 |
-| MELO-US-004 | User can sign out | ⏳ pending | P1 |
-| MELO-US-005 | 2FA works (if enabled) | ⏳ pending | P1 |
+| Story ID | Title | Perspective | Priority | Status |
+|----------|-------|-------------|----------|--------|
+| MELO-US-0101 | User can sign up | User | P0 | ⏳ |
+| MELO-US-0102 | User can sign in | User | P0 | ⏳ |
+| MELO-US-0103 | User can sign out | User | P0 | ⏳ |
+| MELO-US-0104 | Session persists across refresh | User | P0 | ⏳ |
+| MELO-US-0105 | User can enable 2FA | User | P1 | ⏳ |
+| MELO-US-0106 | User can verify 2FA on login | User | P1 | ⏳ |
+| MELO-US-0107 | User can reset password | User | P1 | ⏳ |
+| MELO-US-0108 | User can manage devices | User | P2 | ⏳ |
+| MELO-US-0109 | Session expires after inactivity | Technical | P2 | ⏳ |
+| MELO-US-0110 | Rate limiting prevents brute force | Technical | P1 | ⏳ |
 
 ---
 
 ## Acceptance Criteria (Epic-Level)
 
-1. **Sign In:** User can sign in with valid Matrix credentials
-2. **Sign Up:** User can create new account on configured homeserver
-3. **Session:** Session persists, no re-login required on refresh
-4. **Sign Out:** User can sign out, session is cleared
-5. **Security:** No credential leaks, secure cookie handling
+1. **Sign Up:** New user can create account with Matrix credentials
+2. **Sign In:** Existing user can log in and access the app
+3. **Session:** Session persists across page refresh, survives browser close
+4. **Sign Out:** User can log out, session is properly terminated
+5. **2FA:** Users can enable/disable 2FA, required on login when enabled
+6. **Security:** Rate limiting active, tokens secure, CSRF protected
 
 ---
 
 ## Dependencies
 
-- **Upstream:** Matrix homeserver (Synapse) running
-- **Downstream:** All other features (messaging, channels, etc.)
+### Upstream
+- Matrix homeserver (Synapse) running and accessible
+- E2EE keys (for Matrix session)
+
+### Downstream
+- ALL other features depend on this epic
+- Messaging, Servers, Voice, etc. all require authenticated user
 
 ---
 
 ## Technical Notes
 
-- Auth uses Matrix protocol authentication
+- Uses Matrix protocol authentication
 - Session stored in HTTP-only cookies
-- MatrixAuthProvider manages client-side state
-- dev2.aaroncollins.info is test server
+- Access token + device ID managed
+- 2FA uses TOTP (compatible with authenticator apps)
+- Session validation on every API call
 
 ---
 
-## Known Issues
+## Contingencies
 
-- [FIXED 2026-02-21] `clientModules` error after login - fixed with fresh build
-- [MONITORING] Navigation throttle warnings in console (Chrome protection, non-blocking)
+| Scenario | Expected Behavior |
+|----------|-------------------|
+| Invalid credentials | Clear error message, no lockout until rate limit |
+| Session expired | Redirect to login, preserve intended destination |
+| 2FA code wrong | Allow retry, track attempts |
+| Homeserver unreachable | Show connection error, retry option |
+| Cookie blocked | Detect and notify user |
+
+---
+
+## Test Requirements
+
+### Device Sizes
+- Desktop (1920x1080)
+- Tablet (768x1024)
+- Mobile (375x667)
+
+### Screenshot Evidence Required For
+- Sign-up form (all fields visible)
+- Sign-in form (all fields visible)
+- 2FA setup flow
+- 2FA verification flow
+- Logout confirmation
+- Error states (invalid credentials, etc.)
 
 ---
 
@@ -71,5 +106,4 @@ Ensure users can reliably sign in, sign up, and maintain authenticated sessions 
 
 | Date | Update |
 |------|--------|
-| 2026-02-21 | Epic created |
-| 2026-02-21 | US-001 sign-in working, in validation |
+| 2026-02-22 | Epic created |
