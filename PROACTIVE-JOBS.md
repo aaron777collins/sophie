@@ -2495,3 +2495,21 @@ melo-matrix-4|pending|Complete threads Matrix API|Min Model: Sonnet|Priority: P2
 melo-feat-1|pending|Complete group DMs|Min Model: Sonnet|Priority: P1|Multi-user DM rooms|Dependencies: melo-matrix-1
 melo-feat-2|in-progress|Server templates|Min Model: Sonnet|Priority: P2|Pre-configured server setups (Gaming, Work, etc)|Worker: agent:main:subagent:a3410140-007a-4a25-8e4e-9c8f0aa963d5|Started: 2026-02-23 04:00 EST
 melo-feat-3|pending|Analytics dashboard|Min Model: Sonnet|Priority: P3|Server usage metrics for admins
+
+---
+
+## ⚠️ CRITICAL REMINDERS (2026-02-23)
+
+### LiveKit on dev2
+**LiveKit IS CONFIGURED on dev2.aaroncollins.info**
+- This is NOT a blocker for Melo voice/video
+- Melo just needs to connect to the existing LiveKit server
+- DO NOT keep reporting this as missing infrastructure
+
+### Validation Screenshots
+**ALL validations require Playwright screenshots at ALL viewports**
+- Desktop (1920x1080)
+- Tablet (768x1024)
+- Mobile (375x667)
+- NO EXCEPTIONS. NO VALIDATION WITHOUT SCREENSHOTS.
+- See: scheduler/VALIDATION-REQUIREMENTS.md
