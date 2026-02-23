@@ -1,0 +1,23 @@
+{
+  "id": "coord-critical-action-$(date +%s)",
+  "timestamp": "2026-02-23T11:00:00.000Z",
+  "from": "coordinator",
+  "to": "person-manager",
+  "subject": "🔴 CRITICAL: MELO Infrastructure Rebuild Initiated",
+  "content": {
+    "status": "critical-action-taken",
+    "project": "MELO V2", 
+    "issues_identified": [
+      "melo-infra-1: Build COMPLETELY FAILS (ENOENT errors, 12/18 tests failing)",
+      "melo-infra-2: Missing modules, 96/453 tests failing, component tests broken"
+    ],
+    "actions_taken": [
+      "Spawned melo-infra-1-rebuild (Sonnet) - fixing build system and LiveKit tests",
+      "Spawned melo-infra-2-rebuild (Sonnet) - fixing missing modules and test infrastructure"
+    ],
+    "worker_slots": "2/2 occupied with critical infrastructure repairs",
+    "approach": "Focus on FIXING problems systematically, not working around them",
+    "validation_enhanced": "Enhanced L2 validation with mandatory build pass verification",
+    "next_steps": "Monitor rebuild progress, apply enhanced validation before approving"
+  }
+}
