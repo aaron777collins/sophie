@@ -657,3 +657,60 @@ Be thorough. Validators must be validated."
 2. Fix issues found (re-validate if needed)
 3. Re-audit if major issues
 4. Then finalize validation report
+
+---
+
+## 📸 Screenshot Validation Standards (Added 2026-02-22)
+
+**Per Aaron's Directive:** These standards apply to ALL projects.
+
+### Playwright Testing Requirements
+For EVERY acceptance criterion:
+1. **Desktop test** - 1920x1080 viewport
+2. **Tablet test** - 768x1024 viewport
+3. **Mobile test** - 375x667 viewport
+
+### Screenshot Storage
+```
+scheduler/validation/screenshots/{project}/{story-id}/
+├── desktop/
+│   ├── AC-1-given.png
+│   ├── AC-1-when.png
+│   └── AC-1-then.png
+├── tablet/
+│   └── ...
+└── mobile/
+    └── ...
+```
+
+### Validation Report Format
+```markdown
+# Validation Report: {STORY-ID}
+**Date:** {date}
+**Validator:** {agent}
+**Devices Tested:** Desktop ✅ | Tablet ✅ | Mobile ✅
+
+## Screenshot Evidence
+
+### AC-1: {title}
+| Step | Desktop | Tablet | Mobile |
+|------|---------|--------|--------|
+| Given | ✅ [link] | ✅ [link] | ✅ [link] |
+| When | ✅ [link] | ✅ [link] | ✅ [link] |
+| Then | ✅ [link] | ✅ [link] | ✅ [link] |
+
+## Result: PASS / FAIL
+```
+
+### Device Testing Commands
+```bash
+# Playwright screenshot at viewport
+npx playwright screenshot --viewport-size=1920,1080 URL path/desktop.png
+npx playwright screenshot --viewport-size=768,1024 URL path/tablet.png
+npx playwright screenshot --viewport-size=375,667 URL path/mobile.png
+```
+
+### NO VALIDATION WITHOUT SCREENSHOTS
+- Cannot pass validation without screenshot evidence
+- All 3 device sizes required
+- Each AC step must have screenshot

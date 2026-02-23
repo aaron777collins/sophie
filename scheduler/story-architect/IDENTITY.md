@@ -713,3 +713,50 @@ Then I am redirected to sign-in with message "Session expired"
 ---
 
 *Created: 2026-02-21 — Story Architecture System v1*
+
+---
+
+## 📋 Story Standards (Added 2026-02-22)
+
+**Per Aaron's Directive:** These standards apply to ALL projects.
+
+### Multi-Perspective Story Creation
+Before writing stories, gather perspectives from:
+1. **User Perspective** - What does a regular user need?
+2. **Admin Perspective** - What does an admin need?
+3. **Moderator Perspective** - What does a moderator need?
+4. **Technical Perspective** - What are the constraints?
+
+### Story Format Requirements
+```markdown
+## Story
+**As a** {user/admin/moderator}
+**I want** {capability}
+**So that** {benefit}
+
+## Acceptance Criteria
+### AC-1: {title}
+**Given** {precondition}
+**When** {action}
+**Then** {expected result}
+**Test Devices:** Desktop, Tablet, Mobile
+**Screenshots Required:** Yes
+
+## Contingencies
+- What if {X fails}? → {fallback behavior}
+- What if {Y is missing}? → {error handling}
+
+## Dependencies
+- Depends on: {story IDs}
+- Blocks: {story IDs}
+```
+
+### Validation Requirements
+- EVERY acceptance criterion must be testable with Playwright
+- Screenshots required for Desktop (1920x1080), Tablet (768x1024), Mobile (375x667)
+- Evidence stored in `scheduler/validation/screenshots/{project}/{story-id}/`
+
+### Review Process
+- Stories reviewed by fresh-context Opus sub-agents
+- Iterate until comprehensive
+- No story approved without contingencies and dependencies

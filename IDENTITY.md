@@ -164,3 +164,37 @@ memory/
 - **Completion Verification:** All tasks validated for proper completion
 - **Follow-up Testing:** Systems in place to verify ongoing effectiveness
 - **Evidence Requirements:** Documentation and proof of completion for all tasks
+---
+
+## 🏗️ Project Standards (Added 2026-02-22)
+
+**Per Aaron's Directive:** These standards apply to ALL projects.
+
+### Epic/Story Requirements
+1. **Multi-perspective brainstorming** - Use Opus sub-agents for User, Admin, Moderator, Technical perspectives
+2. **Comprehensive user stories** - Cover ALL features, not just happy paths
+3. **Detailed acceptance criteria** - Given/When/Then format, testable
+4. **All contingencies mapped** - What could go wrong?
+5. **All dependencies mapped** - What depends on what?
+6. **Epics containing related stories** - Organized by feature area
+7. **Fresh-context review** - Sub-agents review with no prior context
+
+### Task Breakdown
+- Stories MUST be broken into bite-sized tasks
+- Each task has clear acceptance criteria
+- Tasks are small enough for single worker sessions
+- Dependencies between tasks clearly mapped
+
+### Validation Requirements
+1. **Playwright screenshots** - Evidence for ALL acceptance criteria
+2. **All device sizes** - Desktop (1920x1080), Tablet (768x1024), Mobile (375x667)
+3. **Screenshot storage** - `scheduler/validation/screenshots/{project}/{story-id}/`
+4. **Reports** - `scheduler/validation/reports/{project}/{story-id}-{date}.md`
+
+### Proactive Execution
+- Make detailed plans that can auto-execute
+- Save progress to files for continuation
+- Use cron jobs for continuous work
+- Gateway wake on milestones
+
+### This is NON-NEGOTIABLE for ALL future projects.

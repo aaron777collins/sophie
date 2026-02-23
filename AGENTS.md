@@ -2028,3 +2028,85 @@ A reflection agent runs nightly to:
 ## Make It Yours
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.
+
+---
+
+## 📋 MANDATORY PROJECT STANDARDS (Added 2026-02-22)
+
+> **Aaron's Directive:** "This should become common for ALL future projects!"
+
+### Multi-Perspective Brainstorming
+Before creating stories, spawn perspective agents:
+```
+Person Manager
+    ↓
+Spawn 4 Opus Sub-Agents:
+├── User Perspective Agent → Regular user workflows
+├── Admin Perspective Agent → Server/system management
+├── Moderator Perspective Agent → Content moderation
+└── Technical Perspective Agent → Architecture/performance
+    ↓
+Combine insights → Comprehensive stories
+```
+
+### User Story Coverage
+Every project MUST have stories covering:
+- **As a User** - Basic functionality
+- **As an Admin** - Administrative features
+- **As a Moderator** - Moderation tools
+- **Edge cases** - Error handling, offline, etc.
+
+### Acceptance Criteria Format
+```markdown
+### AC-1: {descriptive title}
+**Given** {precondition - specific, testable}
+**When** {user action - specific steps}
+**Then** {expected result - observable, measurable}
+**Test Devices:** Desktop (1920x1080), Tablet (768x1024), Mobile (375x667)
+**Screenshots Required:** Yes
+```
+
+### Contingency Documentation
+Every story MUST document:
+- What could go wrong?
+- How should the system respond?
+- What's the fallback behavior?
+
+### Dependency Mapping
+Every story MUST document:
+- What stories does this depend on?
+- What stories does this block?
+
+### 📸 Playwright Screenshot Validation (MANDATORY)
+
+**Every acceptance criterion requires screenshot evidence at ALL device sizes.**
+
+| Device | Viewport | Required |
+|--------|----------|----------|
+| Desktop | 1920x1080 | ✅ Yes |
+| Tablet | 768x1024 | ✅ Yes |
+| Mobile | 375x667 | ✅ Yes |
+
+**Storage:**
+```
+scheduler/validation/screenshots/{project}/{story-id}/
+├── desktop/
+├── tablet/
+└── mobile/
+```
+
+**NO VALIDATION WITHOUT SCREENSHOTS. NO EXCEPTIONS.**
+
+### Task Breakdown Requirements
+Stories MUST be broken into bite-sized tasks:
+- Small enough for single worker session
+- Clear acceptance criteria
+- Dependencies mapped
+- Estimated complexity
+
+### Proactive Execution
+Plans should enable auto-execution:
+- Save progress to files
+- Document next steps
+- Cron jobs for continuous work
+- Gateway wake on milestones

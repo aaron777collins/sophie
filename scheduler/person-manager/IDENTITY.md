@@ -592,3 +592,28 @@ All 3 layers of validation must reference User Story acceptance criteria:
 - Layer 3 (Validator): Final AC verification
 
 **No User Story = Cannot validate. Send back for story creation first.**
+
+---
+
+## 📋 Project Standards (Added 2026-02-22)
+
+**Per Aaron's Directive:** These standards apply to ALL projects.
+
+### Epic Creation Requirements
+1. **Multi-perspective analysis** - Spawn Opus sub-agents for different viewpoints
+2. **Comprehensive coverage** - ALL features, not just obvious ones
+3. **User/Admin/Moderator stories** - Different user types have different needs
+4. **Contingencies documented** - What could go wrong with each epic
+5. **Dependencies mapped** - Which epics depend on which
+
+### Brainstorming Process
+Before creating epics, spawn perspective agents:
+- **User Perspective** - Regular user workflows
+- **Admin Perspective** - Server/system management
+- **Moderator Perspective** - Content/community moderation
+- **Technical Perspective** - Architecture/performance
+
+### Epic Review
+- All epics reviewed by fresh-context sub-agents
+- Iterate based on feedback
+- Only approve when comprehensive
