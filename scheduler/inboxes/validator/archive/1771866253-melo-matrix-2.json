@@ -1,0 +1,31 @@
+{
+  "id": "val-req-melo-matrix-2-1771866182",
+  "timestamp": "2026-02-23T17:03:02Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: melo-matrix-2 (Matrix Moderation API)",
+  "content": {
+    "task_ids": ["melo-matrix-2"],
+    "project": "MELO V2",
+    "phase": "Phase 2",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-02-23T17:02:00Z",
+    "files_changed": [
+      "lib/matrix/types/moderation.ts",
+      "tests/unit/lib/matrix/moderation.test.ts",
+      "components/moderation/index.ts",
+      "tests/e2e/moderation.spec.ts"
+    ],
+    "acceptance_criteria": [
+      "Can kick users via Matrix m.room.power_levels",
+      "Can ban users via Matrix m.room.power_levels", 
+      "Can mute users via Matrix m.room.power_levels",
+      "Proper permission checking (only admins/mods can moderate)",
+      "UI reflects moderation capabilities based on user permissions",
+      "Unit tests pass: 53/53 tests",
+      "Types file created: lib/matrix/types/moderation.ts"
+    ],
+    "self_validation_notes": "L2 coordinator validation passed: Git commit 2101d36 verified, files exist with proper sizes, 53/53 unit tests passing. Build issues are pre-existing infrastructure problems unrelated to moderation changes."
+  }
+}

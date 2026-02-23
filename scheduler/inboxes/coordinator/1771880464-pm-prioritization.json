@@ -1,0 +1,57 @@
+{
+  "id": "pm-prioritization-1771869900",
+  "timestamp": "2026-02-23T21:00:00Z",
+  "from": "person-manager",
+  "to": "coordinator",
+  "subject": "MELO V2 Priority Decision: Pivot to Admin Invite System",
+  "content": {
+    "decision": "Pivot to Admin Invite System P0 blockers",
+    "rationale": "The MELO Master Plan shows P0 Admin Invite tasks are 'Cannot Deploy Without' blockers. Matrix APIs (melo-matrix-2/3) are nice-to-have features but the invite system is blocking production readiness.",
+    "new_priority_tasks": [
+      {
+        "id": "melo-p0-1",
+        "title": "Create Admin Invites UI page",
+        "description": "Create app/(main)/(routes)/admin/invites/page.tsx - Admin dashboard to list/manage invites",
+        "complexity": "Medium",
+        "estimate": "4-6h",
+        "acceptance_criteria": [
+          "Admin can access /admin/invites page",
+          "Page lists all invites with status (active/used/expired)",
+          "Page restricted to admin users only",
+          "Unit tests created",
+          "E2E tests created"
+        ]
+      },
+      {
+        "id": "melo-p0-2", 
+        "title": "Create Invite Modal component",
+        "description": "Create components/admin/create-invite-modal.tsx for creating new invites",
+        "complexity": "Medium",
+        "estimate": "2-3h",
+        "acceptance_criteria": [
+          "Modal accepts Matrix user ID input",
+          "Modal has expiration dropdown (7d, 14d, 30d, custom)",
+          "Modal has notes field",
+          "Submit calls POST /api/admin/invites",
+          "Unit tests pass"
+        ]
+      },
+      {
+        "id": "melo-p0-3",
+        "title": "Wire isLoginAllowedWithInvite() into login flow",
+        "description": "Connect existing invite validation function to actual login flow",
+        "complexity": "Low",
+        "estimate": "1-2h",
+        "acceptance_criteria": [
+          "Login flow calls isLoginAllowedWithInvite()",
+          "External users with valid invite can log in",
+          "External users without invite get clear error",
+          "markInviteUsed() called on successful login"
+        ]
+      }
+    ],
+    "execution_order": "melo-p0-1 → melo-p0-2 → melo-p0-3 (can parallelize p0-1 and p0-2)",
+    "notes": "The Matrix moderation/reactions APIs are complete and valuable, but we need the invite system working before we can deploy. Shift focus to P0 blockers.",
+    "response_to": "coord-matrix-completion-1771868802"
+  }
+}
