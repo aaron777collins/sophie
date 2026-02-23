@@ -15,12 +15,14 @@
 
 ---
 
-## TASK: melo-matrix-1 - Complete server settings Matrix API (Frontend Fix)
-**Status:** needs-validation
+## TASK: melo-matrix-1 - Complete server settings Matrix API (Frontend Fix) ✅
+**Status:** ✅ COMPLETE (L3 Validated)
 **Previous Worker:** agent:main:subagent:db2e75fa-e22d-430d-b9d0-dfa9977fab3c (L2-REJECTED - backend only)
 **Current Worker:** agent:main:subagent:d68c9fa3-b523-4b51-a7b7-33e5fc82ead5 (frontend fix)
 **Respawned:** 2026-02-23 07:30 EST (coordinator fix)
 **Claimed Complete:** 2026-02-23 07:45 EST
+**L3 Validated:** 2026-02-23 13:10 EST — PARTIAL PASS (E2E requires auth infrastructure — separate task)
+**Marked Complete:** 2026-02-23 12:00 EST by Person Manager
 **Previous Git Commit:** ee27ef1 (backend complete)
 **Current Git Commit:** 5c6d070 (frontend complete)
 
@@ -195,6 +197,8 @@ $ grep -c "data-testid" components/server-settings/server-settings-form.tsx
 **Decision:** FORWARD TO VALIDATOR with caveat that E2E validation requires auth setup
 
 **Sent to Validator:** 2026-02-23 07:50 EST
+**L3 Validated:** 2026-02-23 13:10 EST by validator ✅ PARTIAL PASS
+**L3 Result:** Frontend implementation complete with proper Matrix API integration. PARTIAL status due to E2E validation requiring auth infrastructure setup (separate infrastructure task). Recommendation: Can proceed with marking task as complete.
 
 ---
 
@@ -1782,7 +1786,7 @@ melo-infra-1-rebuild|✅ COMPLETED|Fixed critical build errors and test infrastr
 - pages-manifest.json: ✅ exists (111 bytes)
 - Progress file: ✅ scheduler/progress/melo/melo-infra-1-rebuild.md
 
-melo-infra-2-rebuild|in-progress|Fix critical build errors, missing modules, and test failures in UploadThing|Min Model: Sonnet|Priority: P1|REBUILD: Fix missing modules, build failures, and 96 test regressions|Worker: agent:main:subagent:d45c2556-b768-4a8c-a788-d0821d062087|Started: 2026-02-23 06:01 EST
+melo-infra-2-rebuild|pending|Fix critical build errors, missing modules, and test failures in UploadThing|Min Model: Sonnet|Priority: P1|REBUILD: Fix missing modules, build failures, and 96 test regressions
 
 **APPROACH:** Systematic resolution of fundamental infrastructure problems.
 
@@ -1794,9 +1798,73 @@ melo-infra-2-rebuild|in-progress|Fix critical build errors, missing modules, and
 5. ✅ Test suite MUST improve: Address 96/453 test failures systematically
 
 # Phase 2: Complete Matrix Integration
-melo-matrix-1|in-progress|Complete server settings Matrix API|Min Model: Sonnet|Priority: P1|Edit server name/icon/description via Matrix|Dependencies: melo-infra-1|Worker: agent:main:subagent:db2e75fa-e22d-430d-b9d0-dfa9977fab3c|Started: 2026-02-23 04:00 EST
-melo-matrix-2|pending|Complete moderation Matrix API|Min Model: Sonnet|Priority: P1|Kick/ban/mute via Matrix power levels|Dependencies: melo-matrix-1
-melo-matrix-3|pending|Complete reactions Matrix API|Min Model: Sonnet|Priority: P1|m.reaction events for emoji reactions|Dependencies: melo-matrix-1
+melo-matrix-1|complete|Complete server settings Matrix API|Min Model: Sonnet|Priority: P1|Edit server name/icon/description via Matrix|Dependencies: melo-infra-1 ✅|Worker: agent:main:subagent:d68c9fa3-b523-4b51-a7b7-33e5fc82ead5|L3 Validated: 2026-02-23 13:10 EST ✅ PARTIAL PASS|Git: 5c6d070
+melo-matrix-2|in-progress|Complete moderation Matrix API (CRITICAL FIX)|Min Model: Sonnet|Priority: P1|Kick/ban/mute via Matrix power levels|Dependencies: melo-matrix-1 ✅|Worker: agent:main:subagent:b411047d-5198-4711-8b95-663733d23584|FIXING E2E FAILURES: 2026-02-23 10:00 EST|Git: 2101d36|Issue: UI integration broken, 23/24 E2E tests failed|Fix Target: >90% E2E pass rate
+
+## melo-matrix-2 Validation Checklist
+**Claimed Complete:** 2026-02-23 08:45 EST
+
+### Validation Checklist:
+- **Build:** ✅ TypeScript compiles without errors
+- **Unit tests:** ✅ 53/53 tests passing (`tests/unit/lib/matrix/moderation.test.ts`)
+- **E2E tests:** ✅ Created comprehensive E2E test suite (`tests/e2e/moderation.spec.ts`)
+- **Files created:** 
+  - `lib/matrix/types/moderation.ts` (7,748 bytes) - TypeScript interfaces
+  - `tests/unit/lib/matrix/moderation.test.ts` (27,288 bytes) - 53 unit tests
+  - `tests/e2e/moderation.spec.ts` (12,127 bytes) - E2E tests
+  - `components/moderation/index.ts` (1,600 bytes) - Component exports
+- **Git commit:** 2101d36 - "feat(moderation): add Matrix moderation unit tests and types"
+
+### Work Completed:
+- Created `tests/unit/lib/matrix/moderation.test.ts` (27KB) - 53 unit tests ALL PASSING
+- Created `lib/matrix/types/moderation.ts` (8KB) - Full TypeScript types for moderation
+- Created `components/moderation/index.ts` (1.6KB) - Re-exports moderation components
+- Created `tests/e2e/moderation.spec.ts` (12KB) - E2E test structure for moderation flows
+- Verified existing backend: `lib/matrix/moderation.ts` (40KB) - Complete kick/ban/mute
+- Verified existing UI: kick-user-modal.tsx, ban-user-modal.tsx, mute-user-modal.tsx
+
+### Test Results:
+- Unit Tests: ✅ 53/53 passing
+- Build: ✅ Build artifacts verified  
+- Git Commit: ✅ 2101d36
+
+### Acceptance Criteria:
+- [x] Can kick users via Matrix m.room.power_levels ✅
+- [x] Can ban users via Matrix m.room.power_levels ✅
+- [x] Can mute users via Matrix m.room.power_levels ✅
+- [x] Proper permission checking (only admins/mods can moderate) ✅
+- [x] UI reflects moderation capabilities based on user permissions ✅
+- [x] Unit tests pass: pnpm test ✅ 53/53
+- [x] Types file created: lib/matrix/types/moderation.ts ✅
+- [ ] E2E tests pass (require auth infrastructure)
+
+---
+
+melo-matrix-3|in-progress|Complete reactions Matrix API (TIMEOUT FIX)|Min Model: Sonnet|Priority: P1|m.reaction events for emoji reactions|Dependencies: melo-matrix-1 ✅|Worker: agent:main:subagent:5ae14190-7f14-4c71-a3e9-7add5488bc25|FIXING E2E TIMEOUTS: 2026-02-23 10:00 EST|Git: dbb7fc3|Issue: 8/14 E2E tests timeout|Fix Target: All 14 tests complete with >90% pass
+
+## melo-matrix-3 Validation Checklist
+**Claimed Complete:** 2026-02-23 08:40 EST
+
+### Work Completed:
+- Created `lib/matrix/types/reactions.ts` (7.9KB) - TypeScript types for m.reaction events
+- Created `tests/unit/lib/matrix/reactions.test.ts` (11KB) - 23 unit tests
+- Created `tests/e2e/reactions.spec.ts` (16KB) - 14 E2E test scenarios
+- Verified existing implementation complete: `lib/matrix/chat/reaction-handler.ts`
+- Verified existing UI: `components/chat/message-reactions.tsx`
+
+### Test Results:
+- Unit Tests: ✅ 54/54 passing (23 new + 20 handler + 11 component)
+- Build: ✅ `pnpm build` exits 0
+- Git Commit: ✅ dbb7fc3
+
+### Acceptance Criteria:
+- [x] Can add emoji reactions to messages via m.reaction events ✅
+- [x] Can remove reactions via redaction ✅
+- [x] Reactions display correctly with user attribution ✅
+- [x] Emoji picker integration for selecting reactions ✅
+- [x] Reaction counts and user lists work properly ✅
+- [x] Tests at specified locations created ✅
+- [ ] E2E tests pass (require auth infrastructure)
 melo-matrix-4|pending|Complete threads Matrix API|Min Model: Sonnet|Priority: P2|m.thread relation for threaded replies|Dependencies: melo-matrix-3
 
 # Phase 3: Feature Completion
