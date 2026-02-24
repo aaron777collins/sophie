@@ -119,3 +119,31 @@ Multiply intended distances by **0.0175** to get actual distances that were used
 5. Will fix logging code and restart fresh
 
 **Status:** Opus working on fix
+
+### [2026-02-24 02:23 EST] - FULL ALIGNMENT COMPLETE
+
+**Status:** ACTIVE - Fresh pipeline run in progress
+
+**Fix Applied:**
+- Root cause: logging directory overwritten between runs
+- Solution: TeeWriter context manager captures stdout/stderr directly
+- Each pipeline gets isolated `pipeline.log`
+
+**Attack Implementation Verified:**
+- ✅ `const_offset_per_id` in all 36 configs
+- ✅ Caching via `@CSVCache` decorator
+- ✅ Distance calculation correct (radians conversion)
+
+**Everyone Aligned:**
+- ✅ Person Manager inbox updated
+- ✅ Coordinator inbox updated
+- ✅ Jaekel monitor re-enabled
+- ✅ MDL email sent to Aaron & Josh
+- ✅ Memory files updated
+
+**Fresh Run Status:**
+- 36 pipelines queued
+- Starting with `basic_100km_const`
+- Expected: ~3 hours total
+
+**Next:** Monitor continues with 15-min progress emails until completion.
