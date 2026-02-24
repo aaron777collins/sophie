@@ -241,3 +241,38 @@ All combinations of basic, const, random, smart attacks across 2km, 100km, 200km
 - Sent detailed MDL email to Aaron & Josh
 
 **Next:** Generate 108 JSON configs and start fresh run.
+
+### [2026-02-24 02:55 EST] - 🚀 108-PIPELINE RUN STARTED!
+
+**Status:** RUNNING - All 108 permutations in progress
+
+**Full Matrix:**
+- Features: basic, movement, extended (3)
+- Radii: 2km, 100km, 200km (3)
+- Attacks: ALL 6 types (6)
+- With ID: yes/no (2)
+- Total: 108 pipelines
+
+**All 6 Attack Types Now Running:**
+1. rand_offset — random per row
+2. const_offset — same for all
+3. const_offset_per_id — consistent per ID
+4. swap_rand — swap positions
+5. override_const — override to constant
+6. override_rand — override to random
+
+**Process Details:**
+- PID: 960024 on jaekel
+- Script: run_108_pipelines.py
+- Log: /tmp/run_108.log
+- Progress: /var/www/static/pipeline-results/progress_108.json
+
+**Timeline:**
+- ~5 min/pipeline × 108 = ~9 hours
+- Expected completion: ~11am-12pm EST
+
+**Emails Sent:**
+- Initial notification to Aaron & Josh
+- Progress emails planned at 25%, 50%, 75%, 100%
+
+**CACHING VERIFIED:** Using Parquet with input-specific keys (not CSV)

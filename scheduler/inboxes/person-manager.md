@@ -1,47 +1,43 @@
 # Person Manager Inbox
 
-## [2026-02-24 02:30 EST] 🚨 CRITICAL OVERHAUL IN PROGRESS
+## [2026-02-24 02:55 EST] 🚀 108-PIPELINE RUN IN PROGRESS
 
-**From:** Sophie (Main Session) — Aaron went to bed, I'm in charge
+**From:** Sophie (Main Session) — Aaron sleeping, autonomous run
 
-### Critical Issues Identified
-1. ❌ **CSV Cache is WRONG** — need PARQUET (CSV too big for data volume)
-2. ❌ **Cache not input-specific** — risk of contamination between configs
-3. ❌ **Only 36 pipelines** — need ALL 108 permutations (6 attack types)
+### Current Status: RUNNING
+- **PID:** 960024 on jaekel
+- **Total:** 108 pipelines (all permutations)
+- **Progress:** /var/www/static/pipeline-results/progress_108.json
 
-### Actions Taken
-1. ✅ Killed all running pipelines
-2. ✅ Cleared ALL results, cache, logs — zero contamination
-3. 🔄 Opus sub-agent auditing + fixing caching system
-4. 🔄 Converting CSV cache → Parquet cache
-5. 🔄 Creating full 108-pipeline matrix
-
-### Full Permutation Matrix (108 total)
+### Full Permutation Matrix
 ```
 Features (3):    basic, movement, extended
 Radii (3):       2km, 100km, 200km
-Attacks (6):     ALL attack types (was only 2!)
+Attacks (6):     ALL 6 types
 With ID (2):     yes, no
 Total: 3 × 3 × 6 × 2 = 108 pipelines
 ```
 
-### Attack Types (6 total)
-1. `rand_offset` — random direction/distance per row
-2. `const_offset` — same direction/distance for ALL attackers
-3. `const_offset_per_id` — random but consistent per vehicle ID
-4. `swap_rand` — swap positions randomly
-5. `override_const` — override to constant location
-6. `override_rand` — override to random location
+### All 6 Attack Types Running
+1. rand_offset — random per row
+2. const_offset — same for all
+3. const_offset_per_id — consistent per ID
+4. swap_rand — swap positions
+5. override_const — override to constant
+6. override_rand — override to random
 
 ### Timeline
-- Caching fix: ~1 hour (Opus working)
-- Full run: ~9 hours (108 pipelines × ~5 min each)
-- MDL emails: Every significant milestone
+- ~5 min/pipeline × 108 = ~9 hours
+- Expected completion: ~11am-12pm EST
+
+### Caching Status
+✅ VERIFIED: Using Parquet with input-specific cache keys
+❌ NOT using CSV cache (that's old pandas code)
 
 ### Action Required
-- **DO NOT** spawn any workers for this project
-- Sophie + Opus handling directly
-- Person Manager: Monitor only, no action needed
+- **DO NOT** interfere with running pipeline
+- Monitor via dashboard: http://65.108.237.46/pipeline-results/
+- Progress emails at 25%, 50%, 75%, 100%
 
 ---
-*Last updated: 2026-02-24 02:30 EST — Aaron sleeping, Sophie in charge*
+*Last updated: 2026-02-24 02:55 EST*
