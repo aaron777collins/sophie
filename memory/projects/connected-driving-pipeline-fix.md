@@ -756,3 +756,22 @@ Each config now gets its own cache path! ✅
 
 **Dashboard:** https://jaekel.aaroncollins.info/pipeline-dashboard
 **Progress file:** /var/www/static/pipeline-results/progress_162.json
+
+### [2026-02-24 04:05 EST] - 🏃 FULL RUN IN PROGRESS
+
+**Current Progress:** 2/162 pipelines complete
+
+**Pipeline timings:**
+- basic_2km_randoffset: 233 seconds
+- basic_2km_constoffset: 218 seconds
+- Average: ~4 minutes per pipeline
+
+**Estimated completion:** ~11 hours (around 3pm EST)
+
+**Both pipelines confirmed:**
+- 238,738 rows (full 2km dataset)
+- Unique cache paths per config
+- Consistent results
+
+**Dashboard:** https://jaekel.aaroncollins.info/pipeline-dashboard
+**Log file:** /tmp/run_162_full_dataset.log
