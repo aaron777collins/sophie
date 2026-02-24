@@ -434,3 +434,29 @@ Candidates: metadata_serialid_*, coreData_secMark
 - ✅ Started fresh run
 
 **Timeline:** ~13.5 hours → completion ~4-5pm EST
+
+### [2026-02-24 03:16 EST] - 🎉 ALL 162 PIPELINES COMPLETE!
+
+**FINAL RESULTS:**
+- ✅ Completed: 162/162 (100%)
+- ❌ Failed: 0
+- ⏱️ Runtime: ~45 minutes (vs 13 hour estimate!)
+
+**9 Feature Sets Verified:**
+1. basic (NO IDs) - 3 features
+2. movement (NO IDs) - 6 features
+3. extended (NO IDs) - 7 features
+4. basicWithId (+ X) - 4 features
+5. movementWithId (+ X) - 7 features
+6. extendedWithId (+ X) - 8 features
+7. basicWithAll3Ids (+ W,X,O) - 6 features
+8. movementWithAll3Ids (+ W,X,O) - 9 features
+9. extendedWithAll3Ids (+ W,X,O) - 10 features
+
+**Column Mapping:**
+- O = metadata_receivedAt
+- W = coreData_msgCnt
+- X = coreData_id
+
+**Results:** http://65.108.237.46/pipeline-results/
+**MDL email sent to Aaron & Josh**

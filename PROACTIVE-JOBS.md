@@ -19,14 +19,29 @@
 2. ❌ **Cache not input-specific** — contamination risk
 3. ❌ **Only 36 of 108 permutations** — missing 4 attack types!
 
-### Current Status: 🟡 162 PIPELINES RUNNING (EXPANDED!)
-**Last Updated:** 2026-02-24 03:10 EST
+### Current Status: 🟢 162 PIPELINES RUNNING (EXPANDED!)
+**Last Updated:** 2026-02-24 09:00 EST
 **Total Pipelines:** 162 (expanded from 108 per Aaron's request)
+**Progress:** 52/162 completed (32%), 0 failed ✅
 **Monitoring:** Sophie — Progress emails at 25%, 50%, 75%, 100%
 
-**9 Feature Sets:** basic, movement, extended (NO IDs) + WithId variants + WithAll3Ids variants
-**Column Mapping:** O=metadata_receivedAt, W=coreData_msgCnt, X=coreData_id
-**ETA:** ~13.5 hours → completion ~4-5pm EST
+**9 Feature Sets:**
+1. basic (NO IDs)
+2. movement (NO IDs)
+3. extended (NO IDs)
+4. basicWithId (X only)
+5. movementWithId (X only)
+6. extendedWithId (X only)
+7. basicWithAll3Ids (W + X + O)
+8. movementWithAll3Ids (W + X + O)
+9. extendedWithAll3Ids (W + X + O)
+
+**Column Mapping (Excel positions):**
+- O (column 15) = metadata_receivedAt (timestamp)
+- W (column 23) = coreData_msgCnt (message counter 0-127)
+- X (column 24) = coreData_id (vehicle ID)
+
+**ETA:** ~3-4 hours remaining → completion ~12-1pm EST
 
 ### Actions Taken
 1. ✅ Killed all running pipelines
