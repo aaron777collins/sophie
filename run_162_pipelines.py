@@ -87,6 +87,7 @@ BASE_CONFIG = {
         "source_file": "April_2021_Wyoming_Data_Fixed.parquet",
         "source_type": "parquet",
         "columns_to_extract": ALL_COLUMNS_TO_EXTRACT,
+        "num_subsection_rows": 100000,  # Limit initial subsection to prevent OOM
         "filtering": {
             "center_longitude": -109.319556,
             "center_latitude": 41.538689
