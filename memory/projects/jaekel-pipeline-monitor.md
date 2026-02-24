@@ -1,12 +1,19 @@
 # Jaekel Pipeline Monitoring Notes
 
 ## Created: 2026-02-24 00:40 EST
+## Updated: 2026-02-24 01:53 EST
 
 ## Current Execution Status
-- **Batch:** v4 (36 pipelines)
-- **Started:** 2026-02-24 05:36 UTC
-- **Completed:** 4/36 as of 05:40 UTC
+- **Batch:** v5 (12 pipelines - 2km only)
+- **Started:** 2026-02-24 06:46 UTC
+- **Completed:** 4/12 as of 06:52 UTC (basic_2km_*)
+- **Currently Running:** extended_2km_* series
 - **Dashboard:** http://65.108.237.46/dashboard/
+- **Results Dir:** /var/www/static/pipeline-results/
+
+## ⚠️ Path Correction (2026-02-24 01:52 EST)
+- **CORRECT:** `/home/ubuntu/repos/ConnectedDrivingPipelineV4`
+- **WRONG:** `~/ConnectedDrivingPipelineV4` (doesn't exist)
 
 ## Feature Sets Explained
 
@@ -28,12 +35,12 @@
 ## Key Locations
 
 - **Server:** jaekel (ssh alias configured)
-- **Repo:** /home/ubuntu/repos/ConnectedDrivingPipelineV4
-- **Configs:** production_configs_v2/
-- **Results (local):** Outputs/Output/ (symlinked to pipeline-results/)
-- **Results (dashboard):** /var/www/static/pipeline-results/
-- **Daemon:** ~/.pipeline-queue/daemon_v2.py
-- **Dashboard URL:** http://65.108.237.46/dashboard/
+- **Repo:** `/home/ubuntu/repos/ConnectedDrivingPipelineV4` ⚠️ (NOT ~/ConnectedDrivingPipelineV4)
+- **Configs:** `production_configs_v2/`
+- **CSV Results:** `Outputs/Output/*.csv`
+- **JSON Results:** `/var/www/static/pipeline-results/*.json`
+- **Dashboard:** http://65.108.237.46/dashboard/
+- **Run Script:** `run_all_pipelines.py --only <pattern>` (not daemon-based)
 
 ## Issues Found & Fixed
 
@@ -48,6 +55,15 @@
 ### [2026-02-24 05:36 UTC] Duplicate daemons
 - **Issue:** Multiple daemon instances running
 - **Fix:** Killed all and started single clean daemon
+
+### [2026-02-24 06:52 UTC] Sophie audit - empty CSV files & stale data
+- **Issue:** 10 CSV files were empty (303 bytes = header only) from interrupted runs
+- **Issue:** 25+ old standalone log files from failed attempts
+- **Issue:** Notes had wrong path (`~/ConnectedDrivingPipelineV4` vs `~/repos/...`)
+- **Fix:** Deleted all empty CSV files (will regenerate correctly)
+- **Fix:** Deleted old standalone log files
+- **Fix:** Updated notes with correct paths
+- **Verified:** Current run (v5, 2km only) IS working correctly - 5/12 completed
 
 ## Log Audit Protocol
 
