@@ -1,9 +1,0 @@
-{
-  "type": "critical-alignment", 
-  "from": "sophie-main",
-  "timestamp": "2026-02-24 02:38 EST",
-  "priority": "CRITICAL",
-  "subject": "Pipeline Logging Fix - DO NOT TOUCH",
-  "message": "ConnectedDrivingPipelineV4 is under CRITICAL FIX. Opus auditing logging gaps. All processes killed, all results/cache/logs deleted. Do NOT spawn any pipeline-related tasks.",
-  "action_required": "HANDS OFF - Opus handling"
-}
