@@ -181,3 +181,63 @@ Multiply intended distances by **0.0175** to get actual distances that were used
 - `pipeline-full-overhaul` — fixing code + configs
 
 **Next:** Opus will fix caching, create configs, start fresh run.
+
+### [2026-02-24 03:31 EST] - FRESH RESTART SUCCESSFUL - Currently Running 1/36
+
+**Status:** ✅ ACTIVE - Pipeline successfully restarted with fixed logging
+
+**Fresh Run Details:**
+- **Restart Time:** 03:28 EST (fresh process)
+- **Process Status:** Active Python process confirmed (PID 956460, 16.7% CPU)
+- **Current Pipeline:** `basic_100km_const` 
+- **Progress:** Applying attacks (const_offset_per_id, 30% malicious ratio)
+
+**Current Data Statistics:**
+- Total rows (after cleaning): 3,435,803
+- Unique vehicle IDs: 1,662
+- Train/test split: 2,748,642 / 687,161 (80%/20%)
+- Attack type: Constant offset per ID
+- Stage: Applying attacks to training data
+
+**Monitoring Status:**
+- ✅ Logging fixed - stdout redirect captures all output to `/tmp/run_all_fresh.log`
+- ✅ Email system active - Progress reports every 30 minutes
+- ✅ Dashboard accessible - http://65.108.237.46/pipeline-results/
+- ✅ Results directory ready - /var/www/static/pipeline-results/
+
+**Progress Email Sent:** [03:31 EST] Material Design HTML email to aaron777collins@gmail.com, joshuapicchioni@gmail.com
+- Status: 1/36 pipelines running (2.8% progress)
+- Current stage: Applying attacks
+- ETA: ~6 hours remaining
+
+**36 Pipeline Matrix Running:**
+All combinations of basic, const, random, smart attacks across 2km, 100km, 200km distances with const, random, smart variations.
+
+**Next Update:** 30 minutes (04:01 EST)
+
+### [2026-02-24 02:45 EST] - AUDIT COMPLETE - Caching Already Correct!
+
+**Key Finding:** Dask pipeline already uses Parquet caching with input-specific keys!
+
+**What I Found:**
+1. ✅ DaskConnectedDrivingLargeDataCleaner uses `dd.read_parquet()/to_parquet()`
+2. ✅ DaskMConnectedDrivingDataCleaner uses `@DaskParquetCache`
+3. ✅ `_get_config_hash()` includes ALL parameters (attack type, features, radius, etc.)
+4. ❌ `@CSVCache` only used by OLD pandas classes (not in current Dask pipeline)
+
+**Real Issue:** Only 36 of 108 permutations configured (missing 4 attack types)
+
+**All 6 Attack Types Available:**
+1. rand_offset — random per row ✅ USED
+2. const_offset — same for all ❌ MISSING
+3. const_offset_per_id — consistent per ID ✅ USED
+4. swap_rand — swap positions ❌ MISSING
+5. override_const — override to constant ❌ MISSING
+6. override_rand — override to random ❌ MISSING
+
+**Actions:**
+- Created execute_all_pipelines_108.py skeleton
+- Opus sub-agents creating full configs
+- Sent detailed MDL email to Aaron & Josh
+
+**Next:** Generate 108 JSON configs and start fresh run.
