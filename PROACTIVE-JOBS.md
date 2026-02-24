@@ -19,33 +19,38 @@
 - 2km actually filtered 35m, 100km actually filtered 1.75km
 - Bug existed since original pandas code
 
-### Current Status: FRESH RESTART
-**Last Updated:** 2026-02-24 02:16 EST
+### Current Status: RUNNING AUTONOMOUSLY 🚀
+**Last Updated:** 2026-02-24 02:21 EST
 **Total Pipelines:** 36 (12 x 2km, 12 x 100km, 12 x 200km)
 **Monitoring:** jaekel-pipeline-monitor cron (Sonnet, every 15 min)
 
-**⚠️ FRESH START - All caches and results cleared per Aaron's request**
+**⚠️ HANDS OFF - Sophie handling directly, management hierarchy aligned**
 
 **Progress:**
 | Radius | Completed | Status |
 |--------|-----------|--------|
-| 2km | 0/12 | ⏳ PENDING (audit first) |
+| 2km | 0/12 | ⏳ Starting (basic_100km_const first) |
 | 100km | 0/12 | ⏳ PENDING |
 | 200km | 0/12 | ⏳ PENDING |
 
-**Current Actions:**
-1. ✅ Killed all running processes
-2. ✅ Cleared all caches
-3. ✅ Cleared all results
-4. ✅ Cleared all logs
-5. ✅ Opus audit verified (cache hash, symlink, output structure)
-6. ✅ **FRESH RUN STARTED** - 02:19 EST
+**Running Process:**
+- **PID:** 941665 on jaekel
+- **Started:** 2026-02-24 02:19 EST
+- **Log:** `/tmp/run_all_fresh.log`
+- **Results:** `/var/www/static/pipeline-results/`
+- **Dashboard:** http://65.108.237.46/pipeline-results/
 
-**Running:** `python run_all_pipelines.py` (all 36 pipelines)
-**Started:** 2026-02-24 02:19 EST
-**Log:** `/tmp/run_all_fresh.log` on jaekel
+**Expected Timeline:**
+- 2km pipelines: ~30 min
+- 100km pipelines: ~2-3 hours
+- 200km pipelines: ~6-8 hours
+- **Total: ~8-12 hours**
 
-**Folder structure:** Each pipeline gets subfolder with JSON, CSV, log, confusion matrix PNGs
+**Alignment Sent:**
+- ✅ Person Manager inbox - hands off notice
+- ✅ Coordinator inbox - hands off notice  
+- ✅ Coordinator JOBS.md updated
+- ✅ Monitor cron updated with comprehensive email requirements
 
 ### Tasks
 
@@ -59,18 +64,39 @@
 | 6 | Monitor for errors | ⏳ IN PROGRESS |
 | 7 | Email results when complete | ⏳ PENDING |
 
-### Email Requirements (when complete)
+### Email Requirements (when complete) — COMPREHENSIVE
 **Recipients:** aaron777collins@gmail.com, joshuapicchioni@gmail.com
+**Updated:** 2026-02-24 02:21 EST per Aaron's request
 
-**MUST include for EACH pipeline:**
-- Row counts (total, clean, filtered)
-- Train/test split counts
-- Vehicle ID counts
-- Attacker counts (train & test)
-- Clean data counts
-- Attacked data counts
-- ML results (accuracy, precision, recall, F1)
-- All metrics from pipeline logs
+**MUST include for EACH of 36 pipelines:**
+
+**Data Statistics:**
+- Original row count (before cleaning)
+- Cleaned row count (after cleaning)  
+- Filtered row count (after geo/temporal filtering)
+- Train rows vs Test rows (80/20 split)
+
+**Vehicle Statistics:**
+- Total unique vehicle IDs
+- Clean vehicle IDs count
+- Attacker vehicle IDs count (in train set)
+- Attacker vehicle IDs count (in test set)
+
+**Attack Configuration:**
+- Attack type (const_offset_per_id or rand_offset)
+- Radius (2km, 100km, 200km)
+- Malicious ratio (30%)
+- Offset range (100-200m)
+
+**ML Results per Classifier (RF, DT, KNN):**
+- Train: accuracy, precision, recall, F1, specificity
+- Test: accuracy, precision, recall, F1, specificity
+- Training time
+- Prediction time per sample
+- Confusion matrix values (TP, TN, FP, FN)
+
+**Format:** HTML email with tables, grouped by radius
+**Dashboard Link:** http://65.108.237.46/pipeline-results/
 
 ### Previous Issues (Now Fixed)
 

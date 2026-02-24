@@ -51,13 +51,29 @@ def dist_between_two_points(lat1, lon1, lat2, lon2):
 6. ✅ Set up monitoring cron job
 7. ✅ Symlinked results to web server
 
-## Overnight Run
+## Overnight Run (Fresh Restart)
 
 - **Total pipelines:** 36
-- **Started:** 2026-02-24 06:35 EST
-- **Monitoring:** Every 15 minutes via cron
+- **Started:** 2026-02-24 02:19 EST (fresh restart after full audit)
+- **Process PID:** 941665 on jaekel
+- **Log:** /tmp/run_all_fresh.log
+- **Monitoring:** jaekel-pipeline-monitor cron (Sonnet, every 15 min)
 - **Email notification:** aaron777collins@gmail.com, joshuapicchioni@gmail.com when complete
 - **Results URL:** http://65.108.237.46/pipeline-results/
+
+### Comprehensive Email Requirements (Aaron's request 02:21 EST)
+For EACH pipeline include:
+- Row counts (original, cleaned, filtered, train/test)
+- Vehicle ID counts (total, clean, attackers in train/test)
+- Attack config (type, radius, ratio, offset)
+- ML results per classifier (RF, DT, KNN) - train/test metrics
+- Confusion matrix values
+
+### Expected Timeline
+- 2km pipelines: ~30 min
+- 100km pipelines: ~2-3 hours
+- 200km pipelines: ~6-8 hours
+- **Total: ~8-12 hours**
 
 ## For Previous Research
 
