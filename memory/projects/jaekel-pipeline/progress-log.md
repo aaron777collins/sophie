@@ -32,3 +32,36 @@
 
 ### Estimated Completion
 - ~2-3 hours for all 36 pipelines (3-4 min average per pipeline)
+
+## 2026-02-24 05:54 EST - Cache Bug Fixed & Verified
+
+### Issue
+Aaron noticed row count discrepancy:
+- `basic_2km_const`: 63,784 rows (WRONG - from stale cache)
+- `basic_2km_rand`: 264,444 rows (CORRECT - fresh clean)
+
+### Root Cause
+`_get_config_hash()` only hashed `pipeline_name`, not the full config:
+```python
+# BROKEN:
+return hashlib.md5(self.pipeline_name.encode()).hexdigest()
+```
+
+This allowed stale cache from old runs to be reused incorrectly.
+
+### Fix
+Changed hash to include full data config:
+```python
+# FIXED:
+hash_input = {
+    'name': self.pipeline_name,
+    'data': self.config.get('data', {}),
+    'cache_version': self.config.get('cache', {}).get('version', 'v1'),
+}
+return hashlib.md5(json.dumps(hash_input, sort_keys=True).encode()).hexdigest()
+```
+
+### Verification
+After clearing cache and rerunning:
+- `basic_2km_const`: 264,444 rows ✅
+- All pipelines will now have consistent data
