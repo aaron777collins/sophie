@@ -19,10 +19,29 @@
 - 2km actually filtered 35m, 100km actually filtered 1.75km
 - Bug existed since original pandas code
 
-### Current Status: RUNNING
-**Started:** 2026-02-24 06:35 EST
+### Current Status: FRESH RESTART
+**Last Updated:** 2026-02-24 02:16 EST
 **Total Pipelines:** 36 (12 x 2km, 12 x 100km, 12 x 200km)
-**Monitoring:** Cron job every 15 minutes
+**Monitoring:** jaekel-pipeline-monitor cron (Sonnet, every 15 min)
+
+**⚠️ FRESH START - All caches and results cleared per Aaron's request**
+
+**Progress:**
+| Radius | Completed | Status |
+|--------|-----------|--------|
+| 2km | 0/12 | ⏳ PENDING (audit first) |
+| 100km | 0/12 | ⏳ PENDING |
+| 200km | 0/12 | ⏳ PENDING |
+
+**Current Actions:**
+1. ✅ Killed all running processes
+2. ✅ Cleared all caches
+3. ✅ Cleared all results
+4. ✅ Cleared all logs
+5. ⏳ Opus audit in progress (sub-agent: pipeline-audit-and-plan)
+6. ⏳ Will start fresh run after audit
+
+**Folder structure:** Each pipeline gets subfolder with JSON, CSV, log, confusion matrix PNGs
 
 ### Tasks
 

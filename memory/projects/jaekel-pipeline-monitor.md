@@ -3,13 +3,26 @@
 ## Created: 2026-02-24 00:40 EST
 ## Updated: 2026-02-24 01:53 EST
 
-## Current Execution Status
-- **Batch:** v5 (12 pipelines - 2km only)
-- **Started:** 2026-02-24 06:46 UTC
-- **Completed:** 4/12 as of 06:52 UTC (basic_2km_*)
-- **Currently Running:** extended_2km_* series
-- **Dashboard:** http://65.108.237.46/dashboard/
-- **Results Dir:** /var/www/static/pipeline-results/
+## Current Execution Status (Updated 2026-02-24 07:15 EST)
+
+**Progress Summary:**
+| Radius | Completed | Status | Notes |
+|--------|-----------|--------|-------|
+| 2km | 12/12 | ✅ DONE | Results in pipeline-results/*.json |
+| 100km | 1/12 | ⚠️ NEED RE-RUN | Only basic_100km_const completed; 11 failed (empty CSVs) |
+| 200km | 0/12 | ⏳ RUNNING | Started 07:11 EST via run_all_pipelines.py |
+
+**Currently Running:**
+- `python run_all_pipelines.py --only 200km` (PID 913879)
+- Log: `~/repos/ConnectedDrivingPipelineV4/run_200km.log`
+- Output: Per-run folders with JSON, CSV, log, confusion matrix PNGs
+
+**Monitoring:**
+- Cron job: `jaekel-pipeline-monitor` (Sonnet, every 15 min)
+- Will send email to aaron777collins@gmail.com, joshuapicchioni@gmail.com when complete
+
+**Dashboard:** http://65.108.237.46/dashboard/
+**Results Dir:** /var/www/static/pipeline-results/
 
 ## ⚠️ Path Correction (2026-02-24 01:52 EST)
 - **CORRECT:** `/home/ubuntu/repos/ConnectedDrivingPipelineV4`
@@ -37,10 +50,11 @@
 - **Server:** jaekel (ssh alias configured)
 - **Repo:** `/home/ubuntu/repos/ConnectedDrivingPipelineV4` ⚠️ (NOT ~/ConnectedDrivingPipelineV4)
 - **Configs:** `production_configs_v2/`
-- **CSV Results:** `Outputs/Output/*.csv`
-- **JSON Results:** `/var/www/static/pipeline-results/*.json`
+- **Results (NEW):** `pipeline-results/{name}/` (symlinked to `/var/www/static/pipeline-results/`)
+  - Each pipeline gets its own folder with JSON, CSV, log, PNGs, and run_info.txt
 - **Dashboard:** http://65.108.237.46/dashboard/
 - **Run Script:** `run_all_pipelines.py --only <pattern>` (not daemon-based)
+- **Old CSV Location:** `Outputs/Output/*.csv` (still generated, but also copied to run folder)
 
 ## Issues Found & Fixed
 
@@ -83,21 +97,31 @@
   2. Generate confusion matrix PNGs using sklearn's ConfusionMatrixDisplay
   3. Copy CSV from `Outputs/Output/` into subfolder
   4. Consolidate logs from `logs/{name}/` into single `.log` file
-  5. Generate human-readable `run_info.txt` summary
+  5. Generate human-readable `metrics_summary.txt` summary
 - **Tested:** basic_2km_const - all artifacts generated correctly
-- **New structure:**
+- **New structure (EXACT as Aaron specified):**
   ```
   pipeline-results/basic_2km_const/
   ├── basic_2km_const_results.json    # Full results with timing, config, metrics
   ├── basic_2km_const.csv             # CSV format results
   ├── basic_2km_const.log             # Consolidated pipeline execution log
-  ├── confusion_matrix_RandomForestClassifier.png
-  ├── confusion_matrix_DecisionTreeClassifier.png
-  ├── confusion_matrix_KNeighborsClassifier.png
-  └── run_info.txt                    # Human-readable summary
+  ├── confusion_matrix_RandomForest.png
+  ├── confusion_matrix_DecisionTree.png
+  ├── confusion_matrix_KNeighbors.png
+  └── metrics_summary.txt             # Human-readable summary
   ```
-- **Dashboard access:** Results accessible at http://65.108.237.46/dashboard/
-- **Note:** Symlink in repo (`pipeline-results/` → `/var/www/static/pipeline-results/`) ensures dashboard sees results automatically
+- **Dashboard access:** Results accessible at http://65.108.237.46/pipeline-results/basic_2km_const/
+- **Note:** Symlink in repo (`pipeline-results/` → `/var/www/static/pipeline-results/`) ensures web access automatically
+
+### [2026-02-24 07:14 UTC] ✅ VERIFIED - Cache hash uniqueness
+- Different attack types → different hashes ✅
+- Different radii → different hashes ✅
+- Different feature sets → different hashes ✅
+- Hash includes: pipeline name, data config (filtering, date_range, coordinates), attack config (type, ratio, distances, seed), ml config (features, split), cache version
+
+### [2026-02-24 07:14 UTC] ✅ VERIFIED - No Python errors in logs
+- Checked for: Traceback, KeyError, n_samples=0, ERROR:
+- Result: ZERO matches - logs are clean
 
 ## Log Audit Protocol
 
@@ -118,7 +142,10 @@ After each pipeline completes, check logs for:
 | 05:52:01 | basic_2km_withid_rand | ✅ | success |
 
 ## TODO
-- [ ] Monitor remaining 32 pipelines
+- [x] ✅ Per-run folder structure with all artifacts together
+- [x] ✅ Confusion matrix PNG generation
+- [x] ✅ Human-readable run_info.txt summary
+- [ ] Monitor remaining pipelines
 - [ ] Verify results appear on dashboard
 - [ ] Audit all logs for errors
 - [ ] Create summary report when complete
