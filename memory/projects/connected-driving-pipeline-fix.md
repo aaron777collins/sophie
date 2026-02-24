@@ -75,6 +75,47 @@ For EACH pipeline include:
 - 200km pipelines: ~6-8 hours
 - **Total: ~8-12 hours**
 
+## Progress Updates
+
+### [2026-02-24 08:16 CET] - 1/36 Pipelines Complete (2.8%) - Logging Issues Detected
+
+**Status:** ACTIVE - Pipeline running but encountering logging system issues
+
+**Completed Pipelines:**
+1. `basic_100km_const` - RF Test Accuracy: 84.1% (1,544,050 rows, 146/33 attackers train/test)
+
+**Current Issues:**
+- ⚠️ **Logging System Malfunction:** 5 recent pipelines show "No log files found" errors
+- 🔄 **Pipeline Still Active:** 4 Python processes running, files being generated
+- 📁 **Results Being Created:** basic_200km_rand actively generating result files
+
+**Active Pipeline Directories:**
+- basic_100km_rand, basic_100km_withid_const, basic_100km_withid_rand, basic_200km_const, basic_200km_rand
+- All show "No log files found" in pipeline.log despite having result files
+
+**System Status:**
+- 4 active Python processes confirmed
+- Results files being generated in `/var/www/static/pipeline-results/`
+- Server time: 08:16 CET (Tue Feb 24, 2026)
+
+**Email Sent:** [08:16 CET] Material Design progress report with logging issue alert to aaron777collins@gmail.com, joshuapicchioni@gmail.com
+
+**Next Action:** Monitor for resolution of logging issue and actual pipeline completion rate
+
 ## For Previous Research
 
 Multiply intended distances by **0.0175** to get actual distances that were used.
+
+## [2026-02-24 02:15 EST] CRITICAL FIX - Aaron's Directive
+
+**Issue:** pipeline.log files contain "No log files found" instead of actual logs
+**Root Cause:** run_all_pipelines.py looking for logs in wrong location
+
+**Action Taken:**
+1. Killed running pipeline process
+2. Spawned Opus sub-agent for full audit (session: pipeline-critical-fix)
+3. Notified Coordinator and Person Manager inboxes
+4. Clean slate: clearing all results, cache, and logs
+5. Will fix logging code and restart fresh
+
+**Status:** Opus working on fix

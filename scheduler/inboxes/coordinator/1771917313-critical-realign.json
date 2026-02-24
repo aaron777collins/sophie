@@ -1,0 +1,9 @@
+{
+  "type": "critical-alignment",
+  "from": "sophie-main",
+  "timestamp": "2026-02-24 02:15 EST",
+  "priority": "CRITICAL",
+  "subject": "Pipeline Logging Fix In Progress",
+  "message": "Aaron flagged broken logging. Opus is doing full audit. Pipeline killed, results being cleared, fresh start coming. DO NOT spawn pipeline-related tasks until fix confirmed.",
+  "action_required": "HANDS OFF until further notice"
+}

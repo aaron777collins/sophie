@@ -1,0 +1,9 @@
+{
+  "type": "critical-alignment", 
+  "from": "sophie-main",
+  "timestamp": "2026-02-24 02:15 EST",
+  "priority": "CRITICAL",
+  "subject": "Pipeline Critical Fix - Aaron's Directive",
+  "message": "Aaron identified broken logging (pipeline.log shows 'No log files found'). Opus spawned for full audit. Clean slate: kill process, clear results/cache, fix code, restart. All pipeline-related tasks paused.",
+  "action_required": "Monitor only. Do not interfere."
+}
