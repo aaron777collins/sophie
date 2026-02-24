@@ -1,0 +1,8 @@
+{
+  "type": "alignment-notice",
+  "from": "sophie-main-session",
+  "timestamp": "2026-02-24T02:20:00-05:00",
+  "subject": "ConnectedDrivingPipelineV4 Fresh Run - Hands Off",
+  "message": "Aaron requested complete fresh restart of all 36 pipelines. Sophie is handling directly with Opus audit. DO NOT spawn any tasks for this project. Monitor only. jaekel-pipeline-monitor cron will handle everything.",
+  "actions_required": "none - hands off this project"
+}

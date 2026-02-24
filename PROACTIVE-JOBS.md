@@ -38,8 +38,12 @@
 2. ✅ Cleared all caches
 3. ✅ Cleared all results
 4. ✅ Cleared all logs
-5. ⏳ Opus audit in progress (sub-agent: pipeline-audit-and-plan)
-6. ⏳ Will start fresh run after audit
+5. ✅ Opus audit verified (cache hash, symlink, output structure)
+6. ✅ **FRESH RUN STARTED** - 02:19 EST
+
+**Running:** `python run_all_pipelines.py` (all 36 pipelines)
+**Started:** 2026-02-24 02:19 EST
+**Log:** `/tmp/run_all_fresh.log` on jaekel
 
 **Folder structure:** Each pipeline gets subfolder with JSON, CSV, log, confusion matrix PNGs
 
