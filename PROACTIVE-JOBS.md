@@ -5,28 +5,59 @@
 
 ---
 
-## 🔴 CRITICAL: ConnectedDrivingPipelineV4 - Jaekel Server Fix
+## 🔴 CRITICAL: ConnectedDrivingPipelineV4 - Overnight Run (2026-02-24)
 
-**Created:** 2026-02-23 22:20 EST
-**Priority:** 🔴 CRITICAL - Results needed ASAP
+**Created:** 2026-02-24 00:35 EST
+**Priority:** 🔴 CRITICAL - Results needed by morning
 **Server:** Jaekel (65.108.237.46)
 **SSH:** `ssh jaekel` from dev3
-**Dashboard:** http://65.108.237.46/dashboard/ (password: JaekelFiles2026!)
+**Results URL:** http://65.108.237.46/pipeline-results/
 
-### Master Plan Location
-`scheduler/stories/jaekel-pipeline/MASTER-PLAN.md`
+### Bug Fixed (commit 5f647d6)
+**MathHelper.py deg2rad bug:** All distance calculations were 57x too small!
+- Geodesic.Inverse() expects DEGREES, code was passing radians
+- 2km actually filtered 35m, 100km actually filtered 1.75km
+- Bug existed since original pandas code
 
-### Current Phase: Investigation & Fixes
-**Status:** IN PROGRESS
+### Current Status: RUNNING
+**Started:** 2026-02-24 06:35 EST
+**Total Pipelines:** 36 (12 x 2km, 12 x 100km, 12 x 200km)
+**Monitoring:** Cron job every 15 minutes
 
-### Issues to Fix (ALL must be resolved)
+### Tasks
+
+| # | Task | Status |
+|---|------|--------|
+| 1 | Fix deg2rad bug in MathHelper.py | ✅ DONE |
+| 2 | Push fix to GitHub | ✅ DONE |
+| 3 | Clear all caches (33GB) | ✅ DONE |
+| 4 | Clear old results | ✅ DONE |
+| 5 | Run all 36 pipelines | ⏳ IN PROGRESS |
+| 6 | Monitor for errors | ⏳ IN PROGRESS |
+| 7 | Email results when complete | ⏳ PENDING |
+
+### Email Requirements (when complete)
+**Recipients:** aaron777collins@gmail.com, joshuapicchioni@gmail.com
+
+**MUST include for EACH pipeline:**
+- Row counts (total, clean, filtered)
+- Train/test split counts
+- Vehicle ID counts
+- Attacker counts (train & test)
+- Clean data counts
+- Attacked data counts
+- ML results (accuracy, precision, recall, F1)
+- All metrics from pipeline logs
+
+### Previous Issues (Now Fixed)
 
 | # | Issue | Status | Priority |
 |---|-------|--------|----------|
-| 1 | Cache key uniqueness - MUST include columns, attack type, params, radius | ⏳ | 🔴 CRITICAL |
-| 2 | Column name schema mismatch (coreData vs coredata) | ⏳ | 🔴 CRITICAL |
-| 3 | Train/test split bug (negative test size) | ⏳ | 🔴 CRITICAL |
-| 7 | **100K row limit - must process FULL data (8M+ for 200km)** | ⏳ | 🔴 CRITICAL |
+| 1 | Cache key uniqueness - MUST include columns, attack type, params, radius | ✅ | ✅ FIXED |
+| 2 | Column name schema mismatch (coreData vs coredata) | ✅ | ✅ FIXED |
+| 3 | Train/test split bug (negative test size) | ✅ | ✅ FIXED |
+| 7 | **100K row limit - must process FULL data (8M+ for 200km)** | ✅ | ✅ FIXED |
+| 8 | **deg2rad bug - distances 57x too small** | ✅ | ✅ FIXED |
 | 4 | Dashboard failure detection (exit_code 0 on crash) | ⏳ | 🟠 HIGH |
 | 5 | Dask port conflicts (8787 already in use) | ⏳ | 🟡 MEDIUM |
 | 6 | Orphaned processes | ✅ | ✅ DONE |
