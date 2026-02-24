@@ -1,20 +1,22 @@
-# Jaekel Pipeline Monitor - Overnight Run (2026-02-24)
+# Jaekel Pipeline Overnight Monitoring
 
-## Progress
-- 8/36 pipelines completed so far
-- 4 successful, 4 failed
-- Current pipeline: Run2kmExtendedConst.py [running]
+## 2026-02-24 01:01 EST - Status Check
 
-## Issues
-- Errors in Run2kmMovementConst pipeline related to Parquet file access
-- Overall, more than 3 failures, so alerting for review
+### Current Progress
+- **Pipeline 1/36** currently running: `basic_100km_const`
+- Started at 06:41:05 (EST)
+- Currently in data gathering/cleaning phase
+- Process is running normally (PIDs: 907704, 907706, 907854, 907856)
 
-## Actions
-- Restarted pipeline daemon (was running)
-- Checked row consistency (264,444 for successful 2km pipelines)
-- Reviewed error logs
+### Results Directory Status
+- Results directories created: `20260224_v5` (06:56), `20260224_v6` (07:01)
+- No errors detected in logs
+- Dask cluster running on http://127.0.0.1:8787/status
 
-## Next Steps
-- Monitor remaining pipelines
-- Investigate Run2kmMovementConst failures
-- Provide status update to Aaron
+### Status: IN PROGRESS - HEALTHY
+- Pipeline execution proceeding normally
+- No errors or failures detected
+- Process actively running
+- Expected overnight completion time: several more hours
+
+### Next Check: Monitor for completion and prepare email notification when all 36 pipelines complete

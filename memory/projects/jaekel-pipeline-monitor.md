@@ -65,6 +65,30 @@
 - **Fix:** Updated notes with correct paths
 - **Verified:** Current run (v5, 2km only) IS working correctly - 5/12 completed
 
+### [2026-02-24 07:02 UTC] Sophie - Fixed JSON output completeness
+- **Issue:** JSON results missing timing info, sample sizes, config, correct classifier names
+- **Fix:** Added `run_with_metadata()` method to DaskPipelineRunner
+- **Fix:** Updated run_all_pipelines.py to capture all metadata
+- **Result:** JSON now includes:
+  - Correct classifier names (RandomForest, DecisionTree, KNeighbors)
+  - Timing metrics (train time, prediction times, per-sample)
+  - Sample sizes (train/test counts)
+  - Pipeline config (radius, attack type, center coords, date range)
+
+### [2026-02-24 07:05 UTC] Opus sub-agent spawned for output reorganization
+- **Issue:** Aaron expects per-run folders with all artifacts (log, CSV, JSON, PNGs)
+- **Current:** Outputs scattered across multiple directories
+- **Task:** Opus sub-agent `pipeline-output-fix` working on comprehensive restructure
+- **Expected structure:**
+  ```
+  pipeline-results/{pipeline_name}/
+  ├── {name}_results.json
+  ├── {name}.csv
+  ├── {name}.log
+  ├── confusion_matrix_*.png
+  └── run_info.txt
+  ```
+
 ## Log Audit Protocol
 
 After each pipeline completes, check logs for:
