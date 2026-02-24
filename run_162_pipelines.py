@@ -100,7 +100,7 @@ BASE_CONFIG = {
         "classifiers": ["RandomForest", "DecisionTree", "KNeighbors"]
     },
     "attack": {"malicious_ratio": 0.3, "seed": 42, "label_column": "isAttacker"},
-    "cache": {"enabled": True, "version": "v4"},
+    "cache": {"enabled": False, "version": "v4"},  # DISABLED to ensure fresh data
     "dask": {"n_workers": 4, "threads_per_worker": 2, "memory_limit": "12GB", "dashboard_address": ":0"}
 }
 
@@ -125,6 +125,11 @@ def generate_all_configs():
     return configs
 
 def run_pipeline(config, results_dir):
+    # CRITICAL: Clear singleton instances to ensure fresh providers for each pipeline
+    # This fixes the bug where GeneratorPathProvider was being reused across runs
+    from ClassTypes.SingletonABCMeta import SingletonABCMeta
+    SingletonABCMeta._instances.clear()
+    
     from MachineLearning.DaskPipelineRunner import DaskPipelineRunner
     pipeline_name = config["pipeline_name"]
     output_dir = Path(results_dir) / pipeline_name
