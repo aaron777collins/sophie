@@ -1,44 +1,46 @@
 # Coordinator Inbox
 
-## [2026-02-24 ~09:00 EST] 🚀 CRITICAL UPDATE: 162 Pipelines Running
+## [2026-02-24 09:45 EST] ✅ CRITICAL FIX: Full Dataset Now Being Used
 
-**From:** Sub-agent (pipeline-162-expansion)
+**From:** Sub-agent (full-dataset-fix)
 
-**Status:** 162-pipeline run started on jaekel
+**Status:** FIX CONFIRMED - Starting corrected 162-pipeline run
 
-### What Changed
-- Aaron clarified: need **9 feature sets**, not 6
-- Expanded from 108 to 162 pipelines
-- All previous results cleared
+### THE ISSUE
+- `num_subsection_rows=100000` was SAMPLING only 100K rows BEFORE filtering
+- Spatial filters were applied to 100K sample instead of full 13.3M dataset
+- Result: 2km got only 1,954 rows instead of 238,297 (122x too few!)
 
-### 9 Feature Sets
-1. basic (NO IDs)
-2. movement (NO IDs)
-3. extended (NO IDs)
-4. basicWithId (X only)
-5. movementWithId (X only)
-6. extendedWithId (X only)
-7. basicWithAll3Ids (W + X + O)
-8. movementWithAll3Ids (W + X + O)
-9. extendedWithAll3Ids (W + X + O)
+### THE FIX
+Changed in `run_162_pipelines.py`:
+```python
+# OLD:
+"num_subsection_rows": 100000
 
-### Column Mapping
-- O (15) = metadata_receivedAt
-- W (23) = coreData_msgCnt
-- X (24) = coreData_id
+# NEW:
+"num_subsection_rows": None  # Use full 13.3M dataset
+```
 
-### Full Matrix
-9 × 3 radii × 6 attacks = **162 pipelines**
+### VERIFIED ROW COUNTS
 
-### Actions Completed
-1. ✅ Cleared all previous results on jaekel
-2. ✅ Created run_162_pipelines.py
-3. ✅ Sent MDL email to Aaron & Josh
-4. ✅ Started pipeline run
+| Radius | Old (100K sample) | New (Full dataset) | Improvement |
+|--------|-------------------|-------------------|-------------|
+| 2km    | 1,954             | 238,297           | **122x**    |
+| 100km  | ~2.7K             | 3,434,612         | ~1300x      |
+| 200km  | ~5K               | 6,273,969         | ~1250x      |
 
-### Monitoring
-- Progress: /var/www/static/pipeline-results/progress_162.json
-- Log: /tmp/run_162.log
-- ETA: ~20 hours
+### ACTIONS COMPLETED
+1. ✅ Fixed configuration in run_162_pipelines.py
+2. ✅ Cleared all caches and results
+3. ✅ Verified row counts via direct parquet query
+4. ✅ Sent MDL email to Aaron & Josh
+5. 🔄 Starting corrected 162-pipeline run
 
-**No further action needed from Coordinator unless monitoring detects issues.**
+### Timeline
+- Larger datasets = longer processing
+- 2km: ~5-10 min per pipeline
+- 100km: ~30-60 min per pipeline (3.4M rows!)
+- 200km: ~1-2 hours per pipeline (6.3M rows!)
+- **Total estimate: 30-50 hours**
+
+**Monitor will track progress and send updates.**
