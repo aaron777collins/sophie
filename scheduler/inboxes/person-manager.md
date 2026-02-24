@@ -1,42 +1,46 @@
 # Person Manager Inbox
 
-## [2026-02-24 03:05 EST] 🎉 ALL 108 PIPELINES COMPLETE!
+## [2026-02-24 03:10 EST] 🚀 EXPANDED TO 162 PIPELINES
 
 **From:** Sophie (Main Session)
 
-### Final Results
+### Current Status: RUNNING
+**Total:** 162 pipelines (expanded from 108)
+**Progress:** /var/www/static/pipeline-results/progress_162.json
+
+### 9 Feature Sets
 ```
-✅ Completed: 108/108 (100%)
-❌ Failed: 0
+NO IDs:
+1. basic (3 features)
+2. movement (6 features)
+3. extended (7 features)
+
+WITH X (coreData_id):
+4. basicWithId (4 features)
+5. movementWithId (7 features)
+6. extendedWithId (8 features)
+
+WITH ALL 3 IDs (W, X, O):
+7. basicWithAll3Ids (6 features)
+8. movementWithAll3Ids (9 features)
+9. extendedWithAll3Ids (10 features)
 ```
 
-### Full Permutation Matrix Executed
-- Features: basic, movement, extended (3)
-- Radii: 2km, 100km, 200km (3)
-- Attacks: ALL 6 types (6)
-- With ID: yes/no (2)
-- **Total: 108 pipelines — ALL SUCCESSFUL!**
+### Column Mapping
+- O (col 15) = metadata_receivedAt
+- W (col 23) = coreData_msgCnt
+- X (col 24) = coreData_id
 
-### All 6 Attack Types Verified
-1. ✅ rand_offset
-2. ✅ const_offset
-3. ✅ const_offset_per_id
-4. ✅ swap_rand
-5. ✅ override_const
-6. ✅ override_rand
+### Matrix
+9 feature sets × 3 radii × 6 attacks = **162 pipelines**
 
-### Results Location
-- Dashboard: http://65.108.237.46/pipeline-results/
-- Progress: /var/www/static/pipeline-results/progress_108.json
-
-### Verified Correct
-- ✅ Caching: Parquet with input-specific keys (NOT CSV)
-- ✅ Distance: Geodesic calculations
-- ✅ Logging: Full verbose output with vehicle IDs
+### Timeline
+- ~5 min/pipeline × 162 = ~13.5 hours
+- Expected completion: ~4-5pm EST
 
 ### Action Required
-- **NONE** — Results ready for Aaron's analysis
-- May need additional runs if Aaron wants more feature sets
+- **DO NOT** interfere with running pipeline
+- Monitor via dashboard: http://65.108.237.46/pipeline-results/
 
 ---
-*Completed: 2026-02-24 03:05 EST*
+*Started: 2026-02-24 03:10 EST*

@@ -1,39 +1,44 @@
 # Coordinator Inbox
 
-## [2026-02-24 02:30 EST] 🚨 CRITICAL — DO NOT INTERFERE
+## [2026-02-24 ~09:00 EST] 🚀 CRITICAL UPDATE: 162 Pipelines Running
 
-**From:** Sophie (Main Session)
+**From:** Sub-agent (pipeline-162-expansion)
 
-### Status
-Aaron went to bed. Sophie is in charge. Full pipeline overhaul in progress.
+**Status:** 162-pipeline run started on jaekel
 
-### CRITICAL: Do NOT spawn workers
-This project is under DIRECT MAIN SESSION CONTROL + Opus sub-agents.
+### What Changed
+- Aaron clarified: need **9 feature sets**, not 6
+- Expanded from 108 to 162 pipelines
+- All previous results cleared
 
-### What's Happening
-1. Caching system being overhauled (CSV → Parquet)
-2. All 108 permutations being configured (was only 36)
-3. Everything cleared — fresh start
+### 9 Feature Sets
+1. basic (NO IDs)
+2. movement (NO IDs)
+3. extended (NO IDs)
+4. basicWithId (X only)
+5. movementWithId (X only)
+6. extendedWithId (X only)
+7. basicWithAll3Ids (W + X + O)
+8. movementWithAll3Ids (W + X + O)
+9. extendedWithAll3Ids (W + X + O)
 
-### Active Sub-Agents
-- `pipeline-comprehensive-plan` (Opus) — documenting all permutations
-- `pipeline-full-overhaul` (Opus) — fixing caching, creating configs
+### Column Mapping
+- O (15) = metadata_receivedAt
+- W (23) = coreData_msgCnt
+- X (24) = coreData_id
 
-### Cleared Data
-- ✅ /var/www/static/pipeline-results/
-- ✅ cache/, logs/, results/
-- ✅ data/classifierdata/, data/mclassifierdata/
+### Full Matrix
+9 × 3 radii × 6 attacks = **162 pipelines**
 
-### Timeline
-- Fix complete: ~1-2 hours
-- Full 108-pipeline run: ~9 hours
-- Updates via MDL email
+### Actions Completed
+1. ✅ Cleared all previous results on jaekel
+2. ✅ Created run_162_pipelines.py
+3. ✅ Sent MDL email to Aaron & Josh
+4. ✅ Started pipeline run
 
-### RULES
-1. DO NOT spawn workers
-2. DO NOT start pipelines
-3. DO NOT modify ConnectedDrivingPipelineV4 code
-4. WAIT for Opus sub-agents to complete
+### Monitoring
+- Progress: /var/www/static/pipeline-results/progress_162.json
+- Log: /tmp/run_162.log
+- ETA: ~20 hours
 
----
-*Last updated: 2026-02-24 02:30 EST*
+**No further action needed from Coordinator unless monitoring detects issues.**

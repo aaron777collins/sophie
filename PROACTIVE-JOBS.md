@@ -19,10 +19,14 @@
 2. ❌ **Cache not input-specific** — contamination risk
 3. ❌ **Only 36 of 108 permutations** — missing 4 attack types!
 
-### Current Status: 🟢 ALL 108 PIPELINES COMPLETE!
-**Last Updated:** 2026-02-24 03:05 EST
-**Total Pipelines:** 108/108 completed, 0 failed
-**Monitoring:** Complete — results ready for analysis
+### Current Status: 🟡 162 PIPELINES RUNNING (EXPANDED!)
+**Last Updated:** 2026-02-24 03:10 EST
+**Total Pipelines:** 162 (expanded from 108 per Aaron's request)
+**Monitoring:** Sophie — Progress emails at 25%, 50%, 75%, 100%
+
+**9 Feature Sets:** basic, movement, extended (NO IDs) + WithId variants + WithAll3Ids variants
+**Column Mapping:** O=metadata_receivedAt, W=coreData_msgCnt, X=coreData_id
+**ETA:** ~13.5 hours → completion ~4-5pm EST
 
 ### Actions Taken
 1. ✅ Killed all running pipelines
