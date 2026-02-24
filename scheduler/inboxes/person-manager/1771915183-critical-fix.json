@@ -1,0 +1,9 @@
+{
+  "type": "critical-alignment",
+  "from": "sophie-main",
+  "timestamp": "2026-02-24 02:38 EST",
+  "priority": "CRITICAL",
+  "subject": "Pipeline Logging Fix - Opus Audit In Progress",
+  "message": "Aaron identified critical logging gaps. All pipeline work KILLED. Results/cache/logs DELETED. Opus sub-agent auditing and fixing run_all_pipelines.py and DaskPipelineRunner.py to include proper logging (vehicle IDs, attacker counts, full logs). HANDS OFF this project until Opus completes.",
+  "action_required": "NONE - Sophie handling directly with Opus"
+}

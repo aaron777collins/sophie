@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* Material Design Inspired Styles */
+body {
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  line-height: 1.6;
+  color: #212121;
+  background: #fafafa;
+  margin: 0;
+  padding: 20px;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+.header {
+  background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%);
+  color: white;
+  padding: 30px;
+  text-align: center;
+}
+.header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.header .subtitle {
+  margin-top: 8px;
+  opacity: 0.9;
+  font-size: 14px;
+}
+.header.complete {
+  background: linear-gradient(135deg, #43A047 0%, #388E3C 100%);
+}
+.header.error {
+  background: linear-gradient(135deg, #E53935 0%, #C62828 100%);
+}
+.content {
+  padding: 30px;
+}
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+.card-header {
+  background: #f5f5f5;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  font-weight: 500;
+  color: #1976D2;
+  font-size: 16px;
+}
+.card-body {
+  padding: 20px;
+}
+h2 {
+  color: #1976D2;
+  font-weight: 500;
+  font-size: 20px;
+  margin-top: 30px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #BBDEFB;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+}
+th {
+  background: #1976D2;
+  color: white;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 500;
+}
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e0e0e0;
+}
+tr:hover {
+  background: #f5f5f5;
+}
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.badge-success { background: #C8E6C9; color: #2E7D32; }
+.badge-info { background: #BBDEFB; color: #1565C0; }
+.badge-warning { background: #FFE0B2; color: #E65100; }
+.badge-progress { background: #E1BEE7; color: #7B1FA2; }
+.badge-error { background: #FFCDD2; color: #C62828; }
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 16px 0;
+}
+.metric-box {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+.metric-value {
+  font-size: 32px;
+  font-weight: 500;
+  color: #1976D2;
+}
+.metric-label {
+  font-size: 12px;
+  color: #757575;
+  margin-top: 4px;
+}
+code {
+  background: #ECEFF1;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 13px;
+}
+.footer {
+  background: #f5f5f5;
+  padding: 20px 30px;
+  text-align: center;
+  color: #757575;
+  font-size: 14px;
+  border-top: 1px solid #e0e0e0;
+}
+.btn {
+  display: inline-block;
+  background: #1976D2;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  margin: 10px 0;
+}
+.highlight {
+  background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 16px 0;
+}
+.progress-bar {
+  background: #e0e0e0;
+  border-radius: 8px;
+  height: 24px;
+  overflow: hidden;
+  margin: 16px 0;
+}
+.progress-fill {
+  background: linear-gradient(90deg, #1976D2 0%, #42A5F5 100%);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 500;
+  font-size: 12px;
+}
+</style>
+</head>
+<body>
+<!-- 
+  TEMPLATE VARIABLES (replace with actual values):
+  {{STATUS}} - "Progress Update" or "COMPLETE" or "ERROR"
+  {{HEADER_CLASS}} - "" or "complete" or "error"
+  {{COMPLETED}} - number completed
+  {{TOTAL}} - 36
+  {{PROGRESS_PCT}} - percentage
+  {{CURRENT_PIPELINE}} - current running pipeline
+  {{TIME}} - current timestamp
+  {{CONTENT}} - main content (completed pipelines table, metrics, etc.)
+-->
+
+<div class="container">
+  <div class="header {{HEADER_CLASS}}">
+    <h1>🚀 ConnectedDriving Pipeline V4</h1>
+    <div class="subtitle">{{STATUS}} • {{TIME}}</div>
+  </div>
+
+  <div class="content">
+    
+    <div class="highlight">
+      <strong>📊 Progress:</strong> {{COMPLETED}}/{{TOTAL}} pipelines complete<br>
+      <strong>🔄 Current:</strong> {{CURRENT_PIPELINE}}<br>
+      <strong>📍 Dashboard:</strong> <a href="http://65.108.237.46/pipeline-results/">http://65.108.237.46/pipeline-results/</a>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: {{PROGRESS_PCT}}%">{{PROGRESS_PCT}}%</div>
+    </div>
+
+    {{CONTENT}}
+
+    <p style="text-align: center; margin-top: 30px;">
+      <a href="http://65.108.237.46/pipeline-results/" class="btn">View Live Dashboard →</a>
+    </p>
+
+  </div>
+
+  <div class="footer">
+    <p>🤖 Running autonomously • Progress updates every 15 minutes</p>
+    <p style="margin-top: 8px;">— Sophie</p>
+  </div>
+</div>
+
+</body>
+</html>
