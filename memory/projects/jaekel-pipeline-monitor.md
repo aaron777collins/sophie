@@ -75,19 +75,29 @@
   - Sample sizes (train/test counts)
   - Pipeline config (radius, attack type, center coords, date range)
 
-### [2026-02-24 07:05 UTC] Opus sub-agent spawned for output reorganization
-- **Issue:** Aaron expects per-run folders with all artifacts (log, CSV, JSON, PNGs)
-- **Current:** Outputs scattered across multiple directories
-- **Task:** Opus sub-agent `pipeline-output-fix` working on comprehensive restructure
-- **Expected structure:**
+### [2026-02-24 07:05 UTC] ✅ COMPLETED - Per-run folder structure with confusion matrices
+- **Issue:** Aaron expected per-run folders with all artifacts (log, CSV, JSON, PNGs)
+- **Previous:** Outputs scattered across multiple directories
+- **Fix:** Rewrote `run_all_pipelines.py` to:
+  1. Create per-pipeline subfolder in `pipeline-results/`
+  2. Generate confusion matrix PNGs using sklearn's ConfusionMatrixDisplay
+  3. Copy CSV from `Outputs/Output/` into subfolder
+  4. Consolidate logs from `logs/{name}/` into single `.log` file
+  5. Generate human-readable `run_info.txt` summary
+- **Tested:** basic_2km_const - all artifacts generated correctly
+- **New structure:**
   ```
-  pipeline-results/{pipeline_name}/
-  ├── {name}_results.json
-  ├── {name}.csv
-  ├── {name}.log
-  ├── confusion_matrix_*.png
-  └── run_info.txt
+  pipeline-results/basic_2km_const/
+  ├── basic_2km_const_results.json    # Full results with timing, config, metrics
+  ├── basic_2km_const.csv             # CSV format results
+  ├── basic_2km_const.log             # Consolidated pipeline execution log
+  ├── confusion_matrix_RandomForestClassifier.png
+  ├── confusion_matrix_DecisionTreeClassifier.png
+  ├── confusion_matrix_KNeighborsClassifier.png
+  └── run_info.txt                    # Human-readable summary
   ```
+- **Dashboard access:** Results accessible at http://65.108.237.46/dashboard/
+- **Note:** Symlink in repo (`pipeline-results/` → `/var/www/static/pipeline-results/`) ensures dashboard sees results automatically
 
 ## Log Audit Protocol
 
