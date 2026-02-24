@@ -32,6 +32,7 @@
 |------|----------|---------|-------|
 | 00:00 | 0/36 | Run2kmBasicConst.py | Started fresh run |
 | 00:05 | 1/36 | Run2kmBasicRand.py | v4_0: 264,444 rows ✅ (3m 53s) |
+| 00:08 | 2/36 | Run2kmBasicWithIdConst.py | v4_1: 264,444 rows ✅ (3m 52s) |
 
 ### Verification Checklist
 - [ ] First 2km pipeline has ~264K rows
