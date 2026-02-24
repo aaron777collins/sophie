@@ -1,30 +1,61 @@
 # PROACTIVE JOBS
 
-**Last Updated:** 2026-02-23 22:22 EST
-**Project:** ConnectedDrivingPipelineV4 Fix (🔴 CRITICAL) | MELO V2 Admin Invite System (P0 Priority)
+**Last Updated:** 2026-02-24 02:30 EST
+**Project:** ConnectedDrivingPipelineV4 Full Overhaul (🔴🔴 ULTRA CRITICAL)
 
 ---
 
-## 🔴 CRITICAL: ConnectedDrivingPipelineV4 - Overnight Run (2026-02-24)
+## 🔴🔴 ULTRA CRITICAL: Full Pipeline Overhaul (2026-02-24)
 
-**Created:** 2026-02-24 00:35 EST
-**Priority:** 🔴 CRITICAL - Results needed by morning
+**Created:** 2026-02-24 02:30 EST
+**Priority:** 🔴🔴 ULTRA CRITICAL - Aaron sleeping, Sophie in charge
 **Server:** Jaekel (65.108.237.46)
 **SSH:** `ssh jaekel` from dev3
 **Results URL:** http://65.108.237.46/pipeline-results/
 
-### Bug Fixed (commit 5f647d6)
-**MathHelper.py deg2rad bug:** All distance calculations were 57x too small!
-- Geodesic.Inverse() expects DEGREES, code was passing radians
-- 2km actually filtered 35m, 100km actually filtered 1.75km
-- Bug existed since original pandas code
+### CRITICAL ISSUES IDENTIFIED (2026-02-24 02:25 EST)
 
-### Current Status: 🟢 FRESH RUN WITH FIXED LOGGING
-**Last Updated:** 2026-02-24 02:47 EST
-**Total Pipelines:** 36 (12 x 2km, 12 x 100km, 12 x 200km)
-**Monitoring:** jaekel-pipeline-monitor cron (Sonnet, every 15 min)
+1. ❌ **CSV CACHE IS WRONG** — need PARQUET (CSV too big)
+2. ❌ **Cache not input-specific** — contamination risk
+3. ❌ **Only 36 of 108 permutations** — missing 4 attack types!
 
-**✅ OPUS FIX COMPLETE - Fresh run started with proper logging!**
+### Current Status: 🟡 FULL OVERHAUL IN PROGRESS
+**Last Updated:** 2026-02-24 02:30 EST
+**Total Pipelines:** 108 (was 36 — now ALL permutations)
+**Monitoring:** Sophie + Opus sub-agents (Aaron sleeping)
+
+### Actions Taken
+1. ✅ Killed all running pipelines
+2. ✅ Cleared ALL: results, cache, logs, data directories
+3. 🔄 Opus fixing caching system (CSV → Parquet)
+4. 🔄 Opus creating full 108-pipeline configs
+
+### Full Permutation Matrix (108 pipelines)
+```
+Features (3):    basic, movement, extended
+Radii (3):       2km, 100km, 200km
+Attacks (6):     ALL 6 types (was only 2!)
+With ID (2):     yes, no
+Total: 3 × 3 × 6 × 2 = 108
+```
+
+### All 6 Attack Types
+1. `rand_offset` — random dir/dist per row ✅ WAS USED
+2. `const_offset` — same for ALL attackers ❌ ADDING
+3. `const_offset_per_id` — consistent per vehicle ✅ WAS USED
+4. `swap_rand` — swap positions ❌ ADDING
+5. `override_const` — override to constant ❌ ADDING
+6. `override_rand` — override to random ❌ ADDING
+
+### Sub-Agents Working
+- `pipeline-comprehensive-plan` (Opus) — documenting permutations
+- `pipeline-full-overhaul` (Opus) — fixing code + configs
+
+### Timeline Estimate
+- Caching fix: ~1-2 hours
+- Create 108 configs: ~30 min
+- Full run: ~9 hours (108 × ~5 min)
+- **Total: ~10-12 hours**
 
 ### What Was Fixed (by Opus)
 Files modified:

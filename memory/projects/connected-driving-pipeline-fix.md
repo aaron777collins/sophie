@@ -147,3 +147,37 @@ Multiply intended distances by **0.0175** to get actual distances that were used
 - Expected: ~3 hours total
 
 **Next:** Monitor continues with 15-min progress emails until completion.
+
+### [2026-02-24 02:30 EST] - 🚨 CRITICAL OVERHAUL - Aaron sleeping, Sophie in charge
+
+**Critical Issues Identified:**
+1. ❌ CSV Cache is WRONG — need PARQUET (CSV too big)
+2. ❌ Cache not input-specific — contamination risk
+3. ❌ Only 36 pipelines — need ALL 108 permutations
+
+**Actions Taken:**
+1. ✅ Killed all running pipelines
+2. ✅ Cleared ALL: results, cache, logs, data directories
+3. 🔄 Opus auditing + fixing caching system (CSV → Parquet)
+4. 🔄 Creating full 108-pipeline matrix
+
+**Full Matrix (108 pipelines):**
+- Features: basic, movement, extended (3)
+- Radii: 2km, 100km, 200km (3)
+- Attacks: ALL 6 types (was only 2!)
+- With ID: yes/no (2)
+- Total: 3 × 3 × 6 × 2 = 108
+
+**Attack Types (6 total):**
+1. rand_offset — random dir/dist per row
+2. const_offset — same for ALL attackers
+3. const_offset_per_id — consistent per vehicle ID
+4. swap_rand — swap positions
+5. override_const — override to constant
+6. override_rand — override to random
+
+**Sub-Agents Working:**
+- `pipeline-comprehensive-plan` — documenting permutations
+- `pipeline-full-overhaul` — fixing code + configs
+
+**Next:** Opus will fix caching, create configs, start fresh run.

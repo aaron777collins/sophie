@@ -1,41 +1,39 @@
 # Coordinator Inbox
 
-## [2026-02-24 02:23 EST] ALIGNMENT - Pipeline Project Status
+## [2026-02-24 02:30 EST] 🚨 CRITICAL — DO NOT INTERFERE
 
 **From:** Sophie (Main Session)
 
-### Current Status
-Pipeline project under **MAIN SESSION CONTROL** — do NOT spawn workers.
+### Status
+Aaron went to bed. Sophie is in charge. Full pipeline overhaul in progress.
 
-### Fix Applied
-1. Logging consolidation fixed (was overwriting between runs)
-2. All results/logs cleared for clean slate
-3. Fresh run started: 36 pipelines queued
+### CRITICAL: Do NOT spawn workers
+This project is under DIRECT MAIN SESSION CONTROL + Opus sub-agents.
 
-### Attack Types Confirmed
-All configs use `const_offset_per_id` attack with:
-- Proper caching (`@CSVCache`)
-- Correct distance calculation (radians conversion)
-- Independent train/test attacker selection
+### What's Happening
+1. Caching system being overhauled (CSV → Parquet)
+2. All 108 permutations being configured (was only 36)
+3. Everything cleared — fresh start
 
 ### Active Sub-Agents
-- `pipeline-output-fix` (Opus) — Fix applied, monitoring
-- `pipeline-critical-fix` (Opus) — Restart initiated
+- `pipeline-comprehensive-plan` (Opus) — documenting all permutations
+- `pipeline-full-overhaul` (Opus) — fixing caching, creating configs
 
-### Monitor Status
-- Jaekel monitor cron: RE-ENABLED
-- Progress emails: Every 15 minutes
-- Recipients: aaron777collins@gmail.com, joshuapicchioni@gmail.com
+### Cleared Data
+- ✅ /var/www/static/pipeline-results/
+- ✅ cache/, logs/, results/
+- ✅ data/classifierdata/, data/mclassifierdata/
 
-### DO NOT
-- Spawn new workers for this project
-- Interfere with running pipeline
-- Send duplicate notifications
+### Timeline
+- Fix complete: ~1-2 hours
+- Full 108-pipeline run: ~9 hours
+- Updates via MDL email
 
-### Next Steps (Automatic)
-1. Monitor continues checking progress
-2. MDL email when first pipeline completes
-3. Final report when all 36 complete
+### RULES
+1. DO NOT spawn workers
+2. DO NOT start pipelines
+3. DO NOT modify ConnectedDrivingPipelineV4 code
+4. WAIT for Opus sub-agents to complete
 
 ---
-*Last updated: 2026-02-24 02:23 EST*
+*Last updated: 2026-02-24 02:30 EST*
