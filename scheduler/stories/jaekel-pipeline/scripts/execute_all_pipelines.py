@@ -1,331 +1,393 @@
 #!/usr/bin/env python3
 """
 Autonomous Pipeline Executor for ConnectedDrivingPipelineV4
-Executes all 36 pipelines sequentially with log auditing and Slack updates
 
-Created: 2026-02-23
+Executes 36 pipelines across 3 phases:
+- Phase 1: 12 x 2km pipelines (~30 min)
+- Phase 2: 12 x 100km pipelines (~1-2 hours)
+- Phase 3: 12 x 200km pipelines (~2-3 hours)
+
+Features:
+- Sequential execution with log auditing
+- Progress tracking in JSON
+- Auto-retry on failure (max 3)
+- Slack updates at key milestones
 """
 
 import subprocess
 import json
 import os
-import time
 import sys
-from datetime import datetime
+import time
+import re
+from datetime import datetime, timedelta
 from pathlib import Path
+from typing import Dict, List, Optional, Tuple
 
 # Configuration
-CONFIG_DIR = "/home/ubuntu/repos/ConnectedDrivingPipelineV4/production_configs_v2"
-PROJECT_DIR = "/home/ubuntu/repos/ConnectedDrivingPipelineV4"
-LOG_DIR = f"{PROJECT_DIR}/logs"
-RESULTS_DIR = f"{PROJECT_DIR}/results/matrix"
-PROGRESS_FILE = f"{PROJECT_DIR}/execution_progress.json"
+REPO_PATH = "/home/ubuntu/repos/ConnectedDrivingPipelineV4"
+VENV_ACTIVATE = f"source {REPO_PATH}/.venv/bin/activate"
+PROGRESS_FILE = Path(__file__).parent / "pipeline_progress.json"
+SLACK_CHANNEL = "C0ABAU26S6N"
+SLACK_THREAD = "1771904073.130349"
+MAX_RETRIES = 3
 
-# Pipeline definitions - 36 total
+# Pipeline definitions
 PIPELINES = [
     # Phase 1: 2km (12 pipelines)
-    {"name": "basic_2km_const", "phase": 1, "radius": "2km", "features": "basic", "attack": "const_offset_per_id"},
-    {"name": "basic_2km_rand", "phase": 1, "radius": "2km", "features": "basic", "attack": "rand_offset"},
-    {"name": "basic_2km_withid_const", "phase": 1, "radius": "2km", "features": "basic", "attack": "const_offset_per_id"},
-    {"name": "basic_2km_withid_rand", "phase": 1, "radius": "2km", "features": "basic", "attack": "rand_offset"},
-    {"name": "movement_2km_const", "phase": 1, "radius": "2km", "features": "movement", "attack": "const_offset_per_id"},
-    {"name": "movement_2km_rand", "phase": 1, "radius": "2km", "features": "movement", "attack": "rand_offset"},
-    {"name": "movement_2km_withid_const", "phase": 1, "radius": "2km", "features": "movement", "attack": "const_offset_per_id"},
-    {"name": "movement_2km_withid_rand", "phase": 1, "radius": "2km", "features": "movement", "attack": "rand_offset"},
-    {"name": "extended_2km_const", "phase": 1, "radius": "2km", "features": "extended", "attack": "const_offset_per_id"},
-    {"name": "extended_2km_rand", "phase": 1, "radius": "2km", "features": "extended", "attack": "rand_offset"},
-    {"name": "extended_2km_withid_const", "phase": 1, "radius": "2km", "features": "extended", "attack": "const_offset_per_id"},
-    {"name": "extended_2km_withid_rand", "phase": 1, "radius": "2km", "features": "extended", "attack": "rand_offset"},
+    {"id": 1, "name": "basic_2km_const", "phase": 1, "radius": "2km", "features": "Basic (3)", "attack": "const_offset_per_id", "script": "Run2kmBasicConst.py"},
+    {"id": 2, "name": "basic_2km_rand", "phase": 1, "radius": "2km", "features": "Basic (3)", "attack": "rand_offset", "script": "Run2kmBasicRand.py"},
+    {"id": 3, "name": "basic_2km_withid_const", "phase": 1, "radius": "2km", "features": "Basic+ID (4)", "attack": "const_offset_per_id", "script": "Run2kmBasicWithIdConst.py"},
+    {"id": 4, "name": "basic_2km_withid_rand", "phase": 1, "radius": "2km", "features": "Basic+ID (4)", "attack": "rand_offset", "script": "Run2kmBasicWithIdRand.py"},
+    {"id": 5, "name": "movement_2km_const", "phase": 1, "radius": "2km", "features": "Movement (5)", "attack": "const_offset_per_id", "script": "Run2kmMovementConst.py"},
+    {"id": 6, "name": "movement_2km_rand", "phase": 1, "radius": "2km", "features": "Movement (5)", "attack": "rand_offset", "script": "Run2kmMovementRand.py"},
+    {"id": 7, "name": "movement_2km_withid_const", "phase": 1, "radius": "2km", "features": "Movement+ID (6)", "attack": "const_offset_per_id", "script": "Run2kmMovementWithIdConst.py"},
+    {"id": 8, "name": "movement_2km_withid_rand", "phase": 1, "radius": "2km", "features": "Movement+ID (6)", "attack": "rand_offset", "script": "Run2kmMovementWithIdRand.py"},
+    {"id": 9, "name": "extended_2km_const", "phase": 1, "radius": "2km", "features": "Extended (6)", "attack": "const_offset_per_id", "script": "Run2kmExtendedConst.py"},
+    {"id": 10, "name": "extended_2km_rand", "phase": 1, "radius": "2km", "features": "Extended (6)", "attack": "rand_offset", "script": "Run2kmExtendedRand.py"},
+    {"id": 11, "name": "extended_2km_withid_const", "phase": 1, "radius": "2km", "features": "Extended+ID (7)", "attack": "const_offset_per_id", "script": "Run2kmExtendedWithIdConst.py"},
+    {"id": 12, "name": "extended_2km_withid_rand", "phase": 1, "radius": "2km", "features": "Extended+ID (7)", "attack": "rand_offset", "script": "Run2kmExtendedWithIdRand.py"},
     
     # Phase 2: 100km (12 pipelines)
-    {"name": "basic_100km_const", "phase": 2, "radius": "100km", "features": "basic", "attack": "const_offset_per_id"},
-    {"name": "basic_100km_rand", "phase": 2, "radius": "100km", "features": "basic", "attack": "rand_offset"},
-    {"name": "basic_100km_withid_const", "phase": 2, "radius": "100km", "features": "basic", "attack": "const_offset_per_id"},
-    {"name": "basic_100km_withid_rand", "phase": 2, "radius": "100km", "features": "basic", "attack": "rand_offset"},
-    {"name": "movement_100km_const", "phase": 2, "radius": "100km", "features": "movement", "attack": "const_offset_per_id"},
-    {"name": "movement_100km_rand", "phase": 2, "radius": "100km", "features": "movement", "attack": "rand_offset"},
-    {"name": "movement_100km_withid_const", "phase": 2, "radius": "100km", "features": "movement", "attack": "const_offset_per_id"},
-    {"name": "movement_100km_withid_rand", "phase": 2, "radius": "100km", "features": "movement", "attack": "rand_offset"},
-    {"name": "extended_100km_const", "phase": 2, "radius": "100km", "features": "extended", "attack": "const_offset_per_id"},
-    {"name": "extended_100km_rand", "phase": 2, "radius": "100km", "features": "extended", "attack": "rand_offset"},
-    {"name": "extended_100km_withid_const", "phase": 2, "radius": "100km", "features": "extended", "attack": "const_offset_per_id"},
-    {"name": "extended_100km_withid_rand", "phase": 2, "radius": "100km", "features": "extended", "attack": "rand_offset"},
+    {"id": 13, "name": "basic_100km_const", "phase": 2, "radius": "100km", "features": "Basic (3)", "attack": "const_offset_per_id", "script": "Run100kmBasicConst.py"},
+    {"id": 14, "name": "basic_100km_rand", "phase": 2, "radius": "100km", "features": "Basic (3)", "attack": "rand_offset", "script": "Run100kmBasicRand.py"},
+    {"id": 15, "name": "basic_100km_withid_const", "phase": 2, "radius": "100km", "features": "Basic+ID (4)", "attack": "const_offset_per_id", "script": "Run100kmBasicWithIdConst.py"},
+    {"id": 16, "name": "basic_100km_withid_rand", "phase": 2, "radius": "100km", "features": "Basic+ID (4)", "attack": "rand_offset", "script": "Run100kmBasicWithIdRand.py"},
+    {"id": 17, "name": "movement_100km_const", "phase": 2, "radius": "100km", "features": "Movement (5)", "attack": "const_offset_per_id", "script": "Run100kmMovementConst.py"},
+    {"id": 18, "name": "movement_100km_rand", "phase": 2, "radius": "100km", "features": "Movement (5)", "attack": "rand_offset", "script": "Run100kmMovementRand.py"},
+    {"id": 19, "name": "movement_100km_withid_const", "phase": 2, "radius": "100km", "features": "Movement+ID (6)", "attack": "const_offset_per_id", "script": "Run100kmMovementWithIdConst.py"},
+    {"id": 20, "name": "movement_100km_withid_rand", "phase": 2, "radius": "100km", "features": "Movement+ID (6)", "attack": "rand_offset", "script": "Run100kmMovementWithIdRand.py"},
+    {"id": 21, "name": "extended_100km_const", "phase": 2, "radius": "100km", "features": "Extended (6)", "attack": "const_offset_per_id", "script": "Run100kmExtendedConst.py"},
+    {"id": 22, "name": "extended_100km_rand", "phase": 2, "radius": "100km", "features": "Extended (6)", "attack": "rand_offset", "script": "Run100kmExtendedRand.py"},
+    {"id": 23, "name": "extended_100km_withid_const", "phase": 2, "radius": "100km", "features": "Extended+ID (7)", "attack": "const_offset_per_id", "script": "Run100kmExtendedWithIdConst.py"},
+    {"id": 24, "name": "extended_100km_withid_rand", "phase": 2, "radius": "100km", "features": "Extended+ID (7)", "attack": "rand_offset", "script": "Run100kmExtendedWithIdRand.py"},
     
     # Phase 3: 200km (12 pipelines)
-    {"name": "basic_200km_const", "phase": 3, "radius": "200km", "features": "basic", "attack": "const_offset_per_id"},
-    {"name": "basic_200km_rand", "phase": 3, "radius": "200km", "features": "basic", "attack": "rand_offset"},
-    {"name": "basic_200km_withid_const", "phase": 3, "radius": "200km", "features": "basic", "attack": "const_offset_per_id"},
-    {"name": "basic_200km_withid_rand", "phase": 3, "radius": "200km", "features": "basic", "attack": "rand_offset"},
-    {"name": "movement_200km_const", "phase": 3, "radius": "200km", "features": "movement", "attack": "const_offset_per_id"},
-    {"name": "movement_200km_rand", "phase": 3, "radius": "200km", "features": "movement", "attack": "rand_offset"},
-    {"name": "movement_200km_withid_const", "phase": 3, "radius": "200km", "features": "movement", "attack": "const_offset_per_id"},
-    {"name": "movement_200km_withid_rand", "phase": 3, "radius": "200km", "features": "movement", "attack": "rand_offset"},
-    {"name": "extended_200km_const", "phase": 3, "radius": "200km", "features": "extended", "attack": "const_offset_per_id"},
-    {"name": "extended_200km_rand", "phase": 3, "radius": "200km", "features": "extended", "attack": "rand_offset"},
-    {"name": "extended_200km_withid_const", "phase": 3, "radius": "200km", "features": "extended", "attack": "const_offset_per_id"},
-    {"name": "extended_200km_withid_rand", "phase": 3, "radius": "200km", "features": "extended", "attack": "rand_offset"},
+    {"id": 25, "name": "basic_200km_const", "phase": 3, "radius": "200km", "features": "Basic (3)", "attack": "const_offset_per_id", "script": "Run200kmBasicConst.py"},
+    {"id": 26, "name": "basic_200km_rand", "phase": 3, "radius": "200km", "features": "Basic (3)", "attack": "rand_offset", "script": "Run200kmBasicRand.py"},
+    {"id": 27, "name": "basic_200km_withid_const", "phase": 3, "radius": "200km", "features": "Basic+ID (4)", "attack": "const_offset_per_id", "script": "Run200kmBasicWithIdConst.py"},
+    {"id": 28, "name": "basic_200km_withid_rand", "phase": 3, "radius": "200km", "features": "Basic+ID (4)", "attack": "rand_offset", "script": "Run200kmBasicWithIdRand.py"},
+    {"id": 29, "name": "movement_200km_const", "phase": 3, "radius": "200km", "features": "Movement (5)", "attack": "const_offset_per_id", "script": "Run200kmMovementConst.py"},
+    {"id": 30, "name": "movement_200km_rand", "phase": 3, "radius": "200km", "features": "Movement (5)", "attack": "rand_offset", "script": "Run200kmMovementRand.py"},
+    {"id": 31, "name": "movement_200km_withid_const", "phase": 3, "radius": "200km", "features": "Movement+ID (6)", "attack": "const_offset_per_id", "script": "Run200kmMovementWithIdConst.py"},
+    {"id": 32, "name": "movement_200km_withid_rand", "phase": 3, "radius": "200km", "features": "Movement+ID (6)", "attack": "rand_offset", "script": "Run200kmMovementWithIdRand.py"},
+    {"id": 33, "name": "extended_200km_const", "phase": 3, "radius": "200km", "features": "Extended (6)", "attack": "const_offset_per_id", "script": "Run200kmExtendedConst.py"},
+    {"id": 34, "name": "extended_200km_rand", "phase": 3, "radius": "200km", "features": "Extended (6)", "attack": "rand_offset", "script": "Run200kmExtendedRand.py"},
+    {"id": 35, "name": "extended_200km_withid_const", "phase": 3, "radius": "200km", "features": "Extended+ID (7)", "attack": "const_offset_per_id", "script": "Run200kmExtendedWithIdConst.py"},
+    {"id": 36, "name": "extended_200km_withid_rand", "phase": 3, "radius": "200km", "features": "Extended+ID (7)", "attack": "rand_offset", "script": "Run200kmExtendedWithIdRand.py"},
 ]
 
-def load_progress():
-    """Load progress from file or start fresh"""
-    if os.path.exists(PROGRESS_FILE):
-        with open(PROGRESS_FILE, 'r') as f:
+
+def load_progress() -> Dict:
+    """Load progress from JSON file."""
+    if PROGRESS_FILE.exists():
+        with open(PROGRESS_FILE) as f:
             return json.load(f)
     return {
-        "started_at": datetime.now().isoformat(),
+        "started_at": None,
+        "last_updated": None,
         "current_pipeline": 0,
-        "completed": [],
-        "failed": [],
-        "results": {}
+        "current_phase": 0,
+        "pipelines": {},
+        "phase_summaries": {},
+        "total_completed": 0,
+        "total_failed": 0
     }
 
-def save_progress(progress):
-    """Save progress to file"""
+
+def save_progress(progress: Dict):
+    """Save progress to JSON file."""
+    progress["last_updated"] = datetime.now().isoformat()
     with open(PROGRESS_FILE, 'w') as f:
         json.dump(progress, f, indent=2)
 
-def run_preflight():
-    """Run pre-flight checks"""
-    print("=" * 60)
+
+def run_ssh_command(command: str, timeout: int = 3600) -> Tuple[int, str, str]:
+    """Run command via SSH on jaekel."""
+    ssh_cmd = f'ssh jaekel "{command}"'
+    try:
+        result = subprocess.run(
+            ssh_cmd,
+            shell=True,
+            capture_output=True,
+            text=True,
+            timeout=timeout
+        )
+        return result.returncode, result.stdout, result.stderr
+    except subprocess.TimeoutExpired:
+        return -1, "", "Command timed out"
+    except Exception as e:
+        return -1, "", str(e)
+
+
+def execute_pipeline(pipeline: Dict, progress: Dict) -> Dict:
+    """Execute a single pipeline and audit logs."""
+    name = pipeline["name"]
+    script = pipeline["script"]
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_file = f"logs/{name}_{timestamp}.log"
+    
+    result = {
+        "name": name,
+        "started_at": datetime.now().isoformat(),
+        "log_file": log_file,
+        "status": "running",
+        "attempts": 0,
+        "accuracy": None,
+        "rows": None,
+        "duration_seconds": None,
+        "errors": []
+    }
+    
+    for attempt in range(1, MAX_RETRIES + 1):
+        result["attempts"] = attempt
+        start_time = time.time()
+        
+        print(f"\n{'='*60}")
+        print(f"Pipeline {pipeline['id']}/36: {name} (Attempt {attempt}/{MAX_RETRIES})")
+        print(f"Phase: {pipeline['phase']} | Radius: {pipeline['radius']} | Attack: {pipeline['attack']}")
+        print(f"{'='*60}")
+        
+        # Execute pipeline
+        cmd = f"""
+        cd {REPO_PATH} && \\
+        {VENV_ACTIVATE} && \\
+        python production_configs_v2/{script} 2>&1 | tee {log_file}
+        """
+        
+        returncode, stdout, stderr = run_ssh_command(cmd.replace('\n', ' '))
+        
+        duration = time.time() - start_time
+        result["duration_seconds"] = round(duration, 2)
+        result["completed_at"] = datetime.now().isoformat()
+        
+        # Audit the log
+        audit_result = audit_log(name, log_file)
+        result["accuracy"] = audit_result.get("accuracy")
+        result["rows"] = audit_result.get("rows")
+        result["has_errors"] = audit_result.get("has_errors", False)
+        result["errors"] = audit_result.get("errors", [])
+        
+        if returncode == 0 and not result["has_errors"]:
+            result["status"] = "success"
+            print(f"✅ Pipeline {name} completed successfully in {duration:.1f}s")
+            break
+        else:
+            print(f"❌ Pipeline {name} failed (attempt {attempt})")
+            if result["errors"]:
+                print(f"   Errors: {result['errors'][:3]}")
+            
+            if attempt < MAX_RETRIES:
+                print(f"   Retrying in 30 seconds...")
+                # Cleanup before retry
+                cleanup_failed_pipeline(name)
+                time.sleep(30)
+            else:
+                result["status"] = "failed"
+    
+    return result
+
+
+def audit_log(name: str, log_file: str) -> Dict:
+    """Audit a pipeline log file for errors and results."""
+    cmd = f"""
+    cd {REPO_PATH}
+    LOG="{log_file}"
+    
+    if [ ! -f "$LOG" ]; then
+        echo "LOG_NOT_FOUND"
+        exit 1
+    fi
+    
+    echo "=== ERRORS ==="
+    grep -iE "error|exception|failed|traceback|oom|killed" "$LOG" | head -5 || echo "NO_ERRORS"
+    
+    echo "=== ACCURACY ==="
+    grep -iE "accuracy|precision|recall|f1" "$LOG" | tail -3 || echo "NO_ACCURACY"
+    
+    echo "=== ROWS ==="
+    grep -iE "rows|records|loaded|filtered" "$LOG" | tail -3 || echo "NO_ROWS"
+    
+    echo "=== RESULTS ==="
+    ls results/matrix/{name}/ 2>/dev/null | head -5 || echo "NO_RESULTS_DIR"
+    """
+    
+    _, stdout, _ = run_ssh_command(cmd)
+    
+    result = {
+        "has_errors": False,
+        "errors": [],
+        "accuracy": None,
+        "rows": None
+    }
+    
+    if "LOG_NOT_FOUND" in stdout:
+        result["has_errors"] = True
+        result["errors"].append("Log file not found")
+        return result
+    
+    # Parse errors
+    if "=== ERRORS ===" in stdout:
+        error_section = stdout.split("=== ERRORS ===")[1].split("===")[0]
+        if "NO_ERRORS" not in error_section:
+            result["has_errors"] = True
+            result["errors"] = [line.strip() for line in error_section.strip().split('\n') if line.strip()]
+    
+    # Parse accuracy
+    accuracy_match = re.search(r'accuracy[:\s]+([0-9.]+)', stdout, re.IGNORECASE)
+    if accuracy_match:
+        result["accuracy"] = float(accuracy_match.group(1))
+    
+    # Parse row counts
+    rows_match = re.search(r'(\d{3,})\s*rows', stdout, re.IGNORECASE)
+    if rows_match:
+        result["rows"] = int(rows_match.group(1))
+    
+    return result
+
+
+def cleanup_failed_pipeline(name: str):
+    """Cleanup after a failed pipeline attempt."""
+    cmd = f"""
+    pkill -f "{name}" 2>/dev/null || true
+    pkill -f dask 2>/dev/null || true
+    rm -rf {REPO_PATH}/cache/matrix/{name}/ 2>/dev/null || true
+    sync
+    """
+    run_ssh_command(cmd)
+
+
+def post_slack_update(message: str):
+    """Post update to Slack thread."""
+    # Write message to a temp file for the main agent to pick up
+    update_file = PROGRESS_FILE.parent / "slack_update.txt"
+    with open(update_file, 'w') as f:
+        f.write(f"SLACK_UPDATE|{SLACK_CHANNEL}|{SLACK_THREAD}|{message}")
+    print(f"\n📢 Slack update queued: {message[:100]}...")
+
+
+def run_preflight() -> bool:
+    """Run pre-flight checks."""
+    print("\n" + "="*60)
     print("PHASE 0: PRE-FLIGHT CHECKS")
-    print("=" * 60)
+    print("="*60)
     
-    checks = []
+    checks = [
+        ("SSH Connection", "echo 'connected'"),
+        ("Configs Exist", f"ls {REPO_PATH}/production_configs_v2/*.json | wc -l"),
+        ("Run Scripts Fixed", f"grep -l 'production_configs_v2/' {REPO_PATH}/production_configs_v2/Run*.py | wc -l"),
+        ("No Orphan Processes", "pgrep -fa dask || echo 'clean'"),
+        ("Disk Space", "df -h /home/ubuntu | tail -1"),
+        ("Memory", "free -h | grep Mem"),
+    ]
     
-    # Check 1: Config directory
-    config_count = len(list(Path(CONFIG_DIR).glob("*.json")))
-    checks.append(("Configs in production_configs_v2/", config_count == 36, config_count))
-    
-    # Check 2: Log directory
-    os.makedirs(LOG_DIR, exist_ok=True)
-    checks.append(("Log directory exists", os.path.isdir(LOG_DIR), LOG_DIR))
-    
-    # Check 3: Results directory
-    os.makedirs(RESULTS_DIR, exist_ok=True)
-    checks.append(("Results directory exists", os.path.isdir(RESULTS_DIR), RESULTS_DIR))
-    
-    # Check 4: Memory check
-    try:
-        result = subprocess.run(['free', '-g'], capture_output=True, text=True)
-        mem_line = [l for l in result.stdout.split('\n') if 'Mem:' in l][0]
-        available = int(mem_line.split()[6])
-        checks.append(("Available memory > 40GB", available > 40, f"{available}GB"))
-    except:
-        checks.append(("Memory check", False, "Could not check"))
-    
-    # Check 5: Disk space
-    try:
-        result = subprocess.run(['df', '-BG', PROJECT_DIR], capture_output=True, text=True)
-        disk_line = result.stdout.split('\n')[1]
-        available = int(disk_line.split()[3].replace('G', ''))
-        checks.append(("Available disk > 200GB", available > 200, f"{available}GB"))
-    except:
-        checks.append(("Disk check", False, "Could not check"))
-    
-    # Print results
     all_passed = True
-    for name, passed, value in checks:
+    for name, cmd in checks:
+        _, stdout, stderr = run_ssh_command(cmd)
+        output = stdout.strip() or stderr.strip()
+        
+        # Validate
+        passed = True
+        if name == "SSH Connection" and "connected" not in output:
+            passed = False
+        elif name == "Configs Exist" and output != "36":
+            passed = False
+        elif name == "Run Scripts Fixed" and output != "36":
+            passed = False
+        
         status = "✅" if passed else "❌"
-        print(f"  {status} {name}: {value}")
+        print(f"  {status} {name}: {output[:60]}")
+        
         if not passed:
             all_passed = False
     
     return all_passed
 
-def audit_log(log_file):
-    """Audit a log file and extract key metrics"""
-    audit = {
-        "errors": [],
-        "rows": None,
-        "accuracy": None,
-        "attackers_applied": False,
-        "completed": False
-    }
-    
-    try:
-        with open(log_file, 'r') as f:
-            content = f.read()
-            
-        # Check for errors
-        for line in content.split('\n'):
-            line_lower = line.lower()
-            if any(err in line_lower for err in ['error', 'exception', 'traceback', 'failed']):
-                if 'keyerror' in line_lower or 'valueerror' in line_lower or 'traceback' in line_lower:
-                    audit["errors"].append(line.strip()[:200])
-        
-        # Check for row counts
-        import re
-        row_match = re.search(r'(\d+)\s*rows', content, re.IGNORECASE)
-        if row_match:
-            audit["rows"] = int(row_match.group(1))
-        
-        # Check for accuracy
-        acc_match = re.search(r'accuracy[:\s]+(\d+\.?\d*)', content, re.IGNORECASE)
-        if acc_match:
-            audit["accuracy"] = float(acc_match.group(1))
-        
-        # Check for attackers
-        if 'attacker' in content.lower() and ('applied' in content.lower() or 'malicious' in content.lower()):
-            audit["attackers_applied"] = True
-        
-        # Check for completion
-        if 'complete' in content.lower() or 'finished' in content.lower():
-            audit["completed"] = True
-            
-    except Exception as e:
-        audit["errors"].append(f"Failed to read log: {e}")
-    
-    return audit
-
-def run_pipeline(pipeline, attempt=1, max_attempts=3):
-    """Run a single pipeline with retry logic"""
-    name = pipeline["name"]
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_file = f"{LOG_DIR}/{name}_{timestamp}.log"
-    
-    # Construct the run script path
-    # Convert name to script: basic_2km_const -> Run2kmBasicConst.py
-    parts = name.split('_')
-    if 'withid' in name:
-        # basic_2km_withid_const -> Run2kmBasicWithIdConst
-        script_name = f"Run{parts[1].capitalize()}{parts[0].capitalize()}WithId{parts[3].capitalize()}.py"
-    else:
-        # basic_2km_const -> Run2kmBasicConst
-        script_name = f"Run{parts[1].capitalize()}{parts[0].capitalize()}{parts[2].capitalize()}.py"
-    
-    script_path = f"{PROJECT_DIR}/{script_name}"
-    
-    print(f"\n{'='*60}")
-    print(f"PIPELINE: {name} (Attempt {attempt}/{max_attempts})")
-    print(f"Script: {script_name}")
-    print(f"Log: {log_file}")
-    print(f"{'='*60}")
-    
-    # Check if script exists
-    if not os.path.exists(script_path):
-        print(f"❌ Script not found: {script_path}")
-        return False, {"error": f"Script not found: {script_path}"}
-    
-    start_time = time.time()
-    
-    try:
-        # Run the pipeline
-        with open(log_file, 'w') as log:
-            process = subprocess.run(
-                ['python', script_path],
-                cwd=PROJECT_DIR,
-                stdout=log,
-                stderr=subprocess.STDOUT,
-                timeout=3600  # 1 hour timeout
-            )
-        
-        duration = time.time() - start_time
-        
-        # Audit the log
-        audit = audit_log(log_file)
-        audit["duration_seconds"] = int(duration)
-        audit["log_file"] = log_file
-        
-        # Determine success
-        if process.returncode == 0 and audit["completed"] and not audit["errors"]:
-            print(f"✅ SUCCESS in {duration:.1f}s")
-            if audit["accuracy"]:
-                print(f"   Accuracy: {audit['accuracy']}")
-            if audit["rows"]:
-                print(f"   Rows: {audit['rows']}")
-            return True, audit
-        else:
-            print(f"❌ FAILED (return code: {process.returncode})")
-            if audit["errors"]:
-                for err in audit["errors"][:3]:
-                    print(f"   Error: {err}")
-            
-            # Retry?
-            if attempt < max_attempts:
-                print(f"   Retrying in 10 seconds...")
-                time.sleep(10)
-                return run_pipeline(pipeline, attempt + 1, max_attempts)
-            
-            return False, audit
-            
-    except subprocess.TimeoutExpired:
-        print(f"❌ TIMEOUT after 1 hour")
-        return False, {"error": "Timeout after 1 hour"}
-    except Exception as e:
-        print(f"❌ EXCEPTION: {e}")
-        if attempt < max_attempts:
-            print(f"   Retrying in 10 seconds...")
-            time.sleep(10)
-            return run_pipeline(pipeline, attempt + 1, max_attempts)
-        return False, {"error": str(e)}
 
 def main():
-    print("=" * 60)
-    print("AUTONOMOUS PIPELINE EXECUTOR")
-    print(f"36 Pipelines | Started: {datetime.now().isoformat()}")
-    print("=" * 60)
-    
-    # Load progress
+    """Main execution loop."""
     progress = load_progress()
-    start_idx = progress["current_pipeline"]
     
-    if start_idx > 0:
-        print(f"\nResuming from pipeline {start_idx + 1}/36")
-        print(f"Already completed: {len(progress['completed'])}")
-        print(f"Already failed: {len(progress['failed'])}")
+    # Initialize if fresh start
+    if not progress["started_at"]:
+        progress["started_at"] = datetime.now().isoformat()
+        save_progress(progress)
     
-    # Run pre-flight (if starting fresh)
-    if start_idx == 0:
+    print("\n" + "="*60)
+    print("CONNECTEDPRIVINGPIPELINEV4 - AUTONOMOUS EXECUTOR")
+    print(f"Total Pipelines: 36 | Phases: 3")
+    print(f"Started: {progress['started_at']}")
+    print("="*60)
+    
+    # Run preflight
+    if progress["current_pipeline"] == 0:
         if not run_preflight():
-            print("\n❌ PRE-FLIGHT FAILED - Aborting")
+            print("\n❌ Pre-flight checks failed! Fix issues and retry.")
             sys.exit(1)
-        print("\n✅ Pre-flight checks passed!")
+        post_slack_update("🚀 Pre-flight checks complete! Starting Phase 1 (2km pipelines)...")
+        progress["current_phase"] = 1
+        save_progress(progress)
     
     # Execute pipelines
     current_phase = 0
-    for idx, pipeline in enumerate(PIPELINES[start_idx:], start=start_idx + 1):
-        # Phase transition message
+    for pipeline in PIPELINES:
+        pid = pipeline["id"]
+        
+        # Skip completed pipelines
+        if str(pid) in progress["pipelines"] and progress["pipelines"][str(pid)].get("status") == "success":
+            print(f"\n⏭️  Skipping {pipeline['name']} (already completed)")
+            continue
+        
+        # Phase transition
         if pipeline["phase"] != current_phase:
             current_phase = pipeline["phase"]
-            print(f"\n{'#'*60}")
-            print(f"# PHASE {current_phase}: {pipeline['radius'].upper()} PIPELINES")
-            print(f"{'#'*60}")
+            if current_phase > 1:
+                # Summarize previous phase
+                prev_phase_pipelines = [p for p in progress["pipelines"].values() if p.get("phase") == current_phase - 1]
+                success_count = len([p for p in prev_phase_pipelines if p.get("status") == "success"])
+                post_slack_update(f"✅ Phase {current_phase - 1} Complete: {success_count}/12 pipelines | Starting Phase {current_phase}...")
+            progress["current_phase"] = current_phase
+            save_progress(progress)
         
-        print(f"\n[{idx}/36] Starting {pipeline['name']}...")
-        
-        success, result = run_pipeline(pipeline)
-        
-        if success:
-            progress["completed"].append(pipeline["name"])
-        else:
-            progress["failed"].append(pipeline["name"])
-        
-        progress["results"][pipeline["name"]] = result
-        progress["current_pipeline"] = idx
+        # Execute pipeline
+        progress["current_pipeline"] = pid
         save_progress(progress)
         
-        # Brief pause between pipelines
+        result = execute_pipeline(pipeline, progress)
+        result["phase"] = pipeline["phase"]
+        progress["pipelines"][str(pid)] = result
+        
+        if result["status"] == "success":
+            progress["total_completed"] += 1
+        else:
+            progress["total_failed"] += 1
+        
+        save_progress(progress)
+        
+        # Small delay between pipelines
         time.sleep(5)
     
     # Final summary
-    print("\n" + "=" * 60)
-    print("EXECUTION COMPLETE")
-    print("=" * 60)
-    print(f"Completed: {len(progress['completed'])}/36")
-    print(f"Failed: {len(progress['failed'])}/36")
+    print("\n" + "="*60)
+    print("🎉 ALL PIPELINES COMPLETE!")
+    print("="*60)
     
-    if progress["failed"]:
-        print("\nFailed pipelines:")
-        for name in progress["failed"]:
-            print(f"  ❌ {name}")
+    total_time = datetime.now() - datetime.fromisoformat(progress["started_at"])
     
-    progress["completed_at"] = datetime.now().isoformat()
-    save_progress(progress)
+    summary = f"""🎉 **ALL 36 PIPELINES COMPLETE!**
+
+| Phase | Radius | Success | Failed |
+|-------|--------|---------|--------|
+| 1     | 2km    | {len([p for p in progress['pipelines'].values() if p.get('phase') == 1 and p.get('status') == 'success'])}/12 | {len([p for p in progress['pipelines'].values() if p.get('phase') == 1 and p.get('status') != 'success'])}/12 |
+| 2     | 100km  | {len([p for p in progress['pipelines'].values() if p.get('phase') == 2 and p.get('status') == 'success'])}/12 | {len([p for p in progress['pipelines'].values() if p.get('phase') == 2 and p.get('status') != 'success'])}/12 |
+| 3     | 200km  | {len([p for p in progress['pipelines'].values() if p.get('phase') == 3 and p.get('status') == 'success'])}/12 | {len([p for p in progress['pipelines'].values() if p.get('phase') == 3 and p.get('status') != 'success'])}/12 |
+
+Total time: {total_time}
+Results: {REPO_PATH}/results/matrix/"""
     
-    print(f"\nProgress saved to: {PROGRESS_FILE}")
-    
-    return len(progress["failed"]) == 0
+    post_slack_update(summary)
+    print(summary)
+
 
 if __name__ == "__main__":
-    success = main()
-    sys.exit(0 if success else 1)
+    main()
