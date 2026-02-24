@@ -19,60 +19,59 @@
 - 2km actually filtered 35m, 100km actually filtered 1.75km
 - Bug existed since original pandas code
 
-### Current Status: 🔴 CRITICAL FIX IN PROGRESS
-**Last Updated:** 2026-02-24 02:38 EST
+### Current Status: 🟢 FRESH RUN WITH FIXED LOGGING
+**Last Updated:** 2026-02-24 02:47 EST
 **Total Pipelines:** 36 (12 x 2km, 12 x 100km, 12 x 200km)
 **Monitoring:** jaekel-pipeline-monitor cron (Sonnet, every 15 min)
 
-**⚠️ EVERYTHING KILLED - Opus audit in progress to fix logging**
+**✅ OPUS FIX COMPLETE - Fresh run started with proper logging!**
 
-### What Went Wrong
-Aaron identified that the pipeline runs were MISSING critical logging:
-- ❌ Vehicle ID counts not in logs
-- ❌ Attacker counts (train & test) not logged
-- ❌ Original row counts missing
-- ❌ Full log files not being saved to pipeline-results folders
-- ❌ run_all_pipelines.py needed AUGMENTATION, not just execution
+### What Was Fixed (by Opus)
+Files modified:
+- `DaskPipelineRunner.py` - Enhanced logging
+- `run_all_pipelines.py` - Results directory handling
 
-### Current Actions (2026-02-24 02:38 EST)
-1. ✅ **KILLED** all running pipeline processes
-2. ✅ **DELETED** all results from /var/www/static/pipeline-results/
-3. ✅ **DELETED** all cache files
-4. ✅ **DELETED** all logs
-5. 🔄 **OPUS AUDIT** spawned: `pipeline-logging-audit-and-fix`
-   - Auditing run_all_pipelines.py
-   - Auditing DaskPipelineRunner.py logging
-   - Fixing to include ALL required data
-   - Will test with one pipeline before full run
+Now logs:
+| Data Point | Status |
+|------------|--------|
+| Total row counts (original, cleaned, filtered) | ✅ |
+| Unique vehicle IDs | ✅ |
+| Attacker vehicle IDs (train) - count + list | ✅ |
+| Attacker vehicle IDs (test) - count + list | ✅ |
+| Clean vehicle IDs | ✅ |
+| Class distribution percentages | ✅ |
+| Full pipeline.log in each folder | ✅ |
+| Comprehensive results.json | ✅ |
 
-### Opus Sub-Agent
-- **Session:** agent:main:subagent:befdce11-f7c9-4e75-9fa9-bde8d192013f
-- **Model:** Opus with high thinking
-- **Task:** Full audit and fix of pipeline logging
-- **Status:** 🔄 IN PROGRESS
+### Test Run Verified
+Pipeline `basic_2km_const` verified with:
+- 238,738 total rows
+- 119 unique vehicle IDs
+- Train: 97 vehicles (30 attackers, 67 clean) - IDs listed
+- Test: 31 vehicles (10 attackers, 21 clean) - IDs listed
 
-### Required Logging (Must be in every pipeline folder)
-1. **pipeline.log** - Full verbose log with:
-   - Original row count (before cleaning)
-   - Cleaned row count (after cleaning)
-   - Filtered row count (after geo/temporal filtering)
-   - Train/test row counts
-   - Total unique vehicle IDs
-   - Attacker vehicle IDs (count + list) for TRAIN
-   - Attacker vehicle IDs (count + list) for TEST
-   - Clean vehicle IDs count
-   - All ML metrics per classifier
+### Fresh Run Status
+- **Started:** 2026-02-24 02:47 EST
+- **PID:** 944460 on jaekel
+- **Log:** `/tmp/run_all_fresh.log`
+- **Results:** `/var/www/static/pipeline-results/`
+- **Dashboard:** http://65.108.237.46/pipeline-results/
 
-2. **results.json** - Structured JSON with all above
-3. **confusion_matrix_*.png** - Per classifier
-4. **metrics.csv** - Summary metrics
+### Output Structure (Per Pipeline)
+```
+/var/www/static/pipeline-results/{pipeline_name}/
+├── pipeline.log              # Full verbose log (18KB+)
+├── {name}_results.json       # Complete JSON with vehicle stats
+├── metrics_summary.txt       # Human-readable summary
+├── confusion_matrix_*.png    # 3 confusion matrices
+└── {name}.csv               # ML results CSV
+```
 
-### Next Steps (After Opus Fix)
-1. Verify test pipeline has complete logging
-2. Clear test results
-3. Run ALL 36 pipelines fresh
-4. Monitor with fancy MDL emails
-5. Send comprehensive final email when complete
+### Expected Timeline
+- 2km pipelines: ~30 min
+- 100km pipelines: ~2-3 hours
+- 200km pipelines: ~6-8 hours
+- **Total: ~8-12 hours**
 
 ### Tasks
 
