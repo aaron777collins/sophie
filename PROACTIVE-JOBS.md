@@ -1,11 +1,15 @@
 # PROACTIVE JOBS
 
-**Last Updated:** 2026-02-24 02:30 EST
+**Last Updated:** 2026-02-24 18:25 EST
 **Project:** ConnectedDrivingPipelineV4 Full Overhaul (🔴🔴 ULTRA CRITICAL)
 
 ---
 
 ## 🔴🔴 ULTRA CRITICAL: Full Pipeline Overhaul (2026-02-24)
+
+> ⚠️ **MANAGED BY: Sophie (Main Session) + `jaekel-pipeline-monitor` cron**
+> ❌ **DO NOT SPAWN TASKS** — This is a remote server project, not a local task.
+> The proactive-scheduler should SKIP this project entirely.
 
 **Created:** 2026-02-24 02:30 EST
 **Priority:** 🔴🔴 ULTRA CRITICAL - Aaron sleeping, Sophie in charge
@@ -19,11 +23,11 @@
 2. ❌ **Cache not input-specific** — contamination risk
 3. ❌ **Only 36 of 108 permutations** — missing 4 attack types!
 
-### Current Status: 🟢 162 PIPELINES RUNNING (EXPANDED!)
-**Last Updated:** 2026-02-24 09:00 EST
-**Total Pipelines:** 162 (expanded from 108 per Aaron's request)
-**Progress:** 52/162 completed (32%), 0 failed ✅
-**Monitoring:** Sophie — Progress emails at 25%, 50%, 75%, 100%
+### Current Status: 🟢 PIPELINES RUNNING
+**Last Updated:** 2026-02-24 18:25 EST
+**Total Pipelines:** 108
+**Progress:** 23/108 completed (21.3%), 0 failed ✅
+**Monitoring:** Sophie (main session) + `jaekel-pipeline-monitor` cron (Sonnet, emails every 15min)
 
 **9 Feature Sets:**
 1. basic (NO IDs)
