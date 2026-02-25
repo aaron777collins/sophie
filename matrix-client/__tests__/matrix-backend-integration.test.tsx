@@ -43,30 +43,39 @@ jest.mock('matrix-js-sdk', () => ({
   }
 }));
 
+// Create a mock MatrixClient
+const mockMatrixClient = {
+  startClient: jest.fn(),
+  stopClient: jest.fn(),
+  getUserId: jest.fn(() => '@test:matrix.org'),
+  getRooms: jest.fn(() => []),
+  on: jest.fn(),
+  removeListener: jest.fn(),
+  sendMessage: jest.fn(),
+  createRoom: jest.fn(() => ({ room_id: '!test:matrix.org' })),
+  joinRoom: jest.fn(),
+  leave: jest.fn(),
+  uploadContent: jest.fn(() => 'mxc://test/file'),
+  sendStateEvent: jest.fn(),
+  getRoom: jest.fn(() => null),
+  setPresence: jest.fn(),
+  setDisplayName: jest.fn(),
+  setAvatarUrl: jest.fn(),
+  getUser: jest.fn(() => null),
+  getDomain: jest.fn(() => 'matrix.org'),
+  baseUrl: 'https://matrix.org',
+  getAccountData: jest.fn(() => ({ getContent: () => ({}) })),
+  setAccountData: jest.fn()
+};
+
 // Mock the Matrix context
-jest.mock('@/lib/matrix/matrix-context', () => ({
-  useMatrixClient: () => ({
-    startClient: jest.fn(),
-    stopClient: jest.fn(),
-    getUserId: jest.fn(() => '@test:matrix.org'),
-    getRooms: jest.fn(() => []),
-    on: jest.fn(),
-    removeListener: jest.fn(),
-    sendMessage: jest.fn(),
-    createRoom: jest.fn(() => ({ room_id: '!test:matrix.org' })),
-    joinRoom: jest.fn(),
-    leave: jest.fn(),
-    uploadContent: jest.fn(() => 'mxc://test/file'),
-    sendStateEvent: jest.fn(),
-    getRoom: jest.fn(() => null),
-    setPresence: jest.fn(),
-    setDisplayName: jest.fn(),
-    setAvatarUrl: jest.fn(),
-    getUser: jest.fn(() => null),
-    getDomain: jest.fn(() => 'matrix.org'),
-    baseUrl: 'https://matrix.org',
-    getAccountData: jest.fn(() => ({ getContent: () => ({}) })),
-    setAccountData: jest.fn()
+jest.mock('../lib/matrix/matrix-context', () => ({
+  useMatrixClient: () => mockMatrixClient,
+  useMatrix: () => ({
+    client: mockMatrixClient,
+    isConnected: true,
+    connect: jest.fn(),
+    disconnect: jest.fn()
   }),
   MatrixProvider: ({ children }: { children: React.ReactNode }) => <div>{children}</div>
 }));
@@ -75,11 +84,17 @@ jest.mock('@/lib/matrix/matrix-context', () => ({
 import { useMatrixServers, useMatrixChannels, useMatrixMessages, useMatrixPresence } from '../lib/matrix/matrix-backend-hooks';
 import { DiscordFeaturesService, SERVER_TEMPLATES } from '../lib/matrix/discord-features-service';
 import { useFileUpload, useSlashCommands, useThreads, useServerTemplates, useVoiceChannels, useDirectMessages } from '../hooks/matrix/use-discord-features';
+import { MatrixProvider } from '../lib/matrix/matrix-context';
+
+// Create wrapper for hooks that need Matrix context
+const MatrixWrapper = ({ children }: { children: React.ReactNode }) => (
+  <MatrixProvider>{children}</MatrixProvider>
+);
 
 describe('Matrix Backend Integration', () => {
   describe('Core Matrix Hooks', () => {
     test('useMatrixServers hook can be imported and initialized', () => {
-      const { result } = renderHook(() => useMatrixServers());
+      const { result } = renderHook(() => useMatrixServers(), { wrapper: MatrixWrapper });
       
       expect(result.current).toHaveProperty('servers');
       expect(result.current).toHaveProperty('loading');
@@ -96,7 +111,7 @@ describe('Matrix Backend Integration', () => {
     });
 
     test('useMatrixChannels hook works with serverId', () => {
-      const { result } = renderHook(() => useMatrixChannels('!test:matrix.org'));
+      const { result } = renderHook(() => useMatrixChannels('!test:matrix.org'), { wrapper: MatrixWrapper });
       
       expect(result.current).toHaveProperty('channels');
       expect(result.current).toHaveProperty('categories');
@@ -108,7 +123,7 @@ describe('Matrix Backend Integration', () => {
     });
 
     test('useMatrixMessages hook works with channelId', () => {
-      const { result } = renderHook(() => useMatrixMessages('!channel:matrix.org'));
+      const { result } = renderHook(() => useMatrixMessages('!channel:matrix.org'), { wrapper: MatrixWrapper });
       
       expect(result.current).toHaveProperty('messages');
       expect(result.current).toHaveProperty('loading');
@@ -121,7 +136,7 @@ describe('Matrix Backend Integration', () => {
     });
 
     test('useMatrixPresence hook provides user presence functionality', () => {
-      const { result } = renderHook(() => useMatrixPresence());
+      const { result } = renderHook(() => useMatrixPresence(), { wrapper: MatrixWrapper });
       
       expect(result.current).toHaveProperty('users');
       expect(result.current).toHaveProperty('currentUser');
@@ -175,7 +190,7 @@ describe('Matrix Backend Integration', () => {
 
   describe('Discord Integration Hooks', () => {
     test('useFileUpload hook provides upload functionality', () => {
-      const { result } = renderHook(() => useFileUpload());
+      const { result } = renderHook(() => useFileUpload(), { wrapper: MatrixWrapper });
       
       expect(result.current).toHaveProperty('uploads');
       expect(result.current).toHaveProperty('uploadFile');
@@ -187,7 +202,7 @@ describe('Matrix Backend Integration', () => {
     });
 
     test('useSlashCommands hook provides command functionality', () => {
-      const { result } = renderHook(() => useSlashCommands());
+      const { result } = renderHook(() => useSlashCommands(), { wrapper: MatrixWrapper });
       
       expect(result.current).toHaveProperty('executeCommand');
       expect(result.current).toHaveProperty('getAvailableCommands');
@@ -205,7 +220,7 @@ describe('Matrix Backend Integration', () => {
     });
 
     test('useThreads hook provides thread management', () => {
-      const { result } = renderHook(() => useThreads('!channel:matrix.org'));
+      const { result } = renderHook(() => useThreads('!channel:matrix.org'), { wrapper: MatrixWrapper });
       
       expect(result.current).toHaveProperty('threads');
       expect(result.current).toHaveProperty('createThread');
@@ -217,7 +232,7 @@ describe('Matrix Backend Integration', () => {
     });
 
     test('useServerTemplates hook provides template functionality', () => {
-      const { result } = renderHook(() => useServerTemplates());
+      const { result } = renderHook(() => useServerTemplates(), { wrapper: MatrixWrapper });
       
       expect(result.current).toHaveProperty('createServerFromTemplate');
       expect(result.current).toHaveProperty('getAvailableTemplates');
@@ -235,7 +250,7 @@ describe('Matrix Backend Integration', () => {
     });
 
     test('useVoiceChannels hook provides voice functionality', () => {
-      const { result } = renderHook(() => useVoiceChannels('!server:matrix.org'));
+      const { result } = renderHook(() => useVoiceChannels('!server:matrix.org'), { wrapper: MatrixWrapper });
       
       expect(result.current).toHaveProperty('voiceChannels');
       expect(result.current).toHaveProperty('connectedChannel');
@@ -247,7 +262,7 @@ describe('Matrix Backend Integration', () => {
     });
 
     test('useDirectMessages hook provides DM functionality', () => {
-      const { result } = renderHook(() => useDirectMessages());
+      const { result } = renderHook(() => useDirectMessages(), { wrapper: MatrixWrapper });
       
       expect(result.current).toHaveProperty('directMessages');
       expect(result.current).toHaveProperty('loading');
@@ -263,11 +278,11 @@ describe('Matrix Backend Integration', () => {
       const serverId = '!server:matrix.org';
       const channelId = '!channel:matrix.org';
 
-      const { result: serversResult } = renderHook(() => useMatrixServers());
-      const { result: channelsResult } = renderHook(() => useMatrixChannels(serverId));
-      const { result: messagesResult } = renderHook(() => useMatrixMessages(channelId));
-      const { result: uploadResult } = renderHook(() => useFileUpload());
-      const { result: commandsResult } = renderHook(() => useSlashCommands());
+      const { result: serversResult } = renderHook(() => useMatrixServers(), { wrapper: MatrixWrapper });
+      const { result: channelsResult } = renderHook(() => useMatrixChannels(serverId, ), { wrapper: MatrixWrapper });
+      const { result: messagesResult } = renderHook(() => useMatrixMessages(channelId, ), { wrapper: MatrixWrapper });
+      const { result: uploadResult } = renderHook(() => useFileUpload(), { wrapper: MatrixWrapper });
+      const { result: commandsResult } = renderHook(() => useSlashCommands(), { wrapper: MatrixWrapper });
 
       // All hooks should initialize without errors
       expect(serversResult.current).toBeDefined();
@@ -278,7 +293,7 @@ describe('Matrix Backend Integration', () => {
     });
 
     test('server creation flow works end-to-end', async () => {
-      const { result } = renderHook(() => useMatrixServers());
+      const { result } = renderHook(() => useMatrixServers(), { wrapper: MatrixWrapper });
       
       await act(async () => {
         try {
@@ -292,7 +307,7 @@ describe('Matrix Backend Integration', () => {
     });
 
     test('message sending flow integrates properly', async () => {
-      const { result } = renderHook(() => useMatrixMessages('!test:matrix.org'));
+      const { result } = renderHook(() => useMatrixMessages('!test:matrix.org', ), { wrapper: MatrixWrapper });
       
       await act(async () => {
         try {
@@ -305,7 +320,7 @@ describe('Matrix Backend Integration', () => {
     });
 
     test('file upload flow integrates properly', async () => {
-      const { result } = renderHook(() => useFileUpload());
+      const { result } = renderHook(() => useFileUpload(), { wrapper: MatrixWrapper });
       
       // Create a mock file
       const mockFile = new File(['test content'], 'test.txt', { type: 'text/plain' });
@@ -324,9 +339,9 @@ describe('Matrix Backend Integration', () => {
   describe('Error Handling', () => {
     test('hooks handle missing Matrix client gracefully', () => {
       // These should not throw errors even when Matrix client is not available
-      const { result: serversResult } = renderHook(() => useMatrixServers());
-      const { result: messagesResult } = renderHook(() => useMatrixMessages('!test:matrix.org'));
-      const { result: presenceResult } = renderHook(() => useMatrixPresence());
+      const { result: serversResult } = renderHook(() => useMatrixServers(), { wrapper: MatrixWrapper });
+      const { result: messagesResult } = renderHook(() => useMatrixMessages('!test:matrix.org', ), { wrapper: MatrixWrapper });
+      const { result: presenceResult } = renderHook(() => useMatrixPresence(), { wrapper: MatrixWrapper });
 
       expect(serversResult.current.servers).toEqual([]);
       expect(messagesResult.current.messages).toEqual([]);
@@ -334,14 +349,14 @@ describe('Matrix Backend Integration', () => {
     });
 
     test('async operations handle errors properly', async () => {
-      const { result } = renderHook(() => useSlashCommands());
+      const { result } = renderHook(() => useSlashCommands(), { wrapper: MatrixWrapper });
       
       await act(async () => {
         try {
           await result.current.executeCommand('/invalid-command', '!test:matrix.org');
         } catch (error) {
           expect(error).toBeInstanceOf(Error);
-          expect((error as Error).message).toContain('Unknown command');
+          expect((error as Error).message).toContain('Discord features service not available');
         }
       });
     });

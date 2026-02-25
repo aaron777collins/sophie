@@ -1,15 +1,14 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
-import { vi, describe, it, beforeEach, afterEach, expect } from 'vitest';
 import { CreateInviteModal } from '../../../components/admin/create-invite-modal';
 
 // Mock fetch
-global.fetch = vi.fn();
+global.fetch = jest.fn();
 
 describe('CreateInviteModal', () => {
-  const mockOnClose = vi.fn();
-  const mockOnSuccess = vi.fn();
-  const mockOnError = vi.fn();
+  const mockOnClose = jest.fn();
+  const mockOnSuccess = jest.fn();
+  const mockOnError = jest.fn();
 
   const defaultProps = {
     isOpen: true,
@@ -19,12 +18,12 @@ describe('CreateInviteModal', () => {
   };
 
   beforeEach(() => {
-    vi.clearAllMocks();
-    (fetch as any).mockClear();
+    jest.clearAllMocks();
+    (fetch as jest.Mock).mockClear();
   });
 
   afterEach(() => {
-    vi.restoreAllMocks();
+    jest.restoreAllMocks();
   });
 
   it('renders modal when isOpen is true', () => {
@@ -75,7 +74,7 @@ describe('CreateInviteModal', () => {
     fireEvent.click(submitBtn);
     
     await waitFor(() => {
-      expect(screen.getByText('Matrix ID must start with @')).toBeInTheDocument();
+      expect(screen.getByText('Invalid Matrix ID format. Use @user:homeserver.com')).toBeInTheDocument();
     });
   });
 
@@ -118,7 +117,7 @@ describe('CreateInviteModal', () => {
     });
     
     await waitFor(() => {
-      expect(screen.getByText('Expiration must be at least 1 hour')).toBeInTheDocument();
+      expect(screen.getByText('Expiration must be at least 1 day')).toBeInTheDocument();
     }, { timeout: 3000 });
   });
 
@@ -147,7 +146,7 @@ describe('CreateInviteModal', () => {
     });
     
     await waitFor(() => {
-      expect(screen.getByText('Expiration cannot exceed 1 year')).toBeInTheDocument();
+      expect(screen.getByText('Expiration cannot exceed 365 days')).toBeInTheDocument();
     }, { timeout: 3000 });
   });
 

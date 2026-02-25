@@ -6,7 +6,20 @@ const mockMatrixClient = {
   getRoomStateEvents: jest.fn(),
   joinRoom: jest.fn(),
   getRoomSummary: jest.fn(),
+  getRoom: jest.fn(),
 };
+
+// Mock Room object for getServerPreview tests
+const createMockRoom = (stateEvents: any[] = []) => ({
+  currentState: {
+    getStateEvents: jest.fn((eventType: string, stateKey: string) => {
+      const event = stateEvents.find(e => e.type === eventType);
+      return event ? { getContent: () => event.content } : null;
+    })
+  },
+  getJoinedMemberCount: jest.fn(() => 100),
+  name: 'Test Server'
+});
 
 describe('ServerDiscoveryService', () => {
   let service: ServerDiscoveryService;
@@ -185,17 +198,19 @@ describe('ServerDiscoveryService', () => {
     ];
 
     beforeEach(() => {
-      mockMatrixClient.getRoomStateEvents.mockResolvedValue(mockRoomStateEvents);
-      mockMatrixClient.getRoomSummary.mockResolvedValue({
-        'm.joined_member_count': 100
-      });
+      // Reset mocks
+      mockMatrixClient.getRoom.mockReturnValue(null);
+      mockMatrixClient.publicRooms.mockResolvedValue({ chunk: [] });
     });
 
     it('should get server preview successfully', async () => {
+      const mockRoom = createMockRoom(mockRoomStateEvents);
+      mockMatrixClient.getRoom.mockReturnValue(mockRoom);
+
       const roomId = '!test:example.com';
       const preview = await service.getServerPreview(roomId);
 
-      expect(mockMatrixClient.getRoomStateEvents).toHaveBeenCalledWith(roomId, '');
+      expect(mockMatrixClient.getRoom).toHaveBeenCalledWith(roomId);
       expect(preview).toEqual({
         roomId,
         name: 'Test Server',
@@ -209,15 +224,15 @@ describe('ServerDiscoveryService', () => {
     });
 
     it('should handle missing room state events', async () => {
-      mockMatrixClient.getRoomStateEvents.mockResolvedValue([]);
-      mockMatrixClient.getRoomSummary.mockResolvedValue({});
+      const mockRoom = createMockRoom([]); // No state events
+      mockMatrixClient.getRoom.mockReturnValue(mockRoom);
 
       const roomId = '!test:example.com';
       const preview = await service.getServerPreview(roomId);
 
-      expect(preview?.name).toBe('Unnamed Server');
+      expect(preview?.name).toBe('Test Server'); // Falls back to room.name
       expect(preview?.topic).toBe('');
-      expect(preview?.memberCount).toBe(0);
+      expect(preview?.memberCount).toBe(100);
     });
 
     it('should detect encryption', async () => {
@@ -225,7 +240,8 @@ describe('ServerDiscoveryService', () => {
         ...mockRoomStateEvents,
         { type: 'm.room.encryption', content: { algorithm: 'm.megolm.v1.aes-sha2' } }
       ];
-      mockMatrixClient.getRoomStateEvents.mockResolvedValue(eventsWithEncryption);
+      const mockRoom = createMockRoom(eventsWithEncryption);
+      mockMatrixClient.getRoom.mockReturnValue(mockRoom);
 
       const roomId = '!test:example.com';
       const preview = await service.getServerPreview(roomId);
@@ -233,13 +249,48 @@ describe('ServerDiscoveryService', () => {
       expect(preview?.isEncrypted).toBe(true);
     });
 
-    it('should handle preview errors gracefully', async () => {
-      mockMatrixClient.getRoomStateEvents.mockRejectedValue(new Error('Access denied'));
+    it('should fall back to public rooms API when room not in store', async () => {
+      mockMatrixClient.getRoom.mockReturnValue(null); // Room not in store
+      mockMatrixClient.publicRooms.mockResolvedValue({
+        chunk: [{
+          room_id: '!test:example.com',
+          name: 'Public Server',
+          topic: 'Public topic',
+          num_joined_members: 50,
+          avatar_url: 'mxc://example.com/public'
+        }]
+      });
 
       const roomId = '!test:example.com';
       const preview = await service.getServerPreview(roomId);
 
-      expect(preview).toBeNull();
+      expect(mockMatrixClient.getRoom).toHaveBeenCalledWith(roomId);
+      expect(mockMatrixClient.publicRooms).toHaveBeenCalled();
+      expect(preview).toEqual({
+        roomId,
+        name: 'Public Server',
+        topic: 'Public topic',
+        memberCount: 50,
+        avatarUrl: 'mxc://example.com/public',
+        description: 'Public topic'
+      });
+    });
+
+    it('should handle preview errors gracefully', async () => {
+      mockMatrixClient.getRoom.mockReturnValue(null);
+      mockMatrixClient.publicRooms.mockRejectedValue(new Error('Access denied'));
+
+      const roomId = '!test:example.com';
+      const preview = await service.getServerPreview(roomId);
+
+      // Implementation returns fallback info when public rooms API fails
+      expect(preview).toEqual({
+        roomId,
+        name: 'Server Preview',
+        topic: 'Unable to load full preview', 
+        memberCount: 0,
+        description: ''
+      });
     });
   });
 

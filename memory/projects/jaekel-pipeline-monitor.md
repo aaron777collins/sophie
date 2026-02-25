@@ -3,36 +3,60 @@
 ## Created: 2026-02-24 00:40 EST
 ## Updated: 2026-02-24 01:53 EST
 
-## Current Execution Status (Updated 2026-02-24 22:45 EST)
+## Current Execution Status (Updated 2026-02-25 02:31 EST)
 
 **🚀 PIPELINE RUN IN PROGRESS - REVISED MATRIX**
 
 **Progress Summary:**
 - **Total Pipelines:** 108 (revised matrix - reduced from 162) 
-- **Completed:** 34/108 (31.5%)
+- **Completed:** 44/108 (40.7%)
 - **Failed:** 0 (perfect success rate!)
-- **Started:** 2026-02-24 09:43:45 EST (13+ hours runtime)
+- **Started:** 2026-02-24 09:43:45 EST (17+ hours runtime)
 - **Status:** ✅ RUNNING - All systems green
 
 **Currently Running:**
-- `python3 -u run_with_skips.py` (PID 1155359, 64.1% CPU)
+- `python3 -u run_with_skips.py` (PID 1155359, 62.9% CPU)
 - Started via: `nohup` with logging to `pipeline_run.log`
 - Progress file: `/var/www/static/pipeline-results/progress_162.json`
 
-**Completed Pipelines (11):**
-| Pipeline | Duration | Status |
-|----------|----------|---------|
-| basic_2km_randoffset | 3m 53s | ✅ SUCCESS |
-| basic_2km_constoffset | 3m 38s | ✅ SUCCESS |
-| basic_2km_constoffsetperid | 3m 52s | ✅ SUCCESS |
-| basic_2km_swaprand | 1h 25m 6s | ✅ SUCCESS |
-| basic_2km_overrideconst | 3m 28s | ✅ SUCCESS |
-| basic_2km_overriderand | 3m 28s | ✅ SUCCESS |
-| basic_100km_randoffset | 16m 19s | ✅ SUCCESS |
-| basic_100km_constoffset | 14m 20s | ✅ SUCCESS |
-| basic_100km_constoffsetperid | 25m 31s | ✅ SUCCESS |
-| basic_200km_randoffset | 30m 38s | ✅ SUCCESS |
-| basic_200km_constoffset | 26m 33s | ✅ SUCCESS |
+**Latest Completed Pipelines (35 total):**
+| Pipeline | Type | Radius | Duration | Status |
+|----------|------|--------|----------|---------|
+| basic_2km_randoffset | Basic | 2km | 3m 53s | ✅ SUCCESS |
+| basic_2km_constoffset | Basic | 2km | 3m 38s | ✅ SUCCESS |
+| basic_2km_constoffsetperid | Basic | 2km | 3m 52s | ✅ SUCCESS |
+| basic_2km_swaprand | Basic | 2km | 1h 25m 6s | ✅ SUCCESS |
+| basic_2km_overrideconst | Basic | 2km | 3m 28s | ✅ SUCCESS |
+| basic_2km_overriderand | Basic | 2km | 3m 28s | ✅ SUCCESS |
+| basic_100km_randoffset | Basic | 100km | 16m 19s | ✅ SUCCESS |
+| basic_100km_constoffset | Basic | 100km | 14m 20s | ✅ SUCCESS |
+| basic_100km_constoffsetperid | Basic | 100km | 25m 31s | ✅ SUCCESS |
+| basic_200km_randoffset | Basic | 200km | 30m 38s | ✅ SUCCESS |
+| basic_200km_constoffset | Basic | 200km | 26m 33s | ✅ SUCCESS |
+| basic_200km_constoffsetperid | Basic | 200km | 1h 8m 51s | ✅ SUCCESS |
+| movement_2km_randoffset | Movement | 2km | 3m 50s | ✅ SUCCESS |
+| movement_2km_constoffset | Movement | 2km | 3m 40s | ✅ SUCCESS |
+| movement_2km_constoffsetperid | Movement | 2km | 3m 55s | ✅ SUCCESS |
+| movement_2km_swaprand | Movement | 2km | 1h 26m 25s | ✅ SUCCESS |
+| movement_2km_overrideconst | Movement | 2km | 3m 27s | ✅ SUCCESS |
+| movement_2km_overriderand | Movement | 2km | 3m 29s | ✅ SUCCESS |
+| movement_100km_randoffset | Movement | 100km | 16m 17s | ✅ SUCCESS |
+| movement_100km_constoffset | Movement | 100km | 14m 13s | ✅ SUCCESS |
+| movement_100km_constoffsetperid | Movement | 100km | 25m 25s | ✅ SUCCESS |
+| movement_200km_randoffset | Movement | 200km | 30m 41s | ✅ SUCCESS |
+| movement_200km_constoffset | Movement | 200km | 26m 9s | ✅ SUCCESS |
+| movement_200km_constoffsetperid | Movement | 200km | 1h 8m 41s | ✅ SUCCESS |
+| extended_2km_randoffset | Extended | 2km | 3m 50s | ✅ SUCCESS |
+| extended_2km_constoffset | Extended | 2km | 3m 39s | ✅ SUCCESS |
+| extended_2km_constoffsetperid | Extended | 2km | 3m 51s | ✅ SUCCESS |
+| extended_2km_swaprand | Extended | 2km | 1h 26m 29s | ✅ SUCCESS |
+| extended_2km_overrideconst | Extended | 2km | 3m 31s | ✅ SUCCESS |
+| extended_2km_overriderand | Extended | 2km | 3m 32s | ✅ SUCCESS |
+| extended_100km_randoffset | Extended | 100km | 16m 25s | ✅ SUCCESS |
+| extended_100km_constoffset | Extended | 100km | 14m 21s | ✅ SUCCESS |
+| extended_100km_constoffsetperid | Extended | 100km | 25m 19s | ✅ SUCCESS |
+| extended_200km_randoffset | Extended | 200km | 30m 27s | ✅ SUCCESS |
+| extended_200km_constoffset | Extended | 200km | 26m 25s | ✅ SUCCESS |
 
 **Monitoring & Reporting:**
 - Cron job: `jaekel-pipeline-monitor` (Sonnet, every 30 min)  
@@ -41,6 +65,8 @@
 - [2026-02-24 13:31 EST] ✅ Sent Material Design progress email (11/108 complete, 10.2%)
 - [2026-02-24 22:01 EST] ✅ Sent Material Design progress email (33/108 complete, 30.6%)
 - [2026-02-24 22:45 EST] ✅ Sent Material Design progress email (34/108 complete, 31.5% - with fancy blue gradient styling)
+- [2026-02-25 04:15 EST] ✅ Sent Material Design progress email (35/108 complete, 32.41% - comprehensive table with all completed pipelines)
+- [2026-02-25 02:31 EST] ✅ Sent Material Design progress email (44/108 complete, 40.7% - full progress report with all 44 completed pipelines in styled table)
 
 **Dashboard:** http://65.108.237.46/dashboard/
 **Results Dir:** /var/www/static/pipeline-results/

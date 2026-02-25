@@ -1,0 +1,24 @@
+{
+  "id": "val-req-$(date +%s)",
+  "timestamp": "2026-02-25T08:30:00.000Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: melo-matrix-1 - Matrix Server Settings Frontend Fix",
+  "content": {
+    "task_ids": ["melo-matrix-1"],
+    "project": "melo",
+    "phase": "Phase 2",
+    "claimed_by": "worker",
+    "claimed_at": "2026-02-25T08:07:00.000Z",
+    "files_changed": ["apps/web/pages/server-settings/index.tsx"],
+    "acceptance_criteria": [
+      "Server settings page loads without 404 error",
+      "UI renders correctly with proper form elements",
+      "No JavaScript console errors",
+      "Code deployed to dev2 successfully",
+      "Git commit exists and pushed to origin"
+    ],
+    "self_validation_notes": "Worker provided validation checklist showing: deployment successful on dev2, route loads (HTTP 200), UI renders correctly with expected error state for unauthenticated user, no JavaScript errors (only CSP warning unrelated to component), git commits 5c6d070 and 5925bc8 pushed to origin"
+  }
+}

@@ -1,84 +1,103 @@
-# Connected Driving Pipeline V4 - Progress Tracking
+# Connected Driving Pipeline Fix Project
 
-## Pipeline Run Status (Latest Update: 2026-02-25 23:04 EST)
+## Latest Status: Feb 25, 2026 7:45 AM EST
 
-**Current Status:** RUNNING - 35/108 completed (32.4%)
-**Success Rate:** 100% (0 failures)
-**Server:** jaekel (65.108.237.46)
-**Started:** Feb 24, 2026 09:43 UTC
-**Monitor Active:** Since 03:20 EST with fixed logging
+**PIPELINE RUNNING SUCCESSFULLY** ✅
 
-### Progress Timeline
-- [2026-02-25 23:04 EST] Monitor email sent - 35/108 pipelines complete, 100% success rate, Material Design HTML progress report (13.5+ hours runtime)
-- [2026-02-24 22:30 EST] Monitor email sent - 34/108 pipelines complete, 100% success rate, Material Design HTML progress report
-- [2026-02-24 21:45 EST] Monitor email sent - 32/108 pipelines complete, 100% success rate, Material Design HTML email
-- [2026-02-24 21:32 EST] Monitor email sent - 32/108 pipelines complete, 100% success rate, ~18h estimated remaining
-- [2026-02-24 21:05 EST] Monitor email sent - 30/108 pipelines complete, 100% success rate
-- [2026-02-24 03:20 EST] RESTARTED with fixed logging, running full 162-pipeline matrix
-- Process: ubuntu 1155359 running `python3 -u run_with_skips.py` (CPU: 64.4%)
+### Current Progress
+- **Total Pipelines:** 108 (actual full matrix)
+- **Completed:** 57 pipelines (52.8% complete)
+- **Failed:** 0 (100% success rate!)
+- **Started:** Feb 24, 2026 @ 9:43 AM EST  
+- **Runtime:** ~22 hours continuous
+- **Estimated Remaining:** ~25 hours (based on current progress rate)
 
-### Current Progress Details
-**Total Expected:** 108 pipelines (note: original message mentioned 162, but progress file shows 108)
-**Completed:** 35 pipelines
-**Failed:** 0 pipelines
-**Remaining:** 73 pipelines
-**Progress:** 32.4%
+### Process Status
+- Process running: `python3 -u run_with_skips.py` (PID 1155359)
+- CPU Usage: 64.1% (heavy computation as expected)
+- Memory Usage: 8.2% of system RAM (~5.4GB)
 
-### Completed Pipeline Categories (34 total):
-1. **basic_2km_*** (6 pipelines) - All complete
-   - randoffset, constoffset, constoffsetperid, swaprand, overrideconst, overriderand
-   - Times: 3-4 min each, except swaprand (1h 25m)
+### Performance Analysis
+| Pipeline Type | Average Runtime | Notes |
+|---------------|-----------------|-------|
+| 2km runs | 3-4 minutes | Fast, baseline tests |
+| 100km runs | 15-25 minutes | Medium complexity |
+| 200km runs | 25-70 minutes | High complexity |
+| SwapRand variants | 85+ minutes | Computationally intensive |
 
-2. **basic_100km_*** (3 pipelines) - All complete  
-   - randoffset (16m), constoffset (14m), constoffsetperid (25m)
+### Recent Completions (Last 10 recorded)
+1. movementWithId_100km_constoffset: 14.2 min ✓
+2. movementWithId_100km_randoffset: 16.4 min ✓
+3. movementWithId_2km_overriderand: 3.5 min ✓
+4. movementWithId_2km_overrideconst: 3.5 min ✓
+5. movementWithId_2km_swaprand: 85.5 min ✓
+6. movementWithId_2km_constoffsetperid: 4.0 min ✓
+7. movementWithId_2km_constoffset: 3.7 min ✓
+8. movementWithId_2km_randoffset: 3.8 min ✓
+9. basicWithId_200km_constoffsetperid: 68.8 min ✓
+10. basicWithId_200km_constoffset: 26.5 min ✓
 
-3. **basic_200km_*** (3 pipelines) - All complete
-   - randoffset (30m), constoffset (26m), constoffsetperid (1h 8m)
+### Server Configuration
+- **Server:** jaekel (ssh alias)
+- **Results Location:** `/var/www/static/pipeline-results/`
+- **Progress File:** `/var/www/static/pipeline-results/progress_162.json`
+- **Dashboard:** http://65.108.237.46/pipeline-results/
+- **Log File:** `~/repos/ConnectedDrivingPipelineV4/pipeline_run.log`
 
-4. **movement_2km_*** (6 pipelines) - All complete
-   - Similar pattern to basic_2km, times range 3-4 min except swaprand (1h 26m)
+### Monitoring Schedule
+- **Cron Job:** 3faf1d65-b6a8-45b3-9d19-6f1d86bc09cf
+- **Frequency:** Regular monitoring with progress emails
+- **Recipients:** aaron777collins@gmail.com, joshuapicchioni@gmail.com
 
-5. **movement_100km_*** (3 pipelines) - All complete
-   - Similar times to basic_100km variants
+### Email Updates
+- **[Feb 25, 7:45 AM EST]** Sent progress email with Material Design HTML template
+  - Progress: 57/108 complete (52.8%) - **Same progress as 14 minutes ago (pipeline still processing)**
+  - Estimated 25 hours remaining  
+  - All 57 completed pipelines successful (100% success rate)
+  - Recipients: aaron777collins@gmail.com, joshuapicchioni@gmail.com
+  - **Format:** Blue gradient header, progress bar, metric boxes, completion table with latest 5 pipelines
+  - **Notable:** MovementWithId 100km pipelines recently completed (14-25 min range)
+- **[Feb 25, 7:31 AM EST]** Previous progress email sent
 
-6. **movement_200km_*** (3 pipelines) - All complete  
-   - Similar times to basic_200km variants
+### Next Steps
+1. Continue monitoring until all 108 pipelines complete
+2. Send comprehensive final email with full ML results when complete
+3. Archive results and analysis
 
-7. **extended_2km_*** (6 pipelines) - All complete
-   - Similar pattern to other 2km variants
+### Pipeline Categories Identified
+- **Basic configurations:** Standard baseline tests
+- **Movement configurations:** Movement-based feature testing
+- **Extended configurations:** Extended feature sets
+- **BasicWithId configurations:** ID-based feature variants
+- **MovementWithId configurations:** Combined movement and ID features
 
-8. **extended_100km_*** (3 pipelines completed)
-   - extended_100km_randoffset (16m 25s)
-   - extended_100km_constoffset (14m 21s)  
-   - extended_100km_constoffsetperid (25m 18s)
+### Attack Types Being Tested
+- randoffset
+- constoffset
+- constoffsetperid
+- swaprand
+- overrideconst
+- overriderand
 
-9. **extended_200km_*** (2 pipelines completed so far)
-   - extended_200km_randoffset (30m 27s)
-   - extended_200km_constoffset (26m 24s)
+### Distance Radii
+- 2km (fast, local area)
+- 100km (medium, regional)
+- 200km (large, wide area)
 
-### Performance Patterns
-- **2km radius:** ~3-4 minutes per pipeline (except swaprand variants: ~1.5 hours)
-- **100km radius:** ~14-25 minutes per pipeline
-- **200km radius:** ~26-68 minutes per pipeline
-- **swaprand variants:** Consistently much longer (1+ hours)
+---
 
-### Email Recipients
-- aaron777collins@gmail.com
-- joshuapicchioni@gmail.com
+## Historical Context
 
-### Dashboard
-- **Live URL:** http://65.108.237.46/pipeline-results/
-- **Results Path:** /var/www/static/pipeline-results/
-- **Progress File:** /var/www/static/pipeline-results/progress_162.json
+### Previous Issues Fixed
+- [Feb 24] Fixed logging configuration preventing progress tracking
+- [Earlier] Resolved pipeline execution bugs
+- Implemented skip mechanism for failed runs
 
-### Notes
-- All 34 completed pipelines successful (100% success rate)
-- Process running continuously with good CPU utilization (64.1% CPU, ~12.8 hours elapsed)
-- Material Design HTML progress emails being sent with detailed metrics and completion tables
-- Discrepancy between expected 162 and current 108 total - monitoring for clarification
-- Pipeline has been running steadily since 9:43 AM EST on Feb 24th
+### Key Learnings
+- SwapRand attacks are significantly more computationally intensive
+- 2km radius tests provide quick validation
+- Larger radius tests (200km) take substantially longer but crucial for comprehensive analysis
 
-## Next Steps
-- Continue monitoring progress
-- Send final comprehensive email when all 108 complete
-- Investigate discrepancy between 162 vs 108 total pipeline count
+---
+
+*Last updated: [Feb 25, 2026 7:45 AM EST] - Pipeline running smoothly, 57/108 complete (52.8%), 0 failures*
