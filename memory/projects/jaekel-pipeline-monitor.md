@@ -3,23 +3,44 @@
 ## Created: 2026-02-24 00:40 EST
 ## Updated: 2026-02-24 01:53 EST
 
-## Current Execution Status (Updated 2026-02-24 07:15 EST)
+## Current Execution Status (Updated 2026-02-24 22:45 EST)
+
+**🚀 PIPELINE RUN IN PROGRESS - REVISED MATRIX**
 
 **Progress Summary:**
-| Radius | Completed | Status | Notes |
-|--------|-----------|--------|-------|
-| 2km | 12/12 | ✅ DONE | Results in pipeline-results/*.json |
-| 100km | 1/12 | ⚠️ NEED RE-RUN | Only basic_100km_const completed; 11 failed (empty CSVs) |
-| 200km | 0/12 | ⏳ RUNNING | Started 07:11 EST via run_all_pipelines.py |
+- **Total Pipelines:** 108 (revised matrix - reduced from 162) 
+- **Completed:** 34/108 (31.5%)
+- **Failed:** 0 (perfect success rate!)
+- **Started:** 2026-02-24 09:43:45 EST (13+ hours runtime)
+- **Status:** ✅ RUNNING - All systems green
 
 **Currently Running:**
-- `python run_all_pipelines.py --only 200km` (PID 913879)
-- Log: `~/repos/ConnectedDrivingPipelineV4/run_200km.log`
-- Output: Per-run folders with JSON, CSV, log, confusion matrix PNGs
+- `python3 -u run_with_skips.py` (PID 1155359, 64.1% CPU)
+- Started via: `nohup` with logging to `pipeline_run.log`
+- Progress file: `/var/www/static/pipeline-results/progress_162.json`
 
-**Monitoring:**
-- Cron job: `jaekel-pipeline-monitor` (Sonnet, every 15 min)
-- Will send email to aaron777collins@gmail.com, joshuapicchioni@gmail.com when complete
+**Completed Pipelines (11):**
+| Pipeline | Duration | Status |
+|----------|----------|---------|
+| basic_2km_randoffset | 3m 53s | ✅ SUCCESS |
+| basic_2km_constoffset | 3m 38s | ✅ SUCCESS |
+| basic_2km_constoffsetperid | 3m 52s | ✅ SUCCESS |
+| basic_2km_swaprand | 1h 25m 6s | ✅ SUCCESS |
+| basic_2km_overrideconst | 3m 28s | ✅ SUCCESS |
+| basic_2km_overriderand | 3m 28s | ✅ SUCCESS |
+| basic_100km_randoffset | 16m 19s | ✅ SUCCESS |
+| basic_100km_constoffset | 14m 20s | ✅ SUCCESS |
+| basic_100km_constoffsetperid | 25m 31s | ✅ SUCCESS |
+| basic_200km_randoffset | 30m 38s | ✅ SUCCESS |
+| basic_200km_constoffset | 26m 33s | ✅ SUCCESS |
+
+**Monitoring & Reporting:**
+- Cron job: `jaekel-pipeline-monitor` (Sonnet, every 30 min)  
+- Email recipients: aaron777collins@gmail.com, joshuapicchioni@gmail.com
+- [2026-02-24 12:45 EST] ✅ Sent Material Design progress email (9/162 complete, 0 failures)
+- [2026-02-24 13:31 EST] ✅ Sent Material Design progress email (11/108 complete, 10.2%)
+- [2026-02-24 22:01 EST] ✅ Sent Material Design progress email (33/108 complete, 30.6%)
+- [2026-02-24 22:45 EST] ✅ Sent Material Design progress email (34/108 complete, 31.5% - with fancy blue gradient styling)
 
 **Dashboard:** http://65.108.237.46/dashboard/
 **Results Dir:** /var/www/static/pipeline-results/

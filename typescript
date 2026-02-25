@@ -1,0 +1,7 @@
+Script started on 2026-02-24 13:00:47-05:00 [COMMAND="ls -la ~/clawd/scheduler/heartbeats/" <not executed on terminal>]
+total 8
+drwxrwxr-x  2 ubuntu ubuntu 4096 Feb 23 21:10 .
+drwxrwxr-x 19 ubuntu ubuntu 4096 Feb 23 22:45 ..
+-rw-rw-r--  1 ubuntu ubuntu    0 Feb 18 16:12 .gitkeep
+
+Script done on 2026-02-24 13:00:47-05:00 [COMMAND_EXIT_CODE="0"]

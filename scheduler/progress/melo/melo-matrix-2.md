@@ -3,8 +3,16 @@
 ## Task Overview
 Complete moderation Matrix API integration for kick/ban/mute functionality via Matrix power levels.
 
-## Status: needs-validation
+## Status: blocked-auth
 **Claimed Complete:** 2026-02-23 08:45 EST
+**Layer 2 Validation:** 2026-02-24 21:15 EST - FAIL (Auth Issue)
+
+### Layer 2 Validation Result: ❌ FAIL
+**Validated by:** coordinator (Layer 2)
+**Issue:** Matrix authentication broken - cannot login with test credentials
+**Evidence:** CrossSigning console errors, mock auth fallback detected
+**Action Required:** Fix Matrix authentication on dev2 before re-validation
+**Report:** /home/ubuntu/clawd/layer2-validation-report.md
 
 ## Work Log
 

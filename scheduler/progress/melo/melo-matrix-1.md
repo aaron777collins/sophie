@@ -3,8 +3,16 @@
 ## Task Overview
 Implement missing frontend UI for server settings - backend Matrix API was already complete.
 
-## Status: needs-validation
+## Status: blocked-deployment
 **Claimed Complete:** 2026-02-23 07:45 EST
+**Layer 2 Validation:** 2026-02-24 21:15 EST - FAIL (Deployment Issue)
+
+### Layer 2 Validation Result: ❌ FAIL
+**Validated by:** coordinator (Layer 2)
+**Issue:** `/server-settings` page returns 404 on dev2 - code exists but NOT DEPLOYED
+**Evidence:** Screenshot captured showing 404 error page
+**Action Required:** Deploy server settings route to dev2 test server
+**Report:** /home/ubuntu/clawd/layer2-validation-report.md
 
 ## Work Log
 
