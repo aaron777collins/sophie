@@ -50,6 +50,8 @@ Primary user. Software engineer based in Amherstburg, Ontario, Canada (EST timez
 - Phone: +1 517-515-0233
 - Email (primary): contact@aaroncollins.info
 - Email (personal): aaron777collins@gmail.com
+- Address: 125 South Riverview Street, Amherstburg, Ontario, Canada, N9V 3R3
+  - [2026-02-27] Updated from 427 Chambers Drive, Lakeshore, ON N8N 4T4
 
 ---
 

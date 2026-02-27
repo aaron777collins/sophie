@@ -45,7 +45,7 @@ HTML_CONTENT=$(cat /tmp/my-email.html)
 cat << EOF | himalaya template send
 From: contact@aaroncollins.info
 To: recipient@example.com
-Cc: aaron777collins@gmail.com
+Bcc: aaron777collins@gmail.com, contact@aaroncollins.info
 Subject: Your Subject Line
 
 <#multipart type=alternative>
@@ -66,7 +66,7 @@ You should see: `Message successfully sent!`
 | Setting | Value |
 |---------|-------|
 | **Config file** | `~/.config/himalaya/config.toml` |
-| **From address** | `contact@aaroncollins.info` |
+| **From addresses** | `contact@aaroncollins.info` OR `aaron777collins@gmail.com` |
 | **Display name** | `Aaron Collins` |
 | **App password** | `749n8f4k755l4r32` (dev3 app password) |
 | **IMAP host** | `imap.fastmail.com` |
@@ -77,9 +77,17 @@ You should see: `Message successfully sent!`
 ### Aaron's Email Addresses
 | Purpose | Address |
 |---------|---------|
-| **Primary (receiving)** | aaron777collins@gmail.com |
-| **Sending from** | contact@aaroncollins.info |
+| **Professional sending** | contact@aaroncollins.info |
+| **Personal sending** | aaron777collins@gmail.com |
 | **University** | colli11s@uwindsor.ca |
+
+**⚠️ Both `contact@aaroncollins.info` AND `aaron777collins@gmail.com` are configured for SENDING.**
+When replying to a thread, match the From address to the original email!
+
+**⚠️ BCC RULE:** Always Bcc both addresses for visibility:
+- `Bcc: aaron777collins@gmail.com, contact@aaroncollins.info`
+- This lets Aaron see it from either inbox AND lets Sophie monitor it
+- Do NOT use CC — recipients can see CC addresses (awkward!)
 
 ### Test the connection:
 ```bash
@@ -222,7 +230,7 @@ HTML_CONTENT=$(cat /tmp/email-content.html)
 cat << EOF | himalaya template send
 From: contact@aaroncollins.info
 To: recipient@example.com
-Cc: aaron777collins@gmail.com
+Bcc: aaron777collins@gmail.com, contact@aaroncollins.info
 Subject: Your Subject Here
 
 <#multipart type=alternative>
@@ -265,6 +273,23 @@ himalaya folder list
 | 2026-02-14 17:28 | Used `<< 'EOF'` (quoted), variables didn't expand | Always use `<< EOF` (unquoted) |
 | 2026-02-14 17:32 | Sent raw markdown, looked ugly | Convert to HTML |
 | 2026-02-14 17:37 | Aaron wanted fancy formatting | Use HTML with MML multipart |
+| 2026-02-27 02:22 | Sent follow-up from different address than original | **Match the From address to the thread** |
+| 2026-02-27 02:25 | Used CC instead of BCC for visibility copies | **Use BCC** — recipients see CC addresses! |
+
+---
+
+## ⚠️ THREAD CONTINUITY RULE (CRITICAL)
+
+**When replying to an email thread, ALWAYS use the same From address as the original email.**
+
+Aaron has BOTH addresses configured for sending:
+- `contact@aaroncollins.info` — Professional domain
+- `aaron777collins@gmail.com` — Personal Gmail
+
+**Before sending a reply:**
+1. Check what address the original email was sent from
+2. Use that SAME address in your reply
+3. This ensures proper threading and looks professional
 
 ---
 

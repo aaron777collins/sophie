@@ -1,6 +1,13 @@
 
 ## ⚠️ CRITICAL TRUTHS (DO NOT FORGET)
 
+### Production URL (IMPORTANT!)
+**[2026-02-27] Access via HTTPS, not port 3000:**
+- ✅ **Production URL:** `https://dev2.aaroncollins.info`
+- ❌ NOT `http://dev2.aaroncollins.info:3000`
+- Caddy reverse proxy handles SSL automatically
+- HTTP/2 enabled
+
 ### LiveKit - ALREADY CONFIGURED ON DEV2
 **[2026-02-23] Aaron has stated MULTIPLE TIMES:**
 - dev2.aaroncollins.info HAS LiveKit running

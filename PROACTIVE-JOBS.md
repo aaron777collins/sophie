@@ -45,3 +45,32 @@
   - Implementation plan: ✅ 4-phase plan with 40+ metrics defined
   - Technical depth: ✅ Three pillars of observability documented
 **Completed:** 2026-02-25 11:37 EST by coordinator
+
+---
+
+## melo-v2-comprehensive-audit
+**Status:** pending
+**Priority:** high
+**Created:** 2026-02-27 02:45 EST
+**Depends On:** none
+**Type:** Epic (needs breakdown into stories)
+
+### Directive
+Per Aaron (2026-02-27 01:37 EST): "For melo v2 go audit the app on dev2. Find missing features from discord or broken parts and fix it all."
+
+### Requirements
+- Use Opus planner for proper breakdown
+- Break into user stories with acceptance criteria
+- TDD approach - tests before implementation
+- Playwright screenshots at every validation step
+- Feature flags for any new features
+- Track progress in scheduler/progress/
+
+### Phases (to be broken into stories)
+1. Core Functionality Audit (auth, messaging, servers, channels)
+2. Discord Feature Comparison (UI/UX parity check)
+3. Voice/Video Audit (LiveKit integration)
+4. Advanced Features (roles, uploads, reactions, etc.)
+
+### Next Step
+Story Architect (Opus) to break Phase 1 into user stories with ACs.

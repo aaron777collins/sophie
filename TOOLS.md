@@ -183,10 +183,12 @@ browser action=snapshot profile=chrome
 
 | Setting | Value |
 |---------|-------|
-| **From address** | `contact@aaroncollins.info` |
+| **From addresses** | `contact@aaroncollins.info` OR `aaron777collins@gmail.com` |
 | **App password** | `749n8f4k755l4r32` |
 | **Config file** | `~/.config/himalaya/config.toml` |
-| **Aaron's primary** | `aaron777collins@gmail.com` (CC him here) |
+
+**⚠️ Thread Rule:** When replying, use the SAME From address as the original email!
+**⚠️ BCC Rule:** Always `Bcc: aaron777collins@gmail.com, contact@aaroncollins.info` (NOT CC — recipients see CC!)
 
 ### Send a Simple Email (Copy-Paste Ready)
 
@@ -194,7 +196,7 @@ browser action=snapshot profile=chrome
 cat << EOF | himalaya template send
 From: contact@aaroncollins.info
 To: recipient@example.com
-Cc: aaron777collins@gmail.com
+Bcc: aaron777collins@gmail.com, contact@aaroncollins.info
 Subject: Your Subject
 
 Your message here.
@@ -221,7 +223,7 @@ HTML_CONTENT=$(cat /tmp/email.html)
 cat << EOF | himalaya template send
 From: contact@aaroncollins.info
 To: recipient@example.com
-Cc: aaron777collins@gmail.com
+Bcc: aaron777collins@gmail.com, contact@aaroncollins.info
 Subject: Your Subject
 
 <#multipart type=alternative>
