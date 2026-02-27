@@ -1,0 +1,23 @@
+# Feature Flags Configuration
+# Sophie's feature flag system for safe rollout of surprises
+#
+# Statuses:
+#   disabled - Feature completely hidden
+#   testing  - Only visible to allowlist users
+#   enabled  - Visible to everyone
+#
+# Created: 2026-02-27 01:45 EST
+
+flags:
+  # Example flag (template)
+  # feature-name:
+  #   description: "What this feature does"
+  #   status: "disabled"  # disabled | testing | enabled
+  #   allowlist:
+  #     - aaron@example.com
+  #     - sophie@internal
+  #   created: "YYYY-MM-DD"
+  #   project: "project-name"
+  #   notes: "Additional context"
+
+# No active flags yet - will be populated as surprises are implemented

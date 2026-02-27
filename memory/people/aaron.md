@@ -106,6 +106,44 @@ Primary user. Software engineer based in Amherstburg, Ontario, Canada (EST timez
 
 ---
 
+---
+
+## 📅 Schedule & Patterns (Auto-Tracked)
+
+### Observed Work Schedule
+- [2026-02-27 01:37 EST] Typically active: flexible hours, often late into night
+- [2026-02-27 01:37 EST] Said "heading to bed soon" at ~01:37 EST
+
+### Sleep Pattern
+- [2026-02-27] Typical bedtime: ~01:30-02:00 EST (observed)
+- Expected wake: ~09:00-10:00 EST (to be observed)
+
+### Work Patterns
+- Gives comprehensive directives before bed
+- Expects proactive work while sleeping
+- Values morning summaries of overnight activity
+
+### Meeting/Calendar
+*To be populated as observed*
+
+---
+
+## 🎁 Surprise Preferences (Learning)
+
+### Positive Reactions
+*To be populated as observed*
+
+### Negative Reactions
+*To be populated as observed*
+
+### Hypotheses (to validate)
+- Likes proactive work that saves him time
+- Values thorough testing and validation
+- Prefers concise summaries over verbose reports
+- Appreciates tools that solve real problems
+
+---
+
 ## Related Files
 
 - [USER.md](../../USER.md) - Primary user configuration

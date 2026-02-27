@@ -29,3 +29,21 @@ Aaron appreciates highly detailed technical documentation with:
 - Professional formatting with tables/structure
 
 This level of detail enables effective project management and technical decision-making.
+
+### [2026-02-26] VPS Research Pattern
+Effective technical research methodology demonstrated:
+
+**Research Structure:**
+- **Fact-Checking First** - Verify all deals and pricing before presenting
+- **Value-Based Categorization** - Best value, most reliable, most powerful
+- **Timing Considerations** - Stock availability, promo code expiration
+- **Actionable Recommendations** - Clear next steps with specific providers
+- **Context Preservation** - Location, specifications, promotional codes
+
+**Success Pattern:**
+- Comprehensive verification before sending external communications
+- Multiple tier recommendations to match different priorities
+- Professional email formatting for external recipients
+- Preservation of research methodology for future reference
+
+This pattern enables confident external communication with verified information.
