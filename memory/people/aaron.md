@@ -51,7 +51,9 @@ Primary user. Software engineer based in Amherstburg, Ontario, Canada (EST timez
 - Email (primary): contact@aaroncollins.info
 - Email (personal): aaron777collins@gmail.com
 - Address: 125 South Riverview Street, Amherstburg, Ontario, Canada, N9V 3R3
-  - [2026-02-27] Updated from 427 Chambers Drive, Lakeshore, ON N8N 4T4
+  - [2026-02-27 12:13 EST] **CURRENT** — Moved here from Lakeshore
+  - Previous: 427 Chambers Drive, Lakeshore, Ontario, Canada, N8N 4T4
+  - ⚠️ When corresponding with orgs that have old address on file, TELL THEM about the change!
 
 ---
 

@@ -106,6 +106,27 @@ Key files:
 
 **Key rule:** Haiku executes, it doesn't plan. Before scheduling a Haiku task, define explicit steps first (with a smarter model). If you can't write step-by-step instructions, it's not a Haiku task.
 
+### Email Handling (2026-02-27)
+
+**CHECK MY OWN NOTES FIRST.** Before asking Aaron for personal info (address, phone, etc.), search `memory/people/aaron.md`. I should KNOW this stuff.
+
+**Thread continuity:** Reply FROM the address they emailed TO, not necessarily the original sender. Check the incoming "To:" field.
+
+**Two inbox folders:**
+- `AaronCollins.Info` — NEWER emails (check this first!)
+- `INBOX` — Older emails
+- Always check BOTH when looking for emails
+
+**Address changed (2026-02-27):**
+- OLD: 427 Chambers Drive, Lakeshore, Ontario
+- NEW: 125 South Riverview Street, Amherstburg, Ontario, N9V 3R3
+- When contacting orgs with old address on file, TELL THEM it changed
+
+**Note-taking is MANDATORY:**
+- Create notes in `scheduler/email-monitor/notes/`
+- Log external actions in `ACTIONS-PENDING-ACK.md`
+- Update Person Manager on significant correspondence
+
 *(More lessons as we go)*
 
 ---

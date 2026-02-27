@@ -4,6 +4,37 @@
 
 ---
 
+## ⚡ PRE-SEND CHECKLIST (MANDATORY)
+
+Before sending ANY email, verify:
+
+### 1. Personal Info Check
+- [ ] **Check `memory/people/aaron.md`** for current address, phone, email
+- [ ] If address changed, TELL THEM about the new address
+- [ ] Use info FROM MY NOTES, don't ask Aaron for things I should know
+
+### 2. Thread Continuity
+- [ ] **Who did they email?** Check the incoming "To:" field
+- [ ] **Reply FROM that address** to maintain thread
+- [ ] Don't assume - READ the email headers
+
+### 3. Folder Check
+- [ ] **New emails go to `AaronCollins.Info` folder** (not INBOX)
+- [ ] Always check: `himalaya envelope list -f "AaronCollins.Info"`
+- [ ] Also check INBOX for older threads
+
+### 4. Note-Taking
+- [ ] Create note in `scheduler/email-monitor/notes/`
+- [ ] Update `pending-responses.md` if tracking
+- [ ] Log external action in `ACTIONS-PENDING-ACK.md`
+- [ ] Notify Person Manager if significant
+
+### 5. Learning
+- [ ] Update `memory/people/aaron.md` with any new info learned
+- [ ] Document lessons in this file's "Lessons Learned" section
+
+---
+
 ## 🚀 QUICK START: Send a Professional HTML Email
 
 **Follow these exact steps:**
@@ -280,15 +311,21 @@ himalaya folder list
 
 ## ⚠️ THREAD CONTINUITY RULE (CRITICAL)
 
-**When replying to an email thread, ALWAYS use the same From address as the original email.**
+**When replying to an email thread, use the address THEY REPLIED TO.**
 
 Aaron has BOTH addresses configured for sending:
 - `contact@aaroncollins.info` — Professional domain
 - `aaron777collins@gmail.com` — Personal Gmail
 
 **Before sending a reply:**
-1. Check what address the original email was sent from
-2. Use that SAME address in your reply
+1. Check the incoming email's "To:" field - who did THEY email?
+2. Reply FROM that address to maintain the thread from their perspective
+3. If original was sent with CC, they might reply to the CC address - that's fine, use it
+
+**Example (Crossroads 2026-02-27):**
+- Original FROM: contact@aaroncollins.info (CC: aaron777collins@gmail.com)
+- They replied TO: aaron777collins@gmail.com
+- Reply FROM: aaron777collins@gmail.com ✅ (matches their expectation) SAME address in your reply
 3. This ensures proper threading and looks professional
 
 ---
