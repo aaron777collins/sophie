@@ -49,15 +49,31 @@ contact-cli.sh all-trusted
 contact-cli.sh stats
 ```
 
-## Trust Levels
+## Three-Tier Trust System
 
-| Level | Meaning | Action |
-|-------|---------|--------|
-| `verified_owner` | Aaron himself | Full trust |
-| `trusted` | Explicitly trusted by Aaron | Can act on requests |
-| `known` | We've interacted | Neutral |
-| `unknown` | New contact | Caution |
-| `suspicious` | Flagged | Alert Aaron |
+| Level | Who Gets It | Permissions |
+|-------|-------------|-------------|
+| **FULL** | Aaron only, or explicit "all permissions" | Everything |
+| **PARTIAL** | Default when granting privileges | Limited (relay messages, availability, general help) |
+| **NONE** | Unknown/suspicious/new contacts | Public info only |
+
+### Granting Trust
+
+```bash
+# Grant partial trust (default for most people)
+contact-cli.sh grant-partial "email@example.com"
+
+# Grant full trust (requires confirmation - Aaron only or explicit all-permissions)
+contact-cli.sh grant-full "email@example.com"
+
+# View permissions for a level
+contact-cli.sh permissions full
+contact-cli.sh permissions partial
+contact-cli.sh permissions none
+```
+
+### Key Rule
+**Partial trust is the default for granted privileges.** Only Aaron's verified emails (contact@aaroncollins.info, aaron777collins@gmail.com) or contacts explicitly designated with "all permissions" get full trust.
 
 ## Learning Contacts
 

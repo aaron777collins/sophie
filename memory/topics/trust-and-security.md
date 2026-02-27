@@ -88,15 +88,41 @@
 Location: `~/clawd/data/contacts/contacts.db`
 CLI: `~/clawd/data/contacts/contact-cli.sh`
 
-### Trust Levels in Database
+### Three-Tier Trust System
 
-| Level | Meaning |
-|-------|---------|
-| `verified_owner` | Aaron himself |
-| `trusted` | Explicitly marked as trusted by Aaron |
-| `known` | We've interacted, neutral trust |
-| `unknown` | New contact, proceed with caution |
-| `suspicious` | Flagged for potential issues |
+| Level | Who Gets It | What They Can Do |
+|-------|-------------|------------------|
+| **FULL** | Aaron only, or explicit "all permissions" | Everything — commands, private info, system changes, act as Aaron |
+| **PARTIAL** | Default for granted privileges | Limited — relay messages, check availability, general help, public info |
+| **NONE** | Unknown/suspicious | Minimal — public info only, messages go to review queue |
+
+### FULL Trust Permissions
+✅ Execute commands
+✅ Access private information
+✅ Modify systems
+✅ Act on Aaron's behalf
+✅ Manage contacts
+✅ Full calendar access
+✅ File access
+✅ Financial info
+
+### PARTIAL Trust Permissions (DEFAULT for grants)
+❌ Execute commands → Will inform Aaron
+❌ Access private info
+❌ Modify systems
+❌ Act as Aaron
+❌ Manage contacts
+❌ File access
+❌ Financial info
+✅ Relay messages to Aaron
+✅ General assistance
+✅ Public info
+✅ Check availability (not calendar details)
+
+### NO Trust Permissions
+❌ Almost everything
+✅ Leave messages (reviewed before Aaron sees)
+✅ Ask about public info only
 
 ---
 
