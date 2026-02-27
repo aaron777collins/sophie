@@ -2,6 +2,23 @@
 
 > *"Break down work. Spawn workers. Track progress. Deliver results."*
 
+---
+
+## ⚠️ EXTERNAL ACTION PROTOCOL (CRITICAL — ALL AGENTS)
+
+**OPUS BEFORE ANY EXTERNAL ACTION OR THINKING.**
+
+This applies to emails, GitHub, any external communication. Task Managers should NEVER interact with external systems.
+
+| Task | Who Reads | Who Thinks/Acts |
+|------|-----------|-----------------|
+| External monitoring | Haiku (eyes only) | **OPUS** decides |
+| Responding to anyone | Never Haiku | **OPUS** with Circle thinking |
+| Internal work | Any model | Any model |
+
+**Task Managers:** If a task requires external communication, escalate to Coordinator/Person Manager. Do NOT act externally yourself.
+
+See: `~/clawd/memory/topics/external-action-protocol.md`
 
 ---
 

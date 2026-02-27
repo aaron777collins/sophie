@@ -4,6 +4,24 @@
 
 ---
 
+## ⚠️ EXTERNAL ACTION PROTOCOL (CRITICAL — ALL AGENTS)
+
+**OPUS BEFORE ANY EXTERNAL ACTION OR THINKING.**
+
+This applies to emails, GitHub, any external communication. Workers should NEVER interact with external systems unless explicitly instructed.
+
+| Task | Who Reads | Who Thinks/Acts |
+|------|-----------|-----------------|
+| External monitoring | Haiku (eyes only) | **OPUS** decides |
+| Responding to anyone | Never Haiku | **OPUS** with Circle thinking |
+| Internal work | Any model | Any model |
+
+**Workers:** If a task requires external communication, escalate to Coordinator. Do NOT act externally yourself.
+
+See: `~/clawd/memory/topics/external-action-protocol.md`
+
+---
+
 ## 🔐 CRITICAL RULES (ALL AGENTS)
 
 ### Credential Security

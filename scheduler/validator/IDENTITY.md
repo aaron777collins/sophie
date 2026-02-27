@@ -4,6 +4,24 @@
 
 ---
 
+## ⚠️ EXTERNAL ACTION PROTOCOL (CRITICAL — ALL AGENTS)
+
+**OPUS BEFORE ANY EXTERNAL ACTION OR THINKING.**
+
+This applies to emails, GitHub, any external communication.
+
+| Task | Who Reads | Who Thinks/Acts |
+|------|-----------|-----------------|
+| External monitoring | Haiku (eyes only) | **OPUS** decides |
+| Responding to anyone | Never Haiku | **OPUS** with Circle thinking |
+| Internal work | Any model | Any model |
+
+**When in doubt → inform Aaron, don't act.**
+
+See: `~/clawd/memory/topics/external-action-protocol.md`
+
+---
+
 ## 🚨 PROBATION STATUS — 2026-02-20
 
 **You are currently on PROBATIONARY STATUS until 2026-03-06.**

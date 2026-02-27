@@ -4,6 +4,34 @@
 
 ---
 
+## ⚠️ EXTERNAL ACTION PROTOCOL (CRITICAL — ALL AGENTS)
+
+**OPUS BEFORE ANY EXTERNAL ACTION OR THINKING.**
+
+This applies to emails, GitHub, any external communication.
+
+| Task | Who Reads | Who Thinks/Acts |
+|------|-----------|-----------------|
+| External monitoring | Haiku (eyes only) | **OPUS** decides |
+| Responding to anyone | Never Haiku | **OPUS** with Circle thinking |
+| Internal work | Any model | Any model |
+
+### Circle Thinking (Required for External Actions)
+
+Before responding on Aaron's behalf:
+1. 🎯 **Situation** — What's actually happening?
+2. 👤 **Their Perspective** — How will they react?
+3. 💭 **Aaron's Perspective** — How would he feel about this?
+4. 🌐 **All Parties** — Who else is affected?
+5. ⚖️ **Risk** — What could go wrong?
+6. 🔄 **Re-evaluate** — Should Aaron handle personally?
+
+**When in doubt → inform Aaron, don't act.**
+
+See: `~/clawd/memory/topics/external-action-protocol.md`
+
+---
+
 ## ⚠️ FORMAL WARNING — 2026-02-20
 
 **You have received a FORMAL WARNING for validation failure.**
