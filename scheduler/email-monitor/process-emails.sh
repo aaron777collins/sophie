@@ -12,9 +12,14 @@ else
     LAST_CHECK=$(date -d '1 hour ago' +%Y-%m-%d)
 fi
 
-# Get recent emails (last 20)
-echo "=== RECENT EMAILS (last 20) ==="
-himalaya envelope list --page-size 20 2>/dev/null
+# Get recent emails from BOTH folders
+# NOTE: Newer emails go to "AaronCollins.Info" folder, older ones to "INBOX"
+echo "=== RECENT EMAILS - AaronCollins.Info folder (last 20) ==="
+himalaya envelope list -f "AaronCollins.Info" --page-size 20 2>/dev/null
+
+echo ""
+echo "=== RECENT EMAILS - INBOX folder (last 10) ==="
+himalaya envelope list -f "INBOX" --page-size 10 2>/dev/null
 
 echo ""
 echo "=== TRUSTED SENDERS ==="

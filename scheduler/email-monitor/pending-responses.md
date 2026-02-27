@@ -8,7 +8,7 @@
 
 | ID | From | Subject Contains | Waiting Since | Priority | Action When Found |
 |----|------|------------------|---------------|----------|-------------------|
-| crossroads-2024-receipt | crossroads.ca OR crossroads@crossroads.ca | tax receipt OR 2024 OR Aaron Collins | 2026-02-27 02:09 EST | high | Flag for Aaron + spawn Opus to evaluate if attachment should be uploaded to Paperless |
+| ~~crossroads-2024-receipt~~ | ~~crossroads.ca~~ | ~~tax receipt~~ | ~~2026-02-27~~ | ~~done~~ | **COMPLETED** - Moved to Completed section |
 
 ---
 
@@ -26,7 +26,7 @@ When Email Monitor runs:
 
 | ID | From | Found | Action Taken |
 |----|------|-------|--------------|
-| *none yet* | | | |
+| crossroads-2024-receipt | dsillars@crossroads.ca | 2026-02-27 14:24 UTC | Replied with email+mail preference, new address |
 
 ---
 

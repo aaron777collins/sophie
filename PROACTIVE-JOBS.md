@@ -1,5 +1,5 @@
 ## MELO-P1-S09-messaging-audit
-**Status:** needs-validation
+**Status:** ready-for-l2-validation
 **Priority:** P0-CRITICAL  
 **Created:** 2026-02-27 11:00 EST  
 **Claimed Complete:** 2026-02-27 11:45 EST  
@@ -61,7 +61,7 @@
 ---
 
 ## MELO-P1-S08-delete-channel-audit
-**Status:** needs-validation
+**Status:** ready-for-l2-validation
 **Priority:** P0-CRITICAL  
 **Created:** 2026-02-27 11:00 EST  
 **Claimed Complete:** 2026-02-27 11:45 EST  
@@ -120,7 +120,7 @@
 ---
 
 ## MELO-P1-S04-create-server-audit-v2
-**Status:** self-validated (L2-coordinator)
+**Status:** needs-completion (missing progress documentation)
 **Priority:** P1-AUDIT-CRITICAL  
 **Created:** 2026-02-27 09:30 EST  
 **Claimed Complete:** 2026-02-27 10:00 EST  
@@ -190,7 +190,7 @@
 ---
 
 ## MELO-EMERGENCY-RUNTIME-FIX
-**Status:** self-validated (L2-coordinator)
+**Status:** complete
 **Priority:** P0-CATASTROPHIC
 **Created:** 2026-02-27 10:30 EST
 **Claimed Complete:** 2026-02-27 10:47 EST
@@ -290,7 +290,7 @@
 ---
 
 ## MELO-P1-S06-leave-server-audit
-**Status:** self-validated (L2-coordinator)
+**Status:** in-progress (validation failed - needs documentation)
 **Priority:** P1-AUDIT  
 **Created:** 2026-02-27 09:30 EST  
 **Claimed Complete:** 2026-02-27 09:38 EST  

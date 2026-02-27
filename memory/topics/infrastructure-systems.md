@@ -44,6 +44,15 @@ When Sophie sends an email and expects a reply:
 **Current tracking:**
 - Crossroads tax receipt (since 2026-02-27)
 
+### ⚠️ Email Folder Structure (CRITICAL)
+
+**Newer emails** → `AaronCollins.Info` folder
+**Older emails** → `INBOX` folder
+
+The `process-emails.sh` script checks BOTH folders. Always specify `-f "AaronCollins.Info"` when looking for recent emails!
+
+[2026-02-27 12:10 EST] Fixed: process-emails.sh now checks both folders (was only checking INBOX, missing Crossroads response)
+
 ### Email Digest
 
 **Path:** `memory/topics/email-digest.md`

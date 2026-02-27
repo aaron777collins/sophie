@@ -1,0 +1,8 @@
+{
+  "type": "team-update",
+  "from": "sophie-main",
+  "timestamp": "2026-02-27T12:10:00-05:00",
+  "subject": "Email Team Reporting Structure",
+  "content": "Aaron has requested that the email monitoring team (Haiku eyes + Opus brain) report properly to you as their manager.\n\nKey points:\n1. Email monitor runs every 30 min (Haiku)\n2. When response needed, spawns Opus for Circle thinking\n3. All notes should go to: scheduler/email-monitor/notes/\n4. Person Manager should review email team activity\n5. Important emails should be escalated to you\n\nCurrent tracking:\n- Crossroads tax receipt: RESPONSE RECEIVED (Diane Sillars asking mail vs email preference)\n- Status: Responding now per Aaron's instructions\n\nFolder structure fix applied: Now checking BOTH 'AaronCollins.Info' and 'INBOX' folders.",
+  "action_required": "Acknowledge and add email team oversight to your responsibilities"
+}
