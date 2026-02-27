@@ -18,18 +18,23 @@ Before sending ANY email, verify:
 - [ ] **Reply FROM that address** to maintain thread
 - [ ] Don't assume - READ the email headers
 
-### 3. Folder Check
+### 3. BCC BOTH ADDRESSES (ALWAYS)
+- [ ] `Bcc: aaron777collins@gmail.com, contact@aaroncollins.info`
+- [ ] This is NON-NEGOTIABLE — Aaron needs copies at BOTH addresses
+- [ ] [2026-02-27] I forgot this once. Don't forget again.
+
+### 4. Folder Check
 - [ ] **New emails go to `AaronCollins.Info` folder** (not INBOX)
 - [ ] Always check: `himalaya envelope list -f "AaronCollins.Info"`
 - [ ] Also check INBOX for older threads
 
-### 4. Note-Taking
+### 5. Note-Taking
 - [ ] Create note in `scheduler/email-monitor/notes/`
 - [ ] Update `pending-responses.md` if tracking
 - [ ] Log external action in `ACTIONS-PENDING-ACK.md`
 - [ ] Notify Person Manager if significant
 
-### 5. Learning
+### 6. Learning
 - [ ] Update `memory/people/aaron.md` with any new info learned
 - [ ] Document lessons in this file's "Lessons Learned" section
 

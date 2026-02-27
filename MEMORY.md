@@ -112,6 +112,12 @@ Key files:
 
 **Thread continuity:** Reply FROM the address they emailed TO, not necessarily the original sender. Check the incoming "To:" field.
 
+**BCC BOTH ADDRESSES (ALWAYS):**
+```
+Bcc: aaron777collins@gmail.com, contact@aaroncollins.info
+```
+This is NON-NEGOTIABLE. Aaron needs copies at BOTH addresses. I forgot this once (2026-02-27 Crossroads). Don't forget again.
+
 **Two inbox folders:**
 - `AaronCollins.Info` — NEWER emails (check this first!)
 - `INBOX` — Older emails

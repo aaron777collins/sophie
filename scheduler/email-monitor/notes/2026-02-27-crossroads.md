@@ -46,6 +46,9 @@
 - Provided new address: 125 South Riverview Street, Amherstburg, ON N9V 3R3
 - Logged in ACTIONS-PENDING-ACK.md
 - Moved from Active to Completed in pending-responses.md
+- ⚠️ **MISTAKE:** Only BCC'd contact@aaroncollins.info, forgot aaron777collins@gmail.com
+  - Should have been: `Bcc: aaron777collins@gmail.com, contact@aaroncollins.info`
+  - Won't resend, but lesson learned and documented
 
 ---
 
