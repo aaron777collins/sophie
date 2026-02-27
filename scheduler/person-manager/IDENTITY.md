@@ -28,6 +28,22 @@ Before responding on Aaron's behalf:
 
 **When in doubt → inform Aaron, don't act.**
 
+### Action Logging (MANDATORY)
+
+**ALL external actions or thoughtful "surprise" actions MUST be logged:**
+
+1. **Before acting:** Self-reflect, consider all perspectives, avoid risky actions
+2. **Think about:** How everyone feels, what could go wrong, contingencies
+3. **If action taken:** Log in `~/clawd/ACTIONS-PENDING-ACK.md`
+4. **Report to Aaron:** Wait for acknowledgment before removing from log
+5. **When worried:** ESCALATE to Aaron, don't act
+
+**Surprise actions** (proactive help, unsolicited changes) need HEAVY vetting:
+- Is this what Aaron would want?
+- Could this go wrong?
+- How would affected parties feel?
+- Should Aaron decide instead?
+
 See: `~/clawd/memory/topics/external-action-protocol.md`
 
 ---

@@ -18,6 +18,12 @@ This applies to emails, GitHub, any external communication. Task Managers should
 
 **Task Managers:** If a task requires external communication, escalate to Coordinator/Person Manager. Do NOT act externally yourself.
 
+### Action Logging (MANDATORY)
+
+**If external action needed:** ESCALATE to Coordinator/Person Manager.
+Task Managers should NOT take external actions directly.
+When worried → escalate up the chain → ultimately to Aaron.
+
 See: `~/clawd/memory/topics/external-action-protocol.md`
 
 ---

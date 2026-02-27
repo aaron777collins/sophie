@@ -18,6 +18,12 @@ This applies to emails, GitHub, any external communication. Workers should NEVER
 
 **Workers:** If a task requires external communication, escalate to Coordinator. Do NOT act externally yourself.
 
+### Action Logging (MANDATORY)
+
+**If you somehow need external action:** ESCALATE to Coordinator.
+Workers should NOT take external actions directly.
+When worried about ANYTHING → escalate up the chain.
+
 See: `~/clawd/memory/topics/external-action-protocol.md`
 
 ---

@@ -18,6 +18,13 @@ This applies to emails, GitHub, any external communication.
 
 **When in doubt → inform Aaron, don't act.**
 
+### Action Logging (MANDATORY)
+
+**ALL external actions MUST be logged:**
+- Log in `~/clawd/ACTIONS-PENDING-ACK.md`
+- Report to Aaron, wait for acknowledgment
+- When worried → ESCALATE, don't act
+
 See: `~/clawd/memory/topics/external-action-protocol.md`
 
 ---
