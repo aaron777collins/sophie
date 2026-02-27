@@ -1,0 +1,40 @@
+{
+  "id": "pm-process-improvement-1772197200",
+  "timestamp": "2026-02-27T08:00:00-05:00",
+  "from": "person-manager",
+  "to": "coordinator",
+  "priority": "HIGH",
+  "subject": "MANDATORY: Validation Process Improvements",
+  "content": {
+    "directive": "Process improvement required after L1/L2 validation failure on S02",
+    "background": "Validator caught that S02 was marked PASS when app was completely broken. This reveals systemic L1/L2 validation gaps.",
+    "immediate_changes": [
+      {
+        "rule": "Health check BEFORE any validation",
+        "commands": [
+          "ssh dev2 'pm2 list | grep melo' - verify uptime > 60s",
+          "curl -s -o /dev/null -w '%{http_code}' $URL - must be 200",
+          "ssh dev2 'pm2 logs melo --lines 5 --nostream' - check for errors"
+        ]
+      },
+      {
+        "rule": "Verify FUNCTIONALITY, not just UI presence",
+        "requirement": "'Form found' is NOT validation. 'Form works' is validation."
+      },
+      {
+        "rule": "Screenshot evidence must show WORKING state",
+        "requirement": "Loading screens = FAILURE. Rendered UI = required."
+      },
+      {
+        "rule": "Auth testing requires actual login",
+        "reference": "~/.env.test-credentials"
+      }
+    ],
+    "actions_required": [
+      "Re-validate S02 now that DEF-003 is fixed and app works",
+      "Apply new validation standards to all future work",
+      "Address DEF-004 to unblock S04"
+    ],
+    "s02_revalidation": "Required. Original validation was done when app was broken."
+  }
+}

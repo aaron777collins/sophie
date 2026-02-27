@@ -1,0 +1,31 @@
+{
+  "id": "val-req-critical-melo-app-fix",
+  "timestamp": "2026-02-27T12:30:00.000Z",
+  "from": "coordinator",
+  "to": "validator", 
+  "type": "validation-request",
+  "subject": "Validate: Critical MELO App Fix - MatrixAuthProvider infinite loop",
+  "content": {
+    "task_ids": ["critical-melo-app-fix"],
+    "project": "melo-v2", 
+    "phase": "Critical Fix",
+    "claimed_by": "CRITICAL-MELO-APP-FIX (agent:main:subagent:0aa8de0e-eae3-40bb-9a9a-4250ca02dce4)",
+    "claimed_at": "2026-02-27T12:05:00.000Z",
+    "files_changed": [
+      "components/providers/matrix-auth-provider.tsx",
+      "tests/e2e/app-loading.spec.ts", 
+      "__tests__/providers/MatrixAuthProvider.test.tsx"
+    ],
+    "acceptance_criteria": [
+      "MatrixAuthProvider stops infinite rendering loop",
+      "Next.js server action errors handled gracefully", 
+      "E2E test 'should load homepage without infinite restarts' PASSING",
+      "Build passes cleanly",
+      "PM2 restart loop eliminated",
+      "Application loads at http://dev2.aaroncollins.info:3000/"
+    ],
+    "self_validation_notes": "Layer 2 PASS - Git commit 410942d verified, build exits 0, PM2 stable 14+ minutes (was infinite restarts), HTTP 200 response, comprehensive E2E test suite created. Critical infinite loop issue RESOLVED.",
+    "priority": "P0-CRITICAL",
+    "url": "http://dev2.aaroncollins.info:3000/"
+  }
+}
