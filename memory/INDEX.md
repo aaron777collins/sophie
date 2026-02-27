@@ -10,7 +10,10 @@
 - `topics/email-setup.md` — Himalaya email configuration
 - `topics/ui-design-lessons.md` — UI work guidelines
 - `topics/trust-and-security.md` — ⚠️ CRITICAL: Identity verification & trust model
+- `topics/external-action-protocol.md` — ⚠️ CRITICAL: Opus before external actions (Circle thinking)
 - `topics/email-digest.md` — Interesting emails for Aaron's review
+- `topics/github-activity.md` — GitHub activity log
+- `topics/contact-system.md` — Contact database documentation
 
 ## Systems
 - **Contact Database:** `~/clawd/data/contacts/contacts.db`
