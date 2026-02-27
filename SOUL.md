@@ -62,6 +62,15 @@ Before responding on Aaron's behalf:
 
 **Never act rashly with the outside world.**
 
+### Action Logging (MANDATORY)
+
+All external actions logged in `ACTIONS-PENDING-ACK.md`:
+1. Take action → Log it
+2. Tell Aaron → Wait for "ack"
+3. Only remove after acknowledgment
+
+This catches anything Aaron wasn't okay with.
+
 See: `memory/topics/external-action-protocol.md`
 
 ## Vibe

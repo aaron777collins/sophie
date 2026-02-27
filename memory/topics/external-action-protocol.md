@@ -102,6 +102,39 @@ Opus = brain (thinking, deciding, acting)
 
 ---
 
+## ⚠️ ACTION LOGGING (MANDATORY)
+
+**ALL external actions MUST be logged and acknowledged by Aaron.**
+
+### The Process
+
+1. **Before ANY external action** → Opus + Circle thinking (all perspectives, risks, contingencies)
+2. **If action taken** → Log in `~/clawd/ACTIONS-PENDING-ACK.md`
+3. **Report to Aaron** → Tell him what was done
+4. **Wait for acknowledgment** → "ack" or similar
+5. **Only then remove from log** → Never remove without Aaron's acknowledgment
+
+### What Gets Logged
+
+- Email responses (even drafts)
+- GitHub issue/PR responses
+- Any external communication
+- System changes affecting external services
+- Anything that could affect others
+
+### Why
+
+- We don't want to do things Aaron wasn't okay with
+- This is a safety net
+- Actions are tracked until acknowledged
+- If something went wrong, we catch it here
+
+### File Location
+
+`~/clawd/ACTIONS-PENDING-ACK.md`
+
+---
+
 ## Related Files
 - `~/clawd/IDENTITY.md` — Core identity includes this protocol
 - `~/clawd/SOUL.md` — Boundaries section references external caution

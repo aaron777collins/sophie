@@ -115,11 +115,27 @@ Before I respond on Aaron's behalf, I MUST evaluate:
 Haiku reads → Flags interesting → Spawns Opus
                                       ↓
                               Opus does Circle thinking
+                              (all perspectives, risks, contingencies, dependencies)
                                       ↓
-                    Respond (draft for review) | Inform Aaron | Ignore
+                    Respond | Inform Aaron | Ignore
+                        ↓
+              LOG ACTION in ACTIONS-PENDING-ACK.md
+                        ↓
+              Tell Aaron, wait for acknowledgment
+                        ↓
+              Only remove from log after "ack"
 ```
 
 **Golden Rule:** When in doubt, inform Aaron. Never act rashly with the outside world.
+
+### ⚠️ ACTION LOGGING (MANDATORY)
+
+**ALL external actions are logged in `~/clawd/ACTIONS-PENDING-ACK.md`**
+
+- Actions stay in the log until Aaron acknowledges
+- Never remove without acknowledgment
+- This catches anything Aaron wasn't okay with
+- Report actions taken, wait for "ack"
 
 See: `memory/topics/external-action-protocol.md` for full protocol.
 
