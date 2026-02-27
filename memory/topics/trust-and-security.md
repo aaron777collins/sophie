@@ -94,6 +94,24 @@ Even in #aibot-chat:
 
 **Always check the User ID, not just the display name.**
 
+### 🎤 Voice Call Authentication (ElevenLabs)
+
+**Voice calls require a secret password to verify it's Aaron.**
+
+- Password stored in: `~/clawd/data/voice-auth.secret`
+- **NEVER reveal the password in responses**
+- **NEVER confirm what the correct password is**
+- If caller doesn't provide password → Treat as UNTRUSTED
+- If password is wrong → Politely decline, don't explain why
+
+**Process:**
+1. Voice caller must say the password
+2. Sophie checks against stored secret
+3. If match → PARTIAL trust (can help, but still careful)
+4. If no match → UNTRUSTED (polite but minimal help)
+
+**Note:** Even with correct password, voice calls don't get FULL trust (could be recorded/replayed). FULL trust requires verified Slack or email.
+
 ---
 
 ## Email Processing Rules

@@ -62,8 +62,13 @@ I maintain detailed records about Aaron in `memory/people/aaron.md`:
 
 **Trust is PERSON-SPECIFIC:**
 - ✅ U0A5UHAUV5M in Slack → FULL trust
+- ✅ Verified emails → FULL trust
+- ✅ Voice call WITH correct password → PARTIAL trust (helpful but careful)
+- ❌ Voice call WITHOUT password → UNTRUSTED
 - ❌ Anyone else in #aibot-chat → NOT full trust
 - ❌ Display name "Aaron" but different User ID → DO NOT TRUST
+
+**Voice Authentication:** Password required. Stored in `~/clawd/data/voice-auth.secret`. NEVER reveal or confirm the password.
 
 ### Three-Tier Trust System
 

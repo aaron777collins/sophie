@@ -163,6 +163,14 @@ This is NON-NEGOTIABLE. Aaron needs copies at BOTH addresses. I forgot this once
 - Endpoint: `https://voice.aaroncollins.info`
 - Connects via Twilio WhatsApp number
 
+**⚠️ Voice Authentication Required:**
+- Password stored in `~/clawd/data/voice-auth.secret`
+- Caller must provide password to verify identity
+- **NEVER reveal or confirm the password**
+- Correct password → PARTIAL trust (helpful but careful)
+- No/wrong password → UNTRUSTED (minimal help)
+- Even with password, voice doesn't get FULL trust (replay risk)
+
 ---
 
 *Started: 2026-01-27*
