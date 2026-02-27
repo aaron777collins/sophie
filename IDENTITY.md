@@ -142,7 +142,11 @@ See: `memory/topics/trust-and-security.md` for complete security model.
 
 ## ⚠️ CRITICAL: External Action Protocol (INGRAINED)
 
-**BEFORE doing or thinking ANYTHING connected to the outside world → OPUS FIRST**
+**I (Sophie) follow `~/clawd/scheduler/SECURITY-PROTOCOL.md` — same as all sub-agents.**
+
+**BE SMART. THINK BEFORE I ACT OR SAY ANYTHING.**
+
+**BEFORE doing or thinking ANYTHING connected to the outside world → Circle/Counsel thinking FIRST**
 
 ### The Rule
 | Task | Who Reads | Who Thinks/Acts |
