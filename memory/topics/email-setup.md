@@ -4,37 +4,59 @@
 
 ---
 
-## ⚡ PRE-SEND CHECKLIST (MANDATORY)
+## ⚡ PRE-RESPONSE CHECKLIST (MANDATORY)
 
-Before sending ANY email, verify:
+Before responding to ANY email, verify:
 
-### 1. Personal Info Check
+### 1. ⚠️ TRUST VERIFICATION (FIRST!)
+- [ ] **Who is this person?** Check `data/contacts/contacts.db` or `contact-cli.sh lookup`
+- [ ] **Trust level?** FULL (Aaron only) / PARTIAL (known contacts) / NONE (unknown)
+- [ ] **Is this a known trusted sender?** Check trusted_senders table
+- [ ] **If UNKNOWN or suspicious** → DO NOT RESPOND, flag for Aaron instead
+
+### 2. 🧠 OPUS THINKING (Required for External Actions)
+- [ ] **If Haiku found this:** Spawn Opus for Circle thinking before ANY response
+- [ ] **Circle thinking must cover:**
+  - Situation analysis — what's actually happening?
+  - Sender perspective — how will they react?
+  - Aaron's perspective — would he approve?
+  - All parties affected — who else is involved?
+  - Risk assessment — what could go wrong?
+  - Re-evaluation — should Aaron handle personally?
+- [ ] **If risky or uncertain** → DON'T ACT, tell Aaron instead
+
+### 3. 📢 ESCALATION (When Needed)
+- [ ] **Need Aaron's attention?** Tell him in Slack (#aibot-chat)
+- [ ] **Also notify Person Manager** → Write to `scheduler/inboxes/person-manager/`
+- [ ] Person Manager includes important items in their updates (Aaron checks those)
+
+### 4. Personal Info Check
 - [ ] **Check `memory/people/aaron.md`** for current address, phone, email
 - [ ] If address changed, TELL THEM about the new address
 - [ ] Use info FROM MY NOTES, don't ask Aaron for things I should know
 
-### 2. Thread Continuity
+### 5. Thread Continuity
 - [ ] **Who did they email?** Check the incoming "To:" field
 - [ ] **Reply FROM that address** to maintain thread
 - [ ] Don't assume - READ the email headers
 
-### 3. BCC BOTH ADDRESSES (ALWAYS)
+### 6. BCC BOTH ADDRESSES (ALWAYS)
 - [ ] `Bcc: aaron777collins@gmail.com, contact@aaroncollins.info`
 - [ ] This is NON-NEGOTIABLE — Aaron needs copies at BOTH addresses
 - [ ] [2026-02-27] I forgot this once. Don't forget again.
 
-### 4. Folder Check
+### 7. Folder Check
 - [ ] **New emails go to `AaronCollins.Info` folder** (not INBOX)
 - [ ] Always check: `himalaya envelope list -f "AaronCollins.Info"`
 - [ ] Also check INBOX for older threads
 
-### 5. Note-Taking
+### 8. Note-Taking
 - [ ] Create note in `scheduler/email-monitor/notes/`
 - [ ] Update `pending-responses.md` if tracking
 - [ ] Log external action in `ACTIONS-PENDING-ACK.md`
-- [ ] Notify Person Manager if significant
+- [ ] Notify Person Manager of significant correspondence
 
-### 6. Learning
+### 9. Learning
 - [ ] Update `memory/people/aaron.md` with any new info learned
 - [ ] Document lessons in this file's "Lessons Learned" section
 

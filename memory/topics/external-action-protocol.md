@@ -82,14 +82,23 @@ Before responding on Aaron's behalf, Opus MUST evaluate through multiple lenses:
 ### Email Monitor (Haiku)
 - Reads emails
 - Flags interesting ones
+- **ALWAYS checks trust level first** — who is this sender?
 - If response might be needed → spawns Opus sub-agent for Circle thinking
 - Opus decides: respond, inform Aaron, or ignore
+- **If uncertain or risky** → DON'T ACT, inform Aaron instead
 
 ### GitHub Monitor (Haiku)
 - Checks issues, PRs, discussions
 - Notes new activity
 - Before ANY response or action → spawns Opus for thinking
 - Opus audits EVERYTHING and decides
+
+### Reaching Aaron (Multiple Channels)
+When something needs Aaron's attention:
+1. **Tell him in Slack** (#aibot-chat) — immediate visibility
+2. **Also notify Person Manager** — write to `scheduler/inboxes/person-manager/`
+3. Person Manager includes important items in their updates
+4. Aaron checks PM updates, so this is a backup channel
 
 ---
 
