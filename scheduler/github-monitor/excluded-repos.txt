@@ -1,0 +1,3 @@
+# Repos to exclude from monitoring (archived/dead projects)
+# One repo per line (owner/repo format)
+aaron777collins/AICEO
