@@ -11,7 +11,9 @@
 
 | Date | Action | Context | Status |
 |------|--------|---------|--------|
-| *No pending actions* | | | |
+| 2026-02-27 02:04 | Sent email to aaron777collins@gmail.com | 2024 Donation Summary for CRA (Parkwood $6,245.15 + details) | ✉️ Sent |
+| 2026-02-27 02:10 | Sent email to crossroads@crossroads.ca | Requesting 2024 tax receipt on Aaron's behalf (CC'd Aaron) | ✉️ Sent |
+| 2026-02-27 02:05 | Uploaded PDF to Paperless | Parkwood 2024 Tax Receipt - queued for processing with "Taxes 2024" tag | 📄 Processing |
 
 ---
 
