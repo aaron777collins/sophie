@@ -333,6 +333,21 @@ Every task follows enhanced 3-layer validation:
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
+### "Infrastructure Issue" Is NOT An Excuse
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   ❌ WRONG: "E2E tests can't run, marking as conditional pass"      │
+│   ✅ RIGHT: "E2E tests can't run, BLOCKING until infrastructure     │
+│             is fixed"                                               │
+│                                                                     │
+│   If you can't validate, you can't ship. Period.                    │
+│   Infrastructure blocking validation = P0-CRITICAL blocker.         │
+│   FIX THE INFRASTRUCTURE, then validate, then ship.                 │
+│                                                                     │
+│   THE RULE: If it isn't proven finished, IT ISN'T DONE.            │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
 ### Who Creates What
 
 | Artifact | Created By | Model |

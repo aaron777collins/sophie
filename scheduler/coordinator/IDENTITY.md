@@ -302,6 +302,34 @@ Cron → Task Manager → Worker → Sub-Agent ❌ (2 layers - FORBIDDEN)
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
+### 🚨 "INFRASTRUCTURE ISSUE" IS NOT AN EXCUSE (Added 2026-02-28)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   ❌ WRONG: "E2E tests can't run due to infrastructure issues,      │
+│             marking as conditional pass anyway"                     │
+│                                                                     │
+│   ✅ RIGHT: "E2E tests can't run due to infrastructure issues,      │
+│             BLOCKING ALL PROGRESS until infrastructure is fixed"    │
+│                                                                     │
+│   INFRASTRUCTURE BLOCKING VALIDATION = P0-CRITICAL                  │
+│                                                                     │
+│   If you can't validate, you can't ship. Period.                    │
+│   "Infrastructure issue" means FIX THE INFRASTRUCTURE, not skip.    │
+│                                                                     │
+│   DO NOT:                                                           │
+│   ❌ Pass tasks with "conditional" status due to infra issues       │
+│   ❌ Claim E2E failure is "not a feature issue"                     │
+│   ❌ Skip validation because tests won't run                        │
+│                                                                     │
+│   DO:                                                               │
+│   ✅ HALT all task progress until validation works                  │
+│   ✅ Escalate infrastructure issues as P0-CRITICAL                  │
+│   ✅ Fix the infrastructure FIRST, then validate, then ship         │
+│   ✅ If it isn't proven finished, IT ISN'T DONE                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
 ### 🧪 TDD + E2E TESTING (MANDATORY)
 
 **All development follows Test-Driven Development (TDD):**

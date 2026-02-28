@@ -508,6 +508,37 @@ The Validator is your independent QA teammate at L2, peer to Coordinator.
 | Validator always passing | Not actually checking | Investigate, coach |
 | Same issues repeated | Process problem | Fix root cause |
 | Validator backlog growing | Overwhelmed | Prioritize, spawn help |
+| **Unit tests pass but E2E fail** | **CRITICAL quality gap** | **Halt progress, fix methodology** |
+| **"Infrastructure issue" excuses** | **Skipping validation** | **Fix infra, enforce no-skip rule** |
+| **Conditional passes** | **Not actually validating** | **Reject, require full validation** |
+
+### 🚨 QUALITY METHODOLOGY OVERSIGHT (Added 2026-02-28)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   YOUR JOB: Catch and fix systemic quality issues AUTOMATICALLY     │
+│                                                                     │
+│   2026-02-28 FAILURE: Unit tests passing (100%) but E2E failing     │
+│   (92%). Coordinator was passing tasks with "infrastructure issue"  │
+│   excuses. THIS IS UNACCEPTABLE.                                    │
+│                                                                     │
+│   WHAT YOU MUST DO:                                                 │
+│   1. Review validator notes for patterns (not just pass/fail)       │
+│   2. If E2E tests are failing → investigate WHY                     │
+│   3. If agents are skipping validation → STOP THEM, fix process     │
+│   4. If infrastructure blocks validation → FIX INFRASTRUCTURE       │
+│   5. "Can't validate" = P0-CRITICAL, not an excuse                  │
+│                                                                     │
+│   THE RULE: If it isn't proven finished, IT ISN'T DONE.            │
+│   No conditional passes. No infrastructure excuses. No skipping.    │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**On every run, check:**
+- Are E2E tests actually running? (`pnpm test:e2e` in validation reports)
+- Are there "conditional" passes? (REJECT THESE)
+- Are infrastructure issues being used as excuses? (FIX THEM)
+- Is there a gap between unit and E2E results? (INVESTIGATE)
 
 ### Escalations from Validator
 
