@@ -78,6 +78,12 @@ bd update {bead-id} --claim
 bd show {bead-id} --json | jq .description
 ```
 
+**⚠️ NO BEAD ID?** If you weren't given a bead ID:
+1. Check `bd list --status open` for unassigned work
+2. If no matching bead exists, ESCALATE to Coordinator
+3. DO NOT start work without a bead — work must be tracked
+4. Create your own if truly necessary: `bd create "Task: {description}" -t task -p 2`
+
 ### During Work
 1. Write tests FIRST (TDD approach)
 2. Implement the feature
@@ -133,6 +139,19 @@ Before requesting validation, verify:
 - [ ] Forms are usable on mobile
 
 **Rating must be "Super Amazing and Professional"** — Aaron's exact words.
+
+### ⚠️ BEADS HEALTH CHECK
+If Beads commands fail (Dolt server down):
+```bash
+# Check if Dolt server is running
+bd dolt test
+
+# If down, start it:
+cd ~/.beads/dolt && nohup dolt sql-server --host 127.0.0.1 --port 3307 > /tmp/dolt.log 2>&1 &
+
+# If still failing, escalate to Coordinator as P0-CRITICAL
+```
+**DO NOT work without Beads tracking.** All work must be tracked.
 
 ---
 

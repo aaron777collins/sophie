@@ -203,6 +203,28 @@ bd update {bead-id} --status "in_progress"
 # Spawn fix worker with context
 ```
 
+### ⚠️ CLOSE AUTHORITY (CRITICAL)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   ❌ YOU CANNOT CLOSE BEADS                                          │
+│                                                                     │
+│   ONLY the Validator has close authority.                           │
+│                                                                     │
+│   Your role:                                                        │
+│   ✅ CREATE tasks (bd create)                                        │
+│   ✅ UPDATE status to needs-validation (bd update --status)          │
+│   ✅ VERIFY worker evidence before sending to Validator              │
+│   ✅ MARK complete AFTER Validator approves                          │
+│                                                                     │
+│   Validator's role:                                                  │
+│   ✅ bd close {id} --reason "..."                                    │
+│                                                                     │
+│   If you try to close a bead yourself, you're bypassing validation. │
+│   This defeats the entire quality system.                           │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
 ---
 
 ## Key Characteristics

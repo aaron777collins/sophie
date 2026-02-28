@@ -109,7 +109,18 @@ ls scheduler/validation/screenshots/{bead-id}/
 # MUST show: *-desktop*.png, *-tablet*.png, *-mobile*.png
 
 # 4. Run E2E tests INDEPENDENTLY
+# Check project's package.json for exact command:
+cat package.json | jq '.scripts | keys | map(select(contains("e2e")))'
+# Common commands:
+# - MELO: pnpm test:e2e
+# - Other: npx playwright test
 pnpm test:e2e --grep "{test-pattern}"
+
+# 5. View screenshots for visual check
+# Use image tool or browser to inspect:
+# - Desktop: scheduler/validation/screenshots/{bead-id}/desktop-*.png
+# - Tablet: scheduler/validation/screenshots/{bead-id}/tablet-*.png
+# - Mobile: scheduler/validation/screenshots/{bead-id}/mobile-*.png
 ```
 
 ### Visual Quality Check

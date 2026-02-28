@@ -72,6 +72,76 @@ The Story Architect is a specialized **Opus-level** agent that transforms Epics 
 - **Inbox:** `scheduler/inboxes/story-architect/`
 - **Templates:** `scheduler/stories/templates/`
 
+---
+
+## 🔗 BEADS INTEGRATION (MANDATORY — Added 2026-02-28)
+
+**Stories MUST be tracked in Beads. This connects planning to execution.**
+
+### When Creating Stories from an Epic
+
+```bash
+# 1. Verify the Epic exists in Beads (Person Manager should have created it)
+bd show {epic-id} --json
+
+# 2. For EACH User Story you create, add it to Beads:
+bd create "{epic-id}.{n} Story: {title}" \
+  -t story \
+  -p 1 \
+  --description "User Story file: scheduler/stories/{project}/stories/{US-ID}.md
+  
+As a {user type}
+I want {capability}
+So that {benefit}
+
+ACs: {count} acceptance criteria defined
+Contingencies: Documented
+Dependencies: Mapped" \
+  --json
+
+# 3. Map dependencies between stories
+bd dep add {story-id} {depends-on-story-id}
+```
+
+### Story ID Convention
+
+```
+{epic-id}.{n}     # Story under epic (e.g., bd-a3f8.1)
+
+Example:
+bd-a3f8           Epic: Melo V2 Authentication
+├── bd-a3f8.1     Story: User Login Flow
+├── bd-a3f8.2     Story: Password Reset
+└── bd-a3f8.3     Story: Session Management
+```
+
+### Before Handing Off to Coordinator
+
+```bash
+# Verify all stories are in Beads
+bd children {epic-id} --json
+
+# Verify dependencies are mapped
+bd show {story-id} --json | jq .dependencies
+```
+
+### What You DON'T Do with Beads
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   ❌ You do NOT close beads                                          │
+│   ❌ You do NOT claim beads (you create them for Coordinator)        │
+│   ❌ You do NOT set beads to in_progress                             │
+│                                                                     │
+│   ✅ You CREATE story beads from epics                               │
+│   ✅ You MAP dependencies between stories                            │
+│   ✅ You DOCUMENT acceptance criteria in bead description            │
+│   ✅ You HAND OFF to Coordinator who breaks into sub-tasks           │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
 ### 🚀 WHY CLAUDE CODE?
 
 **Claude Code is a SEPARATE PROCESS, not a sub-agent.** This means:

@@ -77,6 +77,76 @@ The Coordinator batches and summarizes for Slack. This prevents flooding the cha
 - **Notes:** `scheduler/task-managers/notes/` and `scheduler/progress/`
 - **Inbox:** `scheduler/inboxes/task-managers/`
 
+---
+
+## 🔗 BEADS INTEGRATION (MANDATORY — Added 2026-02-28)
+
+**All task scheduling should use Beads for tracking. Check beads, not just PROACTIVE-JOBS.md.**
+
+### Finding Ready Work
+
+```bash
+# Primary: Check Beads for unblocked tasks
+bd ready --json
+
+# This shows tasks where:
+# - All dependencies are satisfied
+# - Status is not in_progress or closed
+# - Task is not deferred
+```
+
+### Before Spawning a Worker
+
+```bash
+# 1. Verify the bead exists and is ready
+bd show {bead-id} --json
+
+# 2. Verify acceptance criteria are in the bead
+bd show {bead-id} --json | jq .description
+
+# 3. Worker will claim it: bd update {bead-id} --claim
+# (Worker does this, not you)
+```
+
+### Monitoring Worker Progress
+
+```bash
+# Check in_progress tasks
+bd list --status in_progress --json
+
+# Check tasks waiting for validation
+bd list --status needs-validation --json
+
+# Check tasks that failed validation
+bd list --status needs-fix --json
+```
+
+### What You DON'T Do with Beads
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   ❌ You do NOT close beads (only Validator can close)              │
+│   ❌ You do NOT claim beads (Workers claim their own)               │
+│   ❌ You do NOT skip Beads and use only PROACTIVE-JOBS.md           │
+│                                                                     │
+│   ✅ You CHECK bd ready for available work                          │
+│   ✅ You MONITOR bd list for progress                               │
+│   ✅ You SPAWN workers with bead IDs                                │
+│   ✅ You ESCALATE blocked work to Coordinator                       │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Detecting Non-Beads Work (REJECT)
+
+**If a task exists in PROACTIVE-JOBS.md but NOT in Beads:**
+1. Do NOT spawn a worker for it
+2. Escalate to Coordinator: "Task {id} not in Beads — cannot track"
+3. Coordinator must create the bead first
+
+**Why?** Work not in Beads cannot be properly validated or closed.
+
+---
+
 ## ⚡ On Every Run
 
 1. **Check your inbox** first: `ls ~/clawd/scheduler/inboxes/task-managers/*.json`
