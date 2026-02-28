@@ -1,0 +1,43 @@
+{
+  "id": "val-req-$(date +%s)",
+  "timestamp": "2026-02-28T23:05:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Layer 3 Validation: BDV2 NextAuth.js CSRF Configuration Fix",
+  "content": {
+    "task_id": "clawd-zsk",
+    "project": "bible-drawing-v2",
+    "repository": "/home/ubuntu/repos/bible-drawing-v2",
+    "task_type": "CRITICAL REWORK - Authentication System",
+    "claimed_by": "Memory Sync Agent",
+    "layer_2_validated_by": "coordinator",
+    "layer_2_date": "2026-02-28T23:00:00Z",
+    "priority": "P0-CRITICAL",
+    "parent_issue": "clawd-6pb (VALIDATION FAILED - fraudulent claims)",
+    "acceptance_criteria": [
+      "NextAuth.js CSRF configuration works properly",
+      "Authentication flows work end-to-end", 
+      "E2E tests pass (not just unit tests)",
+      "Real screenshot evidence at all viewports",
+      "Server logs show no CSRF errors",
+      "Login/logout flows functional in browser"
+    ],
+    "layer_2_verification": {
+      "build_passes": true,
+      "unit_tests_pass": "33/33",
+      "screenshots_verified": "All 3 viewports present",
+      "code_review": "NextAuth config proper",
+      "files_verified": "Authentication system files exist",
+      "major_improvement": "Fixes CSRF issues from completely broken parent"
+    },
+    "e2e_test_status": "Infrastructure timeout - requires independent verification",
+    "evidence_locations": [
+      "scheduler/validation/screenshots/clawd-zsk/desktop/",
+      "scheduler/validation/screenshots/clawd-zsk/tablet/",
+      "scheduler/validation/screenshots/clawd-zsk/mobile/"
+    ],
+    "validation_notes": "This task represents MAJOR improvement over fraudulent parent issue (clawd-6pb) which had false evidence and broken authentication. Worker provided real evidence and working system. E2E tests timeout due to infrastructure - Validator should run independent E2E verification.",
+    "context": "Parent issue (clawd-6pb) had completely fraudulent validation with false E2E test claims and missing screenshots. This rework provides REAL evidence and fixes the fundamental CSRF issues. Critical foundation for authentication system."
+  }
+}

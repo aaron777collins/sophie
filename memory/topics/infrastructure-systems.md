@@ -193,6 +193,55 @@ How sub-agents request spawning other sub-agents:
 
 ---
 
+## 🚀 dyndev - Dynamic Development Router
+
+**Created:** [2026-02-28 18:22 EST]
+**Location:** `/home/ubuntu/dyndev/`
+**URL:** `https://dyndev3.aaroncollins.info`
+
+### Purpose
+Path-based routing for dev apps without custom subdomain setup. Simple alternative to creating new DNS entries + Caddy blocks for every app.
+
+### Usage
+```bash
+# Add a route (prefix stripped automatically)
+dyndev add myapp 3000
+# → https://dyndev3.aaroncollins.info/myapp/ proxies to localhost:3000
+# → App sees /api/users, NOT /myapp/api/users
+
+# List routes
+dyndev list
+
+# Check status with health checks
+dyndev status
+
+# Remove a route
+dyndev remove myapp
+```
+
+### Key Files
+| File | Purpose |
+|------|---------|
+| `/home/ubuntu/dyndev/dyndev` | CLI script (symlinked to /usr/local/bin/dyndev) |
+| `/home/ubuntu/dyndev/routes.json` | Route config |
+| `/home/ubuntu/dyndev/routes.caddy` | Generated Caddy include |
+
+### How It Works
+- Caddy imports `routes.caddy` via `import /etc/caddy/dyndev/routes.caddy`
+- Uses `handle_path` directive to strip prefix before proxying
+- Routes to `172.18.0.1:<port>` (Docker gateway to host)
+- Single Let's Encrypt cert via HTTP-01 challenge (no API needed)
+- Hot reload on add/remove
+
+### ⚠️ When Deploying New Apps — ASK AARON
+Two options:
+1. **Custom subdomain** (e.g., `myapp.aaroncollins.info`) — cleaner URLs, needs DNS entry
+2. **dyndev path** (e.g., `dyndev3.aaroncollins.info/myapp/`) — instant, no DNS needed
+
+**Always ask Aaron which approach he prefers for new apps.**
+
+---
+
 ## Last Updated
 
-[2026-02-27 02:17 EST] — Initial comprehensive documentation
+[2026-02-28 18:25 EST] — Added dyndev system documentation

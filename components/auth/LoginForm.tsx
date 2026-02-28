@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
 interface LoginFormProps {
-  onSubmit?: (credentials: { username: string; password: string }) => Promise<void>;
+  // No longer need onSubmit prop since we're using NextAuth directly
 }
 
-export function LoginForm({ onSubmit }: LoginFormProps) {
+export function LoginForm(props: LoginFormProps) {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -63,10 +65,30 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
     setErrors({});
 
     try {
-      if (onSubmit) {
-        await onSubmit(formData);
+      console.log("🔐 Attempting login with NextAuth.js");
+      
+      const result = await signIn("credentials", {
+        username: formData.username,
+        password: formData.password,
+        redirect: false, // Handle redirect manually to check for errors
+      });
+
+      console.log("🔐 NextAuth result:", result);
+
+      if (result?.error) {
+        setErrors({
+          general: "Invalid credentials"
+        });
+      } else if (result?.ok) {
+        // Verify session was created
+        const session = await getSession();
+        console.log("✅ Session created:", session);
+        
+        // Redirect to dashboard
+        router.push("/dashboard");
       }
     } catch (error) {
+      console.error("🚨 Login error:", error);
       setErrors({
         general: error instanceof Error ? error.message : "Invalid credentials"
       });
