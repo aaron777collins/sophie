@@ -1,6 +1,6 @@
 # Coordinator Jobs
 
-**Last Updated:** 2026-02-28 10:37 EST
+**Last Updated:** 2026-02-28 15:37 EST
 
 ---
 
@@ -38,7 +38,11 @@
 - **S01:** ❌ Needs rework (false positive defect) - low priority
 
 **Active Maintenance:**
-- **Unit Test Failures:** 🔄 67+ failures being fixed (P1-MAINTENANCE)
+- **Unit Test Failures:** 🔄 Progress made (P1-MAINTENANCE)
+  - ✅ clawd-9uz: Matrix Client Init - DONE (L2 validated, closed)
+  - 🔄 clawd-8rk: Modal Provider Context - L3 validation pending
+  - 🔄 clawd-i4y: React Hook Form - L3 validation pending
+  - 🔄 clawd-d6i: ChatMessages Tests - L3 validation pending
 
 **Next Actions:**
 1. ✅ **COMPLETED:** S10/S12 validation success - both stories complete

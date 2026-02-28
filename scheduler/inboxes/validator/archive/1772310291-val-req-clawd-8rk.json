@@ -1,0 +1,30 @@
+{
+  "id": "val-req-clawd-8rk",
+  "timestamp": "2026-02-28T20:18:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "L3 Validate: clawd-8rk Modal Provider Context Fix",
+  "content": {
+    "task_ids": ["clawd-8rk"],
+    "project": "melo",
+    "phase": "Unit Test Maintenance",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-02-28T20:18:00Z",
+    "files_changed": [
+      "tests/unit/components/modals/initial-modal.test.tsx",
+      "tests/unit/components/modals/create-server-modal.test.tsx",
+      "tests/unit/components/modals/server-overview-modal.test.tsx",
+      "tests/unit/components/modals/create-channel-modal.test.tsx",
+      "tests/unit/delete-channel-modal.test.tsx"
+    ],
+    "commit": "821fd3e",
+    "acceptance_criteria": [
+      "useModal hook errors resolved in test environment",
+      "Modal-related tests pass",
+      "Test environment includes proper ModalProvider context",
+      "Build passes"
+    ],
+    "l2_validation_notes": "L2 PASS: 70/73 tests pass (96%). 3 failures are pre-existing Matrix client issues (unrelated to this fix). Build passes. react-hook-form mocks properly placed before component imports."
+  }
+}

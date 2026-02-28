@@ -1,0 +1,26 @@
+{
+  "id": "val-req-clawd-i4y",
+  "timestamp": "2026-02-28T20:30:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "L3 Validate: clawd-i4y React Hook Form Integration Fix",
+  "content": {
+    "task_ids": ["clawd-i4y"],
+    "project": "melo",
+    "phase": "Unit Test Maintenance",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-02-28T20:30:00Z",
+    "files_changed": [
+      "tests/unit/components/modals/create-channel-modal.test.tsx",
+      "tests/unit/components/modals/server-overview-modal.test.tsx"
+    ],
+    "commit": "21d8d4d",
+    "acceptance_criteria": [
+      "No formState errors in modal tests",
+      "Modal tests pass (initial-modal, create-server-modal, server-overview-modal)",
+      "Build passes"
+    ],
+    "l2_validation_notes": "L2 PASS: Commit verified. Worker reported 42/42 modal tests pass (17+15+10). Fix corrects Form mock to not render nested form element. Build passes."
+  }
+}

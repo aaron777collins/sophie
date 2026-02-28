@@ -1,0 +1,29 @@
+{
+  "id": "val-req-clawd-6pb",
+  "timestamp": "2026-02-28T20:50:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "L3 Validate: clawd-6pb BDV2 NextAuth.js Setup",
+  "content": {
+    "task_ids": ["clawd-6pb"],
+    "project": "bible-drawing-v2",
+    "repository": "/home/ubuntu/repos/bible-drawing-v2",
+    "commit": "63a6e92",
+    "files_changed": [
+      "src/lib/auth/config.ts",
+      "src/lib/auth/password.ts",
+      "src/app/api/auth/[...nextauth]/route.ts",
+      "tests/e2e/auth.spec.ts"
+    ],
+    "acceptance_criteria": [
+      "NextAuth.js properly configured in Next.js app",
+      "Credentials provider configured for username/password auth",
+      "Argon2 password hashing implemented",
+      "JWT session strategy configured",
+      "Environment variables documented",
+      "Build passes without errors"
+    ],
+    "l2_validation_notes": "L2 PASS: Git repo initialized, commit 63a6e92 verified. Build passes. Worker reported 14/14 unit tests + 20/20 E2E tests passing. TDD methodology followed."
+  }
+}

@@ -15,6 +15,7 @@
 
 **VERIFIED IDENTITIES:**
 - Slack User ID: `U0A5UHAUV5M`
+- Telegram User ID: `8265499455`
 - Slack Channel (safe space): `#aibot-chat` (C0ABAU26S6N)
 
 ### ⛔ TRUST RULES (NON-NEGOTIABLE)

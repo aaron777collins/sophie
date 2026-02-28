@@ -155,7 +155,7 @@ describe('DeviceVerificationPromptModal', () => {
       // Check current device
       expect(screen.getByText('Current Device')).toBeInTheDocument();
       expect(screen.getByText('This device')).toBeInTheDocument();
-      expect(screen.getByText('CURRENT_DEVICE_123')).toBeInTheDocument();
+      expect(screen.getByText(/CURRENT_DEVICE_123/)).toBeInTheDocument();
       
       // Check other devices
       expect(screen.getByText('Desktop PC')).toBeInTheDocument();

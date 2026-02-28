@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { X, Pin } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { usePins, PinnedMessage } from '@/hooks/use-pins';
 
@@ -89,6 +89,9 @@ export function PinnedMessagesModal({
               ({pinnedMessages.length})
             </span>
           </DialogTitle>
+          <DialogDescription>
+            View and navigate to messages that have been pinned in this channel.
+          </DialogDescription>
           <DialogClose asChild>
             <Button
               variant="ghost"
