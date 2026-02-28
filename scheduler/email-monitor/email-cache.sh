@@ -7,8 +7,8 @@ set -euo pipefail
 CACHE_DIR=~/clawd/scheduler/email-monitor/cache
 COOLDOWN_FILE="$CACHE_DIR/cooldown.lock"
 CACHE_FILE="$CACHE_DIR/emails.json"
-COOLDOWN_SECONDS=300  # 5 minute minimum between IMAP checks
-MAX_CACHE_AGE=600     # 10 minute cache validity
+COOLDOWN_SECONDS=1800  # 30 minute minimum between IMAP checks
+MAX_CACHE_AGE=1800     # 30 minute cache validity
 
 mkdir -p "$CACHE_DIR"
 
