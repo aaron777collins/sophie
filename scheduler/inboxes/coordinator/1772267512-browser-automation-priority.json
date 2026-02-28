@@ -1,0 +1,17 @@
+{
+  "type": "priority_directive",
+  "from": "main-session",
+  "timestamp": "2026-02-28T03:32:00-05:00",
+  "subject": "Browser Automation Infrastructure - P0-CRITICAL",
+  "directive": "NEW HIGH PRIORITY PROJECT",
+  "message": "Aaron's direct order: Browser automation infrastructure is now P0-CRITICAL. Chrome extension relay is unreliable - switch to Playwright. This blocks ALL validation work.",
+  "action_required": [
+    "Prioritize EPIC-01 from scheduler/projects/browser-automation/",
+    "US-BA-01 worker already spawned - monitor progress",
+    "Once Playwright working, update all validation workflows",
+    "MELO validation can resume once browser automation is stable"
+  ],
+  "project_location": "scheduler/projects/browser-automation/",
+  "master_plan": "scheduler/projects/browser-automation/MASTER-PLAN.md",
+  "current_status": "US-BA-01 (Playwright Installation Verification) spawned to Sonnet worker"
+}

@@ -19,11 +19,14 @@ We keep hitting this wall with validation. The browser extension approach fails 
 
 ## Action Items
 
-- [ ] **PROJECT CREATED:** Set up proper browser automation infrastructure
-- [ ] Experiment with Playwright for all validation needs
-- [ ] Test `profile=clawd` as fallback
-- [ ] Document working patterns
-- [ ] Remove reliance on Chrome extension relay
+- [x] **PROJECT CREATED:** Set up proper browser automation infrastructure
+  - [2026-02-28 03:30 EST] Master Plan created at `scheduler/projects/browser-automation/MASTER-PLAN.md`
+  - 4 Epics with 14 User Stories created
+  - Added to PROACTIVE-JOBS.md as P0-CRITICAL
+- [ ] Experiment with Playwright for all validation needs (EPIC-01)
+- [ ] Test `profile=clawd` as fallback (EPIC-02)
+- [ ] Document working patterns (EPIC-04)
+- [ ] Remove reliance on Chrome extension relay (EPIC-02)
 
 ## Playwright Usage
 

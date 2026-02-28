@@ -1,7 +1,43 @@
 ## PROACTIVE-JOBS.md - Active Task Queue
 
-**Updated:** 2026-02-28 03:00 EST by coordinator  
+**Updated:** 2026-02-28 03:30 EST by Person Manager  
 **Worker Slots:** 2/2 available (validation queue active)
+
+---
+
+## 🚨 Browser Automation Infrastructure (HIGH PRIORITY)
+
+**STATUS:** 🚀 **ACTIVE** - Master Plan created, ready for execution  
+**Priority:** P0-CRITICAL (blocking all validation work)  
+**Location:** `scheduler/projects/browser-automation/`  
+**Owner:** Person Manager (Opus)
+
+### Problem
+Chrome extension relay fails consistently. Can't take screenshots. Blocking MELO validation and all future projects.
+
+### Solution
+Establish Playwright as primary method, test alternatives, document everything.
+
+### Epics
+
+| Epic | Description | Priority | Status |
+|------|-------------|----------|--------|
+| EPIC-01 | Playwright Setup & Validation | P0-CRITICAL | ⏳ Ready to Start |
+| EPIC-02 | Alternative Methods Testing | P1-HIGH | Waiting |
+| EPIC-03 | Integration & Workflow | P1-HIGH | Waiting |
+| EPIC-04 | Documentation & Maintenance | P2-MEDIUM | Waiting |
+
+### Immediate Next Actions
+
+1. **US-BA-01:** Verify Playwright installation (Sonnet worker)
+2. **US-BA-02:** Test basic screenshot capture
+3. **US-BA-03:** Test MELO localhost capture
+4. **US-BA-04:** Reliability validation (10 consecutive runs)
+
+### Success Criteria
+- Playwright works reliably for screenshot capture
+- MELO validation can proceed
+- 10/10 reliability on repeated tests
 
 ---
 
@@ -17,9 +53,9 @@
 
 | Task ID | Description | Model | Status | Notes |
 |---------|-------------|-------|--------|-------|
-| **ST-P2-01-A** | Homepage Registration Link | haiku | ✅ self-validated (L2) | Commit ca561a3 + fix 4ee245a |
+| **ST-P2-01-A** | Homepage Registration Link | haiku | ✅ complete | Commit ca561a3 + fix 4ee245a - L3 PASS ✅ |
 | **ST-P2-01-B** | Login Page Registration Link | haiku | ✅ complete (pre-existing) | Link already exists in sign-in page |
-| **ST-P2-01-C** | Registration Form Validation | sonnet | ✅ self-validated (L2) | Commit 0ca2aad - Zod + RHF validation |
+| **ST-P2-01-C** | Registration Form Validation | sonnet | ✅ complete | Commit 0ca2aad - Zod + RHF validation - L3 PASS ✅ |
 
 ### ST-P2-01-A Validation Details
 
