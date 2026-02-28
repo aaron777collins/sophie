@@ -75,24 +75,51 @@ cat ~/clawd/scheduler/SECURITY-PROTOCOL.md
 ## DECISION FLOW
 
 ```
+┌─────────────────────────────────────────────────────────────┐
+│  HAIKU = EYES ONLY                                          │
+│  OPUS = BRAIN (all decisions, all external actions)         │
+│                                                             │
+│  Haiku NEVER: escalates, responds, flags for Aaron          │
+│  Haiku CAN: ignore spam, note routine stuff, spawn Opus     │
+└─────────────────────────────────────────────────────────────┘
+
 Email arrives
     ↓
 Is it spam/marketing? → IGNORE (don't even note)
     ↓
 Is it from a known service/automated? → NOTE only (no escalation)
     ↓
-Is it from a person?
+Is it from a person OR needs action?
     ↓
 Check trust: `contact-cli.sh lookup <email>`
     ↓
-UNTRUSTED person → Note only, DO NOT escalate unless urgent
+┌─────────────────────────────────────────────────────────────┐
+│  ⚠️ ANYTHING BEYOND "IGNORE" OR "NOTE" → SPAWN OPUS         │
+│                                                             │
+│  Haiku writes to: ~/clawd/scheduler/email-monitor/          │
+│                   pending-opus-review.md                    │
+│                                                             │
+│  Then STOPS. Opus will run and make decisions.              │
+└─────────────────────────────────────────────────────────────┘
     ↓
-PARTIAL trust → Consider: would we ACT on this?
+OPUS runs (spawned by cron or triggered)
     ↓
-If YES, we might respond → Spawn Opus for Circle thinking
-If NO, just informational → Note only
+Opus does FULL Circle thinking:
+  - Situation analysis
+  - Sender perspective  
+  - Aaron's perspective
+  - All parties affected
+  - Risk assessment
+  - Trust verification (check contacts.db, who they know)
+  - Contingencies
+  - Is this spam/manipulation?
     ↓
-Opus decides: Respond, Flag for Aaron, or Ignore
+ONLY OPUS can decide:
+  → Respond to email (logs to ACTIONS-PENDING-ACK.md)
+  → Flag for Aaron (adds to escalations/for-aaron.md)
+  → Escalate to PM (creates inbox message)
+  → Ignore (logs reason)
+  → Ask Aaron first (if uncertain)
     ↓
 If risky or uncertain → Contact Aaron, WAIT for response
 ```
@@ -143,42 +170,68 @@ echo "<email-id>|$(date -Iseconds)|<folder>|<action>" >> ~/clawd/scheduler/email
 ```
 
 **Actions to log:**
-- `ignored` → Spam, marketing, junk
-- `noted` → Routine, recorded but not escalated
-- `flagged-aaron` → Added to for-aaron.md
-- `escalated-pm` → Sent to Person Manager inbox
+- `ignored` → Spam, marketing, junk (Haiku can decide)
+- `noted` → Routine, recorded but not escalated (Haiku can decide)
+- `flagged-opus` → Added to pending-opus-review.md (Haiku flags, Opus reviews)
+- `flagged-aaron` → Opus added to for-aaron.md (ONLY OPUS)
+- `escalated-pm` → Opus sent to Person Manager inbox (ONLY OPUS)
 
 ---
 
 ## ESCALATION SYSTEM
 
-### → Aaron (for-aaron.md)
-**Use for:**
+```
+┌─────────────────────────────────────────────────────────────┐
+│  ⚠️ ONLY OPUS CREATES ESCALATIONS                           │
+│                                                             │
+│  Haiku → flags for Opus review                              │
+│  Opus → does Circle thinking → creates escalation if needed │
+│                                                             │
+│  NEVER bypass Opus for external-facing decisions!           │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Haiku's Job: Flag for Opus Review
+
+When Haiku sees something that might need action:
+```bash
+# Add to pending-opus-review.md (Haiku does this)
+echo "| $(date +%Y-%m-%d) | sender@email.com | Subject | reason to review |" >> \
+  ~/clawd/scheduler/email-monitor/pending-opus-review.md
+```
+
+Then STOP. Opus will handle it.
+
+### Opus's Job: Evaluate and Decide
+
+Opus reads `pending-opus-review.md`, does Circle thinking, then:
+
+#### → Aaron (for-aaron.md)
+**After Opus Circle thinking confirms this needs Aaron:**
 - Security concerns
 - Financial/legal matters
 - Personal correspondence from trusted contacts
 - Time-sensitive decisions only Aaron can make
 
-**How to flag:**
 ```markdown
-<!-- Add row to scheduler/email-monitor/escalations/for-aaron.md -->
-| 2026-02-28 | sender@email.com | Subject Here | HIGH | Reason flagged | pending |
+<!-- Opus adds row to scheduler/email-monitor/escalations/for-aaron.md -->
+| 2026-02-28 | sender@email.com | Subject Here | HIGH | Opus reasoning | pending |
 ```
 
-### → Person Manager (Inbox System)
-**Use for:**
+#### → Person Manager (Inbox System)
+**After Opus confirms this is project/infrastructure related:**
 - CI/CD failures from GitHub
 - Infrastructure alerts
 - Project-related communications
 - Anything needing management decisions
 
-**How to escalate:**
 ```bash
+# Opus creates inbox message
 cat > ~/clawd/scheduler/inboxes/person-manager/$(date +%s)-email-monitor-alert.json << 'EOF'
 {
   "id": "email-alert-$(date +%s)",
   "timestamp": "$(date -Iseconds)",
-  "from": "email-monitor",
+  "from": "opus-email-review",
   "to": "person-manager",
   "type": "email-alert",
   "subject": "Alert: Brief Description",
@@ -186,6 +239,7 @@ cat > ~/clawd/scheduler/inboxes/person-manager/$(date +%s)-email-monitor-alert.j
   "content": {
     "alert_type": "ci-failure|infrastructure|project",
     "source_email": "sender@example.com",
+    "opus_analysis": "What Opus concluded from Circle thinking",
     "details": "What happened",
     "recommended_action": "What PM should do"
   }
@@ -193,8 +247,8 @@ cat > ~/clawd/scheduler/inboxes/person-manager/$(date +%s)-email-monitor-alert.j
 EOF
 ```
 
-### → Coordinator (Inbox System)
-**Use for:**
+#### → Coordinator (Inbox System)
+**After Opus confirms this is task/technical related:**
 - Task-specific blockers
 - Technical issues affecting workers
 - Implementation-related communications
