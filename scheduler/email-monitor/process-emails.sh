@@ -1,6 +1,6 @@
 #!/bin/bash
-# Email Monitor - Improved with Deduplication
-# Gets new emails, deduplicates, and formats for AI processing
+# Email Monitor - Fetches NEW emails since last check
+# Uses timestamp to avoid re-reading, with 50 email cap
 
 set -euo pipefail
 
@@ -14,40 +14,41 @@ PM_INBOX=~/clawd/scheduler/inboxes/person-manager
 touch "$PROCESSED_FILE"
 mkdir -p "$ESCALATIONS_DIR/for-person-manager"
 
-# Get timestamp of last check
+# Get date of last check (for filtering)
 if [ -f "$LAST_CHECK_FILE" ]; then
     LAST_CHECK=$(cat "$LAST_CHECK_FILE")
+    # Extract just the date part for himalaya filter
+    LAST_DATE=$(echo "$LAST_CHECK" | cut -dT -f1)
 else
-    LAST_CHECK=$(date -d '1 hour ago' +%Y-%m-%dT%H:%M:%S)
+    # First run: check last 2 days
+    LAST_DATE=$(date -d '2 days ago' +%Y-%m-%d)
+    LAST_CHECK="never"
 fi
 
 echo "=== EMAIL MONITOR RUN: $(date -Iseconds) ==="
 echo "Last check: $LAST_CHECK"
+echo "Filtering emails after: $LAST_DATE"
 echo ""
-
-# Get raw email list (with IDs) from both folders
-echo "=== FETCHING EMAILS ==="
 
 # Create temp file for this run
 TEMP_EMAILS=$(mktemp)
 trap "rm -f $TEMP_EMAILS" EXIT
 
-# Fetch UNREAD emails from AaronCollins.Info folder (newer emails go here)
-echo "Fetching from AaronCollins.Info folder (last 50 unread)..."
-himalaya envelope list -f "AaronCollins.Info" --page-size 50 2>/dev/null > "$TEMP_EMAILS" || true
+echo "=== FETCHING NEW EMAILS (after $LAST_DATE, cap 50) ==="
 
-# Also check INBOX for older stuff
-echo "Fetching from INBOX folder (last 20 unread)..."
-himalaya envelope list -f "INBOX" --page-size 20 2>/dev/null >> "$TEMP_EMAILS" || true
+# Fetch from AaronCollins.Info folder - emails AFTER last check date
+echo ""
+echo "--- AaronCollins.Info folder ---"
+himalaya envelope list -f "AaronCollins.Info" --page-size 50 "after $LAST_DATE" 2>/dev/null || echo "(no results or error)"
 
 echo ""
-echo "=== RAW EMAIL LIST ==="
-cat "$TEMP_EMAILS"
+echo "--- INBOX folder ---"
+himalaya envelope list -f "INBOX" --page-size 20 "after $LAST_DATE" 2>/dev/null || echo "(no results or error)"
 
 echo ""
-echo "=== DEDUPLICATION CHECK ==="
-echo "Previously processed emails (last 50):"
-tail -50 "$PROCESSED_FILE" | grep -v "^#" | cut -d'|' -f1 | head -20
+echo "=== ALREADY PROCESSED (for deduplication backup) ==="
+echo "Last 20 processed email IDs:"
+tail -20 "$PROCESSED_FILE" | grep -v "^#" | cut -d'|' -f1 || echo "(none yet)"
 
 echo ""
 echo "=== TRUSTED SENDERS ==="
@@ -55,32 +56,40 @@ sqlite3 "$DB" "SELECT email, owner FROM trusted_senders;" 2>/dev/null || echo "(
 
 echo ""
 echo "=== PENDING RESPONSES WE'RE TRACKING ==="
-cat ~/clawd/scheduler/email-monitor/pending-responses.md 2>/dev/null | grep -E "^\|.*\|.*\|" | grep -v "^|--" | grep -v "^| ID" || echo "(none)"
+grep -E "^\|.*\|.*\|" ~/clawd/scheduler/email-monitor/pending-responses.md 2>/dev/null | grep -v "^|--" | grep -v "^| ID" | grep -v "~~" || echo "(none active)"
 
 echo ""
-echo "=== ESCALATION QUEUES ==="
+echo "=== ESCALATION STATUS ==="
 echo "Items pending for Aaron:"
 grep -c "| pending |" "$ESCALATIONS_DIR/for-aaron.md" 2>/dev/null || echo "0"
-echo ""
 echo "Items pending for Person Manager:"
 ls -1 "$PM_INBOX"/*.json 2>/dev/null | wc -l || echo "0"
 
 echo ""
-echo "=== INSTRUCTIONS FOR AI ==="
+echo "=== INSTRUCTIONS FOR SONNET ==="
 cat << 'INSTRUCTIONS'
-Based on the above:
-1. For EACH email shown, check if its ID is in processed-emails.txt
-2. If already processed → SKIP (say "Already seen: <id>")
-3. If NEW, evaluate using IDENTITY.md rules:
-   - Spam/marketing → Log as "ignored" 
-   - Routine/automated → Log as "noted"
-   - Needs Aaron's attention → Add to for-aaron.md, log as "flagged-aaron"
-   - CI/CD failures or project issues → Create PM inbox message, log as "escalated-pm"
-4. For any action, append to processed-emails.txt:
+You are EYES ONLY. Process the emails above:
+
+1. For EACH email shown:
+   - Check if ID is in processed-emails.txt (backup dedup)
+   - If already processed → SKIP
+   
+2. For NEW emails, decide:
+   - Obvious spam/marketing → log as 'ignored'
+   - Routine automated → log as 'noted'
+   - Might need action → add to pending-opus-review.md, log as 'flagged-opus'
+
+3. Log each processed email:
    echo "<email-id>|$(date -Iseconds)|<folder>|<action>" >> processed-emails.txt
 
-OUTPUT: Say HEARTBEAT_OK if nothing new/interesting. Otherwise report what you did.
+4. For flagged items, spawn Opus with full Circle/Counsel thinking
+
+OUTPUT: 
+- HEARTBEAT_OK if nothing new/interesting
+- Otherwise brief summary of what you processed/flagged
+
+YOU ARE EYES ONLY. DO NOT RESPOND TO EMAILS OR TAKE ACTION.
 INSTRUCTIONS
 
-# Update last check timestamp
+# Update last check timestamp AFTER processing
 date +%Y-%m-%dT%H:%M:%S > "$LAST_CHECK_FILE"
