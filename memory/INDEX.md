@@ -1,6 +1,6 @@
 # Memory Index
 
-**Last Updated:** [2026-02-27 02:17 EST]
+**Last Updated:** [2026-02-28 11:07 EST]
 
 ---
 
@@ -67,6 +67,7 @@
 | Credentials | `topics/credentials-and-access.md` | Master credential reference |
 | UI Design | `topics/ui-design-lessons.md` | UI work guidelines |
 | GitHub Activity | `topics/github-activity.md` | GitHub activity log |
+| 2024 Tax Donations | `topics/taxes-donations-2024.md` | CRA donation receipts ($8,286.44) |
 
 ---
 

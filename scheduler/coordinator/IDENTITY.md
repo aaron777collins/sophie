@@ -233,12 +233,19 @@ Cron → Task Manager → Worker → Sub-Agent ❌ (2 layers - FORBIDDEN)
        Report: PASS with evidence, or FAIL with specific issues."
    ```
 
-3. **Verify build and tests (MANDATORY)**
+3. **Verify build and ALL tests (MANDATORY — Updated 2026-02-28)**
    ```bash
    cd /home/ubuntu/repos/melo && pwd  # MUST show correct project dir
    pnpm build 2>&1 | tail -30 && echo "Exit: $?"  # Must be 0
    pnpm test 2>&1 | tail -50 && echo "Exit: $?"   # Must be 0
+   pnpm test:e2e 2>&1 | tail -50 && echo "Exit: $?"   # ⚠️ CRITICAL: Must be 0!
    ```
+
+   **🚨 E2E TEST VERIFICATION IS NOW MANDATORY (2026-02-28)**
+   - Unit tests passing but E2E failing = **AUTOMATIC REJECT**
+   - You MUST run `pnpm test:e2e` yourself and see it pass
+   - If no E2E tests exist for UI work, send back to worker to create them
+   - Include E2E test output in validation evidence
 
 4. **Multi-perspective review** (Circle thinking)
    - 🔧 Pragmatist: Does this actually work in practice?
@@ -264,12 +271,36 @@ Cron → Task Manager → Worker → Sub-Agent ❌ (2 layers - FORBIDDEN)
 | "File created at X" | `ls -la 'X'` — file MUST exist with reasonable size |
 | "Commit abc123 made" | `git log --oneline \| grep abc123` — commit MUST exist |
 | "Build passes" | Run `pnpm build` yourself — MUST exit 0 |
-| "Tests pass" | Run `pnpm test` yourself — MUST pass |
+| "Unit tests pass" | Run `pnpm test` yourself — MUST pass |
+| "E2E tests pass" | Run `pnpm test:e2e` yourself — MUST pass |
 | "47/47 tests pass" | Verify actual count matches claim |
 
 **If worker evidence doesn't verify → Reject task, send back for fixes. Don't pass to Validator.**
 
 **Full checklist:** `~/clawd/docs/VERIFICATION-CHECKLIST.md`
+
+### 🚨 E2E GAP PROBLEM — AUTOMATIC REJECT CRITERIA (Added 2026-02-28)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   SYSTEMIC FAILURE IDENTIFIED:                                      │
+│                                                                     │
+│   Workers submitted tasks with 100% unit test pass but 92% E2E FAIL │
+│   This is DANGEROUS FALSE CONFIDENCE.                               │
+│                                                                     │
+│   NEW RULE: REJECT tasks where:                                     │
+│   ❌ Worker only shows unit test output (no E2E evidence)           │
+│   ❌ E2E tests don't exist for UI work                              │
+│   ❌ E2E tests exist but weren't run                                │
+│   ❌ E2E tests fail (even if unit tests pass)                       │
+│                                                                     │
+│   WHAT TO DO:                                                       │
+│   1. Run `pnpm test:e2e` yourself                                   │
+│   2. If it fails → IMMEDIATE REJECT, send back to worker            │
+│   3. If no E2E tests exist → REJECT, worker must create them        │
+│   4. Only pass to Validator if E2E tests PASS                       │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 ### 🧪 TDD + E2E TESTING (MANDATORY)
 

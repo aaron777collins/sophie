@@ -90,6 +90,37 @@ Every worker MUST follow this sequence:
 > **Foundational Rule:** No task is complete without proper testing and validation.
 > **Reference:** `~/clawd/AGENTS.md` — "Testing & Validation Requirements" section
 
+### ⚠️⚠️⚠️ CRITICAL: ALL TESTS MUST PASS — UNIT, INTEGRATION, AND E2E (Added 2026-02-28) ⚠️⚠️⚠️
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   🚨 SYSTEMIC FAILURE IDENTIFIED 2026-02-28:                        │
+│                                                                     │
+│   Workers ran unit tests (100% pass) but E2E tests (92% FAIL!)      │
+│   This created DANGEROUS FALSE CONFIDENCE — broken features shipped │
+│                                                                     │
+│   FROM NOW ON: You CANNOT claim needs-validation until:             │
+│                                                                     │
+│   1. ✅ Unit tests pass: pnpm test                                  │
+│   2. ✅ Integration tests pass: pnpm test:integration (if exists)   │
+│   3. ✅ E2E tests pass: pnpm test:e2e (for UI work)                 │
+│   4. ✅ Playwright screenshots taken (for UI work)                  │
+│                                                                     │
+│   ALL test types must pass. Not just unit tests.                    │
+│   E2E failure = NOT COMPLETE. Period.                               │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Three-Layer Testing (MANDATORY for Frontend/UI Work)
+
+| Layer | Command | What It Tests | Required? |
+|-------|---------|---------------|-----------|
+| **Unit** | `pnpm test` | Component logic, functions | ✅ ALWAYS |
+| **Integration** | `pnpm test:integration` | Component interactions, API | ✅ IF EXISTS |
+| **E2E** | `pnpm test:e2e` | Full user flows in browser | ✅ FOR UI WORK |
+
+**If E2E tests don't exist for your feature → WRITE THEM FIRST (TDD).**
+
 ### Test-Driven Development (TDD) Approach (NON-NEGOTIABLE)
 
 All work MUST follow TDD methodology:
@@ -102,12 +133,12 @@ All work MUST follow TDD methodology:
 ┌─────────────────────────────────────────────────────────────────────┐
 │                    MANDATORY TDD SEQUENCE                           │
 │                                                                     │
-│   1. Write failing tests FIRST (RED)                               │
-│   2. Run tests to confirm they fail                                 │
+│   1. Write failing tests FIRST (RED) — INCLUDING E2E tests!        │
+│   2. Run ALL tests to confirm they fail                             │
 │   3. Implement minimal solution (GREEN)                             │
-│   4. Run tests to confirm they pass                                 │
+│   4. Run ALL tests to confirm they pass                             │
 │   5. Refactor and improve (REFACTOR)                                │
-│   6. Ensure all tests still pass                                    │
+│   6. Ensure ALL tests still pass (unit + integration + E2E)         │
 │                                                                     │
 │   NO EXCEPTIONS: This applies to ALL work types                     │
 └─────────────────────────────────────────────────────────────────────┘
@@ -120,7 +151,7 @@ You MUST use the appropriate testing framework for your work type:
 | Work Type | Required Testing Tools | Validation Method | Evidence Required |
 |-----------|----------------------|-------------------|-------------------|
 | **Documentation** | Validation scripts, link checkers | Automated structure validation | Test output, validation reports |
-| **Frontend Code** | Jest, Playwright, Cypress | Unit + E2E test suites | Test coverage reports, E2E screenshots |
+| **Frontend Code** | Jest/Vitest (unit), Playwright (E2E) | Unit + Integration + E2E test suites | Unit test output, **E2E test output**, **Playwright screenshots** |
 | **Backend Code** | Jest, Supertest, integration tests | API + database validation | API test results, integration logs |
 | **Infrastructure** | Terraform plan, smoke tests | Deployment validation | Plan output, deployment logs |
 | **Content/Media** | Accessibility checks, format validation | Quality + compliance checks | Validation reports, accessibility scores |
@@ -132,9 +163,10 @@ Before claiming ANY task complete, you MUST provide evidence of:
 - [ ] **Tests written BEFORE implementation** (RED phase evidence)
 - [ ] **Initial test failures documented** (confirming RED phase)
 - [ ] **Implementation completed to make tests pass** (GREEN phase)
-- [ ] **All tests passing** with complete output logs
+- [ ] **ALL tests passing** — Unit, Integration, AND E2E (with complete output logs)
 - [ ] **Code/content meets ALL acceptance criteria** with verification
 - [ ] **Testing evidence collected** (screenshots, logs, test output)
+- [ ] **Playwright screenshots taken** (for UI work — 3 viewport sizes)
 - [ ] **Refactoring completed** while maintaining test success
 - [ ] **Manual validation performed** for each acceptance criteria
 - [ ] **Performance criteria met** (if applicable)
@@ -146,6 +178,11 @@ Before claiming ANY task complete, you MUST provide evidence of:
 │                                                                     │
 │   Status progression: pending → working → needs-validation          │
 │   NEVER set status to "complete" — only Manager/Validator can       │
+│                                                                     │
+│   🚨 FOR UI WORK: E2E tests are NON-NEGOTIABLE.                     │
+│      Unit tests passing but E2E failing = NOT COMPLETE.             │
+│      You must run: pnpm test AND pnpm test:e2e                      │
+│      Include BOTH outputs in your evidence.                         │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -368,16 +405,24 @@ Use this checklist before claiming completion:
 ## Self-Validation Checklist
 
 ### TDD Methodology
-- [ ] Tests written first (RED phase)
+- [ ] Tests written first (RED phase) — UNIT AND E2E tests
 - [ ] Implementation made tests pass (GREEN phase)  
 - [ ] Code refactored while maintaining tests (REFACTOR phase)
 - [ ] TDD evidence documented in progress file
 
-### Testing Requirements
-- [ ] Appropriate testing framework used
-- [ ] All tests passing with output logged
+### Testing Requirements (ALL MUST PASS - 2026-02-28 Update)
+- [ ] Unit tests pass: `pnpm test` with output logged
+- [ ] Integration tests pass: `pnpm test:integration` (if exists) with output logged
+- [ ] **E2E tests pass: `pnpm test:e2e` with output logged** ← MANDATORY FOR UI
 - [ ] Test coverage adequate for acceptance criteria
 - [ ] Edge cases tested and handled
+- [ ] **E2E test output pasted in evidence** ← REQUIRED
+
+### Playwright Screenshots (MANDATORY FOR UI WORK)
+- [ ] Desktop screenshot (1920x1080): taken and saved
+- [ ] Tablet screenshot (768x1024): taken and saved
+- [ ] Mobile screenshot (375x667): taken and saved
+- [ ] Screenshot paths included in evidence
 
 ### Acceptance Criteria Validation
 - [ ] AC-1: Manually verified with evidence
@@ -387,7 +432,7 @@ Use this checklist before claiming completion:
 
 ### Quality Assurance
 - [ ] No console errors
-- [ ] Build succeeds (if applicable)
+- [ ] Build succeeds: `pnpm build` exits 0
 - [ ] Performance acceptable
 - [ ] Security considerations addressed
 - [ ] Error handling implemented
@@ -397,6 +442,25 @@ Use this checklist before claiming completion:
 - [ ] All changes documented
 - [ ] Testing approach explained
 - [ ] Work log maintained with timestamps
+- [ ] **E2E test results documented** ← REQUIRED
+```
+
+### ⚠️ FAILURE MODE WARNING (Added 2026-02-28)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   WHAT HAPPENED: Tasks claimed "complete" with 100% unit test      │
+│   success but 92% E2E failure rate. Completely broken UI shipped.  │
+│                                                                     │
+│   THE FIX: You MUST run and pass E2E tests before claiming done.   │
+│                                                                     │
+│   Run this BEFORE claiming needs-validation:                        │
+│     pnpm test          # Unit tests                                 │
+│     pnpm test:e2e      # E2E tests ← THIS WAS BEING SKIPPED!       │
+│                                                                     │
+│   If E2E tests fail, your task is NOT COMPLETE.                    │
+│   Fix the issues, re-run E2E, THEN claim needs-validation.         │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
 ## 🚨 Error Conditions & Escalation

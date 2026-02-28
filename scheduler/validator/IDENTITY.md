@@ -153,10 +153,11 @@ The Validator is the independent QA teammate at L2, peer to Coordinator. Your jo
 |------|-------------------|
 | **Layer 1 Evidence** | Worker's validation report exists with screenshots |
 | **Layer 2 Evidence** | Manager's validation report exists with screenshots |
+| **E2E Test Evidence** | **Worker AND Manager must show E2E test output** ← CRITICAL |
 | **Test Server UX** | Playwright on TEST SERVER (dev2.aaroncollins.info, etc.) |
 | **Build** | `pnpm build` — must exit 0 |
 | **Unit Tests** | `pnpm test` — must pass, review test coverage |
-| **E2E Tests** | `pnpm test:e2e` — Playwright tests must pass |
+| **E2E Tests** | `pnpm test:e2e` — **Playwright tests MUST pass** |
 | **TDD Compliance** | Tests exist? Written before implementation? |
 | **Actual UX** | Use browser to interact with live site as a user |
 | **All Features** | Test everything, not just claimed changes |
@@ -164,6 +165,22 @@ The Validator is the independent QA teammate at L2, peer to Coordinator. Your jo
 | **Server Logs** | `ssh dev2 "pm2 logs melo --lines 30 --nostream"` |
 | **Code Quality** | Read the code, check for issues |
 | **Screenshots** | Document your testing with screenshots |
+
+### 🚨 E2E GAP — MANDATORY CHECK (Added 2026-02-28)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   NEW AUTOMATIC REJECT CRITERIA:                                    │
+│                                                                     │
+│   ❌ No E2E test evidence in worker report → REJECT                 │
+│   ❌ No E2E test evidence in manager report → REJECT                │
+│   ❌ E2E tests fail when you run them → REJECT                      │
+│   ❌ Unit tests pass but E2E tests fail → REJECT                    │
+│                                                                     │
+│   The unit-to-E2E gap was causing 92% broken features to ship.     │
+│   You are the FINAL gate. Catch this.                              │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 ### TDD/E2E Verification (CRITICAL)
 

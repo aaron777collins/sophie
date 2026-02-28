@@ -239,47 +239,83 @@ Person Manager notices HAOS stalled
 
 **FOUNDATIONAL RULE: No task is complete without proper testing and validation.**
 
+### ⚠️⚠️⚠️ CRITICAL UPDATE 2026-02-28: ALL TEST LAYERS MUST PASS ⚠️⚠️⚠️
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   🚨 SYSTEMIC FAILURE IDENTIFIED:                                   │
+│                                                                     │
+│   Workers ran unit tests (100% pass) but E2E tests (92% FAIL!)      │
+│   This created DANGEROUS FALSE CONFIDENCE — broken features shipped │
+│                                                                     │
+│   NEW MANDATORY RULE: ALL test types must pass before completion:   │
+│                                                                     │
+│   1. Unit tests:        pnpm test                                   │
+│   2. Integration tests: pnpm test:integration (if exists)           │
+│   3. E2E tests:         pnpm test:e2e ← THIS WAS BEING SKIPPED!    │
+│                                                                     │
+│   Unit test success + E2E failure = NOT COMPLETE                    │
+│   Workers MUST run AND pass E2E tests for UI work.                  │
+│   Coordinators MUST verify E2E tests pass at L2.                    │
+│   Validators MUST run E2E tests independently at L3.                │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
 ### Test-Driven Development (TDD) Approach
 All implementation work MUST follow TDD methodology:
 
-1. **RED** — Write tests first (they should fail initially)
+1. **RED** — Write tests first (they should fail initially) — **INCLUDING E2E TESTS**
 2. **GREEN** — Implement just enough to make tests pass  
 3. **REFACTOR** — Improve code while keeping tests green
 
 ### Testing Frameworks Integration
 Tasks must use appropriate testing frameworks:
 
-| Work Type | Required Testing Tools | Validation Method |
-|-----------|----------------------|-------------------|
-| **Documentation** | Validation scripts, link checkers | Automated structure validation |
-| **Frontend Code** | Jest, Playwright, Cypress | Unit + E2E test suites |
-| **Backend Code** | Jest, Supertest, integration tests | API + database validation |
-| **Infrastructure** | Terraform plan, smoke tests | Deployment validation |
-| **Content/Media** | Accessibility checks, format validation | Quality + compliance checks |
+| Work Type | Required Testing Tools | Validation Method | Evidence Required |
+|-----------|----------------------|-------------------|-------------------|
+| **Documentation** | Validation scripts, link checkers | Automated structure validation | Validation output |
+| **Frontend Code** | Jest/Vitest (unit), Playwright (E2E) | Unit + Integration + **E2E** test suites | Unit output, **E2E output**, **screenshots** |
+| **Backend Code** | Jest, Supertest, integration tests | API + database validation | API test results, integration logs |
+| **Infrastructure** | Terraform plan, smoke tests | Deployment validation | Plan output, deployment logs |
+| **Content/Media** | Accessibility checks, format validation | Quality + compliance checks | Validation reports, accessibility scores |
+
+### Three-Layer Testing Stack (MANDATORY for Frontend/UI)
+
+| Layer | Command | What It Tests | When Required |
+|-------|---------|---------------|---------------|
+| **Unit** | `pnpm test` | Component logic, functions | ALWAYS |
+| **Integration** | `pnpm test:integration` | Component interactions, API calls | IF EXISTS |
+| **E2E** | `pnpm test:e2e` | Full user flows in browser | **ALWAYS for UI work** |
+
+**All layers must pass. Not just unit tests.**
 
 ### Validation Workflow (3-Layer Enhancement)
 Every task follows enhanced 3-layer validation:
 
 #### Layer 1: Self-Validation (Worker)
-- [ ] Tests written BEFORE implementation
+- [ ] Tests written BEFORE implementation (unit AND E2E)
 - [ ] All tests pass (RED → GREEN → REFACTOR)
+- [ ] **Unit tests pass:** `pnpm test` output included
+- [ ] **E2E tests pass:** `pnpm test:e2e` output included ← MANDATORY FOR UI
 - [ ] Code/content meets acceptance criteria
 - [ ] Testing evidence collected (screenshots, logs)
-- [ ] **Cannot claim complete without test evidence**
+- [ ] **Playwright screenshots at 3 viewports** (desktop/tablet/mobile)
+- [ ] **Cannot claim complete without ALL test evidence**
 
 #### Layer 2: Manager Validation (Coordinator)  
-- [ ] Verify test evidence provided
+- [ ] Verify test evidence provided (unit AND E2E)
+- [ ] **Run `pnpm test:e2e` yourself** — must pass
 - [ ] Confirm tests actually validate acceptance criteria
 - [ ] Check test coverage is adequate
 - [ ] Validate testing framework usage
-- [ ] **Cannot approve without reviewing test results**
+- [ ] **Reject if E2E tests fail or are missing**
 
 #### Layer 3: Independent Validation (Validator)
-- [ ] Run tests independently to confirm results
+- [ ] **Run `pnpm test:e2e` independently** — must pass
 - [ ] Verify test quality and comprehensiveness  
 - [ ] Check for missed edge cases
 - [ ] Validate end-to-end functionality
-- [ ] **Final approval requires independent test verification**
+- [ ] **Reject if worker/manager didn't provide E2E evidence**
 
 ### No Task Without Tests Policy
 ```
@@ -288,11 +324,12 @@ Every task follows enhanced 3-layer validation:
 │                                                                     │
 │   Every task assignment MUST include:                               │
 │   • Test strategy defined upfront                                   │
-│   • Testing framework specified                                     │
+│   • Testing framework specified (unit + E2E for UI)                 │
 │   • Validation method documented                                    │
-│   • Evidence collection requirements                                │
+│   • Evidence collection requirements (including E2E output)         │
 │                                                                     │
 │   Tasks without testing plans will be REJECTED by managers          │
+│   UI tasks without E2E tests will be REJECTED automatically         │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
