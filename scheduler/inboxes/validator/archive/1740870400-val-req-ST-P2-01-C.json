@@ -1,0 +1,29 @@
+{
+  "id": "val-req-ST-P2-01-C",
+  "timestamp": "2026-02-28T08:06:00Z",
+  "from": "coordinator", 
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: ST-P2-01-C Registration Form Validation",
+  "content": {
+    "task_ids": ["ST-P2-01-C"],
+    "project": "melo-v2",
+    "phase": "Phase 2",
+    "parent_story": "US-P2-01",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-02-28T08:06:00Z",
+    "files_changed": ["app/(routes)/sign-up/[[...sign-up]]/page.tsx"],
+    "commits": ["0ca2aad"],
+    "acceptance_criteria": [
+      "AC-3: Form validates username (min 3 chars)",
+      "AC-3: Form validates email format",
+      "AC-3: Form validates password (min 8 chars, uppercase, lowercase, number)",
+      "AC-3: Form validates password confirmation matches",
+      "AC-3: Error messages displayed appropriately",
+      "AC-3: Build passes without errors"
+    ],
+    "self_validation_notes": "Layer 2 (Coordinator) - 2026-02-28 03:06 EST: Commit 0ca2aad implements Zod schema with zodResolver for React Hook Form. Validation rules: username min 3, password min 8 with complexity, confirm match. Error display integrated.",
+    "test_server": "https://dev2.aaroncollins.info",
+    "validation_requirements": "Use Playwright to test /sign-up form: verify validation errors appear for invalid input, form submission blocked when invalid, proper error messages shown"
+  }
+}

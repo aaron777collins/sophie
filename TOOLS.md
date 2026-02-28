@@ -112,11 +112,43 @@ I'm the brain (Opus) — thinking, planning, deciding. Use smaller/faster models
 - **DuckDuckGo:** Works! Use `https://duckduckgo.com/html/?q=<query>`
 - Then fetch specific URLs from results if more detail needed
 
-## Browser Automation (Clawdbot Browser Relay)
+## Browser Automation
 
-> **📖 Complete Guide:** [`~/clawd/docs/clawdbot-browser-relay.md`](docs/clawdbot-browser-relay.md) ← **READ THIS FOR FULL DETAILS**
+### ⚠️ CRITICAL: Use Playwright First, NOT Chrome Extension Relay!
 
-Chrome runs headlessly on Xvfb display :99 with the Clawdbot Browser Relay extension for web automation.
+**The Chrome extension relay is UNRELIABLE and basically never works.** (Aaron's words, 2026-02-28)
+
+**Preferred order:**
+1. **Playwright** — Reliable, headless, proper automation framework
+2. **Direct browser tool with `profile=clawd`** — Clawdbot's isolated browser
+3. **Chrome extension relay** — LAST RESORT only when absolutely needed
+
+### Playwright (PREFERRED)
+
+```bash
+# Navigate and screenshot
+npx playwright test --headed  # or headless by default
+
+# Quick one-liner for screenshots
+npx playwright screenshot https://example.com screenshot.png
+```
+
+**For MELO validation:** Use Playwright for all screenshot validation. It's what the test framework uses anyway!
+
+### Clawdbot Isolated Browser (`profile=clawd`)
+
+```bash
+# Use the clawd profile - more reliable than Chrome relay
+browser action=open profile=clawd targetUrl="https://example.com"
+browser action=screenshot profile=clawd
+browser action=snapshot profile=clawd
+```
+
+### Chrome Extension Relay (UNRELIABLE - LAST RESORT)
+
+> **📖 Legacy Guide:** [`~/clawd/docs/clawdbot-browser-relay.md`](docs/clawdbot-browser-relay.md)
+
+Chrome runs headlessly on Xvfb display :99 with the Clawdbot Browser Relay extension. **This is unreliable and should be avoided.**
 
 ### ⚠️ Important: Share Screenshots!
 **Aaron can't see the virtual display.** When doing browser work, send screenshots via Slack (or current channel) so he can see what's happening and help guide.

@@ -1,0 +1,21 @@
+{
+  "id": "val-req-ST-P2-01-A",
+  "timestamp": "2026-02-28T03:00:00-05:00",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: ST-P2-01-A Homepage Registration Link",
+  "content": {
+    "task_ids": ["ST-P2-01-A"],
+    "project": "melo-v2",
+    "phase": "Phase 2",
+    "user_story": "US-P2-01",
+    "acceptance_criteria": "AC-1: Registration link visible on homepage within 5 seconds",
+    "files_changed": ["app/page.tsx"],
+    "commits": ["ca561a3", "4ee245a"],
+    "self_validation_notes": "Verified commits exist, build passes, link visible in code. Sign Up button added to homepage with href=/sign-up. Coordinator fixed syntax error from worker duplication.",
+    "test_server": "http://dev2.aaroncollins.info:3000",
+    "validation_method": "Playwright E2E or browser verification",
+    "screenshots_needed": true
+  }
+}

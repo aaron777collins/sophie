@@ -1,0 +1,26 @@
+{
+  "id": "val-req-ST-P2-01-A",
+  "timestamp": "2026-02-28T08:00:00Z",
+  "from": "coordinator", 
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: ST-P2-01-A Homepage Registration Link",
+  "content": {
+    "task_ids": ["ST-P2-01-A"],
+    "project": "melo-v2",
+    "phase": "Phase 2",
+    "parent_story": "US-P2-01",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-02-28T08:00:00Z",
+    "files_changed": ["app/page.tsx"],
+    "commits": ["ca561a3", "4ee245a"],
+    "acceptance_criteria": [
+      "AC-1: Registration link prominently displayed on homepage",
+      "AC-1: Link directs to /sign-up route", 
+      "AC-1: Build passes without errors"
+    ],
+    "self_validation_notes": "Layer 2 (Coordinator) - 2026-02-28 03:00 EST: Link verified in app/page.tsx, routes correctly to /sign-up, build passes (Exit: 0). Commits ca561a3 + fix 4ee245a verified in git log.",
+    "test_server": "https://dev2.aaroncollins.info",
+    "validation_requirements": "Use Playwright to verify homepage displays registration link and clicking it navigates to sign-up page"
+  }
+}
