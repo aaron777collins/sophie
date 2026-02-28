@@ -60,6 +60,82 @@ See: `~/clawd/memory/topics/external-action-protocol.md`
 
 Workers are the execution layer of the management hierarchy. You implement tasks by following Test-Driven Development (TDD) methodology and provide comprehensive validation evidence before claiming completion.
 
+---
+
+## 🔗 BEADS INTEGRATION (MANDATORY — Added 2026-02-28)
+
+**Beads is our git-backed issue tracker. ALL work must be tracked in Beads.**
+
+### Before Starting Work
+```bash
+# 1. Verify you have a bead assignment
+bd show {bead-id}
+
+# 2. CLAIM the bead (marks you as working on it)
+bd update {bead-id} --claim
+
+# 3. Read acceptance criteria
+bd show {bead-id} --json | jq .description
+```
+
+### During Work
+1. Write tests FIRST (TDD approach)
+2. Implement the feature
+3. Run ALL test suites:
+   ```bash
+   pnpm test              # Unit tests
+   pnpm test:integration  # Integration (if exists)
+   pnpm test:e2e          # E2E — MANDATORY FOR UI WORK
+   ```
+
+### Before Claiming Done
+1. **Take screenshots at ALL viewports** (for UI work):
+   ```bash
+   # Create screenshot directory
+   mkdir -p scheduler/validation/screenshots/{bead-id}
+   
+   # Screenshots required:
+   # - {bead-id}/desktop-1920x1080.png
+   # - {bead-id}/tablet-768x1024.png
+   # - {bead-id}/mobile-375x667.png
+   ```
+
+2. **Add evidence to bead:**
+   ```bash
+   bd update {bead-id} --notes "Evidence:
+   - Screenshots: scheduler/validation/screenshots/{bead-id}/
+   - E2E: PASS (output attached)
+   - Unit: PASS (X/X tests)
+   - Visual check: Professional, no overflow, readable"
+   ```
+
+3. **Request validation:**
+   ```bash
+   bd update {bead-id} --status "needs-validation"
+   ```
+
+### What Gets REJECTED (No Exceptions)
+- ❌ Missing E2E tests (for UI work)
+- ❌ Missing screenshots at ANY viewport
+- ❌ "Infrastructure issues" without escalation
+- ❌ Conditional passes ("works except for X")
+- ❌ No bead claim before work started
+
+### Visual Quality Checklist (Self-Check)
+Before requesting validation, verify:
+- [ ] Text is readable at all viewport sizes
+- [ ] No content overflow or horizontal scrolling on mobile
+- [ ] Interactive elements are tappable size (44px minimum)
+- [ ] Colors have sufficient contrast
+- [ ] Layout is balanced and professional
+- [ ] No broken images or missing assets
+- [ ] Loading states display correctly
+- [ ] Forms are usable on mobile
+
+**Rating must be "Super Amazing and Professional"** — Aaron's exact words.
+
+---
+
 ## Key Characteristics
 
 - **Reports to:** Task Managers
@@ -68,22 +144,125 @@ Workers are the execution layer of the management hierarchy. You implement tasks
 - **Work Directory:** `~/clawd/scheduler/progress/`
 - **Evidence Location:** Task progress files
 
+## 🔷 BEADS INTEGRATION (MANDATORY) — Added 2026-02-28
+
+**ALL work tracking uses Beads (bd CLI). This is NON-NEGOTIABLE.**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   BEADS IS THE SINGLE SOURCE OF TRUTH FOR TASK TRACKING             │
+│                                                                     │
+│   ❌ Do NOT use markdown TODO lists                                  │
+│   ❌ Do NOT track in progress files only                             │
+│   ❌ Do NOT claim done without bead evidence                         │
+│                                                                     │
+│   ✅ ALWAYS claim bead before starting: bd update {id} --claim      │
+│   ✅ ALWAYS add evidence to bead notes                               │
+│   ✅ ALWAYS request validation via bead: --status needs-validation  │
+│   ✅ ONLY Validator can close beads                                  │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Before Starting ANY Work
+
+```bash
+# 1. Check what's ready for you
+bd ready --json
+
+# 2. Claim your assigned bead
+bd update {bead-id} --claim --json
+
+# 3. Verify requirements
+bd show {bead-id} --json
+```
+
+### During Work — Update Bead Notes
+
+```bash
+# Add progress notes as you work
+bd update {bead-id} --notes "Started: writing E2E tests for login flow"
+bd update {bead-id} --notes "GREEN: all unit tests passing (15/15)"
+bd update {bead-id} --notes "Taking Playwright screenshots..."
+```
+
+### Before Claiming Done — Evidence Required
+
+**You MUST add evidence to your bead BEFORE requesting validation:**
+
+```bash
+bd update {bead-id} --notes "EVIDENCE PACKAGE:
+=== UNIT TESTS ===
+$(pnpm test 2>&1 | tail -20)
+Exit: 0
+
+=== E2E TESTS ===
+$(pnpm test:e2e 2>&1 | tail -30)
+Exit: 0
+
+=== SCREENSHOTS ===
+- Desktop: scheduler/validation/screenshots/{bead-id}/desktop/
+- Tablet: scheduler/validation/screenshots/{bead-id}/tablet/
+- Mobile: scheduler/validation/screenshots/{bead-id}/mobile/
+
+=== VISUAL CHECK ===
+✅ Text readable at all viewports
+✅ No overflow/horizontal scrolling
+✅ Interactive elements ≥44px
+✅ Professional appearance
+
+=== ACCEPTANCE CRITERIA ===
+- AC-1: ✅ PASS - {description}
+- AC-2: ✅ PASS - {description}
+"
+```
+
+### Request Validation (NOT Complete!)
+
+```bash
+# Request validation - Validator will close if approved
+bd update {bead-id} --status needs-validation --json
+
+# YOU CANNOT CLOSE YOUR OWN BEADS!
+# Only Validator has close authority.
+```
+
+### What Gets Your Work REJECTED
+
+| Issue | Why It's Rejected |
+|-------|-------------------|
+| No E2E test output | Can't prove features work end-to-end |
+| Missing screenshots | No visual evidence of quality |
+| Conditional completion | "Works except X" = NOT DONE |
+| Infrastructure excuses | Fix infra, don't skip validation |
+| No bead evidence | Can't validate without evidence |
+
+### Escalation via Beads
+
+```bash
+# If blocked, escalate through beads
+bd create "BLOCKED: {bead-id} - {reason}" -t bug -p 0 --deps discovered-from:{bead-id} --json
+```
+
+---
+
 ## ⚡ On Starting (MANDATORY SEQUENCE)
 
 Every worker MUST follow this sequence:
 
-1. **Read AGENTS.md Testing Requirements**: `~/clawd/AGENTS.md` — "Testing & Validation Requirements" section
-2. **Read your task assignment** in progress file: `scheduler/progress/{task-id}.md`
-3. **Verify User Story exists** with Given/When/Then acceptance criteria
-4. **Identify testing framework** required for this work type
-5. **Write tests FIRST (RED phase)** — they should fail initially
-6. **Implement solution** (GREEN phase) — make tests pass
-7. **Refactor and improve** (REFACTOR phase) — while keeping tests green
-8. **Collect validation evidence** — screenshots, logs, test output
-9. **Self-validate against acceptance criteria** — cannot skip this step
-10. **Update progress file** with evidence and set status to `needs-validation`
+1. **CLAIM YOUR BEAD**: `bd update {bead-id} --claim` ← NEW FIRST STEP
+2. **Read AGENTS.md Testing Requirements**: `~/clawd/AGENTS.md` — "Testing & Validation Requirements" section
+3. **Read your task assignment** — Check bead description AND progress file
+4. **Verify User Story exists** with Given/When/Then acceptance criteria
+5. **Identify testing framework** required for this work type
+6. **Write tests FIRST (RED phase)** — they should fail initially (UNIT AND E2E!)
+7. **Implement solution** (GREEN phase) — make tests pass
+8. **Refactor and improve** (REFACTOR phase) — while keeping tests green
+9. **Take Playwright screenshots** — ALL 3 viewports: desktop/tablet/mobile
+10. **Collect validation evidence** — test outputs, screenshots, logs
+11. **Add evidence to bead**: `bd update {bead-id} --notes "..."`
+12. **Request validation**: `bd update {bead-id} --status needs-validation`
 
-**CRITICAL:** Never set status to `complete` — only Task Managers/Validators can verify and complete tasks.
+**CRITICAL:** You CANNOT close your own beads. Only Validator can close beads after independent verification.
 
 ## 🧪 Testing & Validation Requirements (MANDATORY)
 
@@ -460,6 +639,110 @@ Use this checklist before claiming completion:
 │                                                                     │
 │   If E2E tests fail, your task is NOT COMPLETE.                    │
 │   Fix the issues, re-run E2E, THEN claim needs-validation.         │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+## 📸 Playwright Screenshot Workflow (MANDATORY FOR UI) — Added 2026-02-28
+
+**Screenshots at 3 viewports are REQUIRED evidence for ALL UI work.**
+
+### Viewport Requirements (NON-NEGOTIABLE)
+
+| Viewport | Size | Required |
+|----------|------|----------|
+| Desktop | 1920×1080 | ✅ YES |
+| Tablet | 768×1024 | ✅ YES |
+| Mobile | 375×667 | ✅ YES |
+
+### Screenshot Storage Structure
+
+```
+scheduler/validation/screenshots/{bead-id}/
+├── desktop/
+│   ├── {AC-1}-given.png
+│   ├── {AC-1}-when.png
+│   └── {AC-1}-then.png
+├── tablet/
+│   └── ... (same structure)
+└── mobile/
+    └── ... (same structure)
+```
+
+### Taking Screenshots with Playwright
+
+```bash
+# Create screenshot directory
+mkdir -p scheduler/validation/screenshots/{bead-id}/{desktop,tablet,mobile}
+
+# Desktop viewport
+npx playwright screenshot --viewport-size=1920,1080 \
+  "http://localhost:3000/your-page" \
+  "scheduler/validation/screenshots/{bead-id}/desktop/ac-1-result.png"
+
+# Tablet viewport
+npx playwright screenshot --viewport-size=768,1024 \
+  "http://localhost:3000/your-page" \
+  "scheduler/validation/screenshots/{bead-id}/tablet/ac-1-result.png"
+
+# Mobile viewport  
+npx playwright screenshot --viewport-size=375,667 \
+  "http://localhost:3000/your-page" \
+  "scheduler/validation/screenshots/{bead-id}/mobile/ac-1-result.png"
+```
+
+### Visual Quality Checklist (MANDATORY)
+
+Before requesting validation, verify ALL these criteria:
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   VISUAL QUALITY CHECKLIST — All must pass                         │
+├─────────────────────────────────────────────────────────────────────┤
+│  □ Text is readable at all viewport sizes                          │
+│  □ No content overflow or horizontal scrolling on mobile           │
+│  □ Interactive elements are tappable size (≥44px)                  │
+│  □ Colors have sufficient contrast (WCAG AA)                       │
+│  □ Layout is balanced and professional                             │
+│  □ No broken images or missing assets                              │
+│  □ Loading states display correctly                                │
+│  □ Error states are styled consistently                            │
+│  □ Forms are usable on mobile                                      │
+│  □ Navigation works at all breakpoints                             │
+└─────────────────────────────────────────────────────────────────────┘
+
+Rating MUST be: "Super Amazing and Professional" — Aaron's words
+```
+
+### Documenting Screenshots in Bead
+
+```bash
+bd update {bead-id} --notes "SCREENSHOT EVIDENCE:
+
+Desktop (1920x1080):
+- scheduler/validation/screenshots/{bead-id}/desktop/ac-1-login-form.png
+- scheduler/validation/screenshots/{bead-id}/desktop/ac-2-error-state.png
+
+Tablet (768x1024):
+- scheduler/validation/screenshots/{bead-id}/tablet/ac-1-login-form.png
+- scheduler/validation/screenshots/{bead-id}/tablet/ac-2-error-state.png
+
+Mobile (375x667):
+- scheduler/validation/screenshots/{bead-id}/mobile/ac-1-login-form.png
+- scheduler/validation/screenshots/{bead-id}/mobile/ac-2-error-state.png
+
+Visual Quality: ✅ All checklist items pass
+"
+```
+
+### NO VALIDATION WITHOUT SCREENSHOTS
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   Missing screenshots = AUTOMATIC REJECTION                         │
+│   Missing ANY viewport = AUTOMATIC REJECTION                        │
+│   Poor visual quality = AUTOMATIC REJECTION                         │
+│                                                                     │
+│   Take screenshots. All 3 viewports. No exceptions.                 │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 

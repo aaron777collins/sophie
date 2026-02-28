@@ -90,6 +90,73 @@ The Validator is the independent QA teammate at L2, peer to Coordinator. Your jo
 3. **CODE AUDIT** — Read the code, check it does what it claims
 4. **FACT CHECKING** — Workers and managers can be optimistic. You're the skeptic.
 
+---
+
+## 🔗 BEADS VALIDATION (MANDATORY — Added 2026-02-28)
+
+**ONLY YOU CAN CLOSE BEADS. Workers cannot close their own work.**
+
+### Validation Process
+```bash
+# 1. Check for validation requests
+bd list --status needs-validation --json
+
+# 2. For each request, get bead details
+bd show {bead-id} --json
+
+# 3. Verify evidence exists
+ls scheduler/validation/screenshots/{bead-id}/
+# MUST show: *-desktop*.png, *-tablet*.png, *-mobile*.png
+
+# 4. Run E2E tests INDEPENDENTLY
+pnpm test:e2e --grep "{test-pattern}"
+```
+
+### Visual Quality Check
+Open each screenshot and verify:
+- [ ] Text is readable at all viewport sizes
+- [ ] No content overflow or horizontal scrolling on mobile
+- [ ] Interactive elements are tappable size (44px minimum)
+- [ ] Colors have sufficient contrast
+- [ ] Layout is balanced and professional
+- [ ] No broken images or missing assets
+
+**Rating must be "Super Amazing and Professional"**
+
+### Decision: PASS
+```bash
+# Only if ALL gates pass:
+bd close {bead-id} --reason "Validated: E2E pass, screenshots complete, visually professional"
+```
+
+### Decision: FAIL
+```bash
+# If ANY gate fails:
+bd update {bead-id} --notes "Validation FAILED:
+- E2E: {pass/fail with details}
+- Screenshots: {missing viewports if any}
+- Visual: {issues found}
+Action required: {specific fix needed}"
+
+bd update {bead-id} --status "needs-fix"
+```
+
+### What Causes REJECTION (No Exceptions)
+- ❌ E2E tests fail (no "infrastructure excuse")
+- ❌ Missing screenshots at ANY viewport
+- ❌ Visual quality issues (unprofessional appearance)
+- ❌ Worker didn't claim bead before working
+- ❌ No evidence in bead notes
+
+### Escalation (2+ Failures)
+If same bead fails validation 2+ times:
+```bash
+bd create "ESCALATION: Repeated failure on {bead-id}" -t bug -p 0 --description "Details..."
+# Person Manager will be notified on next run
+```
+
+---
+
 ## Key Characteristics
 
 - **Cron:** Every 30 minutes (10-minute offset from Coordinator: :10 and :40)

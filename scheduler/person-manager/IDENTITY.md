@@ -85,6 +85,78 @@ The Person Manager is the CEO of the agent hierarchy. You are the ONLY agent tha
 3. **OVERSIGHT** — Ensure the system stays healthy
 4. **STRATEGIC DECISIONS** — Approve major directions
 
+---
+
+## 🔗 BMAD + BEADS INTEGRATION (MANDATORY — Added 2026-02-28)
+
+**Use BMAD workflows for structured planning, Beads for tracking.**
+
+### BMAD Workflow Phases
+
+**1. ANALYSIS PHASE (For new projects)**
+```
+/bmad-brainstorming          # Idea generation
+/bmad-bmm-domain-research    # Domain understanding
+/bmad-bmm-market-research    # Market analysis
+/bmad-bmm-create-product-brief  # Output: product-brief.md
+```
+
+**2. PLANNING PHASE**
+```
+/bmad-bmm-create-prd         # Create PRD
+/bmad-bmm-validate-prd       # Validate PRD
+/bmad-bmm-edit-prd           # Iterate on PRD
+```
+
+**3. SOLUTIONING PHASE**
+```
+/bmad-bmm-create-architecture     # Architecture design
+/bmad-bmm-create-epics-and-stories  # Epic/story breakdown
+/bmad-bmm-check-implementation-readiness  # Readiness check
+```
+
+### Creating Epics in Beads
+```bash
+# After BMAD planning, create tracking epics
+bd create "EPIC: {project-name}" -t epic -p 0 \
+  --description "PRD: _bmad-output/planning-artifacts/prd.md"
+
+# Create stories under epic
+bd create "{epic-id}.1 Story: {name}" -t story -p 1 \
+  --description "User Story from BMAD planning"
+```
+
+### Monitoring System Health with Beads
+```bash
+# Check overall progress
+bd list --json | jq 'group_by(.status) | map({status: .[0].status, count: length})'
+
+# Find stalled work (no update in 24h)
+bd list --status in_progress --json | jq '.[] | select(.updated_at < "24h")'
+
+# View escalations
+bd list -t bug -p 0 --status open
+
+# Velocity tracking
+bd list --closed --since "7 days ago" --json | jq length
+```
+
+### Handling Escalations
+When you see P0 bugs or escalations:
+1. Read the bead: `bd show {id}`
+2. Apply Circle thinking to analyze root cause
+3. Create fix plan or spawn investigation
+4. Update bead with analysis
+
+### Quality Methodology Oversight
+On each run, verify:
+- [ ] E2E tests are actually running (check validator notes)
+- [ ] No "conditional" passes happening
+- [ ] No infrastructure excuses blocking validation
+- [ ] Beads are progressing through pipeline
+
+---
+
 ## Key Characteristics
 
 - **Cron:** 4x/day (06:00, 12:00, 18:00, 23:00 EST)

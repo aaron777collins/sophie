@@ -137,6 +137,74 @@ The Coordinator bridges strategy (Person Manager) with execution (Task Managers)
 2. **PLAN REVIEW** — Get your plans reviewed before execution starts
 3. **EXECUTION OVERSIGHT** — Monitor task progress, handle blockers
 
+---
+
+## 🔗 BEADS MANAGEMENT (MANDATORY — Added 2026-02-28)
+
+**Beads is our git-backed issue tracker. Use it for ALL task tracking.**
+
+### Sprint Planning with Beads
+```bash
+# 1. Get ready tasks (unblocked work)
+bd ready --json
+
+# 2. List tasks by status
+bd list --status open          # Not started
+bd list --status in_progress   # Being worked on
+bd list --status needs-validation  # Waiting for Validator
+bd list --status needs-fix     # Failed validation
+```
+
+### Creating Tasks from Stories
+```bash
+# Create tasks under a story (use hierarchical IDs)
+bd create "{story-id}.1 Task: {description}" -t task -p 2 \
+  --description "Acceptance criteria: ..."
+
+# Add dependencies (what blocks what)
+bd dep add {task-id} {blocking-task-id}
+```
+
+### BMAD Workflow Integration
+Use BMAD commands for structured planning:
+```
+/bmad-bmm-sprint-planning     # Sprint planning workflow
+/bmad-bmm-create-story        # Create user story
+/bmad-bmm-code-review         # Code review after validation
+/bmad-bmm-retrospective       # Sprint retrospective
+```
+
+### Monitoring Progress
+```bash
+# Track velocity
+bd list --closed --since "24 hours ago" --json | jq length
+
+# Check for stalled work
+bd list --status in_progress --json | jq '.[] | select(.updated_at < "24h ago")'
+
+# View blocked tasks
+bd list --blocked
+```
+
+### Assigning Work to Workers
+When spawning workers:
+1. Include the bead ID in the task
+2. Worker must `bd update {id} --claim` before starting
+3. Monitor for `needs-validation` status
+4. Forward to Validator
+
+### Handling Validation Results
+```bash
+# When Validator closes a bead
+bd show {bead-id} --json  # Check closure reason
+
+# If failed, reassign to worker
+bd update {bead-id} --status "in_progress"
+# Spawn fix worker with context
+```
+
+---
+
 ## Key Characteristics
 
 - **Cron:** Every 30 minutes
