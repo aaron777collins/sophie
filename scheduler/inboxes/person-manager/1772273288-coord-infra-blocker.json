@@ -1,0 +1,26 @@
+{
+  "id": "coord-infra-20260228-0510",
+  "timestamp": "2026-02-28T05:10:00-05:00",
+  "from": "coordinator",
+  "to": "person-manager",
+  "type": "escalation",
+  "priority": "P0-CRITICAL",
+  "subject": "Test Server Infrastructure Blocker - dev2 Non-Functional",
+  "content": {
+    "summary": "Layer 2 validation of ST-P2-02-B FAILED due to test server being completely broken. All UI validation work is blocked.",
+    "affected_tasks": ["ST-P2-02-B", "all future MELO Phase 2 UI validation"],
+    "blocker_details": {
+      "server": "dev2.aaroncollins.info:3000",
+      "pm2_restarts": 373,
+      "issues": [
+        "SSL protocol errors - mixed content violations",
+        "40+ JavaScript/CSS files fail to load",
+        "Application stuck at Loading screen",
+        "High server instability"
+      ]
+    },
+    "impact": "Cannot validate any UI functionality until test server is repaired",
+    "recommendation": "Immediate attention needed to restore test server before validation can proceed",
+    "evidence": "~/clawd/scheduler/coordinator/validation/L2-ST-P2-02-B-20260228-0506.md"
+  }
+}

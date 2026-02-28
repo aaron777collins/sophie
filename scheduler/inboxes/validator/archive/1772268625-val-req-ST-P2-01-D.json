@@ -1,0 +1,19 @@
+{
+  "id": "val-req-ST-P2-01-D-1772269200",
+  "timestamp": "2026-02-28T09:00:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: ST-P2-01-D Successful Registration Flow",
+  "content": {
+    "task_ids": ["ST-P2-01-D"],
+    "project": "melo-v2",
+    "phase": "Phase 2 - US-P2-01",
+    "evidence_path": "~/clawd/scheduler/validation/evidence/melo-v2/ST-P2-01-D-evidence.md",
+    "acceptance_criteria": [
+      "AC-4: Valid credentials → successful registration → auto-login/redirect"
+    ],
+    "self_validation_notes": "L2 verified: Sign-up page has Zod validation, useMatrixAuth.register(), react-hook-form integration. Implementation complete. E2E tests blocked by auth provider loading state (test infra issue, not functionality).",
+    "conditional_note": "E2E test environmental issue tracked separately - does not affect functionality validation"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "id": "val-req-US-BA-02-1772268900",
+  "timestamp": "2026-02-28T08:55:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: US-BA-02 Basic Screenshot Capture",
+  "content": {
+    "task_ids": ["US-BA-02"],
+    "project": "browser-automation",
+    "phase": "EPIC-01",
+    "evidence_path": "~/clawd/scheduler/validation/evidence/browser-automation/US-BA-02-evidence.md",
+    "screenshot_files": [
+      "AC-1-2-basic-screenshot.png (18,964 bytes)",
+      "AC-3-fullpage-screenshot.png (442,325 bytes)",
+      "AC-4-mobile-screenshot.png (16,638 bytes)",
+      "AC-5-desktop-screenshot.png (21,917 bytes)",
+      "AC-6-networkidle-screenshot.png (96,387 bytes)"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Basic screenshot capture",
+      "AC-2: Meaningful content (>10KB)",
+      "AC-3: Full page screenshot",
+      "AC-4: Mobile viewport (375x667)",
+      "AC-5: Desktop viewport (1920x1080)",
+      "AC-6: Network idle wait",
+      "AC-7: Invalid URL error handling",
+      "AC-8: Timeout error handling"
+    ],
+    "self_validation_notes": "L2 spot-check: All screenshot files exist with valid PNG headers. Sizes appropriate for content."
+  }
+}

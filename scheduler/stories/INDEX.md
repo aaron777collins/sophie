@@ -1,10 +1,26 @@
 # User Stories Index
 
-**Last Updated:** 2026-02-21 12:30 EST
+**Last Updated:** 2026-02-28 05:00 EST
 
 ---
 
 ## Active Projects
+
+### Browser Automation Infrastructure (NEW - P0 CRITICAL)
+
+**Status:** Stories Created - Ready for Implementation
+**Repository:** N/A (infrastructure project)
+**Test Environment:** dev3 localhost + https://example.com
+
+| Epic | Title | Status | Stories |
+|------|-------|--------|---------|
+| EPIC-01 | Playwright Setup & Validation | ⏳ pending | 4 |
+
+**Current Focus:** US-BA-01 through US-BA-04 (Playwright installation, screenshots, reliability)
+
+**Why P0:** Chrome extension relay consistently failing. This blocks ALL validation work.
+
+---
 
 ### PortableRalph
 
@@ -54,6 +70,13 @@ scheduler/stories/
 │   ├── EPIC-TEMPLATE.md
 │   ├── USER-STORY-TEMPLATE.md
 │   └── VALIDATION-REPORT-TEMPLATE.md
+├── browser-automation/         ◄── NEW (P0 CRITICAL)
+│   └── stories/
+│       ├── INDEX.md
+│       ├── US-BA-01-playwright-installation.md
+│       ├── US-BA-02-basic-screenshot.md
+│       ├── US-BA-03-melo-localhost.md
+│       └── US-BA-04-reliability-validation.md
 ├── portableralph/
 │   ├── epics/
 │   │   └── PR-E004-production-hardening.md

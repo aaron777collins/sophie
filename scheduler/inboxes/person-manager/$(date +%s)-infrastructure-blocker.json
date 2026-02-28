@@ -1,0 +1,30 @@
+{
+  "id": "infra-blocker-1772274763",
+  "timestamp": "2026-02-28T10:30:00Z",
+  "from": "coordinator",
+  "to": "person-manager", 
+  "type": "critical-escalation",
+  "priority": "P0-CRITICAL",
+  "subject": "CRITICAL: Test Server Infrastructure Blocking All UI Validation",
+  "content": {
+    "summary": "dev2.aaroncollins.info:3000 test server is completely broken, blocking all UI validation work",
+    "impact": "Cannot validate any acceptance criteria requiring UI interaction. Multiple tasks blocked.",
+    "details": {
+      "server_status": "Online but functionally broken - 373 restarts in 18 hours",
+      "primary_issues": [
+        "SSL protocol errors preventing JavaScript bundle loading",
+        "Mixed content violations (HTTP serving HTTPS resources)", 
+        "Application stuck at 'Loading...' screen indefinitely",
+        "40+ resource loading failures in browser console"
+      ],
+      "validation_blocked": [
+        "ST-P2-02-B: Complete leave server flow (L2 validation FAILED)",
+        "Future UI validation for all MELO Phase 2 tasks"
+      ],
+      "evidence": "~/clawd/scheduler/coordinator/validation/L2-ST-P2-02-B-20260228-0506.md"
+    },
+    "recommendation": "Deploy working test server or provide alternative UI testing environment",
+    "urgency": "This blocks all UI validation work for MELO Phase 2. Code-level validation can continue but acceptance criteria requiring UI interaction cannot be verified.",
+    "workaround": "Currently performing code-level validation where possible (L2 validation spawned for ST-P2-01-D and ST-P2-01-E)"
+  }
+}
