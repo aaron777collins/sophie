@@ -1,6 +1,25 @@
-# Validation Evidence
+# Validation Evidence — BMAD-Beads System
+
+> **"If it isn't proven finished, IT ISN'T DONE."** — Aaron
 
 This directory stores validation evidence for Beads tasks.
+
+## Quick Reference
+
+```bash
+# Helper scripts
+~/clawd/tools/validation/take-screenshots.sh {bead-id} {url} {name}
+~/clawd/tools/validation/check-evidence.sh {bead-id}
+
+# Worker: Request validation
+bd update {bead-id} --status needs-validation
+
+# Validator: Close (ONLY validator can close)
+bd close {bead-id} --reason "Validated: E2E pass, screenshots complete"
+
+# Check validation queue
+bd list --status needs-validation --json
+```
 
 ## Directory Structure
 
