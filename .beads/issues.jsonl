@@ -1,5 +1,20 @@
 [
   {
+    "id": "clawd-8le",
+    "title": "EPIC: MELO V2 - Matrix Client (Discord-like)",
+    "description": "Complete Matrix client that feels like Discord. A common platform.\n\nSub-Epics:\n- E001: Authentication (P0)\n- E002: Servers/Spaces (P0)\n- E003: Channels/Rooms (P0)\n- E004: Messaging (P0)\n- E005: Direct Messages (P0)\n- E006: Voice/Video (P0)\n- E007: Moderation (P1)\n- E008: User Settings (P1)\n- E009: Notifications (P1)\n- E010: E2EE/Privacy (P0)\n- E011: Mobile/PWA (P1)\n- E012: Roles/Permissions (P1)\n\nTotal Stories: ~134\nRepository: /home/ubuntu/repos/melo\nTest Server: https://dev2.aaroncollins.info",
+    "status": "open",
+    "priority": 0,
+    "issue_type": "epic",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T17:20:50Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T17:20:50Z",
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
     "id": "clawd-g8w",
     "title": "EPIC: BMAD-Beads System Implementation",
     "description": "Complete implementation of BMAD + Beads integration per Aaron's directive. Quality gates, validation pipeline, Playwright screenshots.",
@@ -12,6 +27,107 @@
     "updated_at": "2026-02-28T16:56:50Z",
     "closed_at": "2026-02-28T16:56:50Z",
     "close_reason": "EPIC COMPLETE: All 5 tasks done. BMAD + Beads integrated into all agent protocols. Commits: a2f9f6c (install), 605d6aa (protocols)",
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
+    "id": "clawd-pc8",
+    "title": "ST-P2-04-A: DM Sidebar Section Components",
+    "description": "Implement DM sidebar section component with full functionality.\n\nRepository: /home/ubuntu/repos/melo\nGit Commit: ddf7b8b\n\nDeliverables (COMPLETED):\n✅ DMSidebarSection component (AC-1)\n✅ DMListItem for conversation display (AC-6, AC-11) \n✅ DMEmptyState for new users (AC-8)\n✅ Unit tests with full coverage\n✅ Build passes successfully\n✅ Git commit created\n\nValidation Requirements:\n- L2 Validation: Component functionality and integration\n- L3 Validation: Code quality and completeness\n\nStatus: needs-validation",
+    "status": "needs-validation",
+    "priority": 1,
+    "issue_type": "feature",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T17:21:29Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T17:21:35Z",
+    "dependencies": [
+      {
+        "issue_id": "clawd-pc8",
+        "depends_on_id": "clawd-8le",
+        "type": "parent",
+        "created_at": "2026-02-28T12:21:34Z",
+        "created_by": "Memory Sync Agent",
+        "metadata": "{}"
+      }
+    ],
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
+    "id": "clawd-8rk",
+    "title": "UNIT-FIX-1: Fix Modal Provider Context Issues",
+    "description": "Fix useModal hook integration failures in test environment.\n\nErrors: Cannot destructure property 'isOpen' of 'useModal(...)'\nAffected: 12+ tests\n\nInstructions:\n1. Analyze failing tests\n2. Fix missing modal provider context in test setup\n3. Update test/unit/setup.ts with proper modal context mocking\n4. Re-run affected tests to verify\n\nSuccess Criteria:\n- All useModal-related tests pass\n- No 'Cannot destructure property isOpen' errors\n- Modal provider context properly mocked\n\nStatus: in-progress (worker assigned)",
+    "status": "in_progress",
+    "priority": 1,
+    "issue_type": "task",
+    "assignee": "Memory Sync Agent",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T17:21:08Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T17:21:17Z",
+    "dependencies": [
+      {
+        "issue_id": "clawd-8rk",
+        "depends_on_id": "clawd-b6s",
+        "type": "parent",
+        "created_at": "2026-02-28T12:21:16Z",
+        "created_by": "Memory Sync Agent",
+        "metadata": "{}"
+      }
+    ],
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
+    "id": "clawd-9uz",
+    "title": "UNIT-FIX-2: Fix Matrix Client Initialization",
+    "description": "Fix Matrix client initialization issues in tests.\n\nErrors: Matrix client not initialized\nAffected: 8+ tests\n\nInstructions:\n1. Resolve 'Matrix client not initialized' errors\n2. Update useMatrixClient mock setup in test environment\n3. Ensure proper Matrix client mocking across all tests\n\nStatus: pending",
+    "status": "open",
+    "priority": 1,
+    "issue_type": "task",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T17:21:08Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T17:21:08Z",
+    "dependencies": [
+      {
+        "issue_id": "clawd-9uz",
+        "depends_on_id": "clawd-b6s",
+        "type": "parent",
+        "created_at": "2026-02-28T12:21:16Z",
+        "created_by": "Memory Sync Agent",
+        "metadata": "{}"
+      }
+    ],
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
+    "id": "clawd-b6s",
+    "title": "MELO-MAINT: Unit Test Fix (67+ failures)",
+    "description": "Fix 67+ unit test failures identified during audit. Workers claimed tests passed but they didn't.\n\nTasks:\n1. Fix Modal Provider Context Issues (12+ tests)\n2. Fix Matrix Client Initialization (8+ tests)\n3. Fix React Hook Form Integration (9+ tests)\n4. ChatMessages Component Tests (15+ tests)\n\nRepository: /home/ubuntu/repos/melo",
+    "status": "open",
+    "priority": 1,
+    "issue_type": "epic",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T17:20:56Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T17:20:56Z",
+    "dependencies": [
+      {
+        "issue_id": "clawd-b6s",
+        "depends_on_id": "clawd-8le",
+        "type": "parent",
+        "created_at": "2026-02-28T12:21:16Z",
+        "created_by": "Memory Sync Agent",
+        "metadata": "{}"
+      }
+    ],
     "dependency_count": 0,
     "dependent_count": 0,
     "comment_count": 0
@@ -135,6 +251,64 @@
         "depends_on_id": "clawd-g8w",
         "type": "parent",
         "created_at": "2026-02-28T11:53:32Z",
+        "created_by": "Memory Sync Agent",
+        "metadata": "{}"
+      }
+    ],
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
+    "id": "clawd-d6i",
+    "title": "UNIT-FIX-4: ChatMessages Component Tests",
+    "description": "Fix ChatMessages component test expectations vs actual implementation.\n\nAffected: 15+ tests\n\nInstructions:\n1. Analyze component structure vs test expectations\n2. Fix missing UI elements: loading states, error states, message display, pagination\n3. Update tests to match actual component implementation\n\nStatus: pending",
+    "status": "open",
+    "priority": 2,
+    "issue_type": "task",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T17:21:08Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T17:21:08Z",
+    "dependencies": [
+      {
+        "issue_id": "clawd-d6i",
+        "depends_on_id": "clawd-b6s",
+        "type": "parent",
+        "created_at": "2026-02-28T12:21:17Z",
+        "created_by": "Memory Sync Agent",
+        "metadata": "{}"
+      }
+    ],
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
+    "id": "clawd-i4y",
+    "title": "UNIT-FIX-3: Fix React Hook Form Integration",
+    "description": "Resolve React Hook Form validation warnings and nested form issues.\n\nAffected: 9+ tests\n\nInstructions:\n1. Fix form validation warnings in tests\n2. Resolve nested form issues\n3. Ensure proper form component usage\n\nStatus: pending",
+    "status": "open",
+    "priority": 2,
+    "issue_type": "task",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T17:21:08Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T17:21:35Z",
+    "dependencies": [
+      {
+        "issue_id": "clawd-i4y",
+        "depends_on_id": "clawd-8le",
+        "type": "parent",
+        "created_at": "2026-02-28T12:21:29Z",
+        "created_by": "Memory Sync Agent",
+        "metadata": "{}"
+      },
+      {
+        "issue_id": "clawd-i4y",
+        "depends_on_id": "clawd-b6s",
+        "type": "parent",
+        "created_at": "2026-02-28T12:21:17Z",
         "created_by": "Memory Sync Agent",
         "metadata": "{}"
       }

@@ -1,20 +1,48 @@
 # PROACTIVE-JOBS.md
 
-**Last Updated:** 2026-02-28 01:30 EST by Coordinator  
-**Active Projects:** MELO V2 Comprehensive Audit (maintenance phase)
+**Last Updated:** 2026-02-28 12:21 EST by Sophie (Main Session)  
+**Active Projects:** MELO V2 (Matrix Client)
+**Beads Status:** All active work tracked in Beads (`bd ready` to see available work)
 
 ---
 
-## CURRENT TASKS
+## 🔗 BEADS-TRACKED WORK (Source of Truth)
+
+**Always check `bd ready` for current work. This file is supplementary context.**
+
+### Active Epics
+
+| Bead ID | Title | Priority | Status |
+|---------|-------|----------|--------|
+| `clawd-8le` | EPIC: MELO V2 - Matrix Client (Discord-like) | P0 | open |
+| `clawd-b6s` | MELO-MAINT: Unit Test Fix (67+ failures) | P1 | open |
+
+### Current Tasks
+
+| Bead ID | Title | Priority | Status |
+|---------|-------|----------|--------|
+| `clawd-8rk` | UNIT-FIX-1: Fix Modal Provider Context Issues | P1 | in_progress |
+| `clawd-9uz` | UNIT-FIX-2: Fix Matrix Client Initialization | P1 | open |
+| `clawd-i4y` | UNIT-FIX-3: Fix React Hook Form Integration | P2 | open |
+| `clawd-d6i` | UNIT-FIX-4: ChatMessages Component Tests | P2 | open |
+
+### Needs Validation
+
+| Bead ID | Title | Priority |
+|---------|-------|----------|
+| `clawd-pc8` | ST-P2-04-A: DM Sidebar Section Components | P1 |
+
+---
+
+## CURRENT TASKS (Context)
 
 ### 🔧 MELO V2 - Unit Test Fix (Priority: P1-MAINTENANCE)
 
-**Context:** 67+ unit test failures identified during audit validation process. Workers previously claimed "tests pass" but validator found significant failures, creating false validation claims.
+**Bead:** `clawd-b6s` (Epic) with child tasks below
+**Context:** 67+ unit test failures identified during audit validation process. Workers previously claimed "tests pass" but validator found significant failures.
 
-#### UNIT-FIX-1: Fix Modal Provider Context Issues
-- **Status:** in-progress
-- **Worker:** agent:main:subagent:4819a21c-1271-42af-9b82-8b804c124363
-- **Started:** 2026-02-28 01:30 EST
+#### UNIT-FIX-1: Fix Modal Provider Context Issues (`clawd-8rk`)
+- **Status:** in_progress
 - **Priority:** P1-HIGH (affects 12+ tests)
 - **Model:** sonnet
 - **Description:** Fix useModal hook integration failures in test environment
