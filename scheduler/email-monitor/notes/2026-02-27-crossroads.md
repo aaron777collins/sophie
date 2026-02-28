@@ -57,3 +57,15 @@
 - ✅ Person Manager notified via inbox
 - ✅ Main session (Sophie) handling response
 - ✅ Will log to ACTIONS-PENDING-ACK.md
+
+---
+
+## Resolution
+
+**[2026-02-28 10:24 EST] COMPLETED**
+
+- Diane sent the receipt as a PDF embedded in an .eml attachment (double-layered)
+- Aaron extracted the PDF manually
+- Uploaded to Paperless: **Document ID 25913**
+- Tags applied: Taxes 2024, Tax Receipt (Taxes), Charity Number (Taxes)
+- ✅ Ready for CRA filing
