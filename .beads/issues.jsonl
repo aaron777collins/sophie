@@ -17,6 +17,23 @@
     "comment_count": 0
   },
   {
+    "id": "clawd-i0v",
+    "title": "EPIC: Beads System Real Test",
+    "description": "Testing the full beads workflow end-to-end to verify robustness",
+    "status": "closed",
+    "priority": 1,
+    "issue_type": "epic",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T17:17:40Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T17:18:44Z",
+    "closed_at": "2026-02-28T17:18:44Z",
+    "close_reason": "END-TO-END TEST COMPLETE: Full workflow verified - Epic → Story → Task → Claim → Evidence → Validation → Close",
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
     "id": "clawd-akx",
     "title": "Update Validator protocol with close authority",
     "description": "Only Validator can close beads. Add E2E verification, visual quality check",
@@ -127,16 +144,74 @@
     "comment_count": 0
   },
   {
+    "id": "clawd-11t",
+    "title": "T-001: Verify HEALTH-CHECK.md file exists and has proper content",
+    "description": "Verify:\n- File exists at scheduler/HEALTH-CHECK.md\n- Contains health check commands\n- Commands are syntactically correct\n- Output includes clear pass/fail indicators",
+    "notes": "## Evidence\n\n### File Verification\n```\n$ ls -la scheduler/HEALTH-CHECK.md\n-rw-rw-r-- 1 ubuntu ubuntu 5696 Feb 28 12:14 scheduler/HEALTH-CHECK.md\n```\n\n### Command Test\n```\n$ bd list --json \u003e/dev/null 2\u003e\u00261 \u0026\u0026 echo '✅ Beads OK' || echo '❌ Beads FAILED'\n✅ Beads OK\n\n$ pgrep -f 'dolt sql-server' \u003e/dev/null \u0026\u0026 echo '✅ Dolt OK' || echo '❌ Dolt NOT RUNNING'\n✅ Dolt OK\n```\n\n### Verification Checksum\nDate: 2026-02-28 12:18 EST\nVerified by: sophie (main session)\nAll ACs passed: YES",
+    "status": "closed",
+    "priority": 2,
+    "issue_type": "task",
+    "assignee": "Memory Sync Agent",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T17:18:12Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T17:18:38Z",
+    "closed_at": "2026-02-28T17:18:38Z",
+    "close_reason": "VALIDATED: All ACs passed.\n- File exists: ✅ scheduler/HEALTH-CHECK.md (5696 bytes)\n- Commands copy-paste-able: ✅ Verified\n- Clear pass/fail indicators: ✅ Uses emojis (✅/❌)",
+    "dependencies": [
+      {
+        "issue_id": "clawd-11t",
+        "depends_on_id": "clawd-npj",
+        "type": "parent",
+        "created_at": "2026-02-28T12:18:16Z",
+        "created_by": "Memory Sync Agent",
+        "metadata": "{}"
+      }
+    ],
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
+    "id": "clawd-npj",
+    "title": "US-TEST-001: Verify health check documentation is accessible",
+    "description": "As an agent starting a session,\nI want to easily find and run the health check,\nSo that I can ensure infrastructure is working.\n\nACs:\n1. HEALTH-CHECK.md exists in scheduler/\n2. Commands are copy-paste-able\n3. Output shows clear pass/fail indicators",
+    "status": "closed",
+    "priority": 2,
+    "issue_type": "feature",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T17:17:58Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T17:18:44Z",
+    "closed_at": "2026-02-28T17:18:44Z",
+    "close_reason": "All tasks completed and validated",
+    "dependencies": [
+      {
+        "issue_id": "clawd-npj",
+        "depends_on_id": "clawd-i0v",
+        "type": "parent",
+        "created_at": "2026-02-28T12:18:05Z",
+        "created_by": "Memory Sync Agent",
+        "metadata": "{}"
+      }
+    ],
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
     "id": "clawd-701",
     "title": "Audit test - beads infrastructure",
     "description": "Testing if bd create works",
-    "status": "open",
+    "status": "closed",
     "priority": 2,
     "issue_type": "task",
     "owner": "sophie@aaroncollins.info",
     "created_at": "2026-02-28T17:08:05Z",
     "created_by": "Memory Sync Agent",
-    "updated_at": "2026-02-28T17:08:05Z",
+    "updated_at": "2026-02-28T17:10:13Z",
+    "closed_at": "2026-02-28T17:10:13Z",
+    "close_reason": "Audit complete - beads working",
     "dependency_count": 0,
     "dependent_count": 0,
     "comment_count": 0
