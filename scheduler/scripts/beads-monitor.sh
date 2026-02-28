@@ -25,10 +25,14 @@ ISSUES_FOUND=0
 
 # Health Check
 echo "=== HEALTH CHECK ==="
-if bd doctor 2>&1 | grep -q "error"; then
-    echo "❌ HEALTH: Issues detected"
-    bd doctor 2>&1 | grep -E "(error|warning)"
+DOCTOR_OUTPUT=$(bd doctor 2>&1)
+if echo "$DOCTOR_OUTPUT" | grep -q "✖ [1-9]"; then
+    echo "❌ HEALTH: Errors detected"
+    echo "$DOCTOR_OUTPUT" | grep -E "(✖|error)"
     ISSUES_FOUND=$((ISSUES_FOUND + 1))
+elif echo "$DOCTOR_OUTPUT" | grep -q "⚠ [1-9]"; then
+    echo "⚠️ HEALTH: Warnings detected"
+    echo "$DOCTOR_OUTPUT" | grep -E "(⚠|warning)"
 else
     echo "✅ HEALTH: All checks passed"
 fi
