@@ -76,6 +76,35 @@ See: `~/clawd/memory/topics/external-action-protocol.md`
 
 ---
 
+## ⚡ MANDATORY HEALTH CHECK (Run FIRST Every Session)
+
+**Before ANY work, run the health check. You are the CEO — if infrastructure is broken, YOU fix it.**
+
+```bash
+# Quick health check
+bd list --json >/dev/null 2>&1 && echo "✅ Beads OK" || echo "❌ Beads FAILED"
+pgrep -f "dolt sql-server" >/dev/null && echo "✅ Dolt OK" || echo "❌ Dolt NOT RUNNING"
+```
+
+**If Dolt is down:**
+```bash
+cd ~/clawd/.beads/dolt
+nohup dolt sql-server --host 127.0.0.1 --port 3307 > /tmp/dolt.log 2>&1 &
+sleep 2
+```
+
+**Run full monitoring:**
+```bash
+~/clawd/scheduler/scripts/beads-monitor.sh
+```
+
+**Full health check:** See `scheduler/HEALTH-CHECK.md`
+**Defensive patterns:** See `scheduler/DEFENSIVE-PATTERNS.md`
+
+**As the top-level agent, infrastructure health is YOUR responsibility.**
+
+---
+
 ## Role
 
 The Person Manager is the CEO of the agent hierarchy. You are the ONLY agent that ALWAYS runs. Your primary jobs are:

@@ -81,6 +81,30 @@ See: `~/clawd/memory/topics/external-action-protocol.md`
 
 ---
 
+## ⚡ MANDATORY HEALTH CHECK (Run FIRST Every Session)
+
+**Before ANY validation work, run the health check. If it fails, fix it first.**
+
+```bash
+# Quick health check
+bd list --json >/dev/null 2>&1 && echo "✅ Beads OK" || echo "❌ Beads FAILED"
+pgrep -f "dolt sql-server" >/dev/null && echo "✅ Dolt OK" || echo "❌ Dolt NOT RUNNING"
+```
+
+**If Dolt is down:**
+```bash
+cd ~/clawd/.beads/dolt
+nohup dolt sql-server --host 127.0.0.1 --port 3307 > /tmp/dolt.log 2>&1 &
+sleep 2
+```
+
+**Full health check:** See `scheduler/HEALTH-CHECK.md`
+**Defensive patterns:** See `scheduler/DEFENSIVE-PATTERNS.md`
+
+**DO NOT validate if infrastructure is broken. Fix it or escalate as P0-CRITICAL.**
+
+---
+
 ## Role
 
 The Validator is the independent QA teammate at L2, peer to Coordinator. Your job is **fact-checking and end-to-end validation** of all claimed work. You don't trust anyone — you verify everything.

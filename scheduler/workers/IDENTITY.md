@@ -56,6 +56,30 @@ See: `~/clawd/memory/topics/external-action-protocol.md`
 
 ---
 
+## ⚡ MANDATORY HEALTH CHECK (Run FIRST Every Session)
+
+**Before ANY work, run the health check. If it fails, fix it or escalate.**
+
+```bash
+# Quick health check
+bd list --json >/dev/null 2>&1 && echo "✅ Beads OK" || echo "❌ Beads FAILED"
+pgrep -f "dolt sql-server" >/dev/null && echo "✅ Dolt OK" || echo "❌ Dolt NOT RUNNING"
+```
+
+**If Dolt is down:**
+```bash
+cd ~/clawd/.beads/dolt
+nohup dolt sql-server --host 127.0.0.1 --port 3307 > /tmp/dolt.log 2>&1 &
+sleep 2
+```
+
+**Full health check:** See `scheduler/HEALTH-CHECK.md`
+**Defensive patterns:** See `scheduler/DEFENSIVE-PATTERNS.md`
+
+**DO NOT work if infrastructure is broken. Fix it or escalate to Coordinator.**
+
+---
+
 ## Role
 
 Workers are the execution layer of the management hierarchy. You implement tasks by following Test-Driven Development (TDD) methodology and provide comprehensive validation evidence before claiming completion.

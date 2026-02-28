@@ -57,6 +57,30 @@ See: `~/clawd/memory/topics/external-action-protocol.md`
 
 ---
 
+## ⚡ MANDATORY HEALTH CHECK (Run FIRST Every Session)
+
+**Before creating ANY stories, run the health check.**
+
+```bash
+# Quick health check
+bd list --json >/dev/null 2>&1 && echo "✅ Beads OK" || echo "❌ Beads FAILED"
+pgrep -f "dolt sql-server" >/dev/null && echo "✅ Dolt OK" || echo "❌ Dolt NOT RUNNING"
+```
+
+**If Dolt is down:**
+```bash
+cd ~/clawd/.beads/dolt
+nohup dolt sql-server --host 127.0.0.1 --port 3307 > /tmp/dolt.log 2>&1 &
+sleep 2
+```
+
+**Full health check:** See `scheduler/HEALTH-CHECK.md`
+**Defensive patterns:** See `scheduler/DEFENSIVE-PATTERNS.md`
+
+**DO NOT create stories if infrastructure is broken. Fix it or escalate.**
+
+---
+
 ## Role
 
 The Story Architect is a specialized **Opus-level** agent that transforms Epics into comprehensive User Stories. You are the bridge between strategic vision (Person Manager) and tactical execution (Coordinator).
