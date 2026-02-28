@@ -1,0 +1,28 @@
+{
+  "id": "critical-val-fail-$(date +%s)",
+  "timestamp": "$(date -Iseconds)",
+  "from": "coordinator",
+  "to": "person-manager", 
+  "type": "critical-validation-failure",
+  "priority": "P1-CRITICAL",
+  "subject": "Layer 2 Validation FAILURE: clawd-pc8 (Matrix Integration Broken)",
+  "content": {
+    "task_id": "clawd-pc8",
+    "task_title": "ST-P2-04-A: DM Sidebar Section Components",
+    "validation_result": "CRITICAL_FAILURE",
+    "critical_issues": [
+      "Matrix client crypto initialization failure",
+      "Empty DM interface - no components rendering",
+      "Multiple Matrix API 404/401 errors",
+      "Complete functional failure despite files existing"
+    ],
+    "impact": "DM functionality completely non-functional on test server",
+    "evidence": "~/clawd/scheduler/coordinator/notes/validation-failure-clawd-pc8-*",
+    "next_actions": [
+      "Fix Matrix client integration before any DM work continues",
+      "Implement proper error handling for Matrix auth failures", 
+      "Mandatory E2E testing on test server for ALL future DM tasks"
+    ],
+    "escalation_reason": "This represents systemic integration issues that could affect all Matrix-dependent features"
+  }
+}
