@@ -676,33 +676,37 @@ bd update {bead-id} --notes "Code review: PASS"
 
 ## 🔧 Implementation Plan
 
-### Phase 1: Tool Installation (Day 1)
+### Phase 1: Tool Installation (Day 1) — ✅ COMPLETE
 
 ```bash
-# 1. Install Beads
-npm install -g @beads/bd
-cd ~/clawd
-bd init --prefix sph
+# ALREADY INSTALLED — verified 2026-02-28
 
-# 2. Install BMAD
-npx bmad-method install
-# Select: BMad Method + Quick Flow
+# 1. Beads
+bd version  # bd version 0.56.1
+bd ready    # Returns [] (empty, ready for work)
 
-# 3. Create screenshot directories
-mkdir -p scheduler/validation/screenshots
+# 2. BMAD
+ls _bmad/   # bmm  _config  core  _memory
 
-# 4. Verify installations
-bd ready  # Should show empty list
-cat _bmad/config.yaml  # Should exist
+# 3. Screenshot directories
+ls scheduler/validation/screenshots/  # Exists
+
+# If reinstallation needed:
+# npm install -g @beads/bd
+# cd ~/clawd && bd init --prefix sph
+# npx bmad-method install
 ```
 
-### Phase 2: Protocol Updates (Day 1-2)
+### Phase 2: Protocol Updates (Day 1-2) — ✅ COMPLETE
 
-1. Update `scheduler/workers/IDENTITY.md` with Beads section
-2. Update `scheduler/validator/IDENTITY.md` with Beads section
-3. Update `scheduler/coordinator/IDENTITY.md` with Beads section
-4. Update `scheduler/person-manager/IDENTITY.md` with Beads section
-5. Update `AGENTS.md` with Beads requirement
+All IDENTITY.md files updated with Beads integration:
+1. ✅ `scheduler/workers/IDENTITY.md` — Beads section added
+2. ✅ `scheduler/validator/IDENTITY.md` — Beads section + close authority
+3. ✅ `scheduler/coordinator/IDENTITY.md` — Beads section + cannot close
+4. ✅ `scheduler/person-manager/IDENTITY.md` — Beads section added
+5. ✅ `scheduler/story-architect/IDENTITY.md` — Beads section added (2026-02-28)
+6. ✅ `scheduler/task-managers/IDENTITY.md` — Beads section added (2026-02-28)
+7. ✅ `AGENTS.md` — Beads requirement section exists
 
 ### Phase 3: Template Creation (Day 2)
 

@@ -166,6 +166,22 @@ bd create "ESCALATION: Repeated failure on {bead-id}" -t bug -p 0 --description 
 # Person Manager will be notified on next run
 ```
 
+### ⚠️ BEADS HEALTH CHECK
+On every cron run, verify Beads is working:
+```bash
+bd dolt test
+# If fails, restart Dolt server:
+cd ~/.beads/dolt && nohup dolt sql-server --host 127.0.0.1 --port 3307 > /tmp/dolt.log 2>&1 &
+```
+If Beads is down, escalate as P0-CRITICAL before doing anything else.
+
+### Cron Job Checklist
+On every run:
+1. `bd dolt test` — Verify Beads is up
+2. `bd list --status needs-validation` — Check for pending validations
+3. Process each validation request
+4. Check for stalled beads: `bd list --status in_progress --json | jq '.[] | select(.updated_at < "24h")'`
+
 ---
 
 ## Key Characteristics

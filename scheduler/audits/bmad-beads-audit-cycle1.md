@@ -85,4 +85,49 @@ Create a robust implementation system where:
 
 ## 🔧 Fixes Applied
 
-### Fix A1: Add escalation guidance to Worker
+### Fix A1: Worker - No bead ID guidance ✅
+Added to Worker protocol:
+- Check `bd list --status open` for unassigned work
+- Escalate to Coordinator if no matching bead
+- DO NOT start work without a bead
+
+### Fix A2: Project-specific test commands ✅
+Added to Validator protocol:
+- Check project's package.json for E2E command
+- Common commands documented (MELO vs others)
+
+### Fix A3: Screenshot viewing guidance ✅
+Added to Validator protocol:
+- Explicit paths for each viewport
+- Use image tool or browser to inspect
+
+### Fix A6: Beads health check ✅
+Added to Worker and Validator protocols:
+- `bd dolt test` to verify Beads is up
+- Restart command if Dolt server is down
+- Escalate as P0-CRITICAL if still failing
+
+### Fix: Validator cron job checklist ✅
+Added explicit checklist for Validator cron runs:
+1. Verify Beads is up
+2. Check for pending validations
+3. Process validations
+4. Check for stalled beads
+
+---
+
+## 📊 Audit Result
+
+**Status: IMPROVED** — 5 issues fixed
+
+**Remaining Items (Lower Priority):**
+- A4: Auto-cron for stalled beads (enhancement, not critical)
+- A5: BMAD command documentation (nice-to-have)
+
+**Bypass Prevention:**
+- ✅ Workers must have bead ID or escalate
+- ✅ Validator has explicit screenshot viewing guidance
+- ✅ Health checks prevent silent failures
+- ✅ Cron checklist ensures nothing is forgotten
+
+**Next Audit:** Should verify fixes work in practice
