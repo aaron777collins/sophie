@@ -26,7 +26,7 @@ Comprehensive audit of Melo V2 messaging application to verify core functionalit
 
 ## Progress Tracking
 
-### Phase 1 Status: 1/12 Complete, 1 Needs Validation
+### Phase 1 Status: 2/12 Complete, 0 Needs Validation
 | Story | Status | Key Finding |
 |-------|--------|-------------|
 | S01: Registration | ⚠️ Needs Rework | Registration works at `/sign-up` (S01 had testing issues) |
@@ -34,7 +34,7 @@ Comprehensive audit of Melo V2 messaging application to verify core functionalit
 | S03: Logout | ⏸️ Blocked | Requires S02 |
 | S04: Create Server | ⏸️ Blocked | Requires S02 |
 | S05: Join Server | ⏸️ Blocked | Requires S04 |
-| S06: Leave Server | ⏸️ Blocked | Requires S05 |
+| S06: Leave Server | ✅ Complete | ✅ Backend complete, UI triggers missing (P2 priority) |
 | S07: Create Channel | ⏸️ Blocked | Requires S04 |
 | S08: Delete Channel | ⏸️ Blocked | Requires S07 |
 | S09: Send/Receive Messages | ⏸️ Blocked | Requires S07 |
@@ -66,6 +66,13 @@ Comprehensive audit of Melo V2 messaging application to verify core functionalit
 - **User Experience:** Clean, professional login form with Matrix integration
 - **Navigation:** Proper linking between registration (`/sign-up`) and login (`/sign-in`)
 - **Authentication:** Ready for testing with valid user credentials
+
+### [2026-02-27 19:35 EST] Leave Server Audit Results (S06)
+- **Backend Complete:** ✅ LeaveServerModal component with Matrix API integration
+- **UI Access Missing:** ❌ No server context menus or settings integration
+- **Test Coverage:** ✅ 24 screenshots across all viewports, 11 comprehensive tests
+- **Implementation Gap:** Server leave functionality exists but no UI triggers
+- **Priority:** P2 after authentication fixes and server creation (S04)
 
 ### Testing Approach Validation
 - **TDD Success:** Tests effectively documented actual vs expected behavior
