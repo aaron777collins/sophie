@@ -1,35 +1,30 @@
 
-# Node.js dependencies
-node_modules/
-
-# Build outputs
-.next/
-dist/
 build/
-out/
-
-# Data files - sensitive/large datasets
+# Build outputs
 *.credentials
 *.csv
 data/
-
-# Environment and secrets
+# Data files - sensitive/large datasets
+data/twilio-credentials.secret
+dist/
+.DS_Store
 .env
 .env.*
+# Environment and secrets
 .env.test-credentials
 *.key
-*.pem
-secrets/
-
-# Logs
 *.log
 logs/
-
+# Logs
+.next/
+# Node.js dependencies
+node_modules/
 # OS files
-.DS_Store
-Thumbs.db
-
-# Temporary files
+out/
+*.pem
+secrets/
 *.temp
+# Temporary files
+Thumbs.db
 *.tmp
 /tmp/

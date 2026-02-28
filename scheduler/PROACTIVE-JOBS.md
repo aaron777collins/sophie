@@ -155,4 +155,175 @@
 ### Context Links
 - **Progress Files:** `scheduler/progress/melo-audit/`
 - **Story Status:** See `scheduler/coordinator/JOBS.md`
-- **Validation Reports:** `scheduler/validation/reports/melo-v2/`
+- **Validation Reports:** `scheduler/validation/reports/melo-v2/`### UNIT-FIX-1: Fix Modal Provider Context Issues
+- **Status:** in_progress
+- **Priority:** P1-HIGH 
+- **Model:** sonnet
+- **Description:** Fix useModal hook integration failures in test environment
+- **Progress File:** scheduler/progress/melo-audit/unit-test-fix-v3.md
+- **Repository:** /home/ubuntu/repos/melo
+- **Instructions:**
+  1. Analyze failing tests with "Cannot destructure property 'isOpen' of 'useModal(...)"
+  2. Fix missing modal provider context in test setup
+  3. Update test/unit/setup.ts with proper modal context mocking
+  4. Re-run affected tests to verify fixes
+- **Success Criteria:**
+  - [ ] All useModal-related tests pass
+  - [ ] No "Cannot destructure property 'isOpen'" errors
+  - [ ] Modal provider context properly mocked in tests
+- **Files to Modify:**
+  - 
+  - Modal component test files as needed
+
+### UNIT-FIX-1: Fix Modal Provider Context Issues
+- **Status:** in_progress
+- **Priority:** P1-HIGH
+- **Model:** sonnet
+- **Description:** Fix useModal hook integration failures in test environment  
+- **Progress File:** scheduler/progress/clawd-b6s/clawd-8rk.md
+- **Repository:** /home/ubuntu/repos/melo
+- **Instructions:**
+  1. Analyze failing tests with "Cannot destructure property 'isOpen' of 'useModal(...)"
+  2. Fix missing modal provider context in test setup
+  3. Update test/unit/setup.ts with proper modal context mocking
+  4. Re-run affected tests to verify fixes
+- **Success Criteria:**
+  - [ ] All useModal-related tests pass
+  - [ ] No "Cannot destructure property 'isOpen'" errors
+  - [ ] Modal provider context properly mocked in tests
+- **Files to Modify:**
+  - 
+  - Modal component test files as needed
+### UNIT-FIX-1: Fix Modal Provider Context Issues
+- **Status:** in_progress
+- **Priority:** P1-HIGH
+- **Model:** sonnet
+- **Description:** Fix useModal hook integration failures in test environment  
+- **Progress File:** scheduler/progress/clawd-b6s/clawd-8rk.md
+- **Repository:** /home/ubuntu/repos/melo
+- **Instructions:**
+  1. Analyze failing tests with "Cannot destructure property 'isOpen' of 'useModal(...)"
+  2. Fix missing modal provider context in test setup
+  3. Update tests/unit/setup.ts with proper modal context mocking
+  4. Re-run affected tests to verify fixes
+- **Success Criteria:**
+  - [ ] All useModal-related tests pass
+  - [ ] No "Cannot destructure property 'isOpen'" errors
+  - [ ] Modal provider context properly mocked in tests
+- **Files to Modify:**
+  - 
+  - Modal component test files as needed
+### UNIT-FIX-1: Fix Modal Provider Context Issues
+- **Status:** in_progress
+- **Priority:** P1-HIGH
+- **Model:** sonnet
+- **Description:** Fix useModal hook integration failures in test environment  
+- **Progress File:** scheduler/progress/clawd-b6s/clawd-8rk.md
+- **Repository:** /home/ubuntu/repos/melo
+- **Instructions:**
+  1. Analyze failing tests with "Cannot destructure property 'isOpen' of 'useModal(...)"
+  2. Fix missing modal provider context in test setup
+  3. Update tests/unit/setup.ts with proper modal context mocking
+  4. Re-run affected tests to verify fixes
+- **Success Criteria:**
+  - [ ] All useModal-related tests pass
+  - [ ] No "Cannot destructure property 'isOpen'" errors
+  - [ ] Modal provider context properly mocked in tests
+- **Files to Modify:**
+  - 
+  - Modal component test files as needed
+### UNIT-FIX-1: Fix Modal Provider Context Issues
+- **Status:** in_progress
+- **Priority:** P1-HIGH
+- **Model:** sonnet
+- **Description:** Fix useModal hook integration failures in test environment  
+- **Progress File:** scheduler/progress/clawd-b6s/clawd-8rk.md
+- **Repository:** /home/ubuntu/repos/melo
+- **Instructions:**
+  1. Analyze failing tests with "Cannot destructure property 'isOpen' of 'useModal(...)"
+  2. Fix missing modal provider context in test setup
+  3. Update tests/unit/setup.ts with proper modal context mocking
+  4. Re-run affected tests to verify fixes
+- **Success Criteria:**
+  - [ ] All useModal-related tests pass
+  - [ ] No "Cannot destructure property 'isOpen'" errors
+  - [ ] Modal provider context properly mocked in tests
+- **Files to Modify:**
+  - 
+  - Modal component test files as needed
+### UNIT-FIX-1: Fix Modal Provider Context Issues
+- **Status:** in_progress
+- **Priority:** P1-HIGH
+- **Model:** sonnet
+- **Description:** Fix useModal hook integration failures in test environment  
+- **Progress File:** scheduler/progress/clawd-b6s/clawd-8rk.md
+- **Repository:** /home/ubuntu/repos/melo
+- **Instructions:**
+  1. Analyze failing tests with "Cannot destructure property 'isOpen' of 'useModal(...)"
+  2. Fix missing modal provider context in test setup
+  3. Update test/unit/setup.ts with proper modal context mocking
+  4. Re-run affected tests to verify fixes
+- **Success Criteria:**
+  - [ ] All useModal-related tests pass
+  - [ ] No "Cannot destructure property 'isOpen'" errors
+  - [ ] Modal provider context properly mocked in tests
+- **Files to Modify:**
+  - 
+  - Modal component test files as needed
+### UNIT-FIX-1: Fix Modal Provider Context Issues
+- **Status:** in_progress
+- **Priority:** P1-HIGH
+- **Model:** sonnet
+- **Description:** Fix useModal hook integration failures in test environment  
+- **Progress File:** scheduler/progress/clawd-b6s/clawd-8rk.md
+- **Repository:** /home/ubuntu/repos/melo
+- **Instructions:**
+  1. Analyze failing tests with "Cannot destructure property 'isOpen' of 'useModal(...)"
+  2. Fix missing modal provider context in test setup
+  3. Update test/unit/setup.ts with proper modal context mocking
+  4. Re-run affected tests to verify fixes
+- **Success Criteria:**
+  - [ ] All useModal-related tests pass
+  - [ ] No "Cannot destructure property 'isOpen'" errors
+  - [ ] Modal provider context properly mocked in tests
+- **Files to Modify:**
+  - 
+  - Modal component test files as needed
+### UNIT-FIX-1: Fix Modal Provider Context Issues
+- **Status:** in_progress
+- **Priority:** P1-HIGH
+- **Model:** sonnet
+- **Description:** Fix useModal hook integration failures in test environment  
+- **Progress File:** scheduler/progress/clawd-b6s/clawd-8rk.md
+- **Repository:** /home/ubuntu/repos/melo
+- **Instructions:**
+  1. Analyze failing tests with "Cannot destructure property 'isOpen' of 'useModal(...)"
+  2. Fix missing modal provider context in test setup
+  3. Update test/unit/setup.ts with proper modal context mocking
+  4. Re-run affected tests to verify fixes
+- **Success Criteria:**
+  - [ ] All useModal-related tests pass
+  - [ ] No "Cannot destructure property 'isOpen'" errors
+  - [ ] Modal provider context properly mocked in tests
+- **Files to Modify:**
+  - 
+  - Modal component test files as needed
+### UNIT-FIX-1: Fix Modal Provider Context Issues
+- **Status:** in_progress
+- **Priority:** P1-HIGH
+- **Model:** sonnet
+- **Description:** Fix useModal hook integration failures in test environment  
+- **Progress File:** scheduler/progress/clawd-b6s/clawd-8rk.md
+- **Repository:** /home/ubuntu/repos/melo
+- **Instructions:**
+  1. Analyze failing tests with "Cannot destructure property 'isOpen' of 'useModal(...)"
+  2. Fix missing modal provider context in test setup
+  3. Update test/unit/setup.ts with proper modal context mocking
+  4. Re-run affected tests to verify fixes
+- **Success Criteria:**
+  - [ ] All useModal-related tests pass
+  - [ ] No "Cannot destructure property 'isOpen'" errors
+  - [ ] Modal provider context properly mocked in tests
+- **Files to Modify:**
+  - 
+  - Modal component test files as needed

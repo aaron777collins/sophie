@@ -8,9 +8,73 @@ Skills define *how* tools work. This file is for *your* specifics — the stuff 
 
 Quick links to all credentials:
 - **Email:** See [Email section](#-email-himalaya) below or `memory/topics/email-setup.md`
+- **SMS/Twilio:** `~/clawd/data/twilio-credentials.secret`
 - **GitHub:** `~/.config/gh/hosts.yml`
 - **SSH:** `~/.ssh/config` (hosts: jaekel, dev2)
 - **AWS:** Not configured (ask Aaron if needed)
+
+---
+
+## 📱 SMS (Twilio)
+
+> **📖 Architecture:** `docs/sms-trust-architecture.md`
+
+### Quick Reference
+
+| Setting | Value |
+|---------|-------|
+| **Sophie's number** | `+13655139030` |
+| **Aaron's number** | `+15175150233` (FULL trust) |
+| **Credentials** | `~/clawd/data/twilio-credentials.secret` |
+| **Webhook port** | `8089` |
+| **Tools dir** | `~/clawd/tools/sms/` |
+
+### Send SMS (Outbound)
+
+```bash
+# Send to Aaron
+~/clawd/tools/sms/sms-cli.sh send +15175150233 "Your message here"
+
+# Send to anyone (on Aaron's request)
+~/clawd/tools/sms/sms-cli.sh send +1XXXXXXXXXX "Message"
+
+# Check Twilio account status
+~/clawd/tools/sms/sms-cli.sh status
+
+# Lookup phone trust level
+~/clawd/tools/sms/sms-cli.sh lookup 5175150233
+```
+
+### SMS Service Management
+
+```bash
+# Start webhook server + tunnel
+~/clawd/tools/sms/start-sms.sh start
+
+# Stop services
+~/clawd/tools/sms/start-sms.sh stop
+
+# Check status
+~/clawd/tools/sms/start-sms.sh status
+
+# Get current public URL
+~/clawd/tools/sms/start-sms.sh url
+```
+
+### Trust Levels for SMS
+
+| Level | Who | Permissions |
+|-------|-----|-------------|
+| **FULL** | Aaron (+15175150233) | Full access, commands |
+| **PARTIAL** | Contacts granted by Aaron | Limited - relay only |
+| **NONE** | Unknown numbers | Log only, no response |
+
+### ⚠️ Important Notes
+
+1. **Tunnel URL changes on restart** - Uses localtunnel (free). For production, need ngrok with auth token.
+2. **SMS can be spoofed** - Even Aaron's number gets scrutiny on sensitive commands
+3. **Logs:** `~/clawd/data/sms/logs/`
+4. **DB tables:** `sms_messages`, `trusted_phones`, `contact_identifiers`
 
 ## Claude Code CLI (Opus Thinking)
 

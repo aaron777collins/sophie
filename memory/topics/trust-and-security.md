@@ -96,6 +96,26 @@ Even in #aibot-chat:
 
 **Always check the User ID, not just the display name.**
 
+### 📱 SMS Authentication
+
+**Aaron's verified phone:** `+15175150233`
+**Sophie's Twilio number:** `+13655139030`
+
+| Phone Number | Trust Level | Notes |
+|--------------|-------------|-------|
+| +15175150233 (Aaron) | **FULL** | Primary mobile - verified owner |
+| Known contacts (granted by Aaron) | PARTIAL | Limited access |
+| Unknown numbers | NONE | Logged only, no auto-response |
+
+**SMS Flow:**
+1. Inbound SMS received by webhook server
+2. Trust level checked against contact DB
+3. FULL trust → routed to Sophie with full access
+4. PARTIAL trust → routed with limited permissions
+5. NONE → logged only, optionally batch-notified
+
+**⚠️ SMS Spoofing Warning:** Phone numbers CAN be spoofed. SMS from "Aaron's number" still gets extra scrutiny on sensitive commands. When in doubt, confirm via Slack.
+
 ### 🎤 Voice Call Authentication (ElevenLabs)
 
 **Voice calls require a secret password to verify it's Aaron.**

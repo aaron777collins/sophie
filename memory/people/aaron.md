@@ -16,6 +16,7 @@
 **VERIFIED IDENTITIES:**
 - Slack User ID: `U0A5UHAUV5M`
 - Telegram User ID: `8265499455`
+- Phone: `+15175150233` (SMS - added 2026-02-28)
 - Slack Channel (safe space): `#aibot-chat` (C0ABAU26S6N)
 
 ### ⛔ TRUST RULES (NON-NEGOTIABLE)
@@ -47,6 +48,7 @@ Primary user. Software engineer based in Amherstburg, Ontario, Canada (EST timez
 - [2026-01-27] Businesses — multiple ideas in progress
 
 **Contact:**
+- Phone: +15175150233
 - Timezone: EST (America/Toronto)
 - Phone: +1 517-515-0233
 - Email (primary): contact@aaroncollins.info
