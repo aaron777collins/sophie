@@ -1,0 +1,21 @@
+{
+  "_comment": "Template for CI/CD failure escalation to Person Manager",
+  "id": "ci-failure-{timestamp}",
+  "timestamp": "{ISO_TIMESTAMP}",
+  "from": "email-monitor",
+  "to": "person-manager",
+  "type": "ci-cd-alert",
+  "subject": "CI/CD Failure: {repo} - {branch}",
+  "priority": "urgent",
+  "content": {
+    "alert_type": "ci-failure",
+    "repository": "{repo_name}",
+    "branch": "{branch_name}",
+    "workflow": "{workflow_name}",
+    "run_url": "{github_actions_url}",
+    "failure_summary": "{what_failed}",
+    "source_email": "{email_that_notified}",
+    "recommended_action": "Review CI logs and fix or delegate to appropriate worker"
+  },
+  "requiresResponse": true
+}

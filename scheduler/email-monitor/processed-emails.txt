@@ -1,0 +1,6 @@
+# Processed Email IDs
+# Format: <email-id>|<timestamp>|<folder>|<action>
+# Actions: ignored, noted, flagged-aaron, escalated-pm
+#
+# This file prevents re-processing the same emails
+# Clean entries older than 7 days periodically

@@ -1,0 +1,21 @@
+{
+  "_comment": "Template for GitHub-related alerts (issues, PRs, security)",
+  "id": "github-alert-{timestamp}",
+  "timestamp": "{ISO_TIMESTAMP}",
+  "from": "email-monitor",
+  "to": "person-manager",
+  "type": "github-alert",
+  "subject": "GitHub: {alert_type} - {repo}",
+  "priority": "normal",
+  "content": {
+    "alert_type": "{issue|pr|security|release}",
+    "repository": "{repo_name}",
+    "title": "{issue_or_pr_title}",
+    "url": "{github_url}",
+    "from": "{username_who_created}",
+    "source_email": "{notification_email}",
+    "summary": "{what_this_is_about}",
+    "recommended_action": "{what_PM_should_do}"
+  },
+  "requiresResponse": false
+}

@@ -129,6 +129,80 @@ When you see emails from people:
 
 ---
 
+## DEDUPLICATION (CRITICAL)
+
+**Never process the same email twice.** Use the processed-emails.txt file:
+
+```bash
+# Check if email was already processed
+grep -q "^<email-id>|" ~/clawd/scheduler/email-monitor/processed-emails.txt
+
+# If found → SKIP with "Already seen: <id>"
+# If not found → Process it, then log:
+echo "<email-id>|$(date -Iseconds)|<folder>|<action>" >> ~/clawd/scheduler/email-monitor/processed-emails.txt
+```
+
+**Actions to log:**
+- `ignored` → Spam, marketing, junk
+- `noted` → Routine, recorded but not escalated
+- `flagged-aaron` → Added to for-aaron.md
+- `escalated-pm` → Sent to Person Manager inbox
+
+---
+
+## ESCALATION SYSTEM
+
+### → Aaron (for-aaron.md)
+**Use for:**
+- Security concerns
+- Financial/legal matters
+- Personal correspondence from trusted contacts
+- Time-sensitive decisions only Aaron can make
+
+**How to flag:**
+```markdown
+<!-- Add row to scheduler/email-monitor/escalations/for-aaron.md -->
+| 2026-02-28 | sender@email.com | Subject Here | HIGH | Reason flagged | pending |
+```
+
+### → Person Manager (Inbox System)
+**Use for:**
+- CI/CD failures from GitHub
+- Infrastructure alerts
+- Project-related communications
+- Anything needing management decisions
+
+**How to escalate:**
+```bash
+cat > ~/clawd/scheduler/inboxes/person-manager/$(date +%s)-email-monitor-alert.json << 'EOF'
+{
+  "id": "email-alert-$(date +%s)",
+  "timestamp": "$(date -Iseconds)",
+  "from": "email-monitor",
+  "to": "person-manager",
+  "type": "email-alert",
+  "subject": "Alert: Brief Description",
+  "priority": "normal",
+  "content": {
+    "alert_type": "ci-failure|infrastructure|project",
+    "source_email": "sender@example.com",
+    "details": "What happened",
+    "recommended_action": "What PM should do"
+  }
+}
+EOF
+```
+
+### → Coordinator (Inbox System)
+**Use for:**
+- Task-specific blockers
+- Technical issues affecting workers
+- Implementation-related communications
+
+Same format as PM, but target: `scheduler/inboxes/coordinator/`
+
+---
+
 ## REPORTING
 
 **To Slack:** ONLY if you have something Aaron would actually want to see
@@ -138,10 +212,14 @@ When you see emails from people:
 
 **NEVER spam Slack with routine stuff.**
 
-**To Person Manager:** Regular summary of activity
-- What was processed
-- What was flagged
-- Learning about contacts
+**To Person Manager:** Via inbox system
+- CI/CD failures
+- Project-related alerts
+- Things needing management decisions
 
 **To notes:** Everything processed
 - `scheduler/email-monitor/notes/YYYY-MM-DD-summary.md`
+
+**Output:**
+- If nothing new/interesting → Say `HEARTBEAT_OK`
+- If new items processed → Brief summary of actions taken
