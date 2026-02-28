@@ -502,16 +502,32 @@ $ pnpm build
 - Progress log: `scheduler/progress/melo-v2/ST-P2-04-D.md` (15KB detailed implementation log)
 
 ### ST-P2-04-E: Mobile & Notification Features (AC-9, AC-10)
-**Status:** `self-validated (L2-coordinator)` ✅
+**Status:** `L3-validation-failed` ❌
 **Spawned:** 2026-02-28 10:52 EST
-**Claimed Complete:** 2026-02-28 11:05 EST
-**L2 Validated:** 2026-02-28 11:31 EST - ✅ PASS (15/15 unit tests, implementation verified)
+**Original Complete:** 2026-02-28 11:05 EST
+**L2 Validated:** 2026-02-28 11:31 EST (FALSE CONFIDENCE - E2E gap detected)
+**L3 Validation:** 2026-02-28 11:45 EST - ❌ FAIL (E2E tests reveal broken mobile functionality)
 **Model:** sonnet
 **Parent:** US-P2-04
 **ACs Covered:** AC-9, AC-10
 **Description:** Ensure mobile responsiveness and unread indicators
 **Worker:** agent:main:subagent:958439e0-36b3-4e50-92f7-4967ecab16fe (worker-ST-P2-04-E)
-**Sent to L3 Validator:** 2026-02-28 11:31 EST
+
+**⚠️ L3 VALIDATION FAILURE - SYSTEMIC E2E GAP CONFIRMED:**
+- ❌ **E2E Tests:** FAIL - missing data-testid='dm-message-input' element
+- ❌ **Mobile Viewport:** 375x667 interaction failures 
+- ❌ **DM Input Accessibility:** Not accessible in mobile view
+- ❌ **Layer 2 False Confidence:** Unit tests passed but E2E revealed broken functionality
+- ❌ **TDD Violation:** Implementation incomplete despite test claims
+
+**Required Fixes (Per Validator):**
+1. Add data-testid='dm-message-input' to DM conversation component
+2. Fix mobile viewport accessibility issues
+3. Ensure E2E tests pass for both AC-9 and AC-10
+4. Re-validate after implementation fixes
+
+**Root Cause:** Unit test success masked E2E implementation gaps - example of dangerous false confidence
+**Next Action:** Spawn fix worker with specific L3 validation requirements
 
 **Dependencies:** ST-P2-04-A (✅ COMPLETE), ST-P2-04-C (✅ L2-validated)
 **Task Details:**
