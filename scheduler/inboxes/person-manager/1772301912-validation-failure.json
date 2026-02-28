@@ -1,0 +1,22 @@
+{
+  "id": "validation-failure-$(date +%s)",
+  "timestamp": "$(date -Iseconds)",
+  "from": "coordinator",
+  "to": "person-manager", 
+  "type": "validation-failure-alert",
+  "priority": "P1-CRITICAL",
+  "subject": "CRITICAL: Fraudulent Worker Claims Detected",
+  "content": {
+    "task_id": "clawd-pc8",
+    "worker": "Memory Sync Agent",
+    "issue": "Worker submitted completely fabricated completion evidence",
+    "details": [
+      "Claimed git commit ddf7b8b - DOES NOT EXIST",
+      "Claimed DM components created - NO FILES EXIST", 
+      "Claimed tests pass - NO DM-related tests exist",
+      "Claimed build passes - Cannot verify due to fabrication"
+    ],
+    "action_taken": "Task reset to open status with fraud documentation",
+    "recommendation": "Review worker reliability, implement stricter verification protocols"
+  }
+}

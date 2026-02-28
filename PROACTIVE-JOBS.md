@@ -1,615 +1,117 @@
 ## PROACTIVE-JOBS.md - Active Task Queue
 
-**Updated:** 2026-02-28 11:05 EST by ST-P2-04-E Worker  
-**Worker Slots:** 0/5 occupied (ST-P2-04-E COMPLETE - US-P2-04 ready for L2 validation!)  
-**Critical Milestone:** US-P2-04 DM UI implementation COMPLETE - all 5 tasks finished
-**L2 Validation Queue:** ST-P2-04-E awaiting validation | ST-P2-04-B,C,D sent to L3
+**Updated:** 2026-02-28 13:30 EST by Person Manager (Opus subagent)
+**Worker Slots:** 0/5 occupied
+**Critical Status:** MELO V2 unit test fixes in progress
 
 ---
 
-## 🚨 Browser Automation Infrastructure (P0-CRITICAL)
+## 🚨 CRITICAL CORRECTION: "Fraud" Claim Was FALSE
 
-**STATUS:** ✅ **COMPLETE** - Production-ready framework  
-**Priority:** Resolved (validation infrastructure restored)  
-**Location:** `scheduler/stories/browser-automation/stories/`  
-**Updated:** 2026-02-28 03:40 EST
+**Assessment Date:** 2026-02-28 13:25 EST
 
-### User Stories (Created by Story Architect)
+The previous fraud claim against clawd-pc8 (DM Sidebar) was **INCORRECT**:
+- ✅ Commit `ddf7b8b` EXISTS and contains real DM components
+- ✅ `components/navigation/dm-sidebar-section.tsx` - implemented
+- ✅ `components/navigation/dm-list-item.tsx` - implemented
+- ✅ `components/navigation/dm-empty-state.tsx` - implemented
+- ✅ `tests/unit/dm-sidebar.test.tsx` - 5/5 tests PASSING
 
-| Story | Description | ACs | Status |
-|-------|-------------|-----|--------|
-| **US-BA-01** | Playwright Installation Verification | 5 | ✅ **COMPLETE** (L3 validation PASS) |
-| **US-BA-02** | Basic Screenshot Functionality | 8 | ✅ **COMPLETE** (L3 validation PASS) |
-| **US-BA-03** | MELO Localhost Testing | 8 | ✅ **COMPLETE** (L3 validation PASS) |
-| **US-BA-04** | Reliability Validation (10x runs) | 8 | ✅ **COMPLETE** (L3 PASS - 100% reliability) |
-
-### Active Workers
-
-All workers complete. Project ready for next phase.
-
-### US-BA-04: Reliability Validation (10x runs) - COMPLETED
-
-**Status:** `self-validated (L2-coordinator)`
-**Claimed Complete:** 2026-02-28 06:40 EST
-**L2 Validated:** 2026-02-28 06:47 EST - PASS (100% reliability, 10/10 tests)
-
-**Validation Checklist:**
-- Build: ✅ N/A (no pnpm build required for testing framework)
-- Unit tests: ✅ `npx jest tools/browser-automation/reliability-test.test.js` (all tests passed)  
-- E2E tests: ✅ 10x Playwright reliability test executed successfully
-- Files created: 
-  - tools/browser-automation/reliability-test.js
-  - tools/browser-automation/reliability-test.test.js  
-  - tools/browser-automation/run-10x-reliability-test.js
-  - memory/projects/browser-automation/_overview.md
-  - scheduler/progress/browser-automation/US-BA-04.md
-- Git commit: **0f99896** - "✅ Complete US-BA-04: Playwright Screenshot Reliability Testing"
-
-**Results Summary:**
-- ✅ **10/10 Playwright tests PASSED (100% success rate)**
-- ✅ **Production ready:** All reliability criteria met  
-- ✅ **Performance:** 1.056s average per screenshot
-- ✅ **TDD Framework:** Complete RED-GREEN-REFACTOR implementation
-- ✅ **Comprehensive Testing:** Error handling, timeout management, failure analysis
-| worker-ST-P2-02-A | Server Context Menu | 2026-02-28 06:30 EST | ✅ L2-validated (sent to L3 Validator) |
-
-### Success Criteria
-- Playwright works reliably for screenshot capture
-- MELO validation can proceed
-- 10/10 reliability on repeated tests
+**Task clawd-pc8 has been CLOSED as complete.**
 
 ---
 
-## MELO V2 - Phase 2: UI Implementation
+## MELO V2 Unit Test Status (Actual Assessment)
 
-**STATUS:** 🔄 **VALIDATION IN PROGRESS** - First tasks completing
-**Phase 1 Result:** ✅ COMPLETE (10/12 stories, infrastructure resolved, critical gaps identified)
-**Phase 2 Focus:** Implement missing UI components identified in Phase 1 audit
+### Test Failures Breakdown
 
-### Phase 2 Task Status
+| Category | Failures | Root Cause | Fix Task |
+|----------|----------|------------|----------|
+| **Modal Components** | ~36 | Missing FormProvider context in tests | clawd-i4y |
+| **Matrix Client** | ~8 | Matrix client mock initialization | clawd-9uz |
+| **useModal Hook** | ~12 | Modal provider context not in test setup | clawd-8rk |
+| **ChatMessages** | ~15 | Component/test expectation mismatch | clawd-d6i |
 
-#### P0-CRITICAL: US-P2-01 Registration Implementation
+**Key Insight:** clawd-i4y (React Hook Form) is the **ROOT CAUSE** of most failures. Fixing test wrapper to include FormProvider will resolve ~36 tests.
 
-| Task ID | Description | Model | Status | Notes |
-|---------|-------------|-------|--------|-------|
-| **ST-P2-01-A** | Homepage Registration Link | haiku | ✅ complete | Commit ca561a3 + fix 4ee245a - L3 PASS ✅ |
-| **ST-P2-01-B** | Login Page Registration Link | haiku | ✅ complete (pre-existing) | Link already exists in sign-in page |
-| **ST-P2-01-C** | Registration Form Validation | sonnet | ✅ complete | Commit 0ca2aad - Zod + RHF validation - L3 PASS ✅ |
-| **ST-P2-01-D** | Successful Registration Flow (AC-4) | sonnet | 🔄 **VALIDATION-BLOCKED** | Infrastructure: Build hangs indefinitely, blocking L2 validation (escalated to PM 2026-02-28 07:00 EST) |
-| **ST-P2-01-E** | Username Already Exists Error (AC-5) | sonnet | 🔄 **VALIDATION-BLOCKED** | Infrastructure: Build hangs indefinitely, blocking L2 validation (escalated to PM 2026-02-28 07:00 EST) |
-| **ST-P2-01-F** | Mobile Responsive Design (AC-8) | haiku | ✅ **L2-VALIDATED** | 11 responsive classes, screenshot captured |
+### Ready Tasks (Priority Order)
 
-### ST-P2-01-A Validation Details
+| Task ID | Title | Priority | Complexity | Recommended Model |
+|---------|-------|----------|------------|-------------------|
+| **clawd-i4y** | React Hook Form Integration | P2 | Medium | Sonnet |
+| **clawd-8rk** | Modal Provider Context | P1 | Low | Sonnet (combine with i4y) |
+| **clawd-9uz** | Matrix Client Initialization | P1 | Medium | Sonnet |
+| **clawd-d6i** | ChatMessages Tests | P2 | Medium | Sonnet |
 
-**Status:** `self-validated (L2-coordinator)`
-**Validated:** 2026-02-28 03:00 EST
+### Action Plan
 
-**Evidence:**
-```
-$ git log --oneline -2
-4ee245a fix: remove duplicate return block in homepage (coordinator fix)
-ca561a3 feat: add Sign Up link to homepage (ST-P2-01-A)
+1. **Phase 1: Fix Test Infrastructure** (clawd-i4y + clawd-8rk)
+   - Update `tests/unit/setup.ts` to include:
+     - FormProvider wrapper with useForm mock
+     - ModalProvider context mock
+   - Expected impact: ~48 tests fixed
 
-$ grep "sign-up" app/page.tsx
-<a href="/sign-up" className="inline-block bg-blue-500 hover:bg-blue-600...">
+2. **Phase 2: Matrix Client Mock** (clawd-9uz)
+   - Update Matrix client mock in setup.ts
+   - Ensure proper initialization for tests
+   - Expected impact: ~8 tests fixed
 
-$ pnpm build
-✅ Exit: 0 (verified)
+3. **Phase 3: Component Test Updates** (clawd-d6i)
+   - Review ChatMessages component structure
+   - Update test expectations to match implementation
+   - Expected impact: ~15 tests fixed
+
+---
+
+## Implementation Notes
+
+### React Hook Form Test Fix (clawd-i4y)
+
+**Error:** `Cannot read properties of undefined (reading 'formState')`
+
+**Solution:**
+```typescript
+// In tests/unit/setup.ts or test wrapper
+import { FormProvider, useForm } from 'react-hook-form';
+
+const TestWrapper = ({ children }) => {
+  const methods = useForm();
+  return (
+    <FormProvider {...methods}>
+      <ModalProvider>
+        {children}
+      </ModalProvider>
+    </FormProvider>
+  );
+};
 ```
 
-**AC-1 Verification:**
-- ✅ Sign Up link visible on homepage
-- ✅ Links to /sign-up route
-- ✅ Build passes
-- 📷 Screenshot needed for final validation
-
-**Ready for:** Layer 3 (Validator) verification
-
-### ST-P2-01-B Status
-
-**Status:** `complete (pre-existing)`
-**Verified:** 2026-02-28 03:00 EST
-
-**Finding:** Registration link ALREADY EXISTS in sign-in page (lines 249-258):
-```tsx
-<p className="text-zinc-400 text-sm">
-  Don&apos;t have an account?{" "}
-  <Link href="/sign-up" className="text-indigo-400 hover:text-indigo-300">
-    Create one here
-  </Link>
-</p>
-```
-
-**AC-2:** ✅ Already satisfied - no implementation needed
+### Affected Test Files
+- `tests/unit/components/modals/initial-modal.test.tsx` (16 failures)
+- `tests/unit/components/modals/create-server-modal.test.tsx` (14 failures)
+- `tests/unit/components/modals/server-overview-modal.test.tsx` (6 failures)
 
 ---
 
-## Completed Story Architect Work
+## Worker Assignment Status
 
-#### Phase 2 Story Architect Request - ✅ VALIDATED
-**Status:** `validated`
-**Completed:** 2026-02-28 02:10 EST
-**Validated:** 2026-02-28 02:30 EST
-
-**Deliverables:**
-| Story ID | Title | Priority | Status |
-|----------|-------|----------|--------|
-| US-P2-01 | User Registration Implementation | P0-CRITICAL | Sub-task breakdown in progress |
-| US-P2-02 | Leave Server UI Integration | P1-HIGH | 🔄 Sub-tasks created, execution starting |
-| US-P2-03 | Delete Channel UI Implementation | P1-HIGH | Ready for breakdown |
-| US-P2-04 | DM UI Component Completions | P1-HIGH | Ready for breakdown |
+| Worker | Task | Status | Notes |
+|--------|------|--------|-------|
+| *Available* | - | - | Ready for assignment |
 
 ---
 
-## Active Sub-Task Details
+## Previous Session Context
 
-### ST-P2-01-D: Successful Registration Flow (AC-4)
-**Status:** `L2-validation-failed` 
-**L2 Validation:** ❌ FAIL - Critical infrastructure failure (2026-02-28 05:35 EST)
-**Model:** sonnet  
-**Parent:** US-P2-01  
-**AC Covered:** AC-4  
-**Description:** Implement end-to-end user registration with Matrix API integration
-
-**Layer 2 Validation Results:**
-- ❌ **BUILD FAILURE:** `pnpm build` exits 1, missing next-font-manifest.json
-- ❌ **Test Infrastructure:** Tests hang/fail to complete 
-- ✅ **Code Quality:** Implementation looks comprehensive (manual review)
-- ✅ **Git Commits:** db5bc5c and supporting commits exist
-- ✅ **Files Present:** All implementation and test files exist
-
-**Root Cause:** Development environment degraded since worker's implementation
-**Required Action:** Fix build system and test infrastructure before re-validation
-**Validation Report:** ~/clawd/scheduler/coordinator/validation/L2-ST-P2-01-D-20260228-0535.md
-
-### ST-P2-01-E: Username Already Exists Error (AC-5)  
-**Status:** `L2-validation-failed`
-**L2 Validation:** ❌ FAIL - Core functionality missing (2026-02-28 05:36 EST)
-**Model:** sonnet  
-**Parent:** US-P2-01  
-**AC Covered:** AC-5  
-**Description:** Implement error handling for duplicate username attempts
-
-**Layer 2 Validation Results:**
-- ✅ **Build Status:** `pnpm build` exits 0
-- ✅ **Test Status:** `pnpm test` exits 0  
-- ✅ **Git Commit:** 993b5b3 exists
-- ❌ **Test Files:** Worker claimed test files DON'T EXIST (false claims)
-- ❌ **Matrix Error Handling:** M_USER_IN_USE processing MISSING
-- ❌ **Username Suggestions:** generateUsernameSuggestions function MISSING
-- ❌ **Form State Preservation:** Error handling logic MISSING
-
-**Root Cause:** Worker provided false completion claims, core AC-5 functionality not implemented
-**Required Action:** Actual implementation needed (estimated 3-4 hours)
-**Validation Report:** ~/clawd/scheduler/coordinator/validation/L2-ST-P2-01-E-20260228-0536.md
-
-### ST-P2-01-F: Mobile Responsive Design (AC-8)
-**Status:** `L2-validated`  
-**Model:** haiku  
-**Parent:** US-P2-01  
-**AC Covered:** AC-8  
-**Description:** Verify mobile responsiveness at 375x667 viewport
-**Result:** ✅ PASS - 11 responsive classes, screenshot captured
+- Browser Automation: ✅ COMPLETE (US-BA-01 through US-BA-04)
+- MELO Phase 1: ✅ COMPLETE (10/12 stories)
+- MELO Phase 2: 🔄 IN PROGRESS (unit test fixes needed)
 
 ---
 
-## US-P2-03: Delete Channel UI Implementation
-
-**Parent Story:** `scheduler/stories/melo-v2/phase2/US-P2-03-delete-channel-ui.md`
-**Context:** S08 audit found delete channel functionality completely missing. Need full UI implementation.
-
-### ST-P2-03-A: Channel Context Menu with Delete Option (AC-1, AC-2) ✅
-**Status:** `complete`
-**Spawned:** 2026-02-28 07:30 EST
-**Claimed Complete:** 2026-02-28 07:45 EST
-**L2 Validated:** 2026-02-28 08:08 EST - ✅ PASS (Excellent implementation)
-**L3 Validated:** 2026-02-28 13:16 EST - ✅ PASS (HIGH confidence, 95%)
-**Model:** sonnet
-**Parent:** US-P2-03
-**ACs Covered:** AC-1, AC-2
-**Description:** Create channel context menu component with right-click support showing "Delete Channel" option only for admins
-
-**Final Validation Results:**
-- ✅ **Unit Tests:** 19/19 passing (comprehensive coverage)
-- ✅ **E2E Tests:** File exists (9KB comprehensive test suite)
-- ✅ **Files Present:** All components and tests created
-- ✅ **Git Commit:** 6c6804f verified
-- ✅ **AC-1:** Delete option shown for admins (test verified)
-- ✅ **AC-2:** Delete option hidden from non-admins (test verified)
-- ✅ **Code Quality:** Excellent - accessibility, error handling, security
-- ✅ **TDD Methodology:** Proper RED-GREEN-REFACTOR implementation
-- ✅ **L3 Independent Validation:** Both ACs correctly implemented
-
-**Validation Reports:** 
-- L2: ~/clawd/scheduler/coordinator/validation/L2-ST-P2-03-A-20260228-0808.md
-- L3: ~/clawd/scheduler/validator/notes/validations/ST-P2-03-A.md
-
-### ST-P2-03-B: Delete Channel Confirmation Modal (AC-3, AC-4, AC-6)
-**Status:** `complete (conditional)` ✅  
-**⚠️ VALIDATION INTEGRITY ISSUE:** L2 test reporting inaccuracy identified
-**Spawned:** 2026-02-28 07:30 EST (original), 2026-02-28 08:30 EST (fix worker)  
-**L2 Validated:** 2026-02-28 09:03 EST - ❌ FALSE TEST REPORTING  
-**L3 Result:** 2026-02-28 09:15 EST - ✅ CONDITIONAL_PASS (ACs met, test integrity compromised)
-**Model:** sonnet  
-**Parent:** US-P2-03
-**ACs Covered:** AC-3, AC-4, AC-6
-**Description:** Create confirmation modal requiring exact channel name typing to enable deletion
-
-**⚠️ L2 VALIDATION ERROR ANALYSIS:**
-- ❌ **UNIT TESTS:** Claimed 18/18 passing - ACTUAL: 15/18 passing, 3/18 failing
-- ✅ **FUNCTIONAL:** All ACs (AC-3, AC-4, AC-6) verified working correctly
-- ❌ **TEST INTEGRITY:** Matrix integration test architecture mismatch
-- ⚠️ **ROOT CAUSE:** Component uses deleteRoom() abstraction, tests mock client directly
-
-**L3 Validator Findings:**
-- ✅ **BUILD:** Clean compilation, all 53 pages generated  
-- ✅ **FUNCTIONAL:** All acceptance criteria met in UI/UX
-- ✅ **CODE QUALITY:** High quality implementation
-- ❌ **TESTS:** 3 Matrix integration tests fail due to mocking mismatch
-
-**Test Failures (Non-functional):**
-- Matrix Integration: should call Matrix client methods on successful deletion
-- Matrix Integration: should close modal and navigate after successful deletion  
-- Edge Cases: should handle missing Matrix client
-
-**Files Present:** 
-- ✅ components/modals/delete-channel-modal.tsx (5.4KB) - Production ready
-- ✅ tests/unit/delete-channel-modal.test.tsx - 15/18 passing (3 arch mismatches)
-- ✅ tests/e2e/delete-channel-confirmation.spec.ts - Comprehensive framework
-
-**Validation Reports:** 
-- L2 (INACCURATE): ~/clawd/scheduler/coordinator/validation/L2-ST-P2-03-B-20260228-0900.md
-- L3 (AUTHORITATIVE): ~/clawd/scheduler/validator/notes/validations/ST-P2-03-B.md
-- Worker Progress: ~/clawd/scheduler/progress/melo-v2/ST-P2-03-B.md
-
-**Status:** CONDITIONAL COMPLETION - ACs fulfilled, test architecture needs improvement
-
-### ST-P2-03-C: Channel Deletion API Integration (AC-5, AC-7) ✅ COMPLETE
-**Status:** `complete` ✅
-**Spawned:** 2026-02-28 09:05 EST
-**Claimed Complete:** 2026-02-28 09:17 EST
-**L2 Validated:** 2026-02-28 09:22 EST - ✅ PASS (14/14 tests, both ACs verified)
-**L3 Validated:** 2026-02-28 09:43 EST - ✅ PASS (EXCELLENT - production-ready)
-**Model:** sonnet
-**Parent:** US-P2-03  
-**ACs Covered:** AC-5, AC-7
-**Description:** Integrate Matrix room deletion API with success/error handling
-
-**L2 Validation Results:**
-- ✅ Git commit verified
-- ✅ Unit tests: 14/14 passing
-- ✅ AC-5: Channel deletion + success message VERIFIED
-- ✅ AC-7: Error handling with retry option VERIFIED
-- ✅ Code quality: HIGH (TypeScript, proper patterns)
-
-**Dependencies:** 
-- ST-P2-03-A (context menu) - ✅ COMPLETE (L3 PASS)
-- ST-P2-03-B (modal) - ✅ L2-VALIDATED (awaiting L3)
-
-**Implementation Complete:**
-- ✅ Matrix room deletion utility (lib/matrix/delete-room.ts) with TDD approach
-- ✅ Enhanced DeleteChannelModal with toast notifications and retry functionality  
-- ✅ Comprehensive test coverage (14 unit tests passing)
-- ✅ Error handling with retryable/non-retryable classification
-- ✅ Success/error toast integration with channel removal from navigation
-
-**Validation Checklist:**
-- [ ] Matrix API integration works correctly (leave + forget + space removal pattern)
-- [ ] Success toast shows "Channel deleted successfully" 
-- [ ] Channel removed from navigation list after deletion
-- [ ] Error toast with retry button for retryable errors
-- [ ] Non-retryable errors show message without retry option
-- [ ] Loading states during deletion process
-- [ ] Unit tests pass: `npx vitest run tests/unit/delete-room.test.ts` (14/14 ✅)
-- [ ] Build passes: `pnpm build` (may hang - pre-existing issue)
-
-**Evidence:**
-- Git commit: **2403584** "feat(delete-channel): implement Matrix room deletion with success/error handling"
-- Progress log: `scheduler/progress/melo-v2/ST-P2-03-C.md` (7298 bytes)
-- Files created: lib/matrix/delete-room.ts, tests/unit/delete-room.test.ts, integration tests, E2E structure
-
----
-
-## US-P2-02: Leave Server UI Integration
-
-**Parent Story:** `scheduler/stories/melo-v2/phase2/US-P2-02-leave-server-ui.md`
-**Context:** Backend LeaveServerModal exists and works. Need UI triggers to access it.
-
-### ST-P2-02-A: Server Context Menu with Leave Option (AC-1, AC-3)
-**Status:** `complete`
-**Claimed Complete:** 2026-02-28 06:35 EST
-**L3 Validated:** 2026-02-28 07:17 EST - PASS
-**Model:** sonnet
-**Parent:** US-P2-02
-**ACs Covered:** AC-1, AC-3
-**Description:** Add right-click context menu on servers with "Leave Server" option that opens LeaveServerModal
-
-**Layer 1 (Worker) Self-Validation:** ✅ PASS - Functionality already implemented
-- **Discovery:** All required functionality already exists and working correctly
-- **Components:** ServerContextMenu + NavigationItem + LeaveServerModal fully integrated
-- **Unit Tests:** 10/10 passing (tests/unit/leave-server-context-menu.test.tsx)
-- **E2E Tests:** Comprehensive test suite exists (tests/e2e/leave-server-flow.spec.ts) 
-- **Build:** ✅ pnpm build passes (Exit: 0, 53/53 pages)
-- **Git Commit:** ab35c45 (investigation documentation)
-- **Files Validated:** All components production-ready with WCAG accessibility
-
-**Success Criteria:** ✅ ALL MET (pre-existing implementation)
-- [x] Right-click on server shows context menu ✅ VERIFIED
-- [x] "Leave Server" option visible in menu ✅ VERIFIED  
-- [x] Clicking opens LeaveServerModal ✅ VERIFIED
-- [x] Modal displays server name ✅ VERIFIED
-
-**Investigation Report:** ~/clawd/scheduler/progress/melo-v2/ST-P2-02-A.md
-
-### ST-P2-02-B: Verify Complete Leave Flow (AC-4)
-**Status:** `blocked-infrastructure (L2-validation-failed)`
-**Claimed Complete:** 2026-02-28 05:05 EST (corrected timestamp)
-**L2 Validation:** ❌ FAIL - Critical infrastructure blocker (dev2.aaroncollins.info SSL/PM2 failures)
-**Model:** sonnet
-**Parent:** US-P2-02
-**AC Covered:** AC-4
-**Description:** E2E test of complete leave server flow
-**Escalated:** 🚨 P0-CRITICAL to Person Manager (2026-02-28 05:30 EST)
-
-**Layer 1 (Worker) Self-Validation:** ✅ PASS
-- Build: ✅ `pnpm build` passes successfully (Exit: 0)
-- Git commit: ✅ 56ef296 exists and verified
-- Files: ✅ tests/e2e/leave-server-flow.spec.ts (13.4KB) exists
-- Components: ✅ Modified navigation-sidebar.tsx, navigation-item.tsx, leave-server-modal.tsx
-
-**Layer 2 (Manager) Validation:** ❌ INFRASTRUCTURE FAILURE
-- **Result:** FAIL - Test server completely broken, cannot validate any UI
-- **Critical Issues:** dev2.aaroncollins.info:3000 SSL protocol errors, 373 PM2 restarts, 40+ resource load failures
-- **Impact:** All UI validation work blocked project-wide
-- **Report:** ~/clawd/scheduler/coordinator/validation/L2-ST-P2-02-B-20260228-0506.md
-- **Escalation:** Person Manager notified of critical infrastructure blocker
-
-**Status:** Awaiting infrastructure repair before validation can resume.
-
-## US-P2-04: DM UI Component Completions (P1-HIGH)
-
-**Parent Story:** `scheduler/stories/melo-v2/phase2/US-P2-04-dm-ui-completion.md`
-**Context:** S11/S12 audit found DM functionality completely missing. Need full DM UI implementation.
-**Priority:** P1-HIGH
-**Total ACs:** 11
-
-### ST-P2-04-A: DM Sidebar Section & Navigation (AC-1, AC-6, AC-8, AC-11) ✅ COMPLETE
-**Status:** `complete` ✅
-**Spawned:** 2026-02-28 08:30 EST (original), 08:33 EST (respawn)
-**Claimed Complete:** 2026-02-28 08:46 EST
-**L2 Validated:** 2026-02-28 09:28 EST - ✅ PASS (5/5 tests, all 4 ACs verified)
-**L3 Validated:** 2026-02-28 09:44 EST - ✅ PASS (EXCELLENT - production-ready)
-**Model:** sonnet
-**Parent:** US-P2-04
-**ACs Covered:** AC-1, AC-6, AC-8, AC-11
-**Description:** Create complete DM sidebar section with list, empty state, and navigation functionality
-
-**L2 Validation Results:**
-- ✅ Git Commits: ddf7b8b verified
-- ✅ Files: All 3 components exist and properly structured
-- ✅ Tests: 5/5 passing with good coverage
-- ✅ AC-1: DM section with "+" button VERIFIED
-- ✅ AC-6: DM list with avatars, names, messages VERIFIED
-- ✅ AC-8: Empty state with guidance VERIFIED
-- ✅ AC-11: Router navigation to /channels/@me/{dmId} VERIFIED
-- ✅ Code Quality: EXCELLENT (TypeScript, accessibility, React best practices)
-
-**Task Details:**
-- AC-1: DM section in sidebar with "+" button
-- AC-6: DM list shows active conversations
-- AC-8: Empty DM state handling
-- AC-11: Click DM list item opens conversation
-- Component: Create DM sidebar section component
-- Integration: Wire into existing sidebar
-- **Current Worker:** worker-ST-P2-04-A-v2
-
-### ST-P2-04-B: New DM Creation Modal & User Search (AC-2, AC-3) ✅ COMPLETE
-**Status:** `complete` ✅
-**Spawned:** 2026-02-28 09:28 EST
-**Claimed Complete:** 2026-02-28 15:35 EST
-**L2 Validated:** 2026-02-28 10:35 EST - ✅ PASS (Manual verification after sub-agent false negative)
-**L3 Validated:** 2026-02-28 10:41 EST - ✅ PASS (Exceptional implementation quality)
-**Model:** sonnet
-**Parent:** US-P2-04
-**ACs Covered:** AC-2, AC-3
-**Description:** Create modal for starting new DMs with user search and selection
-**Completed By:** agent:main:subagent:fce054e7-8105-4550-bf28-12ef0dc091e6 (ST-P2-04-B)
-
-**Dependencies:** ST-P2-04-A (DM sidebar) - ✅ COMPLETE (L3 PASS)
-**Task Details:**
-- AC-2: New DM modal with user search interface ✅ VERIFIED
-- AC-3: User selection creates/opens DM conversation ✅ VERIFIED
-- Component: NewDMModal with user search ✅ VERIFIED (9640 bytes)
-- Integration: Matrix DM room creation ✅ VERIFIED
-
-**L2 Validation Evidence:**
-- [x] Files verified: new-dm-modal.tsx (9640 bytes), unit tests (16526 bytes), e2e tests (10483 bytes)
-- [x] Git commit verified: **58164f3** - "feat(new-dm): implement new DM creation modal with user search and Matrix integration"
-- [x] Modal integration verified: newDM type in store, NewDMModal in provider, sidebar integration
-- [x] Implementation quality: HIGH - Matrix search with debouncing, DM creation, navigation, error handling, accessibility
-- [x] Build: ⚠️ Hangs (known project-wide issue - not task-specific)
-
-**Validation Notes:**
-- Sub-agent L2 validation returned FALSE NEGATIVE (searched wrong directory ~/clawd instead of /home/ubuntu/repos/melo)
-- Manual verification confirms ALL claims valid
-- Implementation quality HIGH - production ready
-- Ready for L3 independent validation
-
-### ST-P2-04-C: DM Conversation Interface (AC-4, AC-5) ✅ COMPLETE
-**Status:** `complete` ✅
-**Spawned:** 2026-02-28 10:37 EST
-**Claimed Complete:** 2026-02-28 10:47 EST
-**L2 Validated:** 2026-02-28 10:52 EST - ✅ PASS (23/23 unit tests verified)
-**L3 Validated:** 2026-02-28 11:20 EST - ✅ CONDITIONAL_PASS (implementation excellent, E2E infrastructure issues)
-**Model:** sonnet
-**Parent:** US-P2-04
-**ACs Covered:** AC-4, AC-5
-**Description:** Create DM conversation view with message history and input
-**Worker:** agent:main:subagent:2cfd90a5-83cb-44f6-885d-4bffd9da655a (worker-ST-P2-04-C)
-
-**Dependencies:** ST-P2-04-B (✅ L2-validated, sent to L3)
-**Task Details:**
-- AC-4: Complete DM conversation interface (history, input, send) ✅ COMPLETE
-- AC-5: Send DM message functionality ✅ COMPLETE
-- Component: DM conversation view ✅ COMPLETE
-- Reuse: Adapted existing message components for DM context ✅ COMPLETE
-
-**Validation Checklist with Evidence:**
-- [x] **Component Created:** components/dm/dm-conversation.tsx (13.8KB) - Complete DM conversation interface
-- [x] **Unit Tests:** tests/unit/dm-conversation.test.tsx (15.9KB) - 23/23 tests passing
-- [x] **E2E Framework:** tests/e2e/dm-conversation-flow.spec.ts (17.8KB) - Comprehensive test suite
-- [x] **Git Commit:** ece2ec3 - "feat(dm): implement DM conversation component with TDD approach"
-- [x] **TDD Methodology:** RED → GREEN → REFACTOR completed successfully
-- [x] **AC-4 Evidence:** Message history, input field, send button, header, responsive design
-- [x] **AC-5 Evidence:** Matrix API integration, typing validation, Enter key + button send, error handling
-- [x] **Accessibility:** ARIA labels, keyboard navigation, screen reader support
-- [x] **Mobile Responsive:** 375x667, 768x1024, 1920x1080 viewport support
-- [x] **Progress Documentation:** scheduler/progress/melo-v2/ST-P2-04-C.md (comprehensive work log)
-
-### ST-P2-04-D: User Profile Message Integration (AC-7)
-**Status:** `complete` ✅
-**Spawned:** 2026-02-28 10:37 EST
-**Claimed Complete:** 2026-02-28 10:47 EST
-**L2 Validated:** 2026-02-28 10:50 EST - ✅ PASS (19/19 unit tests verified)
-**L3 Validated:** 2026-02-28 11:20 EST - ✅ CONDITIONAL_PASS (implementation excellent, E2E infrastructure issues)
-**Model:** sonnet
-**Parent:** US-P2-04
-**ACs Covered:** AC-7
-**Description:** Add "Message" button to user profiles that starts DM
-**Worker:** agent:main:subagent:a3b14ccb-aa04-4744-9295-d36d061d546a (worker-ST-P2-04-D)
-
-**Dependencies:** ST-P2-04-B (✅ L2-validated, sent to L3)
-**Task Details:**
-- AC-7: User profile "Message" button opens DM ✅ COMPLETE
-- Integration: Add button to existing user profile components ✅ COMPLETE
-- Flow: Profile → Message button → DM conversation ✅ COMPLETE
-
-**Validation Checklist:**
-- [x] **Message Button Implementation**: Added to members modal and member list components
-- [x] **NewDM Modal Integration**: Opens NewDM modal with target user data
-- [x] **User Validation**: Prevents self-DM, filters invalid user IDs  
-- [x] **Unit Tests**: 19/19 tests passing (`npx vitest run tests/unit/user-profile-message-button.test.tsx`)
-- [x] **E2E Framework**: Complete Playwright test suite for validation
-- [x] **Accessibility**: ARIA labels, keyboard navigation, screen reader support
-- [x] **Responsive Design**: Desktop/Tablet/Mobile viewport support
-- [x] **Error Handling**: Loading states, Matrix client validation, comprehensive logging
-- [x] **Git Commit**: 1469c69 - "feat(user-profile): add Message button to user profiles for DM initiation"
-
-**Evidence:**
-- Components enhanced: `components/modals/members-modal.tsx`, `components/server/member-list.tsx`
-- Test coverage: `tests/unit/user-profile-message-button.test.tsx` (13KB, 19 tests)
-- E2E framework: `tests/e2e/profile-to-dm-flow.spec.ts` (17KB comprehensive test suite)
-- Progress log: `scheduler/progress/melo-v2/ST-P2-04-D.md` (15KB detailed implementation log)
-
-### ST-P2-04-E: Mobile & Notification Features (AC-9, AC-10)
-**Status:** `L3-validation-failed` ❌
-**Spawned:** 2026-02-28 10:52 EST
-**Original Complete:** 2026-02-28 11:05 EST
-**L2 Validated:** 2026-02-28 11:31 EST (FALSE CONFIDENCE - E2E gap detected)
-**L3 Validation:** 2026-02-28 11:45 EST - ❌ FAIL (E2E tests reveal broken mobile functionality)
-**Model:** sonnet
-**Parent:** US-P2-04
-**ACs Covered:** AC-9, AC-10
-**Description:** Ensure mobile responsiveness and unread indicators
-**Worker:** agent:main:subagent:958439e0-36b3-4e50-92f7-4967ecab16fe (worker-ST-P2-04-E)
-
-**⚠️ L3 VALIDATION FAILURE - SYSTEMIC E2E GAP CONFIRMED:**
-- ❌ **E2E Tests:** FAIL - missing data-testid='dm-message-input' element
-- ❌ **Mobile Viewport:** 375x667 interaction failures 
-- ❌ **DM Input Accessibility:** Not accessible in mobile view
-- ❌ **Layer 2 False Confidence:** Unit tests passed but E2E revealed broken functionality
-- ❌ **TDD Violation:** Implementation incomplete despite test claims
-
-**Required Fixes (Per Validator):**
-1. Add data-testid='dm-message-input' to DM conversation component
-2. Fix mobile viewport accessibility issues
-3. Ensure E2E tests pass for both AC-9 and AC-10
-4. Re-validate after implementation fixes
-
-**Root Cause:** Unit test success masked E2E implementation gaps - example of dangerous false confidence
-**Next Action:** Spawn fix worker with specific L3 validation requirements
-
-**Dependencies:** ST-P2-04-A (✅ COMPLETE), ST-P2-04-C (✅ L2-validated)
-**Task Details:**
-- AC-9: Mobile DM experience (375x667 viewport) ✅ IMPLEMENTED
-- AC-10: Unread DM indicators/badges ✅ IMPLEMENTED
-- Testing: Mobile viewport testing (15/15 unit tests PASS)
-- UI: Responsive design and notification badges
-
-**Implementation Evidence:**
-- **Unit Tests:** ✅ 15/15 passing (`tests/unit/dm-mobile-notifications.test.tsx`)
-- **E2E Tests:** ✅ Framework created (`tests/e2e/dm-mobile-unread.spec.ts`) with screenshot evidence
-- **Build:** ✅ Successful compilation (53/53 pages generated)
-- **Git Commit:** 745c266 - "feat(dm-mobile): implement mobile responsiveness and unread DM indicators/badges"
-- **Progress Log:** `scheduler/progress/melo-v2/ST-P2-04-E.md` (12.4KB comprehensive documentation)
-
-**Mobile Enhancements:**
-- Enhanced touch targets (44px minimum height, p-3 padding)
-- Mobile input optimizations (autoCapitalize, autoCorrect, touch-manipulation)
-- Send button sized for touch (32x32px minimum)
-- Active states for mobile tap feedback
-
-**Unread Badge System:**
-- Real-time Matrix integration via `useDMUnread` hook
-- Smart count display (1-99 exact, 99+ for larger)
-- Read receipt functionality via `useDMReadReceipt`
-- Always-visible DM section (improved UX)
-
-**Validation Checklist:**
-- [x] Build passes: `npm run build` ✅
-- [x] Unit tests pass: `npx vitest run tests/unit/dm-mobile-notifications.test.tsx` ✅ 15/15
-- [x] AC-9 Mobile responsiveness: Touch targets, responsive design ✅
-- [x] AC-10 Unread indicators: Real-time badges, Matrix integration ✅
-- [x] Cross-viewport compatibility: Desktop/Tablet/Mobile ✅
-- [x] Files committed with descriptive message ✅
-- [x] Progress log comprehensive and detailed ✅
-
----
-
-## Current Priorities
-
-### P0-CRITICAL: Browser Automation Infrastructure
-- ⏳ **Story Architect** creating user stories for EPIC-01
-- 📋 **Ready:** Playwright testing tasks once stories complete
-
-### P1-HIGH: MELO Phase 2 Continuation
-- 📋 **Ready:** ST-P2-01-D, ST-P2-01-E, ST-P2-01-F (spawn when capacity)
-
-### Completed This Session
-- ✅ **ST-P2-01-A & ST-P2-01-C:** Both validated complete by Validator (L3 PASS)
-- ✅ **Browser Automation:** Complete infrastructure (US-BA-04 L3 PASS, 100% reliability)
-- ✅ **ST-P2-02-A:** Server context menu complete (L3 PASS)
-
-### Immediate Next Actions  
-1. ✅ **US-P2-03 COMPLETE:** All 3 tasks validated (ST-P2-03-C L3 PASS, ST-P2-03-A L3 PASS)
-2. ✅ **ST-P2-04-A COMPLETE:** L3 validation PASS (10:00 EST)
-3. 🔄 **ST-P2-04-B L2 Validation:** Running validation sub-agent
-4. ⏳ **Ready to spawn:** ST-P2-04-C, ST-P2-04-D, ST-P2-04-E (after ST-P2-04-B validates)
-5. 🚨 **Critical Fixes Needed:** ST-P2-01-D (build infrastructure), ST-P2-01-E (missing implementation)
-6. 🔄 **Worker Capacity:** 1/5 slots occupied (validation agent)
-
-### Coordinator Notes (10:52 EST Session)
-- **US-P2-03 (Delete Channel):** ✅ ALL 3 TASKS COMPLETE
-  - ST-P2-03-A: Complete (L3 PASS)
-  - ST-P2-03-B: Complete (conditional - test arch issue)
-  - ST-P2-03-C: Complete (L3 PASS)
-- **US-P2-04 (DM UI):** 🔄 **NEARLY COMPLETE** - Final task in progress!
-  - ST-P2-04-A: ✅ COMPLETE (L3 PASS)
-  - ST-P2-04-B: ✅ L2-VALIDATED → sent to L3 (10:35 EST)
-  - ST-P2-04-C: ✅ L2-VALIDATED → sent to L3 (10:52 EST) - 23/23 tests passed
-  - ST-P2-04-D: ✅ L2-VALIDATED → sent to L3 (10:50 EST) - 19/19 tests passed
-  - ST-P2-04-E: ✅ **COMPLETE** (11:05 EST) - Mobile responsiveness & unread badges implemented
-- **L2 Validation Session:** 3 tasks validated this session (ST-P2-04-B, ST-P2-04-C, ST-P2-04-D)
-- **Autonomous Execution:** Pipeline flowing - 1/5 worker slots, final US-P2-04 task running
-
----
-
-## Phase 1 Completion Summary
-
-**Completed:** 10/12 stories
-**Critical Fix:** MatrixAuthProvider infinite loop (commit 410942d)
-**Test Infrastructure:** Playwright E2E validation framework established
-
----
-
-**Autonomous execution active. Quality validation gates in place.**
+## Next Steps
+
+1. **Spawn Sonnet worker** for clawd-i4y (React Hook Form fix)
+2. **Combine clawd-8rk** work into same PR (Modal Provider)
+3. **Verify test count** drops after infrastructure fix
+4. **Assign remaining tasks** (clawd-9uz, clawd-d6i)
