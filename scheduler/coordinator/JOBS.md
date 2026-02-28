@@ -22,9 +22,9 @@
 - **S03:** ✅ Complete 
 - **S04:** ✅ Self-validated (awaiting L3)
 - **S05:** ✅ Complete
-- **S06:** ✅ Self-validated (awaiting L3)
+- **S06:** 📋 Layer 2 corrected by L3 (PARTIAL - feature exists, deployment blocks validation)
 - **S07:** ✅ Complete
-- **S08:** ✅ Complete (conditional pass - unit test issue tracked separately)
+- **S08:** ❌ Layer 2 validation failed (deployment issues block validation)
 - **S09:** ✅ Complete (conditional pass - unit test issue tracked separately)
 - **S10:** ✅ Complete (conditional pass - S09 dependency documented)
 - **S12:** ✅ Complete (comprehensive audit - DM gaps identified)
