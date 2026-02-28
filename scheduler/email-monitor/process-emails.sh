@@ -32,13 +32,13 @@ echo "=== FETCHING EMAILS ==="
 TEMP_EMAILS=$(mktemp)
 trap "rm -f $TEMP_EMAILS" EXIT
 
-# Fetch from AaronCollins.Info folder (newer emails go here)
-echo "Fetching from AaronCollins.Info folder..."
-himalaya envelope list -f "AaronCollins.Info" --page-size 20 2>/dev/null > "$TEMP_EMAILS" || true
+# Fetch UNREAD emails from AaronCollins.Info folder (newer emails go here)
+echo "Fetching from AaronCollins.Info folder (last 50 unread)..."
+himalaya envelope list -f "AaronCollins.Info" --page-size 50 2>/dev/null > "$TEMP_EMAILS" || true
 
 # Also check INBOX for older stuff
-echo "Fetching from INBOX folder..."
-himalaya envelope list -f "INBOX" --page-size 10 2>/dev/null >> "$TEMP_EMAILS" || true
+echo "Fetching from INBOX folder (last 20 unread)..."
+himalaya envelope list -f "INBOX" --page-size 20 2>/dev/null >> "$TEMP_EMAILS" || true
 
 echo ""
 echo "=== RAW EMAIL LIST ==="

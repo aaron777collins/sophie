@@ -13,12 +13,16 @@
 
 ## How This Works
 
-1. **Haiku** reads emails → Sees something that might need action
-2. **Haiku** adds row here → Then STOPS (no further action)
+1. **Sonnet** reads emails → Sees something that might need action
+2. **Sonnet** adds row here → Then STOPS (no further action)
 3. **Opus** runs (cron or triggered) → Reviews items here
-4. **Opus** does Circle thinking for each:
-   - Situation, sender perspective, Aaron's perspective
-   - Trust verification, risk assessment, contingencies
+4. **Opus** does FULL Circle/Counsel thinking for each:
+   - Situation analysis
+   - Spam/manipulation check (artificial pressure, forced urgency)
+   - Sender perspective, Aaron's perspective, all parties
+   - Trust verification (check contacts.db, who they know)
+   - Risk assessment, contingencies, dependencies
+   - Final decision: act or wait for Aaron?
 5. **Opus** decides and acts:
    - Respond → Logs to ACTIONS-PENDING-ACK.md
    - Flag Aaron → Adds to escalations/for-aaron.md
