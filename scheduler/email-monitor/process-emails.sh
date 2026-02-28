@@ -34,16 +34,31 @@ echo ""
 TEMP_EMAILS=$(mktemp)
 trap "rm -f $TEMP_EMAILS" EXIT
 
-echo "=== FETCHING NEW EMAILS (after $LAST_DATE, cap 50) ==="
+echo "=== CHECKING COOLDOWN ==="
+CACHE_SCRIPT=~/clawd/scheduler/email-monitor/email-cache.sh
 
-# Fetch from AaronCollins.Info folder - emails AFTER last check date
-echo ""
-echo "--- AaronCollins.Info folder ---"
-himalaya envelope list -f "AaronCollins.Info" --page-size 50 "after $LAST_DATE" 2>/dev/null || echo "(no results or error)"
-
-echo ""
-echo "--- INBOX folder ---"
-himalaya envelope list -f "INBOX" --page-size 20 "after $LAST_DATE" 2>/dev/null || echo "(no results or error)"
+# Check cooldown first
+if ! "$CACHE_SCRIPT" cooldown | grep -q "Ready"; then
+    echo "RATE LIMITED: In cooldown period, using cached results"
+    "$CACHE_SCRIPT" status
+    echo ""
+    echo "=== CACHED EMAILS ==="
+    cat ~/clawd/scheduler/email-monitor/cache/emails.json 2>/dev/null || echo "(no cache)"
+else
+    echo "=== FETCHING NEW EMAILS (after $LAST_DATE, cap 50) ==="
+    
+    # Update cooldown timestamp
+    date +%s > ~/clawd/scheduler/email-monitor/cache/cooldown.lock
+    
+    # Fetch from AaronCollins.Info folder - emails AFTER last check date
+    echo ""
+    echo "--- AaronCollins.Info folder ---"
+    himalaya envelope list -f "AaronCollins.Info" --page-size 50 "after $LAST_DATE" 2>/dev/null || echo "(no results or error)"
+    
+    echo ""
+    echo "--- INBOX folder ---"
+    himalaya envelope list -f "INBOX" --page-size 20 "after $LAST_DATE" 2>/dev/null || echo "(no results or error)"
+fi
 
 echo ""
 echo "=== ALREADY PROCESSED (for deduplication backup) ==="

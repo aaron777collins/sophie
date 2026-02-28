@@ -1,0 +1,26 @@
+{
+  "id": "val-req-ST-P2-02-A-20260228",
+  "timestamp": "2026-02-28T06:42:00-05:00",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: ST-P2-02-A Server Context Menu (L2 PASS)",
+  "content": {
+    "task_ids": ["ST-P2-02-A"],
+    "project": "melo-v2",
+    "phase": "Phase 2 - UI Implementation",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-02-28T06:41:00-05:00",
+    "files_changed": [
+      "components/navigation/server-context-menu.tsx",
+      "components/navigation/navigation-item.tsx",
+      "components/modals/leave-server-modal.tsx"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Right-click on server shows context menu",
+      "AC-3: Leave Server option opens LeaveServerModal with server name"
+    ],
+    "l2_validation_notes": "PASS - All 10 unit tests pass, build succeeds (53/53 pages), code review confirms implementation complete. Worker correctly identified pre-existing production-ready implementation.",
+    "l2_validation_report": "~/clawd/scheduler/coordinator/validation/L2-ST-P2-02-A-20260228-0641.md"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "val-req-ST-P2-03-C-20260228-0922",
+  "timestamp": "2026-02-28T09:22:00-05:00",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: ST-P2-03-C Delete Channel API Integration",
+  "content": {
+    "task_ids": ["ST-P2-03-C"],
+    "project": "melo-v2",
+    "phase": "Phase 2",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-02-28T09:22:00-05:00",
+    "files_changed": [
+      "lib/matrix/delete-room.ts",
+      "components/modals/delete-channel-modal.tsx",
+      "tests/unit/delete-room.test.ts"
+    ],
+    "acceptance_criteria": [
+      "AC-5: Successful channel deletion - channel removed from list, success message",
+      "AC-7: Error handling - API failures show error with retry option"
+    ],
+    "self_validation_notes": "L2 validation PASS - 14/14 unit tests passing, both ACs verified, proper Matrix leave+forget pattern, error handling with retry, code quality HIGH",
+    "l2_validation_report": "~/clawd/scheduler/coordinator/validation/L2-ST-P2-03-C-20260228-0920.md"
+  }
+}
