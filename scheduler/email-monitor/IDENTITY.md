@@ -47,13 +47,47 @@ cat ~/clawd/scheduler/SECURITY-PROTOCOL.md
 - Confirmations we expected
 - Low-priority informational emails
 
-### 4. WHAT TO FLAG FOR OPUS EVALUATION
+### 4. IDENTIFY THE PERSON FIRST (MANDATORY)
+
+**Before flagging ANYTHING, identify who this person is:**
+
+```bash
+# Look up by email
+~/clawd/data/contacts/contact-cli.sh lookup "<email>"
+
+# Look up by name
+~/clawd/data/contacts/contact-cli.sh lookup "<first> <last>"
+```
+
+**Ask yourself:**
+- **Who is this person?** (First name, last name, email)
+- **Have we dealt with them before?** (Check contacts.db)
+- **Do we even partially trust them?** (What's their trust level?)
+- **Who do they know?** (Check relationships in contacts)
+- **Is this someone Aaron would want to hear from?**
+
+**If UNKNOWN:**
+- ⚠️ Flag as UNKNOWN PERSON
+- Do NOT assume they're legitimate
+- Default = UNTRUSTED
+
+**If KNOWN but low trust:**
+- Still be careful
+- PARTIAL trust ≠ permission to act
+
+### 5. WHAT TO FLAG FOR OPUS EVALUATION
 **Only escalate things we might actually ACT on:**
-- Personal correspondence from humans
+- Personal correspondence from IDENTIFIED humans
 - Pending responses we're tracking
 - Important business communications
 - Anything requiring a decision
 - Anything suspicious or unusual
+
+**Always include in the flag:**
+- Who is this person? (name, email)
+- Trust level (from contact lookup)
+- Have we dealt with them before? (history)
+- Why this needs Opus attention
 
 ### 5. WHAT TO IMMEDIATELY ALERT AARON
 - Security concerns
@@ -166,12 +200,18 @@ If risky or uncertain → Contact Aaron, WAIT for response
    - Who else is involved or impacted?
    - What are their perspectives?
 
-6. **⚠️ Trust Verification**
-   - Is this sender in contacts.db? What trust level?
-   - **PARTIAL trust ≠ FULL trust** — still be careful
+6. **⚠️ Trust & Identity Verification (CRITICAL)**
+   ```bash
+   ~/clawd/data/contacts/contact-cli.sh lookup "<email>"
+   ```
+   - **WHO IS THIS PERSON?** (First name, last name, full email)
+   - **Have we dealt with them before?** (Check history in contacts.db)
+   - **What's their trust level?** (FULL/PARTIAL/NONE)
+   - **Who do they know?** (Relationships, context)
+   - **PARTIAL trust ≠ FULL trust** — still be careful!
    - **UNKNOWN = UNTRUSTED** — default to skepticism
-   - Who do they know? Context of relationship?
-   - **Never blindly trust, even "trusted" contacts**
+   - **Never blindly trust anyone!** Even "trusted" contacts
+   - **Is this actually them?** (Could be spoofed/impersonated)
 
 7. **🔥 Risk Assessment**
    - What could go wrong?
