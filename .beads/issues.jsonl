@@ -1,0 +1,223 @@
+[
+  {
+    "id": "clawd-g8w",
+    "title": "EPIC: BMAD-Beads System Implementation",
+    "description": "Complete implementation of BMAD + Beads integration per Aaron's directive. Quality gates, validation pipeline, Playwright screenshots.",
+    "status": "closed",
+    "priority": 0,
+    "issue_type": "epic",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T16:53:17Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T16:56:50Z",
+    "closed_at": "2026-02-28T16:56:50Z",
+    "close_reason": "EPIC COMPLETE: All 5 tasks done. BMAD + Beads integrated into all agent protocols. Commits: a2f9f6c (install), 605d6aa (protocols)",
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
+    "id": "clawd-akx",
+    "title": "Update Validator protocol with close authority",
+    "description": "Only Validator can close beads. Add E2E verification, visual quality check",
+    "status": "closed",
+    "priority": 1,
+    "issue_type": "task",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T16:53:27Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T16:56:45Z",
+    "closed_at": "2026-02-28T16:56:45Z",
+    "close_reason": "DONE: Validator protocol updated with close authority in commit 605d6aa",
+    "dependencies": [
+      {
+        "issue_id": "clawd-akx",
+        "depends_on_id": "clawd-g8w",
+        "type": "parent",
+        "created_at": "2026-02-28T11:53:32Z",
+        "created_by": "Memory Sync Agent",
+        "metadata": "{}"
+      }
+    ],
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
+    "id": "clawd-kj5",
+    "title": "Update Person Manager with BMAD workflow",
+    "description": "Add BMAD analysis/planning phases to Person Manager IDENTITY.md",
+    "status": "closed",
+    "priority": 1,
+    "issue_type": "task",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T16:53:27Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T16:56:45Z",
+    "closed_at": "2026-02-28T16:56:45Z",
+    "close_reason": "DONE: Person Manager protocol updated with BMAD workflow in commit 605d6aa",
+    "dependencies": [
+      {
+        "issue_id": "clawd-kj5",
+        "depends_on_id": "clawd-g8w",
+        "type": "parent",
+        "created_at": "2026-02-28T11:53:32Z",
+        "created_by": "Memory Sync Agent",
+        "metadata": "{}"
+      }
+    ],
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
+    "id": "clawd-80j",
+    "title": "Update Coordinator protocol with sprint planning",
+    "description": "Add BMAD sprint planning + Beads task breakdown to Coordinator IDENTITY.md",
+    "status": "closed",
+    "priority": 1,
+    "issue_type": "task",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T16:53:26Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T16:56:45Z",
+    "closed_at": "2026-02-28T16:56:45Z",
+    "close_reason": "DONE: Coordinator protocol updated with sprint planning in commit 605d6aa",
+    "dependencies": [
+      {
+        "issue_id": "clawd-80j",
+        "depends_on_id": "clawd-g8w",
+        "type": "parent",
+        "created_at": "2026-02-28T11:53:32Z",
+        "created_by": "Memory Sync Agent",
+        "metadata": "{}"
+      }
+    ],
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
+    "id": "clawd-dr0",
+    "title": "Update Worker protocol with Beads integration",
+    "description": "Add Beads workflow to Worker IDENTITY.md: bd claim, evidence collection, validation request flow",
+    "notes": "COMPLETED: Worker IDENTITY.md updated with comprehensive Beads integration:\n- Added BEADS INTEGRATION section (MANDATORY)\n- Added bd claim/update/notes workflow\n- Added evidence collection requirements\n- Added Playwright screenshot workflow (3 viewports)\n- Added visual quality checklist\n- Added escalation via beads\n- Modified 'On Starting' sequence to include bead claim first\n- Emphasized ONLY Validator can close beads",
+    "status": "closed",
+    "priority": 1,
+    "issue_type": "task",
+    "assignee": "Memory Sync Agent",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T16:53:26Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T16:59:58Z",
+    "closed_at": "2026-02-28T16:59:58Z",
+    "close_reason": "VALIDATED: Worker protocol updated with comprehensive Beads integration - see commit 7f5e91a",
+    "dependencies": [
+      {
+        "issue_id": "clawd-dr0",
+        "depends_on_id": "clawd-g8w",
+        "type": "parent",
+        "created_at": "2026-02-28T11:53:32Z",
+        "created_by": "Memory Sync Agent",
+        "metadata": "{}"
+      }
+    ],
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
+    "id": "clawd-701",
+    "title": "Audit test - beads infrastructure",
+    "description": "Testing if bd create works",
+    "status": "open",
+    "priority": 2,
+    "issue_type": "task",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T17:08:05Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T17:08:05Z",
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
+    "id": "clawd-9ku",
+    "title": "TEST: Verify BMAD-Beads Integration",
+    "description": "Test bead to verify the complete workflow: claim → work → evidence → validation",
+    "status": "closed",
+    "priority": 2,
+    "issue_type": "task",
+    "assignee": "Memory Sync Agent",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T16:59:14Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T16:59:51Z",
+    "closed_at": "2026-02-28T16:59:51Z",
+    "close_reason": "TEST COMPLETE: Beads workflow verified - claim, notes, status transitions all working",
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
+    "id": "clawd-g3u",
+    "title": "Create validation screenshot templates",
+    "description": "Playwright screenshot script, viewport configs, storage structure",
+    "status": "closed",
+    "priority": 2,
+    "issue_type": "task",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T16:53:27Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T16:56:45Z",
+    "closed_at": "2026-02-28T16:56:45Z",
+    "close_reason": "DONE: Validation README created with screenshot requirements in commit 605d6aa",
+    "dependencies": [
+      {
+        "issue_id": "clawd-g3u",
+        "depends_on_id": "clawd-g8w",
+        "type": "parent",
+        "created_at": "2026-02-28T11:53:32Z",
+        "created_by": "Memory Sync Agent",
+        "metadata": "{}"
+      }
+    ],
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
+    "id": "clawd-0g5",
+    "title": "TEST: Status Check",
+    "status": "closed",
+    "priority": 3,
+    "issue_type": "task",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T17:06:32Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T17:06:44Z",
+    "closed_at": "2026-02-28T17:06:44Z",
+    "close_reason": "Test cleanup",
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  },
+  {
+    "id": "clawd-8nw",
+    "title": "TEST: Audit Pipeline Verification",
+    "description": "Test bead to verify the system works. Delete after test.",
+    "status": "closed",
+    "priority": 3,
+    "issue_type": "task",
+    "assignee": "Memory Sync Agent",
+    "owner": "sophie@aaroncollins.info",
+    "created_at": "2026-02-28T17:06:16Z",
+    "created_by": "Memory Sync Agent",
+    "updated_at": "2026-02-28T17:06:23Z",
+    "closed_at": "2026-02-28T17:06:23Z",
+    "close_reason": "Test complete - audit verification successful",
+    "dependency_count": 0,
+    "dependent_count": 0,
+    "comment_count": 0
+  }
+]
