@@ -49,7 +49,22 @@ No E2E tests exist for UI work → REJECT, worker must create them
 2. **E2E is the ground truth** — If it doesn't work in Playwright, it doesn't work
 3. **Mandate early, not late** — Catching at L3 is too late; require at L1
 
+## Follow-up Fix [11:38 EST]
+
+**Aaron's additional feedback:** Coordinator was claiming E2E test failures were "infrastructure issues" and passing tasks anyway. This is unacceptable.
+
+**Additional changes (commit b7f408f):**
+- Coordinator: "Infrastructure issue" = P0 blocker, NOT an excuse to skip validation
+- Person Manager: Must actively catch and fix validation methodology gaps
+- AGENTS.md: If you can't validate, you can't ship. Period.
+
+**THE RULE:** If it isn't proven finished, IT ISN'T DONE.
+- No conditional passes
+- No infrastructure excuses
+- No skipping validation
+
 ## References
 
 - Validator report: `scheduler/validator/notes/validations/ST-P2-04-D.md`
-- Aaron's directive: Slack #aibot-chat 2026-02-28 11:34 EST
+- Aaron's directives: Slack #aibot-chat 2026-02-28 11:34 EST, 11:38 EST
+- Fix commits: f965fde, b7f408f
