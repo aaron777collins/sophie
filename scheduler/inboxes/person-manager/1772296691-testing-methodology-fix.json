@@ -1,0 +1,28 @@
+{
+  "id": "sophie-testing-fix-20260228-1135",
+  "timestamp": "2026-02-28T11:35:00-05:00",
+  "from": "sophie",
+  "to": "person-manager",
+  "type": "system-update",
+  "subject": "CRITICAL FIX: E2E Testing Now Mandatory at All Layers",
+  "content": {
+    "summary": "Fixed systemic unit/E2E gap that was shipping broken features",
+    "problem": "Workers running unit tests (100% pass) but not E2E tests (92% fail). Broken UI features were being marked complete.",
+    "fix": "Updated all protocols to mandate E2E tests BEFORE claiming completion",
+    "files_changed": [
+      "AGENTS.md",
+      "scheduler/workers/IDENTITY.md",
+      "scheduler/coordinator/IDENTITY.md",
+      "scheduler/validator/IDENTITY.md"
+    ],
+    "new_rules": [
+      "Workers MUST run pnpm test:e2e before claiming needs-validation",
+      "Coordinators MUST run pnpm test:e2e at L2 and reject if they fail",
+      "Validators MUST verify E2E evidence exists from L1 and L2",
+      "Unit test success + E2E failure = NOT COMPLETE"
+    ],
+    "commit": "f965fde",
+    "documentation": "memory/topics/testing-methodology-fix-2026-02-28.md",
+    "directive_from": "Aaron - Slack 2026-02-28 11:34 EST"
+  }
+}
