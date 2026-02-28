@@ -92,19 +92,18 @@ sms-cli.sh send +1234567890 "Message here"
 sms-cli.sh status  # check account
 ```
 
-### 5. Public URL for Webhook
+### 5. Public URL for Webhook (✅ DONE)
 
-Options:
-- **ngrok** - Easy, free tier available
-- **Tailscale Funnel** - If tailscale enabled
-- **Cloudflare Tunnel** - Alternative
+Using existing Docker Caddy reverse proxy:
+- **Domain:** `text.aaroncollins.info`
+- **Config:** `/home/ubuntu/webstack/caddy/Caddyfile`
+- **HTTPS:** Auto via Let's Encrypt
+- **Proxies to:** `172.18.0.1:8089` (host port 8089 via Docker gateway)
 
-Current gateway is loopback-only, so we need a tunnel.
+### 6. Twilio Webhook Configuration (✅ DONE)
 
-### 6. Twilio Webhook Configuration
-
-Set in Twilio console:
-- Messaging webhook URL: `https://<public-url>/sms/inbound`
+Configured via API:
+- Messaging webhook URL: `https://text.aaroncollins.info/sms/inbound`
 - Method: POST
 
 ## Security Considerations

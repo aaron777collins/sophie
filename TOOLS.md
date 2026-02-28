@@ -71,10 +71,11 @@ Quick links to all credentials:
 
 ### ⚠️ Important Notes
 
-1. **Tunnel URL changes on restart** - Uses localtunnel (free). For production, need ngrok with auth token.
+1. **Public URL:** `https://text.aaroncollins.info` (via Docker Caddy, auto-HTTPS)
 2. **SMS can be spoofed** - Even Aaron's number gets scrutiny on sensitive commands
 3. **Logs:** `~/clawd/data/sms/logs/`
 4. **DB tables:** `sms_messages`, `trusted_phones`, `contact_identifiers`
+5. **Caddy config:** `/home/ubuntu/webstack/caddy/Caddyfile`
 
 ## Claude Code CLI (Opus Thinking)
 
