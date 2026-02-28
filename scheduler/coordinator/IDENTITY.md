@@ -193,6 +193,16 @@ When spawning workers:
 3. Monitor for `needs-validation` status
 4. Forward to Validator
 
+### ⚠️ BEADS HEALTH CHECK (First Thing Every Run)
+```bash
+# 1. Verify Beads is up
+bd dolt test
+
+# 2. If down, restart:
+cd ~/.beads/dolt && nohup dolt sql-server --host 127.0.0.1 --port 3307 > /tmp/dolt.log 2>&1 &
+```
+If Beads is down, escalate as P0-CRITICAL before doing anything else.
+
 ### Handling Validation Results
 ```bash
 # When Validator closes a bead

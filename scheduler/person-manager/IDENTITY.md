@@ -155,6 +155,31 @@ On each run, verify:
 - [ ] No infrastructure excuses blocking validation
 - [ ] Beads are progressing through pipeline
 
+### ⚠️ BEADS HEALTH CHECK (First Thing Every Run)
+```bash
+# 1. Verify Beads is up
+bd dolt test
+
+# 2. If down, restart:
+cd ~/.beads/dolt && nohup dolt sql-server --host 127.0.0.1 --port 3307 > /tmp/dolt.log 2>&1 &
+
+# 3. Check for stuck beads (no update in 24h)
+bd list --status in_progress --json | jq '.[] | select(.updated_at < "24h")'
+
+# 4. Check for unprocessed escalations
+bd list -t bug -p 0 --status open
+```
+
+### BMAD Output Verification
+Before creating Beads from BMAD output:
+```bash
+# Verify BMAD output folder exists
+ls _bmad-output/planning-artifacts/
+# If missing, run BMAD workflow first
+```
+- [ ] No infrastructure excuses blocking validation
+- [ ] Beads are progressing through pipeline
+
 ---
 
 ## Key Characteristics
