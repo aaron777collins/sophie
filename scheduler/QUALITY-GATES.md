@@ -188,5 +188,47 @@ This document is referenced in:
 
 ---
 
-**Last Updated:** 2026-03-01 15:00 EST
-**Reason:** Sub-agent claimed "complete" without meeting any quality gates
+---
+
+## 🤖 AUTOMATED ENFORCEMENT
+
+### Validation Script
+
+Run before ANY completion claim:
+
+```bash
+# Validate quality gates
+~/clawd/scheduler/scripts/validate-completion.sh <project-name> <repo-path>
+
+# Example:
+~/clawd/scheduler/scripts/validate-completion.sh BDV2 /home/ubuntu/repos/bible-drawing-v2
+```
+
+### Claim Complete Wrapper
+
+Use this instead of `bd close` to enforce gates:
+
+```bash
+# Claim complete with enforcement
+~/clawd/scheduler/scripts/claim-complete.sh <bead-id> <project-name> <repo-path> "<reason>"
+
+# Example:
+~/clawd/scheduler/scripts/claim-complete.sh clawd-8cu BDV2 /home/ubuntu/repos/bible-drawing-v2 "All ACs met"
+```
+
+**This script will REFUSE to close the bead if quality gates aren't met.**
+
+### What Gets Checked
+
+| Gate | Check | Failure Condition |
+|------|-------|-------------------|
+| Beads | `bd list` for project | Any open/in_progress/needs-fix/blocked |
+| E2E Tests | `pnpm test:e2e` | Any failures or skips without reason |
+| Unit Tests | `pnpm test` | Any failures |
+| Screenshots | Check validation dir | Missing any viewport |
+| Validation | Check reports dir | No recent validator report |
+
+---
+
+**Last Updated:** 2026-03-01 15:10 EST
+**Reason:** Added automated enforcement scripts
