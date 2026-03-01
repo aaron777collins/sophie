@@ -1,0 +1,36 @@
+{
+  "id": "coord-validation-failure-$(date +%s)",
+  "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "from": "coordinator",
+  "to": "person-manager",
+  "type": "escalation",
+  "priority": "P0-CRITICAL",
+  "subject": "CRITICAL: Multi-Layer Validation Failure",
+  "content": {
+    "summary": "Both Layer 1 and Layer 2 validation failed to catch completely broken authentication system",
+    "task_id": "clawd-zsk",
+    "project": "bible-drawing-v2",
+    "failures": [
+      "Worker claimed CSRF issue fixed but E2E tests still fail with identical errors",
+      "Coordinator (me) approved task without running E2E tests myself",
+      "Missing mandatory 3-viewport screenshot evidence was overlooked",
+      "Authentication foundation remains non-functional despite 'completion' claims"
+    ],
+    "impact": "All dependent authentication tasks now blocked (clawd-6pb, clawd-ebr)",
+    "systemic_issues": [
+      "Layer 1 validation: Worker did not properly test their changes",
+      "Layer 2 validation: I failed to run E2E tests independently",
+      "Process breakdown: Both layers missed critical functionality failures"
+    ],
+    "immediate_actions": [
+      "Blocked all dependent authentication tasks",
+      "Sent clawd-zsk back to needs-fix status",
+      "Enhanced validation checklist enforcement needed"
+    ],
+    "recommendations": [
+      "Review validation process - both layers missed critical failures",
+      "Mandatory E2E test verification for all authentication work",
+      "Screenshot evidence verification at all validation layers"
+    ]
+  }
+}
