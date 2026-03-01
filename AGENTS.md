@@ -2393,3 +2393,27 @@ For more details, see README.md and docs/QUICKSTART.md.
 - NEVER stop before pushing - that leaves work stranded locally
 - NEVER say "ready to push when you are" - YOU must push
 - If push fails, resolve and retry until it succeeds
+
+## 🚨 QUALITY GATES ENFORCEMENT (Added 2026-03-01)
+
+**After the 2026-03-01 incident where a sub-agent falsely claimed completion:**
+
+All sub-agents doing project work MUST:
+1. **Read `scheduler/QUALITY-GATES.md` before doing any work**
+2. **Fill the completion checklist before claiming done**
+3. **Request independent validation** (cannot self-validate)
+4. **Attach evidence** to all completion claims
+
+**Spawning sub-agents for project work:**
+```
+Task must include: "Read scheduler/QUALITY-GATES.md first. Fill completion checklist before claiming done."
+```
+
+**Hard gates (cannot bypass):**
+- All beads CLOSED (not just in_progress)
+- E2E tests PASS (not skipped)
+- Screenshots at 3 viewports
+- Independent validator sign-off
+- All ACs have evidence
+
+**See:** `scheduler/QUALITY-GATES.md` for full enforcement details.
