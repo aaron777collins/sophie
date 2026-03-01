@@ -327,4 +327,57 @@ npx playwright install-deps chromium
 | v1 | story-architect | 2026-02-28 | approved | Initial comprehensive story |
 
 ---
-*Story Architect: Opus | Created for EPIC-01 Playwright Setup*
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-BA01-1 | Playwright CLI returns version without errors | Shell command | AC-1 |
+| VP-BA01-2 | Chromium binary exists at expected path | File existence | AC-2 |
+| VP-BA01-3 | All system dependencies satisfied | Deps check output | AC-3 |
+| VP-BA01-4 | Browser launches and closes without errors | Node script | AC-4 |
+| VP-BA01-5 | Full install completes within 5 minutes | Timed execution | AC-5 |
+
+### Purity Boundary Map
+
+**Pure Core (Deterministic, no side effects):**
+- `parseVersion()` — Extract version from CLI output
+- `validateBrowserPath()` — Check path format
+- `parseDepOutput()` — Parse dependency check output
+
+**Effectful Shell (Side effects allowed):**
+- Shell command execution (npx, npm)
+- File system checks
+- Browser process launch/close
+- Package downloads
+
+**Adapters (Thin wrappers):**
+- N/A — Infrastructure story, no adapters needed
+
+### Red Gate Tests (Must fail before implementation)
+
+| Test | Test Description | Expected Failure |
+|------|------------------|------------------|
+| `npx playwright --version` | CLI available | Command not found OR no version |
+| `ls ~/.cache/ms-playwright/chromium*` | Chromium exists | No such file or directory |
+| `npx playwright install-deps chromium` | Deps satisfied | Missing dependency error |
+| `node -e "chromium.launch()"` | Browser launches | Cannot find module OR launch error |
+
+### Contract Chain
+
+```
+Spec: US-BA-01 (Playwright Installation)
+  ↓
+Properties: VP-BA01-1 through VP-BA01-5
+  ↓
+Beads: bd-ba-install (to create if needed)
+  ↓
+Tests: Shell command validation (see AC-1 through AC-5)
+  ↓
+Code: Installation scripts, verification scripts
+```
+
+---
+*Story Architect: Opus | Created for EPIC-01 Playwright Setup | VSDD Updated 2026-03-01*

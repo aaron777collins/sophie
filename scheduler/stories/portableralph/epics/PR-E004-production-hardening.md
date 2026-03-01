@@ -60,9 +60,60 @@ Prepare PortableRalph for production release with comprehensive security audit, 
 
 ---
 
+---
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties (Epic-Level)
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-PR04-01 | Zero critical/high security vulnerabilities | Security scan | US-401 |
+| VP-PR04-02 | All linting rules pass | Lint command | US-402 |
+| VP-PR04-03 | Error paths tested and graceful | Error injection tests | US-403 |
+| VP-PR04-04 | Documentation covers all features | Doc review | US-404 |
+| VP-PR04-05 | CI/CD all green on Windows | GitHub Actions | US-405 |
+
+### Purity Boundary Map (Epic-Level)
+
+**Pure Core (Deterministic, no side effects):**
+- `validateInput()` — Input sanitization rules
+- `formatError()` — Error message formatting
+- Configuration parsing logic
+- Version validation
+
+**Effectful Shell (Side effects allowed):**
+- File system operations
+- Process execution
+- Network requests
+- GitHub Actions workflows
+
+**Adapters (Thin wrappers):**
+- Error handler wrapper
+- Configuration loader
+
+### Contract Chain (Epic-Level)
+
+```
+Spec: PR-E004 (Production Hardening)
+  ↓
+Stories: PR-US-401 through PR-US-405
+  ↓
+Properties: VP-PR04-01 through VP-PR04-05
+  ↓
+Beads: bd-pr-* (per story)
+  ↓
+Tests: Security scans, lint, unit tests, CI workflow
+  ↓
+Code: Error handlers, validators, documentation
+```
+
+---
+
 ## Progress Tracking
 
 | Date | Update |
 |------|--------|
 | 2026-02-21 | Epic created, Stories 401-402 complete |
 | 2026-02-21 | Story 403 in-progress |
+| 2026-03-01 | VSDD compliance sections added |

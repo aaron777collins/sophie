@@ -42,3 +42,52 @@ Screenshot evidence for:
 - Device verification flow
 - Key backup setup
 - UTD message placeholder
+
+---
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties (Epic-Level)
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-E2E-01 | All messages encrypted before send | Crypto test | US-1001 |
+| VP-E2E-02 | Device verification produces trust | E2E test | US-1002, US-1003 |
+| VP-E2E-03 | Key backup is recoverable | Restore test | US-1004, US-1005 |
+| VP-E2E-04 | UTD messages show clear placeholder | E2E test | US-1007 |
+| VP-E2E-05 | Key sharing completes successfully | Integration test | US-1008 |
+
+### Purity Boundary Map (Epic-Level)
+
+**Pure Core (Deterministic, no side effects):**
+- `validateDeviceKey()` — Key format validation
+- `formatUTDMessage()` — Placeholder formatting
+- `verificationStateReducer()` — Verification flow state
+
+**Effectful Shell (Side effects allowed):**
+- Matrix Crypto SDK operations
+- Key backup to server
+- Key restore from server
+- Device cross-signing
+- Megolm session management
+
+**Adapters (Thin wrappers):**
+- `useEncryption()` hook — Encryption status
+- `useDeviceVerification()` hook — Verification flow
+- `useKeyBackup()` hook — Backup operations
+
+### Contract Chain (Epic-Level)
+
+```
+Spec: MELO-E010 (E2EE & Privacy)
+  ↓
+Stories: MELO-US-1001 through MELO-US-1008
+  ↓
+Properties: VP-E2E-01 through VP-E2E-05
+  ↓
+Beads: bd-e2e-* (per story)
+  ↓
+Tests: tests/crypto/*.test.ts, tests/e2e/encryption.spec.ts
+  ↓
+Code: lib/crypto/*, hooks/useEncryption.ts
+```

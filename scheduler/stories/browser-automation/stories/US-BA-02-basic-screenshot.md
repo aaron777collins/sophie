@@ -459,4 +459,57 @@ await page.goto(url, {
 | v1 | story-architect | 2026-02-28 | approved | Comprehensive screenshot testing |
 
 ---
-*Story Architect: Opus | Created for EPIC-01 Playwright Setup*
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-BA02-1 | Screenshot produces valid PNG file | File type check | AC-1, AC-2 |
+| VP-BA02-2 | Full page capture includes all scrollable content | Height > viewport | AC-3 |
+| VP-BA02-3 | Custom viewport produces exact dimensions | Dimension check | AC-4, AC-5 |
+| VP-BA02-4 | Network idle ensures fully loaded content | Visual inspection | AC-6 |
+| VP-BA02-5 | Invalid URL produces clear error (not hang) | Timeout test | AC-7, AC-8 |
+
+### Purity Boundary Map
+
+**Pure Core (Deterministic, no side effects):**
+- `parseScreenshotDimensions()` — Extract dimensions from file
+- `validateFileSize()` — Check file > threshold
+- `formatOutputPath()` — Path string formatting
+
+**Effectful Shell (Side effects allowed):**
+- Browser launch/close
+- Page navigation
+- Screenshot file write
+- Network requests
+
+**Adapters (Thin wrappers):**
+- N/A — Infrastructure story, direct Playwright usage
+
+### Red Gate Tests (Must fail before implementation)
+
+| Test | Test Description | Expected Failure |
+|------|------------------|------------------|
+| Screenshot file exists | Check /tmp/playwright-test-example.png | File not found |
+| File size > 10KB | Check meaningful content | Size too small OR file not found |
+| Dimensions match viewport | 375x667 or 1920x1080 | Wrong dimensions |
+| Error on invalid URL | Connection refused message | No error OR hang |
+
+### Contract Chain
+
+```
+Spec: US-BA-02 (Basic Screenshot)
+  ↓
+Properties: VP-BA02-1 through VP-BA02-5
+  ↓
+Beads: bd-ba-screenshot (to create if needed)
+  ↓
+Tests: Shell command validation (AC-1 through AC-8)
+  ↓
+Code: Playwright scripts, screenshot commands
+```
+
+---
+*Story Architect: Opus | Created for EPIC-01 Playwright Setup | VSDD Updated 2026-03-01*

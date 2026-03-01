@@ -124,8 +124,77 @@ Core text messaging functionality. Users can send, edit, delete, and interact wi
 
 ---
 
+---
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-MSG-01 | Send message appears in timeline within 500ms | E2E timing test | AC-1, AC-2 |
+| VP-MSG-02 | Edit updates message content, shows (edited) | E2E test | AC-3 |
+| VP-MSG-03 | Delete removes message, shows placeholder | E2E test | AC-4 |
+| VP-MSG-04 | Reply preserves context link | E2E test | AC-5 |
+| VP-MSG-05 | Reactions increment/decrement deterministically | Unit test | AC-6 |
+| VP-MSG-06 | File upload completes with progress indicator | E2E test | AC-7 |
+| VP-MSG-07 | @mentions resolve to correct users | Unit test | AC-8 |
+| VP-MSG-08 | E2EE encryption is verified per message | Crypto test | AC-9 |
+
+### Purity Boundary Map
+
+**Pure Core (Deterministic, no side effects):**
+- `messageReducer()` — State transitions for message list
+- `parseMarkdown()` — Markdown → HTML (pure transform)
+- `parseCodeBlock()` — Code syntax detection (pure)
+- `formatMention()` — @mention parsing (pure)
+- `reactionReducer()` — Reaction count management
+- `validateMessageContent()` — Content validation
+- `sortMessagesByTimestamp()` — Timeline ordering
+
+**Effectful Shell (Side effects allowed):**
+- Matrix SDK message send/edit/delete
+- Matrix media API for file upload
+- Matrix sync for real-time updates
+- E2EE encryption/decryption operations
+
+**Adapters (Thin wrappers):**
+- `useMessages()` hook — Connects messageReducer to Matrix sync
+- `useMessageActions()` hook — Wraps send/edit/delete effects
+- `useReactions()` hook — Wraps reaction effects
+
+### Red Gate Tests (Must fail before implementation)
+
+| Test File | Test Description | Expected Failure |
+|-----------|------------------|------------------|
+| `tests/messages/messageReducer.test.ts` | ADD_MESSAGE appends to timeline | `messageReducer is not defined` |
+| `tests/messages/messageReducer.test.ts` | EDIT_MESSAGE updates content | `messageReducer is not defined` |
+| `tests/messages/parseMarkdown.test.ts` | Bold text renders correctly | `parseMarkdown is not defined` |
+| `tests/messages/reactionReducer.test.ts` | Add reaction increments count | `reactionReducer is not defined` |
+| `tests/e2e/messages.spec.ts` | Send message appears in channel | Element not found |
+| `tests/e2e/messages.spec.ts` | Edit shows (edited) indicator | Element not found |
+
+### Contract Chain
+
+```
+Spec: MELO-E004 (Messaging Epic)
+  ↓
+Stories: MELO-US-0401 through MELO-US-0420
+  ↓
+Properties: VP-MSG-01 through VP-MSG-08
+  ↓
+Beads: bd-msg-* (to be created per story)
+  ↓
+Tests: tests/messages/*.test.ts, tests/e2e/messages.spec.ts
+  ↓
+Code: lib/messages/reducer.ts, lib/messages/markdown.ts, hooks/useMessages.ts
+```
+
+---
+
 ## Progress Tracking
 
 | Date | Update |
 |------|--------|
 | 2026-02-22 | Epic created |
+| 2026-03-01 | VSDD sections added |

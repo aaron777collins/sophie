@@ -48,3 +48,53 @@ Screenshot evidence for:
 - Video grid
 - Screen share view
 - Voice indicator active
+
+---
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties (Epic-Level)
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-VV-01 | Join/leave produces correct voice state | E2E test | US-0601, US-0602 |
+| VP-VV-02 | Mute/deafen toggles local audio correctly | E2E test | US-0603, US-0604 |
+| VP-VV-03 | Video track toggles correctly | E2E test | US-0605 |
+| VP-VV-04 | Screen share broadcasts to room | E2E test | US-0606 |
+| VP-VV-05 | Participant list is accurate | E2E test | US-0607 |
+| VP-VV-06 | Speaking indicator reflects audio level | Unit test | US-0611 |
+
+### Purity Boundary Map (Epic-Level)
+
+**Pure Core (Deterministic, no side effects):**
+- `voiceReducer()` — Voice channel state transitions
+- `calculateSpeakingState()` — Speaking indicator logic
+- `volumeNormalize()` — Volume level normalization
+- `participantSort()` — Participant list ordering
+
+**Effectful Shell (Side effects allowed):**
+- LiveKit room connection
+- WebRTC media tracks
+- Audio/video device access
+- Screen capture API
+
+**Adapters (Thin wrappers):**
+- `useVoiceChannel()` hook — Voice channel management
+- `useMediaTracks()` hook — Local audio/video
+- `useParticipants()` hook — Remote participants
+
+### Contract Chain (Epic-Level)
+
+```
+Spec: MELO-E006 (Voice & Video)
+  ↓
+Stories: MELO-US-0601 through MELO-US-0612
+  ↓
+Properties: VP-VV-01 through VP-VV-06
+  ↓
+Beads: bd-vv-* (per story)
+  ↓
+Tests: tests/voice/*.test.ts, tests/e2e/voice.spec.ts
+  ↓
+Code: lib/voice/*, hooks/useVoice*.ts, LiveKit integration
+```

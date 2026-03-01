@@ -137,4 +137,48 @@ Before sending to Story Architect:
 | v1 | | | | Initial draft |
 
 ---
-*Template version: 2.0 — Added Contingencies & Dependencies (2026-02-21)*
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties (Epic-Level)
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-{EPIC}-01 | {What must be provably true for this epic} | {Test method} | {Stories covered} |
+| VP-{EPIC}-02 | {Core invariant} | {Test method} | {Stories covered} |
+| VP-{EPIC}-03 | {Security/permission property} | {Test method} | {Stories covered} |
+
+### Purity Boundary Map (Epic-Level)
+
+**Pure Core (Deterministic, no side effects):**
+- `{reducer}()` — State transitions
+- `{validator}()` — Validation rules
+- `{transformer}()` — Data transformation
+
+**Effectful Shell (Side effects allowed):**
+- API calls
+- Database operations
+- Event handlers
+- Navigation
+
+**Adapters (Thin wrappers):**
+- `use{Feature}()` hook — Connects pure core to effects
+
+### Contract Chain (Epic-Level)
+
+```
+Spec: {EPIC-ID}
+  ↓
+Stories: {US-IDs}
+  ↓
+Properties: VP-{EPIC}-01 through VP-{EPIC}-XX
+  ↓
+Beads: bd-{epic-prefix}-* (one per story)
+  ↓
+Tests: tests/{feature}/*.test.ts, tests/e2e/{feature}.spec.ts
+  ↓
+Code: lib/{feature}/, hooks/, components/
+```
+
+---
+*Template version: 3.0 — Added VSDD Compliance (2026-03-01)*

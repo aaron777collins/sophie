@@ -257,4 +257,53 @@ Explicitly NOT included in this story (to prevent scope creep):
 | v2 | {reviewer} | {date} | {approved/needs-work} | {summary} |
 
 ---
-*Template version: 2.0 — Added Contingencies, Dependencies, Review Checklist (2026-02-21)*
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-{US-ID}-1 | {What must be provably true} | {Test method} | AC-{X} |
+| VP-{US-ID}-2 | {Invariant that must hold} | {Test method} | AC-{Y} |
+| VP-{US-ID}-3 | {Error handling property} | {Test method} | AC-{Z} |
+
+### Purity Boundary Map
+
+**Pure Core (Deterministic, no side effects):**
+- `{function}()` — {Purpose}
+- `{reducer}()` — State transitions
+- `{validator}()` — Input validation
+
+**Effectful Shell (Side effects allowed):**
+- API calls
+- localStorage/sessionStorage
+- Navigation/redirect
+- Event handlers
+
+**Adapters (Thin wrappers):**
+- `use{Feature}()` hook — Connects pure core to shell
+
+### Red Gate Tests (Must fail before implementation)
+
+| Test File | Test Description | Expected Failure |
+|-----------|------------------|------------------|
+| `tests/{feature}.test.ts` | {What it tests} | {Expected error before impl} |
+| `tests/e2e/{story}.spec.ts` | {E2E scenario} | Element/function not found |
+
+### Contract Chain
+
+```
+Spec: {US-ID}
+  ↓
+Properties: VP-{US-ID}-1 through VP-{US-ID}-X
+  ↓
+Beads: bd-{xxx} (created for this story)
+  ↓
+Tests: tests/{feature}.test.ts, tests/e2e/{story}.spec.ts
+  ↓
+Code: lib/{feature}.ts, components/{Feature}.tsx
+```
+
+---
+*Template version: 3.0 — Added VSDD Compliance (2026-03-01)*

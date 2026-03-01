@@ -108,8 +108,72 @@ Channel management (implemented as Matrix Rooms within Spaces). Channels are whe
 
 ---
 
+---
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-CH-01 | Channel list shows all rooms in space | Unit + E2E test | AC-1 |
+| VP-CH-02 | Channel navigation updates URL and content | E2E test | AC-2 |
+| VP-CH-03 | Create channel produces valid Matrix Room | Integration test | AC-3, AC-4 |
+| VP-CH-04 | Edit channel updates room state | Integration test | AC-5 |
+| VP-CH-05 | Delete channel removes from list, preserves history | E2E test | AC-6 |
+| VP-CH-06 | Categories collapse state is deterministic | Unit test | AC-7 |
+| VP-CH-07 | Unread indicator reflects actual unread count | Unit test | AC-7 |
+
+### Purity Boundary Map
+
+**Pure Core (Deterministic, no side effects):**
+- `channelReducer()` — State transitions for channel list
+- `validateChannelName()` — Name validation rules
+- `transformChannelData()` — Matrix Room → UI model
+- `sortChannelsByCategory()` — Sorting logic
+- `calculateUnreadState()` — Unread badge logic (pure)
+
+**Effectful Shell (Side effects allowed):**
+- Matrix SDK room creation/update/delete
+- Matrix room state event updates
+- Sync callbacks for room updates
+- localStorage for collapse state persistence
+
+**Adapters (Thin wrappers):**
+- `useChannels()` hook — Connects channelReducer to Matrix sync
+- `useChannelActions()` hook — Wraps create/edit/delete effects
+
+### Red Gate Tests (Must fail before implementation)
+
+| Test File | Test Description | Expected Failure |
+|-----------|------------------|------------------|
+| `tests/channels/channelReducer.test.ts` | ADD_CHANNEL adds to list | `channelReducer is not defined` |
+| `tests/channels/channelReducer.test.ts` | Channels sorted by category | `channelReducer is not defined` |
+| `tests/channels/validators.test.ts` | validateChannelName rejects invalid | `validateChannelName is not defined` |
+| `tests/e2e/channels.spec.ts` | Create channel appears in sidebar | Element not found |
+| `tests/e2e/channels.spec.ts` | Navigate to channel shows messages | Element not found |
+
+### Contract Chain
+
+```
+Spec: MELO-E003 (Channels Epic)
+  ↓
+Stories: MELO-US-0301 through MELO-US-0314
+  ↓
+Properties: VP-CH-01 through VP-CH-07
+  ↓
+Beads: bd-ch-* (to be created per story)
+  ↓
+Tests: tests/channels/*.test.ts, tests/e2e/channels.spec.ts
+  ↓
+Code: lib/channels/reducer.ts, lib/channels/validators.ts, hooks/useChannels.ts
+```
+
+---
+
 ## Progress Tracking
 
 | Date | Update |
 |------|--------|
 | 2026-02-22 | Epic created |
+| 2026-03-01 | VSDD sections added |

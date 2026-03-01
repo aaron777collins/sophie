@@ -236,6 +236,60 @@ Examples:
 
 ---
 
+## VSDD Compliance (Mandatory)
+
+### Verification Properties (Phase-Level)
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-P3-01 | Server creation modal visually matches Discord reference | Screenshot diff | p3-1-* |
+| VP-P3-02 | Admin settings UI identical to Discord pattern | Screenshot diff | p3-2-* |
+| VP-P3-03 | Member management shows correct role badges | E2E test | p3-2-d |
+| VP-P3-04 | Invite flow produces valid Matrix invite | Integration test | p3-3-* |
+
+### Purity Boundary Map (Phase-Level)
+
+**Pure Core (Deterministic, no side effects):**
+- `validateServerName()` — Server name rules
+- `validateInviteSettings()` — Invite configuration
+- `transformMemberData()` — Member list formatting
+- Modal state reducers
+
+**Effectful Shell (Side effects allowed):**
+- Matrix SDK server/space operations
+- Matrix invite API
+- Matrix member management API
+- File upload for server icons
+
+**Adapters (Thin wrappers):**
+- `useServerCreation()` hook
+- `useInviteManagement()` hook
+- `useMemberList()` hook
+
+### Red Gate Tests (Phase-Level)
+
+| Test File | Test Description | Expected Failure |
+|-----------|------------------|------------------|
+| `tests/e2e/server-creation.spec.ts` | Modal opens and submits | Element not found |
+| `tests/e2e/admin/settings.spec.ts` | Settings page loads | Route not found |
+| `tests/e2e/invites.spec.ts` | Invite link generated | Function not found |
+
+### Contract Chain (Phase-Level)
+
+```
+Spec: PHASE-3 (Setup Wizard & Admin)
+  ↓
+Tasks: p3-1-*, p3-2-*, p3-3-*
+  ↓
+Properties: VP-P3-01 through VP-P3-04
+  ↓
+Tests: tests/e2e/server-creation.spec.ts, tests/e2e/admin/*.spec.ts
+  ↓
+Code: components/modals/create-server-modal.tsx, app/.../settings/*
+```
+
+---
+
 ## Review History
 
 - v1: 2026-02-19 01:02 EST - Initial Phase 3 breakdown by Coordinator
@@ -246,3 +300,4 @@ Examples:
   - ✅ Made invite modal tasks conditional on audit
   - ✅ Added explicit file paths for each task
   - ✅ Added commit message format
+- v3: 2026-03-01 - VSDD compliance sections added

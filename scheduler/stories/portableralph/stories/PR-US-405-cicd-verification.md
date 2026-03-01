@@ -126,3 +126,55 @@
 | L1 Self | | | | |
 | L2 Manager | | | | |
 | L3 Peer | | | | |
+
+---
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-PR405-1 | All tests pass with >80% coverage | CI test job | AC-1 |
+| VP-PR405-2 | Zero linting errors | CI lint job | AC-2 |
+| VP-PR405-3 | Zero critical/high vulnerabilities | Security scan | AC-3 |
+| VP-PR405-4 | Windows workflow succeeds | Windows CI job | AC-4 |
+| VP-PR405-5 | Build artifacts generated | Artifact check | AC-5 |
+
+### Purity Boundary Map
+
+**Pure Core (Deterministic, no side effects):**
+- Test assertions
+- Lint rules
+- Version calculation
+
+**Effectful Shell (Side effects allowed):**
+- GitHub Actions execution
+- Dependency installation
+- Artifact upload
+- Security scanning
+
+**Adapters (Thin wrappers):**
+- CI workflow files (YAML)
+
+### Red Gate Tests (Must fail before implementation)
+
+| Test | Test Description | Expected Failure |
+|------|------------------|------------------|
+| CI test job | Trigger workflow | Tests fail or incomplete |
+| Windows job | Windows-specific tests | PowerShell errors |
+| Security scan | Vulnerability check | Vulnerabilities found |
+
+### Contract Chain
+
+```
+Spec: PR-US-405 (CI/CD Verification)
+  ↓
+Properties: VP-PR405-1 through VP-PR405-5
+  ↓
+Beads: bd-pr-cicd (to create)
+  ↓
+Tests: GitHub Actions workflow runs
+  ↓
+Code: .github/workflows/*.yml
+```

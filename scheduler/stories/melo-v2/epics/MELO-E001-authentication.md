@@ -102,8 +102,70 @@ Complete authentication system for Melo v2, enabling users to sign up, sign in, 
 
 ---
 
+---
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-AUTH-01 | Valid credentials always produce authenticated session | Unit test authReducer with mocked API | AC-1, AC-2 |
+| VP-AUTH-02 | Invalid credentials never produce authenticated session | Unit test + E2E with bad creds | AC-1 |
+| VP-AUTH-03 | Session state persists across page refresh | E2E test with reload | AC-3 |
+| VP-AUTH-04 | Logout clears all session data | Unit test + E2E | AC-4 |
+| VP-AUTH-05 | 2FA code validation is deterministic | Unit test TOTP validator | AC-5 |
+| VP-AUTH-06 | Rate limiting blocks after N attempts | Integration test | AC-6 |
+
+### Purity Boundary Map
+
+**Pure Core (Deterministic, no side effects):**
+- `authReducer()` — State transitions for auth states
+- `validateCredentials()` — Input validation rules
+- `validateTOTPCode()` — TOTP code format validation
+- `sessionStateTransform()` — Transform session data
+
+**Effectful Shell (Side effects allowed):**
+- Matrix API authentication calls
+- Session cookie management
+- localStorage/sessionStorage operations
+- HTTP-only cookie setting
+
+**Adapters (Thin wrappers):**
+- `useAuth()` hook — Connects authReducer to Matrix API
+- `useSession()` hook — Connects session state to storage
+
+### Red Gate Tests (Must fail before implementation)
+
+| Test File | Test Description | Expected Failure |
+|-----------|------------------|------------------|
+| `tests/auth/authReducer.test.ts` | LOGIN_SUCCESS sets user | `authReducer is not defined` |
+| `tests/auth/authReducer.test.ts` | LOGOUT clears session | `authReducer is not defined` |
+| `tests/auth/validators.test.ts` | validateCredentials rejects empty | `validateCredentials is not defined` |
+| `tests/e2e/auth.spec.ts` | Valid login redirects to dashboard | Element not found (no dashboard) |
+| `tests/e2e/auth.spec.ts` | Invalid login shows error | Element not found (no error display) |
+
+### Contract Chain
+
+```
+Spec: MELO-E001 (Authentication Epic)
+  ↓
+Stories: MELO-US-0101 through MELO-US-0110
+  ↓
+Properties: VP-AUTH-01 through VP-AUTH-06
+  ↓
+Beads: bd-auth-* (to be created per story)
+  ↓
+Tests: tests/auth/*.test.ts, tests/e2e/auth.spec.ts
+  ↓
+Code: lib/auth/reducer.ts, lib/auth/validators.ts, hooks/useAuth.ts
+```
+
+---
+
 ## Progress Tracking
 
 | Date | Update |
 |------|--------|
 | 2026-02-22 | Epic created |
+| 2026-03-01 | VSDD sections added |

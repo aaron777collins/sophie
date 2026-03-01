@@ -46,3 +46,52 @@ Screenshot evidence for:
 - Notification settings
 - Privacy settings
 - Settings navigation
+
+---
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties (Epic-Level)
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-SET-01 | Profile changes persist across sessions | E2E test | US-0801 |
+| VP-SET-02 | Avatar upload produces valid image URL | E2E test | US-0802 |
+| VP-SET-03 | Theme toggle applies immediately | E2E test | US-0804 |
+| VP-SET-04 | Settings saved to Matrix account data | Integration test | All |
+| VP-SET-05 | Account deletion removes all user data | Integration test | US-0809 |
+
+### Purity Boundary Map (Epic-Level)
+
+**Pure Core (Deterministic, no side effects):**
+- `settingsReducer()` — Settings state transitions
+- `validateProfileData()` — Profile field validation
+- `themeCalculator()` — Theme value computation
+- `formatDisplayName()` — Display name formatting
+
+**Effectful Shell (Side effects allowed):**
+- Matrix account data API
+- Avatar upload to media server
+- localStorage for local settings
+- Theme application to DOM
+
+**Adapters (Thin wrappers):**
+- `useSettings()` hook — Settings management
+- `useProfile()` hook — Profile data
+- `useTheme()` hook — Theme toggling
+
+### Contract Chain (Epic-Level)
+
+```
+Spec: MELO-E008 (User Settings)
+  ↓
+Stories: MELO-US-0801 through MELO-US-0811
+  ↓
+Properties: VP-SET-01 through VP-SET-05
+  ↓
+Beads: bd-set-* (per story)
+  ↓
+Tests: tests/settings/*.test.ts, tests/e2e/settings.spec.ts
+  ↓
+Code: lib/settings/*, hooks/useSettings.ts
+```

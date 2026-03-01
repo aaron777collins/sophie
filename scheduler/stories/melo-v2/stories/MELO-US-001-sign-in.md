@@ -132,3 +132,55 @@
 **2026-02-21 02:00 EST:** Nuclear clean build deployed. Server-side validation passed (login API returns 200, session created). Client-side validation (AC-2) pending - need to verify no JavaScript errors after login.
 
 **2026-02-21 11:00 EST:** Aaron reported client-side error after login still exists. User story created to properly track and validate the fix.
+
+---
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-US001-1 | Sign-in form renders all required elements | E2E snapshot test | AC-1 |
+| VP-US001-2 | Valid credentials produce authenticated session | E2E test with creds | AC-2 |
+| VP-US001-3 | Invalid credentials show error, no session | E2E test | AC-3 |
+| VP-US001-4 | No JS console errors during entire flow | Console capture test | AC-4 |
+
+### Purity Boundary Map
+
+**Pure Core (Deterministic, no side effects):**
+- `validateCredentials()` — Input validation (empty check, format)
+- `authReducer()` — State transitions (loading, success, error)
+- `formatErrorMessage()` — Error message formatting
+
+**Effectful Shell (Side effects allowed):**
+- Matrix authentication API call
+- Session cookie setting
+- Navigation/redirect after login
+- pm2 server-side logging
+
+**Adapters (Thin wrappers):**
+- `useSignIn()` hook — Connects validation + reducer to API
+
+### Red Gate Tests (Must fail before implementation)
+
+| Test File | Test Description | Expected Failure |
+|-----------|------------------|------------------|
+| `tests/e2e/auth/sign-in.spec.ts` | Form displays all elements | Locator not found |
+| `tests/e2e/auth/sign-in.spec.ts` | Valid login redirects | Timeout waiting |
+| `tests/e2e/auth/sign-in.spec.ts` | Invalid login shows error | Error element not found |
+| `tests/auth/validateCredentials.test.ts` | Empty username rejected | Function not defined |
+
+### Contract Chain
+
+```
+Spec: MELO-US-001 (Sign In Story)
+  ↓
+Properties: VP-US001-1 through VP-US001-4
+  ↓
+Beads: bd-auth-signin (existing or to create)
+  ↓
+Tests: tests/e2e/auth/sign-in.spec.ts, tests/auth/*.test.ts
+  ↓
+Code: app/sign-in/page.tsx, lib/auth/reducer.ts, hooks/useSignIn.ts
+```

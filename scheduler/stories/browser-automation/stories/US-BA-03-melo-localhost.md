@@ -478,4 +478,57 @@ curl -s -o /dev/null -w "%{http_code}" http://localhost:3000
 | v1 | story-architect | 2026-02-28 | approved | MELO-specific localhost testing |
 
 ---
-*Story Architect: Opus | Created for EPIC-01 Playwright Setup*
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-BA03-1 | Localhost:3000 responds with 200 | HTTP status check | AC-1 |
+| VP-BA03-2 | MELO homepage has recognizable UI elements | Visual inspection | AC-2 |
+| VP-BA03-3 | Route navigation produces correct page content | Route comparison | AC-3, AC-4 |
+| VP-BA03-4 | Viewport changes produce responsive layouts | Dimension check | AC-5, AC-6 |
+| VP-BA03-5 | Server not running produces clear error | Error message | AC-7 |
+
+### Purity Boundary Map
+
+**Pure Core (Deterministic, no side effects):**
+- `parseHttpStatus()` — Extract status from response
+- `validateRouteUrl()` — Check URL format
+- `formatViewportConfig()` — Build viewport object
+
+**Effectful Shell (Side effects allowed):**
+- MELO dev server startup
+- Browser navigation
+- Screenshot capture
+- File system writes
+
+**Adapters (Thin wrappers):**
+- N/A — Infrastructure story
+
+### Red Gate Tests (Must fail before implementation)
+
+| Test | Test Description | Expected Failure |
+|------|------------------|------------------|
+| curl localhost:3000 | Server responds | Connection refused |
+| MELO homepage screenshot | Shows MELO UI | Blank or error page |
+| Mobile viewport screenshot | 375x667 layout | Wrong dimensions |
+| Server-not-running error | Clear error message | Hang or generic error |
+
+### Contract Chain
+
+```
+Spec: US-BA-03 (MELO Localhost Screenshot)
+  ↓
+Properties: VP-BA03-1 through VP-BA03-5
+  ↓
+Beads: bd-ba-melo (to create if needed)
+  ↓
+Tests: Shell command + visual validation (AC-1 through AC-8)
+  ↓
+Code: MELO dev server, Playwright scripts
+```
+
+---
+*Story Architect: Opus | Created for EPIC-01 Playwright Setup | VSDD Updated 2026-03-01*

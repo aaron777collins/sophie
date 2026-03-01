@@ -129,3 +129,55 @@
 ## Current Status Notes
 
 **2026-02-21 12:55 EST:** Worker started. Comprehensive error handling review in progress.
+
+---
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-PR403-1 | Error paths have test coverage >80% | Coverage report | AC-1 |
+| VP-PR403-2 | Network failure produces graceful error | Simulate failure | AC-2 |
+| VP-PR403-3 | File system errors show actionable message | Permission test | AC-3 |
+| VP-PR403-4 | All errors follow helpful message pattern | Message review | AC-4 |
+| VP-PR403-5 | Interrupted operations are recoverable | Retry test | AC-5 |
+
+### Purity Boundary Map
+
+**Pure Core (Deterministic, no side effects):**
+- `formatErrorMessage()` — Error message formatting
+- `classifyError()` — Error type classification
+- `suggestRecovery()` — Recovery action suggestions
+
+**Effectful Shell (Side effects allowed):**
+- File system operations
+- Network operations
+- Process execution
+- Log file writing
+
+**Adapters (Thin wrappers):**
+- Error handler wrapper
+
+### Red Gate Tests (Must fail before implementation)
+
+| Test File | Test Description | Expected Failure |
+|-----------|------------------|------------------|
+| `test_error_handling.py` | Network failure graceful | No handler exists |
+| `test_error_handling.py` | File permission error | Crashes or generic error |
+| `test_recovery.py` | Retry after interrupt | Data corruption or fail |
+
+### Contract Chain
+
+```
+Spec: PR-US-403 (Error Handling)
+  ↓
+Properties: VP-PR403-1 through VP-PR403-5
+  ↓
+Beads: bd-pr-errors (to create)
+  ↓
+Tests: test_error_handling.py, test_recovery.py
+  ↓
+Code: error_handler.py, recovery.py
+```

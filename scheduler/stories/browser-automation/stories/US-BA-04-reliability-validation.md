@@ -587,4 +587,58 @@ DEBUG=pw:api node -e "
 | v1 | story-architect | 2026-02-28 | approved | Comprehensive reliability testing |
 
 ---
-*Story Architect: Opus | Created for EPIC-01 Playwright Setup*
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-BA04-1 | 10 consecutive runs all succeed | Loop with counter | AC-1, AC-2 |
+| VP-BA04-2 | Works after idle period (5 min) | Delayed test | AC-3 |
+| VP-BA04-3 | Works from any working directory | Directory change | AC-4 |
+| VP-BA04-4 | No orphan processes after 10 runs | pgrep check | AC-5 |
+| VP-BA04-5 | Rapid sequential execution succeeds | No-delay loop | AC-6 |
+| VP-BA04-6 | Parallel execution succeeds | Background jobs | AC-7 |
+
+### Purity Boundary Map
+
+**Pure Core (Deterministic, no side effects):**
+- `countSuccesses()` — Tally pass/fail
+- `checkOrphanProcesses()` — Parse pgrep output
+- `validateResourceUsage()` — Check memory delta
+
+**Effectful Shell (Side effects allowed):**
+- Process spawning
+- Browser launch/close (10x)
+- File system writes
+- System resource monitoring
+
+**Adapters (Thin wrappers):**
+- Reliability test script (AC-8)
+
+### Red Gate Tests (Must fail before implementation)
+
+| Test | Test Description | Expected Failure |
+|------|------------------|------------------|
+| 10 consecutive runs | All pass | One or more failures |
+| Post-pause test | Still works | Failure after wait |
+| Orphan check | No leftover processes | Orphan processes found |
+| Rapid sequential | 5/5 pass | Resource exhaustion |
+
+### Contract Chain
+
+```
+Spec: US-BA-04 (Reliability Validation)
+  ↓
+Properties: VP-BA04-1 through VP-BA04-6
+  ↓
+Beads: bd-ba-reliability (to create if needed)
+  ↓
+Tests: Loop scripts, resource checks (AC-1 through AC-8)
+  ↓
+Code: playwright-reliability-test.sh
+```
+
+---
+*Story Architect: Opus | Created for EPIC-01 Playwright Setup | VSDD Updated 2026-03-01*

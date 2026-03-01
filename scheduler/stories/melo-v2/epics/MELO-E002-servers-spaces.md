@@ -109,8 +109,72 @@ Server management (implemented as Matrix Spaces) - the container for communities
 
 ---
 
+---
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-SRV-01 | Server list reflects current user membership | E2E + unit test | AC-1 |
+| VP-SRV-02 | Server creation produces valid Matrix Space | Integration test | AC-2 |
+| VP-SRV-03 | Join via invite adds server to user's list | E2E test | AC-3 |
+| VP-SRV-04 | Leave removes server from list, preserves data | E2E test | AC-4 |
+| VP-SRV-05 | Only admins can edit server settings | Permission test | AC-5 |
+| VP-SRV-06 | Delete confirmation prevents accidental deletion | E2E test | AC-6 |
+| VP-SRV-07 | Invite links expire correctly | Time-based test | AC-7 |
+
+### Purity Boundary Map
+
+**Pure Core (Deterministic, no side effects):**
+- `serverReducer()` — State transitions for server list
+- `validateServerName()` — Name validation rules
+- `validateInviteCode()` — Invite format validation
+- `transformServerData()` — Matrix Space → UI model
+- `sortServers()` — Server ordering logic
+
+**Effectful Shell (Side effects allowed):**
+- Matrix SDK space creation/join/leave
+- Matrix invite API calls
+- Icon upload to media server
+- Sync callbacks for server updates
+
+**Adapters (Thin wrappers):**
+- `useServers()` hook — Connects serverReducer to Matrix sync
+- `useServerActions()` hook — Wraps create/join/leave effects
+
+### Red Gate Tests (Must fail before implementation)
+
+| Test File | Test Description | Expected Failure |
+|-----------|------------------|------------------|
+| `tests/servers/serverReducer.test.ts` | ADD_SERVER adds to list | `serverReducer is not defined` |
+| `tests/servers/serverReducer.test.ts` | REMOVE_SERVER removes from list | `serverReducer is not defined` |
+| `tests/servers/validators.test.ts` | validateServerName rejects empty | `validateServerName is not defined` |
+| `tests/e2e/servers.spec.ts` | Create server appears in sidebar | Element not found |
+| `tests/e2e/servers.spec.ts` | Join via invite works | Element not found |
+
+### Contract Chain
+
+```
+Spec: MELO-E002 (Servers Epic)
+  ↓
+Stories: MELO-US-0201 through MELO-US-0214
+  ↓
+Properties: VP-SRV-01 through VP-SRV-07
+  ↓
+Beads: bd-srv-* (to be created per story)
+  ↓
+Tests: tests/servers/*.test.ts, tests/e2e/servers.spec.ts
+  ↓
+Code: lib/servers/reducer.ts, lib/servers/validators.ts, hooks/useServers.ts
+```
+
+---
+
 ## Progress Tracking
 
 | Date | Update |
 |------|--------|
 | 2026-02-22 | Epic created |
+| 2026-03-01 | VSDD sections added |

@@ -48,3 +48,52 @@ Screenshot evidence for:
 - Audit log view
 - Report modal
 - Mod actions menu
+
+---
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties (Epic-Level)
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-MOD-01 | Mod actions require correct permissions | Permission test | All stories |
+| VP-MOD-02 | Ban prevents user access | E2E test | US-0705 |
+| VP-MOD-03 | Unban restores access | E2E test | US-0706 |
+| VP-MOD-04 | Audit log captures all mod actions | Integration test | US-0708 |
+| VP-MOD-05 | Report creates trackable item | E2E test | US-0709, US-0710 |
+
+### Purity Boundary Map (Epic-Level)
+
+**Pure Core (Deterministic, no side effects):**
+- `moderationReducer()` — Moderation state transitions
+- `validateModAction()` — Permission checking
+- `formatAuditEntry()` — Audit log formatting
+- `banListFilter()` — Ban list filtering
+
+**Effectful Shell (Side effects allowed):**
+- Matrix power level API
+- Matrix ban/kick API
+- Audit log persistence
+- Report submission API
+
+**Adapters (Thin wrappers):**
+- `useModeration()` hook — Mod action dispatch
+- `useBanList()` hook — Ban management
+- `useAuditLog()` hook — Audit log access
+
+### Contract Chain (Epic-Level)
+
+```
+Spec: MELO-E007 (Moderation)
+  ↓
+Stories: MELO-US-0701 through MELO-US-0712
+  ↓
+Properties: VP-MOD-01 through VP-MOD-05
+  ↓
+Beads: bd-mod-* (per story)
+  ↓
+Tests: tests/moderation/*.test.ts, tests/e2e/moderation.spec.ts
+  ↓
+Code: lib/moderation/*, hooks/useModeration.ts
+```

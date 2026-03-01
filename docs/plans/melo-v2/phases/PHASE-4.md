@@ -154,6 +154,66 @@ After Phase 4, the focus shifts to **Production Readiness**:
 
 ---
 
+---
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties (Phase-Level)
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-P4-01 | All user journeys complete without errors | E2E tests | p4-1-* |
+| VP-P4-02 | Visual consistency with Discord reference | Screenshot diff | p4-2-* |
+| VP-P4-03 | Responsive at all breakpoints | Viewport tests | p4-3-* |
+| VP-P4-04 | Theme consistency dark/light | Visual tests | p4-4-* |
+| VP-P4-05 | Matrix integration stable | Integration tests | p4-5-* |
+| VP-P4-06 | Load time < 3 seconds | Performance test | p4-5-e |
+
+### Purity Boundary Map (Phase-Level)
+
+**Pure Core (Deterministic, no side effects):**
+- Theme color calculations
+- Responsive breakpoint logic
+- User flow state machines
+- Visual comparison functions
+
+**Effectful Shell (Side effects allowed):**
+- Matrix authentication
+- Matrix real-time sync
+- Matrix file upload/download
+- Browser resize events
+
+**Adapters (Thin wrappers):**
+- Theme hooks
+- Responsive hooks
+- Matrix sync hooks
+
+### Red Gate Tests (Phase-Level)
+
+| Test File | Test Description | Expected Failure |
+|-----------|------------------|------------------|
+| `tests/e2e/user-journey/*.spec.ts` | Full user flow | Step fails |
+| `tests/visual/comparison.spec.ts` | Screenshot diff | No baseline |
+| `tests/e2e/responsive/*.spec.ts` | Breakpoint tests | Layout broken |
+| `tests/integration/matrix.spec.ts` | Matrix operations | Connection fail |
+
+### Contract Chain (Phase-Level)
+
+```
+Spec: PHASE-4 (Integration & Polish)
+  ↓
+Tasks: p4-1-* through p4-5-*
+  ↓
+Properties: VP-P4-01 through VP-P4-06
+  ↓
+Tests: tests/e2e/user-journey/, tests/visual/, tests/integration/
+  ↓
+Code: Full application integration
+```
+
+---
+
 ## Review History
 
 - v1: 2026-02-19 08:00 EST - Initial Phase 4 definition by Person Manager
+- v2: 2026-03-01 - VSDD compliance sections added

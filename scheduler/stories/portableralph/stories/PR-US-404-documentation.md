@@ -126,3 +126,52 @@
 | L1 Self | | | | |
 | L2 Manager | | | | |
 | L3 Peer | | | | |
+
+---
+
+## VSDD Compliance (Mandatory)
+
+### Verification Properties
+
+| Property ID | Property | Testable | Coverage |
+|-------------|----------|----------|----------|
+| VP-PR404-1 | README install steps work on fresh Windows | Manual test | AC-1 |
+| VP-PR404-2 | Top 10 issues covered in troubleshooting | Doc review | AC-2 |
+| VP-PR404-3 | 100% config options documented | Completeness check | AC-3 |
+| VP-PR404-4 | Security section covers all recommendations | Security review | AC-4 |
+| VP-PR404-5 | CLI reference matches --help output | Output comparison | AC-5 |
+
+### Purity Boundary Map
+
+**Pure Core (Deterministic, no side effects):**
+- Documentation text (static content)
+- Example code snippets
+- Configuration templates
+
+**Effectful Shell (Side effects allowed):**
+- N/A — Documentation is pure static content
+
+**Adapters (Thin wrappers):**
+- N/A
+
+### Red Gate Tests (Must fail before implementation)
+
+| Test | Test Description | Expected Failure |
+|------|------------------|------------------|
+| Fresh Windows install | Follow README on clean machine | Missing steps or failures |
+| Config completeness | Count config options vs docs | Options missing from docs |
+| CLI comparison | Diff --help vs docs | Commands not documented |
+
+### Contract Chain
+
+```
+Spec: PR-US-404 (Documentation)
+  ↓
+Properties: VP-PR404-1 through VP-PR404-5
+  ↓
+Beads: bd-pr-docs (to create)
+  ↓
+Tests: Manual verification, doc comparison scripts
+  ↓
+Code: README.md, SECURITY.md, CONTRIBUTING.md
+```
