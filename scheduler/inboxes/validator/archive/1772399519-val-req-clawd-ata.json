@@ -1,0 +1,27 @@
+{
+  "id": "val-req-clawd-ata",
+  "timestamp": "2026-03-01T21:12:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: clawd-ata (BDV2 API Route Protection)",
+  "content": {
+    "task_ids": ["clawd-ata"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1",
+    "repository": "/home/ubuntu/repos/bible-drawing-v2",
+    "files_changed": [
+      "src/lib/auth/api-auth.ts",
+      "src/app/api/projects/route.ts",
+      "__tests__/auth/api-auth.test.ts"
+    ],
+    "acceptance_criteria": [
+      "API routes return 401 without valid session",
+      "Error response includes { error: 'Unauthorized' }",
+      "Authenticated requests proceed normally",
+      "Consistent error format across all APIs"
+    ],
+    "worker_claims": "All unit tests passing, NextAuth v5 compatible, TypeScript types complete",
+    "priority": "P0-CRITICAL"
+  }
+}

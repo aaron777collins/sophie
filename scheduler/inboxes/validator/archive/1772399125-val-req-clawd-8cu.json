@@ -1,0 +1,30 @@
+{
+  "id": "val-req-1772399934",
+  "timestamp": "2026-03-01T21:05:34Z",
+  "from": "coordinator",
+  "to": "validator", 
+  "type": "validation-request",
+  "subject": "Validate: clawd-8cu (BDV2 Project Creation UI)",
+  "content": {
+    "task_ids": ["clawd-8cu"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1",
+    "claimed_by": "Memory Sync Agent",
+    "claimed_at": "2026-03-01T19:14:26Z",
+    "files_changed": [
+      "src/app/projects/new/page.tsx",
+      "src/components/projects/create-project-form.tsx"
+    ],
+    "acceptance_criteria": [
+      "User can access /projects/new page",
+      "Form validates required project name",
+      "Form allows optional description", 
+      "Successful creation redirects to dashboard",
+      "Projects stored in localStorage",
+      "Form shows loading/error states appropriately",
+      "All tests pass"
+    ],
+    "validation_notes": "Per PM review 2026-03-01 14:30 EST: Test infrastructure fixed, unit tests pass (149/157), code complete, screenshots exist. Ready for E2E validation.",
+    "priority": "P0-CRITICAL"
+  }
+}

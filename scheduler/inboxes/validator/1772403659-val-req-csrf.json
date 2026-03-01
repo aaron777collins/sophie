@@ -1,0 +1,34 @@
+{
+  "id": "val-req-clawd-zsk-csrf",
+  "timestamp": "2026-03-01T22:20:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: BDV2 NextAuth CSRF Configuration Fix (CRITICAL)",
+  "content": {
+    "task_ids": ["clawd-zsk"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1 - Authentication",
+    "priority": "P0-CRITICAL",
+    "claimed_by": "bdv2-auth-csrf-fix worker",
+    "files_changed": [
+      "NextAuth configuration",
+      "Database setup",
+      "E2E test fixes",
+      "Password hashing migration"
+    ],
+    "acceptance_criteria": [
+      "CSRF configuration working (no server errors)",
+      "E2E authentication tests pass (9/9)",
+      "Build passes",
+      "Unit tests pass (151)",
+      "Screenshots at 3 viewports"
+    ],
+    "evidence_provided": {
+      "screenshots": "12 screenshots across desktop/tablet/mobile",
+      "tests": "9/9 E2E auth tests pass in Chromium",
+      "build": "pnpm build passes"
+    },
+    "self_validation_notes": "Worker provided comprehensive evidence. This unblocks 10 auth-related tasks."
+  }
+}
