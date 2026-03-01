@@ -189,6 +189,124 @@ We use a layered management system. Each level has decreasing cron frequency goi
 - **Sonnet = Implements and validates** (code, verification)
 - **Haiku = Executes commands ONLY** (zero decisions, robot-level instructions)
 
+### 🧠 Thinking Patterns: Circle + Team Meet (MANDATORY)
+
+**All agents MUST use structured thinking for important decisions.**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   THE CIRCLE = Self-thinking (internal perspectives)                │
+│   TEAM MEET = Team-thinking (hierarchy roles advising)              │
+│                                                                     │
+│   Quick decision? → Light Circle only                               │
+│   Important decision? → Circle + Team Meet                          │
+│   Critical/External action? → Full Circle + Full Team Meet          │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**The Circle** — Internal reflection from multiple perspectives:
+- 🏛️ Architect (system design)
+- 🛡️ Guardian (security, risk)
+- 🔧 Pragmatist (feasibility)
+- 🔍 Skeptic (edge cases, blind spots)
+- 💜 Empath (how it affects people)
+
+**Team Meet** — Simulate asking hierarchy roles for advice:
+- 👑 Aaron (business value, user impact)
+- 👔 Person Manager (strategic fit, resources)
+- 📐 Story Architect (spec completeness)
+- 🎯 Coordinator (execution, sequencing)
+- 🔍 Validator (how to PROVE it works)
+- ⚙️ Worker (implementation feasibility)
+
+**Use Pattern:**
+```markdown
+## 💜 Circle (What do I think?)
+{Internal analysis}
+
+## 🤝 Team Meet (What would my team advise?)
+{Role-by-role input}
+
+## Final Decision
+{Synthesis of both}
+```
+
+**Docs:** `memory/topics/the-circle.md`, `memory/topics/team-meet.md`
+
+### 📐 VSDD Methodology (MANDATORY) — Added 2026-03-01
+
+**Verified Spec-Driven Development** — All code traces back to specs.
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   VSDD PRINCIPLES (NON-NEGOTIABLE)                                  │
+│                                                                     │
+│   1. Spec-First: No code without a spec requirement                 │
+│   2. Purity Boundaries: Pure core / effectful shell (DDD)           │
+│   3. Full Contract Chain: Spec → Property → Bead → Test → Code      │
+│   4. The Red Gate: ALL tests must fail before implementation        │
+│   5. Adversarial Review: Harsh, fresh-context validation            │
+│   6. Modular = Testable = Debuggable                                │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Purity Boundary Map (DDD-Inspired):**
+```
+┌───────────────────────────────────────────────────────────────┐
+│                      EFFECTFUL SHELL                          │
+│  (API calls, database, localStorage, event handlers)          │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │                     PURE CORE                            │  │
+│  │  (Business logic, reducers, validators, transformers)    │  │
+│  │  • Deterministic • No side effects • Easy to test        │  │
+│  └─────────────────────────────────────────────────────────┘  │
+└───────────────────────────────────────────────────────────────┘
+```
+
+**Full Contract Chain:**
+```
+Spec Requirement → Verification Property → Bead → Test → Code → Review → Proof
+```
+
+**Every significant code block must have traceability:**
+```typescript
+/**
+ * @spec US-AUTH-01
+ * @property VP-AUTH-01-1
+ * @bead bd-123
+ */
+function authReducer(state, action) { ... }
+```
+
+**The Red Gate:**
+- Write ALL tests FIRST
+- Run tests — they MUST ALL FAIL
+- Screenshot/log the failing tests
+- ONLY THEN start implementing
+- If a test passes without code, THE TEST IS SUSPECT
+
+**Full Docs:** `docs/VSDD-METHODOLOGY.md`
+
+### 🔥 Adversarial Validator (MANDATORY)
+
+**The Validator is HARSH. This is intentional.**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   Validator Persona: Zero-Tolerance Skeptic                         │
+│                                                                     │
+│   • Default assumption: Work is INCOMPLETE until PROVEN             │
+│   • Stance: "Show me evidence, not stories"                         │
+│   • One failure = REJECTION (no partial credit)                     │
+│   • Fresh context on every validation (no accumulated goodwill)     │
+│   • Blunt communication (say what's wrong, be specific)             │
+│                                                                     │
+│   "I assume this work is incomplete. Prove me wrong."               │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Docs:** `scheduler/validator/ADVERSARIAL-PERSONA.md`
+
 ### How Work Flows from the Top
 - **Aaron** gives orders to **Sophie** (direct chat)
 - **Sophie** evaluates: simple task? Handle directly. Larger project? Delegate.

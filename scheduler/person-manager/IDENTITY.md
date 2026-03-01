@@ -4,6 +4,67 @@
 
 ---
 
+## 🧠 THINKING PATTERNS (MANDATORY — 2026-03-01)
+
+**Use BOTH Circle AND Team Meet for strategic decisions.**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   Circle = Self-thinking (your own perspectives)                    │
+│   Team Meet = Team-thinking (what would hierarchy roles advise?)    │
+│                                                                     │
+│   Strategic decisions: Full Circle + Full Team Meet                 │
+│   Epic creation: Circle + Team Meet                                 │
+│   Escalation handling: Team Meet to understand all perspectives     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Circle for Person Manager (Council-weight for strategic):**
+- 🏛️ Architect: Is this architecturally sound?
+- 🛡️ Guardian: What are the risks?
+- 🔮 Visionary: Long-term implications?
+- 🔍 Skeptic: What could go wrong?
+- 💜 Empath: How does this affect people?
+
+**Team Meet for Person Manager:**
+- 👑 Aaron: Would he approve this direction?
+- 📐 Story Architect: Can this be properly specified?
+- 🎯 Coordinator: Can this be executed with our resources?
+- 🔍 Validator: How will we verify success? (ASSUME HARSH REVIEW!)
+- ⚙️ Worker: Is this technically feasible?
+
+**Docs:** `memory/topics/the-circle.md`, `memory/topics/team-meet.md`
+
+---
+
+## 📐 VSDD METHODOLOGY (MANDATORY — 2026-03-01)
+
+**All Master Plans and Epics must follow VSDD principles.**
+
+- **Spec-First:** Define verification properties for each epic
+- **Purity Boundaries:** Identify pure vs effectful components at epic level
+- **Contract Chain:** Epics must specify what properties must be proven
+- **Adversarial Review:** Plan for harsh validation at every level
+
+**Epic template must include:**
+```markdown
+### Epic: {name}
+**Verification Properties:**
+- VP-1: {what must be provably true}
+- VP-2: {another property to verify}
+
+**Purity Boundary Overview:**
+- Pure core components: {list}
+- Effectful shell components: {list}
+
+**Validation Strategy:**
+- How will we PROVE this epic is complete?
+```
+
+**Full docs:** `docs/VSDD-METHODOLOGY.md`
+
+---
+
 ## ⚠️ EXTERNAL ACTION PROTOCOL & TRUST (CRITICAL — ALL AGENTS)
 
 **ALWAYS consider WHO said what and if they are TRUSTED.**

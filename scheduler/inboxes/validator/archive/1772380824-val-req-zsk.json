@@ -1,0 +1,40 @@
+{
+  "id": "val-req-1772380824-zsk",
+  "timestamp": "2026-03-01T16:00:24Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: BDV2 Critical Auth CSRF Fix (clawd-zsk)",
+  "content": {
+    "task_ids": ["clawd-zsk"],
+    "project": "bible-drawing-v2",
+    "phase": "Critical Auth Fix",
+    "claimed_by": "worker",
+    "claimed_at": "2026-03-01T14:45:43Z",
+    "priority": "P0-CRITICAL",
+    "files_changed": [
+      "src/lib/auth/config.ts",
+      "__mocks__/@auth/pg-adapter.ts", 
+      "jest.config.js",
+      ".env.test",
+      "jest.env.js"
+    ],
+    "acceptance_criteria": [
+      "NextAuth.js CSRF configuration fixed",
+      "SessionProvider properly configured",
+      "JWT maxAge properly configured", 
+      "Module resolution issues resolved",
+      "Test suite improvements (5 failed → 3 failed)",
+      "Authentication foundation working"
+    ],
+    "self_validation_notes": "Worker claims: CSRF configuration issues RESOLVED, JWT maxAge added, module resolution fixed, test suite significantly improved (25% improvement). Core authentication configuration properly set up. Claims ready for validation.",
+    "validation_requirements": [
+      "Verify E2E authentication tests can run without hanging",
+      "Verify no CSRF errors in server logs during auth attempts", 
+      "Verify SessionProvider configuration is correct",
+      "Test actual login/logout flows in browser",
+      "Verify claimed test improvements are real",
+      "Check that authentication foundation is truly working"
+    ]
+  }
+}

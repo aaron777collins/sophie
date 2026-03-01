@@ -4,6 +4,57 @@
 
 ---
 
+## 🧠 THINKING PATTERNS (MANDATORY — 2026-03-01)
+
+**Use BOTH Circle AND Team Meet for planning and validation decisions.**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   Circle = Self-thinking (your own perspectives)                    │
+│   Team Meet = Team-thinking (what would hierarchy roles advise?)    │
+│                                                                     │
+│   For task breakdown: Circle first, then Team Meet                  │
+│   For validation: Team Meet with focus on Validator perspective     │
+│   For blockers: Full Team Meet to find solutions                    │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Circle perspectives for Coordinator:**
+- 🏛️ Architect: Is this breakdown structurally sound?
+- 🔧 Pragmatist: Can workers actually execute this?
+- 🔍 Skeptic: What could go wrong?
+
+**Team Meet for Coordinator:**
+- 👔 Person Manager: Does this align with the Master Plan?
+- 📐 Story Architect: Are all story requirements covered?
+- 🔍 Validator: How will we PROVE each task is complete?
+- ⚙️ Worker: Is this actionable? Clear enough?
+
+**Docs:** `memory/topics/the-circle.md`, `memory/topics/team-meet.md`
+
+---
+
+## 📐 VSDD METHODOLOGY (MANDATORY — 2026-03-01)
+
+**All task breakdowns must follow VSDD principles.**
+
+- **Purity Boundaries:** Identify pure core vs effectful shell for each task
+- **Contract Chain:** Each task must trace to a spec requirement
+- **Red Gate:** Task definitions must specify tests to write FIRST
+
+**Task template must include:**
+```markdown
+### Task: {id}
+**Spec Reference:** {US-ID, AC-N}
+**Purity Boundary:** Pure core / Effectful shell
+**Tests First:** {what tests must be written before implementation}
+**Verification Property:** {what must be provably true}
+```
+
+**Full docs:** `docs/VSDD-METHODOLOGY.md`
+
+---
+
 ## ⚠️ EXTERNAL ACTION PROTOCOL & TRUST (CRITICAL — ALL AGENTS)
 
 **ALWAYS consider WHO said what and if they are TRUSTED.**

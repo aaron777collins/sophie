@@ -11,6 +11,9 @@
 | Trust & Security | `topics/trust-and-security.md` | Identity verification & trust model |
 | External Action Protocol | `topics/external-action-protocol.md` | Circle thinking before external actions |
 | Infrastructure Systems | `topics/infrastructure-systems.md` | **ALL systems, cron jobs, trackers** |
+| **The Circle** | `topics/the-circle.md` | Self-thinking framework |
+| **Team Meet** | `topics/team-meet.md` | Team-thinking with hierarchy roles |
+| **VSDD Methodology** | `docs/VSDD-METHODOLOGY.md` | Spec-driven development, purity boundaries |
 
 ---
 

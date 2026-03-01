@@ -1,75 +1,74 @@
 # Coordinator Jobs
 
-**Last Updated:** 2026-02-28 15:37 EST
+**Last Updated:** 2026-03-01 09:45 EST
 
 ---
 
 ## Active Projects
 
-### Bible Drawing V2 - Phase Planning ✅ ACTIVE
-**Status:** Phase 1 Plan v2 READY FOR APPROVAL
-**Priority:** P0-NEW-PROJECT  
-**Phase 1 Plan:** `~/clawd/docs/plans/bible-drawing-v2/phases/PHASE-1.md` (v2)
-**Review:** `~/clawd/docs/plans/bible-drawing-v2/phases/reviews/phase-1-review.md`
-**Next:** PM approval → populate PROACTIVE-JOBS.md → begin execution
+### Bible Drawing V2 - Phase 1 Execution 🚨 CRITICAL
+**Status:** ⚠️ Phase 1 IN PROGRESS with 10 tasks NEEDS-FIX
+**Priority:** P0-CRITICAL
 
-**Plan Summary (v2):**
-- 40 tasks across 7 categories (Foundation, Auth, Upload, Processing, Transcript, Export, Preview)
-- Full MVP foundation for web-based video editing platform
-- TDD requirements, dependency mapping, model assignments
-- Specific acceptance criteria with measurable outcomes
-- Estimated 4-5 weeks with 2 concurrent workers
+**Current Beads Status:**
+- **needs-fix:** 10 tasks (BLOCKING - auth system broken)
+- **in_progress:** 1 task
+- **blocked:** 2 tasks  
+- **open:** 18 tasks
 
-**v1 → v2 Changes:**
-- Added Category 0 (Foundation) and Category 6 (Preview)
-- Fixed dependency flows
-- Moved security tasks to Sonnet
-- Split oversized tasks
+**CRITICAL ISSUES (from validation):**
+- Authentication system completely broken
+- SessionProvider not properly configured
+- E2E tests fail (infinite SessionProvider errors)
+- Unit tests: 64/74 suites FAILING
+- CSRF configuration broken
 
-### MELO V2 Comprehensive Audit - EMERGENCY RESOLVED ✅
-**Status:** Active - Phase 1 audit continuing
-**Priority:** P1-AUDIT
-**Emergency Resolution:** ✅ COMPLETE - Application fully restored
-**Current Focus:** Phase 2 UI Implementation (US-P2-03 COMPLETE, US-P2-04 progressing)
+**Active Worker:** bdv2-auth-critical-fix (Sonnet) - fixing clawd-zsk
 
-**Emergency Resolution Summary:**
-- ✅ **MatrixAuthProvider infinite loop** - FIXED (commit aac220d)
-- ✅ **Server Action failures** - FIXED with defensive error handling
-- ✅ **Next.js module errors** - FIXED with graceful degradation
-- ✅ **Application access** - RESTORED (HTTP 200, stable 48m uptime)
+**Key Needs-Fix Tasks:**
+- clawd-zsk: NextAuth CSRF Configuration (P0) - **BEING FIXED**
+- clawd-cxe: Authentication Logic & Error Handling (P0)
+- clawd-dta: NextAuth Middleware Configuration (P0)
+- clawd-0tn: Session Configuration (P0)
 
-**Phase 2 Recent Completions (2026-02-28 10:00 EST):**
-- ✅ **US-P2-03 (Delete Channel UI):** COMPLETE - All 3 tasks L3 validated
-- ✅ **ST-P2-04-A (DM Sidebar):** COMPLETE - L3 validation PASS
-- ✅ **ST-P2-04-B (New DM Modal):** COMPLETE - L3 validation PASS
-
-**Current Phase 1 Status:**
-- **S03:** ✅ Complete 
-- **S04:** ✅ Self-validated (awaiting L3)
-- **S05:** ✅ Complete
-- **S06:** 📋 Layer 2 corrected by L3 (PARTIAL - feature exists, deployment blocks validation)
-- **S07:** ✅ Complete
-- **S08:** ❌ Layer 2 validation failed (deployment issues block validation)
-- **S09:** ✅ Complete (conditional pass - unit test issue tracked separately)
-- **S10:** ✅ Complete (conditional pass - S09 dependency documented)
-- **S12:** ✅ Complete (comprehensive audit - DM gaps identified)
-- **S02:** ⏳ Awaiting L3 validation
-- **S11:** ✅ Complete (L3 validation PASS 17:40 EST - EXCELLENT grade)
-- **S01:** ❌ Needs rework (false positive defect) - low priority
-
-**Active Maintenance:**
-- **Unit Test Failures:** 🔄 Progress made (P1-MAINTENANCE)
-  - ✅ clawd-9uz: Matrix Client Init - DONE (L2 validated, closed)
-  - 🔄 clawd-8rk: Modal Provider Context - L3 validation pending
-  - 🔄 clawd-i4y: React Hook Form - L3 validation pending
-  - 🔄 clawd-d6i: ChatMessages Tests - L3 validation pending
+**Repository:** /home/ubuntu/repos/bible-drawing-v2
+**Phase 1 Plan:** `~/clawd/docs/plans/bible-drawing-v2/phases/PHASE-1.md`
 
 **Next Actions:**
-1. ✅ **COMPLETED:** S10/S12 validation success - both stories complete
-2. Monitor S11 rework and unit test fix completion
-3. Enhanced verification procedures implemented after validation failure
-4. Address S01 rework when capacity allows
-5. Maintain autonomous execution with improved validation
+1. Wait for auth critical fix to complete
+2. Verify authentication system works
+3. Address remaining needs-fix tasks in dependency order
+4. Resume normal Phase 1 task execution
+
+---
+
+### MELO V2 - Unit Test Maintenance
+**Status:** Maintenance issues discovered, fixes in progress
+**Priority:** P1-MAINTENANCE
+
+**Recent Completions (validated & closed):**
+- ✅ clawd-8rk: Modal Provider Context Issues - CLOSED
+- ✅ clawd-9uz: Matrix Client Initialization - CLOSED  
+- ✅ clawd-i4y: React Hook Form Integration - CLOSED
+- ✅ clawd-d6i: ChatMessages Component Tests - CLOSED
+- ✅ clawd-b6s: Main Unit Test Epic - CLOSED (partially complete)
+
+**New Issues Discovered (2026-03-01):**
+- clawd-717: ChatInput Component Tests (22/23 failures) - P1 **BEING FIXED**
+- clawd-dv8: TemplateSelector Tests (3/18 failures) - P2
+- clawd-0bw: Registration Tests (9/13 failures) - P2
+
+**Active Worker:** melo-chatinput-fix-v2 (Sonnet) - fixing clawd-717
+
+**Repository:** /home/ubuntu/repos/melo
+
+---
+
+## Worker Capacity
+
+**Current Workers (2/2 limit):**
+1. melo-chatinput-fix-v2 - ChatInput test fixes (clawd-717)
+2. bdv2-auth-critical-fix - Bible Drawing V2 auth fixes (clawd-zsk)
 
 ---
 

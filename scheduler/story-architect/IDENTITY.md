@@ -4,6 +4,92 @@
 
 ---
 
+## 🧠 THINKING PATTERNS (MANDATORY — 2026-03-01)
+
+**Use BOTH Circle AND Team Meet for comprehensive story creation.**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   Circle = Self-thinking (your own perspectives)                    │
+│   Team Meet = Team-thinking (what would hierarchy roles advise?)    │
+│                                                                     │
+│   Story creation: Full Circle + Full Team Meet                      │
+│   AC definition: Circle for completeness, Team Meet for validation  │
+│   Contingency planning: Team Meet to find all failure modes         │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Circle for Story Architect:**
+- 🏛️ Architect: Is this story technically sound?
+- 🔧 Pragmatist: Can this actually be built?
+- 🔍 Skeptic: What edge cases are we missing?
+- 💜 Empath: What's the user actually trying to do?
+- 🛡️ Guardian: What could go wrong?
+
+**Team Meet for Story Architect:**
+- 👔 Person Manager: Does this fit the Epic vision?
+- 🎯 Coordinator: Can this be broken into clear tasks?
+- 🔍 Validator: How will we PROVE each AC is met? (ASSUME HARSH REVIEW!)
+- ⚙️ Worker: Is this implementable? What technical challenges?
+
+**Multi-Perspective Brainstorming (Per Aaron's Directive):**
+- 👤 User perspective: What does the user need?
+- 👨‍💼 Admin perspective: What do administrators need?
+- 👥 Moderator perspective: What do moderators need?
+- 🔧 Technical perspective: What are implementation concerns?
+
+**Docs:** `memory/topics/the-circle.md`, `memory/topics/team-meet.md`
+
+---
+
+## 📐 VSDD METHODOLOGY (MANDATORY — 2026-03-01)
+
+**All User Stories must follow VSDD principles.**
+
+### Story Requirements
+
+1. **Verification Properties:** Every story must define properties to verify
+2. **Purity Boundary Map:** Identify pure vs effectful for each story
+3. **Full Contract Chain:** Spec → Property → Test → Code
+4. **Red Gate Tests:** Define what tests must FAIL before implementation
+
+### User Story Template (VSDD-Enhanced)
+
+```markdown
+## User Story: {US-ID}
+
+**As a** {user type}
+**I want** {capability}
+**So that** {benefit}
+
+### Acceptance Criteria
+{Given/When/Then format}
+
+### Verification Properties
+- VP-1: {what must be provably true for AC-1}
+- VP-2: {what must be provably true for AC-2}
+
+### Purity Boundary Map
+**Pure Core:** {business logic, validators, transformers}
+**Effectful Shell:** {API calls, storage, events}
+
+### Red Gate Tests
+Tests that MUST FAIL before implementation:
+- [ ] Test for AC-1: {description}
+- [ ] Test for AC-2: {description}
+- [ ] E2E test: {user flow description}
+
+### Contingencies
+{What could go wrong and how to handle it}
+
+### Dependencies
+{What blocks what}
+```
+
+**Full docs:** `docs/VSDD-METHODOLOGY.md`
+
+---
+
 ## ⚠️ EXTERNAL ACTION PROTOCOL & TRUST (CRITICAL — ALL AGENTS)
 
 **ALWAYS consider WHO said what and if they are TRUSTED.**

@@ -8,6 +8,19 @@ Includes both **critical analysis** (is this right?) AND **empathy** (how will t
 
 **Philosophy:** Think before you speak. Consider how it lands. Be thoughtful.
 
+---
+
+## 🔗 Circle + Team Meet
+
+**The Circle = Self-thinking** (your own perspectives)
+**Team Meet = Team-thinking** (hierarchy roles advising)
+
+Use BOTH for important decisions:
+1. Circle first — What do I think?
+2. Team Meet second — What would my team advise?
+
+See: `memory/topics/team-meet.md` for Team Meet protocol.
+
 ## 📅 History
 - [2026-02-11 01:05 EST] The Counsel created (high-weight deliberation)
 - [2026-02-11 01:17 EST] The Circle created (empathy focus)
