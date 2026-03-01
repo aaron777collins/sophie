@@ -1,187 +1,153 @@
 ## PROACTIVE-JOBS.md - Active Task Queue
 
-**Updated:** 2026-02-28 13:30 EST by Person Manager (Opus subagent)
-**Worker Slots:** 0/5 occupied
-**Critical Status:** MELO V2 unit test fixes in progress
+**Updated:** 2026-03-01 14:15 EST by Person Manager (subagent)
+**Worker Slots:** Available for assignment
+**Priority:** Bible Drawing V2 Phase 1 UNBLOCKED
 
 ---
 
-## 🚨 CRITICAL CORRECTION: "Fraud" Claim Was FALSE
+## 🎯 BIBLE DRAWING V2: Phase 1 Status (PM Assessment)
 
-**Assessment Date:** 2026-02-28 13:25 EST
+**Phase 1 Plan:** ✅ APPROVED (2026-03-01 08:00 EST per clawd-9vx)
+**Plan Location:** `~/clawd/docs/plans/bible-drawing-v2/phases/PHASE-1.md` (v2, 40 tasks)
 
-The previous fraud claim against clawd-pc8 (DM Sidebar) was **INCORRECT**:
-- ✅ Commit `ddf7b8b` EXISTS and contains real DM components
-- ✅ `components/navigation/dm-sidebar-section.tsx` - implemented
-- ✅ `components/navigation/dm-list-item.tsx` - implemented
-- ✅ `components/navigation/dm-empty-state.tsx` - implemented
-- ✅ `tests/unit/dm-sidebar.test.tsx` - 5/5 tests PASSING
+### Progress Summary
 
-**Task clawd-pc8 has been CLOSED as complete.**
+| Category | Status | Tasks | Notes |
+|----------|--------|-------|-------|
+| **Cat 0: Foundation** | ✅ COMPLETE | 6/6 | Repo, Next.js, Tailwind, Tests, Storage |
+| **Cat 1: Auth** | ✅ COMPLETE | 6/6 | NextAuth, Login/Logout, Sessions, Rate Limit |
+| **Cat 2: Upload** | 🔄 IN PROGRESS | 1/9 | p1-2-a code DONE (needs re-validation) |
+| **Cat 3: Processing** | ⏳ BLOCKED | 0/11 | Waiting on Cat 2 |
+| **Cat 4: Transcript** | ⏳ BLOCKED | 0/8 | Waiting on Cat 3 |
+| **Cat 5: Export** | ⏳ BLOCKED | 0/5 | Waiting on Cat 4 |
+| **Cat 6: Preview** | ⏳ BLOCKED | 0/4 | Waiting on Cat 2 |
 
----
-
-## MELO V2 Unit Test Status (Actual Assessment)
-
-### Test Failures Breakdown
-
-| Category | Failures | Root Cause | Fix Task |
-|----------|----------|------------|----------|
-| **Modal Components** | ~36 | Missing FormProvider context in tests | clawd-i4y |
-| **Matrix Client** | ~8 | Matrix client mock initialization | clawd-9uz |
-| **useModal Hook** | ~12 | Modal provider context not in test setup | clawd-8rk |
-| **ChatMessages** | ~15 | Component/test expectation mismatch | clawd-d6i |
-
-**Key Insight:** clawd-i4y (React Hook Form) is the **ROOT CAUSE** of most failures. Fixing test wrapper to include FormProvider will resolve ~36 tests.
-
-### Ready Tasks (Priority Order)
-
-| Task ID | Title | Priority | Complexity | Recommended Model |
-|---------|-------|----------|------------|-------------------|
-| **clawd-i4y** | React Hook Form Integration | P2 | Medium | Sonnet |
-| **clawd-8rk** | Modal Provider Context | P1 | Low | Sonnet (combine with i4y) |
-| **clawd-9uz** | Matrix Client Initialization | P1 | Medium | Sonnet |
-| **clawd-d6i** | ChatMessages Tests | P2 | Medium | Sonnet |
-
-### Action Plan
-
-1. **Phase 1: Fix Test Infrastructure** (clawd-i4y + clawd-8rk)
-   - Update `tests/unit/setup.ts` to include:
-     - FormProvider wrapper with useForm mock
-     - ModalProvider context mock
-   - Expected impact: ~48 tests fixed
-
-2. **Phase 2: Matrix Client Mock** (clawd-9uz)
-   - Update Matrix client mock in setup.ts
-   - Ensure proper initialization for tests
-   - Expected impact: ~8 tests fixed
-
-3. **Phase 3: Component Test Updates** (clawd-d6i)
-   - Review ChatMessages component structure
-   - Update test expectations to match implementation
-   - Expected impact: ~15 tests fixed
+### Test Status
+- **Unit Tests:** 147/155 passing (95%)
+- **Failing Tests:** 8 tests fail due to test database setup issues (NOT code bugs)
+- **Root Cause:** Integration tests expect seeded test users; no seed script exists
 
 ---
 
-## Implementation Notes
+## 🚨 CRITICAL PATH: Unblock Video Upload
 
-### React Hook Form Test Fix (clawd-i4y)
+The test infrastructure issue is blocking progress. Fix this FIRST:
 
-**Error:** `Cannot read properties of undefined (reading 'formState')`
+### Task 1: Fix Test Database (HIGHEST PRIORITY)
 
-**Solution:**
-```typescript
-// In tests/unit/setup.ts or test wrapper
-import { FormProvider, useForm } from 'react-hook-form';
+| Field | Value |
+|-------|-------|
+| **Issue** | `clawd-lbk` |
+| **Title** | BDV2-INFRA: Fix Test Database Setup & Seeding |
+| **Priority** | P0 - Blocking all forward progress |
+| **Model** | Sonnet |
+| **Est. Time** | 1-2 hours |
 
-const TestWrapper = ({ children }) => {
-  const methods = useForm();
-  return (
-    <FormProvider {...methods}>
-      <ModalProvider>
-        {children}
-      </ModalProvider>
-    </FormProvider>
-  );
-};
+**Problem:**
+- Integration tests expect user 'aaron' with password 'correctpassword'
+- No seed script exists
+- Database name mismatch in configs
+
+**Fix:**
+1. Create `scripts/seed-test-db.ts` to populate test users
+2. Update `jest.setup.js` to seed before integration tests
+3. Fix `.env.test` database URL if needed
+
+**Acceptance Criteria:**
+- All 155 tests pass
+- `pnpm test` runs green
+
+---
+
+### Task 2: Re-validate p1-2-a (After clawd-lbk)
+
+| Field | Value |
+|-------|-------|
+| **Issue** | `clawd-8cu` |
+| **Title** | BDV2-p1-2-a: Create project creation UI |
+| **Status** | Code COMPLETE - needs re-validation |
+| **Model** | Validator (Sonnet) |
+
+**Context:** The code is DONE. Previous validation failed due to test infrastructure issues, not code bugs. Once clawd-lbk is complete, re-run validation.
+
+**Files Already Implemented:**
+- ✅ `src/app/projects/new/page.tsx`
+- ✅ `src/components/projects/create-project-form.tsx`
+- ✅ `src/app/dashboard/page.tsx`
+- ✅ `__tests__/unit/components/projects/create-project-form.test.tsx` (7/7 pass)
+
+---
+
+## 📋 Ready Tasks (After Blocker Fixed)
+
+Once p1-2-a is validated, these tasks are READY:
+
+| Task ID | Description | Model | Dependencies |
+|---------|-------------|-------|--------------|
+| **p1-2-b** | Implement drag-drop upload component | Sonnet | p1-2-a |
+| **p1-2-e** | Add file validation (size/type/security) | Sonnet | p1-2-b |
+| **p1-2-g-1** | Build dashboard layout and navigation | Sonnet | p1-2-a |
+| **p1-6-a** | Create HTML5 video player component | Sonnet | p1-2-a |
+
+### Parallel Work Possible
+After p1-2-a validated, workers can work on:
+- **p1-2-b + p1-6-a** in parallel (different categories, both depend only on p1-2-a)
+
+---
+
+## 🔧 MELO V2 Unit Tests (Background)
+
+MELO work continues in background, lower priority than BDV2:
+
+| Task ID | Title | Status | Priority |
+|---------|-------|--------|----------|
+| clawd-717 | ChatInput Component Tests | in_progress | P1 |
+| clawd-7v9 | Remaining Matrix Client Issues | in_progress | P1 |
+| clawd-0bw | Registration Component Tests | in_progress | P2 |
+
+---
+
+## 🎯 Immediate Action Plan
+
+**Step 1:** Assign Sonnet worker to `clawd-lbk` (test database fix)
+```
+bd update clawd-lbk --status in_progress --claim
 ```
 
-### Affected Test Files
-- `tests/unit/components/modals/initial-modal.test.tsx` (16 failures)
-- `tests/unit/components/modals/create-server-modal.test.tsx` (14 failures)
-- `tests/unit/components/modals/server-overview-modal.test.tsx` (6 failures)
+**Step 2:** After clawd-lbk complete, re-validate `clawd-8cu`:
+```
+bd update clawd-8cu --status in_progress
+# Run full validation including E2E tests
+cd /home/ubuntu/repos/bible-drawing-v2 && pnpm test
+cd /home/ubuntu/repos/bible-drawing-v2 && pnpm test:e2e
+# Capture screenshots
+```
+
+**Step 3:** Once p1-2-a validated, spawn workers for:
+- p1-2-b (drag-drop upload)
+- p1-6-a (video player component)
 
 ---
 
-## Worker Assignment Status
+## 📊 Worker Assignment Status
 
 | Worker | Task | Status | Notes |
 |--------|------|--------|-------|
-| **Sonnet** | p1-2-a | 🔄 IN PROGRESS | Bible Drawing V2 Project Creation UI |
-| *Available* | - | - | Waiting for p1-2-a to unblock p1-2-b+ |
+| **AVAILABLE** | clawd-lbk | 🎯 ASSIGN NOW | Test DB fix - CRITICAL |
+| **AVAILABLE** | - | ⏳ Waiting | Assign p1-2-b after blocker |
+| melo-* workers | MELO tests | 🔄 In Progress | Continue background work |
 
 ---
 
-## 🚀 BIBLE DRAWING V2: Foundation Phase (AUTONOMOUS START)
+## Notes
 
-**Decision:** Starting Category 0 (Foundation) tasks while Phase 1 Plan awaits PM approval.
-**Reasoning:** Foundation tasks are required regardless of plan adjustments.
-**Updated:** 2026-03-01 05:31 EST by Coordinator
-
-### Category 0: Project Foundation Tasks (Ready for Assignment)
-
-| Task ID | Description | Model | Priority | Dependencies | Status |
-|---------|-------------|-------|----------|--------------|--------|
-| **p1-0-a** | Initialize Bible Drawing V2 repository | Haiku | P0 | - | ✅ COMPLETE |
-| **p1-0-b** | Configure Next.js 14 with App Router | Sonnet | P0 | p1-0-a | ✅ COMPLETE (Next.js 16.1.6, 33/33 tests) |
-| **p1-0-c** | Setup Tailwind CSS and base styling | Haiku | P1 | p1-0-b | ✅ COMPLETE (included in p1-0-b) |
-| **p1-0-d** | Configure test frameworks (Vitest + Playwright) | Sonnet | P0 | p1-0-b | ✅ COMPLETE (included in p1-0-b) |
-| **p1-0-e** | Setup file storage directory structure | Haiku | P1 | p1-0-a | ✅ COMPLETE |
-| **p1-0-f** | Create development environment config | Sonnet | P0 | p1-0-d | ✅ COMPLETE (TDD validated) |
-| **p1-0-c** | Setup Tailwind CSS and base styling | Haiku | P1 | p1-0-b |
-| **p1-0-d** | Configure test frameworks (Vitest + Playwright) | Sonnet | P0 | p1-0-b |
-| **p1-0-e** | Setup file storage directory structure | Haiku | P1 | p1-0-a |
-| **p1-0-f** | Create development environment config | Sonnet | P0 | p1-0-d |
-
-### Category 1: Authentication Foundation (Starting Now)
-
-| Task ID | Description | Model | Priority | Dependencies | Status |
-|---------|-------------|-------|----------|--------------|--------|
-| **p1-1-a** | Setup NextAuth.js credentials provider | Sonnet | P0 | p1-0-f | ✅ COMPLETE (33/33 unit, 45/45 E2E) |
-| **p1-1-b** | Create user login/logout UI components | Sonnet | P0 | p1-1-a | ✅ COMPLETE (47/47 unit, 45/45 E2E) |
-| **p1-1-c** | Implement session management with 24h expiry | Sonnet | P0 | p1-1-b | ✅ COMPLETE (100/100 tests) |
-| **p1-1-d** | Add protected route middleware | Sonnet | P0 | p1-1-c | ✅ COMPLETE (10/10 tests) |
-| **p1-1-e** | Create password reset flow | Sonnet | P1 | p1-1-c | ✅ COMPLETE (10/10 tests, CLI ready) |
-| **p1-1-f** | Implement rate limiting (5 failures = lockout) | Sonnet | P1 | p1-1-a | ✅ COMPLETE (75/75 tests) |
+- **DO NOT rework clawd-8cu** - The code is correct. The validation failed due to test infrastructure.
+- **clawd-bgi is a duplicate** of clawd-8cu - Close it after clawd-8cu is validated
+- **Phase 1 critical path:** Foundation ✅ → Auth ✅ → Upload 🔄 → Processing → Transcript → Export
+- **Aaron is waiting** for V2 to process videos - prioritize this over MELO
 
 ---
 
-### Category 2: Video Upload System (Starting Now!)
-
-| Task ID | Description | Model | Priority | Dependencies | Status |
-|---------|-------------|-------|----------|--------------|--------|
-| **p1-2-a** | Create project creation UI | Sonnet | P0 | p1-1-d | 📋 READY |
-| **p1-2-b** | Implement drag-drop upload component | Sonnet | P0 | p1-2-a | 📋 BLOCKED |
-| **p1-2-c** | Add upload progress indicators with ETA | Sonnet | P0 | p1-2-b | 📋 BLOCKED |
-| **p1-2-d** | Support multiple file uploads with queue | Sonnet | P0 | p1-2-c | 📋 BLOCKED |
-| **p1-2-e** | Add file validation (size/type/security) | Sonnet | P0 | p1-2-b | 📋 BLOCKED |
-| **p1-2-f** | Create upload queue management | Sonnet | P0 | p1-2-d | 📋 BLOCKED |
-
----
-
-### Previous: Foundation Task p1-0-a (Repository Initialization)
-
-**Task: p1-0-a - Initialize Bible Drawing V2 Repository**
-- **Model:** Haiku
-- **Priority:** P0 (blocking everything else)
-- **Repository Location:** `/home/ubuntu/repos/bible-drawing-v2`
-- **Instructions:**
-  1. Create directory: `mkdir -p /home/ubuntu/repos/bible-drawing-v2`
-  2. Initialize git: `git init`
-  3. Create basic README.md with project description
-  4. Initial commit: "Initial commit: Bible Drawing V2 project"
-- **Success Criteria:**
-  - [ ] Directory exists at correct path
-  - [ ] Git repository initialized
-  - [ ] README.md with project description
-  - [ ] Initial commit exists
-  - [ ] No errors in setup
-
----
-
-## Previous Session Context
-
-- Browser Automation: ✅ COMPLETE (US-BA-01 through US-BA-04)
-- MELO Phase 1: ✅ COMPLETE (10/12 stories)
-- MELO Phase 2: 🔄 IN PROGRESS (unit test fixes needed)
-- Bible Drawing V2: 🚀 STARTED (Foundation Phase)
-
----
-
-## Next Steps
-
-1. ✅ **Spawned Sonnet worker** for clawd-i4y (React Hook Form fix)
-2. 🔄 **Spawn Haiku worker** for p1-0-a (Bible Drawing V2 repo init)
-3. **Verify test count** drops after MELO infrastructure fix
-4. **Continue foundation sequence** (p1-0-b, p1-0-c, p1-0-d, p1-0-e, p1-0-f)
-5. **Assign remaining MELO tasks** (clawd-9uz, clawd-d6i)
+**Last Updated:** 2026-03-01 14:15 EST
+**Updated By:** PM Subagent (bdv2-phase1-unblock)
