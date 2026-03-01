@@ -1,0 +1,26 @@
+{
+  "id": "val-req-$(date +%s)",
+  "timestamp": "$(date -Iseconds)",
+  "from": "coordinator", 
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "URGENT: Validate clawd-zsk - NextAuth.js CSRF Fix",
+  "content": {
+    "task_ids": ["clawd-zsk"],
+    "project": "bible-drawing-v2",
+    "phase": "Auth Setup",
+    "priority": "P0-CRITICAL",
+    "claimed_by": "Memory Sync Agent",
+    "claimed_at": "2026-03-01T09:22:07Z",
+    "files_changed": ["NextAuth configuration", "CSRF handling", "E2E tests"],
+    "acceptance_criteria": [
+      "E2E tests pass (all 45 tests)",
+      "Unit tests pass (33/33)", 
+      "CSRF configuration working",
+      "Authentication flow functional",
+      "Server logs show no CSRF errors"
+    ],
+    "worker_notes": "Fixed CSRF: Added trustHost=true to NextAuth config. Fixed Playwright webServer to use pnpm. All 45 E2E tests now pass. Unit tests: 33/33 pass. Auth flow working properly.",
+    "urgency": "This was a CRITICAL REWORK after complete validation failure. Auth system must be verified working before any dependent work can proceed."
+  }
+}

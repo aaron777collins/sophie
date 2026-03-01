@@ -1,0 +1,22 @@
+{
+  "id": "bible-drawing-approval-req-1709179800",
+  "timestamp": "2026-03-01T03:30:00Z",
+  "from": "coordinator", 
+  "to": "person-manager",
+  "type": "approval-request",
+  "subject": "Bible Drawing V2 Phase 1 Plan - Ready for Approval",
+  "priority": "P0-CRITICAL",
+  "content": {
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1",
+    "plan_location": "~/clawd/docs/plans/bible-drawing-v2/phases/PHASE-1.md",
+    "plan_version": "v2", 
+    "review_location": "~/clawd/docs/plans/bible-drawing-v2/phases/reviews/phase-1-review.md",
+    "status": "complete-and-reviewed",
+    "waiting_since": "2026-02-28T15:37:00Z",
+    "ready_epics": 8,
+    "total_points": 229,
+    "next_action": "Populate PROACTIVE-JOBS.md with Phase 1 tasks and begin execution",
+    "blocker": "Cannot proceed without PM approval of Phase 1 Plan v2"
+  }
+}

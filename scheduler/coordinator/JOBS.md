@@ -6,6 +6,26 @@
 
 ## Active Projects
 
+### Bible Drawing V2 - Phase Planning ✅ ACTIVE
+**Status:** Phase 1 Plan v2 READY FOR APPROVAL
+**Priority:** P0-NEW-PROJECT  
+**Phase 1 Plan:** `~/clawd/docs/plans/bible-drawing-v2/phases/PHASE-1.md` (v2)
+**Review:** `~/clawd/docs/plans/bible-drawing-v2/phases/reviews/phase-1-review.md`
+**Next:** PM approval → populate PROACTIVE-JOBS.md → begin execution
+
+**Plan Summary (v2):**
+- 40 tasks across 7 categories (Foundation, Auth, Upload, Processing, Transcript, Export, Preview)
+- Full MVP foundation for web-based video editing platform
+- TDD requirements, dependency mapping, model assignments
+- Specific acceptance criteria with measurable outcomes
+- Estimated 4-5 weeks with 2 concurrent workers
+
+**v1 → v2 Changes:**
+- Added Category 0 (Foundation) and Category 6 (Preview)
+- Fixed dependency flows
+- Moved security tasks to Sonnet
+- Split oversized tasks
+
 ### MELO V2 Comprehensive Audit - EMERGENCY RESOLVED ✅
 **Status:** Active - Phase 1 audit continuing
 **Priority:** P1-AUDIT

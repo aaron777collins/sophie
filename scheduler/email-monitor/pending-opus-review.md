@@ -8,6 +8,7 @@
 
 | Date | From | Subject | Reason to Review |
 |------|------|---------|------------------|
+| 2026-02-28 | Upstash | Important Notice: Your Upstash Database is Hibernated | Infrastructure alert - database hibernation might affect services |
 
 ---
 

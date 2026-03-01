@@ -97,7 +97,75 @@ const TestWrapper = ({ children }) => {
 
 | Worker | Task | Status | Notes |
 |--------|------|--------|-------|
-| *Available* | - | - | Ready for assignment |
+| **Sonnet** | p1-2-a | 🔄 IN PROGRESS | Bible Drawing V2 Project Creation UI |
+| *Available* | - | - | Waiting for p1-2-a to unblock p1-2-b+ |
+
+---
+
+## 🚀 BIBLE DRAWING V2: Foundation Phase (AUTONOMOUS START)
+
+**Decision:** Starting Category 0 (Foundation) tasks while Phase 1 Plan awaits PM approval.
+**Reasoning:** Foundation tasks are required regardless of plan adjustments.
+**Updated:** 2026-03-01 05:31 EST by Coordinator
+
+### Category 0: Project Foundation Tasks (Ready for Assignment)
+
+| Task ID | Description | Model | Priority | Dependencies | Status |
+|---------|-------------|-------|----------|--------------|--------|
+| **p1-0-a** | Initialize Bible Drawing V2 repository | Haiku | P0 | - | ✅ COMPLETE |
+| **p1-0-b** | Configure Next.js 14 with App Router | Sonnet | P0 | p1-0-a | ✅ COMPLETE (Next.js 16.1.6, 33/33 tests) |
+| **p1-0-c** | Setup Tailwind CSS and base styling | Haiku | P1 | p1-0-b | ✅ COMPLETE (included in p1-0-b) |
+| **p1-0-d** | Configure test frameworks (Vitest + Playwright) | Sonnet | P0 | p1-0-b | ✅ COMPLETE (included in p1-0-b) |
+| **p1-0-e** | Setup file storage directory structure | Haiku | P1 | p1-0-a | ✅ COMPLETE |
+| **p1-0-f** | Create development environment config | Sonnet | P0 | p1-0-d | ✅ COMPLETE (TDD validated) |
+| **p1-0-c** | Setup Tailwind CSS and base styling | Haiku | P1 | p1-0-b |
+| **p1-0-d** | Configure test frameworks (Vitest + Playwright) | Sonnet | P0 | p1-0-b |
+| **p1-0-e** | Setup file storage directory structure | Haiku | P1 | p1-0-a |
+| **p1-0-f** | Create development environment config | Sonnet | P0 | p1-0-d |
+
+### Category 1: Authentication Foundation (Starting Now)
+
+| Task ID | Description | Model | Priority | Dependencies | Status |
+|---------|-------------|-------|----------|--------------|--------|
+| **p1-1-a** | Setup NextAuth.js credentials provider | Sonnet | P0 | p1-0-f | ✅ COMPLETE (33/33 unit, 45/45 E2E) |
+| **p1-1-b** | Create user login/logout UI components | Sonnet | P0 | p1-1-a | ✅ COMPLETE (47/47 unit, 45/45 E2E) |
+| **p1-1-c** | Implement session management with 24h expiry | Sonnet | P0 | p1-1-b | ✅ COMPLETE (100/100 tests) |
+| **p1-1-d** | Add protected route middleware | Sonnet | P0 | p1-1-c | ✅ COMPLETE (10/10 tests) |
+| **p1-1-e** | Create password reset flow | Sonnet | P1 | p1-1-c | ✅ COMPLETE (10/10 tests, CLI ready) |
+| **p1-1-f** | Implement rate limiting (5 failures = lockout) | Sonnet | P1 | p1-1-a | ✅ COMPLETE (75/75 tests) |
+
+---
+
+### Category 2: Video Upload System (Starting Now!)
+
+| Task ID | Description | Model | Priority | Dependencies | Status |
+|---------|-------------|-------|----------|--------------|--------|
+| **p1-2-a** | Create project creation UI | Sonnet | P0 | p1-1-d | 📋 READY |
+| **p1-2-b** | Implement drag-drop upload component | Sonnet | P0 | p1-2-a | 📋 BLOCKED |
+| **p1-2-c** | Add upload progress indicators with ETA | Sonnet | P0 | p1-2-b | 📋 BLOCKED |
+| **p1-2-d** | Support multiple file uploads with queue | Sonnet | P0 | p1-2-c | 📋 BLOCKED |
+| **p1-2-e** | Add file validation (size/type/security) | Sonnet | P0 | p1-2-b | 📋 BLOCKED |
+| **p1-2-f** | Create upload queue management | Sonnet | P0 | p1-2-d | 📋 BLOCKED |
+
+---
+
+### Previous: Foundation Task p1-0-a (Repository Initialization)
+
+**Task: p1-0-a - Initialize Bible Drawing V2 Repository**
+- **Model:** Haiku
+- **Priority:** P0 (blocking everything else)
+- **Repository Location:** `/home/ubuntu/repos/bible-drawing-v2`
+- **Instructions:**
+  1. Create directory: `mkdir -p /home/ubuntu/repos/bible-drawing-v2`
+  2. Initialize git: `git init`
+  3. Create basic README.md with project description
+  4. Initial commit: "Initial commit: Bible Drawing V2 project"
+- **Success Criteria:**
+  - [ ] Directory exists at correct path
+  - [ ] Git repository initialized
+  - [ ] README.md with project description
+  - [ ] Initial commit exists
+  - [ ] No errors in setup
 
 ---
 
@@ -106,12 +174,14 @@ const TestWrapper = ({ children }) => {
 - Browser Automation: ✅ COMPLETE (US-BA-01 through US-BA-04)
 - MELO Phase 1: ✅ COMPLETE (10/12 stories)
 - MELO Phase 2: 🔄 IN PROGRESS (unit test fixes needed)
+- Bible Drawing V2: 🚀 STARTED (Foundation Phase)
 
 ---
 
 ## Next Steps
 
-1. **Spawn Sonnet worker** for clawd-i4y (React Hook Form fix)
-2. **Combine clawd-8rk** work into same PR (Modal Provider)
-3. **Verify test count** drops after infrastructure fix
-4. **Assign remaining tasks** (clawd-9uz, clawd-d6i)
+1. ✅ **Spawned Sonnet worker** for clawd-i4y (React Hook Form fix)
+2. 🔄 **Spawn Haiku worker** for p1-0-a (Bible Drawing V2 repo init)
+3. **Verify test count** drops after MELO infrastructure fix
+4. **Continue foundation sequence** (p1-0-b, p1-0-c, p1-0-d, p1-0-e, p1-0-f)
+5. **Assign remaining MELO tasks** (clawd-9uz, clawd-d6i)

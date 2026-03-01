@@ -1,0 +1,25 @@
+{
+  "id": "val-req-build-fix-2xa",
+  "timestamp": "2026-03-01T06:37:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: Bible Drawing V2 Build Fix (clawd-2xa)",
+  "content": {
+    "bead_id": "clawd-2xa",
+    "project": "bible-drawing-v2",
+    "description": "NextJS prerendering fix - Suspense boundaries for useSearchParams()",
+    "files_changed": [
+      "src/app/auth/signin/page.tsx",
+      "src/app/auth/signin/SignInForm.tsx",
+      "src/app/auth/error/page.tsx",
+      "src/app/auth/error/AuthErrorContent.tsx"
+    ],
+    "acceptance_criteria": [
+      "pnpm build exits with code 0",
+      "auth/signin and auth/error prerender as static",
+      "Unit tests (33/33) still pass"
+    ],
+    "self_validation_notes": "Build: Exit 0, Tests: 33/33 pass. Auth pages now static."
+  }
+}

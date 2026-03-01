@@ -1,0 +1,29 @@
+{
+  "id": "coord-bible-drawing-v2-approval-1709264400",
+  "timestamp": "2026-03-01T09:00:00Z",
+  "from": "coordinator",
+  "to": "person-manager", 
+  "type": "phase-plan-approval",
+  "subject": "Bible Drawing V2 - Phase 1 Plan v2 Ready for Approval",
+  "content": {
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1",
+    "phase_plan_path": "docs/plans/bible-drawing-v2/phases/PHASE-1.md",
+    "version": "v2",
+    "review_path": "docs/plans/bible-drawing-v2/phases/reviews/phase-1-review.md",
+    "status": "ready-for-approval",
+    "summary": {
+      "tasks": 40,
+      "categories": 7,
+      "estimated_duration": "4-5 weeks",
+      "concurrent_workers": 2,
+      "changes_from_v1": [
+        "Added Foundation and Preview categories",
+        "Fixed dependency flows",
+        "Moved security tasks to Sonnet",
+        "Split oversized tasks"
+      ]
+    },
+    "next_action": "Upon approval, will populate PROACTIVE-JOBS.md and begin execution"
+  }
+}

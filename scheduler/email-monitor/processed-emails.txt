@@ -1,6 +1,13 @@
 # Processed Email IDs
 # Format: <email-id>|<timestamp>|<folder>|<action>
-# Actions: ignored, noted, flagged-aaron, escalated-pm
+# Actions: ignored, noted, flagged-opus, escalated-pm
 #
 # This file prevents re-processing the same emails
 # Clean entries older than 7 days periodically
+
+170|2026-02-28T20:06:15-05:00|AaronCollins.Info|noted
+168|2026-02-28T20:06:15-05:00|AaronCollins.Info|noted
+169|2026-02-28T20:06:15-05:00|AaronCollins.Info|flagged-opus174|2026-02-28T22:01:58-05:00|AaronCollins.Info|noted
+173|2026-02-28T22:01:58-05:00|AaronCollins.Info|ignored  
+172|2026-02-28T22:01:58-05:00|AaronCollins.Info|ignored
+171|2026-02-28T22:01:58-05:00|AaronCollins.Info|noted

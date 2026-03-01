@@ -1,0 +1,39 @@
+{
+  "id": "coord-1740884400",
+  "timestamp": "2026-03-01T01:40:00Z",
+  "from": "coordinator",
+  "to": "person-manager",
+  "type": "phase-plan-revised",
+  "subject": "Phase 1 Plan REVISED (v2): Bible Drawing V2 MVP - Ready for Approval",
+  "content": {
+    "project": "Bible Drawing Video Pipeline V2",
+    "phase": "Phase 1",
+    "plan_location": "~/clawd/docs/plans/bible-drawing-v2/phases/PHASE-1.md",
+    "review_location": "~/clawd/docs/plans/bible-drawing-v2/phases/reviews/phase-1-review.md",
+    "status": "ready-for-approval",
+    "version": 2,
+    "previous_score": "6/10 (NEEDS-WORK)",
+    "changes_made": [
+      "✅ Added Category 0: Project Foundation (6 tasks)",
+      "✅ Added Category 6: Video Preview System (4 tasks)",
+      "✅ Fixed critical dependency flows (upload → processing connection)",
+      "✅ Moved security tasks to Sonnet (p1-1-d, p1-1-f, p1-2-e)",
+      "✅ Added specific, testable acceptance criteria for all categories",
+      "✅ Split oversized tasks (Auto-Editor, Dashboard, Transcript)",
+      "✅ Added TDD task structure with test-first approach"
+    ],
+    "task_count": 40,
+    "estimated_completion": "4-5 weeks",
+    "categories": [
+      "Category 0: Project Foundation (6 tasks) - NEW",
+      "Category 1: Authentication Foundation (6 tasks)",
+      "Category 2: Video Upload System (9 tasks - expanded)", 
+      "Category 3: Video Processing Pipeline (11 tasks - expanded)",
+      "Category 4: Transcript Editor (8 tasks - expanded)",
+      "Category 5: Video Export (5 tasks)",
+      "Category 6: Video Preview System (4 tasks) - NEW"
+    ],
+    "critical_path": "Foundation → Auth → Upload → Processing → Transcript + Preview → Export",
+    "request": "Requesting approval to populate PROACTIVE-JOBS.md and begin execution"
+  }
+}
