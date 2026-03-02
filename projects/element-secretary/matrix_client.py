@@ -3,16 +3,21 @@ Matrix/Element Client
 
 Handles connection to Matrix homeserver and message handling.
 Uses matrix-nio for async Matrix protocol support.
+
+Presence-aware behavior:
+- Joins Sophie room when Aaron joins
+- Goes idle (leaves) after 5 minutes of empty room
 """
 import asyncio
 import logging
-from typing import Optional, Callable, Awaitable
+from typing import Optional, Callable, Awaitable, Set
 from datetime import datetime
 
 from nio import (
     AsyncClient,
     AsyncClientConfig,
     RoomMessageText,
+    RoomMemberEvent,
     InviteMemberEvent,
     SyncError,
     LoginError,
@@ -25,6 +30,8 @@ from config import (
     MATRIX_PASSWORD,
     MATRIX_ROOM_ID,
     DATA_DIR,
+    AARON_USER_ID,
+    EMPTY_ROOM_TIMEOUT,
 )
 
 logger = logging.getLogger(__name__)
@@ -42,6 +49,8 @@ class MatrixClient:
     
     Connects to Matrix homeserver, listens for messages in designated room,
     and calls the provided callback to generate responses.
+    
+    Presence-aware: Joins when Aaron joins, leaves after 5min empty.
     """
     
     def __init__(
@@ -50,17 +59,25 @@ class MatrixClient:
         user_id: str = MATRIX_USER_ID,
         password: str = MATRIX_PASSWORD,
         room_id: str = MATRIX_ROOM_ID,
+        aaron_user_id: str = AARON_USER_ID,
     ):
         self.homeserver = homeserver
         self.user_id = user_id
         self.password = password
         self.room_id = room_id
+        self.aaron_user_id = aaron_user_id
         
         self.client: Optional[AsyncClient] = None
         self.message_callback: Optional[MessageCallback] = None
         self._running = False
         self._reconnect_delay = 5  # seconds
         self._max_reconnect_delay = 300  # 5 minutes
+        
+        # Presence tracking
+        self._room_members: Set[str] = set()
+        self._last_aaron_activity: Optional[datetime] = None
+        self._is_active = False  # Are we actively processing messages?
+        self._empty_room_task: Optional[asyncio.Task] = None
         
     async def setup(self):
         """Initialize the Matrix client."""
@@ -79,6 +96,7 @@ class MatrixClient:
         
         # Add event callbacks
         self.client.add_event_callback(self._on_message, RoomMessageText)
+        self.client.add_event_callback(self._on_member_event, RoomMemberEvent)
         self.client.add_event_callback(self._on_invite, InviteMemberEvent)
         
     def set_message_callback(self, callback: MessageCallback):
@@ -118,11 +136,75 @@ class MatrixClient:
                 return False
                 
             logger.info(f"Joined room {self.room_id}")
+            self._is_active = True
             return True
             
         except Exception as e:
             logger.error(f"Join room exception: {e}")
             return False
+    
+    async def leave_room(self):
+        """Leave the room (go idle to save tokens)."""
+        if not self.room_id:
+            return
+            
+        try:
+            await self.client.room_leave(self.room_id)
+            logger.info(f"Left room {self.room_id} (going idle)")
+            self._is_active = False
+        except Exception as e:
+            logger.error(f"Leave room exception: {e}")
+    
+    async def _on_member_event(self, room, event):
+        """Handle room membership changes."""
+        if room.room_id != self.room_id:
+            return
+            
+        member_id = event.state_key
+        membership = event.membership
+        
+        logger.debug(f"Member event: {member_id} -> {membership}")
+        
+        if membership == "join":
+            self._room_members.add(member_id)
+            
+            # Aaron joined! Make sure we're active
+            if member_id == self.aaron_user_id:
+                logger.info("Aaron joined - activating secretary")
+                self._last_aaron_activity = datetime.now()
+                
+                if not self._is_active:
+                    await self.join_room()
+                    
+                # Cancel any pending leave task
+                if self._empty_room_task:
+                    self._empty_room_task.cancel()
+                    self._empty_room_task = None
+                    
+        elif membership in ("leave", "ban"):
+            self._room_members.discard(member_id)
+            
+            # Check if room is now empty (just us)
+            other_members = self._room_members - {self.user_id}
+            if not other_members:
+                logger.info("Room empty - scheduling idle timeout")
+                self._schedule_empty_room_check()
+    
+    def _schedule_empty_room_check(self):
+        """Schedule a check to leave room if still empty."""
+        if self._empty_room_task:
+            self._empty_room_task.cancel()
+            
+        async def check_and_leave():
+            await asyncio.sleep(EMPTY_ROOM_TIMEOUT)
+            
+            # Check if still empty
+            other_members = self._room_members - {self.user_id}
+            if not other_members:
+                logger.info(f"Room empty for {EMPTY_ROOM_TIMEOUT}s - leaving to save tokens")
+                await self.leave_room()
+        
+        self._empty_room_task = asyncio.create_task(check_and_leave())
     
     async def _on_message(self, room, event):
         """Handle incoming room messages."""
@@ -133,9 +215,13 @@ class MatrixClient:
         # Only process messages from configured room (if set)
         if self.room_id and room.room_id != self.room_id:
             return
+        
+        # Don't process if we're not active
+        if not self._is_active:
+            logger.debug("Ignoring message - not active")
+            return
             
         # Ignore old messages (from before we connected)
-        # event.server_timestamp is in milliseconds
         event_time = datetime.fromtimestamp(event.server_timestamp / 1000)
         now = datetime.now()
         if (now - event_time).total_seconds() > 60:
@@ -145,6 +231,10 @@ class MatrixClient:
         message = event.body
         sender_id = event.sender
         sender_name = room.user_name(sender_id) or sender_id
+        
+        # Track Aaron's activity
+        if sender_id == self.aaron_user_id:
+            self._last_aaron_activity = datetime.now()
         
         logger.info(f"Message from {sender_name}: {message[:50]}...")
         
@@ -179,8 +269,9 @@ class MatrixClient:
     async def _on_invite(self, room, event):
         """Handle room invites."""
         logger.info(f"Received invite to room {room.room_id}")
-        # Auto-join invites (could be restricted to allowed rooms)
-        await self.client.join(room.room_id)
+        # Only auto-join if it's from Aaron
+        if event.sender == self.aaron_user_id:
+            await self.client.join(room.room_id)
     
     async def _send_typing(self, room_id: str, typing: bool, timeout: int = 30000):
         """Send typing indicator."""
@@ -191,6 +282,10 @@ class MatrixClient:
     
     async def send_message(self, room_id: str, message: str):
         """Send a text message to a room."""
+        if not self._is_active:
+            logger.warning("Can't send message - not active in room")
+            return
+            
         try:
             await self.client.room_send(
                 room_id=room_id,
@@ -239,9 +334,18 @@ class MatrixClient:
     async def stop(self):
         """Stop the client."""
         self._running = False
+        
+        if self._empty_room_task:
+            self._empty_room_task.cancel()
+            
         if self.client:
             await self.client.close()
             logger.info("Matrix client stopped")
+    
+    @property
+    def is_active(self) -> bool:
+        """Check if secretary is actively processing."""
+        return self._is_active
 
 
 # Factory function
