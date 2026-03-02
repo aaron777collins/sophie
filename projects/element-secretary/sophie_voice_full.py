@@ -712,6 +712,10 @@ class SophieVoiceAgent:
             can_subscribe=True,
         ))
         
+        # Set in_call BEFORE connecting so callbacks don't exit early
+        self.in_call = True
+        self.audio_processor = AudioProcessor(self.vad, self.stt, config.sample_rate)
+        
         # Connect
         try:
             await self.livekit_room.connect(
@@ -742,9 +746,6 @@ class SophieVoiceAgent:
         
         # Announce to Matrix
         await self._announce_call_membership(livekit_room_name)
-        
-        self.in_call = True
-        self.audio_processor = AudioProcessor(self.vad, self.stt, config.sample_rate)
         
         # Start sending silence when not speaking
         asyncio.create_task(self._send_audio_loop())
