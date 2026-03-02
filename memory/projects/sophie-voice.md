@@ -1,7 +1,18 @@
 # Sophie Voice - Element X Integration
 
-**Last Updated:** 2026-03-02 17:28 EST
+**Last Updated:** 2026-03-02 17:38 EST
 **Status:** In Progress - Debugging audio pipeline
+
+## 📍 Key File Paths
+
+| File | Purpose |
+|------|---------|
+| **This plan file:** | `~/clawd/memory/projects/sophie-voice.md` |
+| **Main script:** | `~/clawd/projects/element-secretary/sophie_voice_full.py` |
+| **Environment:** | `~/clawd/projects/element-secretary/.env` |
+| **Python venv:** | `~/clawd/projects/element-secretary/.venv/` |
+| **Matrix store:** | `~/clawd/projects/element-secretary/data/matrix_store/` |
+| **Sophie repo:** | `/home/ubuntu/repos/sophie` (branch: fix/modal-provider-context) |
 
 ## Overview
 
@@ -172,13 +183,21 @@ for event in response.events:
         events.append(event)
 ```
 
-### Issue 4: Multiple Sophie Ghosts in Calls
+### Issue 4: Multiple Sophie Ghosts in Calls ✅ FIXED
 
-**Problem:** Multiple old Sophie sessions appear as participants.
+**Problem:** Multiple old Sophie sessions appear as participants (4 ghosts!).
 
 **Root Cause:** Each restart creates a new device ID, and old call.member state events persist.
 
-**Cleanup Command:**
+**Solution Implemented:** Added `_cleanup_ghost_instances()` method that runs on startup:
+1. On startup, after Matrix login, scan all `call.member` state events
+2. Find any with "sophie" in the state_key
+3. Clear them with empty content `{}` (leave event)
+4. Only then join any new calls
+
+**Code Location:** `~/clawd/projects/element-secretary/sophie_voice_full.py` - `_cleanup_ghost_instances()` method
+
+**Manual Cleanup Command (if needed):**
 ```bash
 TOKEN=$(curl -s -X POST 'https://matrix3.aaroncollins.info/_matrix/client/v3/login' \
   -H 'Content-Type: application/json' \
@@ -221,6 +240,18 @@ if is_speech and not self.is_speaking:
 if not is_speech and self.is_speaking:
     logger.info(f"🔇 Silence started")
 ```
+
+**Possible Root Causes:**
+1. `on_track` callback not firing for Aaron's audio track
+2. `track.kind == rtc.TrackKind.KIND_AUDIO` check not matching
+3. `config.aaron_user_id in participant.identity` check failing (identity format mismatch)
+4. E2EE preventing audio decoding (frames arrive but are encrypted/empty)
+5. Async iterator `async for event in audio_stream` blocking/not yielding
+
+**Next Debug Steps:**
+1. Add logging in `on_track` callback to see ALL tracks received (not just Aaron's)
+2. Log `participant.identity` to verify format matches `config.aaron_user_id`
+3. Check if any audio data is non-zero (encryption issue shows as all zeros)
 
 ---
 
@@ -346,6 +377,11 @@ python sophie_voice_full.py
 **17:25** - Aaron left call, Sophie detected it (`👋 Aaron left the call`)
 
 **17:27** - Current state: Audio pipeline not working, need to debug why frames aren't being processed
+
+**17:38** - Added automatic ghost cleanup system:
+- New `_cleanup_ghost_instances()` method runs on startup
+- Clears ALL old Sophie call.member state events before joining calls
+- Prevents the "4 Sophies" ghost problem going forward
 
 ---
 

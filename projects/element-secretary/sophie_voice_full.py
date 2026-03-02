@@ -560,7 +560,55 @@ class SophieVoiceAgent:
         await self.matrix_client.sync(timeout=30000, full_state=True)
         logger.info("✅ Matrix synced")
         
+        # CLEANUP: Clear all old Sophie ghost call.member state events
+        await self._cleanup_ghost_instances()
+        
         return True
+        
+    async def _cleanup_ghost_instances(self):
+        """Clean up ALL old Sophie call.member state events from previous sessions.
+        
+        Each restart creates a new device_id, leaving old state events as "ghosts"
+        that appear in Element X as duplicate Sophie instances. This clears them all
+        on startup before joining any calls.
+        """
+        logger.info("🧹 Cleaning up ghost Sophie instances...")
+        
+        try:
+            state_events = await self.get_room_state()
+            cleaned = 0
+            
+            for event in state_events:
+                event_type = event.get("type", "")
+                state_key = event.get("state_key", "")
+                content = event.get("content", {})
+                
+                # Find Sophie's call.member events
+                if event_type == "org.matrix.msc3401.call.member" and "sophie" in state_key.lower():
+                    # Check if this is NOT our current device (or clean all if content exists)
+                    event_device = content.get("device_id", "")
+                    
+                    if content and event_device != self.device_id:
+                        # This is an old ghost - clear it
+                        logger.info(f"   🗑️ Clearing ghost: {state_key} (device: {event_device})")
+                        try:
+                            await self.matrix_client.room_put_state(
+                                room_id=config.matrix_room_id,
+                                event_type="org.matrix.msc3401.call.member",
+                                state_key=state_key,
+                                content={},  # Empty content = leave
+                            )
+                            cleaned += 1
+                        except Exception as e:
+                            logger.warning(f"   ⚠️ Failed to clear {state_key}: {e}")
+                            
+            if cleaned > 0:
+                logger.info(f"✅ Cleaned up {cleaned} ghost instance(s)")
+            else:
+                logger.info("✅ No ghost instances found")
+                
+        except Exception as e:
+            logger.error(f"❌ Ghost cleanup failed: {e}")
         
     async def get_room_state(self) -> List[Dict]:
         """Get current room state events."""
