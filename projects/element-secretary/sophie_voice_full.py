@@ -664,14 +664,37 @@ class SophieVoiceAgent:
         @self.livekit_room.on("participant_connected")
         def on_participant(participant):
             logger.info(f"👤 Participant connected: {participant.identity}")
+            # Log all their existing tracks
+            for pub in participant.track_publications.values():
+                logger.info(f"   📡 Existing track: {pub.kind} - {pub.sid}")
             
         @self.livekit_room.on("track_subscribed")
         def on_track(track, publication, participant):
+            # DEBUG: Log ALL tracks, not just audio
+            logger.info(f"🎵 Track subscribed: kind={track.kind}, participant={participant.identity}")
+            logger.info(f"   📡 Track details: sid={publication.sid}, source={publication.source}")
+            
             if track.kind == rtc.TrackKind.KIND_AUDIO:
-                logger.info(f"🎵 Audio track from {participant.identity}")
-                # Start processing audio from this participant
+                logger.info(f"   ✅ This IS an audio track")
+                logger.info(f"   🔍 Checking if '{config.aaron_user_id}' in '{participant.identity}'")
+                
+                # Start processing audio from this participant (process ALL audio for now)
                 if config.aaron_user_id in participant.identity:
+                    logger.info(f"   ✅ Matched Aaron! Starting audio processing...")
                     asyncio.create_task(self._process_audio_track(track, participant))
+                else:
+                    logger.info(f"   ⚠️ NOT Aaron - but let's process anyway for debugging")
+                    asyncio.create_task(self._process_audio_track(track, participant))
+            else:
+                logger.info(f"   ℹ️ Not audio (kind={track.kind}), skipping")
+                
+        @self.livekit_room.on("track_published")
+        def on_track_published(publication, participant):
+            logger.info(f"📢 Track published: {publication.kind} from {participant.identity}")
+            
+        @self.livekit_room.on("track_unpublished")
+        def on_track_unpublished(publication, participant):
+            logger.info(f"🔇 Track unpublished: {publication.kind} from {participant.identity}")
                     
         @self.livekit_room.on("disconnected")
         def on_disconnect():
@@ -697,6 +720,17 @@ class SophieVoiceAgent:
                 options=rtc.RoomOptions(auto_subscribe=True)
             )
             logger.info("✅ Connected to LiveKit")
+            
+            # DEBUG: Log all existing participants and their tracks
+            logger.info(f"📋 Room participants on join:")
+            for participant in self.livekit_room.remote_participants.values():
+                logger.info(f"   👤 {participant.identity} (sid={participant.sid})")
+                for pub in participant.track_publications.values():
+                    logger.info(f"      📡 Track: kind={pub.kind}, sid={pub.sid}, subscribed={pub.subscribed}")
+                    # Try to subscribe if not subscribed
+                    if not pub.subscribed and pub.kind == rtc.TrackKind.KIND_AUDIO:
+                        logger.info(f"      🔄 Attempting to subscribe to audio track...")
+                        
         except Exception as e:
             logger.error(f"❌ LiveKit connection failed: {e}")
             return
@@ -782,34 +816,68 @@ class SophieVoiceAgent:
         
     async def _process_audio_track(self, track, participant):
         """Process incoming audio from a participant."""
-        logger.info(f"🎧 Processing audio from {participant.identity}")
+        logger.info(f"🎧 Starting audio processing from {participant.identity}")
+        logger.info(f"   Track info: kind={track.kind}, sid={track.sid}")
         
-        audio_stream = rtc.AudioStream(track)
+        try:
+            audio_stream = rtc.AudioStream(track)
+            logger.info(f"   ✅ AudioStream created successfully")
+        except Exception as e:
+            logger.error(f"   ❌ Failed to create AudioStream: {e}")
+            return
+            
         frame_count = 0
+        zero_frames = 0
         
-        async for event in audio_stream:
-            if self.should_stop or not self.in_call:
-                break
+        logger.info(f"   🔄 Entering async for loop on audio_stream...")
+        
+        try:
+            async for event in audio_stream:
+                if self.should_stop or not self.in_call:
+                    logger.info(f"   🛑 Stopping audio processing (should_stop={self.should_stop}, in_call={self.in_call})")
+                    break
+                    
+                frame = event.frame
+                frame_count += 1
                 
-            frame = event.frame
-            frame_count += 1
-            
-            # Log every 500 frames (~5 seconds) to show we're getting audio
-            if frame_count % 500 == 0:
+                # Log first frame immediately
+                if frame_count == 1:
+                    audio_data = np.frombuffer(frame.data, dtype=np.int16)
+                    avg_amplitude = np.abs(audio_data).mean()
+                    max_amplitude = np.abs(audio_data).max()
+                    logger.info(f"   🎤 FIRST FRAME! samples={len(audio_data)}, avg_amp={avg_amplitude:.0f}, max_amp={max_amplitude}")
+                    logger.info(f"      Frame details: sample_rate={frame.sample_rate}, channels={frame.num_channels}, samples_per_ch={frame.samples_per_channel}")
+                    if max_amplitude == 0:
+                        logger.warning(f"      ⚠️ Audio is ALL ZEROS - possible E2EE encryption issue!")
+                
+                # Track zero frames (encryption issue indicator)
                 audio_data = np.frombuffer(frame.data, dtype=np.int16)
-                avg_amplitude = np.abs(audio_data).mean()
-                logger.info(f"📊 Audio frames received: {frame_count}, avg amplitude: {avg_amplitude:.0f}")
-            
-            # Skip if we're speaking (barge-in could be added here)
-            if self.is_speaking:
-                continue
+                if np.abs(audio_data).max() == 0:
+                    zero_frames += 1
                 
-            # Process frame through VAD
-            if self.audio_processor:
-                utterance = self.audio_processor.process_frame(frame)
-                if utterance is not None:
-                    # Got complete utterance, process it
-                    asyncio.create_task(self._handle_utterance(utterance))
+                # Log every 500 frames (~5 seconds) to show we're getting audio
+                if frame_count % 500 == 0:
+                    avg_amplitude = np.abs(audio_data).mean()
+                    max_amplitude = np.abs(audio_data).max()
+                    logger.info(f"📊 Audio frames: {frame_count} received, {zero_frames} zero-frames, avg_amp={avg_amplitude:.0f}, max={max_amplitude}")
+                
+                # Skip if we're speaking (barge-in could be added here)
+                if self.is_speaking:
+                    continue
+                    
+                # Process frame through VAD
+                if self.audio_processor:
+                    utterance = self.audio_processor.process_frame(frame)
+                    if utterance is not None:
+                        # Got complete utterance, process it
+                        asyncio.create_task(self._handle_utterance(utterance))
+                        
+        except Exception as e:
+            logger.error(f"   ❌ Error in audio processing loop: {e}")
+            import traceback
+            traceback.print_exc()
+            
+        logger.info(f"   🏁 Audio processing ended. Total frames: {frame_count}")
                     
     async def _handle_utterance(self, audio_data: np.ndarray):
         """Handle a complete utterance: STT → AI → TTS."""
