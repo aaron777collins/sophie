@@ -479,6 +479,83 @@ async def send_encryption_key_to_participant(self, user_id: str, device_id: str)
 
 ---
 
+## Contingencies & Error Handling
+
+### C1: Whisper Too Slow on CPU
+- **Detection:** Transcription takes > 10 seconds
+- **Fallback:** Switch to `base` model (faster, less accurate)
+- **Config:** `WHISPER_MODEL` env var, default `large-v3-turbo`
+
+### C2: VAD Misses Speech / False Positives
+- **Configurable threshold:** `VAD_THRESHOLD` (default 0.5)
+- **Minimum speech duration:** Ignore < 0.5 sec utterances
+- **Maximum silence before processing:** 1.5 sec (configurable)
+
+### C3: TTS Fails
+- **Retry:** 3 attempts with exponential backoff
+- **Fallback:** Log error, continue (don't crash)
+- **Health check:** Ping Kokoro on startup
+
+### C4: Claude API Fails
+- **Retry:** 3 attempts with backoff
+- **Fallback response:** "Sorry, I'm having trouble thinking right now."
+- **Rate limiting:** Respect 429 errors
+
+### C5: LiveKit Connection Drops
+- **Auto-reconnect:** Up to 5 attempts
+- **Backoff:** 1s, 2s, 4s, 8s, 16s
+- **Full restart:** If reconnect fails, restart entire agent
+
+### C6: Aaron Speaks While Sophie Speaking (Barge-in)
+- **Detection:** VAD detects speech during TTS playback
+- **Action:** Stop TTS immediately, listen to Aaron
+- **Implementation:** `is_speaking` flag, interrupt queue
+
+### C7: Audio E2EE Issues
+- **Detection:** Garbled/silent audio from Aaron
+- **Logging:** Log key exchange events for debugging
+- **Fallback:** Try without E2EE (if configured)
+
+### C8: Matrix Sync Fails
+- **Retry:** With exponential backoff (max 60s)
+- **Partial failure:** Continue with cached state
+- **Full failure:** Log and retry indefinitely
+
+### C9: Multiple Participants
+- **Filter:** Only process audio from Aaron's identity
+- **Ignore others:** Log but don't respond
+
+### C10: Empty/Short Transcriptions
+- **Minimum length:** Ignore < 3 characters
+- **Common noise:** Ignore "um", "uh", single words
+- **Configurable:** `MIN_UTTERANCE_LENGTH`
+
+---
+
+## Dependencies
+
+### Python Packages
+```bash
+# Required (not yet installed)
+pip install torch silero-vad scipy anthropic
+
+# Already installed
+# - livekit, matrix-nio, aiohttp, numpy
+```
+
+### System Dependencies
+- Whisper CLI: `/home/linuxbrew/.linuxbrew/bin/whisper` ✅
+- Whisper models: `~/.cache/whisper/large-v3-turbo.pt` ✅
+- Kokoro TTS: `http://localhost:8880` ✅
+
+### Environment Variables (in .env)
+- `ANTHROPIC_API_KEY` ✅
+- `LIVEKIT_*` credentials ✅
+- `MATRIX_*` credentials ✅
+- `KOKORO_*` settings ✅
+
+---
+
 ## Implementation Order
 
 1. **Phase 2.1:** Add presence detection for Aaron ⏳
