@@ -365,8 +365,11 @@ class PresenceManager:
         
     def check_aaron_state(self, state_events: List[Dict]) -> bool:
         """Check if Aaron is in the call based on Matrix state events."""
+        aaron_found = False
+        
         for event in state_events:
-            if event.get("type") != "org.matrix.msc3401.call.member":
+            event_type = event.get("type", "")
+            if event_type != "org.matrix.msc3401.call.member":
                 continue
                 
             state_key = event.get("state_key", "")
@@ -374,19 +377,27 @@ class PresenceManager:
             
             # Check if this is Aaron's call membership
             if self.aaron_user_id in state_key:
+                aaron_found = True
+                logger.debug(f"Aaron state event: {state_key}, content keys: {list(content.keys()) if content else 'empty'}")
+                
                 # Non-empty content with device_id means Aaron is in call
                 if content and content.get("device_id"):
                     if not self.aaron_in_call:
-                        logger.info(f"👤 Aaron joined the call")
+                        logger.info(f"👤 Aaron joined the call (device: {content.get('device_id')})")
                     self.aaron_in_call = True
                     self.aaron_left_at = None
                     return True
-                else:
-                    # Empty content means Aaron left
-                    if self.aaron_in_call:
-                        logger.info(f"👋 Aaron left the call")
-                        self.aaron_left_at = time.time()
-                    self.aaron_in_call = False
+        
+        # No active Aaron call membership found
+        if self.aaron_in_call and not aaron_found:
+            logger.info(f"👋 Aaron left the call (no active state)")
+            self.aaron_left_at = time.time()
+            self.aaron_in_call = False
+        elif self.aaron_in_call:
+            # Aaron was in call but content is now empty
+            logger.info(f"👋 Aaron left the call")
+            self.aaron_left_at = time.time()
+            self.aaron_in_call = False
                     
         return self.aaron_in_call
         
@@ -417,40 +428,55 @@ class AudioProcessor:
         
         # State
         self.audio_buffer: List[np.ndarray] = []
+        self.vad_buffer: List[np.ndarray] = []  # Buffer for VAD (needs more samples)
         self.is_speaking = False
         self.silence_frames = 0
         self.speech_frames = 0
         
         # Config
-        self.silence_threshold = 150  # ~1.5 sec at 10ms frames
+        self.silence_threshold = 100  # ~1 sec at 10ms frames
         self.min_speech_frames = 30   # ~0.3 sec minimum speech
+        self.vad_chunk_size = 512     # Silero VAD needs 512+ samples at 16kHz (~32ms)
         
     def process_frame(self, frame: rtc.AudioFrame) -> Optional[np.ndarray]:
         """Process an audio frame, return complete utterance when ready."""
         audio_data = np.frombuffer(frame.data, dtype=np.int16)
         
-        # Downsample to 16kHz for VAD
-        audio_16k = audio_data[::3]  # Simple downsample from 48kHz to 16kHz
+        # Always buffer the audio
+        self.audio_buffer.append(audio_data)
         
-        if self.vad.is_speech(audio_16k, 16000):
-            self.audio_buffer.append(audio_data)
-            self.is_speaking = True
-            self.silence_frames = 0
-            self.speech_frames += 1
-        else:
-            self.silence_frames += 1
-            if self.is_speaking:
-                self.audio_buffer.append(audio_data)  # Include trailing silence
-                
-        # Check if utterance is complete
+        # Downsample to 16kHz for VAD and buffer
+        audio_16k = audio_data[::3]  # Simple downsample from 48kHz to 16kHz
+        self.vad_buffer.append(audio_16k)
+        
+        # Only run VAD when we have enough samples (512+ at 16kHz)
+        vad_audio = np.concatenate(self.vad_buffer)
+        if len(vad_audio) >= self.vad_chunk_size:
+            is_speech = self.vad.is_speech(vad_audio, 16000)
+            self.vad_buffer = []  # Clear VAD buffer
+            
+            if is_speech:
+                if not self.is_speaking:
+                    logger.info(f"🎤 Speech started (amplitude: {np.abs(vad_audio).mean():.0f})")
+                self.is_speaking = True
+                self.silence_frames = 0
+                self.speech_frames += 1
+            else:
+                if self.is_speaking and self.silence_frames == 0:
+                    logger.info(f"🔇 Silence started after {self.speech_frames} speech frames")
+                self.silence_frames += 1
+        
+        # Check if utterance is complete (after silence)
         if self.is_speaking and self.silence_frames > self.silence_threshold:
             if self.speech_frames >= self.min_speech_frames:
                 # Return complete utterance
                 utterance = np.concatenate(self.audio_buffer)
                 self._reset()
+                logger.info(f"🎤 Got utterance: {len(utterance)} samples ({len(utterance)/self.sample_rate:.1f}s)")
                 return utterance
             else:
                 # Too short, discard
+                logger.debug("Utterance too short, discarding")
                 self._reset()
                 
         return None
@@ -458,6 +484,7 @@ class AudioProcessor:
     def _reset(self):
         """Reset state for next utterance."""
         self.audio_buffer = []
+        self.vad_buffer = []
         self.is_speaking = False
         self.silence_frames = 0
         self.speech_frames = 0
@@ -540,7 +567,14 @@ class SophieVoiceAgent:
         try:
             response = await self.matrix_client.room_get_state(config.matrix_room_id)
             if isinstance(response, RoomGetStateResponse):
-                return response.events
+                # Convert events to dicts with proper structure
+                events = []
+                for event in response.events:
+                    if hasattr(event, 'source'):
+                        events.append(event.source)
+                    elif isinstance(event, dict):
+                        events.append(event)
+                return events
         except Exception as e:
             logger.warning(f"Failed to get room state: {e}")
         return []
@@ -703,12 +737,20 @@ class SophieVoiceAgent:
         logger.info(f"🎧 Processing audio from {participant.identity}")
         
         audio_stream = rtc.AudioStream(track)
+        frame_count = 0
         
         async for event in audio_stream:
             if self.should_stop or not self.in_call:
                 break
                 
             frame = event.frame
+            frame_count += 1
+            
+            # Log every 500 frames (~5 seconds) to show we're getting audio
+            if frame_count % 500 == 0:
+                audio_data = np.frombuffer(frame.data, dtype=np.int16)
+                avg_amplitude = np.abs(audio_data).mean()
+                logger.info(f"📊 Audio frames received: {frame_count}, avg amplitude: {avg_amplitude:.0f}")
             
             # Skip if we're speaking (barge-in could be added here)
             if self.is_speaking:
