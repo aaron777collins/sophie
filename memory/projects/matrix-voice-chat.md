@@ -1,170 +1,246 @@
-# Matrix/Element Voice Chat with Sophie
+# Matrix Voice Chat Setup - Master Plan
 
-**Created:** 2026-03-01 16:22 EST
-**Priority:** P1 (per Aaron)
-**Goal:** Self-hosted private Matrix server where Aaron can voice chat with Sophie via Element X
-
----
+**Created:** 2026-03-02 01:00 EST
+**Status:** In Progress
+**Priority:** P0 - Aaron's direct request
 
 ## Overview
 
-Aaron wants to use existing Element X clients (iOS/Android) to voice chat with Sophie. No custom UI needed — just a private Matrix server with Sophie as a participant who can join voice calls.
+Setting up a private Matrix server with LiveKit for voice chat between Aaron and Sophie.
 
-## Architecture
+## Current Architecture
 
 ```
-dev3 VPS (existing infrastructure)
-├── Synapse (Matrix homeserver)
-├── PostgreSQL (database for Synapse)
-├── LiveKit (WebRTC SFU for voice/video)
-├── lk-jwt-service (MatrixRTC auth bridge)
-├── Traefik/nginx (reverse proxy + SSL)
-└── Sophie Voice Bot (custom)
-    ├── Matrix SDK (room events, presence)
-    ├── LiveKit SDK (voice participation)
-    └── Clawdbot bridge (localhost:18789)
+┌─────────────────────────────────────────────────────────────────┐
+│                        INTERNET                                  │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  CADDY (TLS Termination)                                        │
+│  - matrix3.aaroncollins.info → Traefik:8080                     │
+│  - livekit3.aaroncollins.info → Host:7880 (LiveKit WebSocket)   │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+          ┌───────────────────┼───────────────────┐
+          ▼                   ▼                   ▼
+┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+│  TRAEFIK        │  │  LIVEKIT        │  │  LIVEKIT        │
+│  (Matrix routes)│  │  (Host Network) │  │  JWT SERVICE    │
+│  :8080          │  │  :7880 WS       │  │  :8080          │
+└────────┬────────┘  │  :5350 TURNS    │  └─────────────────┘
+         │           │  :3479 TURN/UDP │
+         ▼           │  :7881 ICE/TCP  │
+┌─────────────────┐  │  :7882 ICE/UDP  │
+│  SYNAPSE        │  │  :30000-40000   │
+│  :8008          │  │  (relay ports)  │
+└─────────────────┘  └─────────────────┘
 ```
 
-## Security Requirements
+## Completed Work
 
-- **No federation** — Completely isolated server
-- **Invite-only room** — Only Aaron and Sophie
-- **End-to-end encryption** — For the text portions
-- **Clawdbot gateway stays private** — Bot talks to it via localhost
+### 2026-03-01 - Initial Setup
+- [x] Matrix server deployed via ansible playbook
+- [x] LiveKit integrated for voice/video
+- [x] Created aaron@aaroncollins.info account
+- [x] Created sophie@aaroncollins.info account
+- [x] "Sophie Room" created for voice chats
 
-## Implementation Phases
+### 2026-03-02 - TLS & Networking Fixes
+- [x] **Issue:** Traefik had no TLS certs for port 5350 (TURNS)
+  - **Fix:** Copied Caddy certs to LiveKit, set `external_tls: false`
+  - LiveKit now handles TLS directly on port 5350
 
-### Phase 1: Infrastructure (Ansible)
-- [ ] Clone matrix-docker-ansible-deploy playbook
-- [ ] Configure for dev3
-- [ ] Enable LiveKit + lk-jwt-service
-- [ ] Run initial deployment
-- [ ] Verify Element X can connect
+- [x] **Issue:** TURN relay ports (30000-40000) not exposed
+  - **Fix:** Switched LiveKit to host networking (`--network=host`)
+  - All relay ports now accessible
 
-### Phase 2: Matrix Configuration
-- [ ] Disable federation
-- [ ] Create @aaron user
-- [ ] Create @sophie user (bot)
-- [ ] Create private room
-- [ ] Test Element X → Synapse connection
+- [x] **Issue:** Caddy couldn't reach LiveKit after host networking change
+  - **Fix:** Updated Caddyfile to use `172.18.0.1:7880` (Docker host gateway)
+  - Restarted Caddy to pick up changes
 
-### Phase 3: Sophie Voice Bot
-- [ ] Matrix SDK setup (room events)
-- [ ] LiveKit SDK integration
-- [ ] Voice activity detection (when Aaron joins call)
-- [ ] STT → Clawdbot → TTS pipeline
-- [ ] Join/leave call based on room occupancy
+- [x] **Issue:** Permission denied reading config in container
+  - **Fix:** `chmod 644` on config and cert files
 
-### Phase 4: Polish
-- [ ] Auto-reconnect on failure
-- [ ] Graceful error handling
-- [ ] Logging and monitoring
-- [ ] Documentation
+## Current Status
 
-## Technical Notes
+### Working ✅
+- TLS on port 5350 (TURNS) - verified with openssl
+- WebSocket endpoint via Caddy - returns 200
+- JWT service accessible - returns 405 (correct for POST endpoint)
+- LiveKit server running with host networking
+- All required ports listening
 
-### Matrix-Docker-Ansible-Deploy
-- Repo: https://github.com/spantaleev/matrix-docker-ansible-deploy
-- Includes LiveKit + lk-jwt-service as optional components
-- Handles SSL via Traefik + Let's Encrypt
+### Automated Tests ✅
+All infrastructure tests passing as of 2026-03-02 01:10 EST:
 
-### LiveKit Integration
-- Element Call uses LiveKit under the hood (MSC4195)
-- lk-jwt-service bridges Matrix auth to LiveKit JWTs
-- Bot needs to get JWT via lk-jwt-service, then join via LiveKit SDK
+**Matrix Tests (7/7 passed):**
+- Homeserver reachability ✅
+- .well-known configuration ✅
+- LiveKit WebSocket endpoint ✅
+- JWT service ✅
+- Matrix login ✅
+- Room access ✅
+- Send message ✅
 
-### Sophie Bot Components
-- **mautrix-python** or **matrix-nio** for Matrix
-- **livekit-agents** Python SDK for voice
-- Runs on dev3, talks to Clawdbot gateway on localhost
+**WebRTC/Voice Tests (6/6 passed):**
+- LiveKit HTTP endpoint ✅
+- TURN TLS (port 5350) ✅
+- TURN UDP (port 3479) ✅
+- ICE TCP (port 7881) ✅
+- ICE UDP (port 7882) ✅
+- WebSocket endpoint ✅
 
-## Domain Planning
+### Still Needs Manual Testing 🧪
+- Actual voice call between Aaron's Element X and another client
+- Video call functionality
+- Call quality and stability
+- Reconnection handling
 
-Options:
-- `matrix.aaroncollins.info`
-- `element.aaroncollins.info`  
-- `chat.aaroncollins.info`
+### Potential Issues ⚠️
+1. **External IP Detection** - LiveKit logs show many Docker bridge IPs
+   - May cause ICE candidate issues
+   - Consider setting explicit `node_ip` in config
 
-Need subdomains for:
-- Synapse server
-- Element Web (optional)
-- LiveKit signaling
+2. **Cert Renewal** - Certs copied from Caddy will expire
+   - Cron job created: `/usr/local/bin/sync-livekit-certs.sh`
+   - Runs weekly on Sundays at 4 AM
 
-## Server Info
+3. **Traefik Redundancy** - Two reverse proxies is complex
+   - Consider migrating Matrix routes to Caddy directly
+   - Would simplify architecture
 
-**IMPORTANT:** matrix3.aaroncollins.info and livekit3.aaroncollins.info are just DNS A records pointing to dev3 (65.108.1.247). They are NOT separate servers!
+## Test Accounts
 
-- **Hostname:** dev3
-- **IP:** 65.108.1.247
-- **DNS aliases:** matrix3.aaroncollins.info, livekit3.aaroncollins.info, dev3.aaroncollins.info
-- **Matrix server name:** aaroncollins.info
+| Username | Password | Purpose |
+|----------|----------|---------|
+| @aaron:matrix3.aaroncollins.info | (Aaron's) | Primary user |
+| @sophie:matrix3.aaroncollins.info | (set by Aaron) | Sophie's account |
+| @testbot:matrix3.aaroncollins.info | testbot123 | Automated testing |
 
-## Accounts
+**Note:** User domain is `matrix3.aaroncollins.info` not `aaroncollins.info`
 
-| User | Matrix ID | Password |
-|------|-----------|----------|
-| Aaron | @aaron:aaroncollins.info | KingOfKings12345! |
-| Sophie | @sophie:aaroncollins.info | QJQb3SyirFep2XJ0nzGC4SXx |
+## Test Rooms
 
-## Progress Log
+| Room ID | Name | Purpose |
+|---------|------|---------|
+| !iCDid0eGkre_6MbGVNl4lpvjqw90py9XY45ouXXn-nE | Sophie Room | Main voice chat |
+| !7tIURiTxHg2V1hFKdWtw1yIjNiNP6IyImXXbaew2hcE | Test Room | Automated testing |
 
-### 2026-03-01 16:22 EST
-- Project created
-- Aaron approved priority P1
-- Starting infrastructure deployment
+## Automated Test Scripts
 
-### 2026-03-01 16:56 EST
-- Ansible playbook completed (ok=197, changed=62)
-- All containers running: Synapse, Postgres, LiveKit, lk-jwt-service, Traefik, etc.
+Location: `/home/ubuntu/clawd/tools/matrix-test/`
 
-### 2026-03-01 17:23 EST
-- User accounts created/passwords reset
-- Aaron: @aaron:aaroncollins.info
-- Sophie: @sophie:aaroncollins.info
+### test_matrix.py
+Tests Matrix server connectivity and basic functionality:
+```bash
+cd /home/ubuntu/clawd
+source .venv-matrix/bin/activate
+python tools/matrix-test/test_matrix.py
+```
 
-### 2026-03-01 17:28 EST
-- Aaron created Space + Room in Element X
-- Sophie accepted invites via API
-- Both accounts in "Sophie Room"
+### test_voice.py
+Tests LiveKit/WebRTC connectivity:
+```bash
+cd /home/ubuntu/clawd
+source .venv-matrix/bin/activate
+python tools/matrix-test/test_voice.py
+```
 
-### 2026-03-01 17:37 EST
-- Voice bot project created: ~/sophie-voice-bot/
-- Python environment set up with livekit-agents, matrix-nio
-- Matrix connection tested & working
-- PLAN.md created with full implementation roadmap
+## Testing Progress
 
-### 2026-03-01 18:05 EST - SELF-HOSTED COMPLETE
-- **Kokoro TTS:** Docker container running on port 8880 with `af_heart` voice
-- **faster-whisper:** Installed for local STT
-- **voice_bot.py:** Complete implementation created
-  - LiveKit integration for voice calls
-  - Energy-based VAD for speech detection
-  - faster-whisper STT (local, no API needed)
-  - Clawdbot gateway for LLM responses
-  - Kokoro TTS for voice synthesis
+### Phase 1: Automated Connectivity Tests ✅ COMPLETE
+- [x] Create Python script using matrix-nio
+- [x] Test Matrix login
+- [x] Test room join
+- [x] Test message send/receive
 
-**Status:** Core voice bot is COMPLETE and ready for testing.
+### Phase 2: Voice Infrastructure Tests ✅ COMPLETE
+- [x] Test TURN TLS connectivity (port 5350)
+- [x] Test TURN UDP connectivity (port 3479)
+- [x] Test ICE TCP/UDP ports
+- [x] Test WebSocket endpoint
 
-### 2026-03-01 18:10 EST - E2EE ENABLED
-- **python-olm:** Installed successfully (E2EE crypto)
-- **matrix-nio[e2e]:** Installed with encryption support
-- **MatrixE2EEClient:** Created with persistent key store
-- **Room encryption:** Verified (`m.megolm.v1.aes-sha2`)
-- **Sophie Device ID:** `VRTZLTRYGX`
-- **Key store:** `~/sophie-voice-bot/data/matrix_store/`
+### Phase 3: Manual Voice Tests 🧪 PENDING
+- [ ] End-to-end voice call between two clients
+- [ ] Verify audio flows both directions
+- [ ] Test call termination
+- [ ] Test reconnection after network drop
 
-**Security Model:**
-- Matrix room: E2EE with Megolm
-- LiveKit audio: SRTP (WebRTC encryption)
-- All voice data encrypted in transit
+## Configuration Files
 
-**Next:** Integration testing with Element X
+| File | Purpose |
+|------|---------|
+| `/matrix/livekit-server/config/config.yaml` | LiveKit server config |
+| `/matrix/livekit-server/certs/` | TLS certs for TURNS |
+| `/matrix/synapse/config/homeserver.yaml` | Synapse config |
+| `/home/ubuntu/webstack/caddy/Caddyfile` | Caddy routes |
+| `/matrix/traefik/config/traefik.yml` | Traefik config |
+| `/etc/systemd/system/matrix-livekit-server.service` | LiveKit systemd |
 
----
+## Commands Reference
 
-## Links
+```bash
+# Check LiveKit status
+docker logs matrix-livekit-server --tail 50
 
-- [matrix-docker-ansible-deploy](https://github.com/spantaleev/matrix-docker-ansible-deploy)
-- [lk-jwt-service](https://github.com/element-hq/lk-jwt-service)
-- [LiveKit Agents](https://github.com/livekit/agents)
-- [Element Call](https://github.com/element-hq/element-call)
+# Test TLS on TURNS port
+openssl s_client -connect livekit3.aaroncollins.info:5350 -servername livekit3.aaroncollins.info
+
+# Test WebSocket endpoint
+curl -sI https://livekit3.aaroncollins.info/
+
+# Restart services
+sudo systemctl restart matrix-livekit-server
+sudo systemctl restart matrix-traefik
+docker restart caddy
+
+# Sync certs from Caddy
+sudo /usr/local/bin/sync-livekit-certs.sh
+```
+
+## Contingencies
+
+### If voice still doesn't work after all fixes:
+1. Check LiveKit logs for connection attempts
+2. Verify ICE candidates in browser DevTools
+3. Check if TURN relay is being used (port 30000-40000 traffic)
+4. Try direct connection without TURN (may work on same network)
+
+### If Element X mic stays disabled:
+1. Force close and reopen app
+2. Check iOS microphone permissions
+3. Try Element Web instead (more debugging info)
+4. Check if other accounts have same issue
+
+### If TLS cert expires:
+1. Run `/usr/local/bin/sync-livekit-certs.sh`
+2. Or manually copy from Caddy:
+   ```bash
+   docker cp caddy:/data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/livekit3.aaroncollins.info/livekit3.aaroncollins.info.crt /matrix/livekit-server/certs/certificate.crt
+   docker cp caddy:/data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/livekit3.aaroncollins.info/livekit3.aaroncollins.info.key /matrix/livekit-server/certs/privatekey.key
+   sudo systemctl restart matrix-livekit-server
+   ```
+
+## Next Steps
+
+1. [ ] Set up automated testing with matrix-nio + WebRTC
+2. [ ] Test voice call between sophie and sophie2 accounts
+3. [ ] Document any additional issues found
+4. [ ] Consider simplifying architecture (remove Traefik)
+5. [ ] Set up monitoring for LiveKit health
+
+## Dependencies
+
+- Matrix Synapse server
+- LiveKit server with TURN
+- Valid TLS certificates
+- Caddy reverse proxy
+- Docker networking
+
+## Notes
+
+- Aaron's mic was showing disabled in Element X - this was the TLS issue on port 5350
+- The playbook's default setup assumes Traefik is the only reverse proxy
+- Host networking for LiveKit is required for relay ports to work
+- Weekly cert sync should prevent expiration issues
