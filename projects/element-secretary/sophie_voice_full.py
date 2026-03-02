@@ -449,11 +449,16 @@ class AudioProcessor:
         audio_16k = audio_data[::3]  # Simple downsample from 48kHz to 16kHz
         self.vad_buffer.append(audio_16k)
         
-        # Only run VAD when we have enough samples (512+ at 16kHz)
+        # Only run VAD when we have enough samples (exactly 512 at 16kHz)
         vad_audio = np.concatenate(self.vad_buffer)
         if len(vad_audio) >= self.vad_chunk_size:
-            is_speech = self.vad.is_speech(vad_audio, 16000)
-            self.vad_buffer = []  # Clear VAD buffer
+            # Pass EXACTLY 512 samples to Silero VAD (it requires exact size)
+            is_speech = self.vad.is_speech(vad_audio[:512], 16000)
+            # Keep remaining samples for next iteration
+            if len(vad_audio) > 512:
+                self.vad_buffer = [vad_audio[512:]]
+            else:
+                self.vad_buffer = []
             
             if is_speech:
                 if not self.is_speaking:
