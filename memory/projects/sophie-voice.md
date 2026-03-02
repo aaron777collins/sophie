@@ -217,6 +217,176 @@ python-dotenv
 aiohttp
 ```
 
+## Key Code Snippets
+
+### The Critical Fix - Call Membership Announcement
+
+This is the function that makes Sophie visible in Element X:
+
+```python
+async def announce_call_membership(self, room_name: str, call_id: str):
+    """Publish Matrix call.member state event so Element X sees us."""
+    import time
+    
+    # Element X state_key format: _@user:server_DEVICE_m.call
+    state_key = f"_{MATRIX_USER}_{self.device_id}_m.call"
+    
+    # Build content matching Element X format
+    content = {
+        "application": "m.call",
+        "call_id": "",  # Element X uses empty string
+        "scope": "m.room",
+        "device_id": self.device_id,
+        "expires": 7200000,  # 2 hours in ms
+        "focus_active": {
+            "type": "livekit",
+            "focus_selection": "oldest_membership"
+        },
+        "foci_preferred": [
+            {
+                "type": "livekit",
+                # JWT service URL, not WebSocket
+                "livekit_service_url": "https://matrix3.aaroncollins.info/livekit-jwt-service",
+                # Room ID, not LiveKit room name
+                "livekit_alias": MATRIX_ROOM_ID
+            }
+        ],
+        "m.call.intent": "audio",
+        "created_ts": int(time.time() * 1000)
+    }
+    
+    # Publish state event
+    response = await self.matrix_client.room_put_state(
+        room_id=MATRIX_ROOM_ID,
+        event_type="org.matrix.msc3401.call.member",
+        state_key=state_key,
+        content=content,
+    )
+```
+
+### Leaving a Call (Clear State)
+
+```python
+async def leave_call(self):
+    """Remove ourselves from the call by clearing our call.member state."""
+    state_key = f"_{MATRIX_USER}_{self.device_id}_m.call"
+    
+    # Empty content means we left the call
+    await self.matrix_client.room_put_state(
+        room_id=MATRIX_ROOM_ID,
+        event_type="org.matrix.msc3401.call.member",
+        state_key=state_key,
+        content={},
+    )
+```
+
+### Joining LiveKit with E2EE
+
+```python
+async def join_livekit_room(self, room_name: str, call_id: str = None):
+    """Join LiveKit room with E2EE."""
+    from livekit import rtc, api
+    
+    # Generate encryption key
+    key = secrets.token_bytes(32)
+    
+    # E2EE options
+    e2ee_options = rtc.E2EEOptions(
+        key_provider_options=rtc.KeyProviderOptions(
+            shared_key=key,
+            ratchet_salt=b"LKFrameEncryptionKey",
+            ratchet_window_size=16,
+        ),
+        encryption_type=1,  # GCM
+    )
+    
+    # Create room and audio source
+    self.livekit_room = rtc.Room()
+    self.audio_source = rtc.AudioSource(SAMPLE_RATE, NUM_CHANNELS)
+    
+    # Generate JWT token
+    token = api.AccessToken(LIVEKIT_API_KEY, LIVEKIT_API_SECRET)
+    token.with_identity(f"{MATRIX_USER}:{self.device_id}")
+    token.with_name("Sophie")
+    token.with_grants(api.VideoGrants(
+        room_join=True,
+        room=room_name,
+        can_publish=True,
+        can_subscribe=True,
+    ))
+    
+    # Connect
+    await self.livekit_room.connect(
+        LIVEKIT_URL,
+        token.to_jwt(),
+        options=rtc.RoomOptions(encryption=e2ee_options)
+    )
+    
+    # Publish audio track
+    track = rtc.LocalAudioTrack.create_audio_track("sophie-voice", self.audio_source)
+    await self.livekit_room.local_participant.publish_track(track)
+    
+    # Announce to Matrix
+    await self.announce_call_membership(room_name, call_id)
+```
+
+### Sending Audio (Currently Silence)
+
+```python
+async def send_silence(self):
+    """Send silent audio frames. Replace this with TTS audio."""
+    silence = np.zeros(SAMPLES_PER_CHANNEL * NUM_CHANNELS, dtype=np.int16)
+    frame = rtc.AudioFrame(
+        data=silence.tobytes(),
+        sample_rate=SAMPLE_RATE,
+        num_channels=NUM_CHANNELS,
+        samples_per_channel=SAMPLES_PER_CHANNEL,
+    )
+    
+    while self.livekit_room and self.livekit_room.connection_state == rtc.ConnectionState.CONN_CONNECTED:
+        await self.audio_source.capture_frame(frame)
+        await asyncio.sleep(0.01)
+```
+
+### Watching for Calls
+
+```python
+async def watch_for_calls(self):
+    """Watch for active LiveKit rooms and join them."""
+    lk_api = api.LiveKitAPI(
+        url=LIVEKIT_URL.replace("wss://", "https://"),
+        api_key=LIVEKIT_API_KEY,
+        api_secret=LIVEKIT_API_SECRET,
+    )
+    
+    joined_rooms = set()
+    
+    while True:
+        # Sync Matrix
+        await self.matrix_client.sync(timeout=5000)
+        
+        # Check LiveKit for active rooms
+        rooms = await lk_api.room.list_rooms(api.ListRoomsRequest())
+        for room in rooms.rooms:
+            if room.name not in joined_rooms and room.num_participants > 0:
+                joined_rooms.add(room.name)
+                await self.join_livekit_room(room.name, call_id=room.name)
+        
+        # Clean up rooms that no longer exist
+        current = {r.name for r in rooms.rooms}
+        joined_rooms &= current
+        
+        await asyncio.sleep(2)
+```
+
+### Audio Settings
+
+```python
+SAMPLE_RATE = 48000
+NUM_CHANNELS = 1
+SAMPLES_PER_CHANNEL = 480  # 10ms of audio at 48kHz
+```
+
 ## Related Documentation
 
 - MSC3401 (Matrix calling): https://github.com/matrix-org/matrix-spec-proposals/pull/3401
