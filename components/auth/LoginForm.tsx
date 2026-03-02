@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { signIn, getSession } from "next-auth/react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
@@ -11,6 +12,7 @@ interface LoginFormProps {
 
 export function LoginForm(props: LoginFormProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -67,9 +69,14 @@ export function LoginForm(props: LoginFormProps) {
     try {
       console.log("🔐 Attempting login with NextAuth.js");
       
+      // Get callback URL from search params, default to /projects
+      const callbackUrl = searchParams.get('callbackUrl') || '/projects';
+      console.log("🔄 Callback URL:", callbackUrl);
+      
       const result = await signIn("credentials", {
         username: formData.username,
         password: formData.password,
+        callbackUrl: callbackUrl,
         redirect: false, // Handle redirect manually to check for errors
       });
 
@@ -84,8 +91,11 @@ export function LoginForm(props: LoginFormProps) {
         const session = await getSession();
         console.log("✅ Session created:", session);
         
-        // Redirect to dashboard
-        router.push("/dashboard");
+        // NextAuth's redirect callback will handle the URL validation
+        // Redirect using result.url (which has been processed by NextAuth)
+        const redirectUrl = result.url || '/projects';
+        console.log("🚀 Redirecting to:", redirectUrl);
+        window.location.href = redirectUrl;
       }
     } catch (error) {
       console.error("🚨 Login error:", error);

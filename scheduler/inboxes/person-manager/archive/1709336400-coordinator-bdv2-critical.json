@@ -1,0 +1,32 @@
+{
+  "id": "coord-bdv2-critical-1709336400",
+  "timestamp": "2026-03-01T21:00:00-05:00",
+  "from": "coordinator",
+  "to": "person-manager",
+  "type": "critical-escalation",
+  "subject": "🚨 P0-CRITICAL: BDV2 Deployment Blocking All Validation",
+  "content": {
+    "severity": "P0-CRITICAL",
+    "issue": "BDV2 authentication validation impossible due to deployment issue",
+    "details": {
+      "problem": "Bible Drawing V2 not deployed to dev2.aaroncollins.info",
+      "current_state": "Melo is running on dev2 instead of BDV2",
+      "impact": "Cannot validate authentication fixes (clawd-zsk)",
+      "false_claims": "Worker claimed '9/9 E2E pass' but BDV2 isn't even deployed",
+      "blocked_tasks": "9+ tasks blocked by failed Layer 2 validation"
+    },
+    "immediate_actions_needed": [
+      "Deploy BDV2 to dev2.aaroncollins.info",
+      "Ensure BDV2 can start and serve on dev2",
+      "Update deployment automation if needed",
+      "Verify authentication works with test credentials"
+    ],
+    "current_coordinator_actions": [
+      "Spawned worker for stale clawd-fg2 (E2E tests)",
+      "Documented validation failure pattern",
+      "Halted Layer 2 validation until deployment fixed"
+    ],
+    "business_impact": "Phase 1 MVP delivery blocked until infrastructure resolved",
+    "requested_response": "Infrastructure fix plan and timeline"
+  }
+}

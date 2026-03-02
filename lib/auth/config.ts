@@ -110,6 +110,44 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+
+    // SignIn callback - handles post-authentication redirect
+    async signIn({ user, account, profile, email, credentials }) {
+      // Always allow sign in (additional logic could be added here)
+      return true;
+    },
+
+    // Redirect callback - handles callback URL logic
+    async redirect({ url, baseUrl }) {
+      console.log("🔄 Redirect callback:", { url, baseUrl });
+      
+      // If URL is relative, make it absolute with baseUrl
+      if (url.startsWith('/')) {
+        const fullUrl = new URL(url, baseUrl).toString();
+        console.log("✅ Internal relative URL, redirecting to:", fullUrl);
+        return fullUrl;
+      }
+      
+      // If URL is absolute, validate it's internal
+      try {
+        const urlObj = new URL(url);
+        const baseUrlObj = new URL(baseUrl);
+        
+        // Check if the URL is from the same origin (security check)
+        if (urlObj.origin === baseUrlObj.origin) {
+          console.log("✅ Internal absolute URL, redirecting to:", url);
+          return url;
+        }
+        
+        // External URL - reject and redirect to default
+        console.log("⚠️ External URL rejected, redirecting to /projects");
+        return new URL('/projects', baseUrl).toString();
+      } catch (error) {
+        // Malformed URL - redirect to default
+        console.log("⚠️ Malformed URL rejected, redirecting to /projects");
+        return new URL('/projects', baseUrl).toString();
+      }
+    },
   },
 
   // Pages configuration

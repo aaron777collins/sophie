@@ -90,12 +90,75 @@ Need subdomains for:
 - Element Web (optional)
 - LiveKit signaling
 
+## Server Info
+
+**IMPORTANT:** matrix3.aaroncollins.info and livekit3.aaroncollins.info are just DNS A records pointing to dev3 (65.108.1.247). They are NOT separate servers!
+
+- **Hostname:** dev3
+- **IP:** 65.108.1.247
+- **DNS aliases:** matrix3.aaroncollins.info, livekit3.aaroncollins.info, dev3.aaroncollins.info
+- **Matrix server name:** aaroncollins.info
+
+## Accounts
+
+| User | Matrix ID | Password |
+|------|-----------|----------|
+| Aaron | @aaron:aaroncollins.info | KingOfKings12345! |
+| Sophie | @sophie:aaroncollins.info | QJQb3SyirFep2XJ0nzGC4SXx |
+
 ## Progress Log
 
 ### 2026-03-01 16:22 EST
 - Project created
 - Aaron approved priority P1
 - Starting infrastructure deployment
+
+### 2026-03-01 16:56 EST
+- Ansible playbook completed (ok=197, changed=62)
+- All containers running: Synapse, Postgres, LiveKit, lk-jwt-service, Traefik, etc.
+
+### 2026-03-01 17:23 EST
+- User accounts created/passwords reset
+- Aaron: @aaron:aaroncollins.info
+- Sophie: @sophie:aaroncollins.info
+
+### 2026-03-01 17:28 EST
+- Aaron created Space + Room in Element X
+- Sophie accepted invites via API
+- Both accounts in "Sophie Room"
+
+### 2026-03-01 17:37 EST
+- Voice bot project created: ~/sophie-voice-bot/
+- Python environment set up with livekit-agents, matrix-nio
+- Matrix connection tested & working
+- PLAN.md created with full implementation roadmap
+
+### 2026-03-01 18:05 EST - SELF-HOSTED COMPLETE
+- **Kokoro TTS:** Docker container running on port 8880 with `af_heart` voice
+- **faster-whisper:** Installed for local STT
+- **voice_bot.py:** Complete implementation created
+  - LiveKit integration for voice calls
+  - Energy-based VAD for speech detection
+  - faster-whisper STT (local, no API needed)
+  - Clawdbot gateway for LLM responses
+  - Kokoro TTS for voice synthesis
+
+**Status:** Core voice bot is COMPLETE and ready for testing.
+
+### 2026-03-01 18:10 EST - E2EE ENABLED
+- **python-olm:** Installed successfully (E2EE crypto)
+- **matrix-nio[e2e]:** Installed with encryption support
+- **MatrixE2EEClient:** Created with persistent key store
+- **Room encryption:** Verified (`m.megolm.v1.aes-sha2`)
+- **Sophie Device ID:** `VRTZLTRYGX`
+- **Key store:** `~/sophie-voice-bot/data/matrix_store/`
+
+**Security Model:**
+- Matrix room: E2EE with Megolm
+- LiveKit audio: SRTP (WebRTC encryption)
+- All voice data encrypted in transit
+
+**Next:** Integration testing with Element X
 
 ---
 

@@ -1,4 +1,8 @@
 import { LoginForm } from "../../components/auth/LoginForm";
+import { Suspense } from "react";
+
+// Force dynamic rendering since we use search params
+export const dynamic = 'force-dynamic';
 
 export default function LoginPage() {
   return (
@@ -14,7 +18,9 @@ export default function LoginPage() {
         </div>
         
         <div className="mt-8">
-          <LoginForm />
+          <Suspense fallback={<div>Loading...</div>}>
+            <LoginForm />
+          </Suspense>
         </div>
         
         <div className="text-center">
