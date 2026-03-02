@@ -1,0 +1,30 @@
+{
+  "id": "val-req-zsk-v3",
+  "timestamp": "2026-03-02T06:50:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: clawd-zsk NextAuth Authentication Fix",
+  "content": {
+    "task_ids": ["clawd-zsk"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1 - Authentication",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-03-02T06:48:00Z",
+    "test_url": "https://dev2.aaroncollins.info/bdv2",
+    "test_credentials": {
+      "username": "aaron",
+      "password": "correctpassword"
+    },
+    "acceptance_criteria": [
+      "Login with valid credentials returns authenticated session",
+      "Session contains user data (id, username, name, email)",
+      "Invalid credentials are rejected",
+      "CSRF protection is functional"
+    ],
+    "self_validation_notes": "Coordinator verified: Login returns 302, session API returns valid user object with id=3, username=aaron, name=Aaron Collins, email=aaron@aaroncollins.info, expires 2026-03-03",
+    "files_changed": [
+      "lib/auth/config.ts (added aaron user to validUsers array)"
+    ]
+  }
+}

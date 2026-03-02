@@ -1,6 +1,7 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { verifyPassword } from "./password";
+import { authRateLimiter, getClientIP } from "./rate-limiter";
 
 /**
  * NextAuth.js configuration with Credentials provider
@@ -36,12 +37,37 @@ export const authOptions: NextAuthOptions = {
           placeholder: "Enter your password" 
         },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         console.log("🔐 Authentication attempt:", { username: credentials?.username });
 
         if (!credentials?.username || !credentials?.password) {
           console.log("❌ Missing credentials");
           return null;
+        }
+
+        // Get client IP for rate limiting
+        const headers = new Headers(req.headers);
+        const clientIP = getClientIP(headers);
+        const rateLimitIdentifier = `${clientIP}:${credentials.username}`;
+        
+        console.log("🛡️ Rate limit check for:", { clientIP, username: credentials.username });
+
+        // Check rate limit before attempting authentication
+        const rateLimitResult = authRateLimiter.checkRateLimit(rateLimitIdentifier, {
+          maxAttempts: 5,
+          windowSeconds: 60, // 1 minute
+        });
+
+        if (!rateLimitResult.allowed) {
+          console.log("🚫 Rate limit exceeded:", {
+            identifier: rateLimitIdentifier,
+            attemptsRemaining: rateLimitResult.attemptsRemaining,
+            timeUntilReset: rateLimitResult.timeUntilReset,
+          });
+          
+          // NextAuth doesn't support throwing errors from authorize function
+          // We'll use a special error code that the client can detect
+          throw new Error("RateLimitExceeded");
         }
 
         try {
@@ -56,6 +82,8 @@ export const authOptions: NextAuthOptions = {
           
           if (!user) {
             console.log("❌ User not found:", credentials.username);
+            // Record failed attempt
+            authRateLimiter.recordFailedAttempt(rateLimitIdentifier);
             return null;
           }
 
@@ -63,10 +91,15 @@ export const authOptions: NextAuthOptions = {
           // In production, use: await verifyPassword(credentials.password, user.hashedPassword)
           if (user.password !== credentials.password) {
             console.log("❌ Invalid password for user:", credentials.username);
+            // Record failed attempt
+            authRateLimiter.recordFailedAttempt(rateLimitIdentifier);
             return null;
           }
 
           console.log("✅ Authentication successful:", user.username);
+          
+          // Record successful attempt (clears failed attempts)
+          authRateLimiter.recordSuccessfulAttempt(rateLimitIdentifier);
 
           // Return user object (will be stored in JWT)
           return {
@@ -77,6 +110,8 @@ export const authOptions: NextAuthOptions = {
           };
         } catch (error) {
           console.error("🚨 Authentication error:", error);
+          // Record failed attempt on error
+          authRateLimiter.recordFailedAttempt(rateLimitIdentifier);
           return null;
         }
       },

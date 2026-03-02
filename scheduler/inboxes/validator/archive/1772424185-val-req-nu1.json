@@ -1,0 +1,29 @@
+{
+  "id": "val-req-nu1-1772424210",
+  "timestamp": "2026-03-02T04:03:30-05:00",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: BDV2 Logout Logic Implementation",
+  "content": {
+    "task_ids": ["clawd-nu1"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1 - Authentication",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-03-02T04:03:30-05:00",
+    "files_changed": [
+      "src/components/nav/Header.tsx",
+      "src/components/nav/UserMenu.tsx", 
+      "src/components/auth/logout-button.tsx",
+      "src/app/layout.tsx"
+    ],
+    "acceptance_criteria": [
+      "signOut() properly called on logout button click",
+      "All session-related cookies cleared", 
+      "User redirected to /login after signOut",
+      "Success message displayed on login page",
+      "No cached session data remains"
+    ],
+    "self_validation_notes": "Layer 2 validation gave CONDITIONAL PASS:\n- Code implementation is correct and complete according to all ACs\n- All logout components properly deployed to dev2\n- Header now visible with authentication integration\n- signOut() logic correctly implemented with callbackUrl\n- Build passes: npm run build successful\n- Tests pass: 150/151 tests passing\n\nBLOCKER: Test server auth issues prevent full validation\n- Cannot login to verify end-to-end logout flow\n- Test credentials failing with 401 errors\n- Need working auth system to complete validation"
+  }
+}

@@ -1,6 +1,6 @@
 ## PROACTIVE-JOBS.md - Active Task Queue
 
-**Updated:** 2026-03-01 16:22 EST by Sophie
+**Updated:** 2026-03-02 12:00 EST by Person Manager
 **Priority Update from Aaron:** Bible > Matrix Voice Chat > MELO
 
 ---
@@ -17,24 +17,32 @@
 
 ## 🔴 P0: BDV2 Phase 1 - AUTH SYSTEM
 
-**Status:** Auth infrastructure improving, critical CSRF fix complete
+**Status:** Auth infrastructure BLOCKED - clawd-zsk (CSRF fix) stalled
 
-### Current State
+### Current State (2026-03-02 12:00 EST)
 | Category | Status | Issues Open |
 |----------|--------|-------------|
 | Cat 0: Foundation | ⚠️ PARTIAL | Schema incomplete |
-| Cat 1: Auth | 🔄 IN PROGRESS | Multiple issues being worked |
+| Cat 1: Auth | 🔴 BLOCKED | clawd-zsk stalled, needs reassignment |
 | Cat 2: Upload | ⚠️ localStorage only | No DB integration |
 | Cat 3-6 | ⏳ BLOCKED | Not started |
 
-### Recent Progress
-- ✅ Unit tests improved: 149/157 passing (up from failing)
-- ✅ clawd-ata (API Route Protection) validated successfully
-- ❌ clawd-8cu rejected - fabricated completion claim
-- 🔄 Active workers addressing remaining auth issues
+### Critical Blocker
+- **clawd-zsk (NextAuth CSRF Fix)** - P0-CRITICAL
+  - Status: in_progress, assigned to "ubuntu"
+  - SECOND false claims incident - validator caught
+  - Auth system fundamentally broken
+  - **NEEDS:** Proper reassignment and implementation
+
+### Parallel Progress (Rate Limiting)
+- ✅ clawd-qn7: Integration complete
+- ⏳ clawd-ehb: Needs-review (sent to validator)
+- 🔄 clawd-4lu, clawd-atn: In progress
 
 ### Open Issues
-See `bd list` for current status. ~15 auth-related issues still open.
+- 11 P0 tasks in needs-fix (mostly missing screenshots)
+- 3 P0 tasks blocked
+- 7 tasks in progress
 
 ---
 

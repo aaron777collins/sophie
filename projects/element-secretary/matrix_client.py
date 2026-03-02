@@ -1,0 +1,280 @@
+"""
+Matrix/Element Client
+
+Handles connection to Matrix homeserver and message handling.
+Uses matrix-nio for async Matrix protocol support.
+"""
+import asyncio
+import logging
+from typing import Optional, Callable, Awaitable
+from datetime import datetime
+
+from nio import (
+    AsyncClient,
+    AsyncClientConfig,
+    RoomMessageText,
+    InviteMemberEvent,
+    SyncError,
+    LoginError,
+    JoinError,
+)
+
+from config import (
+    MATRIX_HOMESERVER,
+    MATRIX_USER_ID,
+    MATRIX_PASSWORD,
+    MATRIX_ROOM_ID,
+    DATA_DIR,
+)
+
+logger = logging.getLogger(__name__)
+
+
+# Type alias for message callback
+MessageCallback = Callable[[str, str, str, str], Awaitable[str]]
+# Args: room_id, sender_id, sender_name, message
+# Returns: response text
+
+
+class MatrixClient:
+    """
+    Matrix client for Element Secretary.
+    
+    Connects to Matrix homeserver, listens for messages in designated room,
+    and calls the provided callback to generate responses.
+    """
+    
+    def __init__(
+        self,
+        homeserver: str = MATRIX_HOMESERVER,
+        user_id: str = MATRIX_USER_ID,
+        password: str = MATRIX_PASSWORD,
+        room_id: str = MATRIX_ROOM_ID,
+    ):
+        self.homeserver = homeserver
+        self.user_id = user_id
+        self.password = password
+        self.room_id = room_id
+        
+        self.client: Optional[AsyncClient] = None
+        self.message_callback: Optional[MessageCallback] = None
+        self._running = False
+        self._reconnect_delay = 5  # seconds
+        self._max_reconnect_delay = 300  # 5 minutes
+        
+    async def setup(self):
+        """Initialize the Matrix client."""
+        config = AsyncClientConfig(
+            max_limit_exceeded=0,
+            max_timeouts=0,
+            store_sync_tokens=True,
+        )
+        
+        self.client = AsyncClient(
+            homeserver=self.homeserver,
+            user=self.user_id,
+            config=config,
+            store_path=DATA_DIR,
+        )
+        
+        # Add event callbacks
+        self.client.add_event_callback(self._on_message, RoomMessageText)
+        self.client.add_event_callback(self._on_invite, InviteMemberEvent)
+        
+    def set_message_callback(self, callback: MessageCallback):
+        """Set the callback for handling messages."""
+        self.message_callback = callback
+        
+    async def login(self) -> bool:
+        """Login to Matrix homeserver."""
+        if not self.client:
+            await self.setup()
+        
+        try:
+            response = await self.client.login(self.password)
+            
+            if isinstance(response, LoginError):
+                logger.error(f"Login failed: {response.message}")
+                return False
+                
+            logger.info(f"Logged in as {self.user_id}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Login exception: {e}")
+            return False
+    
+    async def join_room(self) -> bool:
+        """Join the designated room."""
+        if not self.room_id:
+            logger.warning("No room ID configured")
+            return True  # Not an error if room not set
+            
+        try:
+            response = await self.client.join(self.room_id)
+            
+            if isinstance(response, JoinError):
+                logger.error(f"Failed to join room: {response.message}")
+                return False
+                
+            logger.info(f"Joined room {self.room_id}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Join room exception: {e}")
+            return False
+    
+    async def _on_message(self, room, event):
+        """Handle incoming room messages."""
+        # Ignore our own messages
+        if event.sender == self.user_id:
+            return
+            
+        # Only process messages from configured room (if set)
+        if self.room_id and room.room_id != self.room_id:
+            return
+            
+        # Ignore old messages (from before we connected)
+        # event.server_timestamp is in milliseconds
+        event_time = datetime.fromtimestamp(event.server_timestamp / 1000)
+        now = datetime.now()
+        if (now - event_time).total_seconds() > 60:
+            logger.debug(f"Ignoring old message from {event_time}")
+            return
+        
+        message = event.body
+        sender_id = event.sender
+        sender_name = room.user_name(sender_id) or sender_id
+        
+        logger.info(f"Message from {sender_name}: {message[:50]}...")
+        
+        if self.message_callback:
+            try:
+                # Show typing indicator
+                await self._send_typing(room.room_id, True)
+                
+                # Get response from callback
+                response = await self.message_callback(
+                    room.room_id,
+                    sender_id,
+                    sender_name,
+                    message
+                )
+                
+                # Stop typing indicator
+                await self._send_typing(room.room_id, False)
+                
+                # Send response
+                if response:
+                    await self.send_message(room.room_id, response)
+                    
+            except Exception as e:
+                logger.error(f"Error handling message: {e}")
+                await self._send_typing(room.room_id, False)
+                await self.send_message(
+                    room.room_id,
+                    "Sorry, I had trouble processing that. Could you try again?"
+                )
+    
+    async def _on_invite(self, room, event):
+        """Handle room invites."""
+        logger.info(f"Received invite to room {room.room_id}")
+        # Auto-join invites (could be restricted to allowed rooms)
+        await self.client.join(room.room_id)
+    
+    async def _send_typing(self, room_id: str, typing: bool, timeout: int = 30000):
+        """Send typing indicator."""
+        try:
+            await self.client.room_typing(room_id, typing, timeout)
+        except Exception as e:
+            logger.debug(f"Failed to send typing indicator: {e}")
+    
+    async def send_message(self, room_id: str, message: str):
+        """Send a text message to a room."""
+        try:
+            await self.client.room_send(
+                room_id=room_id,
+                message_type="m.room.message",
+                content={
+                    "msgtype": "m.text",
+                    "body": message
+                }
+            )
+            logger.debug(f"Sent message to {room_id}")
+        except Exception as e:
+            logger.error(f"Failed to send message: {e}")
+    
+    async def start_sync(self):
+        """Start the sync loop."""
+        self._running = True
+        reconnect_delay = self._reconnect_delay
+        
+        while self._running:
+            try:
+                logger.info("Starting sync...")
+                
+                # Run sync loop
+                await self.client.sync_forever(
+                    timeout=30000,
+                    full_state=True,
+                )
+                
+            except SyncError as e:
+                logger.error(f"Sync error: {e}")
+                
+            except Exception as e:
+                logger.error(f"Sync exception: {e}")
+            
+            if self._running:
+                logger.info(f"Reconnecting in {reconnect_delay}s...")
+                await asyncio.sleep(reconnect_delay)
+                
+                # Exponential backoff
+                reconnect_delay = min(reconnect_delay * 2, self._max_reconnect_delay)
+                
+                # Try to re-login
+                if await self.login():
+                    reconnect_delay = self._reconnect_delay
+    
+    async def stop(self):
+        """Stop the client."""
+        self._running = False
+        if self.client:
+            await self.client.close()
+            logger.info("Matrix client stopped")
+
+
+# Factory function
+async def create_matrix_client(
+    message_callback: Optional[MessageCallback] = None
+) -> MatrixClient:
+    """
+    Create and initialize a Matrix client.
+    """
+    client = MatrixClient()
+    
+    if message_callback:
+        client.set_message_callback(message_callback)
+    
+    await client.setup()
+    
+    if await client.login():
+        await client.join_room()
+    
+    return client
+
+
+if __name__ == "__main__":
+    # Test connection
+    logging.basicConfig(level=logging.INFO)
+    
+    async def test_callback(room_id, sender_id, sender_name, message):
+        print(f"[{room_id}] {sender_name}: {message}")
+        return f"Echo: {message}"
+    
+    async def main():
+        client = await create_matrix_client(test_callback)
+        print("Starting sync...")
+        await client.start_sync()
+    
+    asyncio.run(main())

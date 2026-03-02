@@ -1,0 +1,31 @@
+{
+  "id": "val-req-clawd-zsk-1772415983",
+  "timestamp": "2026-03-02T01:46:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "priority": "HIGH",
+  "subject": "Validate: clawd-zsk NextAuth basePath Fix",
+  "content": {
+    "task_id": "clawd-zsk",
+    "project": "bible-drawing-v2",
+    "title": "NextAuth CSRF/basePath Configuration",
+    "test_url": "https://dev2.aaroncollins.info/bdv2",
+    "login_url": "https://dev2.aaroncollins.info/bdv2/login",
+    "test_credentials_location": "~/.env.test-credentials",
+    "files_changed": [
+      "next.config.ts",
+      "lib/auth/config.ts",
+      "components/providers/SessionProvider.tsx"
+    ],
+    "acceptance_criteria": [
+      "Login page loads at /bdv2/login",
+      "No 404 errors in browser console during auth flow",
+      "Frontend calls /bdv2/api/auth/* (NOT /api/auth/*)",
+      "Login with test credentials completes successfully",
+      "Session persists across page loads",
+      "CSRF protection working"
+    ],
+    "self_validation_notes": "Layer 2 passed: API endpoint verified, build passes, deployed to dev2. Providers endpoint returns correct basePath URLs."
+  }
+}

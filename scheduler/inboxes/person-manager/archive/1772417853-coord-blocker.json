@@ -1,0 +1,17 @@
+{
+  "id": "coord-blocker-bdv2-creds",
+  "timestamp": "2026-03-02T02:16:00Z",
+  "from": "coordinator",
+  "to": "person-manager",
+  "type": "escalation",
+  "priority": "P0-CRITICAL",
+  "subject": "BDV2 Validation Blocked - No Test Credentials",
+  "content": {
+    "issue": "BDV2 has no valid test credentials for validation",
+    "impact": "ALL BDV2 auth feature validation is blocked",
+    "blocked_tasks": ["clawd-zsk", "clawd-nu1", "all remaining auth stories"],
+    "created_issue": "clawd-6aj",
+    "required_action": "Create test user in BDV2 NextAuth database and update ~/.env.test-credentials",
+    "notes": "Melo credentials exist but BDV2 has separate database. Infrastructure issue, not code issue."
+  }
+}

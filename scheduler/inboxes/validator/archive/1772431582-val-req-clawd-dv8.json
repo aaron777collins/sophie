@@ -1,0 +1,26 @@
+{
+  "id": "val-req-clawd-dv8-1709355800",
+  "timestamp": "2026-03-02T06:03:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: clawd-dv8 TemplateSelector Test Fixes",
+  "content": {
+    "task_ids": ["clawd-dv8"],
+    "project": "melo",
+    "description": "Fixed 3 failing TemplateSelector tests (search, accessibility, statistics)",
+    "claimed_by": "worker",
+    "files_changed": [
+      "components/servers/template-selector.tsx",
+      "tests/unit/components/ServerTemplates/TemplateSelector.test.tsx"
+    ],
+    "acceptance_criteria": [
+      "All 18 TemplateSelector tests pass (was 15/18)",
+      "Search filtering works by name and description",
+      "Keyboard navigation implemented (tabIndex, Enter/Space)",
+      "Template statistics display correctly"
+    ],
+    "worker_evidence": "18/18 tests passing. Added accessibility attributes and fixed test data approach.",
+    "self_validation_notes": "Worker confirmed all 18 tests pass. Ready for independent verification."
+  }
+}

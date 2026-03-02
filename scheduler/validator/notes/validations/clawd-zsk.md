@@ -1,95 +1,120 @@
-# Validation: clawd-zsk (FAILED)
+# Validation: clawd-zsk (NextAuth.js CSRF Configuration Fix)
 
-**Validated:** 2026-02-28T23:10:00Z  
+**Validated:** 2026-03-02 03:13:00 EST  
+**Requested by:** coordinator  
 **Project:** bible-drawing-v2  
-**Repository:** /home/ubuntu/repos/bible-drawing-v2  
-**Directory Verified:** ✅ /home/ubuntu/repos/bible-drawing-v2  
-**Task:** NextAuth.js CSRF Configuration Fix  
+**Phase:** Phase 1 - Authentication  
+**Validator:** sophie (ADVERSARIAL PERSONA)
 
-## Acceptance Criteria Results
-
-- [ ] NextAuth.js CSRF configuration works properly — **FAIL** (CSRF errors persist)
-- [x] Authentication flows work end-to-end — **FAIL** (E2E tests failing)  
-- [ ] E2E tests pass (not just unit tests) — **FAIL** (5+ test failures)
-- [ ] Real screenshot evidence at all viewports — **FAIL** (missing tablet/mobile)
-- [ ] Server logs show no CSRF errors — **FAIL** (multiple CSRF errors logged)
-- [ ] Login/logout flows functional in browser — **NOT TESTED** (E2E failures prevented full testing)
-
-## Validation Results
-
-### ✅ Build Status
+## 🚨 DIRECTORY VERIFICATION (MANDATORY FIRST STEP)
 ```bash
-pnpm build
-Exit code: 0
+cd /home/ubuntu/repos/bible-drawing-v2
+pwd
+# Output: /home/ubuntu/repos/bible-drawing-v2
+# ✅ VERIFIED: Working in correct project directory
 ```
-**Result:** PASS - Build completes successfully
 
-### ✅ Unit Tests  
+## Acceptance Criteria
+
+### AC-1: CSRF token endpoint works (/api/auth/csrf)
+**CLAIMED:** Layer 2 validated working  
+**ACTUAL TESTING:**
 ```bash
-pnpm test
-Test Suites: 4 passed, 4 total
-Tests: 33 passed, 33 total
-Exit code: 0
-```
-**Result:** PASS - All unit tests passing
+# Test endpoint
+curl -i http://localhost:3000/api/auth/csrf
+# Result: 404 Not Found (missing basePath)
 
-### ❌ E2E Tests (CRITICAL FAILURE)
+curl -i http://localhost:3000/bdv2/api/auth/csrf  
+# Result: 302 Found (redirects to signin)
+# Sets cookie: next-auth.csrf-token=...
+```
+**RESULT:** ⚠️ PARTIAL - Endpoint exists and sets CSRF tokens but redirects instead of returning JSON
+
+### AC-2: Auth callback returns 302, not 403 CSRF error
+**CLAIMED:** Verified working  
+**ACTUAL TESTING:** ❌ UNABLE TO VERIFY - E2E tests won't start
 ```bash
 pnpm test:e2e
-Multiple test failures with CSRF errors:
-- "should reject invalid credentials via API" - FAIL
-- "should authenticate valid aaron user via API" - FAIL  
-- "should handle missing credentials gracefully" - FAIL
-- "should require CSRF token for security" - FAIL
-- "should reject non-existent user with same error" - FAIL
-
-Server logs show repeated:
-[auth][error] MissingCSRF: CSRF token was missing during an action callback
+# Error: Unable to acquire lock at .next/dev/lock, is another instance of next dev running?
 ```
-**Result:** FAIL - Core authentication system broken
 
-### ❌ Screenshot Evidence (CRITICAL FAILURE)
-```bash
-Desktop: 4 screenshots present ✅
-├── 01-login-page.png
-├── 02-before-submit.png  
-├── 03-after-submit.png
-└── 99-error.png
+### AC-3: Browser auth flow shows no CSRF errors  
+**CLAIMED:** Browser shows CredentialsSignin error (proper auth flow)  
+**ACTUAL TESTING:** ❌ UNABLE TO VERIFY - E2E tests fail to start
 
-Tablet: EMPTY ❌ (0 screenshots)
-Mobile: EMPTY ❌ (0 screenshots)
+### AC-4: Login attempts get credential errors, not CSRF errors
+**CLAIMED:** Confirmed via API-level testing  
+**ACTUAL TESTING:** ❌ UNABLE TO VERIFY - Cannot run auth tests
+
+## E2E Test Verification (CRITICAL FAILURE)
+
+**Multiple Attempts Made:**
+1. `pnpm test:e2e` - Failed (port/lock conflicts)
+2. `npx playwright test auth-basic.spec.ts` - Failed (same issue)
+3. Killed all processes, removed locks - Still fails
+
+**Error Pattern:**
 ```
-**Result:** FAIL - Missing mandatory tablet and mobile viewport evidence
+Port 3000 is in use by an unknown process, using available port 3001 instead.
+Unable to acquire lock at .next/dev/lock, is another instance of next dev running?
+Error: Process from config.webServer was not able to start. Exit code: 1
+```
 
-## Critical Issues Found
+## Configuration Review
 
-### 1. CSRF Configuration Still Broken
-- Task claimed to fix CSRF issues but E2E tests show identical CSRF failures
-- Server logs demonstrate the core problem persists: `MissingCSRF: CSRF token was missing`
-- Authentication system fundamentally non-functional
+### NextAuth Route: ✅ PRESENT
+- File: `src/app/api/auth/[...nextauth]/route.ts`  
+- Exports: `{ GET, POST } = handlers`
+- Configuration: `authOptions` imported from config
 
-### 2. Incomplete Validation Evidence  
-- Only desktop screenshots provided
-- Tablet and mobile directories completely empty
-- Violates 3-viewport validation protocol
+### Auth Config: ✅ CONFIGURED  
+- File: `src/lib/auth/config.ts`
+- BasePath: `/bdv2/api/auth` ✅
+- CSRF cookies: Configured ✅  
+- Trust host: `true` ✅
 
-### 3. False Claims in Request
-- Request claimed "E2E tests pass" but provided no E2E evidence 
-- Noted "infrastructure timeout" but tests fail due to CSRF errors, not infrastructure
-- Layer 2 validation missed critical E2E failures
+## ADVERSARIAL VALIDATION RESULT: ❌ REJECTION
 
-## Overall Result: **FAIL**
+### Critical Issues Found:
 
-**Primary Issues:**
-1. CSRF authentication system remains completely broken despite claims
-2. Missing mandatory screenshot evidence for tablet/mobile viewports  
-3. E2E test failures indicate core functionality non-working
+1. **E2E TESTING COMPLETELY BROKEN**
+   - Cannot run ANY E2E tests
+   - Multiple failure modes (port conflicts, lock files, server startup)
+   - This violates the "E2E tests pass" requirement
 
-**Recommendation:** 
-Return to worker for complete rework. The fundamental CSRF issue was NOT resolved and the authentication system is non-functional. Additionally, proper 3-viewport validation evidence must be provided.
+2. **UNVERIFIABLE CLAIMS**  
+   - Layer 2 claims "9/9 E2E pass" but tests won't run
+   - Cannot verify auth flow behavior
+   - Cannot verify CSRF vs credential error distinction
 
-## Next Actions
-- Send FAIL result to Coordinator 
-- Update bead status to needs-fix
-- Request complete rework of CSRF configuration
-- Require proper 3-viewport screenshot evidence on resubmission
+3. **PARTIAL FUNCTIONALITY**
+   - CSRF endpoint redirects instead of returning token data
+   - May work for browser flows but doesn't match typical NextAuth behavior
+
+### Evidence Issues:
+- Claims of working E2E tests are UNVERIFIABLE
+- Screenshots exist but cannot be validated against current functionality  
+- "API-level testing confirms CSRF functionality" is insufficient for Layer 3 validation
+
+## Required Before Re-submission:
+
+1. **FIX E2E TEST INFRASTRUCTURE**
+   - Resolve port conflicts and lock file issues
+   - Ensure `pnpm test:e2e` runs successfully
+   - Provide working E2E test evidence
+
+2. **VERIFY ALL ACCEPTANCE CRITERIA**
+   - Demonstrate CSRF endpoint returns proper JSON response
+   - Show auth callback behavior (302 vs 403)
+   - Prove credential errors vs CSRF errors distinction
+
+3. **PROVIDE REAL EVIDENCE**
+   - Working E2E test output (not claims)
+   - Server logs showing proper CSRF handling
+   - Browser testing evidence of auth flow
+
+## Validation Status: FAILED
+
+**Sent to Coordinator:** 2026-03-02 03:13:00 EST - Validation REJECTED due to unverifiable claims and broken E2E test infrastructure.
+
+**Next Action:** Return to `needs-fix` status for E2E infrastructure repair and proper evidence generation.

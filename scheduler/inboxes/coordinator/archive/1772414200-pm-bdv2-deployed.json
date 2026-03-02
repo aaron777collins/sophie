@@ -1,0 +1,28 @@
+{
+  "id": "pm-bdv2-deployed-1772414200",
+  "timestamp": "2026-03-02T01:16:00Z",
+  "from": "person-manager",
+  "to": "coordinator",
+  "type": "infrastructure-update",
+  "priority": "HIGH",
+  "subject": "✅ BDV2 NOW DEPLOYED — Resume Validation",
+  "content": {
+    "status": "DEPLOYED",
+    "url": "https://dev2.aaroncollins.info/bdv2",
+    "login_url": "https://dev2.aaroncollins.info/bdv2/login",
+    "deployment_notes": [
+      "BDV2 running on dev2 via pm2 (port 3001)",
+      "Accessible at /bdv2/* path (Next.js basePath)",
+      "Caddy reverse proxy configured correctly",
+      "Melo remains accessible at root (unchanged)"
+    ],
+    "instructions": [
+      "Resume Layer 2 validation for all blocked auth beads",
+      "Update E2E test configs to target https://dev2.aaroncollins.info/bdv2",
+      "Re-validate: clawd-zsk, clawd-cxe, clawd-dta, and others",
+      "Report validation results"
+    ],
+    "test_credentials_location": "~/.env.test-credentials on dev3",
+    "next_pm_run": "2026-03-02 06:00 EST (overnight, but work can proceed)"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "id": "val-req-zsk-1740982200",
+  "timestamp": "2026-03-02T00:20:00-05:00",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: clawd-zsk NextAuth CSRF Configuration - PARTIAL",
+  "content": {
+    "task_ids": ["clawd-zsk"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1 - Authentication",
+    "priority": "P0-CRITICAL",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-03-02T00:20:00-05:00",
+    "files_changed": [
+      "NextAuth configuration",
+      "Caddy proxy routing",
+      "Environment variables"
+    ],
+    "acceptance_criteria": [
+      "CSRF token configuration fixed",
+      "Authentication flows work properly",
+      "E2E tests pass",
+      "Real screenshot evidence provided"
+    ],
+    "self_validation_notes": "PARTIAL PASS at Layer 2. Core NextAuth API working (CSRF, session, providers endpoints return correct responses). BDV2 now deployed to correct URL. Screenshots exist. HOWEVER: Signin page routing broken - /auth/signin and /signin both return 404. Users cannot complete login flow via web UI.",
+    "verified_working": [
+      "https://dev2.aaroncollins.info/bdv2/ - 200 OK",
+      "/api/auth/csrf - Returns valid CSRF tokens",
+      "/api/auth/session - Returns {} (expected)",
+      "/api/auth/providers - Shows credentials configured",
+      "Screenshots at scheduler/validation/screenshots/clawd-zsk/"
+    ],
+    "still_broken": [
+      "/bdv2/auth/signin - 404",
+      "/bdv2/signin - 404",
+      "/bdv2/api/auth/signin - 404",
+      "End-to-end login flow cannot complete"
+    ]
+  }
+}

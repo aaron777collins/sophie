@@ -1,7 +1,43 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { LoginForm } from '../../../../components/auth/LoginForm';
 
+// Mock next-auth/react
+jest.mock('next-auth/react', () => ({
+  signIn: jest.fn(),
+  getSession: jest.fn(),
+}));
+
+// Mock next/navigation
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+  useSearchParams: () => ({
+    get: jest.fn().mockReturnValue(null),
+  }),
+}));
+
+import { signIn, getSession } from 'next-auth/react';
+
+const mockSignIn = signIn as jest.MockedFunction<typeof signIn>;
+const mockGetSession = getSession as jest.MockedFunction<typeof getSession>;
+
 describe('LoginForm', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    // Default mock: successful login
+    mockSignIn.mockResolvedValue({
+      error: null,
+      status: 200,
+      ok: true,
+      url: '/projects',
+    });
+    mockGetSession.mockResolvedValue({
+      user: { id: '1', name: 'Test User', email: 'test@example.com' },
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+    });
+  });
+
   it('renders login form with required fields', () => {
     render(<LoginForm />);
     
@@ -50,11 +86,17 @@ describe('LoginForm', () => {
   });
 
   it('disables form during loading state', async () => {
-    const mockOnSubmit = jest.fn().mockImplementation(
-      () => new Promise(resolve => setTimeout(resolve, 100))
+    // Mock signIn to delay response
+    mockSignIn.mockImplementation(
+      () => new Promise(resolve => setTimeout(() => resolve({
+        error: null,
+        status: 200,
+        ok: true,
+        url: '/projects',
+      }), 100))
     );
     
-    render(<LoginForm onSubmit={mockOnSubmit} />);
+    render(<LoginForm />);
     
     const usernameInput = screen.getByTestId('username-input');
     const passwordInput = screen.getByTestId('password-input');
@@ -76,10 +118,8 @@ describe('LoginForm', () => {
     });
   });
 
-  it('calls onSubmit with form data', async () => {
-    const mockOnSubmit = jest.fn().mockResolvedValue(undefined);
-    
-    render(<LoginForm onSubmit={mockOnSubmit} />);
+  it('calls signIn with form data', async () => {
+    render(<LoginForm />);
     
     const usernameInput = screen.getByTestId('username-input');
     const passwordInput = screen.getByTestId('password-input');
@@ -90,20 +130,30 @@ describe('LoginForm', () => {
     fireEvent.change(passwordInput, { target: { value: 'testpass' } });
     
     // Submit form
-    fireEvent.click(submitButton);
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
     
     await waitFor(() => {
-      expect(mockOnSubmit).toHaveBeenCalledWith({
+      expect(mockSignIn).toHaveBeenCalledWith('credentials', {
         username: 'testuser',
-        password: 'testpass'
+        password: 'testpass',
+        callbackUrl: '/projects',
+        redirect: false,
       });
     });
   });
 
   it('displays error message on submission failure', async () => {
-    const mockOnSubmit = jest.fn().mockRejectedValue(new Error('Invalid credentials'));
+    // Mock signIn to return an error
+    mockSignIn.mockResolvedValue({
+      error: 'CredentialsSignin',
+      status: 401,
+      ok: false,
+      url: null,
+    });
     
-    render(<LoginForm onSubmit={mockOnSubmit} />);
+    render(<LoginForm />);
     
     const usernameInput = screen.getByTestId('username-input');
     const passwordInput = screen.getByTestId('password-input');
@@ -114,7 +164,9 @@ describe('LoginForm', () => {
     fireEvent.change(passwordInput, { target: { value: 'wrongpass' } });
     
     // Submit form
-    fireEvent.click(submitButton);
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
     
     await waitFor(() => {
       expect(screen.getByTestId('error-message')).toBeInTheDocument();
@@ -132,5 +184,251 @@ describe('LoginForm', () => {
     expect(passwordInput).toHaveAttribute('aria-invalid', 'false');
     expect(usernameInput).toHaveAccessibleName();
     expect(passwordInput).toHaveAccessibleName();
+  });
+});
+
+describe('LoginForm Rate Limiting', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it('shows rate limit error message when API returns 429', async () => {
+    // Mock signIn to return a rate limit error
+    mockSignIn.mockResolvedValue({
+      error: 'RateLimitExceeded',
+      status: 429,
+      ok: false,
+      url: null,
+    });
+    
+    render(<LoginForm />);
+    
+    const usernameInput = screen.getByTestId('username-input');
+    const passwordInput = screen.getByTestId('password-input');
+    const submitButton = screen.getByRole('button', { name: /sign in/i });
+    
+    // Fill in form
+    fireEvent.change(usernameInput, { target: { value: 'testuser' } });
+    fireEvent.change(passwordInput, { target: { value: 'testpass' } });
+    
+    // Submit form
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
+    
+    // Check rate limit error message
+    await waitFor(() => {
+      expect(screen.getByTestId('rate-limit-message')).toBeInTheDocument();
+      expect(screen.getByText(/too many login attempts/i)).toBeInTheDocument();
+    });
+  });
+
+  it('disables login button during rate limit cooldown', async () => {
+    mockSignIn.mockResolvedValue({
+      error: 'RateLimitExceeded',
+      status: 429,
+      ok: false,
+      url: null,
+    });
+    
+    render(<LoginForm />);
+    
+    const usernameInput = screen.getByTestId('username-input');
+    const passwordInput = screen.getByTestId('password-input');
+    const submitButton = screen.getByRole('button', { name: /sign in/i });
+    
+    // Fill in form and submit
+    fireEvent.change(usernameInput, { target: { value: 'testuser' } });
+    fireEvent.change(passwordInput, { target: { value: 'testpass' } });
+    
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
+    
+    // Button should be disabled during cooldown
+    await waitFor(() => {
+      expect(submitButton).toBeDisabled();
+    });
+  });
+
+  it('shows visual indication of rate limiting with cooldown timer', async () => {
+    mockSignIn.mockResolvedValue({
+      error: 'RateLimitExceeded',
+      status: 429,
+      ok: false,
+      url: null,
+    });
+    
+    render(<LoginForm />);
+    
+    const usernameInput = screen.getByTestId('username-input');
+    const passwordInput = screen.getByTestId('password-input');
+    const submitButton = screen.getByRole('button', { name: /sign in/i });
+    
+    // Fill in form and submit
+    fireEvent.change(usernameInput, { target: { value: 'testuser' } });
+    fireEvent.change(passwordInput, { target: { value: 'testpass' } });
+    
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
+    
+    // Should show visual indication (cooldown timer or countdown)
+    await waitFor(() => {
+      const rateLimitMessage = screen.getByTestId('rate-limit-message');
+      expect(rateLimitMessage).toHaveClass('bg-amber-50'); // Visual styling
+    });
+  });
+
+  it('re-enables login button after cooldown expires', async () => {
+    mockSignIn.mockResolvedValue({
+      error: 'RateLimitExceeded',
+      status: 429,
+      ok: false,
+      url: null,
+    });
+    
+    render(<LoginForm />);
+    
+    const usernameInput = screen.getByTestId('username-input');
+    const passwordInput = screen.getByTestId('password-input');
+    const submitButton = screen.getByRole('button', { name: /sign in/i });
+    
+    // Fill in form and submit
+    fireEvent.change(usernameInput, { target: { value: 'testuser' } });
+    fireEvent.change(passwordInput, { target: { value: 'testpass' } });
+    
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
+    
+    // Button should be disabled
+    await waitFor(() => {
+      expect(submitButton).toBeDisabled();
+    });
+    
+    // Advance timers past cooldown (60 seconds default)
+    await act(async () => {
+      jest.advanceTimersByTime(61000);
+    });
+    
+    // Button should be re-enabled
+    await waitFor(() => {
+      expect(submitButton).not.toBeDisabled();
+    });
+  });
+
+  it('displays countdown timer during rate limit', async () => {
+    mockSignIn.mockResolvedValue({
+      error: 'RateLimitExceeded',
+      status: 429,
+      ok: false,
+      url: null,
+    });
+    
+    render(<LoginForm />);
+    
+    const usernameInput = screen.getByTestId('username-input');
+    const passwordInput = screen.getByTestId('password-input');
+    const submitButton = screen.getByRole('button', { name: /sign in/i });
+    
+    // Fill in form and submit
+    fireEvent.change(usernameInput, { target: { value: 'testuser' } });
+    fireEvent.change(passwordInput, { target: { value: 'testpass' } });
+    
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
+    
+    // Should show countdown timer
+    await waitFor(() => {
+      expect(screen.getByTestId('cooldown-timer')).toBeInTheDocument();
+    });
+    
+    // Advance time and check countdown updates
+    await act(async () => {
+      jest.advanceTimersByTime(10000); // 10 seconds
+    });
+    
+    // Timer should have updated (showing less time)
+    const timer = screen.getByTestId('cooldown-timer');
+    expect(timer).toBeInTheDocument();
+  });
+
+  it('clears rate limit error when cooldown expires', async () => {
+    mockSignIn.mockResolvedValue({
+      error: 'RateLimitExceeded',
+      status: 429,
+      ok: false,
+      url: null,
+    });
+    
+    render(<LoginForm />);
+    
+    const usernameInput = screen.getByTestId('username-input');
+    const passwordInput = screen.getByTestId('password-input');
+    const submitButton = screen.getByRole('button', { name: /sign in/i });
+    
+    // Fill in form and submit
+    fireEvent.change(usernameInput, { target: { value: 'testuser' } });
+    fireEvent.change(passwordInput, { target: { value: 'testpass' } });
+    
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
+    
+    // Rate limit message should be visible
+    await waitFor(() => {
+      expect(screen.getByTestId('rate-limit-message')).toBeInTheDocument();
+    });
+    
+    // Advance timers past cooldown
+    await act(async () => {
+      jest.advanceTimersByTime(61000);
+    });
+    
+    // Rate limit message should be cleared
+    await waitFor(() => {
+      expect(screen.queryByTestId('rate-limit-message')).not.toBeInTheDocument();
+    });
+  });
+
+  it('prevents form submission during rate limit cooldown', async () => {
+    mockSignIn.mockResolvedValue({
+      error: 'RateLimitExceeded',
+      status: 429,
+      ok: false,
+      url: null,
+    });
+    
+    render(<LoginForm />);
+    
+    const usernameInput = screen.getByTestId('username-input');
+    const passwordInput = screen.getByTestId('password-input');
+    const submitButton = screen.getByRole('button', { name: /sign in/i });
+    
+    // Fill in form and submit
+    fireEvent.change(usernameInput, { target: { value: 'testuser' } });
+    fireEvent.change(passwordInput, { target: { value: 'testpass' } });
+    
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
+    
+    // Clear the mock call count
+    mockSignIn.mockClear();
+    
+    // Try to submit again while rate limited
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
+    
+    // signIn should NOT have been called again
+    expect(mockSignIn).not.toHaveBeenCalled();
   });
 });

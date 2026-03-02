@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn, getSession } from "next-auth/react";
 import { Input } from "../ui/input";
@@ -9,6 +9,9 @@ import { Button } from "../ui/button";
 interface LoginFormProps {
   // No longer need onSubmit prop since we're using NextAuth directly
 }
+
+// Default cooldown period in seconds (1 minute)
+const DEFAULT_COOLDOWN_SECONDS = 60;
 
 export function LoginForm(props: LoginFormProps) {
   const router = useRouter();
@@ -23,6 +26,38 @@ export function LoginForm(props: LoginFormProps) {
     general?: string;
   }>({});
   const [isLoading, setIsLoading] = useState(false);
+  
+  // Rate limiting state
+  const [isRateLimited, setIsRateLimited] = useState(false);
+  const [cooldownSeconds, setCooldownSeconds] = useState(0);
+
+  // Countdown timer effect
+  useEffect(() => {
+    if (!isRateLimited || cooldownSeconds <= 0) {
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setCooldownSeconds((prev) => {
+        if (prev <= 1) {
+          // Cooldown expired - clear rate limit state
+          setIsRateLimited(false);
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [isRateLimited, cooldownSeconds]);
+
+  // Format seconds as MM:SS
+  const formatCooldown = useCallback((seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  }, []);
 
   const validateForm = () => {
     const newErrors: typeof errors = {};
@@ -59,6 +94,11 @@ export function LoginForm(props: LoginFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Prevent submission if rate limited
+    if (isRateLimited) {
+      return;
+    }
+
     if (!validateForm()) {
       return;
     }
@@ -67,7 +107,41 @@ export function LoginForm(props: LoginFormProps) {
     setErrors({});
 
     try {
-      console.log("🔐 Attempting login with NextAuth.js");
+      console.log("🔐 Attempting login with rate limit check");
+      
+      // First, check rate limiting with our custom API
+      const loginResponse = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          password: formData.password,
+        }),
+      });
+
+      if (loginResponse.status === 429) {
+        console.log("🚫 Rate limit exceeded from login API");
+        const rateLimitData = await loginResponse.json();
+        setIsRateLimited(true);
+        setCooldownSeconds(rateLimitData.timeUntilReset || DEFAULT_COOLDOWN_SECONDS);
+        setErrors({
+          general: "Too many login attempts. Please wait before trying again."
+        });
+        return;
+      }
+
+      if (!loginResponse.ok) {
+        const errorData = await loginResponse.json();
+        setErrors({
+          general: errorData.error || "Invalid credentials"
+        });
+        return;
+      }
+
+      // If rate limit check passed, proceed with NextAuth
+      console.log("🔐 Rate limit check passed, proceeding with NextAuth");
       
       // Get callback URL from search params, default to /projects
       const callbackUrl = searchParams.get('callbackUrl') || '/projects';
@@ -81,6 +155,17 @@ export function LoginForm(props: LoginFormProps) {
       });
 
       console.log("🔐 NextAuth result:", result);
+
+      // Check for rate limit error (backup check)
+      if (result?.error === 'RateLimitExceeded') {
+        console.log("⚠️ Rate limit exceeded from NextAuth");
+        setIsRateLimited(true);
+        setCooldownSeconds(DEFAULT_COOLDOWN_SECONDS);
+        setErrors({
+          general: "Too many login attempts. Please wait before trying again."
+        });
+        return;
+      }
 
       if (result?.error) {
         setErrors({
@@ -100,7 +185,7 @@ export function LoginForm(props: LoginFormProps) {
     } catch (error) {
       console.error("🚨 Login error:", error);
       setErrors({
-        general: error instanceof Error ? error.message : "Invalid credentials"
+        general: error instanceof Error ? error.message : "Login failed"
       });
     } finally {
       setIsLoading(false);
@@ -177,13 +262,54 @@ export function LoginForm(props: LoginFormProps) {
           </div>
         )}
 
+        {isRateLimited && (
+          <div
+            className="p-4 bg-amber-50 border border-amber-200 rounded-md"
+            data-testid="rate-limit-message"
+            role="alert"
+            aria-live="polite"
+          >
+            <div className="flex items-center gap-2">
+              <svg
+                className="h-5 w-5 text-amber-600 flex-shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+              <div>
+                <p className="text-sm font-medium text-amber-800">
+                  Too many login attempts
+                </p>
+                <p className="text-sm text-amber-700 mt-1">
+                  Please wait{" "}
+                  <span
+                    className="font-mono font-semibold"
+                    data-testid="cooldown-timer"
+                  >
+                    {formatCooldown(cooldownSeconds)}
+                  </span>{" "}
+                  before trying again.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         <Button
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading || isRateLimited}
           className="w-full"
           data-testid="login-button"
         >
-          {isLoading ? "Signing in..." : "Sign In"}
+          {isLoading ? "Signing in..." : isRateLimited ? `Wait ${formatCooldown(cooldownSeconds)}` : "Sign In"}
         </Button>
       </form>
     </div>
