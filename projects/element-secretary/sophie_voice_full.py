@@ -75,7 +75,7 @@ class Config:
     
     # Behavior
     leave_timeout: int = int(os.getenv("EMPTY_ROOM_TIMEOUT", "300"))  # 5 minutes
-    vad_threshold: float = float(os.getenv("VAD_THRESHOLD", "0.5"))
+    vad_threshold: float = float(os.getenv("VAD_THRESHOLD", "0.1"))  # Lowered for better detection
     min_utterance_length: int = 3
     silence_timeout: float = 1.5  # seconds of silence before processing
     
@@ -104,119 +104,94 @@ config.data_path.mkdir(parents=True, exist_ok=True)
 # ============================================================================
 
 class VADProcessor:
-    """Voice Activity Detection using Silero VAD."""
+    """Voice Activity Detection using amplitude-based detection (simple but reliable)."""
     
-    def __init__(self, threshold: float = 0.5):
-        self.threshold = threshold
-        self.model = None
-        self._initialized = False
+    def __init__(self, threshold: float = 0.1):
+        # Amplitude threshold for speech detection
+        # 500 was too sensitive, picking up background noise
+        # 1500-2000 should require actual voice to trigger
+        self.amplitude_threshold = 1500
+        self._initialized = True
+        self._vad_calls = 0
+        self._speech_count = 0
+        logger.info(f"✅ Amplitude-based VAD initialized (threshold={self.amplitude_threshold})")
         
-    def _init_model(self):
-        """Lazy-load the VAD model."""
-        if self._initialized:
-            return
-            
-        try:
-            import torch
-            self.model, utils = torch.hub.load(
-                repo_or_dir='snakers4/silero-vad',
-                model='silero_vad',
-                trust_repo=True
-            )
-            self._initialized = True
-            logger.info("✅ VAD model loaded")
-        except Exception as e:
-            logger.error(f"❌ Failed to load VAD model: {e}")
-            self.model = None
-            
     def is_speech(self, audio_chunk: np.ndarray, sample_rate: int = 16000) -> bool:
-        """Check if audio chunk contains speech."""
-        self._init_model()
+        """Check if audio chunk contains speech using amplitude threshold."""
+        avg_amplitude = np.abs(audio_chunk).mean()
+        is_speech = avg_amplitude > self.amplitude_threshold
         
-        if self.model is None:
-            # Fallback: assume all audio is speech
-            return np.abs(audio_chunk).mean() > 500
+        # Debug logging
+        self._vad_calls += 1
+        if is_speech:
+            self._speech_count += 1
         
-        try:
-            import torch
-            
-            # Convert to float and normalize
-            audio_float = audio_chunk.astype(np.float32) / 32768.0
-            
-            # Silero expects 16kHz
-            tensor = torch.from_numpy(audio_float)
-            speech_prob = self.model(tensor, sample_rate).item()
-            
-            return speech_prob > self.threshold
-        except Exception as e:
-            logger.warning(f"VAD error: {e}")
-            return np.abs(audio_chunk).mean() > 500
+        if self._vad_calls % 100 == 0:  # Log every 100 calls (~3 seconds)
+            logger.info(f"🔊 VAD: is_speech={is_speech}, speech_ratio={self._speech_count}/{self._vad_calls}, amp={avg_amplitude:.0f}, threshold={self.amplitude_threshold}")
+        
+        return is_speech
 
 
 # ============================================================================
-# Speech-to-Text (Whisper)
+# Speech-to-Text (faster-whisper)
 # ============================================================================
 
 class WhisperSTT:
-    """Speech-to-Text using Whisper CLI."""
+    """Speech-to-Text using faster-whisper (CTranslate2 - much faster than CLI)."""
     
-    def __init__(self, whisper_path: str, model: str = "large-v3-turbo"):
-        self.whisper_path = whisper_path
-        self.model = model
+    def __init__(self, whisper_path: str, model: str = "tiny.en"):
+        self.model_name = model
+        self._model = None
+        
+    def _get_model(self):
+        """Lazy-load the model."""
+        if self._model is None:
+            from faster_whisper import WhisperModel
+            logger.info(f"🔄 Loading faster-whisper model: {self.model_name}")
+            # Use CPU with int8 quantization for speed
+            self._model = WhisperModel(self.model_name, device="cpu", compute_type="int8")
+            logger.info(f"✅ Model loaded")
+        return self._model
         
     async def transcribe(self, audio_data: np.ndarray, sample_rate: int = 48000) -> str:
-        """Transcribe audio to text."""
-        # Save to temp WAV file
-        with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
-            temp_path = f.name
-            
+        """Transcribe audio to text using faster-whisper."""
         try:
-            # Write WAV file
-            import wave
-            with wave.open(temp_path, 'wb') as wav_file:
-                wav_file.setnchannels(1)
-                wav_file.setsampwidth(2)  # 16-bit
-                wav_file.setframerate(sample_rate)
-                wav_file.writeframes(audio_data.tobytes())
+            import time
+            start = time.time()
             
-            # Run Whisper CLI
-            output_dir = tempfile.mkdtemp()
-            result = await asyncio.get_event_loop().run_in_executor(
-                None,
-                lambda: subprocess.run([
-                    self.whisper_path,
-                    temp_path,
-                    "--model", self.model,
-                    "--language", "en",
-                    "--output_format", "json",
-                    "--output_dir", output_dir,
-                    "--fp16", "False",  # CPU doesn't support fp16
-                ], capture_output=True, text=True, timeout=60)
-            )
+            # Normalize/amplify audio to improve accuracy
+            max_val = np.abs(audio_data).max()
+            if max_val > 0 and max_val < 10000:  # Too quiet, amplify
+                scale = 16000 / max_val
+                audio_data = (audio_data.astype(np.float32) * scale).clip(-32767, 32767).astype(np.int16)
+                logger.info(f"🔊 Amplified audio by {scale:.1f}x (was max={max_val})")
             
-            # Parse result
-            json_path = os.path.join(output_dir, os.path.basename(temp_path).replace(".wav", ".json"))
-            if os.path.exists(json_path):
-                with open(json_path) as f:
-                    data = json.load(f)
-                    text = data.get("text", "").strip()
-                    logger.info(f"📝 Transcribed: {text}")
-                    return text
-            else:
-                logger.warning(f"Whisper output not found: {json_path}")
-                logger.warning(f"Whisper stderr: {result.stderr}")
-                return ""
+            # Convert to float32 normalized [-1, 1] for faster-whisper
+            audio_float = audio_data.astype(np.float32) / 32768.0
+            
+            # Resample to 16kHz if needed (faster-whisper expects 16kHz)
+            if sample_rate != 16000:
+                from scipy.signal import resample
+                num_samples = int(len(audio_float) * 16000 / sample_rate)
+                audio_float = resample(audio_float, num_samples)
+            
+            # Run transcription in executor to not block
+            def do_transcribe():
+                model = self._get_model()
+                segments, info = model.transcribe(audio_float, language="en", beam_size=1, best_of=1)
+                return " ".join([seg.text for seg in segments]).strip()
+            
+            text = await asyncio.get_event_loop().run_in_executor(None, do_transcribe)
+            
+            elapsed = time.time() - start
+            logger.info(f"📝 Transcribed in {elapsed:.1f}s: {text}")
+            return text
                 
-        except subprocess.TimeoutExpired:
-            logger.error("Whisper timed out")
-            return ""
         except Exception as e:
             logger.error(f"Whisper error: {e}")
+            import traceback
+            traceback.print_exc()
             return ""
-        finally:
-            # Cleanup
-            if os.path.exists(temp_path):
-                os.unlink(temp_path)
 
 
 # ============================================================================
@@ -314,11 +289,9 @@ You're having a real-time voice conversation. Keep these rules:
 You have access to Aaron's systems and can help with tasks, but for now focus on conversation."""
 
     async def get_response(self, user_text: str) -> str:
-        """Get AI response to user's speech."""
+        """Get AI response to user's speech using OAuth token."""
         try:
-            import anthropic
-            
-            client = anthropic.Anthropic(api_key=self.api_key)
+            import httpx
             
             self.conversation_history.append({
                 "role": "user",
@@ -329,14 +302,27 @@ You have access to Aaron's systems and can help with tasks, but for now focus on
             if len(self.conversation_history) > 20:
                 self.conversation_history = self.conversation_history[-20:]
             
-            response = client.messages.create(
-                model="claude-sonnet-4-20250514",
-                max_tokens=300,
-                system=self.system_prompt,
-                messages=self.conversation_history
-            )
+            # OAuth tokens need Bearer auth + beta header
+            async with httpx.AsyncClient(timeout=30.0) as client:
+                response = await client.post(
+                    "https://api.anthropic.com/v1/messages",
+                    headers={
+                        "Authorization": f"Bearer {self.api_key}",
+                        "anthropic-version": "2023-06-01",
+                        "anthropic-beta": "oauth-2025-04-20",
+                        "content-type": "application/json",
+                    },
+                    json={
+                        "model": "claude-sonnet-4-20250514",
+                        "max_tokens": 300,
+                        "system": self.system_prompt,
+                        "messages": self.conversation_history,
+                    }
+                )
+                response.raise_for_status()
+                data = response.json()
             
-            assistant_text = response.content[0].text
+            assistant_text = data["content"][0]["text"]
             
             self.conversation_history.append({
                 "role": "assistant",
@@ -362,6 +348,8 @@ class PresenceManager:
         self.leave_timeout = leave_timeout
         self.aaron_in_call = False
         self.aaron_left_at: Optional[float] = None
+        self.aaron_e2ee_key: Optional[bytes] = None  # Aaron's encryption key (from to-device or call.member)
+        self.aaron_device_id: Optional[str] = None  # Aaron's device ID for to-device messaging
         
     def check_aaron_state(self, state_events: List[Dict]) -> bool:
         """Check if Aaron is in the call based on Matrix state events."""
@@ -382,8 +370,22 @@ class PresenceManager:
                 
                 # Non-empty content with device_id means Aaron is in call
                 if content and content.get("device_id"):
+                    self.aaron_device_id = content.get("device_id")  # Store for to-device messaging
                     if not self.aaron_in_call:
-                        logger.info(f"👤 Aaron joined the call (device: {content.get('device_id')})")
+                        logger.info(f"👤 Aaron joined the call (device: {self.aaron_device_id})")
+                    
+                    # Extract Aaron's encryption key if present (MSC4143)
+                    enc_keys = content.get("encryption_keys", [])
+                    if enc_keys:
+                        key_data = enc_keys[0]  # Use first key
+                        aaron_key_b64 = key_data.get("key")
+                        if aaron_key_b64:
+                            self.aaron_e2ee_key = base64.b64decode(aaron_key_b64)
+                            logger.info(f"🔑 Got Aaron's encryption key ({len(self.aaron_e2ee_key)} bytes)")
+                    else:
+                        self.aaron_e2ee_key = None
+                        logger.warning("⚠️ Aaron's call.member has no encryption_keys")
+                    
                     self.aaron_in_call = True
                     self.aaron_left_at = None
                     return True
@@ -434,9 +436,9 @@ class AudioProcessor:
         self.speech_frames = 0
         
         # Config
-        self.silence_threshold = 100  # ~1 sec at 10ms frames
-        self.min_speech_frames = 30   # ~0.3 sec minimum speech
-        self.vad_chunk_size = 512     # Silero VAD needs 512+ samples at 16kHz (~32ms)
+        self.silence_threshold = 50   # ~0.5 sec of silence triggers utterance end (was 75)
+        self.min_speech_frames = 75   # ~0.75 sec minimum speech (filter noise blips, was 50)
+        self.vad_chunk_size = 480     # WebRTC VAD: 30ms at 16kHz (10/20/30ms supported)
         
     def process_frame(self, frame: rtc.AudioFrame) -> Optional[np.ndarray]:
         """Process an audio frame, return complete utterance when ready."""
@@ -445,43 +447,57 @@ class AudioProcessor:
         # Always buffer the audio
         self.audio_buffer.append(audio_data)
         
-        # Downsample to 16kHz for VAD and buffer
-        audio_16k = audio_data[::3]  # Simple downsample from 48kHz to 16kHz
+        # Downsample to 16kHz for VAD - simple decimation (every 3rd sample)
+        # scipy.signal.decimate was killing amplitude due to filtering
+        audio_16k = audio_data[::3].copy()  # Simple downsample, preserves amplitude
         self.vad_buffer.append(audio_16k)
         
-        # Only run VAD when we have enough samples (exactly 512 at 16kHz)
+        # Only run VAD when we have enough samples (process in exact 512-sample chunks)
         vad_audio = np.concatenate(self.vad_buffer)
-        if len(vad_audio) >= self.vad_chunk_size:
-            # Pass EXACTLY 512 samples to Silero VAD (it requires exact size)
-            is_speech = self.vad.is_speech(vad_audio[:512], 16000)
-            # Keep remaining samples for next iteration
-            if len(vad_audio) > 512:
-                self.vad_buffer = [vad_audio[512:]]
-            else:
-                self.vad_buffer = []
-            
-            if is_speech:
-                if not self.is_speaking:
-                    logger.info(f"🎤 Speech started (amplitude: {np.abs(vad_audio).mean():.0f})")
-                self.is_speaking = True
-                self.silence_frames = 0
-                self.speech_frames += 1
-            else:
-                if self.is_speaking and self.silence_frames == 0:
-                    logger.info(f"🔇 Silence started after {self.speech_frames} speech frames")
-                self.silence_frames += 1
+        is_speech = False
         
-        # Check if utterance is complete (after silence)
+        # Process all complete 512-sample chunks
+        while len(vad_audio) >= self.vad_chunk_size:
+            # Extract EXACTLY 512 samples for Silero VAD
+            chunk = vad_audio[:512].copy()  # Copy to ensure contiguous array
+            vad_audio = vad_audio[512:]
+            
+            # Run VAD on this chunk
+            is_speech = self.vad.is_speech(chunk, 16000)
+            
+        # Keep remaining samples for next iteration
+        if len(vad_audio) > 0:
+            self.vad_buffer = [vad_audio]
+        else:
+            self.vad_buffer = []
+        
+        # Process VAD result with smoothing (require 3+ consecutive frames to change state)
+        if is_speech:
+            self.speech_frames += 1
+            # Only transition to speaking after 3 consecutive speech frames
+            if not self.is_speaking and self.speech_frames >= 3:
+                logger.info(f"🎤 Speech started (after {self.speech_frames} frames)")
+                self.is_speaking = True
+            if self.is_speaking:
+                self.silence_frames = 0  # Reset silence counter when speaking
+        else:
+            self.silence_frames += 1
+            # Log silence start only once (first time we hit 5 consecutive silence frames)
+            if self.is_speaking and self.silence_frames == 5:
+                logger.info(f"🔇 Silence detected after {self.speech_frames} speech frames")
+        
+        # Check if utterance is complete (after sustained silence)
         if self.is_speaking and self.silence_frames > self.silence_threshold:
             if self.speech_frames >= self.min_speech_frames:
                 # Return complete utterance
                 utterance = np.concatenate(self.audio_buffer)
+                duration = len(utterance) / self.sample_rate
+                logger.info(f"🎤 Got utterance: {len(utterance)} samples ({duration:.1f}s)")
                 self._reset()
-                logger.info(f"🎤 Got utterance: {len(utterance)} samples ({len(utterance)/self.sample_rate:.1f}s)")
                 return utterance
             else:
                 # Too short, discard
-                logger.debug("Utterance too short, discarding")
+                logger.info(f"Utterance too short ({self.speech_frames} frames), discarding")
                 self._reset()
                 
         return None
@@ -522,6 +538,13 @@ class SophieVoiceAgent:
         self.is_speaking = False  # True when playing TTS
         self.should_stop = False
         
+        # E2EE keys (SFrame encryption for MatrixRTC)
+        import secrets
+        self.our_e2ee_key = secrets.token_bytes(32)  # 256-bit key
+        self.our_e2ee_key_b64 = base64.b64encode(self.our_e2ee_key).decode()
+        self.aaron_e2ee_key: Optional[bytes] = None
+        logger.info(f"🔑 Generated our encryption key ({len(self.our_e2ee_key)} bytes)")
+        
     async def start(self) -> bool:
         """Connect to Matrix."""
         logger.info("🚀 Starting Sophie Voice Agent...")
@@ -533,11 +556,31 @@ class SophieVoiceAgent:
         if not config.anthropic_api_key:
             logger.error("❌ ANTHROPIC_API_KEY not set")
             return False
-            
-        # Connect to Matrix
+        
+        # CRITICAL: Use consistent paths for crypto store persistence
+        # NOTE: matrix_store contains existing Olm keys - DO NOT change this path
+        session_file = config.data_path / "session.json"
+        crypto_store_path = config.data_path / "matrix_store"  # Use existing store!
+        crypto_store_path.mkdir(parents=True, exist_ok=True)
+        
+        # Try to load saved session first
+        saved_session = None
+        if session_file.exists():
+            try:
+                with open(session_file) as f:
+                    saved_session = json.load(f)
+                logger.info(f"📂 Found saved session: device_id={saved_session.get('device_id')}")
+            except Exception as e:
+                logger.warning(f"⚠️ Failed to load session file: {e}")
+        
+        # Use saved device_id or generate a PERSISTENT one
+        device_id = saved_session.get("device_id") if saved_session else "SOPHIEVOICE01"
+        
+        # Connect to Matrix with PERSISTENT crypto store
+        # CRITICAL: store_path and store_name must be same every time for Olm keys to persist
         matrix_config = AsyncClientConfig(
             store=SqliteStore,
-            store_name="sophie_voice",
+            store_name="sophie_matrix",  # Must match existing DB filename
             encryption_enabled=True,
         )
         
@@ -545,30 +588,115 @@ class SophieVoiceAgent:
             config.matrix_homeserver,
             config.matrix_user,
             config=matrix_config,
-            store_path=str(config.data_path / "matrix_store"),
+            store_path=str(crypto_store_path),  # CRITICAL: Use dedicated crypto store path
+            device_id=device_id,
         )
         
-        response = await self.matrix_client.login(
-            config.matrix_password,
-            device_name="Sophie Voice"
-        )
-        
-        if isinstance(response, LoginResponse):
-            self.device_id = response.device_id
-            logger.info(f"✅ Matrix logged in as {config.matrix_user}")
-            logger.info(f"   Device ID: {self.device_id}")
-        else:
-            logger.error(f"❌ Matrix login failed: {response}")
-            return False
+        # Try to restore session if we have one
+        if saved_session and saved_session.get("access_token"):
+            self.matrix_client.access_token = saved_session["access_token"]
+            self.matrix_client.user_id = saved_session.get("user_id", config.matrix_user)
+            self.matrix_client.device_id = device_id
+            self.device_id = device_id
+            logger.info(f"✅ Restored Matrix session: device_id={self.device_id}")
+            logger.info(f"   Crypto store: {crypto_store_path}")
             
-        # Initial sync
+            # matrix-nio loads the store automatically when we call sync()
+            # Just verify the store path exists
+            store_db = crypto_store_path / "sophie_matrix"
+            if store_db.exists():
+                logger.info(f"✅ Found existing crypto store DB")
+            else:
+                logger.warning(f"⚠️ No existing crypto store - new Olm keys will be created")
+        else:
+            # Fresh login - will create new crypto keys
+            response = await self.matrix_client.login(
+                config.matrix_password,
+                device_name="Sophie Voice",
+            )
+            
+            if isinstance(response, LoginResponse):
+                self.device_id = response.device_id
+                logger.info(f"✅ Matrix logged in as {config.matrix_user}")
+                logger.info(f"   Device ID: {self.device_id}")
+                
+                # Save session for next time
+                with open(session_file, "w") as f:
+                    json.dump({
+                        "access_token": self.matrix_client.access_token,
+                        "device_id": self.device_id,
+                        "user_id": config.matrix_user,
+                    }, f)
+                logger.info(f"💾 Saved session to {session_file}")
+            else:
+                logger.error(f"❌ Matrix login failed: {response}")
+                return False
+            
+        # Add callback for to-device events (encryption keys)
+        self.e2ee_key = None
+        self.matrix_client.add_to_device_callback(self._on_to_device_event, None)
+        logger.info("🔐 Listening for E2EE keys via to-device")
+        
+        # Initial sync - CRITICAL: Use sync_forever pattern for proper key sharing
+        logger.info("🔄 Starting Matrix sync (may take a moment to receive keys)...")
         await self.matrix_client.sync(timeout=30000, full_state=True)
         logger.info("✅ Matrix synced")
+        
+        # CRITICAL: Request room keys we don't have
+        await self._request_missing_room_keys()
         
         # CLEANUP: Clear all old Sophie ghost call.member state events
         await self._cleanup_ghost_instances()
         
         return True
+    
+    async def _request_missing_room_keys(self):
+        """Request Megolm session keys for encrypted rooms we're in.
+        
+        This is CRITICAL for E2EE - without the session keys, we can't decrypt messages.
+        Aaron's client needs to share keys with us.
+        """
+        logger.info("🔑 Checking for missing room keys...")
+        
+        try:
+            # Get the room object
+            room = self.matrix_client.rooms.get(config.matrix_room_id)
+            if not room:
+                logger.warning(f"⚠️ Room {config.matrix_room_id} not in client state yet")
+                return
+            
+            # Check if room is encrypted
+            if not room.encrypted:
+                logger.info(f"ℹ️ Room is not encrypted, no keys needed")
+                return
+            
+            # Request keys for this room
+            # This sends m.room_key_request to-device messages
+            logger.info(f"📤 Requesting room keys for {config.matrix_room_id}")
+            
+            # Send key request for any undecrypted events
+            # The SDK handles this automatically during sync when it encounters
+            # MegolmEvent that it can't decrypt, but we can also trigger manually
+            
+            # Try to import/query keys from the crypto store
+            if hasattr(self.matrix_client, 'olm') and self.matrix_client.olm:
+                sessions = self.matrix_client.olm.inbound_group_store
+                if sessions:
+                    count = len(list(sessions))
+                    logger.info(f"✅ Have {count} Megolm sessions in store")
+                else:
+                    logger.warning("⚠️ No Megolm sessions in store - waiting for key share from Aaron")
+                    logger.warning("   👉 Aaron may need to verify Sophie's device in Element")
+            
+            # Log our device keys for verification
+            if hasattr(self.matrix_client, 'device_id'):
+                logger.info(f"📱 Our device: {self.matrix_client.device_id}")
+                logger.info(f"   Aaron needs to verify this device to share keys")
+                
+        except Exception as e:
+            logger.error(f"❌ Error requesting room keys: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
         
     async def _cleanup_ghost_instances(self):
         """Clean up ALL old Sophie call.member state events from previous sessions.
@@ -614,6 +742,79 @@ class SophieVoiceAgent:
                 
         except Exception as e:
             logger.error(f"❌ Ghost cleanup failed: {e}")
+    
+    async def _on_to_device_event(self, event):
+        """Handle to-device events (including encryption keys from Element X per MSC4143)."""
+        try:
+            event_type = event.source.get("type", "")
+            content = event.source.get("content", {})
+            sender = event.source.get("sender", "")
+            
+            # Log ALL to-device events for debugging (info level to see what's coming)
+            logger.info(f"📨 To-device event: type={event_type}, sender={sender}")
+            logger.debug(f"   Content keys: {list(content.keys())}")
+            
+            # Handle room key sharing (m.room_key - for Megolm sessions)
+            if event_type == "m.room_key":
+                logger.info(f"🔐 Received room key from {sender}")
+                room_id = content.get("room_id", "")
+                session_id = content.get("session_id", "")
+                logger.info(f"   Room: {room_id}, Session: {session_id[:20]}...")
+                # The SDK automatically processes these and adds to the crypto store
+                return
+            
+            # Handle forwarded room keys
+            if event_type == "m.forwarded_room_key":
+                logger.info(f"🔐 Received forwarded room key from {sender}")
+                return
+            
+            # Handle key requests (someone asking us for keys)
+            if event_type == "m.room_key_request":
+                logger.info(f"📬 Received key request from {sender}")
+                # We could respond with keys if we have them, but for voice bot we don't need to
+                return
+            
+            # Handle MSC4143 MatrixRTC encryption keys (for voice/audio E2EE)
+            if event_type == "m.rtc.encryption_key" or event_type == "io.element.call.encryption_keys":
+                logger.info(f"🔐 Received MatrixRTC encryption key from {sender}")
+                logger.info(f"   Full content: {json.dumps(content, indent=2)}")
+                
+                # MSC4143 format: media_key.key and media_key.index
+                media_key = content.get("media_key", {})
+                key_b64 = media_key.get("key") or content.get("key")
+                key_index = media_key.get("index", 0) or content.get("index", 0)
+                member_id = content.get("member_id", "unknown")
+                
+                # Also check legacy/Element-specific formats
+                if not key_b64:
+                    keys = content.get("keys", {})
+                    key_b64 = keys.get("key")
+                    key_index = keys.get("index", 0)
+                
+                # Element X may use encryption_keys array
+                if not key_b64:
+                    enc_keys = content.get("encryption_keys", [])
+                    if enc_keys:
+                        key_b64 = enc_keys[0].get("key")
+                        key_index = enc_keys[0].get("index", 0)
+                
+                if key_b64:
+                    self.presence.aaron_e2ee_key = base64.b64decode(key_b64)
+                    logger.info(f"✅ Stored Aaron's MatrixRTC E2EE key!")
+                    logger.info(f"   Member: {member_id}, Index: {key_index}, Size: {len(self.presence.aaron_e2ee_key)} bytes")
+                else:
+                    logger.warning(f"⚠️ MatrixRTC key event had no key data")
+                return
+            
+            # Log other interesting to-device events
+            if "key" in event_type.lower() or "encrypt" in event_type.lower():
+                logger.info(f"🔐 Other crypto event: {event_type}")
+                logger.info(f"   Content: {json.dumps(content, indent=2)[:500]}")
+                    
+        except Exception as e:
+            logger.error(f"❌ Error handling to-device event: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
         
     async def get_room_state(self) -> List[Dict]:
         """Get current room state events."""
@@ -639,27 +840,25 @@ class SophieVoiceAgent:
             
         logger.info(f"🎤 Joining call: {livekit_room_name[:40]}...")
         
-        # Generate encryption key
-        key = secrets.token_bytes(32)
-        
-        # E2EE options (try with, fall back to without)
-        try:
-            e2ee_options = rtc.E2EEOptions(
-                key_provider_options=rtc.KeyProviderOptions(
-                    shared_key=key,
-                    ratchet_salt=b"LKFrameEncryptionKey",
-                    ratchet_window_size=16,
-                ),
-                encryption_type=1,
-            )
-        except TypeError:
-            e2ee_options = rtc.E2EEOptions(
-                key_provider_options=rtc.KeyProviderOptions(
-                    shared_key=key,
-                    ratchet_salt=b"LKFrameEncryptionKey",
-                ),
-                encryption_type=1,
-            )
+        # E2EE setup using Aaron's key from his call.member event
+        # MatrixRTC uses SFrame E2EE where each participant publishes their key
+        e2ee_options = None
+        aaron_key = self.presence.aaron_e2ee_key
+        if aaron_key:
+            logger.info(f"🔐 Using Aaron's E2EE key from call.member ({len(aaron_key)} bytes)")
+            try:
+                e2ee_options = rtc.E2EEOptions(
+                    key_provider_options=rtc.KeyProviderOptions(
+                        shared_key=aaron_key,
+                        ratchet_salt=b"LKFrameEncryptionKey",
+                    ),
+                    encryption_type=1,
+                )
+            except Exception as e:
+                logger.warning(f"⚠️ E2EE setup failed: {e}")
+        else:
+            logger.warning("⚠️ Aaron's encryption key not found in call.member - audio may be encrypted")
+            logger.warning("   Check if Aaron's Element X is publishing encryption_keys in call.member")
         
         # Create room and audio source
         self.livekit_room = rtc.Room()
@@ -752,6 +951,9 @@ class SophieVoiceAgent:
         # Announce to Matrix
         await self._announce_call_membership(livekit_room_name)
         
+        # Send our encryption key to Aaron via to-device (MSC4143)
+        await self._send_encryption_key_to_aaron()
+        
         # Start sending silence when not speaking
         asyncio.create_task(self._send_audio_loop())
         
@@ -777,7 +979,14 @@ class SophieVoiceAgent:
                 }
             ],
             "m.call.intent": "audio",
-            "created_ts": int(time.time() * 1000)
+            "created_ts": int(time.time() * 1000),
+            # E2EE encryption keys (MSC4143)
+            "encryption_keys": [
+                {
+                    "index": 0,
+                    "key": self.our_e2ee_key_b64,
+                }
+            ],
         }
         
         try:
@@ -790,6 +999,70 @@ class SophieVoiceAgent:
             logger.info(f"✅ Call membership announced")
         except Exception as e:
             logger.error(f"❌ Failed to announce call membership: {e}")
+    
+    async def _send_encryption_key_to_aaron(self):
+        """Send our encryption key to Aaron via to-device message (MSC4143).
+        
+        This is how MatrixRTC participants share media encryption keys.
+        Each participant sends their key to all other participants.
+        """
+        if not self.presence.aaron_device_id:
+            logger.warning("⚠️ Cannot send encryption key - don't know Aaron's device ID")
+            # Try to get device ID from room state
+            state_events = await self.get_room_state()
+            for event in state_events:
+                if event.get("type") == "org.matrix.msc3401.call.member":
+                    state_key = event.get("state_key", "")
+                    content = event.get("content", {})
+                    if config.aaron_user_id in state_key and content.get("device_id"):
+                        self.presence.aaron_device_id = content["device_id"]
+                        logger.info(f"📱 Found Aaron's device ID: {self.presence.aaron_device_id}")
+                        break
+            
+            if not self.presence.aaron_device_id:
+                logger.warning("⚠️ Still no device ID for Aaron - cannot send key")
+                return
+            
+        try:
+            # MSC4143 format for m.rtc.encryption_key
+            member_id = f"{self.device_id}_{secrets.token_hex(4)}"
+            key_content = {
+                "room_id": config.matrix_room_id,
+                "member_id": member_id,
+                "media_key": {
+                    "index": 0,
+                    "key": self.our_e2ee_key_b64,
+                },
+                "version": "0"
+            }
+            
+            logger.info(f"📤 Sending MatrixRTC encryption key to Aaron")
+            logger.info(f"   Device: {self.presence.aaron_device_id}")
+            logger.info(f"   Member ID: {member_id}")
+            
+            # Use matrix-nio's to_device method directly
+            # Format: {event_type: {user_id: {device_id: content}}}
+            messages = {
+                config.aaron_user_id: {
+                    self.presence.aaron_device_id: key_content
+                }
+            }
+            
+            response = await self.matrix_client.to_device(
+                "m.rtc.encryption_key",
+                messages
+            )
+            
+            if hasattr(response, 'transport_response'):
+                status = response.transport_response.status if hasattr(response.transport_response, 'status') else 'ok'
+                logger.info(f"✅ Sent encryption key to Aaron (status: {status})")
+            else:
+                logger.info(f"✅ Sent encryption key to Aaron: {response}")
+            
+        except Exception as e:
+            logger.error(f"❌ Failed to send encryption key to Aaron: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
             
     async def leave_call(self):
         """Leave the LiveKit room and clear Matrix state."""
@@ -965,14 +1238,17 @@ class SophieVoiceAgent:
             api_secret=config.livekit_api_secret,
         )
         
+        # Cache LiveKit room name for faster rejoins
+        cached_room_name = None
+        
         try:
             while not self.should_stop:
-                # Sync Matrix
+                # Sync Matrix (shorter timeout for faster detection)
                 try:
-                    await self.matrix_client.sync(timeout=5000)
+                    await self.matrix_client.sync(timeout=1000)
                 except Exception as e:
                     logger.warning(f"Matrix sync error: {e}")
-                    await asyncio.sleep(5)
+                    await asyncio.sleep(1)
                     continue
                     
                 # Get room state and check Aaron's presence
@@ -981,21 +1257,29 @@ class SophieVoiceAgent:
                 
                 if aaron_in_call and not self.in_call:
                     # Aaron joined - find and join the LiveKit room
-                    try:
-                        rooms = await lk_api.room.list_rooms(api.ListRoomsRequest())
-                        for room in rooms.rooms:
-                            if room.num_participants > 0:
-                                await self.join_call(room.name)
-                                break
-                    except Exception as e:
-                        logger.error(f"Error listing LiveKit rooms: {e}")
+                    room_name = cached_room_name
+                    
+                    if not room_name:
+                        # Find room with participants
+                        try:
+                            rooms = await lk_api.room.list_rooms(api.ListRoomsRequest())
+                            for room in rooms.rooms:
+                                if room.num_participants > 0:
+                                    room_name = room.name
+                                    cached_room_name = room_name  # Cache for next time
+                                    break
+                        except Exception as e:
+                            logger.error(f"Error listing LiveKit rooms: {e}")
+                    
+                    if room_name:
+                        await self.join_call(room_name)
                         
                 elif not aaron_in_call and self.in_call:
                     # Aaron left - check timeout
                     if self.presence.should_leave():
                         await self.leave_call()
                         
-                await asyncio.sleep(2)
+                await asyncio.sleep(0.5)  # Faster polling
                 
         except asyncio.CancelledError:
             pass
