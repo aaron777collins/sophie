@@ -1,0 +1,34 @@
+{
+  "id": "val-req-clawd-r0y-1709500550",
+  "timestamp": "2026-03-03T21:15:50Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: clawd-r0y Rate Limiting (Re-submission with fixes)",
+  "content": {
+    "task_ids": ["clawd-r0y"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1 - Authentication",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-03-03T21:15:50Z",
+    "files_changed": [
+      "src/lib/rate-limiter-v2.ts",
+      "src/app/api/auth/login/route.ts",
+      "tests/e2e/rate-limit-validation.spec.ts"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Allow up to 4 failed login attempts normally",
+      "AC-2: Block after 5 failed attempts within 1 minute",
+      "AC-3: Display 'Too many login attempts. Please wait 1 minute.'",
+      "AC-4: Disable login button during cooldown",
+      "AC-5: Return 429 for API requests during cooldown",
+      "AC-6: Reset counter after 1 minute cooldown"
+    ],
+    "self_validation_notes": "Complete re-implementation to match ACs. Fixed: window from 15min to 1min, error message to exact AC text, Retry-After header from 900s to 60s. All 62 rate limiting tests pass. E2E test suite created with screenshot capture. Build passes.",
+    "evidence": {
+      "unit_tests": "62/62 PASS",
+      "e2e_tests": "tests/e2e/rate-limit-validation.spec.ts created",
+      "report": "RATE_LIMITING_VALIDATION_REPORT.md"
+    }
+  }
+}

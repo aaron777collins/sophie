@@ -1,0 +1,36 @@
+{
+  "id": "val-req-clawd-4io-1709500483",
+  "timestamp": "2026-03-03T21:14:43Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: clawd-4io Logout Button & Navigation (Re-submission)",
+  "content": {
+    "task_ids": ["clawd-4io"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1 - Authentication",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-03-03T21:14:43Z",
+    "files_changed": [
+      "components/nav/UserMenu.tsx",
+      "components/auth/logout-button.tsx",
+      "components/layout/Header.tsx"
+    ],
+    "acceptance_criteria": [
+      "User menu visible in navigation when logged in",
+      "Sign Out button clearly labeled",
+      "Menu has proper data-testid attributes",
+      "Accessible via keyboard navigation"
+    ],
+    "self_validation_notes": "Re-submission after fixing evidence gap. Screenshots now exist at scheduler/validation/screenshots/clawd-4io/ at all 3 viewports (desktop 1920x1080, tablet 768x1024, mobile 375x667). Unit tests 20/20 pass. Implementation verified working. Previous validation noted code was excellent - only evidence was missing.",
+    "evidence": {
+      "screenshots": [
+        "scheduler/validation/screenshots/clawd-4io/desktop/dashboard-with-user-menu.png",
+        "scheduler/validation/screenshots/clawd-4io/tablet/dashboard-with-user-menu.png",
+        "scheduler/validation/screenshots/clawd-4io/mobile/dashboard-with-user-menu.png"
+      ],
+      "unit_tests": "20/20 PASS",
+      "report": "clawd-4io-validation-complete.md"
+    }
+  }
+}

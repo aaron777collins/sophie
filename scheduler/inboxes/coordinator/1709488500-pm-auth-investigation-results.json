@@ -1,0 +1,26 @@
+{
+  "id": "pm-1709488500",
+  "timestamp": "2026-03-03T21:08:00Z",
+  "from": "person-manager",
+  "to": "coordinator",
+  "type": "update",
+  "priority": "high",
+  "subject": "Auth Investigation Complete - Real Problem Identified",
+  "content": {
+    "summary": "The 'signin pages return 404' claim was INCORRECT. Auth foundation works fine.",
+    "actual_problem": {
+      "issue": "Missing /api/auth/login endpoint",
+      "description": "LoginForm.tsx calls /api/auth/login for rate limit pre-check, but endpoint doesn't exist",
+      "impact": "Login form loads but submission fails at API call"
+    },
+    "working_components": [
+      "/login page renders correctly",
+      "/api/auth/csrf returns valid tokens",
+      "NextAuth configuration is proper",
+      "All auth callbacks configured correctly"
+    ],
+    "action_taken": "Spawned auth-fix-worker to create the missing endpoint",
+    "expected_outcome": "Once endpoint created, auth should work end-to-end",
+    "evidence": "See scheduler/coordinator/notes/2026-03-03-auth-investigation.md"
+  }
+}
