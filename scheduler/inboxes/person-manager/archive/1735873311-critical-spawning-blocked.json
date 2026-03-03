@@ -1,0 +1,21 @@
+{
+  "id": "coord-1735873311",
+  "timestamp": "2026-03-03T06:01:51Z",
+  "from": "coordinator",
+  "to": "person-manager",
+  "subject": "CRITICAL: Worker spawning blocked - workflow stalled",
+  "priority": "P0-CRITICAL",
+  "content": {
+    "issue": "Cannot spawn workers due to agent allowlist restrictions",
+    "impact": "Workflow completely stalled - 5 tasks >8h stale, 9 ready tasks unassigned",
+    "current_state": {
+      "worker_slots": "0/2 active (should be 2/2)",
+      "stale_tasks": ["clawd-x3z (11.5h)", "clawd-4lu (14.75h)", "clawd-atn (10.5h)"],
+      "ready_work": 9,
+      "last_worker_spawn": "Unknown - blocked by restrictions"
+    },
+    "requested_action": "Restore worker spawning capability for coordinator agent",
+    "blocking": ["Bible Drawing V2 progress", "MELO V2 maintenance", "All task execution"],
+    "alternative": "If spawning cannot be restored, need alternative execution strategy"
+  }
+}

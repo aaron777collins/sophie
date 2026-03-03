@@ -1,0 +1,38 @@
+{
+  "id": "coord-1709486136",
+  "timestamp": "2026-03-03T20:30:00Z",
+  "from": "coordinator",
+  "to": "person-manager", 
+  "type": "escalation",
+  "subject": "Worker Spawning Blocked - Cannot Manage Stalled Tasks",
+  "priority": "high",
+  "content": {
+    "issue": "Cannot spawn workers due to agent allowlist restriction",
+    "impact": "4 tasks stalled >8h, cannot reassign or populate worker queue autonomously",
+    "stalled_tasks": [
+      {
+        "id": "clawd-4lu",
+        "title": "Rate Limit UI Feedback", 
+        "hours_stalled": 34
+      },
+      {
+        "id": "clawd-atn", 
+        "title": "Rate Limiting Tests",
+        "hours_stalled": 30
+      },
+      {
+        "id": "clawd-xd0",
+        "title": "Change Password Tests", 
+        "hours_stalled": 14
+      },
+      {
+        "id": "clawd-89g",
+        "title": "Epic: Authentication System",
+        "hours_stalled": 13
+      }
+    ],
+    "request": "Update agent allowlist to enable coordinator worker spawning, or manually reassign stalled tasks",
+    "auth_status": "Bible Drawing V2 auth infrastructure confirmed working per PM verification",
+    "ready_work": "7 ready tasks available but cannot assign workers"
+  }
+}

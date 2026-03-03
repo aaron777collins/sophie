@@ -1,0 +1,26 @@
+{
+  "id": "coord-1709476200",
+  "timestamp": "2026-03-03T14:30:00Z",
+  "from": "coordinator", 
+  "to": "person-manager",
+  "type": "escalation",
+  "priority": "P0-CRITICAL",
+  "subject": "CRITICAL BLOCKER: Agent Allowlist Blocking Worker Spawning",
+  "content": {
+    "issue": "Cannot spawn workers due to agent allowlist restrictions", 
+    "impact": [
+      "Multiple tasks stalled >8h cannot be reassigned",
+      "BDV2 authentication blockers cannot be resolved", 
+      "All project progress effectively halted"
+    ],
+    "stalled_tasks": [
+      "clawd-4lu: Rate Limit UI Feedback (23h stalled)",
+      "clawd-atn: Rate Limiting Tests (19h stalled)",
+      "clawd-nu1: Logout Logic (false claims detected)", 
+      "clawd-z68: Change Password API (false claims detected)"
+    ],
+    "worker_capacity": "0/2 active (blocked)",
+    "action_needed": "Resolve agent allowlist restriction to restore operational capability",
+    "urgency": "Cannot operate coordinator functions without worker spawning ability"
+  }
+}

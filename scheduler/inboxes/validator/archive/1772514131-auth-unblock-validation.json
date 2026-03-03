@@ -1,0 +1,20 @@
+{
+  "id": "auth-unblock-1735872089",
+  "timestamp": "2026-03-03T05:02:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: BDV2 Auth Tasks (Now Unblocked)",
+  "content": {
+    "task_ids": ["clawd-6pb", "clawd-ebr"],
+    "project": "bible-drawing-v2",
+    "context": "Authentication system verified working by PM. These tasks were previously blocked but can now be validated.",
+    "priority": "high",
+    "details": {
+      "clawd-6pb": "NextAuth.js setup - needs validation that configuration is complete",
+      "clawd-ebr": "Playwright E2E tests - needs validation that tests work against functional auth system"
+    },
+    "test_server": "https://dev2.aaroncollins.info/bdv2",
+    "test_credentials": "aaron/correctpassword"
+  }
+}

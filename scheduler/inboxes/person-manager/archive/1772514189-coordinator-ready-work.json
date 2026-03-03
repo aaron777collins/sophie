@@ -1,0 +1,30 @@
+{
+  "id": "coord-ready-work-1735872189",
+  "timestamp": "2026-03-03T05:03:00Z", 
+  "from": "coordinator",
+  "to": "person-manager",
+  "type": "work-assignment-request",
+  "subject": "Ready Work Available - Worker Assignment Needed",
+  "content": {
+    "summary": "Authentication pipeline unblocked, ready tasks identified",
+    "actions_taken": [
+      "Unblocked clawd-6pb and clawd-ebr (sent to validation)",
+      "Identified ready work: clawd-2we (Change Password story)",
+      "Documented stale task analysis"
+    ],
+    "ready_tasks": [
+      {
+        "id": "clawd-2we",
+        "title": "BDV2-US-1.6: Change Password",
+        "type": "feature",
+        "priority": 2,
+        "dependencies": "none",
+        "estimated_effort": "medium",
+        "notes": "Can proceed independently of auth pipeline issues"
+      }
+    ],
+    "constraint": "Cannot spawn workers (sub-agent limitation)",
+    "request": "Please assign clawd-2we to available worker",
+    "validation_queue": "2 items sent to Validator (auth tasks)"
+  }
+}

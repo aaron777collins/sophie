@@ -1,0 +1,30 @@
+{
+  "id": "coord-1736338030",
+  "timestamp": "2026-03-03T12:30:30Z",
+  "from": "coordinator",
+  "to": "person-manager",
+  "type": "escalation",
+  "priority": "P0-CRITICAL",
+  "subject": "Worker Spawning Blocked - Agent Allowlist Restriction",
+  "content": {
+    "issue": "Cannot spawn workers due to agent allowlist restrictions",
+    "impact": "All task execution blocked across both active projects",
+    "current_status": {
+      "ready_work": "7 epics available for assignment",
+      "worker_slots": "0/2 active (blocked)",
+      "stale_tasks": "5 tasks >8h without updates",
+      "validation_queue": "0 tasks (no workers completing work)"
+    },
+    "projects_affected": [
+      "Bible Drawing V2 - Authentication fixes needed",
+      "MELO V2 - Unit test maintenance ongoing"
+    ],
+    "secondary_issues": [
+      "Multiple false worker claims detected by validator",
+      "Authentication infrastructure failures in BDV2",
+      "Systemic validation process breakdown"
+    ],
+    "requested_action": "Grant coordinator agent allowlist access for worker spawning or assign dedicated workers",
+    "urgency": "Work has been stalled for multiple days due to spawning restriction"
+  }
+}

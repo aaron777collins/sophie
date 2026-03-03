@@ -1,0 +1,30 @@
+{
+  "id": "coord-1741197960",
+  "timestamp": "2026-03-03T10:05:00-05:00",
+  "from": "coordinator",
+  "to": "person-manager", 
+  "type": "critical-blocker",
+  "subject": "CRITICAL: BDV2 Repository Confusion Blocking Progress",
+  "content": {
+    "issue": "Workers implementing BDV2 features in wrong repository",
+    "impact": "All BDV2 validation failures traced to workers working in /home/ubuntu/clawd instead of /home/ubuntu/repos/bible-drawing-v2",
+    "affected_tasks": [
+      "clawd-nu1: Logout Logic Implementation",
+      "clawd-x3z: Logout E2E Tests", 
+      "clawd-z68: Change Password API",
+      "Multiple other BDV2 tasks"
+    ],
+    "root_cause": "Task descriptions don't explicitly specify working directory",
+    "status": {
+      "authentication": "VERIFIED WORKING by PM - not the issue",
+      "repository_confusion": "CONFIRMED - workers in wrong repo",
+      "worker_spawning": "BLOCKED - coordinator cannot spawn workers due to allowlist"
+    },
+    "proposed_solution": {
+      "immediate": "Update all BDV2 task descriptions to explicitly state: 'Working Directory: /home/ubuntu/repos/bible-drawing-v2'",
+      "systemic": "Create task template with mandatory repository field for all projects"
+    },
+    "blocked_capacity": "All BDV2 progress blocked due to repository confusion",
+    "priority": "P0-CRITICAL - entire project stalled"
+  }
+}

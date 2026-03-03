@@ -1,0 +1,32 @@
+{
+  "id": "val-req-clawd-ehb-1709448000",
+  "timestamp": "2026-03-03T06:50:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: clawd-ehb Rate Limiter V2 Integration",
+  "content": {
+    "task_ids": ["clawd-ehb"],
+    "project": "bible-drawing-v2",
+    "repository": "/home/ubuntu/repos/bible-drawing-v2",
+    "test_server": "https://dev2.aaroncollins.info/bdv2",
+    "claimed_by": "worker",
+    "layer2_verified_by": "coordinator",
+    "layer2_verification": {
+      "import_check": "PASS - rate-limiter-v2 import found in login/route.ts",
+      "test_file_check": "PASS - login-v2-integration.test.ts exists (8226 bytes)",
+      "files_changed": [
+        "src/app/api/auth/login/route.ts",
+        "__tests__/api/auth/login-v2-integration.test.ts"
+      ]
+    },
+    "acceptance_criteria": [
+      "Rate limiter tracks by IP address",
+      "5 attempts per 15 minutes limit enforced", 
+      "Returns 429 after limit exceeded",
+      "Counter resets after cooldown",
+      "V2 rate limiter integrated into auth flow (was missing)"
+    ],
+    "self_validation_notes": "Worker claims 11/11 integration tests passing, build success. Layer 2 verified files exist and imports are correct. Need Layer 3 to verify functional behavior on test server."
+  }
+}
