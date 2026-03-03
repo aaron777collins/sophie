@@ -68,12 +68,26 @@ User speaks (5s) → STT (0.5s) → AI (3-5s) → TTS (6-7s) → Playback
 
 ## Active Issues
 
-### P0: Pipeline Latency
+### P0: Pipeline Latency - RESEARCH IN PROGRESS
+
+**Completed:**
 - ✅ Benchmarked all components
 - ✅ Identified TTS as primary bottleneck (3x realtime)
-- ✅ STT is fast (27x realtime)
-- 🔴 **TTS needs optimization** - 12s for 100 words is too slow
-- Options: streaming TTS, GPU acceleration, alternative TTS engine
+- ✅ STT is fast (27x realtime) but mishears technical terms
+
+**Research Spawned (2026-03-03 17:42):**
+- 🔄 `research-tts-options` - Evaluating Piper, Coqui, eSpeak, XTTS, etc.
+- 🔄 `research-stt-options` - Comparing Whisper model sizes + alternatives
+- 🔄 `research-streaming-interruption` - Streaming TTS + interruption handling
+
+**Requirements:**
+- Speed + Accuracy weighted 1:1
+- Hardware: Ryzen 5 3600 (CPU only, no GPU)
+- Keep Claude Sonnet for AI
+- Need streaming AI output (start TTS before full response)
+- Need interruption support (stop when user speaks)
+
+**See:** `research-requirements.md` for full specs
 
 ---
 
