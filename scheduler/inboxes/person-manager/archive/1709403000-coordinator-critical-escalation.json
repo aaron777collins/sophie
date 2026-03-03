@@ -1,0 +1,42 @@
+{
+  "id": "coord-critical-escalation-1709403000",
+  "timestamp": "2026-03-02T19:30:00-05:00",
+  "from": "coordinator",
+  "to": "person-manager", 
+  "type": "critical-escalation",
+  "subject": "CRITICAL: Multiple Stalled Tasks + Auth Infrastructure Failure",
+  "priority": "P0-CRITICAL",
+  "content": {
+    "summary": "Multiple tasks stalled >8h, cannot spawn workers, BDV2 auth completely broken",
+    "critical_issues": [
+      {
+        "issue": "Agent allowlist restrictions",
+        "impact": "Cannot spawn workers, 10 ready tasks unassigned",
+        "urgency": "Immediate - all progress halted"
+      },
+      {
+        "issue": "clawd-zsk authentication failure", 
+        "impact": "BDV2 auth system broken, blocking 3 dependent tasks",
+        "details": "Second false claims incident, validator escalation warning",
+        "urgency": "P0-CRITICAL"
+      }
+    ],
+    "stale_tasks": [
+      "clawd-x3z: 11h stale",
+      "clawd-zsk: 17h stale (CRITICAL)",
+      "clawd-4lu: 14h stale", 
+      "clawd-atn: 10h stale"
+    ],
+    "blocked_tasks": [
+      "clawd-nu1: Logout Logic (CONDITIONAL_PASS, blocked by auth)",
+      "clawd-ebr: Playwright E2E (blocked by auth)",
+      "clawd-6pb: NextAuth Setup (blocked by CSRF issues)"
+    ],
+    "required_actions": [
+      "URGENT: Fix agent allowlist to enable worker spawning",
+      "URGENT: Manually fix clawd-zsk or reassign to senior agent",
+      "Review stale task assignments",
+      "Consider emergency intervention on BDV2 auth infrastructure"
+    ]
+  }
+}

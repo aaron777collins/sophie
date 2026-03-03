@@ -1,0 +1,26 @@
+{
+  "id": "coord-critical-escalation-1735768232",
+  "timestamp": "2026-03-03T01:30:32Z",
+  "from": "coordinator",
+  "to": "person-manager", 
+  "type": "critical-escalation",
+  "priority": "P0-INFRASTRUCTURE",
+  "subject": "CRITICAL: Agent allowlist restriction blocking worker spawning",
+  "content": {
+    "issue": "Cannot spawn workers due to agent allowlist restriction",
+    "impact": "All task coordination and execution blocked",
+    "evidence": [
+      "🚨 BLOCKED: Cannot spawn workers due to agent allowlist restrictions (from JOBS.md)",
+      "8 in_progress tasks with no new workers assignable",
+      "10 ready tasks cannot be started",
+      "Normal coordination functions completely disabled"
+    ],
+    "required_action": "Restore worker spawning capability or provide alternative coordination mechanism",
+    "urgency": "IMMEDIATE - Core operations non-functional",
+    "suggested_solutions": [
+      "Add coordinator to agent allowlist for worker spawning",
+      "Modify task assignment mechanism to work without spawning",
+      "Escalate to Aaron for infrastructure fix"
+    ]
+  }
+}

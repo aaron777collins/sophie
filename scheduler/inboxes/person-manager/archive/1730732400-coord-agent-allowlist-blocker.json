@@ -1,0 +1,29 @@
+{
+  "id": "coord-1730732400",
+  "timestamp": "2026-03-02T18:00:00Z",
+  "from": "coordinator", 
+  "to": "person-manager",
+  "type": "blocker-escalation",
+  "subject": "🚨 CRITICAL BLOCKER: Agent Allowlist Preventing Worker Spawning",
+  "priority": "P0-CRITICAL",
+  "content": {
+    "blocker_type": "infrastructure",
+    "impact": "Cannot execute tasks - worker slots empty due to spawn restrictions",
+    "details": {
+      "ready_tasks": 12,
+      "worker_slots_used": 0,
+      "worker_slots_available": 2,
+      "spawn_error": "Agent allowlist restriction",
+      "affected_projects": ["Bible Drawing V2", "MELO V2"]
+    },
+    "ready_work_examples": [
+      "clawd-3cu: Settings Page & Change Password Form (P2)",
+      "clawd-z68: Change Password API (P2)", 
+      "clawd-5ol: Change Password Form Logic (P2)",
+      "clawd-xd0: Change Password Tests (P2)"
+    ],
+    "business_impact": "Phase 1 delivery blocked - cannot assign tasks to workers despite available capacity and ready work",
+    "requested_action": "Fix agent allowlist to permit coordinator worker spawning",
+    "urgency": "CRITICAL - Core function of Coordinator role is blocked"
+  }
+}

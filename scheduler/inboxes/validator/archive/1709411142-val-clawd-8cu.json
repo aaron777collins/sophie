@@ -1,0 +1,38 @@
+{
+  "id": "val-req-1709411142",
+  "timestamp": "2026-03-02T20:05:42Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: clawd-8cu (BDV2 Project Creation UI)",
+  "content": {
+    "task_ids": ["clawd-8cu"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-03-02T20:05:42Z",
+    "files_changed": [
+      "src/app/projects/new/page.tsx",
+      "src/components/projects/create-project-form.tsx",
+      "__tests__/unit/components/projects/create-project-form.test.tsx",
+      "__tests__/pages/projects/new.test.tsx"
+    ],
+    "acceptance_criteria": [
+      "User can access /projects/new page",
+      "Form validates required project name", 
+      "Form allows optional description",
+      "Successful creation redirects to dashboard",
+      "Projects stored in localStorage",
+      "Form shows loading/error states appropriately",
+      "All tests pass"
+    ],
+    "layer_2_validation": {
+      "report_path": "~/clawd/scheduler/validation/reports/BDV2/clawd-8cu-layer2-validation.md",
+      "build_verified": true,
+      "tests_verified": "11/11 passed",
+      "status": "PASSED"
+    },
+    "test_server": "https://dev2.aaroncollins.info/bdv2",
+    "repository": "/home/ubuntu/repos/bible-drawing-v2"
+  }
+}

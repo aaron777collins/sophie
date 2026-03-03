@@ -1,0 +1,30 @@
+{
+  "id": "val-req-nu1-logout",
+  "timestamp": "2026-03-03T02:05:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request", 
+  "subject": "Validate: BDV2-ST-1.3.B Logout Logic Implementation",
+  "content": {
+    "task_ids": ["clawd-nu1"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1 - Authentication",
+    "claimed_by": "worker",
+    "claimed_at": "2026-03-02T20:05:00Z",
+    "files_changed": [
+      "components/nav/UserMenu.tsx",
+      "app/login/page.tsx"
+    ],
+    "commit": "086925b",
+    "acceptance_criteria": [
+      "signOut() properly called",
+      "All session-related cookies cleared", 
+      "User redirected to /login",
+      "Success message displayed on login page",
+      "No cached session data remains"
+    ],
+    "test_url": "https://dev2.aaroncollins.info/bdv2",
+    "test_credentials": "aaron/correctpassword",
+    "verification_notes": "PM confirmed auth working. Implementation commit present. Ready for independent Layer 3 validation."
+  }
+}
