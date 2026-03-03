@@ -38,8 +38,56 @@ from nio import (
     AsyncClientConfig,
     LoginResponse,
     RoomGetStateResponse,
+    KeysQueryResponse,
+    KeysClaimResponse,
 )
 from nio.store import SqliteStore
+from nio.events import Event
+
+# ============================================================================
+# Monkey-patch matrix-nio to handle MSC4143 MatrixRTC encryption keys
+# Without this, nio drops io.element.call.encryption_keys events as "unsupported"
+# ============================================================================
+
+# Custom event class for MatrixRTC encryption keys
+class MatrixRTCEncryptionKeysEvent(Event):
+    """MSC4143 MatrixRTC encryption key event (io.element.call.encryption_keys)"""
+    def __init__(self, sender: str, sender_key: str, payload: dict):
+        self.sender = sender
+        self.sender_key = sender_key
+        self.type = payload.get("type", "io.element.call.encryption_keys")
+        self.content = payload.get("content", {})
+        self.call_id = self.content.get("call_id", "")
+        self.device_id = self.content.get("device_id", "")
+        self.keys = self.content.get("keys", [])
+        # Also check for Element X format
+        if not self.keys and "encryption_keys" in self.content:
+            self.keys = self.content.get("encryption_keys", [])
+
+def _patched_handle_olm_event(original_func):
+    """Wrapper to intercept MSC4143 encryption key events before nio drops them"""
+    def wrapper(self, sender: str, sender_key: str, payload: dict):
+        event_type = payload.get("type", "")
+        
+        # Intercept MSC4143 encryption key events
+        if event_type in ("io.element.call.encryption_keys", "m.rtc.encryption_key"):
+            logging.getLogger("sophie-voice").info(
+                f"🔑 INTERCEPTED MSC4143 encryption keys from {sender}"
+            )
+            return MatrixRTCEncryptionKeysEvent(sender, sender_key, payload)
+        
+        # All other events: use original handler
+        return original_func(self, sender, sender_key, payload)
+    return wrapper
+
+# Apply the patch
+try:
+    from nio.crypto import Olm
+    original_handle_olm_event = Olm._handle_olm_event
+    Olm._handle_olm_event = _patched_handle_olm_event(original_handle_olm_event)
+    print("[STARTUP] ✅ Patched matrix-nio for MSC4143 encryption keys")
+except Exception as e:
+    print(f"[STARTUP] ⚠️ Failed to patch matrix-nio: {e}")
 
 # Load environment
 load_dotenv()
@@ -374,17 +422,18 @@ class PresenceManager:
                     if not self.aaron_in_call:
                         logger.info(f"👤 Aaron joined the call (device: {self.aaron_device_id})")
                     
-                    # Extract Aaron's encryption key if present (MSC4143)
+                    # Extract Aaron's encryption key if present in call.member (MSC4143)
+                    # NOTE: Don't reset if we already have a key from to-device!
                     enc_keys = content.get("encryption_keys", [])
                     if enc_keys:
                         key_data = enc_keys[0]  # Use first key
                         aaron_key_b64 = key_data.get("key")
                         if aaron_key_b64:
                             self.aaron_e2ee_key = base64.b64decode(aaron_key_b64)
-                            logger.info(f"🔑 Got Aaron's encryption key ({len(self.aaron_e2ee_key)} bytes)")
-                    else:
-                        self.aaron_e2ee_key = None
-                        logger.warning("⚠️ Aaron's call.member has no encryption_keys")
+                            logger.info(f"🔑 Got Aaron's encryption key from call.member ({len(self.aaron_e2ee_key)} bytes)")
+                    elif not self.aaron_e2ee_key:
+                        # Only warn if we don't already have the key from to-device
+                        logger.warning("⚠️ Aaron's call.member has no encryption_keys (key may arrive via to-device)")
                     
                     self.aaron_in_call = True
                     self.aaron_left_at = None
@@ -544,6 +593,123 @@ class SophieVoiceAgent:
         self.our_e2ee_key_b64 = base64.b64encode(self.our_e2ee_key).decode()
         self.aaron_e2ee_key: Optional[bytes] = None
         logger.info(f"🔑 Generated our encryption key ({len(self.our_e2ee_key)} bytes)")
+
+    async def _initialize_crypto(self):
+        """Initialize crypto properly after login and sync."""
+        logger.info("🔑 Initializing Matrix E2EE crypto...")
+        
+        # 1. Upload device keys if not already done
+        if self.matrix_client.should_upload_keys:
+            logger.info("📤 Uploading device keys...")
+            response = await self.matrix_client.keys_upload()
+            logger.info(f"   Result: {type(response).__name__}")
+        else:
+            logger.info("✅ Device keys already uploaded")
+        
+        # 2. Query keys for all room members
+        # Note: keys_query() in matrix-nio queries all known users automatically
+        logger.info("🔑 Querying device keys for room members...")
+        room = self.matrix_client.rooms.get(config.matrix_room_id)
+        if room:
+            user_ids = list(room.users.keys())
+            logger.info(f"   Room has {len(user_ids)} users: {user_ids}")
+        response = await self.matrix_client.keys_query()
+        if isinstance(response, KeysQueryResponse):
+            logger.info(f"✅ Got keys for {len(response.device_keys)} users")
+            for user_id, devices in response.device_keys.items():
+                logger.info(f"   {user_id}: {len(devices)} devices")
+        else:
+            logger.warning(f"   Keys query failed: {type(response).__name__}")
+        
+        # 3. Claim one-time keys for users we don't have sessions with
+        missing = self.matrix_client.get_missing_sessions(config.matrix_room_id)
+        if missing:
+            total_devices = sum(len(device_list) for device_list in missing.values())
+            logger.info(f"🔑 Claiming one-time keys for {total_devices} devices...")
+            for user_id, devices in missing.items():
+                logger.info(f"   {user_id}: {devices}")
+            response = await self.matrix_client.keys_claim(missing)
+            if isinstance(response, KeysClaimResponse):
+                logger.info(f"✅ Claimed keys successfully")
+            else:
+                logger.warning(f"   Keys claim failed: {type(response).__name__}")
+        else:
+            logger.info("✅ No missing sessions - all good")
+        
+        # 4. Auto-verify Aaron's devices (CRITICAL for key sharing)
+        await self._auto_verify_aaron_devices()
+        
+        # 5. Log comprehensive crypto status
+        await self._log_crypto_status()
+
+    async def _auto_verify_aaron_devices(self):
+        """Auto-trust Aaron's devices since we control the server."""
+        logger.info("🔐 Auto-verifying Aaron's devices...")
+        
+        if not hasattr(self.matrix_client, 'olm') or not self.matrix_client.olm:
+            logger.warning("   ⚠️ Olm not initialized")
+            return
+            
+        device_store = self.matrix_client.olm.device_store
+        aaron_devices = list(device_store.active_user_devices(config.aaron_user_id))
+        
+        if not aaron_devices:
+            logger.warning(f"   ⚠️ No devices found for {config.aaron_user_id}")
+            return
+            
+        logger.info(f"   Found {len(aaron_devices)} Aaron devices")
+        verified_count = 0
+        
+        for device in aaron_devices:
+            was_verified = self.matrix_client.olm.is_device_verified(device)
+            if not was_verified:
+                logger.info(f"   ✅ Auto-verifying: {device.device_id}")
+                self.matrix_client.verify_device(device)
+                verified_count += 1
+            else:
+                logger.info(f"   ✓ Already verified: {device.device_id}")
+        
+        if verified_count > 0:
+            logger.info(f"✅ Auto-verified {verified_count} Aaron devices")
+        else:
+            logger.info("✅ All Aaron devices were already verified")
+
+    async def _log_crypto_status(self):
+        """Log comprehensive crypto status for debugging."""
+        logger.info("📊 Crypto Status Report:")
+        
+        if not hasattr(self.matrix_client, 'olm') or not self.matrix_client.olm:
+            logger.warning("   ⚠️ Olm not initialized!")
+            return
+        
+        olm = self.matrix_client.olm
+        logger.info(f"   Account shared: {olm.account.shared}")
+        logger.info(f"   Device ID: {self.device_id}")
+        keys_uploaded = olm.uploaded_key_count or 0
+        logger.info(f"   Keys uploaded: {keys_uploaded > 0} (count: {keys_uploaded})")
+        
+        # Device store
+        all_devices = list(olm.device_store)
+        logger.info(f"   Known devices: {len(all_devices)}")
+        
+        # Aaron's devices specifically
+        aaron_devices = list(olm.device_store.active_user_devices(config.aaron_user_id))
+        logger.info(f"   Aaron's devices: {len(aaron_devices)}")
+        for device in aaron_devices:
+            verified = olm.is_device_verified(device)
+            has_session = olm.session_store.get(device.curve25519) is not None
+            logger.info(f"     {device.device_id}: verified={verified}, olm_session={has_session}")
+        
+        # Megolm sessions (room message decryption)
+        try:
+            sessions = list(olm.inbound_group_store)
+            room_sessions = [s for s in sessions if s.room_id == config.matrix_room_id]
+            logger.info(f"   Megolm sessions: {len(sessions)} total, {len(room_sessions)} for our room")
+            if room_sessions:
+                for session in room_sessions[:3]:  # Show first 3
+                    logger.info(f"     Room session: {session.session_id[:20]}...")
+        except Exception as e:
+            logger.info(f"   Megolm sessions: Error accessing - {e}")
         
     async def start(self) -> bool:
         """Connect to Matrix."""
@@ -601,13 +767,17 @@ class SophieVoiceAgent:
             logger.info(f"✅ Restored Matrix session: device_id={self.device_id}")
             logger.info(f"   Crypto store: {crypto_store_path}")
             
-            # matrix-nio loads the store automatically when we call sync()
-            # Just verify the store path exists
+            # CRITICAL: Load the crypto store BEFORE sync
+            # This loads the Olm account and existing sessions
             store_db = crypto_store_path / "sophie_matrix"
             if store_db.exists():
                 logger.info(f"✅ Found existing crypto store DB")
             else:
                 logger.warning(f"⚠️ No existing crypto store - new Olm keys will be created")
+            
+            # Load the crypto store - REQUIRED for E2EE to work
+            self.matrix_client.load_store()
+            logger.info(f"✅ Loaded crypto store")
         else:
             # Fresh login - will create new crypto keys
             response = await self.matrix_client.login(
@@ -628,6 +798,10 @@ class SophieVoiceAgent:
                         "user_id": config.matrix_user,
                     }, f)
                 logger.info(f"💾 Saved session to {session_file}")
+                
+                # Load crypto store after fresh login too
+                self.matrix_client.load_store()
+                logger.info(f"✅ Loaded crypto store (fresh login)")
             else:
                 logger.error(f"❌ Matrix login failed: {response}")
                 return False
@@ -642,11 +816,21 @@ class SophieVoiceAgent:
         await self.matrix_client.sync(timeout=30000, full_state=True)
         logger.info("✅ Matrix synced")
         
+        # CRITICAL: Initialize E2EE crypto properly
+        await self._initialize_crypto()
+        
         # CRITICAL: Request room keys we don't have
         await self._request_missing_room_keys()
         
         # CLEANUP: Clear all old Sophie ghost call.member state events
         await self._cleanup_ghost_instances()
+        
+        # PRE-LOAD Whisper model for faster first transcription
+        logger.info("🔄 Pre-loading Whisper model...")
+        def _preload():
+            self.stt._get_model()
+        await asyncio.get_event_loop().run_in_executor(None, _preload)
+        logger.info("✅ Whisper model loaded")
         
         return True
     
@@ -746,6 +930,54 @@ class SophieVoiceAgent:
     async def _on_to_device_event(self, event):
         """Handle to-device events (including encryption keys from Element X per MSC4143)."""
         try:
+            # Handle our custom MatrixRTCEncryptionKeysEvent from the monkey-patch
+            if isinstance(event, MatrixRTCEncryptionKeysEvent):
+                logger.info(f"🔑 Processing MSC4143 encryption keys from {event.sender}")
+                logger.info(f"   Keys type: {type(event.keys)}")
+                
+                # Extract and store the key - handle multiple formats
+                key_b64 = None
+                key_index = 0
+                
+                # Format 1: keys is a dict with "key" and "index" fields (Element X format)
+                # {"keys": {"index": 2, "key": "base64..."}}
+                if isinstance(event.keys, dict):
+                    key_b64 = event.keys.get("key")
+                    key_index = event.keys.get("index", 0)
+                    logger.info(f"   Found dict format: index={key_index}")
+                
+                # Format 2: keys is a list of key objects
+                # {"keys": [{"index": 0, "key": "base64..."}]}
+                elif isinstance(event.keys, list) and event.keys:
+                    for key_info in event.keys:
+                        if isinstance(key_info, dict):
+                            key_b64 = key_info.get("key")
+                            key_index = key_info.get("index", 0)
+                        elif isinstance(key_info, str):
+                            key_b64 = key_info
+                        if key_b64:
+                            break
+                
+                # Format 3: Check content directly for other layouts
+                if not key_b64:
+                    key_b64 = event.content.get("key")
+                    key_index = event.content.get("index", 0)
+                
+                if key_b64:
+                    try:
+                        self.presence.aaron_e2ee_key = base64.b64decode(key_b64)
+                        logger.info(f"📝 Received Aaron's E2EE key (stored for reference, not using E2EE)")
+                        logger.info(f"   Index: {key_index}, Size: {len(self.presence.aaron_e2ee_key)} bytes")
+                        self.presence.aaron_e2ee_key_index = key_index
+                        # TLS-only mode: we don't apply E2EE keys to LiveKit
+                    except Exception as e:
+                        logger.error(f"❌ Failed to decode key: {e}")
+                else:
+                    logger.warning(f"⚠️ Could not extract key from MSC4143 event")
+                    logger.warning(f"   Content: {json.dumps(event.content, indent=2)[:300]}")
+                return
+            
+            # Standard event handling via event.source
             event_type = event.source.get("type", "")
             content = event.source.get("content", {})
             sender = event.source.get("sender", "")
@@ -840,25 +1072,14 @@ class SophieVoiceAgent:
             
         logger.info(f"🎤 Joining call: {livekit_room_name[:40]}...")
         
-        # E2EE setup using Aaron's key from his call.member event
-        # MatrixRTC uses SFrame E2EE where each participant publishes their key
-        e2ee_options = None
-        aaron_key = self.presence.aaron_e2ee_key
-        if aaron_key:
-            logger.info(f"🔐 Using Aaron's E2EE key from call.member ({len(aaron_key)} bytes)")
-            try:
-                e2ee_options = rtc.E2EEOptions(
-                    key_provider_options=rtc.KeyProviderOptions(
-                        shared_key=aaron_key,
-                        ratchet_salt=b"LKFrameEncryptionKey",
-                    ),
-                    encryption_type=1,
-                )
-            except Exception as e:
-                logger.warning(f"⚠️ E2EE setup failed: {e}")
-        else:
-            logger.warning("⚠️ Aaron's encryption key not found in call.member - audio may be encrypted")
-            logger.warning("   Check if Aaron's Element X is publishing encryption_keys in call.member")
+        # =======================================================================
+        # TLS-ONLY MODE (E2EE Disabled)
+        # =======================================================================
+        # DTLS-SRTP provides transport encryption between client <-> LiveKit server
+        # Since we self-host LiveKit on livekit3, only Aaron has server access
+        # This means conversations are effectively private (no eavesdropping)
+        # E2EE (SFrame) was causing connection failures and is incompatible anyway
+        logger.info("🔐 TLS-only mode - self-hosted LiveKit provides transport security")
         
         # Create room and audio source
         self.livekit_room = rtc.Room()
@@ -920,14 +1141,20 @@ class SophieVoiceAgent:
         self.in_call = True
         self.audio_processor = AudioProcessor(self.vad, self.stt, config.sample_rate)
         
-        # Connect
+        # Connect to LiveKit (TLS-only, no E2EE)
         try:
+            room_options = rtc.RoomOptions(
+                auto_subscribe=True,
+                # No encryption= option - using transport security only (DTLS-SRTP)
+            )
+            logger.info("🔗 Connecting to LiveKit...")
+            
             await self.livekit_room.connect(
                 config.livekit_url,
                 token.to_jwt(),
-                options=rtc.RoomOptions(auto_subscribe=True)
+                options=room_options
             )
-            logger.info("✅ Connected to LiveKit")
+            logger.info("✅ Connected to LiveKit (TLS-secured)")
             
             # DEBUG: Log all existing participants and their tracks
             logger.info(f"📋 Room participants on join:")
@@ -951,8 +1178,8 @@ class SophieVoiceAgent:
         # Announce to Matrix
         await self._announce_call_membership(livekit_room_name)
         
-        # Send our encryption key to Aaron via to-device (MSC4143)
-        await self._send_encryption_key_to_aaron()
+        # Skip sending E2EE key - we're in TLS-only mode
+        # await self._send_encryption_key_to_aaron()
         
         # Start sending silence when not speaking
         asyncio.create_task(self._send_audio_loop())
@@ -1160,24 +1387,34 @@ class SophieVoiceAgent:
                     
     async def _handle_utterance(self, audio_data: np.ndarray):
         """Handle a complete utterance: STT → AI → TTS."""
+        import time as _time
         try:
+            total_start = _time.time()
+            
             # Transcribe
-            logger.info("🎤 Transcribing...")
+            stt_start = _time.time()
             text = await self.stt.transcribe(audio_data, config.sample_rate)
+            stt_elapsed = _time.time() - stt_start
             
             if not text or len(text.strip()) < config.min_utterance_length:
                 logger.info("(empty or too short, ignoring)")
                 return
                 
-            logger.info(f"📝 Heard: {text}")
+            logger.info(f"📝 [{stt_elapsed:.1f}s] Heard: {text}")
             
             # Get AI response
-            logger.info("🧠 Thinking...")
+            ai_start = _time.time()
             response = await self.ai.get_response(text)
-            logger.info(f"💬 Response: {response}")
+            ai_elapsed = _time.time() - ai_start
+            logger.info(f"💬 [{ai_elapsed:.1f}s] Response: {response}")
             
             # Speak response
+            tts_start = _time.time()
             await self._speak(response)
+            tts_elapsed = _time.time() - tts_start
+            
+            total_elapsed = _time.time() - total_start
+            logger.info(f"⏱️ Total: {total_elapsed:.1f}s (STT:{stt_elapsed:.1f} + AI:{ai_elapsed:.1f} + TTS:{tts_elapsed:.1f})")
             
         except Exception as e:
             logger.error(f"Error handling utterance: {e}")
