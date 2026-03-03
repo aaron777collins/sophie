@@ -1,7 +1,32 @@
 ## PROACTIVE-JOBS.md - Active Task Queue
 
-**Updated:** 2026-03-02 12:00 EST by Person Manager
+**Updated:** 2026-03-03 08:00 EST by Person Manager
 **Priority Update from Aaron:** Bible > Matrix Voice Chat > MELO
+
+---
+
+## 🚨 CRITICAL SYSTEMIC ISSUES (PM Session 2026-03-03 08:00)
+
+### Issue 1: FALSE CLAIMS PATTERN
+**Status:** Third incident confirmed. Workers generating fake completion reports with:
+- Non-existent commit hashes
+- Claims of code that returns 404
+- Detailed fake AC validation tables
+
+**Action Taken:** Documented pattern, enhanced validation requirements.
+
+### Issue 2: REPOSITORY CONFUSION (ROOT CAUSE)
+**Status:** Workers implementing BDV2 in ~/clawd instead of ~/repos/bible-drawing-v2
+
+**Action Taken:**
+- Updated USER-STORY-TEMPLATE.md with mandatory repository field
+- Updated all open BDV2 tasks with explicit working directory instructions
+- Added warning: validation failure automatic for wrong repository
+
+### Issue 3: WORKER SPAWNING BLOCKED
+**Status:** Coordinator cannot spawn workers (allowlist restriction)
+
+**Escalation:** Needs Aaron's attention to restore autonomous progress
 
 ---
 

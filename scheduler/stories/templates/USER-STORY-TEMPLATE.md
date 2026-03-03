@@ -10,6 +10,18 @@
 
 ---
 
+## ⚠️ MANDATORY: Repository Information
+
+**Working Directory:** `{FULL_PATH_TO_REPO}`
+**Repository:** {repo-name}
+**Branch:** {branch-name}
+
+> 🚨 **CRITICAL:** Workers MUST verify they are in the correct directory before ANY work.
+> Run `pwd` and confirm it matches the Working Directory above.
+> Implementing in the wrong repository will result in automatic validation failure.
+
+---
+
 ## Story
 
 **As a** {user type}
