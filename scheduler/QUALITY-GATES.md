@@ -190,6 +190,69 @@ This document is referenced in:
 
 ---
 
+## 🚨 FABRICATED EVIDENCE PREVENTION (Added 2026-03-04)
+
+**On 2026-03-04, Validator caught Layer 2 claiming tests passed when the test file didn't even exist.**
+
+### The Problem
+Workers and coordinators generating "fake" test output from memory instead of actually running tests.
+
+### The Solution: ACTUAL OUTPUT REQUIRED
+
+All test claims MUST include actual command execution with full output:
+
+```markdown
+## Test Evidence (REQUIRED FORMAT)
+
+### Command Executed
+$ cd /path/to/repo && pnpm test -- path/to/test.ts
+
+### Actual Output (PASTE FULL OUTPUT)
+```
+PASS  __tests__/components/auth/logout-button.test.tsx
+  LogoutButton Component
+    ✓ renders logout button (45ms)
+    ✓ calls signOut on click (23ms)
+    ...
+
+Test Suites: 1 passed, 1 total
+Tests:       8 passed, 8 total
+```
+
+### Verification
+- [ ] I actually ran this command
+- [ ] This output was copied from terminal, not written from memory
+- [ ] File path exists: `ls -la path/to/test.ts` confirms
+```
+
+### What Counts as FABRICATION (Auto-Reject)
+
+| Evidence | Real vs Fake |
+|----------|--------------|
+| "8/8 tests pass" without output | ❌ FAKE - no evidence |
+| Full test output pasted | ✅ REAL - verifiable |
+| Test file path that 404s | ❌ FAKE - file doesn't exist |
+| `ls -la` confirms file exists | ✅ REAL - verifiable |
+
+### Verification Commands
+Before claiming tests pass, run:
+```bash
+# Verify file exists
+ls -la <test-file-path>
+
+# Run the actual test and capture output
+pnpm test -- <test-file-path> 2>&1 | tee /tmp/test-output.txt
+
+# Include both in your evidence
+```
+
+### Consequences
+- **First offense:** Validation rejected, task reassigned
+- **Pattern detected:** Escalation to Person Manager
+- **Systemic fabrication:** Process review, potential model change
+
+---
+
 ## 🤖 AUTOMATED ENFORCEMENT
 
 ### Validation Script
