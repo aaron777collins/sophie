@@ -5,7 +5,17 @@
 
 ---
 
-## 🏆 Winner: PIPER
+> ## ⚠️ UPDATE (2026-03-04): Final Decision = KOKORO
+> 
+> After listening tests, **Kokoro (af_heart) was chosen** despite higher latency.
+> Voice quality matters more for Sophie — sounds more natural and expressive.
+> Configuration: `voice: "af_heart"` with `response_format: "pcm"` for streaming.
+> 
+> See: `_overview.md` for current configuration.
+
+---
+
+## 🏆 Speed Winner: PIPER (but Kokoro chosen for quality)
 
 | Metric | Kokoro | Piper | Winner |
 |--------|--------|-------|--------|

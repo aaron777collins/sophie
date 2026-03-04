@@ -2,12 +2,18 @@
 
 **Status:** Production Ready (Streaming Enhanced)  
 **Created:** 2026-03-03  
-**Last Updated:** 2026-03-03 18:57 EST  
-**Location:** `~/sophie-voice-env/`
+**Last Updated:** 2026-03-04 17:56 EST  
+**Location:** `~/sophie-voice-env/` (local) + Kokoro Docker (TTS)
 
 ## Summary
 
-High-performance CPU-optimized voice pipeline using Piper TTS and faster-whisper STT with comprehensive streaming support. Designed for real-time voice applications with sub-second latency characteristics.
+Self-hosted voice pipeline using **Kokoro TTS** (af_heart voice with streaming) and **faster-whisper STT**. Designed for real-time voice applications.
+
+### TTS Decision (2026-03-04)
+- **Chosen:** Kokoro with af_heart voice + streaming enabled
+- **Why:** Better voice quality than Piper (sounds more natural/expressive)
+- **Trade-off:** Higher latency (~3-7s first chunk vs Piper's ~50ms) but worth it for quality
+- **Streaming:** Uses `response_format: "pcm"` with chunked responses
 
 ---
 
@@ -30,9 +36,9 @@ PROCESSING LAYER
 ┌─────────────────────────────────────────────────────────────────────┐
 │                          TTS PIPELINE                              │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐                 │
-│  │ Text        │  │ Piper       │  │ Audio       │                 │
+│  │ Text        │  │ Kokoro      │  │ Audio       │                 │
 │  │ Processing  │→ │ Synthesis   │→ │ Chunking    │                 │
-│  │             │  │ (Amy Voice) │  │ (Streaming) │                 │
+│  │             │  │ (af_heart)  │  │ (Streaming) │                 │
 │  └─────────────┘  └─────────────┘  └─────────────┘                 │
 └─────────────────────────────────────────────────────────────────────┘
                                   │
@@ -65,8 +71,8 @@ OUTPUT LAYER
 
 PERFORMANCE CHARACTERISTICS
 ┌─────────────────────────────────────────────────────────────────────┐
-│ TTS: 24x realtime | STT: 1.4x realtime | Memory: ~190MB total      │
-│ First chunk: ~0.17s | Streaming latency: <200ms | Accuracy: 85%+    │
+│ TTS: 2.7x realtime (Kokoro) | STT: 1.4x realtime | Voice: Natural  │
+│ First chunk: ~3-5s | Streaming: PCM chunks | Quality: 9/10         │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -84,14 +90,21 @@ PERFORMANCE CHARACTERISTICS
 
 | Operation | Batch Mode | Streaming Mode | First Chunk |
 |-----------|------------|----------------|-------------|
-| **TTS (short)** | 0.06s | 0.05s | 0.17s |
-| **TTS (medium)** | 0.18s | 0.17s | 0.17s |
-| **TTS (long)** | 0.59s | 0.61s | 0.17s |
+| **TTS (short ~12 words)** | 1.6s | Streaming | ~1.6s |
+| **TTS (medium ~29 words)** | 5.4s | Streaming | ~5.4s |
+| **TTS (long ~61 words)** | 13.4s | Streaming | ~6.7s |
 | **STT (5s audio)** | 4.1s | 5s chunks | N/A |
 | **STT (15s audio)** | 3.9s | 5s chunks | N/A |
-| **Round-trip** | 4.5s total | ~4.2s | ~4.3s |
+| **Round-trip** | ~10-15s | ~8-12s | Depends on text |
 
-### Accuracy Metrics
+**Note:** Kokoro has higher latency than Piper (~50ms) but significantly better voice quality. Trade-off accepted for natural-sounding voice.
+
+### Voice Quality (Why Kokoro)
+- **Kokoro (af_heart):** Very natural, expressive, sounds like a real person (9/10)
+- **Piper (lessac):** Good clarity, less expressive (7/10)
+- **Decision:** Quality > Speed for Sophie's voice
+
+### Accuracy Metrics (STT)
 - **Short phrases:** 50-85% word accuracy
 - **Medium sentences:** 80-90% word accuracy  
 - **Long paragraphs:** 85-95% word accuracy
@@ -101,7 +114,51 @@ PERFORMANCE CHARACTERISTICS
 
 ## 📚 Complete API Reference
 
-### SophieTTS Class
+### Kokoro TTS (Primary)
+
+#### Streaming TTS via Kokoro API
+```python
+import aiohttp
+
+async def stream_tts(text: str):
+    """Stream TTS from Kokoro with af_heart voice."""
+    async with aiohttp.ClientSession() as session:
+        async with session.post(
+            "http://localhost:8880/v1/audio/speech",
+            json={
+                "model": "kokoro",
+                "input": text,
+                "voice": "af_heart",
+                "response_format": "pcm"  # Key: PCM for streaming
+            }
+        ) as response:
+            async for chunk in response.content.iter_chunked(960):
+                yield chunk  # 24kHz, int16, mono
+```
+
+#### Sync Version (requests)
+```python
+import requests
+
+response = requests.post(
+    "http://localhost:8880/v1/audio/speech",
+    json={
+        "input": "Hello world!",
+        "voice": "af_heart",
+        "response_format": "pcm"
+    },
+    stream=True
+)
+
+for chunk in response.iter_content(chunk_size=1024):
+    if chunk:
+        # Process streaming chunks (24kHz PCM)
+        pass
+```
+
+### Legacy: SophieTTS Class (Piper)
+
+> **Note:** Piper is available as fallback but Kokoro is preferred for quality.
 
 #### Initialization
 ```python
@@ -803,7 +860,7 @@ def smart_synthesis(text):
 ```python
 # Use optimal audio parameters
 OPTIMAL_SAMPLE_RATE = 16000  # Good balance for STT
-TTS_SAMPLE_RATE = 22050      # Piper's native rate
+TTS_SAMPLE_RATE = 24000      # Kokoro's native rate (was 22050 for Piper)
 
 # Resample if needed
 import librosa
@@ -890,25 +947,43 @@ Documentation:
 
 ## 📈 Benchmarks & Metrics
 
-### Latest Performance Test (2026-03-03)
+### TTS Comparison (2026-03-03)
 
-| Test Case | TTS Time | STT Time | Accuracy | Notes |
-|-----------|----------|----------|----------|-------|
-| "Hello world" | 0.062s (17.7x RT) | 4.110s (0.3x RT) | 1/2 words | Short phrases less accurate |
-| Medium sentence | 0.176s (22.9x RT) | 3.852s (1.0x RT) | 9/11 words | Good balance |
-| Long paragraph | 0.586s (24.0x RT) | 4.208s (3.3x RT) | 29/34 words | Best accuracy |
+| Engine | Voice | First Chunk | RTF | Quality |
+|--------|-------|-------------|-----|---------|
+| **Kokoro** ✅ | af_heart | 3-7s | 2.7x | 9/10 (natural) |
+| Piper | lessac-medium | 50ms | 20-25x | 7/10 (good) |
+
+**Decision:** Kokoro chosen for voice quality despite higher latency.
+
+### Kokoro TTS Performance
+
+| Words | First Chunk | Total Time | Audio Duration | RTF |
+|-------|-------------|------------|----------------|-----|
+| ~12 | 1.6s | 1.6s | 5.2s | 3.2x |
+| ~29 | 5.4s | 5.4s | 15.1s | 2.8x |
+| ~61 | 6.7s | 13.4s | 28.2s | 2.1x |
 
 **Hardware:** Ryzen 5 3600, 32GB RAM, SSD  
-**Models:** Piper Amy medium, Whisper small/int8
+**Models:** Kokoro af_heart (TTS), Whisper small/int8 (STT)
 
-### Streaming Performance
+### STT Performance
 
-| Metric | Value | Notes |
-|--------|--------|-------|
-| First chunk latency | 174ms | Time to first audio output |
-| Chunk size | 165-280KB | Raw PCM data per chunk |
-| Memory usage | ~190MB | Both models loaded |
-| CPU usage | ~60% | During active processing |
+| Test Case | STT Time | Accuracy | Notes |
+|-----------|----------|----------|-------|
+| Short | 4.1s | 50-85% | Short phrases less accurate |
+| Medium | 3.9s | 80-90% | Good balance |
+| Long | 4.2s | 85-95% | Best accuracy |
+
+### Streaming Configuration
+
+| Setting | Value | Notes |
+|---------|-------|-------|
+| API endpoint | `localhost:8880` | Kokoro Docker |
+| Response format | `pcm` | Raw PCM for streaming |
+| Sample rate | 24000 Hz | Kokoro native rate |
+| Voice | `af_heart` | Natural, expressive |
+| Chunk size | 960 bytes | ~20ms of audio |
 
 ### Accuracy Analysis
 
@@ -923,9 +998,10 @@ Documentation:
 ## 🚀 Future Roadmap
 
 ### Phase 1: Production Hardening ✅
-- [x] CPU-optimized models (Piper + Whisper)
-- [x] Streaming implementation
-- [x] Performance benchmarking
+- [x] Self-hosted TTS: Kokoro (af_heart) with streaming
+- [x] CPU-optimized STT: faster-whisper (small/int8)
+- [x] Streaming implementation (PCM chunks)
+- [x] Performance benchmarking (Kokoro vs Piper)
 - [x] Comprehensive documentation
 - [x] Integration examples
 
@@ -954,51 +1030,68 @@ Documentation:
 
 ## 📞 Quick Reference
 
-### Command Line Usage
+### Kokoro TTS (Primary)
 ```bash
-# Activate environment
-source ~/sophie-voice-env/activate_sophie.sh
+# Test Kokoro is running
+curl -s http://localhost:8880/v1/models | jq
 
-# Basic operations
-sophie-tts "Hello world" output.wav
-sophie-stt input.wav  
-sophie-test
-
-# Streaming modes
-python sophie_voice.py tts "Text" output.wav --streaming
-python sophie_voice.py stt input.wav --streaming --chunk-duration 3.0
-
-# Benchmarking
-python sophie_voice.py benchmark
-python sophie_voice.py demo-streaming
+# Generate speech via curl
+curl -X POST http://localhost:8880/v1/audio/speech \
+  -H "Content-Type: application/json" \
+  -d '{"input": "Hello world", "voice": "af_heart", "response_format": "wav"}' \
+  --output test.wav
 ```
 
-### Python Integration
+### Python Integration (Streaming)
 ```python
-import sys
-sys.path.insert(0, '/home/ubuntu/sophie-voice-env')
-from sophie_voice import SophieTTS, SophieSTT
+import aiohttp
 
-# Quick synthesis
-tts = SophieTTS()
-audio_data = tts.synthesize("Hello world")
+async def kokoro_stream(text: str):
+    """Stream TTS from Kokoro."""
+    async with aiohttp.ClientSession() as session:
+        async with session.post(
+            "http://localhost:8880/v1/audio/speech",
+            json={
+                "model": "kokoro",
+                "input": text,
+                "voice": "af_heart",
+                "response_format": "pcm"
+            }
+        ) as response:
+            async for chunk in response.content.iter_chunked(960):
+                yield chunk  # 24kHz, int16, mono
+```
 
-# Quick transcription  
+### STT (faster-whisper)
+```python
+from sophie_voice import SophieSTT
+
 stt = SophieSTT()
 text = stt.transcribe("audio.wav")
 ```
 
+### Key Settings
+| Setting | Value |
+|---------|-------|
+| **TTS Engine** | Kokoro (Docker) |
+| **TTS Voice** | `af_heart` |
+| **TTS Endpoint** | `localhost:8880` |
+| **TTS Format** | `pcm` (streaming) or `wav` |
+| **TTS Sample Rate** | 24000 Hz |
+| **STT Engine** | faster-whisper |
+| **STT Model** | small/int8 |
+
 ### Performance Targets
-- **TTS Latency:** <200ms to first chunk
+- **TTS First Chunk:** ~3-5s (quality trade-off accepted)
+- **TTS Quality:** 9/10 (natural, expressive)
 - **STT Accuracy:** >90% for clear speech
 - **Memory Usage:** <200MB total
-- **CPU Usage:** <70% on 6-core system
 
 ---
 
 **Status:** Production Ready ✅  
-**Last Updated:** 2026-03-03 18:57 EST  
-**Version:** 1.0 (Streaming Enhanced)
+**Last Updated:** 2026-03-04 17:56 EST  
+**Version:** 2.0 (Kokoro + Streaming)
 ---
 
 ## Element X Integration
