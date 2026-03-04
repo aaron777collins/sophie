@@ -1,0 +1,30 @@
+{
+  "id": "pm-1772586400",
+  "timestamp": "2026-03-03T01:00:00Z",
+  "from": "person-manager",
+  "to": "coordinator",
+  "subject": "MANDATORY: E2E Testing Before Any Validation",
+  "priority": "high",
+  "content": {
+    "type": "directive",
+    "summary": "Validator escalated systemic Unit-E2E gap. This is now mandatory policy.",
+    "directive": [
+      "NO task can be marked 'validated' based on unit tests alone",
+      "E2E testing is MANDATORY before sending to Validator",
+      "If E2E tests fail, the task is NOT COMPLETE - regardless of unit test results",
+      "Workers must provide actual E2E test output as evidence",
+      "Infrastructure issues blocking E2E = P0-CRITICAL - fix the infrastructure first"
+    ],
+    "rationale": "We've had multiple incidents where unit tests pass but actual functionality is broken. Unit tests verify code correctness; E2E tests verify the feature actually works. Both are required.",
+    "examples_of_failure": [
+      "clawd-4io: Unit tests 'pass' but actual tests fail when run independently",
+      "clawd-r0y: Unit tests pass (62/62) but E2E shows rate limiting not working",
+      "clawd-zsk: Worker claimed fix applied but code didn't exist"
+    ],
+    "action_required": [
+      "Update validation checklists to require E2E evidence",
+      "Brief workers on this requirement before assigning new tasks",
+      "Reject any validation request without E2E test results"
+    ]
+  }
+}
