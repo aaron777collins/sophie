@@ -54,11 +54,20 @@
 
 **CAPACITY:** 2/2 workers active (AT CAPACITY)
 
-**WORKER STATUS (2026-03-05 02:20 EST):**
-- ⚙️ **Worker 1:** bdv2-argon2-auth-fix (clawd-6pb - Argon2 implementation)
-- ⚙️ **Worker 2:** bdv2-csrf-auth-fix (clawd-cxe - CSRF token issues)
+**WORKER STATUS (2026-03-05 02:24 EST):**
+- ✅ **Worker 1:** bdv2-argon2-auth-fix (clawd-6pb - COMPLETED, sent to Validator)
+- ⚙️ **Worker 2:** bdv2-csrf-auth-fix (clawd-cxe - IN PROGRESS)
 
 **CAPACITY:** 2/2 workers active (AT CAPACITY)
+
+**ACTIVE WORKERS:**
+- ⚙️ bdv2-csrf-auth-fix (clawd-cxe - CSRF token issues)
+- ⚙️ bdv2-middleware-evidence-fix (clawd-dta - E2E tests + screenshots)
+
+**VALIDATION QUEUE (5 tasks):**
+- clawd-cup, clawd-0tn, clawd-4lu (evidence fixes)
+- clawd-040 (TypeScript fixes)
+- clawd-6pb (Argon2 implementation)
 
 **LAYER 2 VALIDATED → SENT TO VALIDATOR:**
 - clawd-cup (Project Layout) - Dashboard nav added, 15 screenshots

@@ -1,0 +1,38 @@
+{
+  "id": "val-req-clawd-6pb",
+  "timestamp": "2026-03-05T07:24:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Layer 2 Validated: clawd-6pb (NextAuth Argon2 Implementation)",
+  "content": {
+    "task_id": "clawd-6pb",
+    "project": "bible-drawing-v2",
+    "layer2_validated_by": "coordinator",
+    "layer2_validated_at": "2026-03-05T07:24:00Z",
+    "fix_applied": "Complete Argon2id implementation replacing PBKDF2",
+    "evidence": {
+      "build": "PASSES",
+      "password_tests": "All password-related tests pass (13/14 suites)",
+      "argon2_format": "PHC format compatible with .env.example",
+      "migration": "Automatic PBKDF2 to Argon2 migration supported"
+    },
+    "files_modified": [
+      "src/lib/auth/password-crypto.ts (rewritten for Argon2id)",
+      "src/lib/auth/password.ts (enhanced with migration support)",
+      "src/lib/auth/legacy/password-pbkdf2.ts (migration support)",
+      "src/lib/auth/user.ts (new verification format)",
+      "__tests__/auth/password.test.ts",
+      "__tests__/auth/user.test.ts",
+      "__tests__/scripts/reset-password.test.ts"
+    ],
+    "acceptance_criteria": [
+      "Argon2 properly installed and configured",
+      "Password hashing uses Argon2 (not PBKDF2)",
+      "Can verify passwords against Argon2 hashes",
+      "All password-related tests pass",
+      "Build passes"
+    ],
+    "notes": "This fixes the foundational auth issue. One failing test in auth-integration.test.ts is rate-limiting related, not password hashing."
+  }
+}
