@@ -1,6 +1,6 @@
 # Coordinator Jobs
 
-**Last Updated:** 2026-03-05 02:42 EST
+**Last Updated:** 2026-03-05 02:52 EST
 
 ---
 
@@ -65,6 +65,13 @@
 
 **ACTIVE WORKERS:**
 - ⚙️ **bdv2-fabricated-evidence-fix** (clawd-4lu - IN PROGRESS)
+
+**LAYER 2 FINDINGS (2026-03-05 02:52 EST):**
+- ⚠️ **clawd-ebr (Login E2E):** Test code correct but E2E INFRASTRUCTURE BROKEN
+  - Test file exists (13,963 bytes), data-testid attrs present
+  - Playwright loads default Next.js page instead of actual app
+  - This is a systemic E2E server startup issue, not test authoring
+  - Marked needs-fix pending E2E infrastructure repair
 
 **CAPACITY:** 2/2 workers active (AT CAPACITY)
 
