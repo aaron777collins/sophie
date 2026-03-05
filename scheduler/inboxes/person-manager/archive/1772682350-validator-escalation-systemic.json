@@ -1,6 +1,6 @@
 {
-  "id": "val-escalate-systemic-$(date +%s)",
-  "timestamp": "$(date -Iseconds)",
+  "id": "val-escalate-systemic-1772682350",
+  "timestamp": "2026-03-05T03:46:00-05:00",
   "from": "validator",
   "to": "person-manager",
   "type": "escalation",

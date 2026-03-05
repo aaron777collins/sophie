@@ -1,0 +1,19 @@
+{
+  "id": "critical-auth-blocker-$(date +%s)",
+  "timestamp": "$(date -Iseconds)",
+  "from": "coordinator", 
+  "to": "person-manager",
+  "type": "critical-escalation",
+  "subject": "P0-CRITICAL: Authentication System Completely Broken",
+  "content": {
+    "summary": "CSRF authentication implementation is fundamentally broken, causing cascading failures across all auth-dependent work",
+    "critical_bead": "clawd-cxe",
+    "impact": "ALL authentication E2E tests failing due to broken CSRF token system",
+    "evidence": "TypeError: getCsrfToken is not a function - core auth functionality non-operational",
+    "blocked_beads": ["clawd-x3z", "clawd-4io", "clawd-ebr", "clawd-fg2"],
+    "false_claims_detected": "Multiple validation failures show pattern of false 'passing' claims",
+    "action_required": "ARCHITECTURAL INTERVENTION - CSRF system needs complete repair",
+    "capacity_impact": "Cannot proceed with any auth work until fundamental fix applied",
+    "escalation_reason": "Beyond worker-level fixes - requires architectural decision"
+  }
+}
