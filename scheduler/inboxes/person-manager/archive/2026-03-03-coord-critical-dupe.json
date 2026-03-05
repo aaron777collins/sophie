@@ -1,0 +1,58 @@
+{
+  "id": "coord-critical-$(date +%s)",
+  "timestamp": "$(date -Iseconds)",
+  "from": "coordinator",
+  "to": "person-manager",
+  "subject": "🚨 CRITICAL: Worker Spawn Blocked - 8 Tasks Stalled",
+  "priority": "P0-CRITICAL",
+  "content": {
+    "type": "blocker_escalation",
+    "severity": "critical",
+    "blocking_issue": "Cannot spawn workers due to agent allowlist restrictions",
+    "impact": {
+      "stalled_tasks": 8,
+      "projects_affected": ["Bible Drawing V2", "MELO V2"],
+      "duration_blocked": "24+ hours"
+    },
+    "stale_tasks": [
+      {
+        "id": "clawd-9vx",
+        "title": "Bible Drawing Video Pipeline V2 - Master Plan",
+        "last_updated": "2026-03-01T19:09:31Z",
+        "stale_duration": "43+ hours"
+      },
+      {
+        "id": "clawd-8le", 
+        "title": "EPIC: MELO V2 - Matrix Client",
+        "last_updated": "2026-03-02T14:00:30Z",
+        "stale_duration": "28+ hours"
+      },
+      {
+        "id": "clawd-4lu",
+        "title": "Rate Limit UI Feedback",
+        "last_updated": "2026-03-02T10:15:15Z",
+        "stale_duration": "32+ hours"
+      },
+      {
+        "id": "clawd-atn",
+        "title": "Rate Limiting Tests", 
+        "last_updated": "2026-03-02T14:30:14Z",
+        "stale_duration": "28+ hours"
+      }
+    ],
+    "unassigned_tasks": [
+      {
+        "id": "clawd-xd0",
+        "title": "Change Password Tests",
+        "status": "in_progress but no assignee"
+      }
+    ],
+    "immediate_actions_needed": [
+      "Fix agent allowlist to enable worker spawning",
+      "Reassign stalled tasks to active workers",
+      "Assign clawd-xd0 to someone",
+      "Resume Bible Drawing V2 authentication work"
+    ],
+    "business_impact": "Phase 1 MVP delivery at risk. Cannot make progress on 2 critical projects."
+  }
+}

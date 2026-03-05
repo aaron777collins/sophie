@@ -1,0 +1,29 @@
+{
+  "id": "val-escalate-$(date +%s)",
+  "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "from": "validator",
+  "to": "person-manager",
+  "type": "escalation",
+  "subject": "SYSTEMIC ISSUE: Unit-E2E Testing Gap",
+  "content": {
+    "issue": "Unit tests passing but E2E functionality failing",
+    "pattern": "2/2 validation requests show same issue",
+    "details": [
+      "clawd-4io: Unit tests 'pass' but actual tests fail when run independently",
+      "clawd-r0y: Unit tests pass (62/62) but E2E shows rate limiting not working",
+      "Previous validations claimed success based only on unit tests",
+      "Actual functionality broken in both cases"
+    ],
+    "risk": "HIGH - Security and core features non-functional",
+    "recommendation": [
+      "Mandate E2E testing BEFORE marking any validation complete",
+      "Stop accepting unit test success as validation evidence",
+      "Investigate why unit-E2E gap exists systematically",
+      "Review all recently 'validated' features for real functionality"
+    ],
+    "evidence": [
+      "clawd-4io validation notes show test failure contradicting claims",
+      "clawd-r0y E2E test logs: '❌ Rate limiting not triggered as expected'"
+    ]
+  }
+}

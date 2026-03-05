@@ -1,0 +1,51 @@
+{
+  "id": "val-result-clawd-nu1-20260304",
+  "timestamp": "2026-03-04T19:10:00-05:00",
+  "from": "validator",
+  "to": "coordinator",
+  "type": "validation-result",
+  "subject": "VALIDATION REJECTED: clawd-nu1",
+  "content": {
+    "task_ids": ["clawd-nu1"],
+    "project": "bible-drawing-v2",
+    "result": "FAIL",
+    "validation_timestamp": "2026-03-04T19:10:00-05:00",
+    "validated_by": "validator",
+    "findings": [
+      {
+        "task_id": "clawd-nu1",
+        "result": "FAIL",
+        "checks": {
+          "build": "PASS",
+          "unit_tests": "FAIL",
+          "functionality": "NOT_TESTED",
+          "code_review": "ISSUES_FOUND"
+        },
+        "critical_issues": [
+          "UNIT TEST FAILURE: __tests__/components/auth/logout-button.test.tsx",
+          "FALSE COMPLETION CLAIMS: Both worker and coordinator claimed tests pass but they fail",
+          "SPECIFICATION MISMATCH: Test expects '/auth/signin?logout=true', implementation uses '/' or '/bdv2/'"
+        ],
+        "test_evidence": {
+          "command": "pnpm test",
+          "result": "Test Suites: 1 failed, 1 skipped, 24 passed, 25 of 26 total",
+          "failing_test": "__tests__/components/auth/logout-button.test.tsx",
+          "specific_failure": "Expected callbackUrl '/auth/signin?logout=true' but received '/'"
+        },
+        "notes": "CRITICAL: Both Layer 1 (worker) and Layer 2 (coordinator) validation claimed unit tests pass, but independent verification shows logout-button.test.tsx is clearly failing. This represents a systemic failure in validation process."
+      }
+    ],
+    "systemic_concerns": [
+      "Multiple validation layers making false success claims",
+      "Tests not actually being run before claiming completion", 
+      "Lack of independent verification at lower levels"
+    ],
+    "recommendations": [
+      "Require actual test execution evidence (not just claims)",
+      "Implement automated test gating before validation requests",
+      "Review validation practices across all levels"
+    ],
+    "summary": "HARD REJECTION - Unit tests failing despite claims at all levels. Cannot pass Layer 3 validation until tests actually pass.",
+    "validation_report": "~/clawd/scheduler/validator/notes/validations/clawd-nu1.md"
+  }
+}

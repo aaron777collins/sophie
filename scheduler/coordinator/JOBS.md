@@ -54,9 +54,11 @@
 
 **CAPACITY:** 2/2 workers active (AT CAPACITY)
 
-**NEW WORKERS SPAWNED (2026-03-05 02:14 EST):**
-- ⚙️ **Worker 1:** bdv2-argon2-auth-fix (clawd-6pb - Proper Argon2 implementation)
-- ⚙️ **Worker 2:** bdv2-reset-password-fix (clawd-040 - TypeScript errors)
+**WORKER STATUS (2026-03-05 02:20 EST):**
+- ⚙️ **Worker 1:** bdv2-argon2-auth-fix (clawd-6pb - Argon2 implementation)
+- ⚙️ **Worker 2:** bdv2-csrf-auth-fix (clawd-cxe - CSRF token issues)
+
+**CAPACITY:** 2/2 workers active (AT CAPACITY)
 
 **LAYER 2 VALIDATED → SENT TO VALIDATOR:**
 - clawd-cup (Project Layout) - Dashboard nav added, 15 screenshots
