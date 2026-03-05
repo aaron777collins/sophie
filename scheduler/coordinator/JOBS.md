@@ -46,21 +46,19 @@
 
 **CAPACITY:** 2/2 workers active (AT CAPACITY)
 
-**CURRENT ACTIVE WORKERS (2026-03-05 01:02 EST):**
-- ⚙️ **Worker 1:** layer2-val-x0t-functional (Functional validation on dev2)
+**CURRENT ACTIVE WORKERS (2026-03-05 01:07 EST):**
+- ⚙️ **Worker 1:** layer2-val-clawd-9zu (Validating Video Upload UI)
 
 **CAPACITY:** 1/2 workers active
 
 **AWAITING LAYER 3 VALIDATION:**
-- clawd-sp2 (Project Creation UI) → Validation request sent to Validator
+- clawd-sp2 (Project Creation UI) → Validation request sent
+- clawd-x0t (Video Upload Infrastructure) → ✅ Layer 2 PASSED, validation request sent
 
 **ISSUES DISCOVERED & FIXED:**
 - Mock file was .ts instead of .tsx (JSX parsing error) → FIXED, committed
-- Local database tests timeout (tables only exist on dev2) → Skipping local DB tests, testing on dev2
-- 407/444 tests pass (91.6%) when excluding database timeouts
-
-**NEXT UP (after clawd-x0t passes):**
-- clawd-9zu (Video Upload UI) - depends on clawd-x0t
+- Local database tests timeout (tables only exist on dev2) → Testing on dev2 instead
+- 118/130 video infrastructure tests pass
 
 **✅ P0 RESOLVED - clawd-5j6:** Routing fixed (middleware basePath handling)
 

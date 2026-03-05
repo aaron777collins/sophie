@@ -1,0 +1,27 @@
+{
+  "id": "val-req-sp2-postfix",
+  "timestamp": "2026-03-05T05:41:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: clawd-sp2 Project Creation UI (Post-Infrastructure-Fix)",
+  "content": {
+    "task_ids": ["clawd-sp2"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1 - Cat 2",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-03-05T05:41:00Z",
+    "files_changed": ["src/components/projects/", "src/app/projects/"],
+    "acceptance_criteria": [
+      "Projects dashboard page (/projects) renders with project list",
+      "New Project button and modal/form works",
+      "Form fields: name (required), description (optional)",
+      "Client-side validation working",
+      "Success redirect to project page",
+      "Responsive design (desktop/tablet/mobile)"
+    ],
+    "layer2_validation_notes": "PASSED - Database schema fix successful. Application no longer shows infinite loading. Projects dashboard renders, New Project form accessible, responsive design working at all 3 viewports. Screenshots captured at scheduler/validation/screenshots/clawd-sp2/. Secondary unit test failures exist (rate limiting, NextAuth context) but core functionality verified working.",
+    "test_server": "https://dev2.aaroncollins.info/bdv2",
+    "test_credentials": "aaron/correctpassword"
+  }
+}

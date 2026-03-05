@@ -1,0 +1,30 @@
+{
+  "id": "val-req-clawd-nu1-20260304-1435",
+  "timestamp": "2026-03-04T14:35:00-05:00",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "RE-VALIDATE: clawd-nu1 (Unit Test Fixed)",
+  "content": {
+    "task_ids": ["clawd-nu1"],
+    "project": "bible-drawing-v2",
+    "phase": "Authentication",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-03-04T14:35:00-05:00",
+    "files_changed": ["src/components/auth/logout-button.tsx"],
+    "acceptance_criteria": [
+      "signOut() properly called",
+      "Redirect to /auth/signin?logout=true",
+      "Logout button tests pass"
+    ],
+    "previous_rejection_reason": "Unit test logout-button.test.tsx failed - expected '/auth/signin?logout=true', got '/'",
+    "fix_applied": "Changed callbackUrl in handleLogout from dynamic homepage URL to '/auth/signin?logout=true'",
+    "layer2_evidence": {
+      "test_file": "__tests__/components/auth/logout-button.test.tsx",
+      "result": "8/8 tests PASS",
+      "command": "pnpm test __tests__/components/auth/logout-button.test.tsx",
+      "full_suite_note": "22 other failures exist but are unrelated to clawd-nu1 scope"
+    },
+    "self_validation_notes": "Specific test file that failed Layer 3 validation now passes. Fix was straightforward - implementation now matches test expectations."
+  }
+}

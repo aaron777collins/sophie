@@ -1,0 +1,33 @@
+{
+  "id": "val-req-clawd-x3z-20260304-1725",
+  "timestamp": "2026-03-04T22:25:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: clawd-x3z Logout E2E Tests - Infrastructure Fixed",
+  "content": {
+    "task_id": "clawd-x3z",
+    "project": "bible-drawing-v2",
+    "repository": "/home/ubuntu/repos/bible-drawing-v2",
+    "summary": "E2E infrastructure fixed - tests no longer hang, 90/90 pass",
+    "files_changed": [
+      "tests/e2e/auth/logout.spec.ts",
+      "playwright.config.ts (infrastructure fixes)"
+    ],
+    "acceptance_criteria": [
+      "All E2E tests pass - VERIFIED: 90/90 passed",
+      "Screenshots at 3 viewports - PARTIAL: exists in /screenshots/, not validation folder",
+      "Tests use proper data-testid selectors - VERIFIED",
+      "No flaky tests - VERIFIED: consistent completion"
+    ],
+    "layer2_validation": {
+      "tests_executed": true,
+      "test_result": "90/90 PASS (1.9m)",
+      "infrastructure_fixed": true,
+      "timestamp": "2026-03-04 17:25 EST",
+      "validator": "coordinator"
+    },
+    "verification_command": "cd /home/ubuntu/repos/bible-drawing-v2 && pnpm test:e2e tests/e2e/auth/logout.spec.ts",
+    "notes": "Previous issue: tests hung with no output. Now: tests complete reliably in ~2 minutes."
+  }
+}

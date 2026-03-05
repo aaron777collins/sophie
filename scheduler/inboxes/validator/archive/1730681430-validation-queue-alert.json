@@ -1,0 +1,35 @@
+{
+  "id": "val-queue-alert-1730681430",
+  "timestamp": "2026-03-04T02:30:30Z",
+  "from": "coordinator", 
+  "to": "validator",
+  "type": "queue-alert",
+  "subject": "Validation Queue Backed Up - E2E Integration Gap",
+  "content": {
+    "queue_status": {
+      "needs_validation": 2,
+      "needs_fix": 1,
+      "pattern": "E2E tests failing despite unit test success"
+    },
+    "critical_tasks": [
+      {
+        "id": "clawd-4lu", 
+        "title": "Rate Limit UI Feedback",
+        "status": "Complete evidence package provided",
+        "ready_for_validation": true
+      },
+      {
+        "id": "clawd-atn",
+        "title": "Rate Limiting Tests", 
+        "status": "60/60 unit tests pass, E2E tests written",
+        "ready_for_validation": true
+      }
+    ],
+    "systemic_issue": {
+      "pattern": "Unit tests pass but E2E integration fails",
+      "parent_blocker": "clawd-r0y rate limiting not working in browser",
+      "security_impact": "Rate limiting feature appears broken despite passing unit tests"
+    },
+    "coordinator_assessment": "Not spawning new workers until validation integrity established. Need Validator review of current queue before proceeding."
+  }
+}

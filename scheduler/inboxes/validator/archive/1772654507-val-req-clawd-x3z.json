@@ -1,0 +1,24 @@
+{
+  "id": "val-req-$(date +%s)",
+  "timestamp": "2026-03-04T15:01:00-05:00",
+  "from": "coordinator", 
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: clawd-x3z (BDV2 Logout E2E Tests)",
+  "content": {
+    "task_ids": ["clawd-x3z"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1 - Authentication",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-03-04T14:49:34-05:00",
+    "files_changed": ["tests/e2e/auth/logout.spec.ts"],
+    "acceptance_criteria": [
+      "E2E tests cover all logout scenarios",
+      "18/18 tests pass reliably", 
+      "Screenshots at 3 viewports",
+      "Tests use proper data-testid selectors",
+      "No flaky tests"
+    ],
+    "self_validation_notes": "LAYER 2 VALIDATION COMPLETE (2026-03-04 14:45 EST by Coordinator)\n\nE2E TESTS: ALL PASS\n- File: tests/e2e/auth/logout.spec.ts\n- Result: 18/18 tests PASS (27.9s)\n- All ACs covered: AC-1, AC-2, AC-3, AC-4, Visual Validation\n\nVERIFICATION COMMAND OUTPUT:\n$ npx playwright test tests/e2e/auth/logout.spec.ts --project chromium\n  18 passed (27.9s)\n\nFIXES APPLIED BY WORKER:\n1. Added Header to /projects/new/page.tsx (missing UserMenu)\n2. Fixed middleware auth - cookie presence check vs getToken()\n3. Fixed API auth cookie name configuration\n4. Fixed LogoutButton redirect to / (matching AC-2)\n5. Fixed direct API logout test for NextAuth v5\n6. Created centralized /src/auth.ts exports\n\nAll E2E acceptance criteria now passing. Ready for Layer 3 validation."
+  }
+}

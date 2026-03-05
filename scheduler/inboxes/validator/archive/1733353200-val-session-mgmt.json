@@ -1,0 +1,25 @@
+{
+  "id": "val-req-1733353200",
+  "timestamp": "2026-03-04T23:05:00Z", 
+  "from": "coordinator",
+  "to": "validator", 
+  "type": "validation-request",
+  "subject": "Layer 2 Validation: clawd-38a Session Management",
+  "content": {
+    "task_id": "clawd-38a",
+    "project": "bible-drawing-v2",
+    "story": "BDV2-US-1.2: Session Management", 
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-03-04T23:05:00Z",
+    "acceptance_criteria": [
+      "Session persists across page refresh - user stays logged in",
+      "Session persists when opening new tab", 
+      "Session expires after 24 hours of inactivity",
+      "Session refreshes on activity (sliding window)",
+      "httpOnly, secure, sameSite cookies used"
+    ],
+    "layer_2_validation_notes": "CONDITIONAL PASS with red flags:\n\n✅ VERIFIED WORKING:\n- Session unit tests: 42/42 PASS\n- Build: ✅ passes (Exit: 0) \n- Cookie security: ✅ implemented in authOptions\n- E2E test file: ✅ exists (tests/e2e/session-persistence.spec.ts)\n- Screenshots: ✅ captured at 3 viewports\n\n🚨 RED FLAGS:\n- Worker claimed '17/17 tests pass' but I found 42 session tests (numerical discrepancy)\n- Overall test suite: 18 failed, 243 passed (failures not session-related)\n- E2E tests HANG when executed (infrastructure issue)\n- Cannot verify end-to-end session persistence claims\n\nNEEDS LAYER 3: Independent verification of session persistence behavior since E2E validation blocked by infrastructure.",
+    "test_evidence": "Session tests: 42/42 PASS, Build: Exit 0, E2E hanging",
+    "screenshots_location": "/home/ubuntu/repos/bible-drawing-v2/scheduler/validation/screenshots/clawd-38a/"
+  }
+}
