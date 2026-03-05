@@ -1,0 +1,35 @@
+{
+  "id": "val-req-clawd-9zu-1709611260",
+  "timestamp": "2026-03-05T06:01:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: clawd-9zu Video Upload UI Component",
+  "content": {
+    "task_ids": ["clawd-9zu"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1 - Video Upload",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-03-05T06:01:00Z",
+    "files_changed": [
+      "src/components/video/video-upload.tsx",
+      "src/components/video/upload-progress.tsx"
+    ],
+    "acceptance_criteria": [
+      "Drag-and-drop upload zone functions",
+      "File picker button works",
+      "Visual feedback during drag",
+      "Upload progress bar with percentage",
+      "Cancel upload button",
+      "Success/error states",
+      "File type/size validation messages",
+      "Responsive design at all viewports"
+    ],
+    "self_validation_notes": "LAYER 2 PASSED: Build verified (exit 0), 2/2 component tests pass, all ACs confirmed via code review and tests. Screenshots captured at desktop (1920x1080), tablet (768x1024), mobile (375x667). Infrastructure dependency clawd-x0t already validated. Screenshots at scheduler/validation/screenshots/clawd-9zu/",
+    "screenshots": {
+      "desktop": "scheduler/validation/screenshots/clawd-9zu/desktop/desktop_video_upload.png",
+      "tablet": "scheduler/validation/screenshots/clawd-9zu/tablet/tablet_video_upload.png",
+      "mobile": "scheduler/validation/screenshots/clawd-9zu/mobile/mobile_video_upload.png"
+    }
+  }
+}

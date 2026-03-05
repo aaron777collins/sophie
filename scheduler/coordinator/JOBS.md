@@ -48,11 +48,20 @@
 
 **CAPACITY:** 2/2 workers active (AT CAPACITY)
 
-**CURRENT ACTIVE WORKERS (2026-03-05 02:01 EST):**
-- ⚙️ **Worker 1:** bdv2-infrastructure-critical-fix (P0 build failures, auth system)
-- ⚙️ **Worker 2:** bdv2-evidence-validation-fix (Validation evidence completion)
+**CURRENT ACTIVE WORKERS (2026-03-05 02:12 EST):**
+- ✅ **Worker 1:** bdv2-infrastructure-critical-fix (COMPLETED - build already passing)
+- ✅ **Worker 2:** bdv2-evidence-validation-fix (COMPLETED - 3 tasks fixed)
 
 **CAPACITY:** 2/2 workers active (AT CAPACITY)
+
+**NEW WORKERS SPAWNED (2026-03-05 02:14 EST):**
+- ⚙️ **Worker 1:** bdv2-argon2-auth-fix (clawd-6pb - Proper Argon2 implementation)
+- ⚙️ **Worker 2:** bdv2-reset-password-fix (clawd-040 - TypeScript errors)
+
+**LAYER 2 VALIDATED → SENT TO VALIDATOR:**
+- clawd-cup (Project Layout) - Dashboard nav added, 15 screenshots
+- clawd-0tn (Session Configuration) - Evidence created, 70/70 tests pass
+- clawd-4lu (Rate Limit UI) - Screenshots verified authentic
 
 **AWAITING LAYER 3 VALIDATION:**
 - clawd-sp2 (Project Creation UI) → Validation request sent
