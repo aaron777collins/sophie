@@ -1,0 +1,35 @@
+{
+  "id": "val-req-clawd-6pb-l2-reverify",
+  "timestamp": "2026-03-05T07:40:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "RE-VALIDATION: clawd-6pb (NextAuth Setup) - Argon2 Now Verified",
+  "content": {
+    "bead_id": "clawd-6pb",
+    "project": "bible-drawing-v2",
+    "layer_2_status": "PASSED",
+    "previous_rejection_reason": "PBKDF2 instead of Argon2",
+    "current_state": {
+      "argon2_implementation": "VERIFIED in src/lib/auth/password-crypto.ts",
+      "variant": "argon2id (secure)",
+      "package": "argon2@0.44.0 installed",
+      "password_tests": "24/24 PASS (3 suites)",
+      "build": "PASSES (verified)"
+    },
+    "coordinator_verification": {
+      "verified_by": "Coordinator Layer 2 independent check",
+      "grep_results": "import * as argon2 from 'argon2' found in password-crypto.ts",
+      "test_run": "npm test -- password: 3 passed, 3 total / 24 passed, 24 total"
+    },
+    "acceptance_criteria": [
+      "NextAuth.js properly configured ✅",
+      "Credentials provider configured ✅", 
+      "Argon2 password hashing implemented ✅ (VERIFIED)",
+      "JWT session strategy configured ✅",
+      "Environment variables documented ✅",
+      "Build passes without errors ✅"
+    ],
+    "coordinator_notes": "Previous validation failure appears outdated. Current implementation correctly uses Argon2id. All password tests pass. Ready for fresh Layer 3 validation."
+  }
+}

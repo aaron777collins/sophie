@@ -1,6 +1,6 @@
 # Coordinator Jobs
 
-**Last Updated:** 2026-03-05 02:05 EST
+**Last Updated:** 2026-03-05 02:42 EST
 
 ---
 
@@ -52,11 +52,19 @@
 - ✅ **Worker 1:** bdv2-infrastructure-critical-fix (COMPLETED - build already passing)
 - ✅ **Worker 2:** bdv2-evidence-validation-fix (COMPLETED - 3 tasks fixed)
 
-**CAPACITY:** 2/2 workers active (AT CAPACITY)
+**CAPACITY:** 1/2 workers active
 
-**WORKER STATUS (2026-03-05 02:24 EST):**
-- ✅ **Worker 1:** bdv2-argon2-auth-fix (clawd-6pb - COMPLETED, sent to Validator)
-- ⚙️ **Worker 2:** bdv2-csrf-auth-fix (clawd-cxe - IN PROGRESS)
+**LAYER 2 VALIDATIONS COMPLETED (2026-03-05 02:42 EST):**
+- ✅ **clawd-x3z (Logout E2E Tests):** LAYER 2 PASSED → Sent to Validator
+  - E2E tests: 10/10 passed (independently verified)
+  - Screenshots: 12 files verified (4 per viewport × 3 viewports)
+- ✅ **clawd-6pb (NextAuth Setup):** LAYER 2 RE-VERIFIED → Sent to Validator
+  - Previous "PBKDF2" rejection outdated
+  - Argon2id properly implemented in password-crypto.ts
+  - Password tests: 24/24 PASS
+
+**ACTIVE WORKERS:**
+- ⚙️ **bdv2-fabricated-evidence-fix** (clawd-4lu - IN PROGRESS)
 
 **CAPACITY:** 2/2 workers active (AT CAPACITY)
 
