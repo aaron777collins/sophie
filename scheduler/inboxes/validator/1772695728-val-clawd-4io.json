@@ -1,0 +1,30 @@
+{
+  "id": "val-req-clawd-4io",
+  "timestamp": "2026-03-05T07:38:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Layer 2 Validated: clawd-4io (Logout Button & Navigation)",
+  "content": {
+    "task_id": "clawd-4io",
+    "project": "bible-drawing-v2",
+    "layer2_validated_by": "coordinator",
+    "fix_applied": "Verified tests, created evidence, added E2E coverage",
+    "evidence": {
+      "unit_tests": "15/15 passing (logout-button, middleware, providers)",
+      "screenshots": "All 3 viewports (desktop/tablet/mobile)",
+      "e2e_tests": "logout-validation-clawd-4io.spec.ts created"
+    },
+    "acceptance_criteria_validated": [
+      "User menu visible in navigation when logged in ✅",
+      "Sign Out button clearly labeled ✅",
+      "Menu has proper data-testid attributes ✅",
+      "Accessible via keyboard navigation ✅"
+    ],
+    "files_created": [
+      "logout-validation-clawd-4io.spec.ts (E2E tests)",
+      "Screenshots at scheduler/validation/screenshots/clawd-4io/"
+    ],
+    "notes": "Original failing tests were already fixed. Worker verified and added comprehensive evidence."
+  }
+}

@@ -61,15 +61,16 @@
 **CAPACITY:** 2/2 workers active (AT CAPACITY)
 
 **ACTIVE WORKERS:**
-- ⚙️ bdv2-logout-button-fix (clawd-4io - Unit test fixes + evidence)
-- ⚙️ bdv2-logout-e2e-fix (clawd-x3z - E2E tests now unblocked by CSRF fix)
+- ⚙️ bdv2-logout-e2e-fix (clawd-x3z - Logout E2E tests)
+- ⚙️ bdv2-login-e2e-fix (clawd-ebr - Login E2E tests)
 
-**VALIDATION QUEUE (7 tasks):**
+**VALIDATION QUEUE (8 tasks):**
 - clawd-cup, clawd-0tn, clawd-4lu (evidence fixes)
 - clawd-040 (TypeScript fixes)
 - clawd-6pb (Argon2 implementation)
 - clawd-dta (middleware evidence)
-- clawd-cxe (CSRF fix - UNBLOCKS E2E tests!)
+- clawd-cxe (CSRF fix)
+- clawd-4io (logout button + evidence)
 
 **VALIDATION QUEUE (5 tasks):**
 - clawd-cup, clawd-0tn, clawd-4lu (evidence fixes)
