@@ -1,6 +1,6 @@
 # Coordinator Jobs
 
-**Last Updated:** 2026-03-05 00:32 EST
+**Last Updated:** 2026-03-05 02:05 EST
 
 ---
 
@@ -11,19 +11,21 @@
 **Priority:** P0-CRITICAL  
 **Last Updated:** 2026-03-05 23:01 EST
 
-**CRITICAL INCIDENT (JUST PROCESSED - 2026-03-05 23:00 EST):**
-🚨 **Layer 3 Validator REJECTED Multiple Tasks** - Infrastructure breakdown
-- **clawd-sp2 FAILED:** Build failure (Event handlers in Client Components), E2E test failures, mobile issues
-- **clawd-9zu FAILED:** Build failure caused by video-upload component, misleading completion claims  
-- **clawd-x0t FAILED:** API test failures (ReferenceError: Request not defined), cannot verify functionality
-- **SYSTEMIC ISSUE:** Next.js build broken by Client/Server component boundary violations
-- **CONSEQUENCE:** Multiple tasks claiming completion while core infrastructure broken
+**INFRASTRUCTURE STATUS (2026-03-05 02:05 EST):**
+✅ **Build:** PASSES (exit 0)  
+📊 **Tests:** 407/444 passing (92%)
+❌ **Failing Suites:** video-upload, projects.database, auth-integration, main-layout
 
-**IMMEDIATE CORRECTIVE ACTION (2026-03-05 23:01 EST):**
-1. ✅ **Validation Results Processed:** clawd-sp2, clawd-9zu, clawd-x0t returned to in_progress
-2. ✅ **Root Cause Worker:** bdv2-build-fix (coding-agent) spawned to fix Next.js build failure
-3. ✅ **API Test Worker:** clawd-x0t-api-tests (coding-agent) spawned to fix test infrastructure
-4. ✅ **Infrastructure-First:** Addressing core build/test issues before resuming feature work
+**PREVIOUS INCIDENT (2026-03-05 23:00 EST):**
+🚨 **Layer 3 Validator REJECTED Multiple Tasks** - Infrastructure breakdown (NOW RECOVERING)
+- Infrastructure workers deployed - build system functional again
+- Evidence worker addressing validation artifact gaps
+
+**IMMEDIATE CORRECTIVE ACTION (2026-03-05 02:01 EST):**
+1. ✅ **Critical Analysis:** 19 tasks in needs-fix status due to infrastructure breakdown  
+2. ✅ **Infrastructure Worker:** bdv2-infrastructure-critical-fix spawned for P0 build failures
+3. ✅ **Evidence Worker:** bdv2-evidence-validation-fix spawned for validation artifacts
+4. ✅ **Systematic Approach:** Address root causes (build) before symptom fixes (evidence)
 
 **CURRENT STATUS (2026-03-04 18:05 EST):**
 - ✅ **clawd-nu1** (Logout Logic) - LAYER 2 VALIDATED → AWAITING LAYER 3
@@ -46,10 +48,11 @@
 
 **CAPACITY:** 2/2 workers active (AT CAPACITY)
 
-**CURRENT ACTIVE WORKERS (2026-03-05 01:07 EST):**
-- ⚙️ **Worker 1:** layer2-val-clawd-9zu (Validating Video Upload UI)
+**CURRENT ACTIVE WORKERS (2026-03-05 02:01 EST):**
+- ⚙️ **Worker 1:** bdv2-infrastructure-critical-fix (P0 build failures, auth system)
+- ⚙️ **Worker 2:** bdv2-evidence-validation-fix (Validation evidence completion)
 
-**CAPACITY:** 1/2 workers active
+**CAPACITY:** 2/2 workers active (AT CAPACITY)
 
 **AWAITING LAYER 3 VALIDATION:**
 - clawd-sp2 (Project Creation UI) → Validation request sent
