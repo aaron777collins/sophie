@@ -64,7 +64,15 @@
   - Password tests: 24/24 PASS
 
 **ACTIVE WORKERS:**
-- ⚙️ **bdv2-fabricated-evidence-fix** (clawd-4lu - IN PROGRESS)
+- None (0/2 slots occupied)
+
+**INVESTIGATION RESULTS (2026-03-05 02:58 EST):**
+- ❌ **clawd-4lu (Rate Limit UI):** CONFIRMED FRAUDULENT EVIDENCE
+  - Screenshots showed "Invalid credentials" not "Too many login attempts"
+  - Backend rate limiting WORKS (unit tests pass)
+  - Frontend UI BROKEN - NextAuth error propagation failing
+  - REQUIRES: 2-4h dev work to fix, then new screenshots
+  - Status: needs-fix (implementation required, not just evidence)
 
 **LAYER 2 FINDINGS (2026-03-05 02:52 EST):**
 - ⚠️ **clawd-ebr (Login E2E):** Test code correct but E2E INFRASTRUCTURE BROKEN
