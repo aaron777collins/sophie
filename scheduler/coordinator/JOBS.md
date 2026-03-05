@@ -62,7 +62,13 @@
 
 **ACTIVE WORKERS:**
 - ⚙️ bdv2-csrf-auth-fix (clawd-cxe - CSRF token issues)
-- ⚙️ bdv2-middleware-evidence-fix (clawd-dta - E2E tests + screenshots)
+- ⚙️ bdv2-logout-button-fix (clawd-4io - Unit test fixes + evidence)
+
+**VALIDATION QUEUE (6 tasks):**
+- clawd-cup, clawd-0tn, clawd-4lu (evidence fixes)
+- clawd-040 (TypeScript fixes)
+- clawd-6pb (Argon2 implementation)
+- clawd-dta (middleware evidence)
 
 **VALIDATION QUEUE (5 tasks):**
 - clawd-cup, clawd-0tn, clawd-4lu (evidence fixes)

@@ -1,0 +1,26 @@
+{
+  "id": "val-req-clawd-dta",
+  "timestamp": "2026-03-05T07:28:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Layer 2 Validated: clawd-dta (NextAuth Middleware Evidence)",
+  "content": {
+    "task_id": "clawd-dta",
+    "project": "bible-drawing-v2",
+    "layer2_validated_by": "coordinator",
+    "fix_applied": "Created comprehensive validation evidence (E2E tests + screenshots)",
+    "evidence": {
+      "screenshots": "9 files across desktop/tablet/mobile viewports",
+      "validation_report": "scheduler/validation/clawd-dta-validation-report.md",
+      "unit_tests": "10/10 middleware tests passing"
+    },
+    "acceptance_criteria_validated": [
+      "AC-1: Middleware intercepts protected routes ✅",
+      "AC-2: Unauthenticated users redirected to /login ✅",
+      "AC-3: callbackUrl parameter contains original URL ✅",
+      "AC-4: Public routes remain accessible ✅"
+    ],
+    "notes": "Implementation was already correct. This fix added required validation evidence."
+  }
+}
