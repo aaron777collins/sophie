@@ -1,0 +1,22 @@
+{
+  "id": "story-req-transcript",
+  "timestamp": "2026-03-05T13:30:00Z",
+  "from": "coordinator", 
+  "to": "story-architect",
+  "type": "story-request",
+  "subject": "USER STORIES NEEDED: Transcript Editor Epic",
+  "content": {
+    "epic_id": "clawd-2h0",
+    "epic_title": "Epic: Transcript Editor", 
+    "priority": "P1-CRITICAL",
+    "rationale": "Critical path epic needed for BDV2 MVP. Current task clawd-mn6 failed validation due to evidence fraud. Need proper user stories to break into validated sub-tasks.",
+    "acceptance_criteria_focus": [
+      "Display transcript with word-level interactions",
+      "Text editing with video synchronization", 
+      "Removed section management",
+      "Undo/redo functionality"
+    ],
+    "timeline": "Needed for Phase 1 MVP completion",
+    "dependencies": "Blocks video processing and export epics"
+  }
+}

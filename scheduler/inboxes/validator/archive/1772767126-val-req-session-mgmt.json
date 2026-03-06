@@ -1,0 +1,33 @@
+{
+  "id": "val-req-session-mgmt-20260305",
+  "timestamp": "2026-03-05T22:30:00-05:00",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: BDV2-US-1.2 Session Management",
+  "content": {
+    "task_ids": ["clawd-1il"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1 - Authentication",
+    "claimed_by": "session-mgmt-impl worker",
+    "claimed_at": "2026-03-05T22:13:00-05:00",
+    "files_changed": [
+      "src/lib/session.ts",
+      "src/lib/auth/config.ts",
+      "tests/e2e/session-management.spec.ts",
+      "tests/e2e/session-persistence.spec.ts"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Session persists across browser refreshes",
+      "AC-2: Session expires after 7 days of inactivity",
+      "AC-3: Concurrent sessions are allowed",
+      "AC-4: Session data is stored securely",
+      "AC-5: Invalid sessions redirect to login",
+      "AC-6: Session cleanup happens automatically"
+    ],
+    "test_server": "https://dev2.aaroncollins.info/bdv2",
+    "test_credentials": "demo/demo123 OR aaron@example.com/correctpassword",
+    "evidence_file": "/home/ubuntu/repos/bible-drawing-v2/SESSION_MANAGEMENT_COMPLETION_EVIDENCE.md",
+    "self_validation_notes": "Worker completed all 6 ACs. Comprehensive evidence provided. E2E infrastructure fixed (test users created). Some database pool timeout issues in broader test suite are infrastructure-related, not implementation issues. Recommend Validator verify session persistence and security features on test server."
+  }
+}

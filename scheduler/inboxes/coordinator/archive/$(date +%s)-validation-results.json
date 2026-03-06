@@ -1,0 +1,78 @@
+{
+  "id": "val-result-1740865825",
+  "timestamp": "2026-03-05T08:10:25Z",
+  "from": "validator",
+  "to": "coordinator", 
+  "type": "validation-result",
+  "subject": "Validation Results: 4 beads FAILED",
+  "content": {
+    "batch_id": "batch-2026-03-05",
+    "bead_ids": ["clawd-dta", "clawd-0tn", "clawd-cup", "clawd-040"],
+    "project": "bible-drawing-v2",
+    "result": "FAIL",
+    "success_rate": "0/4 (0%)",
+    "findings": [
+      {
+        "bead_id": "clawd-dta",
+        "title": "NextAuth Middleware Configuration",
+        "result": "FAIL",
+        "reason": "Missing validation evidence",
+        "checks": {
+          "implementation": "PASS",
+          "build": "PASS", 
+          "e2e_tests": "PASS",
+          "screenshots": "FAIL",
+          "validation_protocol": "FAIL"
+        },
+        "notes": "Technical implementation excellent but mandatory visual evidence missing."
+      },
+      {
+        "bead_id": "clawd-0tn", 
+        "title": "Session Configuration",
+        "result": "FAIL",
+        "reason": "Missing validation evidence",
+        "checks": {
+          "implementation": "PASS",
+          "unit_tests": "PASS",
+          "screenshots": "FAIL", 
+          "validation_protocol": "FAIL"
+        },
+        "notes": "Session logic correct but visual validation evidence not provided."
+      },
+      {
+        "bead_id": "clawd-cup",
+        "title": "Project Layout and Navigation", 
+        "result": "FAIL",
+        "reason": "Requirements mismatch + test failures",
+        "checks": {
+          "implementation": "PARTIAL",
+          "tests": "FAIL",
+          "requirements_alignment": "FAIL"
+        },
+        "notes": "Dashboard navigation expected in Header but not implemented. Tests expect 3 Dashboard links, only 1 exists."
+      },
+      {
+        "bead_id": "clawd-040",
+        "title": "CLI Password Reset Script",
+        "result": "FAIL", 
+        "reason": "TTY interaction failures",
+        "checks": {
+          "build": "PASS",
+          "unit_tests": "PASS",
+          "execution": "FAIL",
+          "production_readiness": "FAIL"
+        },
+        "notes": "Script cannot execute in non-interactive environments. TTY errors prevent CI/CD deployment."
+      }
+    ],
+    "systemic_issues": [
+      "Validation evidence standards not followed",
+      "Test-requirements alignment problems", 
+      "Production readiness gaps"
+    ],
+    "summary": "0% success rate indicates systematic process breakdown. All beads failed validation due to missing evidence, requirements mismatches, or functional issues.",
+    "validated_at": "2026-03-05T08:10:25Z",
+    "validated_by": "adversarial-validator",
+    "escalation_required": true
+  }
+}
