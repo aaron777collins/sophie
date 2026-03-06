@@ -9,14 +9,15 @@
 
 ### Primary Labels → Specialist Mapping
 
-| Label | Primary Specialist | Agent Name | Notes |
-|-------|-------------------|------------|-------|
-| `frontend` | Frontend Specialist | Phoenix 🎨 | UI, components, styling |
-| `backend` | Backend Specialist | Atlas ⚙️ | APIs, database, auth |
-| `testing` | QA Engineer | Mercury 🧪 | Test strategy, implementation |
-| `devops` | DevOps Engineer | Forge 🛡️ | CI/CD, deployment, infra |
-| `architecture` | Architect | Athena 🏛️ | Design decisions, schemas |
-| `cross-cutting` | Multiple | (coordinate) | Multi-domain work |
+| Label | Primary Specialist | Agent Name | Identity Path | Notes |
+|-------|-------------------|------------|---------------|-------|
+| `frontend` | Frontend Specialist | Phoenix 🎨 | `scheduler/specialists/frontend/IDENTITY.md` | UI, components, styling |
+| `backend` | Backend Specialist | Atlas ⚙️ | `scheduler/specialists/backend/IDENTITY.md` | APIs, database, auth |
+| `testing` | QA Engineer | Mercury 🧪 | `scheduler/specialists/qa/IDENTITY.md` | Test strategy, implementation |
+| `devops` | DevOps Engineer | Forge 🛡️ | `scheduler/specialists/devops/IDENTITY.md` | CI/CD, deployment |
+| `infrastructure` | Infrastructure Specialist | Titan 🏔️ | `scheduler/specialists/infrastructure/IDENTITY.md` | Cloud, networking, scaling, security |
+| `architecture` | Architect | Athena 🏛️ | `scheduler/specialists/architect/IDENTITY.md` | Design decisions, schemas |
+| `cross-cutting` | Multiple | (coordinate) | — | Multi-domain work |
 
 ### Secondary Labels
 
