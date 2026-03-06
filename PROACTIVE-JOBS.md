@@ -1,131 +1,151 @@
 ## PROACTIVE-JOBS.md - Active Task Queue
 
-**Updated:** 2026-03-03 08:00 EST by Person Manager
-**Priority Update from Aaron:** Bible > Matrix Voice Chat > MELO
+**Updated:** 2026-03-06 00:00 EST by Sophie
+**Priority Update from Aaron:** Bible > Matrix Voice Chat > Agent Team Restructure > MELO
 
 ---
 
-## 🚨 CRITICAL SYSTEMIC ISSUES (PM Session 2026-03-03 08:00)
+## 🚀 NEW: Agent Team Restructure (P0-STRATEGIC)
 
-### Issue 1: FALSE CLAIMS PATTERN
-**Status:** Third incident confirmed. Workers generating fake completion reports with:
-- Non-existent commit hashes
-- Claims of code that returns 404
-- Detailed fake AC validation tables
+**Status:** DESIGN COMPLETE, Implementation Starting
 
-**Action Taken:** Documented pattern, enhanced validation requirements.
+### What's Changing
+Moving from **generic workers** to **specialized agent swarm**:
 
-### Issue 2: REPOSITORY CONFUSION (ROOT CAUSE)
-**Status:** Workers implementing BDV2 in ~/clawd instead of ~/repos/bible-drawing-v2
+| Old System | New System |
+|------------|------------|
+| Single generic worker | 6 specialized roles |
+| Self-validation | Independent audit + validation |
+| No loop detection | Hallucination Auditor |
+| Ad-hoc assignment | Scrum Master coordination |
 
-**Action Taken:**
-- Updated USER-STORY-TEMPLATE.md with mandatory repository field
-- Updated all open BDV2 tasks with explicit working directory instructions
-- Added warning: validation failure automatic for wrong repository
+### New Specialist Roles
+| Agent | Role | Model | Domain |
+|-------|------|-------|--------|
+| Phoenix 🎨 | Frontend Specialist | Sonnet | React, Next.js, UI/UX |
+| Atlas ⚙️ | Backend Specialist | Sonnet | APIs, DB, Auth |
+| Athena 🏛️ | Architect | Sonnet/Opus | System design, patterns |
+| Mercury 🧪 | QA Engineer | Sonnet | Testing strategy |
+| Forge 🛡️ | DevOps Engineer | Sonnet | CI/CD, deployment |
+| Argus 👁️ | Hallucination Auditor | Sonnet | Meta-validation |
+| Herald 🏃 | Scrum Master | Sonnet | Process, assignment |
+| Sentinel 🔍 | Validator | Sonnet | Independent verification |
 
-### Issue 3: WORKER SPAWNING BLOCKED
-**Status:** Coordinator cannot spawn workers (allowlist restriction)
+### Implementation Status
+- [x] Identity documents created for all specialists
+- [x] Task routing system documented
+- [x] Heartbeat configs for Scrum Master + Auditor
+- [ ] Cron jobs configured
+- [ ] Test with real task flow
+- [ ] AGENTS.md updated
 
-**Escalation:** Needs Aaron's attention to restore autonomous progress
-
----
-
-## 🎯 PRIORITY ORDER (Per Aaron, 2026-03-01)
-
-| Priority | Project | Why |
-|----------|---------|-----|
-| **P0** | Bible Drawing V2 | Core project, highest priority |
-| **P1** | Matrix/Element Voice Chat | Enable easier Sophie communication |
-| **P2** | MELO V2 | Background maintenance |
+**See:** `memory/projects/agent-team-restructure/_overview.md`
 
 ---
 
 ## 🔴 P0: BDV2 Phase 1 - AUTH SYSTEM
 
-**Status:** Auth infrastructure BLOCKED - clawd-zsk (CSRF fix) stalled
+**Status:** Auth infrastructure needs specialist attention
 
-### Current State (2026-03-02 12:00 EST)
+### Current State
 | Category | Status | Issues Open |
 |----------|--------|-------------|
 | Cat 0: Foundation | ⚠️ PARTIAL | Schema incomplete |
-| Cat 1: Auth | 🔴 BLOCKED | clawd-zsk stalled, needs reassignment |
+| Cat 1: Auth | 🔴 NEEDS-FIX | CSRF + session issues |
 | Cat 2: Upload | ⚠️ localStorage only | No DB integration |
 | Cat 3-6 | ⏳ BLOCKED | Not started |
 
-### Critical Blocker
-- **clawd-zsk (NextAuth CSRF Fix)** - P0-CRITICAL
-  - Status: in_progress, assigned to "ubuntu"
-  - SECOND false claims incident - validator caught
-  - Auth system fundamentally broken
-  - **NEEDS:** Proper reassignment and implementation
+### Critical Path
+1. **Fix CSRF/Auth** → Route to Backend Specialist (Atlas)
+2. **Fix E2E infrastructure** → Route to DevOps (Forge)
+3. **Validate fixes** → Route to QA (Mercury) + Validator (Sentinel)
 
-### Parallel Progress (Rate Limiting)
-- ✅ clawd-qn7: Integration complete
-- ⏳ clawd-ehb: Needs-review (sent to validator)
-- 🔄 clawd-4lu, clawd-atn: In progress
-
-### Open Issues
-- 11 P0 tasks in needs-fix (mostly missing screenshots)
-- 3 P0 tasks blocked
-- 7 tasks in progress
+### Assignment (New System)
+- `backend` tasks → Atlas ⚙️
+- `frontend` tasks → Phoenix 🎨
+- `testing` tasks → Mercury 🧪
+- `devops` tasks → Forge 🛡️
 
 ---
 
-## 🟡 P1: Matrix/Element Voice Chat (NEW!)
+## 🟡 P1: Matrix/Element Voice Chat
 
 **Goal:** Self-hosted Element server where Aaron can voice chat with Sophie
 
-### Architecture
-```
-dev3 VPS
-├── Synapse (Matrix homeserver)
-├── PostgreSQL (database)
-├── LiveKit (WebRTC SFU)
-├── lk-jwt-service (Matrix→LiveKit auth)
-├── Traefik (reverse proxy + SSL)
-└── Sophie Bot (voice participant)
-```
+### Architecture (Documented in memory/projects/sophie-voice-matrix/)
+- Synapse (Matrix homeserver)
+- LiveKit (WebRTC SFU)
+- Sophie Bot (Kokoro TTS + faster-whisper STT)
 
-### Implementation Plan
-1. **Phase 1: Infrastructure** - Deploy Matrix stack via Ansible playbook
-2. **Phase 2: Configuration** - Private server, no federation, invite-only room
-3. **Phase 3: Sophie Bot** - Custom voice bot using LiveKit SDK
-4. **Phase 4: Polish** - Wake on room join, idle when alone
-
-### Status: 🚀 STARTING NOW
+### Current Status (2026-03-04)
+- ✅ Infrastructure documented
+- ✅ TTS decision: Kokoro with af_heart
+- ✅ STT decision: faster-whisper small/int8
+- 🔄 SFrame decryption fix in progress
+- ⏳ Full integration pending
 
 ---
 
 ## 🔵 P2: MELO V2 (Background)
 
-**Status:** Maintenance mode
-
-| Task ID | Title | Status |
-|---------|-------|--------|
-| clawd-717 | ChatInput Component Tests | in_progress |
-| clawd-7v9 | Remaining Matrix Client Issues | in_progress |
-| clawd-0bw | Registration Component Tests | in_progress |
-
-Workers continue background progress. Not blocking other work.
+**Status:** Maintenance mode - Assign to specialists as capacity allows
 
 ---
 
-## 📐 QUALITY GATES (All Projects)
+## 📐 MANAGEMENT HIERARCHY
+
+```
+👑 Aaron + Sophie — Direction
+   │
+   └── 👔 Person Manager (Opus, 4x/day) — Master Plans, Epics
+       │
+       ├── 📐 Story Architect (Opus) — User Stories with ACs
+       │
+       └── 🎯 Coordinator (Sonnet) — Sprint planning, oversight
+           │
+           ├── 🏃 Scrum Master (Sonnet, 15-30 min) — Task assignment
+           │
+           └── 👥 Development Team
+               │
+               ├── 🎨 Phoenix — Frontend
+               ├── ⚙️ Atlas — Backend
+               ├── 🏛️ Athena — Architecture
+               ├── 🧪 Mercury — QA
+               ├── 🛡️ Forge — DevOps
+               ├── 👁️ Argus — Audit
+               └── 🔍 Sentinel — Validation
+```
+
+---
+
+## 📊 QUALITY GATES (All Projects)
 
 Before claiming ANY task complete:
 
 ```
-□ All beads CLOSED (bd list returns empty for task)
-□ E2E tests PASS (actual output, not "skipped")
-□ Unit tests PASS (actual pass, not skip)
+□ All beads CLOSED
+□ E2E tests PASS (actual output)
+□ Unit tests PASS
 □ Screenshots at 3 viewports
 □ Independent validator sign-off
-□ Acceptance criteria all have evidence
+□ Evidence in scheduler/evidence/{bead-id}/
 ```
 
 **See:** `scheduler/QUALITY-GATES.md`
 
 ---
 
-**Last Updated:** 2026-03-01 16:22 EST
-**Updated By:** Sophie (priority update from Aaron + new Matrix project)
+## 📁 Key Files
+
+| File | Purpose |
+|------|---------|
+| `scheduler/TASK-ROUTING.md` | How tasks get assigned to specialists |
+| `scheduler/specialists/*/IDENTITY.md` | Specialist role definitions |
+| `scheduler/scrum-master/IDENTITY.md` | Scrum Master definition |
+| `scheduler/validator/IDENTITY.md` | Validator definition |
+| `memory/projects/agent-team-restructure/` | Full restructure research |
+
+---
+
+**Last Updated:** 2026-03-06 00:00 EST
+**Updated By:** Sophie (Agent Team Restructure)
