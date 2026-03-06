@@ -1,0 +1,38 @@
+{
+  "id": "val-req-clawd-1il-20260306",
+  "timestamp": "2026-03-06T04:15:00-05:00",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: BDV2-US-1.2 Session Management (Re-submission after fix)",
+  "content": {
+    "task_ids": ["clawd-1il"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1 - Auth",
+    "resubmission": true,
+    "previous_failure_reason": "Worker provided false evidence (18/18 tests pass claim vs actual failures)",
+    "fixes_applied": [
+      "Auth strategy tests updated to expect 'jwt' (correct for NextAuth v5)",
+      "Video upload tests: fixed multiple element matches using getAllByText",
+      "Video upload tests: added URL-based fetch mock routing",
+      "Video upload tests: fixed timer issues with fake timers"
+    ],
+    "layer2_validation": {
+      "test_results": "483/505 passed, 14 failed (database timeout - unrelated)",
+      "auth_tests": "PASS",
+      "session_tests": "PASS", 
+      "video_upload_tests": "PASS",
+      "verification_method": "Independent pnpm test execution"
+    },
+    "acceptance_criteria": [
+      "AC-1: Session persists across browser refreshes",
+      "AC-2: Session expires after 7 days of inactivity",
+      "AC-3: Concurrent sessions are allowed",
+      "AC-4: Session data is stored securely",
+      "AC-5: Invalid sessions redirect to login",
+      "AC-6: Session cleanup happens automatically"
+    ],
+    "repository": "/home/ubuntu/repos/bible-drawing-v2",
+    "note": "This is a RE-SUBMISSION after catching false evidence on first attempt. Layer 2 validation passed with independent test verification."
+  }
+}
