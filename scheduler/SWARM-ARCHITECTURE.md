@@ -1,229 +1,259 @@
-# Swarm Architecture
+# Agent Swarm Architecture
 
-> **Purpose:** How specialists get triggered, work flows, and handoffs happen
-> **Last Updated:** 2026-03-06
+> **Status:** ACTIVE SYSTEM (not just documentation)
+> **Updated:** 2026-03-06
+> **Author:** Sophie
 
 ---
 
-## 🧠 Core Principle: Spawned, Not Polled
+## 🧠 Core Concept: Specialists Are Spawned, Not Polled
 
-Specialists don't run on crons. They're **spawned on-demand** by the Coordinator when work matches their domain.
+**Critical understanding:**
+- Specialists (Phoenix, Atlas, Mercury, etc.) are **NOT** running daemons
+- They are **identities** that get invoked via `sessions_spawn`
+- Only **overseers** have cron jobs (Coordinator, Person Manager, Auditor)
+- Work flows through the Coordinator who spawns specialists on-demand
+
+---
+
+## 🔄 How Work Actually Flows
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                         THE HEARTBEATS                               │
-│                                                                      │
-│  Coordinator (30min)     - Routes tasks, spawns specialists          │
-│  Auditor (1hr)           - Samples completed work for hallucinations │
-│  Person Manager (4x/day) - Strategic oversight + nightly reflection  │
-│  Validator (2x/hr)       - Independent QA on needs-validation        │
-│                                                                      │
-│  Everything else → SPAWNED when needed                               │
+│  PERSON MANAGER (cron: nightly 2am)                                 │
+│  - Strategic review, epic creation                                  │
+│  - Self-reflection: What's working? What's not?                     │
+│  - Hiring analysis: Do we need new specialist types?                │
+│  - Resource gaps: Are specialists overwhelmed?                      │
+└─────────────────────────────────────────────────────────────────────┘
+         │
+         │ creates epics/stories
+         ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  COORDINATOR (cron: every 30min)                                    │
+│  1. Run `bd ready --json` to find unassigned work                   │
+│  2. Read TASK-ROUTING.md to determine specialist                    │
+│  3. Spawn appropriate specialist with task context                  │
+│  4. Track progress via beads status updates                         │
+│  5. When work hits needs-validation, spawn Validator                │
+└─────────────────────────────────────────────────────────────────────┘
+         │
+         │ spawns on-demand
+         ▼
+┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+│ Phoenix 🎨       │  │ Atlas ⚙️         │  │ Mercury 🧪       │
+│ (frontend)      │  │ (backend)       │  │ (qa)            │
+│ - Reads IDENTITY│  │ - Reads IDENTITY│  │ - Reads IDENTITY│
+│ - Claims bead   │  │ - Claims bead   │  │ - Claims bead   │
+│ - Does work     │  │ - Does work     │  │ - Does work     │
+│ - Updates bead  │  │ - Updates bead  │  │ - Updates bead  │
+│ - Session ends  │  │ - Session ends  │  │ - Session ends  │
+└─────────────────┘  └─────────────────┘  └─────────────────┘
+         │                   │                   │
+         └───────────────────┼───────────────────┘
+                             │
+                             │ marks needs-validation
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  VALIDATOR (spawned by Coordinator when work needs validation)      │
+│  - Independent verification                                          │
+│  - Runs tests, takes screenshots, checks evidence                   │
+│  - PASS → bd close                                                  │
+│  - FAIL → bd update --status needs-fix                              │
+└─────────────────────────────────────────────────────────────────────┘
+         │
+         │ completed work sampled by
+         ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  AUDITOR (cron: hourly)                                             │
+│  - Sample 20% of recently completed tasks                           │
+│  - Verify claims match evidence                                     │
+│  - Detect hallucination patterns                                    │
+│  - Escalate issues to Coordinator/PM                                │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🔄 Task Lifecycle
+## 📅 Cron Schedule
 
-### 1. Task Creation
-```bash
-bd create "Build login form" -t task -p 1 --labels frontend
-```
+| Role | Cron Needed | Schedule | Purpose |
+|------|-------------|----------|---------|
+| **Coordinator** | ✅ YES | Every 30 min | Routes work, spawns specialists |
+| **Person Manager** | ✅ YES | Nightly 2am | Strategic review, hiring analysis |
+| **Auditor** | ✅ YES | Hourly | Sample-check completed work |
+| **Scrum Master** | ⚠️ MERGED | (into Coordinator) | Task assignment is Coordinator's job |
+| **Specialists** | ❌ NO | On-demand | Spawned by Coordinator |
+| **Validator** | ❌ NO | On-demand | Spawned when needed |
 
-### 2. Coordinator Heartbeat (every 30min)
-```
-1. Run `bd ready --json` to find unassigned work
-2. For each task:
-   a. Read labels
-   b. Consult TASK-ROUTING.md for specialist mapping
-   c. Spawn the appropriate specialist
-3. Claim the bead for tracking
-```
+**Note:** Scrum Master responsibilities merged into Coordinator to reduce cron overhead.
 
-### 3. Specialist Execution
-```
-1. Specialist spawns with their IDENTITY.md context
-2. Reads the task from beads
-3. Does the work (follows TDD, creates evidence)
-4. Updates bead: `bd update {id} --status needs-validation`
-5. Session ends
-```
+---
 
-### 4. Validation (Validator heartbeat, 2x/hour)
-```
-1. Validator checks `bd list --status needs-validation`
-2. For each:
-   a. Actually runs tests, checks screenshots
-   b. PASS → `bd close {id}`
-   c. FAIL → `bd update {id} --status needs-fix`
-```
+## 🔧 Coordinator Routing Logic
 
-### 5. Auditor Sampling (hourly)
-```
-1. Auditor runs `bd list --status closed --limit 10`
-2. Randomly samples ~20% of recently closed work
-3. Checks for hallucinations, false claims, missing evidence
-4. Flags issues for re-validation
+The Coordinator reads `TASK-ROUTING.md` and spawns specialists like this:
+
+```python
+# Pseudocode for Coordinator's routing logic
+
+# 1. Get ready work
+ready_tasks = bd ready --json
+
+for task in ready_tasks:
+    # 2. Determine specialist from labels
+    specialist = route_task(task.labels)
+    
+    # 3. Build spawn message
+    spawn_message = f"""
+    You are {specialist.name}, the {specialist.role}.
+    
+    Read your identity: scheduler/specialists/{specialist.dir}/IDENTITY.md
+    
+    Your task:
+    - Bead ID: {task.id}
+    - Title: {task.title}
+    - Acceptance Criteria: {task.description}
+    
+    Workflow:
+    1. Claim the task: bd update {task.id} --claim
+    2. Spawn a sub-agent for implementation (prevent context rot)
+    3. Follow TDD: write tests first
+    4. Collect evidence in scheduler/evidence/{task.id}/
+    5. When done: bd update {task.id} --status needs-validation
+    """
+    
+    # 4. Spawn specialist
+    sessions_spawn(
+        task=spawn_message,
+        model="sonnet",
+        label=f"{specialist.name}-{task.id}"
+    )
 ```
 
 ---
 
-## 📋 Specialist Spawn Protocol
+## 🔀 Task Routing Rules
 
-When Coordinator spawns a specialist, it MUST include:
+| Label | Specialist | Agent Name |
+|-------|------------|------------|
+| `frontend` | Frontend Specialist | Phoenix 🎨 |
+| `backend` | Backend Specialist | Atlas ⚙️ |
+| `testing` | QA Engineer | Mercury 🧪 |
+| `devops` | DevOps Engineer | Forge 🛡️ |
+| `architecture` | Architect | Athena 🏛️ |
+| `cross-cutting` | (Coordinator decides) | Multiple |
 
-```
-sessions_spawn(
-  agentId="sonnet",  // or appropriate model
-  label="{specialist}-{bead-id}",
-  task="""
-## Specialist: {Name} ({Emoji})
-
-**Read your identity FIRST:**
-```bash
-cat ~/clawd/scheduler/specialists/{domain}/IDENTITY.md
-```
-
-**Your task:**
-- Bead: {bead-id}
-- Title: {title}
-- Priority: {priority}
-- Labels: {labels}
-
-**Acceptance Criteria:**
-{ACs from bead}
-
-**Workflow:**
-1. Read identity and understand your role
-2. Claim: `bd update {bead-id} --claim`
-3. Do the work (TDD approach)
-4. Create evidence (screenshots, test results)
-5. Submit: `bd update {bead-id} --status needs-validation --notes "Evidence: ..."`
-6. Commit and push
-
-**Dependencies:** {deps}
-"""
-)
-```
+**Fallback:** If no label, analyze title/description for keywords.
 
 ---
 
-## 🤝 Handoffs Between Specialists
+## ⚠️ Contingencies & Edge Cases
 
-### Sequential Dependencies
-```
-Backend (Atlas) completes API
-    → Updates bead: needs-validation
-    → Creates new bead for Frontend with dep on API bead
-    → Coordinator sees new frontend task, spawns Phoenix
-```
+### 1. Task Has Multiple Labels
+**Problem:** Task labeled both `frontend` and `backend`
+**Solution:** Coordinator splits into sub-tasks OR assigns to primary (larger scope)
 
-### Parallel Work
-```
-Coordinator sees multi-domain task
-    → Creates sub-beads for each domain
-    → Spawns specialists in parallel
-    → Each completes independently
-    → Final integration task depends on all sub-beads
-```
+### 2. Specialist Fails Mid-Task
+**Problem:** Session dies or times out
+**Solution:** 
+- Bead stays `in_progress` 
+- Next Coordinator heartbeat sees stalled task
+- Re-spawns specialist with context
 
-### Requesting Help
-Specialists can request other specialists via spawn queue:
-```bash
-# Inside specialist session
-cat > ~/clawd/scheduler/spawn-queue/requests/help-$(date +%s).json << 'EOF'
-{
-  "from": "phoenix",
-  "needed": "atlas",
-  "reason": "Need API endpoint for user profile",
-  "bead": "clawd-123",
-  "priority": 1
-}
-EOF
-```
+### 3. Validation Keeps Failing
+**Problem:** Same task fails validation 3+ times
+**Solution:**
+- Coordinator escalates to Person Manager
+- PM reviews task scope/clarity
+- May need architecture review
 
-Coordinator's next heartbeat processes this and spawns Atlas.
+### 4. No Ready Tasks
+**Problem:** `bd ready` returns empty
+**Solution:** HEARTBEAT_OK, nothing to do
 
----
+### 5. Too Many Tasks at Once
+**Problem:** 10 tasks ready, can only spawn 4 concurrent
+**Solution:**
+- Prioritize by P0 > P1 > P2
+- Track active spawns
+- Process remainder next heartbeat
 
-## ⚠️ Contingencies
+### 6. Circular Dependencies
+**Problem:** Task A depends on B depends on A
+**Solution:**
+- `bd ready` won't show either (blocked)
+- Coordinator flags for manual review
 
-### Specialist Fails Mid-Work
-- Bead stays `in_progress`
-- Next Coordinator heartbeat detects stale (>4hr)
-- Re-spawns with fresh context OR escalates
-
-### Multiple Tasks for Same Specialist
-- Coordinator checks capacity (max concurrent per TASK-ROUTING.md)
-- If over capacity, tasks stay in `ready` queue
-- Next heartbeat picks them up
-
-### Specialist Needs Escalation
-```bash
-# Write to coordinator inbox
-cat > ~/clawd/scheduler/inboxes/coordinator/escalate-$(date +%s).json << 'EOF'
-{
-  "from": "phoenix",
-  "type": "escalation",
-  "bead": "clawd-123",
-  "reason": "Task larger than expected, needs Architect input",
-  "suggested_action": "spawn athena for design review"
-}
-EOF
-```
-
-### Validator Rejects Work
-- Bead status → `needs-fix`
-- Next Coordinator heartbeat sees it
-- Re-spawns original specialist with rejection notes
+### 7. Specialist Doesn't Claim
+**Problem:** Spawned specialist doesn't run `bd update --claim`
+**Solution:**
+- Auditor catches unclaimed tasks with old spawn
+- Flags for re-spawn
 
 ---
 
-## 🔧 Cron Configuration
+## 📋 Handoff Protocol
 
-| Cron | Model | Frequency | Purpose |
-|------|-------|-----------|---------|
-| coordinator | Sonnet | 30min | Route tasks, spawn specialists, manage flow |
-| validator | Sonnet | 2x/hour | Independent QA |
-| auditor | Sonnet | 1hr | Hallucination checks, sampling |
-| person-manager | Opus | 4x/day + nightly | Strategy + reflection + hiring |
-| spawn-processor | Haiku | 2min | Process spawn queue |
+### Specialist → Validator Handoff
+1. Specialist completes work
+2. Specialist runs: `bd update {id} --status needs-validation`
+3. Specialist adds note: `bd note {id} "Evidence at scheduler/evidence/{id}/"`
+4. **Next Coordinator heartbeat:**
+   - Sees `needs-validation` status
+   - Spawns Validator with task context
+   - Validator independently verifies
 
-**Specialists have NO crons.** They are invoked.
+### Validator → Complete/Fix Handoff
+**If PASS:**
+1. Validator runs: `bd close {id} --reason "Validated: all ACs met"`
+2. Evidence archived
+3. Auditor may sample later
 
----
-
-## 📁 File Structure
-
-```
-scheduler/
-├── SWARM-ARCHITECTURE.md      # This file
-├── TASK-ROUTING.md            # Label → Specialist mapping
-├── spawn-queue/               # Request queue for spawns
-│   ├── requests/              # Pending spawn requests
-│   └── responses/             # Spawn results
-├── inboxes/                   # Inter-agent communication
-│   ├── coordinator/
-│   ├── person-manager/
-│   └── validator/
-└── specialists/
-    ├── frontend/IDENTITY.md   # Phoenix
-    ├── backend/IDENTITY.md    # Atlas
-    ├── architect/IDENTITY.md  # Athena
-    ├── qa/IDENTITY.md         # Mercury
-    ├── devops/IDENTITY.md     # Forge
-    ├── infrastructure/IDENTITY.md  # (NEW) Titan
-    └── auditor/IDENTITY.md    # Argus
-```
+**If FAIL:**
+1. Validator runs: `bd update {id} --status needs-fix`
+2. Validator adds note with specific failures
+3. **Next Coordinator heartbeat:**
+   - Sees `needs-fix` status
+   - Re-spawns original specialist with failure context
 
 ---
 
-## 🎯 Key Insight
+## 🛡️ Anti-Hallucination Safeguards
 
-**The swarm is event-driven, not poll-driven.**
+### Built into Specialists
+- Must spawn sub-agent for implementation (fresh context)
+- Must run actual commands (not fabricate output)
+- Must collect evidence (screenshots, logs)
 
-- Crons are for OVERSEERS (Coordinator, Validator, Auditor, Person Manager)
-- Specialists are MUSCLES that activate when called
-- Work flows through beads, not direct messages
-- Handoffs are explicit (bead status changes trigger next action)
+### Built into Validator
+- Runs tests independently
+- Takes own screenshots
+- Doesn't trust claimed evidence
+
+### Built into Auditor
+- Samples 20% of completed work
+- Verifies files exist
+- Cross-references claims with reality
+- Escalates patterns
+
+### Built into Coordinator
+- Tracks spawn → claim timing
+- Flags unclaimed tasks
+- Monitors re-spawn frequency (hallucination signal)
+
+---
+
+## 📊 Health Metrics
+
+Coordinator tracks:
+1. **Tasks spawned per hour** — Activity level
+2. **Claim rate** — % of spawns that claim within 5min
+3. **Validation pass rate** — Quality signal
+4. **Re-spawn frequency** — Hallucination/failure signal
+5. **Time in status** — Efficiency signal
+
+Auditor tracks:
+1. **Hallucination rate** — % of sampled tasks with issues
+2. **Per-specialist reliability** — Who's struggling?
+3. **Evidence quality** — Completeness of proof
