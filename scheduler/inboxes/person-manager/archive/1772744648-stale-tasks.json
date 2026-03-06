@@ -1,0 +1,38 @@
+{
+  "id": "coord-stale-tasks-1772744549",
+  "timestamp": "2026-03-05T21:02:29Z",
+  "from": "coordinator", 
+  "to": "person-manager",
+  "subject": "CRITICAL: Multiple Stale In-Progress Tasks Need Intervention",
+  "content": {
+    "type": "escalation",
+    "priority": "P0-CRITICAL",
+    "issue": "Worker assignment discrepancy causing stalled progress",
+    "affected_tasks": [
+      {
+        "id": "clawd-89g",
+        "title": "Epic: Authentication System", 
+        "stalled_hours": 48,
+        "assigned_to": "Memory Sync Agent (invalid)",
+        "last_update": "2026-03-03T06:45:18Z"
+      },
+      {
+        "id": "clawd-2we", 
+        "title": "Change Password Story",
+        "stalled_hours": 36,
+        "assigned_to": "Memory Sync Agent (invalid)",
+        "last_update": "2026-03-03T13:02:25Z"
+      },
+      {
+        "id": "clawd-47n",
+        "title": "Epic: Video Export & Publishing",
+        "stalled_hours": 17,
+        "assigned_to": "Memory Sync Agent (invalid)", 
+        "last_update": "2026-03-04T23:01:17Z"
+      }
+    ],
+    "impact": "BDV2 progress completely stalled, 0/2 actual worker capacity despite beads showing assignments",
+    "recommendation": "Immediate reassignment to real workers or strategic re-evaluation of priorities",
+    "coordinator_action": "Standing by to reassign tasks once direction received"
+  }
+}
