@@ -1,0 +1,46 @@
+{
+  "type": "escalation",
+  "priority": "P1",
+  "source": "Coordinator",
+  "timestamp": "2026-03-06T15:00:00Z",
+  "issue": "Stalled Epics Need Strategic Review",
+  "description": "5 epics have been in_progress for >4 hours with no activity, all assigned to 'Memory Sync Agent'",
+  "affected_beads": [
+    {
+      "id": "clawd-47n",
+      "title": "Epic: Video Export & Publishing", 
+      "status": "Blocked waiting for Transcript Editor epic",
+      "last_updated": "2026-03-06T01:32:07Z"
+    },
+    {
+      "id": "clawd-89g",
+      "title": "Epic: Authentication System",
+      "status": "No notes, stalled",
+      "last_updated": "2026-03-06T02:45:14Z"
+    },
+    {
+      "id": "clawd-l92.2", 
+      "title": "Content Analysis Engine",
+      "status": "No notes, stalled",
+      "last_updated": "2026-03-06T07:13:44Z"
+    },
+    {
+      "id": "clawd-5r4",
+      "title": "Epic: Version History & Rollback", 
+      "status": "No notes, stalled",
+      "last_updated": "2026-03-06T02:45:18Z"
+    },
+    {
+      "id": "clawd-ddp",
+      "title": "Epic: Chat Interface (Sophie)",
+      "status": "No notes, stalled", 
+      "last_updated": "2026-03-06T02:45:23Z"
+    }
+  ],
+  "recommended_actions": [
+    "Review and properly assign epics to appropriate specialists",
+    "Update status based on actual progress",
+    "Clarify dependencies and blockers",
+    "Consider closing or re-opening based on current priorities"
+  ]
+}
