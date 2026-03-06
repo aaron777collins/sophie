@@ -1,0 +1,42 @@
+{
+  "id": "val-req-mn6-1741179000",
+  "timestamp": "2026-03-05T08:16:00-05:00",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: BDV2-US-4.1 Display Transcript (clawd-mn6)",
+  "content": {
+    "task_ids": ["clawd-mn6"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1 - MVP",
+    "story": "BDV2-US-4.1: Display Transcript",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-03-05T08:16:00-05:00",
+    "files_changed": [
+      "src/components/transcript/TranscriptEditor.tsx",
+      "src/components/transcript/EditorClientWrapper.tsx",
+      "src/app/projects/[id]/editor/page.tsx"
+    ],
+    "evidence_location": "/home/ubuntu/repos/bible-drawing-v2/scheduler/validation/screenshots/clawd-mn6/",
+    "screenshots": {
+      "desktop": "desktop/transcript-display.png (58,319 bytes)",
+      "tablet": "tablet/transcript-display.png (54,434 bytes)",
+      "mobile": "mobile/transcript-display.png (54,615 bytes)"
+    },
+    "acceptance_criteria": [
+      "AC-1: Display complete transcript text ✅",
+      "AC-2: Readable paragraphs with segment breaks ✅",
+      "AC-3: Word hover shows tooltip with timestamps ✅",
+      "AC-4: Highlight low confidence words (<80%) ✅",
+      "AC-5: Filler word count indicator ✅"
+    ],
+    "test_results": {
+      "build": "pnpm build - Exit 0",
+      "unit_tests": "16/16 passing",
+      "e2e_screenshot_test": "Passed (5.3s)"
+    },
+    "layer2_validation_notes": "LAYER 2 PASSED - Evidence verified. Previous attempt rejected for false evidence claims. This attempt fixed a Next.js server/client component issue (onWordClick passed from server to client) and created REAL screenshots. All files verified to exist with claimed sizes. Ready for Layer 3 independent verification.",
+    "repository": "/home/ubuntu/repos/bible-drawing-v2",
+    "test_server": "https://dev2.aaroncollins.info/bdv2"
+  }
+}

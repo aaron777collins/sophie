@@ -1,251 +1,96 @@
 # Coordinator Jobs
 
-**Last Updated:** 2026-03-05 02:52 EST
+**Last Updated:** 2026-03-05 21:00 EST
 
 ---
 
 ## Active Projects
 
-### Bible Drawing V2 - Critical Infrastructure Recovery 🔴 CRITICAL
-**Status:** 🚨 LAYER 3 VALIDATION FAILURES - Infrastructure-level build and test issues  
-**Priority:** P0-CRITICAL  
-**Last Updated:** 2026-03-05 23:01 EST
+### Bible Drawing V2 - Auth Implementation Progressing 🟡
+**Status:** 🟡 VALIDATION QUEUE - Error selectors fixed, awaiting review
+**Priority:** P0-CRITICAL (Auth Epic)
+**Last Updated:** 2026-03-05 21:00 EST
 
-**INFRASTRUCTURE STATUS (2026-03-05 02:05 EST):**
-✅ **Build:** PASSES (exit 0)  
-📊 **Tests:** 407/444 passing (92%)
-❌ **Failing Suites:** video-upload, projects.database, auth-integration, main-layout
+**RECENT PROGRESS (21:00 EST):**
+- ✅ clawd-7er: Error element selectors FIXED (commit d1450d7)
+- ✅ Verification: Commit exists, build passes
+- 📬 Sent to Validator for Layer 3 review
+- Worker fix: Changed from fixed 2s timeout to waiting for loading state completion
 
-**PREVIOUS INCIDENT (2026-03-05 23:00 EST):**
-🚨 **Layer 3 Validator REJECTED Multiple Tasks** - Infrastructure breakdown (NOW RECOVERING)
-- Infrastructure workers deployed - build system functional again
-- Evidence worker addressing validation artifact gaps
+**E2E INFRASTRUCTURE (Previously Fixed):**
+- ✅ Zombie Next.js server resolved
+- ✅ Playwright CLI script fixed (commit 15c159f)
+- ✅ Tests execute and produce output
 
-**IMMEDIATE CORRECTIVE ACTION (2026-03-05 02:01 EST):**
-1. ✅ **Critical Analysis:** 19 tasks in needs-fix status due to infrastructure breakdown  
-2. ✅ **Infrastructure Worker:** bdv2-infrastructure-critical-fix spawned for P0 build failures
-3. ✅ **Evidence Worker:** bdv2-evidence-validation-fix spawned for validation artifacts
-4. ✅ **Systematic Approach:** Address root causes (build) before symptom fixes (evidence)
+**VALIDATION QUEUE:**
+- clawd-7er: Error element selectors (needs-validation)
 
-**CURRENT STATUS (2026-03-04 18:05 EST):**
-- ✅ **clawd-nu1** (Logout Logic) - LAYER 2 VALIDATED → AWAITING LAYER 3
-  - Fixed: 8 unit tests created and verified passing
-  - Layer 2: Coordinator independently ran tests - 8/8 PASS
-  - File: __tests__/components/auth/logout-button.test.tsx (6306 bytes)
-  - Status: Validation request sent to Validator inbox
-  
-- ✅ **clawd-x3z** (E2E Tests) - LAYER 2 VALIDATED → AWAITING LAYER 3
-  - Fixed: E2E infrastructure no longer hangs
-  - Layer 2: Coordinator independently ran tests - 90/90 PASS (1.9m)
-  - Note: Screenshots in /screenshots/ not validation folder (minor)
-  - Status: Validation request sent to Validator inbox
+**STORY ARCHITECT COMPLETED:**
+- ✅ All 6 Authentication User Stories created with detailed ACs
+- ✅ 60 acceptance criteria total (10 per story)
+- 📁 Location: `~/clawd/scheduler/stories/bible-drawing-v2/stories/`
 
-- ✅ **clawd-38a** (Session Management) - LAYER 3 VALIDATED (CONDITIONAL_PASS)
-  - Validator Result: Technical implementation EXCELLENT (46/46 tests pass)
-  - All ACs implemented correctly, security proper, code quality professional
-  - E2E infrastructure blocks full user journey validation but technical completion sound
-  - Status: ACCEPTED with E2E infrastructure fix prioritized
-
-**CAPACITY:** 2/2 workers active (AT CAPACITY)
-
-**CURRENT ACTIVE WORKERS (2026-03-05 02:12 EST):**
-- ✅ **Worker 1:** bdv2-infrastructure-critical-fix (COMPLETED - build already passing)
-- ✅ **Worker 2:** bdv2-evidence-validation-fix (COMPLETED - 3 tasks fixed)
-
-**CAPACITY:** 1/2 workers active
-
-**LAYER 2 VALIDATIONS COMPLETED (2026-03-05 02:42 EST):**
-- ✅ **clawd-x3z (Logout E2E Tests):** LAYER 2 PASSED → Sent to Validator
-  - E2E tests: 10/10 passed (independently verified)
-  - Screenshots: 12 files verified (4 per viewport × 3 viewports)
-- ✅ **clawd-6pb (NextAuth Setup):** LAYER 2 RE-VERIFIED → Sent to Validator
-  - Previous "PBKDF2" rejection outdated
-  - Argon2id properly implemented in password-crypto.ts
-  - Password tests: 24/24 PASS
-
-**ACTIVE WORKERS:**
-- None (0/2 slots occupied)
-
-**INVESTIGATION RESULTS (2026-03-05 02:58 EST):**
-- ❌ **clawd-4lu (Rate Limit UI):** CONFIRMED FRAUDULENT EVIDENCE
-  - Screenshots showed "Invalid credentials" not "Too many login attempts"
-  - Backend rate limiting WORKS (unit tests pass)
-  - Frontend UI BROKEN - NextAuth error propagation failing
-  - REQUIRES: 2-4h dev work to fix, then new screenshots
-  - Status: needs-fix (implementation required, not just evidence)
-
-**LAYER 2 FINDINGS (2026-03-05 02:52 EST):**
-- ⚠️ **clawd-ebr (Login E2E):** Test code correct but E2E INFRASTRUCTURE BROKEN
-  - Test file exists (13,963 bytes), data-testid attrs present
-  - Playwright loads default Next.js page instead of actual app
-  - This is a systemic E2E server startup issue, not test authoring
-  - Marked needs-fix pending E2E infrastructure repair
-
-**CAPACITY:** 2/2 workers active (AT CAPACITY)
-
-**ACTIVE WORKERS:**
-- ⚙️ bdv2-logout-e2e-fix (clawd-x3z - Logout E2E tests)
-- ⚙️ bdv2-login-e2e-fix (clawd-ebr - Login E2E tests)
-
-**VALIDATION QUEUE (8 tasks):**
-- clawd-cup, clawd-0tn, clawd-4lu (evidence fixes)
-- clawd-040 (TypeScript fixes)
-- clawd-6pb (Argon2 implementation)
-- clawd-dta (middleware evidence)
-- clawd-cxe (CSRF fix)
-- clawd-4io (logout button + evidence)
-
-**VALIDATION QUEUE (5 tasks):**
-- clawd-cup, clawd-0tn, clawd-4lu (evidence fixes)
-- clawd-040 (TypeScript fixes)
-- clawd-6pb (Argon2 implementation)
-
-**LAYER 2 VALIDATED → SENT TO VALIDATOR:**
-- clawd-cup (Project Layout) - Dashboard nav added, 15 screenshots
-- clawd-0tn (Session Configuration) - Evidence created, 70/70 tests pass
-- clawd-4lu (Rate Limit UI) - Screenshots verified authentic
-
-**AWAITING LAYER 3 VALIDATION:**
-- clawd-sp2 (Project Creation UI) → Validation request sent
-- clawd-x0t (Video Upload Infrastructure) → ✅ Layer 2 PASSED, validation request sent
-
-**ISSUES DISCOVERED & FIXED:**
-- Mock file was .ts instead of .tsx (JSX parsing error) → FIXED, committed
-- Local database tests timeout (tables only exist on dev2) → Testing on dev2 instead
-- 118/130 video infrastructure tests pass
-
-**✅ P0 RESOLVED - clawd-5j6:** Routing fixed (middleware basePath handling)
-
-**✅ P0 RESOLVED - clawd-pms (DATABASE SCHEMA):**
-- **FIXED** at 00:30 EST by bdv2-db-schema-fix-pms
-- All 5 database tables now exist on dev2 (projects, users, sessions, accounts, verification_tokens)
-- Schema scripts created: `scripts/setup-database.js`, `scripts/setup-projects-schema.js`
-- NPM scripts added: `pnpm db:setup`, `pnpm db:migrate`
-- CRUD operations verified working
-- **Bead closed:** clawd-pms
-
-**LAYER 2 RE-VALIDATION RESULTS (2026-03-05 00:41 EST):**
-- ❌ **clawd-9zu:** FAILED - Database fix was NOT the only problem. Systemic issues remain:
-  - Rate limiting completely broken (returns 200 not 429, counters show 999)
-  - Auth integration failing (useSession not a function)
-  - E2E tests hung/incomplete
-- ✅ **clawd-sp2:** PASSED → Sent to Validator for Layer 3
-  - Database schema fix successful - no more infinite loading
-  - Projects dashboard renders correctly
-  - Screenshots captured at all 3 viewports
-  - Secondary unit test issues exist but core functionality verified
-
-**✅ SYSTEMIC FIXES COMPLETED (2026-03-05 00:48 EST):**
-- ✅ Rate limiting fixed: Now returns 429 when limits exceeded (ENABLE_RATE_LIMIT_IN_TESTS env var)
-- ✅ Auth integration fixed: Created __mocks__/next-auth/react.ts with proper useSession mock
-- ✅ Component tests fixed: Updated navigation link assertions to match actual implementation
-- ✅ 98/98 tests passing in targeted run
-
-**Files Modified:**
-- src/lib/rate-limiter-v2.ts (fixed test bypass logic)
-- __mocks__/next-auth/react.ts (created)
-- __tests__/lib/rate-limiter-v2.test.ts (env var setup)
-- __tests__/unit/auth/rate-limiter.test.ts (env var setup)
-- __tests__/api/auth/login-v2-integration.test.ts (env var setup)
-- __tests__/components/nav/header.test.tsx (assertion fixes)
-
-**COMPLETED THIS SESSION:**
-- ✅ **bdv2-build-fix:** Fixed Next.js build (Client Component directive) - BUILD VERIFIED PASSING
-- ✅ **clawd-x0t-api-tests:** Fixed Jest polyfills for Request/Response - 80/80 upload tests passing
-
-**LAYER 2 VALIDATION RESULTS:**
-- ✅ **clawd-cup PASSED:** Sent to Validator
-- ✅ **clawd-52d PASSED:** Sent to Validator  
-- ✅ **clawd-vpw PASSED:** 21/21 tests, sent to Validator
-- ✅ **clawd-x0t PASSED:** 64/64 tests, sent to Validator
-- ✅ **clawd-sp2 PASSED:** 7/7 tests, sent to Validator
-
-**🎉 STORY 2.1 COMPLETE! (Create New Project)**
-- ✅ clawd-52d (Database Schema) → Layer 3 pending
-- ✅ clawd-vpw (API Endpoints) → Layer 3 pending  
-- ✅ clawd-sp2 (Project UI) → Layer 3 pending
-
-**STORY 2.2 IN PROGRESS (Upload Single Video):**
-- ✅ clawd-x0t (Upload Infrastructure) → Layer 3 pending
-- ⚙️ clawd-9zu (Upload UI) → Worker active
-
-**AWAITING LAYER 3 VALIDATION (5 tasks):**
-- clawd-cup (layout/navigation)
-- clawd-52d (database schema)
-- clawd-vpw (API endpoints)
-- clawd-x0t (upload infrastructure)
-- clawd-sp2 (project UI)
-
-**SESSION ACCOMPLISHMENTS (21:30-22:14 EST):**
-1. Created 6 new sub-tasks for Video Upload epic
-2. Performed 6 Layer 2 validations (1 failed → fixed → passed, 5 passed)
-3. Sent 5 tasks to Validator for Layer 3
-4. Spawned 8 workers total (1 currently active)
-5. **COMPLETED STORY 2.1** - Create New Project (full pipeline)
-6. Story 2.2 progressing: Infrastructure ✅ → UI ⚙️
-
-**RECENT INFRASTRUCTURE INVESTIGATION:**
-- ✅ **Playwright:** Version 1.58.2 installed and functional
-- ✅ **Test Infrastructure:** Can list and run E2E tests successfully
-- ✅ **Database:** clawd-lbk test infrastructure issue already resolved
-- ❌ **False Worker Reports:** Multiple false "infrastructure broken" claims identified
+**REMAINING AUTH WORK:**
+- Continue with Session Management story (clawd-1il) after validation
 
 **Repository:** /home/ubuntu/repos/bible-drawing-v2
 **Test Server:** https://dev2.aaroncollins.info/bdv2
-**Test Credentials:** aaron/correctpassword
+**Test Credentials:** aaron@example.com/correctpassword
 
 ---
 
 ### MELO V2 - Maintenance Complete ✅ STABLE
-**Status:** 🟢 STABLE - Major issues resolved, monitoring only
+**Status:** 🟢 STABLE - No active issues, monitoring only
 **Priority:** P2-MAINTENANCE
-
-**Status:** All major validation failures resolved by Validator. Remaining items are low-priority.
 
 **Repository:** /home/ubuntu/repos/melo
 
 ---
 
-## Worker Capacity & Next Actions
+## Worker Capacity & Status
 
-**Current Workers (2/2 ACTIVE - AT CAPACITY):**
-- ✅ **Slot 1:** clawd-x3z (E2E completion)
-- ✅ **Slot 2:** clawd-nu1 (validation evidence)
+**Current Workers (0/2 CAPACITY):**
+- 🆓 **Slot 1:** Available
+- 🆓 **Slot 2:** Available
 
-**Capacity Note:** Limited to 2 concurrent workers due to formal warning for validation failure (2026-02-20).
-
-**Next 30-60 Minutes:**
-1. **Monitor Fresh Workers:** Both have focused fix tasks with clear quality gates
-2. **Layer 2 Validation:** When workers complete, verify fixes before sending to Validator  
-3. **Stale Task Prevention:** Addressed >8h stalled tasks with focused reassignment
-4. **Quality Focus:** Workers have specific, testable fix requirements
-
-**Enhanced Oversight:**
-- ✅ Infrastructure verified working before task assignment
-- ✅ Clear task scoping (evidence vs implementation)
-- ✅ Autonomous reassignment of stalled false-claim tasks
+**Capacity Note:** Limited to 2 concurrent workers due to formal warning (2026-02-20).
 
 ---
 
-## Next Actions (Autonomous)
+## Session Accomplishments (21:00 EST)
 
-1. **Monitor Current Workers:** Both have clear, scoped tasks
-2. **Prepare Next Batch:** Review needs-fix queue for evidence-completion tasks
-3. **Layer 2 Validation:** Use enhanced verification when workers complete
-4. **Infrastructure Defense:** Challenge false infrastructure claims with actual testing
-
-**Management Escalation Status:** 
-- ✅ **PM Awareness:** Validation failure patterns documented
-- 🔄 **Active Recovery:** Work resumed with proper worker assignments  
-- 📊 **Evidence Focus:** Clear distinction between implementation vs validation gaps
+1. ✅ **Health check passed:** Beads OK, Dolt OK
+2. ✅ **Spawned worker:** error-selector-fix for clawd-7er
+3. ✅ **Worker completed:** Fixed E2E test timing (commit d1450d7)
+   - Issue: Tests used fixed 2s timeout
+   - Fix: Now waits for loading state completion
+   - Result: 9/9 Chromium tests pass
+4. ✅ **Verification completed:** Commit exists, build passes
+5. ✅ **Sent to Validator:** clawd-7er in validation queue
 
 ---
 
-## Recent Decisions
+## Next Actions
 
-1. **Autonomous Reassignment:** Workers claiming false issues → tasks reassigned
-2. **Infrastructure Testing:** Verify claims before accepting "infrastructure broken" excuses  
-3. **Evidence-First Tasks:** Focus on completing validation for working features
-4. **Duplicate Cleanup:** Closed clawd-bgi duplicate, streamlined active queue
+1. **Await Validator review** of clawd-7er (error selectors)
+2. **Continue Session Management** work (clawd-1il) if validated
+3. **Run full E2E suite** after validation completes
+4. **Create sub-tasks** for remaining auth stories if needed
 
-**Status:** Productive session with 2 concrete tasks resumed and 1 duplicate cleaned up.
+---
+
+## Ready Work Queue
+
+**Auth Stories Ready for Sub-Task Breakdown:**
+- US-AUTH-01: User Login (5 pts) - Entry point, no dependencies
+- US-AUTH-02: Session Management (3 pts) - Requires US-AUTH-01
+- US-AUTH-03: User Logout (2 pts) - Requires US-AUTH-02
+- US-AUTH-04: Protected Routes (2 pts) - Requires US-AUTH-02
+- US-AUTH-05: Rate Limiting (3 pts) - Requires US-AUTH-01 (can parallel)
+- US-AUTH-06: Change Password (3 pts) - Requires US-AUTH-02, US-AUTH-04
+
+**Implementation Order:**
+1. US-AUTH-01 → Foundation
+2. US-AUTH-02 + US-AUTH-05 (parallel) → Session + Rate limiting
+3. US-AUTH-03 + US-AUTH-04 (parallel) → Logout + Protected routes
+4. US-AUTH-06 → Change password

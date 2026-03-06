@@ -1,0 +1,22 @@
+{
+  "id": "val-req-cup-1741163700",
+  "timestamp": "2026-03-05T08:35:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Re-Validate: clawd-cup Project Layout Navigation (Fixed)",
+  "content": {
+    "bead_id": "clawd-cup",
+    "project": "bible-drawing-v2",
+    "previous_failure": "Requirements mismatch - Tests expected 3 Dashboard links, only 1 existed",
+    "fix_applied": "Added Dashboard links to Header component (desktop + mobile navigation)",
+    "evidence_location": "scheduler/validation/screenshots/bible-drawing-v2/clawd-cup/",
+    "test_results": "33/33 tests passing",
+    "acceptance_criteria": [
+      "3 Dashboard links total (header desktop + header mobile + sidebar)",
+      "Navigation tests all pass",
+      "Visual evidence at all 3 viewports"
+    ],
+    "layer2_validation": "PASSED - Requirements aligned, tests passing"
+  }
+}

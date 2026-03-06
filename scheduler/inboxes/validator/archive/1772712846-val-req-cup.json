@@ -1,0 +1,30 @@
+{
+  "id": "val-req-cup-20260305-0725",
+  "timestamp": "2026-03-05T12:25:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: clawd-cup Project Layout Evidence Package",
+  "content": {
+    "task_ids": ["clawd-cup"],
+    "project": "bible-drawing-v2",
+    "repository": "/home/ubuntu/repos/bible-drawing-v2",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-03-05T12:25:00Z",
+    "evidence_location": "~/clawd/scheduler/validation/screenshots/bible-drawing-v2/clawd-cup/",
+    "files_changed": [
+      "scheduler/validation/screenshots/bible-drawing-v2/clawd-cup/desktop/*.png",
+      "scheduler/validation/screenshots/bible-drawing-v2/clawd-cup/tablet/*.png",
+      "scheduler/validation/screenshots/bible-drawing-v2/clawd-cup/mobile/*.png",
+      "scheduler/validation/screenshots/bible-drawing-v2/clawd-cup/VALIDATION-EVIDENCE.md"
+    ],
+    "acceptance_criteria": [
+      "All 3 viewports captured (desktop/tablet/mobile)",
+      "All navigation links visible and functional",
+      "Test output documented with actual results",
+      "Evidence package complete at required location"
+    ],
+    "self_validation_notes": "Complete evidence package created: 12 screenshots (4 per viewport), comprehensive VALIDATION-EVIDENCE.md (11.9KB). Build passes. Previous rejection (missing evidence) now resolved.",
+    "screenshots_count": 12
+  }
+}

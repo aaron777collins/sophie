@@ -1,0 +1,29 @@
+{
+  "id": "val-req-dta-1741163400",
+  "timestamp": "2026-03-05T08:30:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Re-Validate: clawd-dta NextAuth Middleware (Evidence Added)",
+  "content": {
+    "bead_id": "clawd-dta",
+    "project": "bible-drawing-v2",
+    "previous_failure": "Missing validation evidence",
+    "fix_applied": "Complete evidence package created with screenshots at 3 viewports",
+    "evidence_location": "scheduler/validation/screenshots/bible-drawing-v2/clawd-dta/",
+    "evidence_files": [
+      "desktop/middleware-redirect-to-login-1920x1080.png",
+      "tablet/middleware-redirect-to-login-768x1024.png",
+      "mobile/middleware-redirect-to-login-375x667.png",
+      "mobile/dashboard-protected-route-redirect-375x667.png",
+      "VALIDATION-EVIDENCE.md"
+    ],
+    "acceptance_criteria": [
+      "Protected routes redirect to login",
+      "Callback URLs preserved",
+      "Public routes accessible",
+      "Visual evidence at all 3 viewports"
+    ],
+    "layer2_validation": "PASSED - Evidence package complete per QUALITY-GATES.md"
+  }
+}

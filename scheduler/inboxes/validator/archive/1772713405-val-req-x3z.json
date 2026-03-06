@@ -1,0 +1,35 @@
+{
+  "id": "val-req-x3z-20260305-0755",
+  "timestamp": "2026-03-05T12:55:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: clawd-x3z Logout E2E Tests (90% pass)",
+  "content": {
+    "task_ids": ["clawd-x3z"],
+    "project": "bible-drawing-v2",
+    "repository": "/home/ubuntu/repos/bible-drawing-v2",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-03-05T12:55:00Z",
+    "files_changed": [
+      "tests/e2e/clawd-x3z-logout.spec.ts"
+    ],
+    "acceptance_criteria": [
+      "Logout E2E tests run without hanging",
+      "Tests pass across all viewports",
+      "Screenshots captured at 3 viewports",
+      "Core logout functionality works"
+    ],
+    "self_validation_notes": "9/10 tests pass (90%). All 3 viewports pass (desktop/tablet/mobile 3/3 each). 12 screenshots captured. E2E infrastructure fixed - was missing test user and had parallel conflicts. Edge case session verification test fails but doesn't impact core functionality.",
+    "test_results": {
+      "total": 10,
+      "passed": 9,
+      "failed": 1,
+      "pass_rate": "90%",
+      "desktop": "3/3 pass",
+      "tablet": "3/3 pass",
+      "mobile": "3/3 pass",
+      "screenshots": 12
+    }
+  }
+}

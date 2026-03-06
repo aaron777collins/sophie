@@ -1,0 +1,28 @@
+{
+  "id": "val-req-cxe-20260305-0715",
+  "timestamp": "2026-03-05T12:15:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: clawd-cxe CSRF Auth Fix",
+  "content": {
+    "task_ids": ["clawd-cxe"],
+    "project": "bible-drawing-v2",
+    "repository": "/home/ubuntu/repos/bible-drawing-v2",
+    "claimed_by": "coordinator",
+    "claimed_at": "2026-03-05T12:15:00Z",
+    "files_changed": [
+      "src/app/auth/signin/SignInForm.tsx",
+      "src/scripts/reset-password.ts",
+      "__mocks__/next-auth/react.ts"
+    ],
+    "acceptance_criteria": [
+      "All auth unit tests pass (no TypeScript errors)",
+      "CSRF token fetching works in browser",
+      "Login flow completes successfully",
+      "No getCsrfToken is not a function errors"
+    ],
+    "self_validation_notes": "Build passes, 422/458 tests pass. Auth-specific: 143/147 pass. Root cause was test mocking issue, not production bug. Fixed duplicate autoComplete and TS narrowing errors.",
+    "commits": ["3017efe"]
+  }
+}

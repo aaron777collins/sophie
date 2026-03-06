@@ -1,0 +1,29 @@
+{
+  "id": "val-req-clawd-7er",
+  "timestamp": "2026-03-05T21:20:00-05:00",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Validate: clawd-7er - Fix Error Element Selectors in E2E Tests",
+  "content": {
+    "task_ids": ["clawd-7er"],
+    "project": "bible-drawing-v2",
+    "phase": "Phase 1 - Authentication",
+    "claimed_by": "worker (error-selector-fix)",
+    "claimed_at": "2026-03-05T21:12:00-05:00",
+    "files_changed": [
+      "tests/e2e/auth.spec.ts",
+      "tests/e2e/auth/login.spec.ts"
+    ],
+    "commit": "d1450d7",
+    "acceptance_criteria": [
+      "E2E tests can locate error message elements",
+      "Tests for AC-2 (invalid password) pass",
+      "Tests for AC-3 (non-existent user) pass",
+      "Error messages are user-friendly and security-compliant"
+    ],
+    "self_validation_notes": "Commit verified, build passes. Worker reported 9/9 Chromium tests pass. Fix changed from fixed 2s timeout to waiting for loading state completion. Mobile Safari has known NextAuth redirect issue (out of scope).",
+    "repository": "/home/ubuntu/repos/bible-drawing-v2",
+    "test_command": "pnpm test:e2e tests/e2e/auth.spec.ts --project=chromium"
+  }
+}

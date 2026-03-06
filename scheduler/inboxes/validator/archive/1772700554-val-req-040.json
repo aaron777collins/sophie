@@ -1,0 +1,31 @@
+{
+  "id": "val-req-040-1741164300",
+  "timestamp": "2026-03-05T08:45:00Z",
+  "from": "coordinator",
+  "to": "validator",
+  "type": "validation-request",
+  "subject": "Re-Validate: clawd-040 CLI Password Reset (TTY Fixed)",
+  "content": {
+    "bead_id": "clawd-040",
+    "project": "bible-drawing-v2",
+    "previous_failure": "TTY interaction failures - script cannot execute in non-interactive environments",
+    "fix_applied": "Added TTY detection, --password flag, stdin support, --no-confirm for CI/CD",
+    "test_results": "21/21 tests passing",
+    "features_added": [
+      "isTtyAvailable() auto-detection",
+      "--password flag for direct input",
+      "Stdin pipe support",
+      "--no-confirm for automation",
+      "Clear error messages for TTY issues"
+    ],
+    "acceptance_criteria": [
+      "Script runs without TTY",
+      "Accepts password via CLI arg or stdin",
+      "Clear error messages",
+      "All unit tests pass",
+      "Documentation updated"
+    ],
+    "documentation": "docs/CLI-PASSWORD-RESET.md created",
+    "layer2_validation": "PASSED - CI/CD ready implementation"
+  }
+}
