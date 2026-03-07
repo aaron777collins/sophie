@@ -68,6 +68,7 @@
 |-------|----------|-------|
 | Claude Code CLI | `topics/claude-code-cli-invocation.md` | ⭐ Critical for automation |
 | Credentials | `topics/credentials-and-access.md` | Master credential reference |
+| **Server Infrastructure** | `topics/server-infrastructure.md` | dev3/dev2 servers, subdomains, Caddy |
 | UI Design | `topics/ui-design-lessons.md` | UI work guidelines |
 | GitHub Activity | `topics/github-activity.md` | GitHub activity log |
 | 2024 Tax Donations | `topics/taxes-donations-2024.md` | CRA donation receipts ($8,286.44) |
@@ -105,5 +106,6 @@
 
 ## Maintenance Notes
 
+- [2026-03-07] Added server-infrastructure.md — dev3/dev2 servers, subdomains, Caddy notes
 - [2026-02-27] Added infrastructure-systems.md — comprehensive system reference
 - [2026-02-26] Added trust/security model, contact database, email monitoring
