@@ -27,6 +27,7 @@ export async function middleware(req: NextRequest) {
     "/login",
     "/signup", 
     "/api/auth",
+    "/test",  // Test pages for E2E testing (includes /test/*)
   ];
   
   // Check if route is public
@@ -50,7 +51,7 @@ export async function middleware(req: NextRequest) {
   if (token && pathname === "/login") {
     // Check if there's a callbackUrl to redirect to
     const callbackUrl = req.nextUrl.searchParams.get("callbackUrl");
-    const redirectUrl = callbackUrl || "/projects";
+    const redirectUrl = callbackUrl || "/dashboard";
     
     console.log("🔄 Redirecting authenticated user from /login to:", redirectUrl);
     return NextResponse.redirect(new URL(redirectUrl, req.url));
