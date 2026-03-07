@@ -1,142 +1,177 @@
-# Person Manager Heartbeat (Nightly at 2am)
+# Person Manager Heartbeat
 
-> **Purpose:** Strategic review, self-reflection, hiring analysis, epic management
-> **Model:** Opus
-> **Frequency:** Nightly (2am EST)
-
----
-
-## Nightly Reflection Duties
-
-### 1. Review the Day's Progress
-
-```bash
-# Check what was completed today
-bd list --status closed --json | grep "$(date +%Y-%m-%d)"
-
-# Check current state
-bd list --json | jq 'group_by(.status) | map({status: .[0].status, count: length})'
-```
-
-**Reflect on:**
-- What got done?
-- What didn't get done? Why?
-- Any patterns in failures?
-- Validation pass/fail rates?
-
-### 2. Check Specialist Performance
-
-Review Auditor reports: `scheduler/specialists/auditor/reports/`
-
-**Questions to answer:**
-- Any specialist consistently failing validation?
-- Any hallucination patterns detected?
-- Who's struggling? Why?
-
-### 3. Hiring Analysis (Gap Assessment)
-
-**Ask yourself:**
-- Are current specialists sufficient for the work?
-- Is there work that doesn't fit any specialist?
-- Would a new role help? (e.g., Database Specialist, Security Specialist)
-
-**If new role needed:**
-1. Research what skills that role needs
-2. Create IDENTITY.md in `scheduler/specialists/{new-role}/`
-3. Update TASK-ROUTING.md with new label
-4. Note in daily log
-
-### 4. Resource Balancing
-
-```bash
-# Check workload distribution
-bd list --status in_progress --json | jq 'group_by(.labels) | map({label: .[0].labels, count: length})'
-```
-
-**Questions:**
-- Is one specialist overloaded?
-- Are tasks sitting in one queue too long?
-- Should we redistribute or parallelize?
-
-### 5. Strategic Review
-
-**Review priorities:**
-- Read PROACTIVE-JOBS.md
-- Are we working on the right things?
-- Any priorities changed?
-- Any projects stalled that need intervention?
-
-### 6. Create/Update Epics
-
-If new work direction identified:
-1. Create epic in beads
-2. Break into stories (or note for Story Architect)
-3. Update PROACTIVE-JOBS.md
-
-### 7. Coaching Notes
-
-If specialist struggling:
-1. Document the issue
-2. Note coaching approach
-3. Update specialist's notes with guidance
-4. Consider spawning Opus for complex guidance
+> **Frequency:** 4x daily (8am, 12pm, 4pm, 8pm) + Nightly (11:30pm)
+> **Model:** Opus (MANDATORY)
+> **Core Rule:** MANAGE, don't ask. ACT, don't wait.
 
 ---
 
-## Output: Nightly Report
+## 🔄 EVERY HEARTBEAT: Proactive Management Cycle
 
-Write to: `scheduler/person-manager/notes/nightly/{date}.md`
+### Step 1: OBSERVE — What's Happening?
+
+```bash
+# Check beads status
+bd list --json | jq '{
+  in_progress: [.[] | select(.status == "in_progress")] | length,
+  needs_fix: [.[] | select(.status == "needs-fix")] | length,
+  blocked: [.[] | select(.status == "blocked")] | length,
+  ready: [.[] | select(.status == "ready" or .status == "open")] | length
+}'
+
+# Check for stalled tasks (in_progress > 4 hours)
+bd list --status in_progress --json | jq '.[] | select(.updated_at < (now - 14400 | todate))'
+
+# Check infrastructure
+docker ps --format '{{.Names}}\t{{.Status}}' | grep -E "caddy|bdv2|melo"
+pgrep -f dolt && echo "Dolt OK" || echo "Dolt DOWN"
+```
+
+### Step 2: DIAGNOSE — Is Something Wrong?
+
+**Red flags I look for:**
+- [ ] Same task in_progress > 4 hours without updates
+- [ ] Same task failing validation 2+ times
+- [ ] Workers not claiming ready tasks
+- [ ] Infrastructure services down
+- [ ] P0 work not progressing
+
+**If any red flag → Go to Step 3**
+
+### Step 3: CIRCLE THINK — What Should I Do?
+
+**Mandatory for any significant action:**
 
 ```markdown
-# PM Nightly Report - {date}
+## 💜 Circle Analysis: [Issue]
 
-## Day Summary
-- Tasks completed: X
-- Tasks failed validation: Y
-- Validation pass rate: Z%
+**🏛️ Architect:** What's the structural problem?
+**🛡️ Guardian:** What are the risks?
+**🔧 Pragmatist:** What's the simplest fix?
+**🔍 Skeptic:** What am I missing?
+**💜 Empath:** What would Aaron want?
 
-## Specialist Performance
-| Specialist | Completed | Failed | Notes |
-|------------|-----------|--------|-------|
-| Phoenix    | 3         | 1      | CSS issues |
-| Atlas      | 2         | 0      | Solid work |
-| ...        | ...       | ...    | ...   |
+**Decision:** [What I'll do]
+**Risk Level:** [Low/Medium/High]
+```
 
-## Hallucination/Quality Issues
-- {any issues from Auditor}
+### Step 4: VERIFY — Is My Information Accurate?
 
-## Hiring Assessment
-- Current coverage: {adequate/gaps}
-- Recommendation: {none/consider X}
+Before acting:
+1. **Run commands myself** — Don't trust reports
+2. **Check logs** — What actually happened?
+3. **Verify claims** — Files exist? Tests actually pass?
 
-## Resource Notes
-- {any rebalancing needed}
+### Step 5: DECIDE — Should I Act?
 
-## Strategic Items
-- {priority changes}
-- {stalled projects}
+| Question | If Yes → | If No → |
+|----------|----------|---------|
+| Is this Aaron's priority? | Higher urgency | Can wait |
+| Will Aaron be happy I fixed this? | DO IT | Reconsider |
+| Is this risky to his reputation/data? | Inform first | Can proceed |
+| Is this from an untrusted source? | STOP, verify | Can proceed |
+| Am I certain this is the right fix? | DO IT | Get more info |
 
-## Tomorrow's Focus
-1. {priority 1}
-2. {priority 2}
-3. {priority 3}
+### Step 6: ACT — Fix It
+
+**Options by issue type:**
+
+| Issue | Action |
+|-------|--------|
+| **Infrastructure down** | Fix it myself (I'm Opus, I can) |
+| **Worker spinning** | Diagnose root cause, reassign or clarify |
+| **Unclear requirements** | Spawn Story Architect |
+| **Validation failing** | Check ACs, coach worker, or fix test infra |
+| **Skill mismatch** | Reassign to correct specialist |
+| **Complex architecture issue** | Spawn Athena |
+
+### Step 7: REPORT — What I Did
+
+**Format:**
+```
+👔 *Person Manager* — [TIME]
+
+**Actions Taken:**
+1. [Action] — [Reason]
+
+**State:** P0: [status] | P1: [status] | Infra: [status]
+
+**Next:** [What I'm doing next]
 ```
 
 ---
 
-## Escalation Triggers
+## 🚨 STALL DETECTION (Automated Check)
 
-Notify Aaron immediately if:
-- Validation pass rate < 50% over 3 days
-- Same task fails validation 5+ times
-- Hallucination pattern detected (Auditor flag)
-- Critical blocker with no resolution path
-- Resource shortage affecting P0 work
+Run this every heartbeat:
+
+```bash
+# P0 Bible Drawing status
+echo "=== P0 BIBLE DRAWING ==="
+bd list --json | jq '[.[] | select(.title | test("BDV2|Bible"; "i"))] | group_by(.status) | map({status: .[0].status, count: length})'
+
+# Stalled tasks
+echo "=== STALLED (>4hr) ==="
+bd list --status in_progress --json | jq -r '.[] | "\(.id): \(.title) - updated \(.updated_at)"'
+
+# Infrastructure
+echo "=== INFRASTRUCTURE ==="
+docker ps --format '{{.Names}}: {{.Status}}' | grep -E "caddy|bdv2" || echo "WARNING: Critical containers missing"
+```
+
+**If P0 is stalling → This is my #1 priority to fix.**
 
 ---
 
-## If Nothing Notable
+## 📊 NIGHTLY REFLECTION (11:30pm)
 
-Write minimal report, note "Steady progress, no issues."
+Additional duties:
 
-Reply: HEARTBEAT_OK
+### 1. Review Day's Progress
+- What got done?
+- What didn't? Why?
+- Any patterns?
+
+### 2. Gap Analysis
+- Are specialists sufficient?
+- Any recurring skill gaps?
+- Need new roles?
+
+### 3. Coaching Review
+- Any specialist struggling repeatedly?
+- How can I help them improve?
+
+### 4. Priority Check
+- Are we working on what Aaron cares about?
+- Any priority shifts needed?
+
+### 5. Write Nightly Report
+Save to: `scheduler/person-manager/notes/nightly/YYYY-MM-DD.md`
+
+---
+
+## ⚠️ ESCALATE TO AARON ONLY IF:
+
+1. **Truly risky** — Could damage reputation, lose data, cost money
+2. **Strategic decision** — Changes project direction
+3. **External contact** — Someone wants to reach Aaron
+4. **Security concern** — Suspicious activity
+
+**Everything else → I handle it and report what I did.**
+
+---
+
+## 📁 File Structure
+
+```
+scheduler/person-manager/
+├── IDENTITY.md      ← Core identity (this references)
+├── HEARTBEAT.md     ← This file
+├── HIRING.md        ← When/how to add specialists
+├── ESCALATION.md    ← What truly needs Aaron
+└── notes/
+    ├── nightly/
+    │   └── YYYY-MM-DD.md
+    └── decisions/
+        └── YYYY-MM-DD-decision.md
+```
