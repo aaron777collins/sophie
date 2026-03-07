@@ -1,0 +1,64 @@
+
+> bible-drawing-v2@1.0.0 test /home/ubuntu/clawd
+> jest -- __tests__/components/branch-merge-dialog.test.tsx __tests__/components/conflict-resolution-view.test.tsx
+
+FAIL __tests__/components/conflict-resolution-view.test.tsx
+  ● Test suite failed to run
+
+    Configuration error:
+
+    Could not locate module @/components/ui/conflict-resolution-view mapped as:
+    /home/ubuntu/clawd/$1.
+
+    Please check your configuration for these entries:
+    {
+      "moduleNameMapper": {
+        "/^@\/(.*)$/": "/home/ubuntu/clawd/$1"
+      },
+      "resolver": undefined
+    }
+
+      13 |
+      14 | const mockConflict = {
+    > 15 |   id: 'conflict-1',
+         |                    ^
+      16 |   sectionId: 'section-title',
+      17 |   lineStart: 1,
+      18 |   lineEnd: 3,
+
+      at createNoMappedModuleFoundError (node_modules/.pnpm/jest-resolve@29.7.0/node_modules/jest-resolve/build/resolver.js:759:17)
+      at Object.<anonymous> (__tests__/components/conflict-resolution-view.test.tsx:15:33)
+
+FAIL __tests__/components/branch-merge-dialog.test.tsx
+  ● Test suite failed to run
+
+    Configuration error:
+
+    Could not locate module @/components/ui/branch-merge-dialog mapped as:
+    /home/ubuntu/clawd/$1.
+
+    Please check your configuration for these entries:
+    {
+      "moduleNameMapper": {
+        "/^@\/(.*)$/": "/home/ubuntu/clawd/$1"
+      },
+      "resolver": undefined
+    }
+
+      13 |
+      14 | // Mock branch data
+    > 15 | const mockSourceBranch = {
+         |                           ^
+      16 |   id: 'feature-1',
+      17 |   projectId: 'test-project',
+      18 |   name: 'feature-branch',
+
+      at createNoMappedModuleFoundError (node_modules/.pnpm/jest-resolve@29.7.0/node_modules/jest-resolve/build/resolver.js:759:17)
+      at Object.<anonymous> (__tests__/components/branch-merge-dialog.test.tsx:15:28)
+
+Test Suites: 2 failed, 2 total
+Tests:       0 total
+Snapshots:   0 total
+Time:        1.046 s
+Ran all test suites matching /__tests__\/components\/branch-merge-dialog.test.tsx|__tests__\/components\/conflict-resolution-view.test.tsx/i.
+ ELIFECYCLE  Test failed. See above for more details.

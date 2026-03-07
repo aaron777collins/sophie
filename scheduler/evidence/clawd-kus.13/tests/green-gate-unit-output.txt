@@ -1,0 +1,12 @@
+
+> bible-drawing-v2@1.0.0 test /home/ubuntu/clawd
+> jest -- __tests__/components/branch-merge-dialog.test.tsx __tests__/components/conflict-resolution-view.test.tsx
+
+PASS __tests__/components/conflict-resolution-view.test.tsx
+PASS __tests__/components/branch-merge-dialog.test.tsx
+
+Test Suites: 2 passed, 2 total
+Tests:       41 passed, 41 total
+Snapshots:   0 total
+Time:        1.376 s
+Ran all test suites matching /__tests__\/components\/branch-merge-dialog.test.tsx|__tests__\/components\/conflict-resolution-view.test.tsx/i.
