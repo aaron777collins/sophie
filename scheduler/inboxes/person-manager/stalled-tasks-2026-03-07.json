@@ -1,0 +1,43 @@
+{
+  "type": "escalation",
+  "from": "coordinator",
+  "timestamp": "2026-03-07T16:02:00Z",
+  "priority": "high",
+  "subject": "Multiple Stalled Tasks (>12hr)",
+  "details": {
+    "stalled_tasks": [
+      {
+        "bead_id": "clawd-kus",
+        "title": "Epic: Version History & Rollback", 
+        "assignee": "Sophie",
+        "last_updated": "2026-03-07T04:04:37Z",
+        "hours_stalled": 12,
+        "status": "in_progress",
+        "notes": "Architecture complete (14 user stories), 8/14 stories closed (57%), 3 awaiting validation, 2 in active development, 1 needs fix"
+      },
+      {
+        "bead_id": "clawd-0bw",
+        "title": "MELO-MAINT-REGISTRATION: Fix Registration Component Test Failures",
+        "assignee": "melo-registration-fix", 
+        "last_updated": "2026-03-07T03:40:26Z",
+        "hours_stalled": 12.5,
+        "status": "in_progress",
+        "notes": "Significant progress made (9/13 tests now passing), but remaining 4 tests still failing on username availability checks and reactive UI updates"
+      },
+      {
+        "bead_id": "clawd-ddp",
+        "title": "Epic: Chat Interface (Sophie)",
+        "assignee": "Memory Sync Agent",
+        "last_updated": "2026-03-07T04:04:44Z", 
+        "hours_stalled": 12,
+        "status": "in_progress",
+        "notes": "Architecture complete (7 user stories), 4/7 stories closed (57%), 1 awaiting validation, 1 in progress, 1 not started"
+      }
+    ],
+    "recommendations": {
+      "clawd-kus": "Epic management issue - Sophie needs to coordinate remaining story completion and validation",
+      "clawd-0bw": "P2 maintenance task with substantial progress - may be deprioritized given P0 work", 
+      "clawd-ddp": "Epic coordination issue - similar to clawd-kus, needs story completion management"
+    }
+  }
+}

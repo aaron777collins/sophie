@@ -1,0 +1,49 @@
+{
+  "type": "escalation",
+  "timestamp": "2026-03-07T05:00:00Z",
+  "source": "Coordinator",
+  "priority": "high",
+  "subject": "Multiple Stalled Tasks - Capacity Management Needed",
+  "details": {
+    "stalled_tasks": [
+      {
+        "id": "clawd-89g",
+        "title": "Epic: Authentication System", 
+        "hours_stalled": 5,
+        "last_update": "2026-03-07T00:04:41Z",
+        "assignee": "none",
+        "status": "in_progress"
+      },
+      {
+        "id": "clawd-ddp.5",
+        "title": "US-CHAT-5: Context Awareness",
+        "hours_stalled": 7.5,
+        "last_update": "2026-03-06T21:31:51Z", 
+        "assignee": "Memory Sync Agent",
+        "status": "in_progress"
+      },
+      {
+        "id": "clawd-kus.13",
+        "title": "VH-013: Branch Merging",
+        "hours_stalled": 6,
+        "last_update": "2026-03-06T23:02:08Z",
+        "assignee": "Memory Sync Agent", 
+        "status": "in_progress"
+      },
+      {
+        "id": "clawd-kus.11",
+        "title": "VH-011: Branch Creation",
+        "hours_stalled": 5.8,
+        "last_update": "2026-03-06T23:10:09Z",
+        "assignee": "Memory Sync Agent",
+        "status": "in_progress"
+      }
+    ],
+    "specialist_capacity": {
+      "frontend": "2/2 (at limit)",
+      "backend": "2/2 (at limit)", 
+      "note": "New spawns added for failed tasks may exceed capacity"
+    },
+    "recommendation": "Review resource allocation and consider reassigning or breaking down stalled tasks"
+  }
+}

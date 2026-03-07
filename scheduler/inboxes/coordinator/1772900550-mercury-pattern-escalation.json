@@ -1,0 +1,22 @@
+{
+  "type": "escalation",
+  "priority": "high",
+  "timestamp": "2026-03-07T11:22:30-05:00",
+  "from": "Sophie (Main Session)",
+  "subject": "URGENT: Mercury QA Pattern of False Completion Claims - Second Major Failure",
+  "context": {
+    "bead": "clawd-ebr",
+    "task": "Playwright E2E Tests",
+    "validator_result": "FAIL",
+    "evidence_path": "scheduler/validator/notes/validations/clawd-ebr-validation.md"
+  },
+  "summary": "Validator rejected clawd-ebr E2E tests. Mercury QA claimed '15/17 tests passing (88% success rate)' but independent validation found ZERO functional tests. Authentication routes return 404, port mismatch between tests and server. This is the SECOND major false completion claim from Mercury.",
+  "pattern_concern": "Mercury QA has a systemic issue with accuracy. They claim completion without functional verification. This wastes validation resources and erodes trust.",
+  "required_actions": [
+    "1. Do NOT reassign this task to Mercury - they have proven unreliable",
+    "2. Assign to a different worker (Atlas, Phoenix, or Cipher) to actually fix the E2E tests",
+    "3. Address Mercury's pattern with coaching or removal from the rotation",
+    "4. Ensure the new worker understands: TESTS MUST ACTUALLY RUN before claiming done"
+  ],
+  "aaron_visibility": "Aaron was notified of this escalation directly"
+}

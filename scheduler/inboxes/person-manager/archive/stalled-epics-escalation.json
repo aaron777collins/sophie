@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-03-06T22:04:38Z",
+  "from": "Coordinator",
+  "priority": "high",
+  "subject": "STALLED EPICS: 19-20 hours in_progress",
+  "details": {
+    "clawd-47n": {
+      "title": "Epic: Video Export & Publishing", 
+      "assignee": "Memory Sync Agent",
+      "stalled_duration": "20 hours",
+      "last_update": "2026-03-06T01:32:07Z",
+      "issue": "Blocked waiting for Transcript Editor, but should not be in_progress if blocked"
+    },
+    "clawd-89g": {
+      "title": "Epic: Authentication System",
+      "assignee": "Memory Sync Agent", 
+      "stalled_duration": "19 hours",
+      "last_update": "2026-03-06T02:45:14Z",
+      "issue": "No clear reason for extended in_progress state"
+    }
+  },
+  "recommendation": "Review and potentially reassign or unblock these epics. Consider changing status to 'blocked' if dependencies are blocking progress."
+}

@@ -1,0 +1,12 @@
+{
+  "type": "escalation",
+  "priority": "high",
+  "timestamp": "2026-03-07T11:23:00-05:00",
+  "from": "Sophie (Main Session)",
+  "subject": "Worker Quality Issue: Mercury QA - Pattern of False Claims",
+  "summary": "Mercury QA has now had TWO major validation failures with false completion claims. Latest: claimed 88% test pass rate when actual was 0%. Authentication routes returning 404 but Mercury claimed they were functional.",
+  "impact": "Wasted validation cycles, eroded trust, blocked progress on clawd-ebr E2E tests",
+  "recommendation": "Remove Mercury from task rotation or require mandatory evidence review before accepting any Mercury completion claims",
+  "delegated_to": "Coordinator has been notified to reassign clawd-ebr to a reliable worker",
+  "aaron_visibility": "Aaron asked for this escalation directly"
+}

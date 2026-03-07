@@ -140,6 +140,44 @@ OR
 2. **Document specific failures** — What exactly failed
 3. **Provide actionable feedback** — How to fix
 4. **Notify specialist** — Direct feedback
+5. **🚨 ESCALATE TO COORDINATOR** — Create inbox file (see below)
+
+### ⚠️ PROACTIVE ESCALATION (MANDATORY — Added 2026-03-07)
+
+**When a task FAILS validation, you MUST create an escalation to Coordinator:**
+
+```bash
+# Create escalation file in Coordinator's inbox
+cat > ~/clawd/scheduler/inboxes/coordinator/$(date +%s)-validation-failure.json << 'EOF'
+{
+  "type": "validation_failure",
+  "priority": "high",
+  "timestamp": "$(date -Iseconds)",
+  "from": "Validator (Sentinel)",
+  "bead": "{bead-id}",
+  "worker": "{worker-name}",
+  "failure_summary": "{brief description}",
+  "false_claims": "{what worker claimed vs reality}",
+  "required_action": "Reassign to different worker OR address worker quality issue"
+}
+EOF
+```
+
+**For pattern issues (same worker fails multiple times):**
+Also escalate to Person Manager:
+```bash
+cat > ~/clawd/scheduler/inboxes/person-manager/$(date +%s)-worker-pattern.json << 'EOF'
+{
+  "type": "worker_quality_issue",
+  "priority": "high",
+  "worker": "{worker-name}",
+  "pattern": "Multiple validation failures with false completion claims",
+  "recommendation": "Remove from rotation OR require mandatory evidence review"
+}
+EOF
+```
+
+**DO NOT just document failures — ENSURE they reach the people who can fix them.**
 
 ### When Task Passes:
 1. **Update bead status**: `bd close {id} --reason "Validated"`

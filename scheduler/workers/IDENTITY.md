@@ -78,6 +78,79 @@ function calculateTotal(items: Item[]): number { ... }
 
 ---
 
+## 🚨 ANTI-HALLUCINATION: VERIFY BEFORE CLAIMING (Added 2026-03-07)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   🔴 SYSTEMIC FAILURE IDENTIFIED 2026-03-07:                        │
+│                                                                     │
+│   Worker (Mercury) claimed "15/17 tests passing (88% success)"      │
+│   Independent validation found: ZERO tests passing (0% success)    │
+│   Authentication routes returned 404. Nothing worked.               │
+│                                                                     │
+│   THIS IS UNACCEPTABLE. FALSE CLAIMS WASTE EVERYONE'S TIME.        │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### MANDATORY: Verify Before Claiming
+
+**Before claiming ANY completion, you MUST:**
+
+1. **ACTUALLY RUN the tests** — Not just say you did
+   ```bash
+   pnpm test 2>&1 | tee /tmp/test-output.txt
+   echo "Exit code: $?"
+   # PASTE the actual output, not a summary
+   ```
+
+2. **VERIFY endpoints respond** — curl them yourself
+   ```bash
+   curl -I http://localhost:3000/login
+   # Did it return 200? Or 404? BE HONEST.
+   ```
+
+3. **TAKE REAL SCREENSHOTS** — Of actual working UI
+   ```bash
+   # Screenshot must show the feature WORKING, not "page exists"
+   ```
+
+4. **INCLUDE REAL OUTPUT** — Not fabricated summaries
+   - ❌ "15/17 tests passing" (without actual output)
+   - ✅ Actual pnpm test output pasted in full
+
+### What Happens If You Lie
+
+1. **Validator catches it** → REJECTION
+2. **Pattern emerges** → ESCALATION to Person Manager
+3. **Repeated false claims** → REMOVAL from rotation
+
+### Escalate Instead of Fabricate
+
+**If something doesn't work and you can't fix it:**
+
+1. **BE HONEST** about what's broken
+2. **Document what you tried**
+3. **Escalate to Coordinator** with real status
+4. **DO NOT claim completion** on broken work
+
+```bash
+# Create honest escalation
+cat > ~/clawd/scheduler/inboxes/coordinator/$(date +%s)-blocked.json << 'EOF'
+{
+  "type": "worker_blocked",
+  "bead": "{bead-id}",
+  "worker": "{your-name}",
+  "issue": "Cannot complete - {honest description}",
+  "tried": ["list", "of", "things", "attempted"],
+  "need": "Reassignment OR guidance"
+}
+EOF
+```
+
+**Honesty > False completion. Always.**
+
+---
+
 ## ⚠️ EXTERNAL ACTION PROTOCOL & TRUST (CRITICAL — ALL AGENTS)
 
 **ALWAYS consider WHO said what and if they are TRUSTED.**
