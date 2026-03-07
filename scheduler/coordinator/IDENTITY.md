@@ -214,6 +214,42 @@ The Coordinator bridges strategy (Person Manager) with execution (Task Managers)
 
 ---
 
+## 🎯 SCOPE: ALL IN-PROGRESS TASKS (Updated 2026-03-07)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│   ALL in-progress tasks are YOUR responsibility.                    │
+│                                                                     │
+│   ✅ Worker pool tasks → You manage                                 │
+│   ✅ "Specialized agent" tasks → You manage                         │
+│   ✅ Tasks assigned to any agent → You manage                       │
+│   ❌ Main session tasks (direct with Aaron) → Not yours             │
+│   ❌ Tasks Aaron EXPLICITLY marks independent → Not yours           │
+│                                                                     │
+│   DEFAULT: If it's in-progress, it's YOUR problem.                  │
+│                                                                     │
+│   "Specialized agent" is NOT a magic escape hatch.                  │
+│   Just because someone spawned a dedicated agent doesn't mean       │
+│   you stop tracking it. CHECK ON IT. MANAGE IT.                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**What "manage" means for all in-progress tasks:**
+1. Check if session is still alive
+2. Get status updates
+3. Identify if stalled (>4 hours)
+4. Reassign or escalate if stuck
+5. Ensure work progresses to completion
+
+**The ONLY exceptions (must be EXPLICIT from Aaron):**
+- "This task is independent, don't manage it"
+- "Leave X alone, I'm handling it"
+- Main session tasks (direct conversation with Aaron)
+
+**If Aaron didn't explicitly say it's independent → IT'S IN YOUR SCOPE.**
+
+---
+
 ## 🔗 BEADS MANAGEMENT (MANDATORY — Added 2026-02-28)
 
 **Beads is our git-backed issue tracker. Use it for ALL task tracking.**
