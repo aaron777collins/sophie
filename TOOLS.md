@@ -15,6 +15,71 @@ Quick links to all credentials:
 
 ---
 
+## 🧠 MuninnDB (Layer 3 Cognitive Memory)
+
+> **📖 Architecture:** `memory/projects/muninndb-integration.md`
+> **📖 Skill docs:** `~/clawd/skills/muninndb/SKILL.md`
+
+MuninnDB provides Layer 3 cognitive memory with decay, confidence tracking, and Hebbian learning.
+
+### Quick Reference
+
+| Setting | Value |
+|---------|-------|
+| **Dashboard** | http://localhost:8476 |
+| **REST API** | http://localhost:8475 |
+| **Bearer token** | `~/clawd/data/muninndb-token.secret` |
+| **Skill location** | `~/clawd/skills/muninndb/` |
+
+### Core Commands
+
+```bash
+# Store memory with confidence level
+muninn store "Learned Docker networking setup" --confidence 0.9 --tags "docker,networking"
+
+# Retrieve memories by query
+muninn activate "docker networking" --limit 5
+
+# Create association
+muninn associate "docker" "networking" --strength 0.8
+
+# Check memory decay status
+muninn decay --since "1 week ago"
+
+# List all memories
+muninn list --sort activation --limit 10
+```
+
+### Dashboard Features
+
+**URL:** http://localhost:8476
+
+Available views:
+- **Memory Map** — Visual relationship graph
+- **Activation Log** — Recent memory retrievals
+- **Decay Charts** — Memory strength over time
+- **Association Matrix** — Hebbian learning patterns
+
+### When to Use MuninnDB vs Markdown
+
+| Situation | Use MuninnDB | Use Markdown |
+|-----------|--------------|--------------|
+| **Temporal insights** | ✅ (decay naturally) | ❌ |
+| **Confidence tracking** | ✅ (built-in) | ❌ |
+| **Association discovery** | ✅ (Hebbian learning) | ❌ |
+| **Audit trails** | ❌ | ✅ (version controlled) |
+| **Long-term reference** | ❌ | ✅ (stable) |
+| **Conversation insights** | ✅ (primary) | 🔄 (major points) |
+
+### ⚠️ Important Notes
+
+1. **Auto-sync:** MuninnDB memories are NOT in git — they're temporal
+2. **Confidence decay:** Memories lose confidence over time unless reinforced
+3. **Association creation:** Happens automatically when memories are accessed together
+4. **Dashboard insights:** Check weekly for unexpected patterns
+
+---
+
 ## 📱 SMS (Twilio)
 
 > **📖 Architecture:** `docs/sms-trust-architecture.md`

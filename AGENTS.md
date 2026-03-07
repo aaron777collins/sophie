@@ -149,6 +149,89 @@ Every piece of information MUST have a timestamp:
 - **Text > Brain** 📝
 - **Timestamps > Vague references** 📅
 
+## 🧠 Three-Layer Memory Architecture (v3)
+
+> **Added:** [2026-03-07] MuninnDB integration for cognitive memory with decay/confidence
+
+Sophie's memory is now a **three-layer system** that combines the best of hierarchical storage, semantic search, and cognitive modeling.
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                    SOPHIE'S MEMORY SYSTEM                           │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  Layer 1: NOTES (Foundation)                                        │
+│  ├── Hierarchical markdown in memory/                               │
+│  ├── Source of truth for persistent knowledge                       │
+│  ├── Human-readable, version controlled                             │
+│  └── Structure: projects/, topics/, people/, daily/                 │
+│                                                                     │
+│  Layer 2: RAG SEARCH (Semantic)                                     │
+│  ├── Clawdbot memorySearch with local embeddings                   │
+│  ├── Hybrid BM25 + vector search                                    │
+│  ├── memory_search/memory_get tools                                 │
+│  └── Fast semantic lookup across all markdown                       │
+│                                                                     │
+│  Layer 3: COGNITIVE MEMORY (Temporal)                               │
+│  ├── MuninnDB: Memory decay (recent > old)                          │
+│  ├── Confidence levels (certainty tracking)                         │
+│  ├── Hebbian learning (auto-association from usage)                │
+│  ├── Proactive triggers (push relevant memories)                    │
+│  └── Mathematical "why" explainability                              │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### When to Use Each Layer
+
+| Memory Type | Layer 1 (Notes) | Layer 2 (RAG) | Layer 3 (MuninnDB) |
+|-------------|------------------|----------------|---------------------|
+| **Project details** | ✅ Primary | ✅ Search | 🔄 Key insights only |
+| **Technical learnings** | ✅ Documentation | ✅ Quick lookup | ✅ With confidence |
+| **Conversation insights** | 🔄 Major points | ✅ Full search | ✅ Primary store |
+| **People preferences** | ✅ Stable facts | ✅ Search | ✅ Associative links |
+| **Task history** | 🔄 Important only | ✅ Search | ✅ With decay |
+| **Key decisions** | ✅ Audit trail | ✅ Search | 🔄 Context only |
+
+**Legend:**
+- ✅ = Primary storage/usage
+- 🔄 = Secondary/selective usage
+
+### How the Layers Complement Each Other
+
+1. **Layer 1 (Notes)** provides the **stable foundation** — core facts, decisions, and structure that don't change much over time.
+
+2. **Layer 2 (RAG)** enables **fast semantic search** across all written knowledge. When you ask "what did we learn about X?", this layer finds it.
+
+3. **Layer 3 (MuninnDB)** adds **temporal intelligence** — memories decay naturally, confidence tracking helps assess reliability, and Hebbian learning creates associations based on actual usage patterns.
+
+**Example Workflow:**
+```
+User asks about AWS authentication →
+├── Layer 2: Semantic search finds relevant notes
+├── Layer 3: MuninnDB surfaces recent experiences + confidence
+└── Layer 1: Provides documented procedures as fallback
+```
+
+### MuninnDB Integration
+
+**Dashboard:** http://localhost:8476
+**Skill location:** `~/clawd/skills/muninndb/`
+**Key commands:**
+- Store memory: `muninn store "memory text" --confidence 0.8`
+- Retrieve: `muninn activate "query" --limit 5`
+- Associate: `muninn associate "concept1" "concept2"`
+
+**Storage Strategy:**
+- **High-confidence facts** → Layer 1 (notes) + Layer 3 (MuninnDB)
+- **Temporal insights** → Layer 3 only (decay naturally)
+- **Associative patterns** → Layer 3 (Hebbian learning)
+
+**See also:**
+- `memory/projects/muninndb-integration.md` — Full integration plan
+- `TOOLS.md` — MuninnDB skill reference
+- `memory/INDEX.md` — Layer 3 usage guidelines
+
 ## 🏗️ Management Hierarchy
 
 We use a layered management system. Each level has decreasing cron frequency going up.

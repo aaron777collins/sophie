@@ -104,6 +104,39 @@
 
 ---
 
+## 🧠 Three-Layer Memory System
+
+**Layer 1: Notes (Foundation)**
+- Hierarchical markdown files in `memory/`
+- Human-readable, version controlled
+- Source of truth for stable knowledge
+
+**Layer 2: RAG Search (Semantic)**
+- `memory_search` / `memory_get` tools
+- Hybrid BM25 + vector search
+- Fast lookup across all markdown
+
+**Layer 3: Cognitive Memory (MuninnDB)**
+- **Dashboard:** http://localhost:8476
+- **Skill:** `~/clawd/skills/muninndb/`
+- Memory decay, confidence tracking, Hebbian learning
+- Store temporal insights and associations
+
+### When to Store in MuninnDB vs Markdown
+
+| Memory Type | MuninnDB (Layer 3) | Markdown (Layer 1) |
+|-------------|-------------------|-------------------|
+| **Conversation insights** | ✅ Primary | 🔄 Major points only |
+| **Temporal learnings** | ✅ With confidence | ❌ Too ephemeral |
+| **People preferences** | ✅ Associations | ✅ Stable facts |
+| **Task experiences** | ✅ With decay | ❌ Unless systematic |
+| **Project details** | 🔄 Key insights | ✅ Primary documentation |
+| **Decisions/policies** | ❌ | ✅ Audit trail needed |
+
+**Integration guide:** `memory/projects/muninndb-integration.md`
+
+---
+
 ## Maintenance Notes
 
 - [2026-03-07] Added server-infrastructure.md — dev3/dev2 servers, subdomains, Caddy notes
